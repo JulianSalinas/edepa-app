@@ -21,6 +21,7 @@
     <dimen name="font_normal">16sp</dimen>
     <dimen name="font_title">20sp</dimen>
     <dimen name="font_big">28sp</dimen>
-jnm
+    <dimen name="fab_margin">16dp</dimen>
+    jnm
 
 </resources>

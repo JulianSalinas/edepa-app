@@ -2,10 +2,12 @@ package imagisoft.rommie;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,7 +39,6 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
         setDrawerConfiguration();
         setToggleConfiguration();
         setNavigationViewConfiguration();
-
     }
 
     private void setToolbarConfiguration(){
@@ -89,7 +91,10 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()){
             case R.id.nav_exit: finishAffinity(); break;
             case R.id.nav_infomation: setFragment(new FragmentInfo()); break;
-            case R.id.nav_people: break;
+            case R.id.nav_people:
+                Intent intent = new Intent(getApplicationContext(), ActivityTest.class);
+                startActivity(intent);
+                break;
             default: showStatusMessage(getResources().getString(R.string.enter) + " " + item.getTitle()); break;
         }
     }
