@@ -1,0 +1,223 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="imagisoft.rommie.FragmentInfo">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/division_margin"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="10"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="@dimen/ic_size"
+                        android:layout_height="@dimen/ic_size"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_school" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/text_congress_name"
+                    android:layout_width="0dp"
+                    android:layout_weight="90"
+                    android:layout_height="wrap_content"
+                    android:text="Nombre del congreso"
+                    android:textSize="@dimen/font_title"
+                    android:fontFamily="@font/yahei_light"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/division_margin"
+                    android:layout_marginEnd="@dimen/division_margin" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/border_size"
+                android:layout_marginBottom="@dimen/division_margin"
+                android:background="@color/app_semiwhite"/>
+
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="50"
+                        android:padding="5dp"
+                        android:text="Inicio"
+                        android:background="@color/app_detail"
+                        android:fontFamily="@font/yahei_light"
+                        android:textColor="@color/app_white"
+                        android:textSize="@dimen/font_date" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="50"
+                        android:padding="5dp"
+                        android:text="Fin"
+                        android:background="@color/app_detail"
+                        android:fontFamily="@font/yahei_light"
+                        android:textColor="@color/app_white"
+                        android:textSize="@dimen/font_date" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/shedule_start"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="50"
+                        android:padding="5dp"
+                        android:text="12/08/2018"
+                        android:fontFamily="@font/yahei_light"
+                        android:textSize="@dimen/font_date" />
+
+                    <TextView
+                        android:id="@+id/shedule_end"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="50"
+                        android:padding="5dp"
+                        android:text="18/08/2018"
+                        android:fontFamily="@font/yahei_light"
+                        android:textSize="@dimen/font_date" />
+
+                </TableRow>
+
+            </TableLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/border_size"
+                android:layout_marginBottom="@dimen/division_margin"
+                android:background="@color/app_semiwhite"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/division_margin"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="10"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="@dimen/ic_size"
+                        android:layout_height="@dimen/ic_size"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_star" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="90"
+                    android:layout_height="wrap_content"
+                    android:text="Presentación"
+                    android:textSize="@dimen/font_title"
+                    android:fontFamily="@font/yahei_light"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/division_margin"
+                    android:layout_marginEnd="@dimen/division_margin" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/yahei_light"
+                android:text="@string/lorem_ipsum"
+                android:layout_marginBottom="@dimen/bottom_margin"
+                android:textSize="@dimen/font_normal" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/border_size"
+                android:layout_marginBottom="@dimen/division_margin"
+                android:background="@color/app_semiwhite"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/division_margin"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="10"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="@dimen/ic_size"
+                        android:layout_height="@dimen/ic_size"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_location" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="90"
+                    android:layout_height="wrap_content"
+                    android:text="Ubicación"
+                    android:textSize="@dimen/font_title"
+                    android:fontFamily="@font/yahei_light"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/division_margin"
+                    android:layout_marginEnd="@dimen/division_margin" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/yahei_light"
+                android:text="Sede donde se realizará el congreso"
+                android:layout_marginBottom="@dimen/bottom_margin"
+                android:textSize="@dimen/font_normal" />
+
+            <FrameLayout
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/map_size"
+                android:background="@color/app_semiwhite">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/border_size"
+                    android:layout_marginBottom="@dimen/division_margin"
+                    android:background="@color/app_semiwhite" />
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

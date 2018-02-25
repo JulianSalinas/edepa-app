@@ -1,0 +1,30 @@
+<resources>
+
+    <string name="app_name">Rommie</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="title_activity_main">Agenda</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="nav_information">Información</string>
+    <string name="nav_schedule">Cronograma</string>
+    <string name="nav_agenda">Mi agenda</string>
+    <string name="nav_news">Noticias</string>
+    <string name="nav_chat">Conversaciones</string>
+    <string name="nav_people">Expositores</string>
+    <string name="nav_settings">Configuración</string>
+    <string name="nav_exit">Salir</string>
+
+    <string name="welcome">Bienvenido</string>
+    <string name="enter">Has ingresado a </string>
+
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ullamcorper aliquet dictum. Maecenas in imperdiet dui.</string>
+    <string name="title_activity_maps">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
