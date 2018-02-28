@@ -29,6 +29,7 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
         setDrawerConfiguration();
         setToggleConfiguration();
         setNavigationViewConfiguration();
+        setFragment(new FragmentPager());
     }
 
     private void setToolbarConfiguration(){

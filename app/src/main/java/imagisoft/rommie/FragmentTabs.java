@@ -37,9 +37,9 @@ public class FragmentTabs extends Fragment implements TabLayout.OnTabSelectedLis
 
     private void setupInitialConfiguration() {
         tabs = new ArrayList<>();
-        tabs.add(new FragmentTab1());
-        tabs.add(new FragmentTab2());
-        tabs.add(new FragmentTab3());
+        tabs.add(new FragmentPager());
+        tabs.add(new FragmentPager());
+        tabs.add(new FragmentPager());
         setFragment(tabs.get(0));
     }
 
