@@ -16,27 +16,27 @@
             android:layout_height="wrap_content">
 
             <android.support.design.widget.TabItem
-                android:id="@+id/tabItem"
+                android:id="@+id/tabItemSchdule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cronograma" />
 
             <android.support.design.widget.TabItem
-                android:id="@+id/tabItem2"
+                android:id="@+id/tabItemAgenda"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mi agenda" />
 
             <android.support.design.widget.TabItem
-                android:id="@+id/tabItem3"
+                android:id="@+id/tabItemOngoing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="En curso" />
 
         </android.support.design.widget.TabLayout>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/tab_pager"
+        <FrameLayout
+            android:id="@+id/tabs_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />

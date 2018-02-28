@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -18,8 +17,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class FragmentInfo extends Fragment implements OnMapReadyCallback{
 
-    private SupportMapFragment mapFragment;
     private GoogleMap googleMap;
+    private SupportMapFragment mapFragment;
 
     public FragmentInfo() {
         // Required empty public constructor
@@ -27,7 +26,13 @@ public class FragmentInfo extends Fragment implements OnMapReadyCallback{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        View v = inflater.inflate(R.layout.fragment_info, container, false);
+        return inflater.inflate(R.layout.fragment_info, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        View v = getView();
 
         // Don't recreate fragment everytime ensure last map location/state are maintained
         if (mapFragment == null) {
@@ -37,7 +42,7 @@ public class FragmentInfo extends Fragment implements OnMapReadyCallback{
 
         // R.id.map is a FrameLayout, not a Fragment
         getChildFragmentManager().beginTransaction().replace(R.id.map, mapFragment).commit();
-        return v;
+
     }
 
     private void moveToCurrentLocation(LatLng currentLocation) {

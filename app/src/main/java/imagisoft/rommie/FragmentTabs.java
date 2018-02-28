@@ -3,15 +3,17 @@ package imagisoft.rommie;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 
-public class FragmentTabs extends Fragment {
+
+public class FragmentTabs extends Fragment implements TabLayout.OnTabSelectedListener {
+
+    private ArrayList<Fragment> tabs;
 
     public FragmentTabs() {
         // Required empty public constructor
@@ -19,76 +21,48 @@ public class FragmentTabs extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        View v = inflater.inflate(R.layout.fragment_tabs, container, false);
-        return v;
+        return inflater.inflate(R.layout.fragment_tabs, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-
         super.onActivityCreated(savedInstanceState);
-
         View v = getView();
+        setupInitialConfiguration();
+
+        assert v != null;
         TabLayout tabLayout = v.findViewById(R.id.tab_layout);
-        ViewPager tabPager = v.findViewById(R.id.tab_pager);
+        tabLayout.addOnTabSelectedListener(this);
+    }
 
-        TabPagerAdapter pagerAdapter = new TabPagerAdapter(getChildFragmentManager());
-        tabPager.setAdapter(pagerAdapter);
-        tabLayout.setupWithViewPager(tabPager);
+    private void setupInitialConfiguration() {
+        tabs = new ArrayList<>();
+        tabs.add(new FragmentTab1());
+        tabs.add(new FragmentTab2());
+        tabs.add(new FragmentTab3());
+        setFragment(tabs.get(0));
+    }
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+    private void setFragment(Fragment fragment){
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.tabs_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        setFragment(tabs.get(tab.getPosition()));
+    }
 
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-
-        });
-
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
 
     }
 
-    public class TabPagerAdapter extends FragmentPagerAdapter {
-
-        public TabPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            switch (position){
-                case 0: return new FragmentTab1();
-                case 1: return new FragmentTab2();
-                case 2: return new FragmentTab3();
-                default: return new FragmentTab1();
-            }
-        }
-
-        @Override
-        public String getPageTitle(int position){
-            switch (position){
-                case 0: return "Cronograma";
-                case 1: return "Mi agenda";
-                case 2: return "En curso";
-                default: return null;
-            }
-        }
-
-        @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return 3;
-        }
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
 
     }
+
 }

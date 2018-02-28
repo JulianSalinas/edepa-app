@@ -58,7 +58,7 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
 
     private void setFragment(Fragment fragment){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.tab_pager, fragment);
+        transaction.replace(R.id.main_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
