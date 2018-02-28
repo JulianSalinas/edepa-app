@@ -38,8 +38,8 @@ public class ActivitySplash extends AppCompatActivity{
 
     private void initApplication(){
         Intent intent = new Intent(getApplicationContext(), ActivityMain.class);
-        startActivity(intent);
         sayWelcome();
+        startActivity(intent);
     }
 
     private void sayWelcome(){

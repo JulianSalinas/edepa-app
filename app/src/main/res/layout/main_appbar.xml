@@ -24,6 +24,6 @@
 
     <include
         layout="@layout/main_content"
-        android:id="@+id/container" />
+        android:id="@+id/tab_pager" />
 
 </android.support.design.widget.CoordinatorLayout>

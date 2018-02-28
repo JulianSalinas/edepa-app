@@ -2,11 +2,10 @@ package imagisoft.rommie;
 
 import android.os.Bundle;
 
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.support.v4.app.Fragment;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,8 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class FragmentInfo extends Fragment implements OnMapReadyCallback{
 
-    private TextView textView;
-    private MapFragment mapFragment;
+    private SupportMapFragment mapFragment;
     private GoogleMap googleMap;
 
     public FragmentInfo() {
@@ -33,7 +31,7 @@ public class FragmentInfo extends Fragment implements OnMapReadyCallback{
 
         // Don't recreate fragment everytime ensure last map location/state are maintained
         if (mapFragment == null) {
-            mapFragment = MapFragment.newInstance();
+            mapFragment = SupportMapFragment.newInstance();
             mapFragment.getMapAsync(this);
         }
 
@@ -43,11 +41,15 @@ public class FragmentInfo extends Fragment implements OnMapReadyCallback{
     }
 
     private void moveToCurrentLocation(LatLng currentLocation) {
+
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15));
+
         // Zoom in, animating the camera.
         googleMap.animateCamera(CameraUpdateFactory.zoomIn());
+
         // Zoom out to zoom level 10, animating with a duration of 2 seconds.
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+
     }
 
     @Override
