@@ -1,11 +1,12 @@
 package imagisoft.rommie;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.app.Fragment;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -44,6 +45,7 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
     private void setToolbarConfiguration(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        // toolbar.setTitleTextAppearance(this, R.style.YaheiBoldTextAppearance);
     }
 
     private void setDrawerConfiguration(){
@@ -65,9 +67,9 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
 
 
     private void setFragment(Fragment fragment){
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.container, fragment);
-        ft.commit();
+//        FragmentTransaction ft = getFragmentManager().beginTransaction();
+//        ft.replace(R.id.container, fragment);
+//        ft.commit();
     }
 
     @Override
@@ -90,10 +92,18 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
     private void navigateToItem(MenuItem item){
         switch (item.getItemId()){
             case R.id.nav_exit: finishAffinity(); break;
-            case R.id.nav_infomation: setFragment(new FragmentInfo()); break;
-            case R.id.nav_people:
-                Intent intent = new Intent(getApplicationContext(), ActivityTest.class);
-                startActivity(intent);
+            case R.id.nav_infomation:
+//                setFragment(new FragmentInfo());
+                break;
+            case R.id.nav_agenda:
+                // Crea el nuevo fragmento y la transacción.
+                FragmentTest nuevoFragmento =  new FragmentTest();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.container, nuevoFragmento, "fr");
+                transaction.addToBackStack(null);
+
+                // Commit a la transacción
+                transaction.commit();
                 break;
             default: showStatusMessage(getResources().getString(R.string.enter) + " " + item.getTitle()); break;
         }

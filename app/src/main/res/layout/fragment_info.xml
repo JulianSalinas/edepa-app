@@ -39,7 +39,6 @@
                     android:layout_height="wrap_content"
                     android:text="Nombre del congreso"
                     android:textSize="@dimen/font_title"
-                    android:fontFamily="@font/yahei_light"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/division_margin"
                     android:layout_marginEnd="@dimen/division_margin" />
@@ -50,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/border_size"
                 android:layout_marginBottom="@dimen/division_margin"
-                android:background="@color/app_semiwhite"/>
+                android:background="@color/app_light_detail"/>
 
             <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
@@ -67,8 +66,7 @@
                         android:layout_weight="50"
                         android:padding="5dp"
                         android:text="Inicio"
-                        android:background="@color/app_detail"
-                        android:fontFamily="@font/yahei_light"
+                        android:background="@color/app_accent"
                         android:textColor="@color/app_white"
                         android:textSize="@dimen/font_date" />
 
@@ -78,8 +76,7 @@
                         android:layout_weight="50"
                         android:padding="5dp"
                         android:text="Fin"
-                        android:background="@color/app_detail"
-                        android:fontFamily="@font/yahei_light"
+                        android:background="@color/app_accent"
                         android:textColor="@color/app_white"
                         android:textSize="@dimen/font_date" />
 
@@ -96,7 +93,6 @@
                         android:layout_weight="50"
                         android:padding="5dp"
                         android:text="12/08/2018"
-                        android:fontFamily="@font/yahei_light"
                         android:textSize="@dimen/font_date" />
 
                     <TextView
@@ -106,7 +102,6 @@
                         android:layout_weight="50"
                         android:padding="5dp"
                         android:text="18/08/2018"
-                        android:fontFamily="@font/yahei_light"
                         android:textSize="@dimen/font_date" />
 
                 </TableRow>
@@ -117,7 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/border_size"
                 android:layout_marginBottom="@dimen/division_margin"
-                android:background="@color/app_semiwhite"/>
+                android:background="@color/app_light_detail"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -143,7 +138,6 @@
                     android:layout_height="wrap_content"
                     android:text="Presentación"
                     android:textSize="@dimen/font_title"
-                    android:fontFamily="@font/yahei_light"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/division_margin"
                     android:layout_marginEnd="@dimen/division_margin" />
@@ -154,7 +148,6 @@
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/yahei_light"
                 android:text="@string/lorem_ipsum"
                 android:layout_marginBottom="@dimen/bottom_margin"
                 android:textSize="@dimen/font_normal" />
@@ -163,7 +156,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/border_size"
                 android:layout_marginBottom="@dimen/division_margin"
-                android:background="@color/app_semiwhite"/>
+                android:background="@color/app_light_detail"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -189,7 +182,6 @@
                     android:layout_height="wrap_content"
                     android:text="Ubicación"
                     android:textSize="@dimen/font_title"
-                    android:fontFamily="@font/yahei_light"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/division_margin"
                     android:layout_marginEnd="@dimen/division_margin" />
@@ -199,7 +191,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/yahei_light"
                 android:text="Sede donde se realizará el congreso"
                 android:layout_marginBottom="@dimen/bottom_margin"
                 android:textSize="@dimen/font_normal" />
@@ -208,12 +199,12 @@
                 android:id="@+id/map"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/map_size"
-                android:background="@color/app_semiwhite">
+                android:background="@color/app_light_detail">
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/border_size"
                     android:layout_marginBottom="@dimen/division_margin"
-                    android:background="@color/app_semiwhite" />
+                    android:background="@color/app_light_detail" />
             </FrameLayout>
 
 

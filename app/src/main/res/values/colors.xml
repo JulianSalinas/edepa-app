@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="app_white">#ffffff</color>
-    <color name="app_semiwhite">#efefef</color>
+    <color name="app_white">#fff</color>
 
-    <color name="app_primary">#000000</color>
-    <color name="app_second">#212121</color>
+    <color name="app_primary">#F3F3F3</color>
+    <color name="app_second">#383838</color>
     <color name="app_overlay">#66000000</color>
 
-    <color name="app_accent">#25A7B5</color>
-    <color name="app_detail">#25A7B5</color>
-    <color name="app_light_detail">#6ACCCB</color>
+    <color name="app_accent">#E51937</color>
+    <color name="app_detail">#EB6159</color>
+    <color name="app_light_detail">#F3F3F3</color>
 
     <!--reds-->
     <color name="md_red_50">#FFEBEE</color>

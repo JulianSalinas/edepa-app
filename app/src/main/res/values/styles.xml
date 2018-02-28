@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/app_primary</item>
         <item name="colorPrimaryDark">@color/app_second</item>
         <item name="colorAccent">@color/app_accent</item>
+        <item name="android:fontFamily">@font/yahei_light</item>
     </style>
 
     <style name="FullscreenTheme" parent="AppTheme">
@@ -29,10 +30,14 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="appBarTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textColorPrimary">@color/app_second</item>
+    </style>
+
     <style name="divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">15dp</item>
-        <item name="android:background">@color/app_semiwhite</item>
+        <item name="android:background">@color/app_light_detail</item>
     </style>
 
     <style name="table_divider">
@@ -44,6 +49,14 @@
     <style name="table_divider_invisible">
         <item name="android:layout_width">1dip</item>
         <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="YaheiLightTextAppearance">
+        <item name="android:fontFamily">@font/yahei_light</item>
+    </style>
+
+    <style name="YaheiBoldTextAppearance">
+        <item name="android:fontFamily">@font/yahei_bold</item>
     </style>
 
 </resources>
