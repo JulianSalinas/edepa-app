@@ -66,7 +66,7 @@
                         android:layout_weight="50"
                         android:padding="5dp"
                         android:text="Inicio"
-                        android:background="@color/app_accent"
+                        android:background="@color/app_detail"
                         android:textColor="@color/app_white"
                         android:textSize="@dimen/font_date" />
 
@@ -76,7 +76,7 @@
                         android:layout_weight="50"
                         android:padding="5dp"
                         android:text="Fin"
-                        android:background="@color/app_accent"
+                        android:background="@color/app_detail"
                         android:textColor="@color/app_white"
                         android:textSize="@dimen/font_date" />
 
@@ -114,43 +114,44 @@
                 android:layout_marginBottom="@dimen/division_margin"
                 android:background="@color/app_light_detail"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/division_margin"
-                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/division_margin"
                     android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="@dimen/ic_size"
-                        android:layout_height="@dimen/ic_size"
-                        android:layout_gravity="center"
-                        android:background="@drawable/ic_star" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="10"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="@dimen/ic_size"
+                            android:layout_height="@dimen/ic_size"
+                            android:layout_gravity="center"
+                            android:background="@drawable/ic_star" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="90"
+                        android:layout_height="wrap_content"
+                        android:text="Presentación"
+                        android:textSize="@dimen/font_title"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/division_margin"
+                        android:layout_marginEnd="@dimen/division_margin" />
+
                 </LinearLayout>
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="90"
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Presentación"
-                    android:textSize="@dimen/font_title"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/division_margin"
-                    android:layout_marginEnd="@dimen/division_margin" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/lorem_ipsum"
-                android:layout_marginBottom="@dimen/bottom_margin"
-                android:textSize="@dimen/font_normal" />
+                    android:text="@string/lorem_ipsum"
+                    android:layout_marginBottom="@dimen/bottom_margin"
+                    android:textSize="@dimen/font_normal" />
 
             <View
                 android:layout_width="match_parent"

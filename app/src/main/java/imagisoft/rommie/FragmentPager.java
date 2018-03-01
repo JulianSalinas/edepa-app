@@ -39,6 +39,10 @@ public class FragmentPager extends Fragment {
         ViewPager viewPager = v.findViewById(R.id.view_pager);
         viewPager.setAdapter(adapter);
 
+//        int pagerPadding = 16;
+//        viewPager.setClipToPadding(false);
+//        viewPager.setPadding(pagerPadding, 0, pagerPadding, 0);
+
     }
 
     private void setupInitialConfiguration() {

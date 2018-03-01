@@ -1,0 +1,35 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:layout_centerHorizontal="true"
+            app:cardBackgroundColor="@color/app_primary"
+            app:cardElevation="3dp"
+            app:cardCornerRadius="3dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/app_second"
+                android:padding="4dp"
+                android:text="@string/hello_blank_fragment" />
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
+    <include layout="@layout/schedule_view"/>
+
+</LinearLayout>
