@@ -1,29 +1,31 @@
 <resources>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="app_default_margin">16dp</dimen>
 
     <!--Default dimensions-->
-    <dimen name="division_margin">10dp</dimen>
-    <dimen name="bottom_margin">20dp</dimen>
+    <dimen name="app_div_margin">10dp</dimen>
+    <dimen name="app_bottom_margin">20dp</dimen>
+
     <dimen name="ic_size">25dp</dimen>
+    <dimen name="ic_weight">10</dimen>
+    <dimen name="text_weight">90</dimen>
+
     <dimen name="border_size">1dp</dimen>
     <dimen name="map_size">250dp</dimen>
-    <dimen name="event_strip">4dp</dimen>
+    <dimen name="strip_size">4dp</dimen>
 
     <!--Nav dimensions-->
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
 
-    <!--App fonts -->
-    <dimen name="font_small">12sp</dimen>
-    <dimen name="font_date">14sp</dimen>
+    <!--App font sizes-->
+    <dimen name="font_very_small">12sp</dimen>
+    <dimen name="font_small">14sp</dimen>
     <dimen name="font_normal">16sp</dimen>
-    <dimen name="font_title">20sp</dimen>
-    <dimen name="font_big">28sp</dimen>
+    <dimen name="font_big">20sp</dimen>
+    <dimen name="font_very_big">28sp</dimen>
 
-    <dimen name="fab_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
 
 

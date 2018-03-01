@@ -1,4 +1,5 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,7 +9,6 @@
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
         android:src="@drawable/gradient_orange" />
 
         <LinearLayout
@@ -20,25 +20,25 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/text_splash_invitation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/app_bottom_margin"
                 android:fontFamily="@font/yahei_bold"
-                android:text="Título de prueba para un congreso"
                 android:textAlignment="center"
                 android:textColor="@color/app_white"
                 android:textSize="@dimen/font_big"
-                android:layout_marginBottom="@dimen/bottom_margin"/>
+                android:text="La escuela de matemática te invita este 2018 al:"/>
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/text_splash_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sección donde se coloca la descripción del congreso, la fecha y el lugar "
+                android:layout_marginBottom="@dimen/app_bottom_margin"
                 android:textAlignment="center"
-                android:textColor="#fff"
-                android:layout_marginBottom="@dimen/bottom_margin"
-                android:textSize="@dimen/font_normal" />
+                android:textColor="@color/app_white"
+                android:textSize="@dimen/font_normal"
+                android:text="@string/congress"/>
 
         </LinearLayout>
 
@@ -46,26 +46,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:paddingStart="60dp"
-            android:paddingEnd="60dp"
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imageView"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/bottom_margin"
+                android:layout_marginBottom="@dimen/app_bottom_margin"
+                android:contentDescription="@null"
                 android:src="@drawable/form_circle" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Presione el punto"
-                android:textAlignment="center"
-                android:textColor="#fff"
                 android:layout_marginBottom="30dp"
-                android:textSize="@dimen/font_normal" />
+                android:textAlignment="center"
+                android:textColor="@color/app_white"
+                android:textSize="@dimen/font_normal"
+                android:text="toca el punto"/>
 
         </LinearLayout>
 

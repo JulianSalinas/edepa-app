@@ -20,6 +20,12 @@
 
     <string name="welcome">Bienvenido</string>
     <string name="enter">Has ingresado a </string>
+    <string name="congress">VI encuentro sobre la didáctica de la estadística, probabilidad y el análisis de datos</string>
+    <string name="date">Fecha</string>
+    <string name="presentation">Presentación</string>
+    <string name="location">Ubicación</string>
+    <string name="start">Inicio</string>
+    <string name="end">Final</string>
 
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ullamcorper aliquet dictum. Maecenas in imperdiet dui.</string>
     <string name="title_activity_maps">Map</string>
