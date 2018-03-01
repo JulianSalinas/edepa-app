@@ -34,6 +34,7 @@
                 android:id="@+id/text_congress_name"
                 android:textSize="@dimen/font_big"
                 android:text="@string/congress"
+                android:fontFamily="@font/yahei_bold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="@dimen/text_weight"

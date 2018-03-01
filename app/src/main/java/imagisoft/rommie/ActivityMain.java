@@ -29,19 +29,19 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
         setDrawerConfiguration();
         setToggleConfiguration();
         setNavigationViewConfiguration();
-        setFragment(new FragmentTabs());
+        setFragment(new ScheduleTabs());
     }
 
     private void setToolbarConfiguration(){
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         // Set Yahei font on title bar
         // toolbar.setTitleTextAppearance(this, R.style.YaheiBoldTextAppearance);
     }
 
     private void setDrawerConfiguration(){
         drawer = findViewById(R.id.drawer_layout);
+        // drawer.animate();
     }
 
     private void setToggleConfiguration(){
@@ -74,11 +74,10 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        drawer.closeDrawer(GravityCompat.START);
         navigateToItem(item);
         setTitle(item.getTitle());
-        drawer.closeDrawer(GravityCompat.START);
         return true;
-
     }
 
     private void navigateToItem(MenuItem item){
@@ -88,9 +87,9 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
             case R.id.nav_infomation:
                 setFragment(new FragmentInfo()); break;
             case R.id.nav_schedule:
-                setFragment(new FragmentTabs()); break;
+                setFragment(new ScheduleTabs()); break;
             case R.id.nav_agenda:
-                setFragment(new FragmentTabs()); break;
+                setFragment(new ScheduleTabs()); break;
             default:
                 showStatusMessage(getResources().getString(R.string.enter) + " " + item.getTitle()); break;
         }
@@ -100,7 +99,6 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
         Context context = getApplicationContext();
         Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
         toast.show();
-
     }
 
 }

@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class FragmentTab1 extends Fragment {
+public class ScheduleView extends Fragment {
 
     private RecyclerView recyclerView;
 
@@ -25,21 +25,20 @@ public class FragmentTab1 extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        View v = getView();
-        assert v != null;
-
         ArrayList<ScheduleItem> items = new ArrayList<>();
         for(int i = 0; i < 4; i++)
             items.add(new ScheduleItem());
 
-        ScheduleAdapter adapter = new ScheduleAdapter(items);
+        setupRecyclerView(items);
 
-        recyclerView = v.findViewById(R.id.schedule_view);
+    }
+
+    public void setupRecyclerView(ArrayList<ScheduleItem> items){
+        recyclerView = getView().findViewById(R.id.schedule_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-
+        recyclerView.setAdapter(new ScheduleViewAdapter(items));
     }
 
     public class ScheduleItem {
@@ -51,16 +50,8 @@ public class FragmentTab1 extends Fragment {
             return datetime;
         }
 
-        public void setDatetime(String datetime) {
-            this.datetime = datetime;
-        }
-
         public String getDescription() {
             return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
         }
 
         public ScheduleItem(){
@@ -68,32 +59,14 @@ public class FragmentTab1 extends Fragment {
             description = "Descripcion del evento";
         }
 
-        public ScheduleItem(String datetime, String description) {
-            this.datetime = datetime;
-            this.description = description;
-        }
-
     }
 
-    public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.CustomViewHolder> {
+    public class ScheduleViewAdapter extends RecyclerView.Adapter<ScheduleViewAdapter.ScheduleViewHolder> {
 
         private ArrayList<ScheduleItem> items;
 
-        public ScheduleAdapter(ArrayList<ScheduleItem> items){
+        public ScheduleViewAdapter(ArrayList<ScheduleItem> items){
             this.items = items;
-        }
-
-        @Override
-        public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.schedule_item, null);
-            return new CustomViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(ScheduleAdapter.CustomViewHolder holder, int position) {
-            ScheduleItem item = items.get(position);
-            holder.datetime.setText(item.getDatetime());
-            holder.description.setText(item.getDescription());
         }
 
         @Override
@@ -101,12 +74,25 @@ public class FragmentTab1 extends Fragment {
             return items.size();
         }
 
-        class CustomViewHolder extends RecyclerView.ViewHolder {
+        @Override
+        public ScheduleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.schedule_item, null);
+            return new ScheduleViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ScheduleViewHolder holder, int position) {
+            ScheduleItem item = items.get(position);
+            holder.datetime.setText(item.getDatetime());
+            holder.description.setText(item.getDescription());
+        }
+
+        class ScheduleViewHolder extends RecyclerView.ViewHolder {
 
             TextView datetime;
             TextView description;
 
-            public CustomViewHolder(View view) {
+            public ScheduleViewHolder(View view) {
                 super(view);
                 this.datetime = view.findViewById(R.id.schedule_item_datetime);
                 this.description = view.findViewById(R.id.schedule_item_description);

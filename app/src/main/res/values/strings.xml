@@ -26,6 +26,7 @@
     <string name="location">Ubicación</string>
     <string name="start">Inicio</string>
     <string name="end">Final</string>
+    <string name="ongoing">En curso</string>
 
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ullamcorper aliquet dictum. Maecenas in imperdiet dui.</string>
     <string name="title_activity_maps">Map</string>

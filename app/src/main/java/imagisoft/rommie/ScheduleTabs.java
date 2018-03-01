@@ -11,17 +11,17 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 
-public class FragmentTabs extends Fragment implements TabLayout.OnTabSelectedListener {
+public class ScheduleTabs extends Fragment implements TabLayout.OnTabSelectedListener {
 
     private ArrayList<Fragment> tabs;
 
-    public FragmentTabs() {
+    public ScheduleTabs() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflater.inflate(R.layout.fragment_tabs, container, false);
+        return inflater.inflate(R.layout.schedule_tabs, container, false);
     }
 
     @Override
@@ -37,9 +37,9 @@ public class FragmentTabs extends Fragment implements TabLayout.OnTabSelectedLis
 
     private void setupInitialConfiguration() {
         tabs = new ArrayList<>();
-        tabs.add(new FragmentPager());
-        tabs.add(new FragmentPager());
-        tabs.add(new FragmentPager());
+        tabs.add(new SchedulePager());
+        tabs.add(new SchedulePager());
+        tabs.add(new SchedulePager());
         setFragment(tabs.get(0));
     }
 

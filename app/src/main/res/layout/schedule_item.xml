@@ -50,7 +50,7 @@
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
                     android:text="15:00pm - 17:00pm"
-                    android:textSize="@dimen/font_small"/>
+                    android:textSize="@dimen/font_very_small"/>
 
             </LinearLayout>
 
