@@ -3,6 +3,7 @@ package imagisoft.rommie;
 import android.os.Bundle;
 import android.content.Context;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.support.design.widget.NavigationView;
 
@@ -17,6 +18,8 @@ import android.support.v7.widget.Toolbar;
 public class ActivityMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
+    private TextView toolbarTitle;
+
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
@@ -34,9 +37,10 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
 
     private void setToolbarConfiguration(){
         toolbar = findViewById(R.id.toolbar);
+        toolbarTitle = findViewById(R.id.toolbar_title);
+        toolbarTitle.setText(getResources().getString(R.string.nav_schedule));
         setSupportActionBar(toolbar);
-        // Set Yahei font on title bar
-        // toolbar.setTitleTextAppearance(this, R.style.YaheiBoldTextAppearance);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     private void setDrawerConfiguration(){
@@ -75,8 +79,8 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         drawer.closeDrawer(GravityCompat.START);
+        toolbarTitle.setText(item.getTitle());
         navigateToItem(item);
-        setTitle(item.getTitle());
         return true;
     }
 
@@ -91,7 +95,7 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
             case R.id.nav_agenda:
                 setFragment(new ScheduleTabs()); break;
             default:
-                showStatusMessage(getResources().getString(R.string.enter) + " " + item.getTitle()); break;
+                setFragment(new ScheduleTabs()); break;
         }
     }
 

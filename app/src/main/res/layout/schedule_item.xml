@@ -39,8 +39,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
-                    android:fontFamily="@font/yahei_bold"
-                    android:textSize="@dimen/font_very_small"
+                    android:textStyle="bold"
                     tools:text="Descripcion de la actividad"/>
 
                 <TextView

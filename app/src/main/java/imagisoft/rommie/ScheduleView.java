@@ -26,7 +26,7 @@ public class ScheduleView extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         ArrayList<ScheduleItem> items = new ArrayList<>();
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < 15; i++)
             items.add(new ScheduleItem());
 
         setupRecyclerView(items);
