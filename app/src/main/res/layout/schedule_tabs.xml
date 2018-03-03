@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         app:tabTextColor="@color/app_primary_font"
         app:tabIndicatorColor="@color/app_accent"
-        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget">
+        app:tabTextAppearance="@style/tab_text">
 
         <android.support.design.widget.TabItem
             android:id="@+id/tab_item_schdule"

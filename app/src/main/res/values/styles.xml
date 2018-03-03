@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/app_secondary</item>
         <item name="colorAccent">@color/app_accent</item>
         <item name="android:fontFamily">sans-serif-light</item>
+        <!--<item name="android:fontFamily">@font/yahei_light</item>-->
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
@@ -57,6 +58,10 @@
 
     <style name="YaheiBoldTextAppearance">
         <item name="android:fontFamily">@font/yahei_bold</item>
+    </style>
+
+    <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:fontFamily">sans-serif-smallcaps</item>
     </style>
 
 </resources>

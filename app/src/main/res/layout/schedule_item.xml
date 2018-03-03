@@ -41,19 +41,36 @@
                     android:padding="@dimen/space_medium">
 
                     <TextView
-                        android:id="@+id/schedule_item_description"
+                        android:id="@+id/schedule_item_header"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="3dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="sans-serif-smallcaps"
                         android:text="@string/test_event"
                         android:textSize="@dimen/font_normal" />
 
-                    <TextView
-                        android:id="@+id/schedule_item_datetime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/test_app_range_time"
-                        android:textSize="@dimen/font_smallest" />
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/schedule_item_eventype"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/test_type"
+                                android:textSize="@dimen/font_smallest" />
+
+                            <TextView
+                                android:id="@+id/schedule_item_time"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="@string/test_app_range_time"
+                                android:textSize="@dimen/font_smallest" />
+
+                        </RelativeLayout>
 
                 </LinearLayout>
 
@@ -74,6 +91,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            android:id="@+id/shedule_item_readmore"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/space_medium"
