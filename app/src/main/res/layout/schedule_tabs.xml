@@ -11,7 +11,8 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabTextColor="@color/app_second"
+        app:tabTextColor="@color/app_primary_font"
+        app:tabIndicatorColor="@color/app_accent"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget">
 
         <android.support.design.widget.TabItem
@@ -24,13 +25,13 @@
             android:id="@+id/tab_item_agenda"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/nav_agenda" />
+            android:text="@string/nav_diary" />
 
         <android.support.design.widget.TabItem
             android:id="@+id/tab_item_ongoing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/ongoing" />
+            android:text="@string/text_ongoing" />
 
     </android.support.design.widget.TabLayout>
 

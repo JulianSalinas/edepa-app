@@ -1,6 +1,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="imagisoft.rommie.ActivitySplash">
@@ -23,22 +24,19 @@
                 android:id="@+id/text_splash_invitation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/app_bottom_margin"
-                android:fontFamily="@font/yahei_bold"
+                android:text="@string/app_name"
+                android:textSize="@dimen/font_logo"
                 android:textAlignment="center"
-                android:textColor="@color/app_white"
-                android:textSize="@dimen/font_big"
-                android:text="La escuela de matemática te invita este 2018 al:"/>
+                android:textColor="@color/app_secondary_font" />
 
             <TextView
                 android:id="@+id/text_splash_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/app_bottom_margin"
+                android:text="@string/test_congress"
+                android:textSize="@dimen/font_big"
                 android:textAlignment="center"
-                android:textColor="@color/app_white"
-                android:textSize="@dimen/font_normal"
-                android:text="@string/congress"/>
+                android:textColor="@color/app_white" />
 
         </LinearLayout>
 
@@ -46,13 +44,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/app_bottom_margin"
+                android:layout_marginBottom="@dimen/space_medium"
                 android:contentDescription="@null"
                 android:src="@drawable/form_circle" />
 
@@ -60,10 +59,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
-                android:textAlignment="center"
-                android:textColor="@color/app_white"
+                android:text="@string/test_pressthepoint"
                 android:textSize="@dimen/font_normal"
-                android:text="toca el punto"/>
+                android:textAlignment="center"
+                android:textColor="@color/app_secondary_font" />
 
         </LinearLayout>
 

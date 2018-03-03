@@ -30,7 +30,7 @@
             android:theme="@style/FullscreenTheme"></activity>
         <activity
             android:name=".ActivityMain"
-            android:label="@string/title_activity_main"
+            android:label="@string/app_title"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

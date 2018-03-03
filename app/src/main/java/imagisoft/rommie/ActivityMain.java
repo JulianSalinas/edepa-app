@@ -45,20 +45,20 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
     }
 
     private void setDrawerConfiguration(){
-        drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.main_drawer);
         // drawer.animate();
     }
 
     private void setToggleConfiguration(){
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close);
+                R.string.drawer_open,
+                R.string.drawer_close);
         toggle.syncState();
     }
 
     private void setNavigationViewConfiguration(){
-        navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.main_nav);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -71,7 +71,7 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.main_drawer);
         if (drawer.isDrawerOpen(GravityCompat.START))
             drawer.closeDrawer(GravityCompat.START);
         else super.onBackPressed();

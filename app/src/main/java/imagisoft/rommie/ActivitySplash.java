@@ -43,7 +43,7 @@ public class ActivitySplash extends AppCompatActivity{
     }
 
     private void sayWelcome(){
-        int m = R.string.welcome;
+        int m = R.string.text_welcome;
         Context c = getApplicationContext();
         Toast toast = Toast.makeText(c, m, Toast.LENGTH_LONG);
         toast.show();

@@ -7,7 +7,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/app_default_margin">
+            android:padding="@dimen/space_small">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/schedule_view"
