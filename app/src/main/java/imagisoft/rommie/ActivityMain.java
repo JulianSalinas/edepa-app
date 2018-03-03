@@ -41,6 +41,7 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
         toolbarTitle.setText(getResources().getString(R.string.nav_schedule));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbarTitle.setText(getResources().getString(R.string.app_name));
     }
 
     private void setDrawerConfiguration(){
@@ -79,7 +80,7 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         drawer.closeDrawer(GravityCompat.START);
-        toolbarTitle.setText(item.getTitle());
+//        toolbarTitle.setText(item.getTitle());
         navigateToItem(item);
         return true;
     }

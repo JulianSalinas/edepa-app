@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        android:background="@color/app_primary"
+        android:background="@color/app_white"
         app:itemIconTint="@color/app_second"
         app:itemTextColor="@color/app_second"
         app:headerLayout="@layout/main_header"

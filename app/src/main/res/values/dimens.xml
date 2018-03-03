@@ -6,6 +6,7 @@
     <!--Default dimensions-->
     <dimen name="app_div_margin">10dp</dimen>
     <dimen name="app_bottom_margin">20dp</dimen>
+    <dimen name="app_text_margin">5dp</dimen>
 
     <dimen name="ic_size">25dp</dimen>
     <dimen name="ic_weight">10</dimen>

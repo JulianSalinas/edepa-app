@@ -3,6 +3,7 @@ package imagisoft.rommie;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -56,7 +57,7 @@ public class ScheduleView extends Fragment {
 
         public ScheduleItem(){
             datetime = "18/12/20 5:00pm";
-            description = "Descripcion del evento";
+            description = "Esto es un nombre muy largo que se le dará a la actividad";
         }
 
     }
