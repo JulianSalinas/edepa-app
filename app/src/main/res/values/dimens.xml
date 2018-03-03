@@ -30,6 +30,6 @@
 
     <!-- For splash screen-->
     <dimen name="font_splash">28sp</dimen>
-    <dimen name="font_logo">80sp</dimen>
+    <dimen name="font_logo">60sp</dimen>
 
 </resources>

@@ -1,16 +1,16 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="imagisoft.rommie.ActivitySplash">
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/gradient_orange" />
+        android:src="@drawable/gradient_cherry" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,7 +24,8 @@
                 android:id="@+id/text_splash_invitation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
+                android:text="EDEPA"
+                android:textStyle="bold"
                 android:textSize="@dimen/font_logo"
                 android:textAlignment="center"
                 android:textColor="@color/app_secondary_font" />
@@ -34,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/test_congress"
-                android:textSize="@dimen/font_big"
+                android:textSize="@dimen/font_normal"
                 android:textAlignment="center"
                 android:textColor="@color/app_white" />
 
@@ -51,18 +52,9 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/space_medium"
+                android:layout_marginBottom="@dimen/space_biggest"
                 android:contentDescription="@null"
                 android:src="@drawable/form_circle" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:text="@string/test_pressthepoint"
-                android:textSize="@dimen/font_normal"
-                android:textAlignment="center"
-                android:textColor="@color/app_secondary_font" />
 
         </LinearLayout>
 

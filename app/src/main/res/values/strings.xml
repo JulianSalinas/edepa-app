@@ -20,6 +20,7 @@
     <string name="nav_exit">Salir</string>
 
     <!-- Application strings-->
+    <string name="text_getstarted">Ingresar</string>
     <string name="text_welcome">Bienvenido</string>
     <string name="text_date">Fecha</string>
     <string name="text_presentation">Presentación</string>
@@ -52,7 +53,7 @@
     <string name="test_location">Instituto Tecnólogico de Costa Rica</string>
     <string name="test_invitation">La escuela de matemática te invita este 2018 al:</string>
     <string name="test_event">"Esto es un nombre lo suficientemente largo para cubrir dos líneas"</string>
-    <string name="test_congress">VI encuentro sobre la didáctica de la estadística, probabilidad y el análisis de datos</string>
+    <string name="test_congress">Encuentro sobre la Didáctica de la Estadística, Probabilidad y el Análisis de datos</string>
     <string name="text_lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ullamcorper aliquet dictum. Maecenas in imperdiet dui.</string>
 
 </resources>
