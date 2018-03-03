@@ -18,18 +18,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <!-- Toolbar theme. -->
-
-    <style name="AppTheme.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:layout_margin">0dp</item>
-        <item name="android:layout_centerHorizontal">true</item>
-        <item name="android:fontFamily">@font/the_blacklist</item>
-        <item name="android:textSize">28sp</item>
-        <item name="android:textColor">@color/app_primary_font</item>
-        <item name="android:textAlignment">center</item>
-        <item name="android:layout_centerVertical">true</item>
-    </style>
-
     <!-- Splash screen defaults. Dont touch -->
 
     <style name="FullscreenTheme" parent="AppTheme">

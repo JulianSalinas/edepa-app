@@ -23,7 +23,7 @@
             android:orientation="horizontal">
 
             <View
-                android:layout_width="@dimen/space_smallest"
+                android:layout_width="@dimen/space_small"
                 android:layout_height="match_parent"
                 android:background="@drawable/gradient_orange"
                 android:orientation="horizontal">
@@ -46,14 +46,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp"
                         android:text="@string/test_event"
-                        android:textSize="@dimen/font_big" />
+                        android:textSize="@dimen/font_normal" />
 
                     <TextView
                         android:id="@+id/schedule_item_datetime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/test_app_range_time"
-                        android:textSize="@dimen/font_small" />
+                        android:textSize="@dimen/font_smallest" />
 
                 </LinearLayout>
 

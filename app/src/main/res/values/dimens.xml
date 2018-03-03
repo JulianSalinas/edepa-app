@@ -22,11 +22,11 @@
     <dimen name="card_elevation">2dp</dimen>
 
     <!-- Fonts sizes-->
-    <dimen name="font_very_small">12sp</dimen>
+    <dimen name="font_smallest">12sp</dimen>
     <dimen name="font_small">14sp</dimen>
     <dimen name="font_normal">16sp</dimen>
     <dimen name="font_big">18sp</dimen>
-    <dimen name="font_very_big">20sp</dimen>
+    <dimen name="font_biggest">20sp</dimen>
 
     <!-- For splash screen-->
     <dimen name="font_splash">28sp</dimen>

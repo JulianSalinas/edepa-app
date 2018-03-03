@@ -28,7 +28,7 @@
                 android:layout_gravity="center"
                 android:text="@string/app_name"
                 android:textColor="@color/app_primary_font"
-                android:textSize="@dimen/font_very_big"
+                android:textSize="@dimen/font_splash"
                 android:fontFamily="@font/the_blacklist"/>
 
         </android.support.v7.widget.Toolbar>
