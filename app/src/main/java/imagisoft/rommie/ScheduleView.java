@@ -53,7 +53,7 @@ public class ScheduleView extends Fragment {
     public void setupRecyclerView(ArrayList<ScheduleItem> items){
         recyclerView = getView().findViewById(R.id.schedule_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+        recyclerView.setLayoutManager(new CustomLayout(this.getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(new ScheduleViewAdapter(items));
     }

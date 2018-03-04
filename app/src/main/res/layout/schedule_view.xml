@@ -1,21 +1,9 @@
-<ScrollView
+<android.support.v7.widget.RecyclerView
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/schedule_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:scrollbars="vertical"
+    tools:listitem="@layout/schedule_item_optional" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/space_small">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/schedule_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            tools:listitem="@layout/schedule_item" />
-
-    </RelativeLayout>
-
-</ScrollView>
