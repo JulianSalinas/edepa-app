@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:baselineAligned="true"
-        android:background="@drawable/gradient_cherry"
+        android:background="@drawable/gradient_cherry_horizontal"
         android:orientation="horizontal">
 
         <!--<View-->

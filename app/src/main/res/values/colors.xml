@@ -5,6 +5,7 @@
     <color name="app_primary">#F3F3F3</color>
     <color name="app_secondary">#383838</color>
     <color name="app_overlay">#66000000</color>
+    <color name="app_actionbar">#383838</color>
 
     <color name="app_accent">#E51937</color>
     <color name="app_detail">#EB6159</color>

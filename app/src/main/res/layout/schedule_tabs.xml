@@ -11,14 +11,13 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabBackground="@color/app_light_detail"
-        app:tabSelectedTextColor="@color/app_detail"
-        app:tabTextColor="@color/app_primary_font"
-        app:tabIndicatorColor="@color/app_accent"
-        app:tabTextAppearance="@style/tab_text">
+        app:tabBackground="@color/app_actionbar"
+        app:tabTextColor="@color/app_special_font"
+        app:tabSelectedTextColor="@color/app_white"
+        app:tabIndicatorColor="@color/app_detail">
 
         <android.support.design.widget.TabItem
-            android:id="@+id/tab_item_schdule"
+            android:id="@+id/tab_item_schedule"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/nav_schedule" />

@@ -80,7 +80,7 @@
                 <TableRow
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/gradient_cherry">
+                    android:background="@drawable/gradient_cherry_horizontal">
 
                     <TextView
                         android:layout_width="0dp"

@@ -55,7 +55,7 @@ public class ScheduleTabs extends Fragment implements TabLayout.OnTabSelectedLis
      */
     void switchFragment(Fragment fragment){
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.animator.slide_out_right, R.animator.slide_in_left);
+        transaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
         transaction.replace(R.id.tabs_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();

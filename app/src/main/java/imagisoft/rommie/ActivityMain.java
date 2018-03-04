@@ -142,8 +142,8 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
     void switchFragment(Fragment fragment, int animation){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (animation == FADE_ANIMATION)
-            transaction.setCustomAnimations(R.animator.fade_out, R.animator.fade_in);
-        else transaction.setCustomAnimations(R.animator.slide_out_right, R.animator.slide_in_left);
+            transaction.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
+        else transaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
         transaction.replace(R.id.main_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();

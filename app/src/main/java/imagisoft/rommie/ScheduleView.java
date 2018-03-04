@@ -112,7 +112,7 @@ public class ScheduleView extends Fragment {
          */
         @Override
         public ScheduleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.schedule_item, null);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.schedule_item_optional, null);
             return new ScheduleViewHolder(view);
         }
 

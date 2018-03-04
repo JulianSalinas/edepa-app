@@ -45,9 +45,15 @@ public class ActivitySplash extends AppCompatActivity{
      * TODO: Se usa para comprobar la conoxión a internet
      */
     private void loadApplication() {
+
+        // Pone a moverse el gif de cargar la aplicación
         ImageView loading_gif = findViewById(R.id.gif_splash_loading);
         GlideDrawableImageViewTarget viewTerget = new GlideDrawableImageViewTarget(loading_gif);
         Glide.with(this).load(R.drawable.gif_loading).into(viewTerget);
+
+        // TODO: Aqui va el código para cargar los datos necesarios al inicio
+        initApplication();
+        finish();
     }
 
     /**
