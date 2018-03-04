@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.ivbaranov.mfb.MaterialFavoriteButton;
+
 import java.util.ArrayList;
 
 import imagisoft.edepa.Exhibitor;
@@ -136,18 +138,25 @@ public class ScheduleView extends Fragment {
             holder.header.setText(item.getHeader());
             holder.eventype.setText(item.getEventype());
 
-            holder.readmore.setOnClickListener(new View.OnClickListener() {
+            /*
+             * Función ejecutada al presionar el botón "readmore" de una actividad
+             * TODO: Pasar "item" a la "ScheduleDetail" para saber que información mostrar
+             */
+            holder.readmore.setOnClickListener(v ->  {
+                ActivityMain activityMain = (ActivityMain) getActivity();
+                activityMain.switchFragment(new ScheduleDetail());
+            });
 
-                /**
-                 * Función ejecutada al presionar el botón "readmore" de una actividad
-                 * TODO: Pasar "item" a la "ScheduleDetail" para saber que información mostrar
-                 */
-                @Override
-                public void onClick(View v) {
-                    ActivityMain activityMain = (ActivityMain) getActivity();
-                    activityMain.switchFragment(new ScheduleDetail());
-                }
-
+            /*
+             * Función ejecutada al presionar la "estrellita" de una actividad
+             * TODO: Aquí va la función de agregar a favoritos
+             */
+            holder.favoriteButton.setOnFavoriteChangeListener((buttonView, favorite) -> {
+                ActivityMain activity = (ActivityMain) getActivity();
+                int text = favorite ?
+                        R.string.text_marked_as_favorite :
+                        R.string.text_unmarked_as_favorite;
+                activity.showStatusMessage(getResources().getString(text));
             });
 
         }
@@ -162,13 +171,15 @@ public class ScheduleView extends Fragment {
             TextView header;
             TextView eventype;
             TextView readmore;
+            MaterialFavoriteButton favoriteButton;
 
-            public ScheduleViewHolder(View view) {
+            ScheduleViewHolder(View view) {
                 super(view);
                 this.time = view.findViewById(R.id.schedule_item_time);
                 this.header = view.findViewById(R.id.schedule_item_header);
                 this.eventype = view.findViewById(R.id.schedule_item_eventype);
                 this.readmore = view.findViewById(R.id.shedule_item_readmore);
+                this.favoriteButton = view.findViewById(R.id.favorite_button);
             }
 
         }

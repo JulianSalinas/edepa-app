@@ -155,7 +155,7 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
      */
     public void showStatusMessage(String msg){
         Context context = getApplicationContext();
-        Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
         toast.show();
     }
 

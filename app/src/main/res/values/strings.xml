@@ -31,6 +31,7 @@
     <string name="text_readmore">LEER MÁS</string>
     <string name="text_favorite">Favorito</string>
     <string name="text_abstract">Resumen</string>
+    <string name="text_exhibitor">Exponentes</string>
 
     <string name="text_conference">Conferencia</string>
     <string name="text_curse">Taller</string>
@@ -39,6 +40,8 @@
     <string name="text_from">De</string>
     <string name="text_to">a</string>
 
+    <string name="text_marked_as_favorite">Agregado a la agenda</string>
+    <string name="text_unmarked_as_favorite">Removido de la agenda</string>
     <!--Testing strings-->
 
     <string name="test_dummy">Dummy</string>
