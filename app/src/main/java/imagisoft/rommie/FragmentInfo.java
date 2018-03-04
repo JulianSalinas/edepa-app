@@ -32,20 +32,20 @@ public class FragmentInfo extends Fragment implements OnMapReadyCallback{
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        View v = getView();
 
-        // Don't recreate fragment everytime ensure last map location/state are maintained
+        // Se revisa si el mapa ya está en la cache para no instanciarlo de nuevo.
+        // Permite mostrar el mapa aunque no haya conexión
         if (mapFragment == null) {
             mapFragment = SupportMapFragment.newInstance();
             mapFragment.getMapAsync(this);
         }
 
-        // R.id.map is a FrameLayout, not a Fragment
+        // Coloca el gmap en la posición destinada para tal fin
         getChildFragmentManager().beginTransaction().replace(R.id.map, mapFragment).commit();
 
     }
 
-    private void moveToCurrentLocation(LatLng currentLocation) {
+    private void moveMapLocation(LatLng currentLocation) {
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15));
 
@@ -57,14 +57,21 @@ public class FragmentInfo extends Fragment implements OnMapReadyCallback{
 
     }
 
+    /**
+     * TODO: La dirección está estática, debe ser dinámica se debe cargar junto con la aplicación.
+     * Se utiliza el API de google para mostrar el mapa y un marcador donde se indique.
+     */
     @Override
     public void onMapReady(GoogleMap map) {
+
+        // Coordenadas del itcr
         LatLng itcr = new LatLng(9.856355, -83.912864);
+
         googleMap = map;
         map.addMarker(new MarkerOptions()
                 .position(itcr)
                 .title("ITCR"));
-        moveToCurrentLocation(itcr);
+        moveMapLocation(itcr);
     }
 
 }

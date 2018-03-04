@@ -16,8 +16,14 @@ import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.ScheduleEvent;
 import imagisoft.util.DateConverter;
 
+/**
+ * Contiene cada una de las actividades del congreso
+ */
 public class ScheduleView extends Fragment {
 
+    /**
+     * Es la capa donde se coloca cada una de las actividades/eventos
+     */
     private RecyclerView recyclerView;
 
     @Override
@@ -29,19 +35,19 @@ public class ScheduleView extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        // TODO: Actividades de prueba para mostrar como se ve el contenido
         ArrayList<ScheduleItem> items = new ArrayList<>();
         for(int i = 0; i < 15; i++) {
-            try {
-                items.add(getTestingObject());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            try { items.add(getTestingObject()); }
+            catch (Exception e) { e.printStackTrace();}
         }
 
         setupRecyclerView(items);
-
     }
 
+    /**
+     * Se configura la capa que contiene las actividades (copiado de internet)
+     */
     public void setupRecyclerView(ArrayList<ScheduleItem> items){
         recyclerView = getView().findViewById(R.id.schedule_view);
         recyclerView.setHasFixedSize(true);
@@ -52,12 +58,13 @@ public class ScheduleView extends Fragment {
 
     public class ScheduleItem extends ScheduleEvent {
 
-        public ScheduleItem(Long id, Long start, Long end, String eventype, String header, String brief) {
+        ScheduleItem(Long id, Long start, Long end, String eventype, String header, String brief) {
             super(id, start, end, eventype, header, brief);
         }
 
     }
 
+    // TODO: Borrar esta función al tener actividades registradas
     public ScheduleItem getTestingObject() throws Exception{
 
         Exhibitor first = new Exhibitor("Julian Salinas", "Instituto Tecnológico de Costa Rica");
@@ -74,52 +81,81 @@ public class ScheduleView extends Fragment {
 
         event.addExhibitor(first);
         event.addExhibitor(second);
-
         return event;
 
     }
 
+    /**
+     * Sirve para enlazar las funciones a una actividad en específico
+     */
     public class ScheduleViewAdapter extends RecyclerView.Adapter<ScheduleViewAdapter.ScheduleViewHolder> {
 
+        /**
+         * Objetos del modelo que serán adaptados visualmente
+         */
         private ArrayList<ScheduleItem> items;
 
-        public ScheduleViewAdapter(ArrayList<ScheduleItem> items){
+        private ScheduleViewAdapter(ArrayList<ScheduleItem> items){
             this.items = items;
         }
 
+        /**
+         * Requerida para saber la cantidad vistas que se tiene que crear
+         */
         @Override
         public int getItemCount() {
             return items.size();
         }
 
+        /**
+         * No usar código en ésta función
+         */
         @Override
         public ScheduleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.schedule_item, null);
             return new ScheduleViewHolder(view);
         }
 
+        /**
+         * Se enlazan los componentes y se agregan funciones a cada uno
+         * @param position NO USAR, esta variable no tiene valor fijo. Usar holder.getAdapterPosition()
+         */
         @Override
         public void onBindViewHolder(ScheduleViewHolder holder, final int position) {
-            ScheduleItem item = items.get(position);
+            ScheduleItem item = items.get(holder.getAdapterPosition());
 
+            // Forma el string para colocar la fecha de la actividad
             String range =
                     getResources().getString(R.string.text_from) + " " +
                     DateConverter.extractTime(item.getStart()) + " " +
                     getResources().getString(R.string.text_to) + " " +
                     DateConverter.extractTime(item.getEnd());
 
+            // Rellana todos los espacios de la actividad
             holder.time.setText(range);
             holder.header.setText(item.getHeader());
             holder.eventype.setText(item.getEventype());
+
             holder.readmore.setOnClickListener(new View.OnClickListener() {
+
+                /**
+                 * Función ejecutada al presionar el botón "readmore" de una actividad
+                 * TODO: Pasar "item" a la "ScheduleDetail" para saber que información mostrar
+                 */
                 @Override
                 public void onClick(View v) {
                     ActivityMain activityMain = (ActivityMain) getActivity();
-                    activityMain.showStatusMessage("Evento #" + String.valueOf(position));
+                    activityMain.switchFragment(new ScheduleDetail());
                 }
+
             });
+
         }
 
+        /**
+         * Calse para enlzar cada uno de los componentes visuales de la actividad.
+         * Es necesario que esta clase este anidada, asi que, no mover!
+         */
         class ScheduleViewHolder extends RecyclerView.ViewHolder {
 
             TextView time;

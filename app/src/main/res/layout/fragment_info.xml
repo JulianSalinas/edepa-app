@@ -72,20 +72,20 @@
 
             </LinearLayout>
 
-            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/space_medium">
 
                 <TableRow
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gradient_cherry">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_weight="50"
                         android:layout_height="wrap_content"
-                        android:background="@color/app_detail"
                         android:padding="@dimen/space_small"
                         android:text="@string/text_start"
                         android:textColor="@color/app_white" />
@@ -94,7 +94,6 @@
                         android:layout_width="0dp"
                         android:layout_weight="50"
                         android:layout_height="wrap_content"
-                        android:background="@color/app_detail"
                         android:padding="@dimen/space_small"
                         android:text="@string/text_end"
                         android:textColor="@color/app_white" />
@@ -197,8 +196,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="@dimen/space_medium"
-                    android:layout_marginStart="@dimen/space_medium"
                     android:layout_weight="90"
                     android:text="@string/text_location"
                     android:textSize="@dimen/font_big" />

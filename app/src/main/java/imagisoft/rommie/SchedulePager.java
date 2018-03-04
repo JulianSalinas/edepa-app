@@ -11,6 +11,9 @@ import android.support.v4.view.ViewPager;
 
 import java.util.ArrayList;
 
+/**
+ * Contiene los fragmentos donde se muestras las actividades del congreso
+ */
 public class SchedulePager extends Fragment {
 
     public SchedulePager() {
@@ -26,7 +29,7 @@ public class SchedulePager extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // Test data: Days of congress
+        //TODO: Información de prueba, solamente para mostrar como se ve
         ArrayList<String> dates = new ArrayList<>();
         for(int i = 12; i<=18; i++)
             dates.add(String.valueOf(i) + "/08/2018");
@@ -36,6 +39,10 @@ public class SchedulePager extends Fragment {
         viewPager.setAdapter(adapter);
     }
 
+    /**
+     * Es el adaptador de la barra que contiene los días del cronograma
+     * TODO: Estos días es necesario estraerlos con la fecha de inicio y la fecha fin del congreso
+     */
     public class SchedulePagerAdapter extends FragmentPagerAdapter {
 
         private ArrayList<String> dates;
@@ -45,21 +52,28 @@ public class SchedulePager extends Fragment {
             this.dates = dates;
         }
 
+        /*
+         * Esta función solo es necesario para saber cuandos días se tiene que mostrar
+         */
         @Override
         public int getCount() {
             return dates.size();
         }
 
+        /*
+         * Se colocan todos los eventos que ocurran en un día específico
+         * TODO: Se debe crear el filtro que divida las actividades en días
+         */
         @Override
         public Fragment getItem(int position) {
-            // Here you can grab de date
-            // This code is temporaly
-            if(position != 0)
-                return position == 1 ? new FragmentTab2() : new FragmentTab3();
-            else
-                return new ScheduleView();
+
+            // TODO: Agregar párametro al schedule view para saber que actividades se deben mostrar
+            return new ScheduleView();
         }
 
+        /**
+         * Función para colocar los títulos (fechas) en la barra que contiene los días
+         */
         @Override
         public CharSequence getPageTitle(int position) {
             return dates.get(position);

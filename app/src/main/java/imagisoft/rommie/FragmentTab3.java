@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+// TODO: Por implementar, nombre todavía no fijado
+
 public class FragmentTab3 extends Fragment {
 
     @Override

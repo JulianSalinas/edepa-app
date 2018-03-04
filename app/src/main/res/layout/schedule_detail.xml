@@ -1,0 +1,124 @@
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="imagisoft.rommie.FragmentInfo">
+
+    <!-- Inicio del encabezado -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="true"
+        android:background="@drawable/gradient_cherry"
+        android:orientation="horizontal">
+
+        <!--<View-->
+            <!--android:layout_width="@dimen/space_small"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@drawable/gradient_orange"-->
+            <!--android:orientation="horizontal">-->
+        <!--</View>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/space_medium">
+
+            <TextView
+                android:id="@+id/schedule_item_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="@string/test_event"
+                android:textColor="@color/app_secondary_font"
+                android:textSize="@dimen/font_normal" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/schedule_item_eventype"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test_type"
+                    android:textColor="@color/app_secondary_font"
+                    android:textSize="@dimen/font_smallest" />
+
+                <TextView
+                    android:id="@+id/schedule_item_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/test_app_range_time"
+                    android:textColor="@color/app_secondary_font"
+                    android:textSize="@dimen/font_smallest" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_line"
+        android:background="@color/app_light_detail" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/space_default"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_medium"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/size_icon"
+                        android:layout_height="@dimen/size_icon"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_information"
+                        android:contentDescription="@null" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="90"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/text_abstract"
+                    android:textSize="@dimen/font_big" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/text_abstract"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_medium"
+                android:text="@string/text_lorem_ipsum" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
