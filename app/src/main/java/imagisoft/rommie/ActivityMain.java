@@ -15,7 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-public class ActivityMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ActivityMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     /**
      * Posibles parámetros para usar con la función switchFragment
@@ -34,6 +34,14 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
     private NavigationView navigation;
 
     /**
+     * Variables para poder reciclar los fragmentos
+     */
+    private int lastTab;
+    private ScheduleTabs scheduleTabs;
+    private ExhibitorsView exhibitorsView;
+    private InformationView informationView;
+
+    /**
      * Se inician todos los componenetes principales de la aplicacion
      */
     @Override
@@ -44,7 +52,8 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
         setDrawerConfiguration();
         setToggleConfiguration();
         setNavigationViewConfiguration();
-        switchFragment(new ScheduleTabs());
+        scheduleTabs = new ScheduleTabs();
+        switchFragment(scheduleTabs);
     }
 
     /**
@@ -108,21 +117,70 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
     /**
      * TODO: Se deben agregar los demás fragmentos nuevos aquí
      * Crea un fragmento nuevo y lo coloca en la pantalla
+     * Se usa inicialización peresoza para cada fragmento
      * @param item Opción elegida por el usuario
      */
     private void navigateToItem(MenuItem item){
-        switch (item.getItemId()){
+        navigateById(item.getItemId());
+    }
+
+    public void navigateById(int id){
+
+        switch (id){
+
+            // Cierra la aplicación
             case R.id.nav_exit:
                 finishAffinity(); break;
+
+            // Muestra la información general del congreso
             case R.id.nav_infomation:
-                switchFragment(new FragmentInfo()); break;
+                if(informationView == null)
+                    informationView = new InformationView();
+                switchFragment(informationView);
+                break;
+
+            // Muestra el cronograma del congreso
             case R.id.nav_schedule:
-                switchFragment(new ScheduleTabs()); break;
+//                if(scheduleTabs == null)
+                    scheduleTabs = ScheduleTabs.newInstance(ScheduleTabs.SCHEDULE_TAB);
+                switchFragment(scheduleTabs);
+//                scheduleTabs.switchToSchedule();
+                break;
+
+            // Muestra la agenda personal (favoritos)
             case R.id.nav_agenda:
-                switchFragment(new ScheduleTabs()); break;
-            default:
-                switchFragment(new ScheduleTabs()); break;
+//                if(scheduleTabs == null)
+                    scheduleTabs = ScheduleTabs.newInstance(ScheduleTabs.DIARY_TAB);
+                switchFragment(scheduleTabs);
+//                scheduleTabs.switchToDiary();
+                break;
+
+            // Muestra la agenda personal (favoritos)
+            case R.id.nav_ongoing:
+//                if(scheduleTabs == null)
+                    scheduleTabs = ScheduleTabs.newInstance(ScheduleTabs.ONGOING_TAB);
+                switchFragment(scheduleTabs);
+//                scheduleTabs.switchToOngoing();
+                break;
+
+            // Muestra la lista de expositores o ponentes
+            case R.id.nav_people:
+                if(exhibitorsView == null)
+                    exhibitorsView = new ExhibitorsView();
+                switchFragment(exhibitorsView);
+                break;
+
         }
+    }
+    /**
+     * Los fragments que no necesitan la actionbar la ocultan
+     */
+    public void hideActionBar(){
+        getSupportActionBar().hide();
+    }
+
+    public void showActionBar(){
+        getSupportActionBar().show();
     }
 
     /**
@@ -146,7 +204,7 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
         else transaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
         transaction.replace(R.id.main_container, fragment);
         transaction.addToBackStack(null);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
     /**

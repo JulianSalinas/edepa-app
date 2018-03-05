@@ -15,18 +15,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class FragmentInfo extends Fragment implements OnMapReadyCallback{
+public class InformationView extends Fragment implements OnMapReadyCallback{
 
     private GoogleMap googleMap;
     private SupportMapFragment mapFragment;
 
-    public FragmentInfo() {
+    public InformationView() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflater.inflate(R.layout.fragment_info, container, false);
+        return inflater.inflate(R.layout.information_view, container, false);
     }
 
     @Override

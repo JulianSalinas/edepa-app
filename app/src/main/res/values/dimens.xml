@@ -16,6 +16,15 @@
     <!-- For icons and images-->
     <dimen name="size_icon">25dp</dimen>
     <dimen name="size_gmap">250dp</dimen>
+    <dimen name="size_header_img">150dp</dimen>
+
+    <!--For avatars -->
+    <dimen name="avatar_biggest_width">100dp</dimen>
+    <dimen name="avatar_biggest_height">@dimen/avatar_biggest_width</dimen>
+    <dimen name="avatar_default_height">50dp</dimen>
+    <dimen name="avatar_default_width">@dimen/avatar_default_height</dimen>
+    <dimen name="avatar_small_height">40dp</dimen>
+    <dimen name="avatar_small_width">@dimen/avatar_small_height</dimen>
 
     <!-- For cardview items -->
     <dimen name="card_radius">2dp</dimen>
