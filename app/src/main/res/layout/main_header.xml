@@ -1,26 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/space_header_height"
-    android:background="@color/app_actionbar"
     android:gravity="bottom"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <com.github.florent37.diagonallayout.DiagonalLayout
+        android:id="@+id/diagonalLayout"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:elevation="0dp"
+        app:diagonal_angle="10"
+        app:diagonal_position="bottom">
+
+        <com.flaviofaria.kenburnsview.KenBurnsView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_mountains" />
+
+    </com.github.florent37.diagonallayout.DiagonalLayout>
+
+    <com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:contentDescription="@null"
-        app:srcCompat="@drawable/img_navuser" />
+        android:layout_marginStart="@dimen/space_medium"
+        android:layout_marginBottom="@dimen/space_small"
+        app:fabColor="@color/material_red"
+        android:layout_gravity="bottom">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:tint="@color/app_white"
+            android:src="@drawable/ic_clock"
+            android:contentDescription="@null"/>
+
+    </com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/space_big"
-        android:background="@color/app_actionbar">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_biggest"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_biggest"
+            android:textColor="@color/app_secondary_font"
+            android:text="@string/nav_menu" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_normal"
+            android:textColor="@color/app_secondary_font"
+            android:textStyle="bold"
+            android:text="@string/nav_subsection"/>
 
     </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>

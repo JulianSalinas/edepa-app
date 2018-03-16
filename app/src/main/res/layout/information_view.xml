@@ -30,8 +30,8 @@
                     android:layout_marginEnd="@dimen/space_medium"
                     android:layout_marginStart="@dimen/space_medium"
                     android:text="@string/test_congress"
-                    android:textSize="@dimen/font_big"
                     android:textAlignment="center"
+                    android:textSize="@dimen/font_big"
                     android:textStyle="italic" />
 
             </LinearLayout>

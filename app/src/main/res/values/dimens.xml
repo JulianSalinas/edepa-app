@@ -11,12 +11,12 @@
 
     <!--For navigation sidemenu-->
     <dimen name="space_header_items">8dp</dimen>
-    <dimen name="space_header_height">176dp</dimen>
+    <dimen name="space_header_height">250dp</dimen>
 
     <!-- For icons and images-->
     <dimen name="size_icon">25dp</dimen>
     <dimen name="size_gmap">250dp</dimen>
-    <dimen name="size_header_img">150dp</dimen>
+    <dimen name="size_header_img">100dp</dimen>
 
     <!--For avatars -->
     <dimen name="avatar_biggest_width">100dp</dimen>

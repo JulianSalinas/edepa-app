@@ -1,15 +1,18 @@
 <resources>
 
     <!-- Global strings-->
-    <string name="alias">Rommie</string>
-    <string name="app_name">Rommie</string>
-    <string name="app_title">Rommie</string>
+    <string name="alias">Edepa</string>
+    <string name="app_name">Edepa</string>
+    <string name="app_title">Edepa</string>
 
     <!-- Most Left icon-->
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
     <!-- Navigation menu strings-->
+    <string name="nav_menu">Menú principal</string>
+    <string name="nav_subsection">Subsección</string>
+
     <string name="nav_info">Información</string>
     <string name="nav_schedule">Cronograma</string>
     <string name="nav_diary">Mi agenda</string>
@@ -32,9 +35,7 @@
     <string name="text_favorite">Favorito</string>
     <string name="text_abstract">Resumen</string>
     <string name="text_exhibitor">Exponentes</string>
-
     <string name="text_people">Personas</string>
-
     <string name="text_conference">Conferencia</string>
     <string name="text_curse">Taller</string>
     <string name="text_talk">Charla</string>

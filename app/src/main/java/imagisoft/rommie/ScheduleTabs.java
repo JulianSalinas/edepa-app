@@ -71,8 +71,8 @@ public class ScheduleTabs extends Fragment implements TabLayout.OnTabSelectedLis
     private void setupInitialConfiguration() {
         tabs = new ArrayList<>();
         tabs.add(new SchedulePager());
-        tabs.add(new SchedulePager());
-        tabs.add(new SchedulePager());
+        tabs.add(new ScheduleView());
+        tabs.add(new ScheduleView());
         switchFragment(tabs.get(activeTab));
     }
 
