@@ -2,10 +2,10 @@ package imagisoft.rommie;
 
 import android.content.Context;
 import android.graphics.PointF;
+import android.util.DisplayMetrics;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
-import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 
 public class CustomLayout extends LinearLayoutManager{
 
