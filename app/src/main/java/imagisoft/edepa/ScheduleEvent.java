@@ -8,13 +8,11 @@ import imagisoft.rommie.ScheduleView;
 public class ScheduleEvent {
 
     private Long id;
-
     private Long start;
     private Long end;
-
-    private String eventype;
     private String header;
     private String brief;
+    private EventType eventype;
 
     private ArrayList<Exhibitor> exhibitors;
 
@@ -30,10 +28,6 @@ public class ScheduleEvent {
         return end;
     }
 
-    public String getEventype() {
-        return eventype;
-    }
-
     public String getHeader() {
         return header;
     }
@@ -42,18 +36,22 @@ public class ScheduleEvent {
         return brief;
     }
 
+    public EventType getEventype() {
+        return eventype;
+    }
+
     public ArrayList<Exhibitor> addExhibitor(Exhibitor exhibitor){
         exhibitors.add(exhibitor);
         return this.exhibitors;
     }
 
-    public ScheduleEvent(Long id, Long start, Long end, String eventype, String header, String brief) {
+    public ScheduleEvent(Long id, Long start, Long end, String header, String brief, EventType eventype) {
         this.id = id;
         this.start = start;
         this.end = end;
-        this.eventype = eventype;
         this.header = header;
         this.brief = brief;
+        this.eventype = eventype;
         this.exhibitors = new ArrayList<>();
     }
 

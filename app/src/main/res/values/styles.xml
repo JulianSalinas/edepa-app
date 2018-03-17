@@ -7,7 +7,10 @@
         <item name="colorPrimaryDark">@color/app_secondary</item>
         <item name="colorAccent">@color/app_accent</item>
         <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentNavigation">true</item>
         <!--<item name="android:fontFamily">@font/yahei_light</item>-->
     </style>
 

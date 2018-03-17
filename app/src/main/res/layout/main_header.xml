@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_header_img"
         android:elevation="0dp"
-        app:diagonal_angle="10"
+        app:diagonal_angle="0"
         app:diagonal_position="bottom">
 
         <com.flaviofaria.kenburnsview.KenBurnsView
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:tint="@color/app_white"
-            android:src="@drawable/ic_clock"
+            android:src="@drawable/ic_star"
             android:contentDescription="@null"/>
 
     </com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout>
