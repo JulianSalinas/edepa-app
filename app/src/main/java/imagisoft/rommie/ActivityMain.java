@@ -1,8 +1,11 @@
 package imagisoft.rommie;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.content.Context;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.design.widget.NavigationView;
@@ -27,7 +30,7 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
      * Atributos en común para todas las aplicaciones. Barra de herramientas, menu lateral, etc.
      */
     private Toolbar toolbar;
-    private TextView toolbarTitle;
+    private CollapsingToolbarLayout toolbarLayout;
 
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
@@ -54,6 +57,7 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
         setNavigationViewConfiguration();
         scheduleTabs = new ScheduleTabs();
         switchFragment(scheduleTabs);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 
     /**
@@ -61,11 +65,9 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
      */
     private void setToolbarConfiguration(){
         toolbar = findViewById(R.id.toolbar);
-        toolbarTitle = findViewById(R.id.toolbar_title);
-        toolbarTitle.setText(getResources().getString(R.string.nav_schedule));
+        toolbarLayout = findViewById(R.id.toolbar_layout);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbarTitle.setText(getResources().getString(R.string.app_name));
+        getSupportActionBar().setTitle(null);
     }
 
     /**

@@ -1,4 +1,3 @@
-
 <LinearLayout
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,32 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/exhibitor_list_header"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_header_img"
-            android:scaleType="centerCrop"
-            android:contentDescription="@null"
-            android:src="@drawable/img_people" />
-
-        <ImageView
-            android:id="@+id/exhibitor_list_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/exhibitor_list_header"
-            android:layout_alignParentStart="true"
-            android:padding="@dimen/space_medium"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_back"
-            android:tint="@color/app_white" />
-
-    </RelativeLayout>
-
 
     <SearchView
         android:layout_width="match_parent"

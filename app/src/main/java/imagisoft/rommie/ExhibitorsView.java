@@ -44,22 +44,12 @@ public class ExhibitorsView extends Fragment{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // Oculta  la barra superior
-        ActivityMain activity = (ActivityMain) getActivity();
-        activity.hideActionBar();
-
         // TODO: Personas de prueba para mostrar en la aplicación
         ArrayList<ExhibitorsView.ExhibitorItem> items = new ArrayList<>();
         for(int i = 0; i < 15; i++) {
             try { items.add(getTestingObject()); }
             catch (Exception e) { e.printStackTrace();}
         }
-
-        backView = getView().findViewById(R.id.exhibitor_list_back);
-        backView.setOnClickListener(v -> {
-            activity.showActionBar();
-            activity.onBackPressed();
-        });
 
         setupRecyclerView(items);
     }

@@ -1,9 +1,9 @@
 <resources>
 
     <!-- Global strings-->
-    <string name="alias">Edepa</string>
-    <string name="app_name">Edepa</string>
-    <string name="app_title">Edepa</string>
+    <string name="alias">EDEPA</string>
+    <string name="app_name">EDEPA</string>
+    <string name="app_title">EDEPA</string>
 
     <!-- Most Left icon-->
     <string name="drawer_open">Open navigation drawer</string>

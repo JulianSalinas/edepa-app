@@ -53,4 +53,8 @@ dependencies {
 
     // Boton del menu lateral
     implementation 'com.robertlevonyan.view:CustomFloatingActionButton:2.0.4'
+
+    // Para la vista con scroll
+    compile 'com.github.ksoichiro:Android-ObservableScrollView:v1.6.0'
+
 }

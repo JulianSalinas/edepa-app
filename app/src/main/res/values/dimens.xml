@@ -16,7 +16,8 @@
     <!-- For icons and images-->
     <dimen name="size_icon">25dp</dimen>
     <dimen name="size_gmap">250dp</dimen>
-    <dimen name="size_header_img">100dp</dimen>
+    <dimen name="size_header_img">230dp</dimen>
+    <dimen name="size_container_img">150dp</dimen>
 
     <!--For avatars -->
     <dimen name="avatar_biggest_width">100dp</dimen>

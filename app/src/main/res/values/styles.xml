@@ -2,11 +2,12 @@
 
     <!-- Base application theme. -->
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/app_primary</item>
         <item name="colorPrimaryDark">@color/app_secondary</item>
         <item name="colorAccent">@color/app_accent</item>
         <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <!--<item name="android:fontFamily">@font/yahei_light</item>-->
     </style>
 
