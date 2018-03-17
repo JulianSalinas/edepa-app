@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 
-public class CustomLayout extends LinearLayoutManager{
+public class SmoothLayout extends LinearLayoutManager{
 
     /**
      * Determina que tan rápido se mueve el scroll
@@ -19,7 +19,11 @@ public class CustomLayout extends LinearLayoutManager{
      */
     private Context context;
 
-    CustomLayout(Context context) {
+    /**
+     * Constructor del layout
+     * @param context Actvidad o fragmento donde se ejecuta
+     */
+    SmoothLayout(Context context) {
         super(context);
         this.context = context;
     }
@@ -29,14 +33,19 @@ public class CustomLayout extends LinearLayoutManager{
      * lugar dentro del código, la vista la usa de forma automática
      */
     @Override
-    public void smoothScrollToPosition(RecyclerView view,
-                                       RecyclerView.State state, final int position) {
+    public void smoothScrollToPosition(RecyclerView view, RecyclerView.State state, final int pos) {
 
+
+        // Scroll que se mueve acorde a la velocidad aplicada
         LinearSmoothScroller scroller = new LinearSmoothScroller(context) {
 
+            /*
+             * Esto sirve para mover la vista hasta el último elemento agregado.
+             * Por ejemplo, el chat o las noticias donde la cantidad de elementos se actuliza
+             */
             @Override
             public PointF computeScrollVectorForPosition(int target) {
-                return CustomLayout.this.computeScrollVectorForPosition(target);
+                return SmoothLayout.this.computeScrollVectorForPosition(target);
             }
 
             @Override
@@ -46,11 +55,8 @@ public class CustomLayout extends LinearLayoutManager{
 
         };
 
-
-        /*
-         * Se podríua ajustar para que el screoll no inicie en el primer elemento
-         */
-        scroller.setTargetPosition(position);
+        // Inicia con la animación
+        scroller.setTargetPosition(pos);
         startSmoothScroll(scroller);
 
     }

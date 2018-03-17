@@ -10,12 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 
 import agency.tango.android.avatarview.AvatarPlaceholder;
-import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.ScheduleEvent;
@@ -67,7 +64,7 @@ public class ExhibitorsView extends Fragment{
     public void setupRecyclerView(ArrayList<ExhibitorItem> items){
         recyclerView = getView().findViewById(R.id.exhibitors_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new CustomLayout(this.getActivity()));
+        recyclerView.setLayoutManager(new SmoothLayout(this.getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(new ExhibitorsViewAdapter(items));
     }

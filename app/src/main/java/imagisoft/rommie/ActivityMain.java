@@ -57,7 +57,6 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
         setNavigationViewConfiguration();
         scheduleTabs = new ScheduleTabs();
         switchFragment(scheduleTabs);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 
     /**
@@ -171,6 +170,12 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
                     exhibitorsView = new ExhibitorsView();
                 switchFragment(exhibitorsView);
                 break;
+
+            // Muestra la lista de expositores o ponentes
+            case R.id.nav_chat:
+                switchFragment(new ChatView());
+                break;
+
 
         }
     }

@@ -1,14 +1,17 @@
-package imagisoft.util;
+package imagisoft.edepa;
 
-import android.net.ParseException;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
-public class DateConverter {
+public class UDateConverter {
 
+    /**
+     * Extrae la fecha (sin hora) de un tipo de dato Long
+     * @param datetime fecha en formato Long
+     * @return String con el formato dd/mm/yyyy
+     */
     public static String extractDate(Long datetime) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(datetime);
@@ -18,6 +21,11 @@ public class DateConverter {
         return day + "/" + month + "/" + year;
     }
 
+    /**
+     * Extrae únicamente la hora de una fecha dada en formato Long
+     * @param datetime fecha en formato long
+     * @return String con el formato hh:mm <pm|am>
+     */
     public static String extractTime(Long datetime){
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(datetime);
@@ -27,9 +35,24 @@ public class DateConverter {
         return hour + ":" + (minute.length() == 2 ? minute : "0" + minute)+ " " + ampm;
     }
 
-    public static Long stringToLong(String string_datetime) throws Exception {
+    /**
+     * Convierte un fecha en string a un Long
+     * SIEMPRE debe tener el siguiente formato dd/mm/yy hh:mm <am|pm>
+     * @param datetime Fecha como el siguiente ejemplo "12/12/18 2:30 pm"
+     * @return Long de la fecha especificada. Si hay error retorna 0L.
+     */
+    public static Long stringToLong(String datetime) {
+        try{ return stringToLongWrapper(datetime); }
+        catch (Exception e){ return 0L; }
+    }
+
+    /**
+     * Cubierta para lanzar el error en caso de una fecha inválida
+     * @param datetime Fecha como el siguiente ejemplo "12/12/18 2:30 pm"
+     */
+    private static Long stringToLongWrapper(String datetime) throws Exception{
         SimpleDateFormat format = new SimpleDateFormat("dd/M/yy h:mm a", Locale.ENGLISH);
-        Date date = format.parse(string_datetime);
+        Date date = format.parse(datetime);
         return date.getTime();
     }
 

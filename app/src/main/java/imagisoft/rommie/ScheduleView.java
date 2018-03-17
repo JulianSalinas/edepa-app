@@ -17,7 +17,7 @@ import imagisoft.edepa.EventType;
 import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
-import imagisoft.util.DateConverter;
+import imagisoft.edepa.UDateConverter;
 
 /**
  * Contiene cada una de las actividades del congreso
@@ -66,8 +66,8 @@ public class ScheduleView extends Fragment {
     public ScheduleBlockView getTestingObject() throws Exception{
 
         ScheduleBlockView block = new ScheduleBlockView(
-                DateConverter.stringToLong("12/12/18 11:00 am"),
-                DateConverter.stringToLong("12/12/18 2:30 pm")
+                UDateConverter.stringToLong("12/12/18 11:00 am"),
+                UDateConverter.stringToLong("12/12/18 2:30 pm")
         );
 
 
@@ -77,8 +77,8 @@ public class ScheduleView extends Fragment {
 
             ScheduleEventView event = new ScheduleEventView(
                     123L,
-                    DateConverter.stringToLong("12/12/18 11:00 am"),
-                    DateConverter.stringToLong("12/12/18 2:30 pm"),
+                    UDateConverter.stringToLong("12/12/18 11:00 am"),
+                    UDateConverter.stringToLong("12/12/18 2:30 pm"),
                     "Nombre lo suficientemente largo para cubrir dos líneas",
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ullamcorper aliquet dictum. Maecenas in imperdiet dui",
                     EventType.values()[i]
@@ -100,7 +100,7 @@ public class ScheduleView extends Fragment {
     public void setupRecyclerView(ArrayList<ScheduleItemView> items){
         recyclerView = getView().findViewById(R.id.schedule_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new CustomLayout(this.getActivity()));
+        recyclerView.setLayoutManager(new SmoothLayout(this.getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(new ScheduleViewAdapter(items));
     }
@@ -207,9 +207,9 @@ public class ScheduleView extends Fragment {
             // Forma el string para colocar la fecha de la actividad
             String range =
                     getResources().getString(R.string.text_from) + " " +
-                            DateConverter.extractTime(item.getStart()) + " " +
+                            UDateConverter.extractTime(item.getStart()) + " " +
                             getResources().getString(R.string.text_to) + " " +
-                            DateConverter.extractTime(item.getEnd());
+                            UDateConverter.extractTime(item.getEnd());
 
             // Rellana todos los espacios de la actividad
             holder.time.setText(range);
@@ -262,9 +262,9 @@ public class ScheduleView extends Fragment {
             // Forma el string para colocar la fecha de la actividad
             String range =
                     getResources().getString(R.string.text_from) + " " +
-                            DateConverter.extractTime(item.getStart()) + " " +
+                            UDateConverter.extractTime(item.getStart()) + " " +
                             getResources().getString(R.string.text_to) + " " +
-                            DateConverter.extractTime(item.getEnd());
+                            UDateConverter.extractTime(item.getEnd());
 
             // Rellana todos los espacios de la actividad
             holder.time.setText(range);

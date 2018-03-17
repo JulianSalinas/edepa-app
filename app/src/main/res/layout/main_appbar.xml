@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_container_img"
             app:title="@string/app_name"
-            app:expandedTitleGravity="bottom"
+            app:expandedTitleGravity="bottom|center_horizontal"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:expandedTitleTextAppearance="@android:color/transparent"
             app:contentScrim="@color/app_actionbar">

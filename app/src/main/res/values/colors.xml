@@ -15,6 +15,9 @@
     <color name="app_secondary_font">#FFFFFF</color>
     <color name="app_special_font">#9e9e9e</color>
 
+    <color name="app_chat_right">#FAECD3</color>
+    <color name="app_chat_left">#fafafa</color>
+
     <!-- Material theme - Primary colors -->
     <color name="material_red">#f44336</color>
     <color name="material_pink">#e91e63</color>

@@ -39,6 +39,7 @@
     <string name="text_conference">Conferencia</string>
     <string name="text_curse">Taller</string>
     <string name="text_talk">Charla</string>
+    <string name="text_input">Escribe aquí</string>
 
     <string name="text_from">De</string>
     <string name="text_to">a</string>
