@@ -1,18 +1,17 @@
 package imagisoft.rommie;
 
-import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import java.util.ArrayList;
+import imagisoft.edepa.ScheduleBlock;
+import imagisoft.edepa.ScheduleEvent;
+import imagisoft.edepa.UDateConverter;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.support.v7.widget.RecyclerView;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
-
-import java.util.ArrayList;
-
-import imagisoft.edepa.EventType;
-import imagisoft.edepa.UDateConverter;
 
 /**
  * Sirve para enlazar las funciones a una actividad en específico
@@ -28,7 +27,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /**
      * Objetos del modelo que serán adaptados visualmente
      */
-    private ArrayList<ScheduleView.ScheduleItemView> items;
+    private ArrayList<ScheduleBlock> events;
 
     /**
      * Se necesita para obtener algunos strings
@@ -43,8 +42,8 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /**
      * Constructor de la vista donde se colocan los eventos
      */
-    public ScheduleViewAdapter(ScheduleView scheduleView, ArrayList<ScheduleView.ScheduleItemView> items){
-        this.items = items;
+    public ScheduleViewAdapter(ScheduleView scheduleView, ArrayList<ScheduleBlock> events){
+        this.events = events;
         this.context = scheduleView.getContext();
         this.activity = (ActivityMainNav) scheduleView.getActivity();
     }
@@ -54,7 +53,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     @Override
     public int getItemCount() {
-        return items.size();
+        return events.size();
     }
 
     /**
@@ -62,10 +61,10 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     @Override
     public int getItemViewType(int position) {
-        ScheduleView.ScheduleItemView item = items.get(position);
-        return (item instanceof ScheduleView.ScheduleBlockView) ?
-                SCHEDULE_BLOCK_VIEW_TYPE:
-                SCHEDULE_EVENT_VIEW_TYPE;
+        ScheduleBlock item = events.get(position);
+        return (item instanceof ScheduleEvent) ?
+                SCHEDULE_EVENT_VIEW_TYPE:
+                SCHEDULE_BLOCK_VIEW_TYPE;
     }
 
     /**
@@ -111,21 +110,21 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindScheduleEventViewHolder(ScheduleEventViewHolder holder){
 
         // Items para extraer los datos y colocarlos en la vista
-        ScheduleView.ScheduleEventView item = (ScheduleView.ScheduleEventView) items.get(holder.getAdapterPosition());
+        ScheduleEvent event = (ScheduleEvent) events.get(holder.getAdapterPosition());
 
         // Forma el string para colocar la fecha de la actividad
         String range =  context.getResources().getString(R.string.text_from) + " " +
-                        UDateConverter.extractTime(item.getStart()) + " " +
+                        UDateConverter.extractTime(event.getStart()) + " " +
                         context.getResources().getString(R.string.text_to) + " " +
-                        UDateConverter.extractTime(item.getEnd());
+                        UDateConverter.extractTime(event.getEnd());
 
         // Rellana todos los espacios de la actividad
         holder.time.setText(range);
-        holder.header.setText(item.getHeader());
-        holder.eventype.setText(item.getEventype().toString());
+        holder.header.setText(event.getTitle());
+        holder.eventype.setText(event.getEventype().toString());
 
         // Coloca el color acorde al tipo de actividad
-        int colorResource = mapToColor(item.getEventype());
+        int colorResource = event.getEventype().getColor();
         holder.line.setBackgroundResource(colorResource);
         holder.readmore.setTextColor(context.getResources().getColor(colorResource));
 
@@ -150,26 +149,16 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
-    public int mapToColor(EventType eventType){
-        switch (eventType){
-            case CONFERENCIA: return R.color.material_pink;
-            case FERIA_EDEPA: return R.color.material_amber;
-            case TALLER: return R.color.material_green;
-            case PONENCIA: return R.color.material_blue;
-            default: return R.color.app_light_detail;
-        }
-    }
-
     public void onBindScheduleBlockViewHolder(ScheduleBlockViewHolder holder){
 
         // Items para extraer los datos y colocarlos en la vista
-        ScheduleView.ScheduleBlockView item = (ScheduleView.ScheduleBlockView) items.get(holder.getAdapterPosition());
+        ScheduleBlock block = events.get(holder.getAdapterPosition());
 
         // Forma el string para colocar la fecha de la actividad
         String range =  context.getResources().getString(R.string.text_from) + " " +
-                        UDateConverter.extractTime(item.getStart()) + " " +
+                        UDateConverter.extractTime(block.getStart()) + " " +
                         context.getResources().getString(R.string.text_to) + " " +
-                        UDateConverter.extractTime(item.getEnd());
+                        UDateConverter.extractTime(block.getEnd());
 
         // Rellana todos los espacios de la actividad
         holder.time.setText(range);
@@ -207,19 +196,11 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     class ScheduleBlockViewHolder extends RecyclerView.ViewHolder {
 
         TextView time;
-
         ScheduleBlockViewHolder(View view) {
             super(view);
             this.time = view.findViewById(R.id.schedule_block_time);
-            RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-            int margin = (int) context.getResources().getDimension(R.dimen.space_big);
-            lp.setMargins(margin, margin, margin, 0);
-            view.setLayoutParams(lp);
         }
 
     }
-
 
 }

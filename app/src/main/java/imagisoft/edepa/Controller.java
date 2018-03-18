@@ -78,12 +78,6 @@ public class Controller {
 
         // Código cochino
         try {
-            // Congreso de prueba
-            congress = new Congress(
-                    "EDEPA",
-                    UDateConverter.stringToLong("12/12/18 12:00 am"),
-                    UDateConverter.stringToLong("15/12/18 12:00 am")
-            );
 
             chatRoom = new ArrayList<>();
             newsRoom = new ArrayList<>();

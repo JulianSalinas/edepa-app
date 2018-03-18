@@ -1,11 +1,7 @@
 package imagisoft.rommie;
 
 import java.util.ArrayList;
-import imagisoft.edepa.EventType;
-import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.ScheduleBlock;
-import imagisoft.edepa.ScheduleEvent;
-import imagisoft.edepa.UDateConverter;
 
 import android.os.Bundle;
 import android.view.View;
@@ -38,89 +34,19 @@ public class ScheduleView extends ActivityMainFrag {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setupRecyclerView(loadModelEvents());
-    }
-
-    /**
-     * TODO: Prueba para mostrar como se ve el contenido
-     */
-    public ArrayList<ScheduleItemView> loadModelEvents(){
-        ArrayList<ScheduleItemView> items = new ArrayList<>();
-        for(int i = 0; i < 3; i++) {
-            try {
-                ScheduleBlockView block = getTestingObject();
-                items.add(block);
-                items.addAll(block.events);
-            }
-            catch (Exception e) { e.printStackTrace();}
-        }
-        return items;
-    }
-
-    // TODO: Borrar esta función al tener actividades registradas
-    public ScheduleBlockView getTestingObject() throws Exception{
-
-        ScheduleBlockView block = new ScheduleBlockView(
-                UDateConverter.stringToLong("12/12/18 11:00 am"),
-                UDateConverter.stringToLong("12/12/18 2:30 pm")
-        );
-
-
-        for(int i = 0; i < 4; i++) {
-            Exhibitor first = new Exhibitor("Julian Salinas", "Instituto Tecnológico de Costa Rica");
-            Exhibitor second = new Exhibitor("Brandon Dinarte", "Instituto Tecnológico de Costa Rica");
-
-            ScheduleEventView event = new ScheduleEventView(
-                    123L,
-                    UDateConverter.stringToLong("12/12/18 11:00 am"),
-                    UDateConverter.stringToLong("12/12/18 2:30 pm"),
-                    "Nombre lo suficientemente largo para cubrir dos líneas",
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ullamcorper aliquet dictum. Maecenas in imperdiet dui",
-                    EventType.values()[i]
-            );
-
-            event.addExhibitor(first);
-            event.addExhibitor(second);
-            block.events.add(event);
-        }
-
-        return block;
-
+        // setupRecyclerView(loadModelEvents());
     }
 
     /**
      * Se configura la capa que contiene las actividades (copiado de internet)
      */
-    public void setupRecyclerView(ArrayList<ScheduleItemView> items){
+    public void setupRecyclerView(ArrayList<ScheduleBlock> items){
         assert getView() != null;
         recyclerView = getView().findViewById(R.id.schedule_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new SmoothLayout(this.getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(new ScheduleViewAdapter(this, items));
-    }
-
-    interface ScheduleItemView {
-        // Necesita esta vacio
-    }
-
-    public class ScheduleBlockView extends ScheduleBlock implements ScheduleItemView {
-
-        ArrayList<ScheduleEventView> events;
-
-        ScheduleBlockView(Long start, Long end) {
-            super(start, end);
-            this.events = new ArrayList<>();
-        }
-
-    }
-
-    public class ScheduleEventView extends ScheduleEvent implements ScheduleItemView {
-
-        ScheduleEventView(Long id, Long start, Long end, String header, String brief, EventType eventType) {
-            super(id, start, end, header, brief, eventType);
-        }
-
     }
 
 }

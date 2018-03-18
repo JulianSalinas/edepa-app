@@ -28,15 +28,7 @@ public class ExhibitorsView extends ActivityMainFrag  {
     @Override
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
-
-        // TODO: Personas de prueba para mostrar en la aplicación
-        ArrayList<Exhibitor> items = new ArrayList<>();
-        for(int i = 0; i < 15; i++) {
-            try { items.add(getTestingObject()); }
-            catch (Exception e) { e.printStackTrace();}
-        }
-
-        setupRecyclerView(items);
+        // setupRecyclerView(items);
     }
 
     /**
@@ -49,17 +41,6 @@ public class ExhibitorsView extends ActivityMainFrag  {
         recyclerView.setLayoutManager(new SmoothLayout(this.getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(new ExhibitorsViewAdapter(exhibitors));
-    }
-
-    // TODO: Borrar esto despues
-    public Exhibitor getTestingObject() throws Exception{
-
-        return new Exhibitor(
-                "Julian Salinas",
-                "Instituto Tecnológico de Costa Rica");
-
-        //  TODO: Consultar todas las actividades en las que participará el expositor
-        // exhibitor.events = consultar eventos
     }
 
 }

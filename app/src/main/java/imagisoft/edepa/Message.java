@@ -1,8 +1,17 @@
 package imagisoft.edepa;
 
+/**
+ * Clase usada para enviar y recibir mensajes del chat
+ * Tambien se usa para la sección de noticias porque tiene los mismos datos
+ */
 public class Message {
 
+    /**
+     * El id es para identificar si el mensaje corresponde al usuario
+     * que esta usando el app, y así, acomoddar los mensajes a la izq o der
+     */
     private int userid;
+
     private Long time;
     private String username;
     private String content;
@@ -11,32 +20,16 @@ public class Message {
         return userid;
     }
 
-    public void setUserid(int userid) {
-        this.userid = userid;
-    }
-
     public Long getTime() {
         return time;
-    }
-
-    public void setTime(Long time) {
-        this.time = time;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getContent() {
         return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public Message(int userid, String username, String content, Long time) {

@@ -1,10 +1,14 @@
 package imagisoft.edepa;
 
-import java.util.ArrayList;
-
 public class Exhibitor {
 
     private String completeName;
+
+    /**
+     * El título podría ser solo el país y tal vez la institución
+     * Ej: Julian Salinas
+     *     Instituto Tecnológico de Costa Rica
+     */
     private String personalTitle;
 
     public String getCompleteName() {
@@ -20,6 +24,9 @@ public class Exhibitor {
         this.personalTitle = personalTitle;
     }
 
+    /*
+    * Es la misma persona con solo poseer el mismo nombre
+    */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

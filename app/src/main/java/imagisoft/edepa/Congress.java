@@ -2,36 +2,25 @@ package imagisoft.edepa;
 
 import java.util.ArrayList;
 
-public class Congress {
+/**
+ * Herede de ScheduleBlock solo para reutilizar los atributos
+ * Start y End
+ */
+public class Congress extends ScheduleBlock{
 
     private String name;
-
-    private Long start;
-    private Long end;
-
-    private ArrayList<ScheduleDay>days;
 
     public String getName() {
         return name;
     }
 
-    public Long getStart() {
-        return start;
-    }
-
-    public Long getEnd() {
-        return end;
-    }
-
-    public ArrayList<ScheduleDay> getDays() {
-        return days;
-    }
-
-    public Congress(String name, Long start, Long end) {
+    /**
+     * Las fechas se colocan con el formato dd/mm/yyyy hh:mm <am|pm>
+     * pero se guardan como long para hacerlo más fácil entre plataformas
+     */
+    public Congress(String name, String start, String end) {
+        super(start, end);
         this.name = name;
-        this.start = start;
-        this.end = end;
-        this.days = new ArrayList<>();
     }
 
 }

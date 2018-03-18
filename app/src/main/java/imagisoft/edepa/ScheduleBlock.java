@@ -1,44 +1,28 @@
 package imagisoft.edepa;
 
-import java.util.ArrayList;
-
+/**
+ * Solo proporciona las horas para un bloque o una activdad
+ * Tiene como hijo la clase ScheduleEvent
+ */
 public class ScheduleBlock {
 
-    private Long start;
+    /**
+     * Las fechas se colocan con el formato dd/mm/yyyy hh:mm <am|pm>
+     * pero se guardan como long para hacerlo más fácil entre plataformas
+     */
     private Long end;
-
-    private ArrayList<ScheduleEvent> events;
-
-    public Long getStart() {
-        return start;
-    }
+    private Long start;
 
     public Long getEnd() {
         return end;
     }
-
-    public ArrayList<ScheduleEvent> getEvents() {
-        return events;
+    public Long getStart() {
+        return start;
     }
 
-    public ArrayList<ScheduleEvent> addEvent(ScheduleEvent event){
-        events.add(event);
-        return events;
-    }
-
-    public ScheduleBlock(Long start, Long end) {
-        this.start = start;
-        this.end = end;
-        this.events = new ArrayList<>();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ScheduleBlock)) return false;
-        ScheduleBlock that = (ScheduleBlock) o;
-        if (start != null ? !start.equals(that.start) : that.start != null) return false;
-        return end != null ? end.equals(that.end) : that.end == null;
+    public ScheduleBlock(String start, String end) {
+        this.end = UDateConverter.stringToLong(end);
+        this.start = UDateConverter.stringToLong(start);
     }
 
 }
