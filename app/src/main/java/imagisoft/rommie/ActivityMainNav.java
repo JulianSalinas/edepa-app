@@ -9,10 +9,15 @@ public class ActivityMainNav extends ActivityMain implements NavigationView.OnNa
      */
     private ChatView chatView;
     private NewsView newsView;
+    private ConfigView configView;
     private ScheduleTabs scheduleTabs;
     private ExhibitorsView exhibitorsView;
     private InformationView informationView;
 
+    /**
+     * Método utilizado al escoger una opción del menú de navegación
+     * @param id del elemento del menú de navegación seleccionado
+     */
     @Override
     public void navigateById(int id){
 
@@ -55,7 +60,15 @@ public class ActivityMainNav extends ActivityMain implements NavigationView.OnNa
                 switchFragment(newsView);
                 break;
 
+            // Muestra la lista de expositores o ponentes
+            case R.id.nav_manage:
+                if(configView == null)
+                    configView = new ConfigView();
+                switchFragment(configView);
+                break;
+
         }
+
     }
 
 }

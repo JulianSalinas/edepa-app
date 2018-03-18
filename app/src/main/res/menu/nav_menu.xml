@@ -9,17 +9,9 @@
             android:icon="@drawable/ic_information"
             android:title="@string/nav_info" />
         <item
-            android:id="@+id/nav_agenda"
-            android:icon="@drawable/ic_favorite"
-            android:title="@string/nav_favorites" />
-        <item
             android:id="@+id/nav_schedule"
             android:icon="@drawable/ic_schedule"
             android:title="@string/nav_schedule" />
-        <item
-            android:id="@+id/nav_ongoing"
-            android:icon="@drawable/ic_clock"
-            android:title="@string/text_ongoing" />
         <item
             android:id="@+id/nav_people"
             android:icon="@drawable/ic_people"
