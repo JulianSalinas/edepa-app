@@ -1,6 +1,6 @@
 package imagisoft.edepa;
 
-public class ChatMsg {
+public class Message {
 
     private int userid;
     private Long time;
@@ -39,7 +39,7 @@ public class ChatMsg {
         this.content = content;
     }
 
-    public ChatMsg(int userid, String username, String content, Long time) {
+    public Message(int userid, String username, String content, Long time) {
         this.userid = userid;
         this.username = username;
         this.content = content;

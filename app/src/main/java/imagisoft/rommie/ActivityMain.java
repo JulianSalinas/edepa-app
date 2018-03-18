@@ -1,24 +1,26 @@
 package imagisoft.rommie;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.content.Context;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
+import android.view.MenuItem;
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarDrawerToggle;
 
-public class ActivityMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+/**
+ * Clase análoga al masterpage de un página web
+ */
+public abstract class ActivityMain
+        extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     /**
      * Posibles parámetros para usar con la función switchFragment
@@ -30,19 +32,9 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
      * Atributos en común para todas las aplicaciones. Barra de herramientas, menu lateral, etc.
      */
     private Toolbar toolbar;
-    private CollapsingToolbarLayout toolbarLayout;
-
     private DrawerLayout drawer;
-    private ActionBarDrawerToggle toggle;
     private NavigationView navigation;
-
-    /**
-     * Variables para poder reciclar los fragmentos
-     */
-    private int lastTab;
-    private ScheduleTabs scheduleTabs;
-    private ExhibitorsView exhibitorsView;
-    private InformationView informationView;
+    private ActionBarDrawerToggle toggle;
 
     /**
      * Se inician todos los componenetes principales de la aplicacion
@@ -51,46 +43,37 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setToolbarConfiguration();
-        setDrawerConfiguration();
-        setToggleConfiguration();
-        setNavigationViewConfiguration();
-        scheduleTabs = new ScheduleTabs();
-        switchFragment(scheduleTabs);
+        bindViews();
+        setupToolbar();
+        setupToggle();
+        navigateById(R.id.nav_schedule);
+    }
+
+    /**
+     * Enlaza todas las vistas del fragmento con sus clases
+     */
+    private void bindViews(){
+        toolbar = findViewById(R.id.toolbar);
+        drawer = findViewById(R.id.main_drawer);
+        navigation = findViewById(R.id.main_nav);
+        navigation.setNavigationItemSelectedListener(this);
     }
 
     /**
      * Coloca la barra de herramientas
      */
-    private void setToolbarConfiguration(){
-        toolbar = findViewById(R.id.toolbar);
-        toolbarLayout = findViewById(R.id.toolbar_layout);
+    private void setupToolbar(){
         setSupportActionBar(toolbar);
+        assert getSupportActionBar() != null;
         getSupportActionBar().setTitle(null);
     }
 
-    /**
-     * Coloca el menu lateral de la aplicación
-     */
-    private void setDrawerConfiguration(){
-        drawer = findViewById(R.id.main_drawer);
-        // drawer.animate();
-    }
-
-    private void setToggleConfiguration(){
+    private void setupToggle(){
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar,
                 R.string.drawer_open,
                 R.string.drawer_close);
         toggle.syncState();
-    }
-
-    /**
-     * Coloca todos los items contenidos en "nav_menu" en el menu lateral
-     */
-    private void setNavigationViewConfiguration(){
-        navigation = findViewById(R.id.main_nav);
-        navigation.setNavigationItemSelectedListener(this);
     }
 
     /**
@@ -109,86 +92,21 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
      * colocar en la pantalla el fragment relacionado a ese item
      */
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         drawer.closeDrawer(GravityCompat.START);
         navigateToItem(item);
         return true;
     }
 
     /**
-     * TODO: Se deben agregar los demás fragmentos nuevos aquí
      * Crea un fragmento nuevo y lo coloca en la pantalla
-     * Se usa inicialización peresoza para cada fragmento
      * @param item Opción elegida por el usuario
      */
     private void navigateToItem(MenuItem item){
         navigateById(item.getItemId());
     }
 
-    public void navigateById(int id){
-
-        switch (id){
-
-            // Cierra la aplicación
-            case R.id.nav_exit:
-                finishAffinity(); break;
-
-            // Muestra la información general del congreso
-            case R.id.nav_infomation:
-                if(informationView == null)
-                    informationView = new InformationView();
-                switchFragment(informationView);
-                break;
-
-            // Muestra el cronograma del congreso
-            case R.id.nav_schedule:
-//                if(scheduleTabs == null)
-                    scheduleTabs = ScheduleTabs.newInstance(ScheduleTabs.SCHEDULE_TAB);
-                switchFragment(scheduleTabs);
-//                scheduleTabs.switchToSchedule();
-                break;
-
-            // Muestra la agenda personal (favoritos)
-            case R.id.nav_agenda:
-//                if(scheduleTabs == null)
-                    scheduleTabs = ScheduleTabs.newInstance(ScheduleTabs.DIARY_TAB);
-                switchFragment(scheduleTabs);
-//                scheduleTabs.switchToDiary();
-                break;
-
-            // Muestra la agenda personal (favoritos)
-            case R.id.nav_ongoing:
-//                if(scheduleTabs == null)
-                    scheduleTabs = ScheduleTabs.newInstance(ScheduleTabs.ONGOING_TAB);
-                switchFragment(scheduleTabs);
-//                scheduleTabs.switchToOngoing();
-                break;
-
-            // Muestra la lista de expositores o ponentes
-            case R.id.nav_people:
-                if(exhibitorsView == null)
-                    exhibitorsView = new ExhibitorsView();
-                switchFragment(exhibitorsView);
-                break;
-
-            // Muestra la lista de expositores o ponentes
-            case R.id.nav_chat:
-                switchFragment(new ChatView());
-                break;
-
-
-        }
-    }
-    /**
-     * Los fragments que no necesitan la actionbar la ocultan
-     */
-    public void hideActionBar(){
-        getSupportActionBar().hide();
-    }
-
-    public void showActionBar(){
-        getSupportActionBar().show();
-    }
+    public abstract void navigateById(int id);
 
     /**
      * Coloca en la pantalla un fragmento previamente creado
@@ -199,9 +117,7 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
     }
 
     /**
-     * TODO: Se pueden agregar animaciones a futuro
      * Coloca en la pantalla un fragmento previamente creado usando un animación
-     * para hacer la transición de un fragmento a otro.
      * @param fragment Asociado a la opción elegida por el usuario
      */
     void switchFragment(Fragment fragment, int animation){

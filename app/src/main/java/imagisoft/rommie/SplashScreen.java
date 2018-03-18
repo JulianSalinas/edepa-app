@@ -1,16 +1,16 @@
 package imagisoft.rommie;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
+import android.content.Intent;
 import android.widget.ImageView;
+import android.view.MotionEvent;
+import android.support.v7.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
-public class ActivitySplash extends AppCompatActivity{
+public class SplashScreen extends AppCompatActivity{
 
     private View contentView;
 
@@ -19,10 +19,10 @@ public class ActivitySplash extends AppCompatActivity{
      * o conocida como splash screen
      */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
 
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.splash_screen);
         contentView = findViewById(R.id.fullscreen_content);
 
         // Esconde los items que no son importantes en la pantalla
@@ -40,7 +40,7 @@ public class ActivitySplash extends AppCompatActivity{
     /**
      * Se coloca el gif de cargar la aplicacioón
      * TODO: Esta pantalla se aprovecha para cargar en la aplicación
-     * TODO: Se usa para comprobar la conoxión a internet
+     * TODO: Se usa para comprobar la conexión a internet
      */
     private void loadApplication() {
 
@@ -51,7 +51,6 @@ public class ActivitySplash extends AppCompatActivity{
 
         // TODO: Aqui va el código para cargar los datos necesarios al inicio
         initApplication();
-        finish();
     }
 
     /**
@@ -69,8 +68,9 @@ public class ActivitySplash extends AppCompatActivity{
      * Después de haber cargado los datos de la aplicación, se utiliza está función para abrirla
      */
     private void initApplication(){
-        Intent intent = new Intent(getApplicationContext(), ActivityMain.class);
+        Intent intent = new Intent(getApplicationContext(), ActivityMainNav.class);
         startActivity(intent);
+        finish();
     }
 
 }

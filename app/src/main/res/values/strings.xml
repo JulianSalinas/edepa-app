@@ -15,7 +15,7 @@
 
     <string name="nav_info">Información</string>
     <string name="nav_schedule">Cronograma</string>
-    <string name="nav_diary">Mi agenda</string>
+    <string name="nav_favorites">Favoritos</string>
     <string name="nav_news">Noticias</string>
     <string name="nav_chat">Chat</string>
     <string name="nav_people">Expositores</string>
@@ -44,6 +44,8 @@
     <string name="text_from">De</string>
     <string name="text_to">a</string>
 
+    <string name="text_mark_favorite">Marcar como favorito</string>
+    <string name="text_unmark_favorite">Remover de favoritos</string>
     <string name="text_marked_as_favorite">Agregado a la agenda</string>
     <string name="text_unmarked_as_favorite">Removido de la agenda</string>
     <!--Testing strings-->

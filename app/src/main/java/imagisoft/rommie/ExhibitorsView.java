@@ -51,13 +51,6 @@ public class ExhibitorsView extends Fragment{
         setupRecyclerView(items);
     }
 
-    @Override
-    public void onDestroy() {
-        ActivityMain activity = (ActivityMain) getActivity();
-        activity.showActionBar();
-        super.onDestroy();
-    }
-
     /**
      * Se configura la capa que contiene las actividades (copiado de internet)
      */

@@ -33,7 +33,6 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/img_mountains"/>
 
-
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -44,17 +43,6 @@
                 app:contentInsetStartWithNavigation="0dp"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 app:layout_collapseMode="pin">
-
-                <!--<TextView-->
-                    <!--android:id="@+id/toolbar_title"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:text="@string/app_name"-->
-                    <!--android:textColor="@color/app_secondary_font"-->
-                    <!--android:textStyle="bold"-->
-                    <!--android:textSize="@dimen/font_biggest" />-->
-
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -62,7 +50,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <include
-        layout="@layout/main_content"
+        layout="@layout/activity_main_content"
         android:id="@+id/main_container" />
 
 </android.support.design.widget.CoordinatorLayout>

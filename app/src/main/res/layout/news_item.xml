@@ -4,40 +4,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginEnd="@dimen/space_biggest">
+    android:layout_height="wrap_content">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_line"
+        android:background="@color/app_white"
+        android:layout_alignTop="@id/news_item">
+    </View>
 
     <android.support.v7.widget.CardView
-        android:id="@+id/shedule_item"
-        android:layout_width="wrap_content"
+        android:id="@+id/news_item"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/app_chat_left"
         app:cardElevation="0dp"
-        app:cardCornerRadius="@dimen/card_radius_chat"
+        app:cardCornerRadius="0dp"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/space_small"
+            android:padding="@dimen/space_medium"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:baselineAligned="true"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/chat_view_msg_username"
+                    android:id="@+id/news_item_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_small"
                     android:textStyle="bold"
+                    android:textColor="@color/app_primary_font"
                     android:text="@string/app_name" />
 
                 <TextView
-                    android:id="@+id/chat_view_msg_time_description"
+                    android:id="@+id/news_item_time_description"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/space_small"
@@ -53,8 +59,8 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/chat_view_msg_content"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/news_item_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_small"
                     android:text="@string/text_lorem_ipsum" />
@@ -65,6 +71,11 @@
 
     </android.support.v7.widget.CardView>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_line"
+        android:background="@color/app_light_detail"
+        android:layout_alignBottom="@id/news_item">
+    </View>
+
 </RelativeLayout>
-
-

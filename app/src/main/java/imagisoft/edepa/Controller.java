@@ -1,7 +1,6 @@
 package imagisoft.edepa;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class Controller {
 
@@ -12,7 +11,8 @@ public class Controller {
     private int userid;
     private String username;
     private Congress congress;
-    private ArrayList<ChatMsg> chatRoom;
+    private ArrayList<Message> chatRoom;
+    private ArrayList<Message> newsRoom;
 
     public int getUserid() {
         return userid;
@@ -38,12 +38,20 @@ public class Controller {
         this.congress = congress;
     }
 
-    public ArrayList<ChatMsg> getChatRoom() {
+    public ArrayList<Message> getChatRoom() {
         return chatRoom;
     }
 
-    public void setChatRoom(ArrayList<ChatMsg> chatRoom) {
+    public void setChatRoom(ArrayList<Message> chatRoom) {
         this.chatRoom = chatRoom;
+    }
+
+    public ArrayList<Message> getNewsRoom() {
+        return newsRoom;
+    }
+
+    public void setNewsRoom(ArrayList<Message> newsRoom) {
+        this.newsRoom = newsRoom;
     }
 
     /**
@@ -78,49 +86,101 @@ public class Controller {
             );
 
             chatRoom = new ArrayList<>();
+            newsRoom = new ArrayList<>();
 
             // Mensajes de prueba
-            chatRoom.add(new ChatMsg(
+            chatRoom.add(new Message(
                     123, "jsalinas", "Lorem ipsum dolor sit amet",
                     UDateConverter.stringToLong("12/12/18 11:00 am")
             ));
 
-            chatRoom.add(new ChatMsg(
+            chatRoom.add(new Message(
                     321, "bdinarte", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                     UDateConverter.stringToLong("12/12/18 11:05 am")
             ));
 
-            chatRoom.add(new ChatMsg(
+            chatRoom.add(new Message(
                     123, "jsalinas", "Integer urna purus, commodo vel leo ut, fringilla elementum ante. ",
                     UDateConverter.stringToLong("12/12/18 11:05 am")
             ));
 
-            chatRoom.add(new ChatMsg(
+            chatRoom.add(new Message(
                     321, "bdinarte", "Nulla ut libero ac odio bibendum convallis. ",
                     UDateConverter.stringToLong("12/12/18 11:05 am")
             ));
 
-            chatRoom.add(new ChatMsg(
+            chatRoom.add(new Message(
                     123, "jsalinas", "Ut eu leo bibendum, interdum arcu eu, pretium orci.",
                     UDateConverter.stringToLong("12/12/18 11:05 am")
             ));
 
-            chatRoom.add(new ChatMsg(
+            chatRoom.add(new Message(
                     321, "bdinarte", "Lorem",
                     UDateConverter.stringToLong("12/12/18 11:05 am")
             ));
 
-            chatRoom.add(new ChatMsg(
+            chatRoom.add(new Message(
                     123, "jsalinas", "Bibendum",
                     UDateConverter.stringToLong("12/12/18 11:05 am")
             ));
 
-            chatRoom.add(new ChatMsg(
+            chatRoom.add(new Message(
                     321, "bdinarte", "Nulla ut libero ac odio bibendum convallis.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
                     UDateConverter.stringToLong("12/12/18 11:05 am")
             ));
 
-            chatRoom.add(new ChatMsg(
+            chatRoom.add(new Message(
+                    123, "jsalinas", "Ut eu leo bibendum, interdum arcu eu, pretium orci.Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    UDateConverter.stringToLong("12/12/18 11:05 am")
+            ));
+
+
+
+
+
+
+            // Noticias de prueba
+            newsRoom.add(new Message(
+                    123, "jsalinas", "Lorem ipsum dolor sit amet",
+                    UDateConverter.stringToLong("12/12/18 11:00 am")
+            ));
+
+            newsRoom.add(new Message(
+                    321, "bdinarte", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    UDateConverter.stringToLong("12/12/18 11:05 am")
+            ));
+
+            newsRoom.add(new Message(
+                    123, "jsalinas", "Integer urna purus, commodo vel leo ut, fringilla elementum ante. ",
+                    UDateConverter.stringToLong("12/12/18 11:05 am")
+            ));
+
+            newsRoom.add(new Message(
+                    321, "bdinarte", "Nulla ut libero ac odio bibendum convallis. ",
+                    UDateConverter.stringToLong("12/12/18 11:05 am")
+            ));
+
+            newsRoom.add(new Message(
+                    123, "jsalinas", "Ut eu leo bibendum, interdum arcu eu, pretium orci.",
+                    UDateConverter.stringToLong("12/12/18 11:05 am")
+            ));
+
+            newsRoom.add(new Message(
+                    321, "bdinarte", "Lorem",
+                    UDateConverter.stringToLong("12/12/18 11:05 am")
+            ));
+
+            newsRoom.add(new Message(
+                    123, "jsalinas", "Bibendum",
+                    UDateConverter.stringToLong("12/12/18 11:05 am")
+            ));
+
+            newsRoom.add(new Message(
+                    321, "bdinarte", "Nulla ut libero ac odio bibendum convallis.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
+                    UDateConverter.stringToLong("12/12/18 11:05 am")
+            ));
+
+            newsRoom.add(new Message(
                     123, "jsalinas", "Ut eu leo bibendum, interdum arcu eu, pretium orci.Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                     UDateConverter.stringToLong("12/12/18 11:05 am")
             ));
@@ -138,7 +198,7 @@ public class Controller {
 //     */
 //    public void sendMessage(String msgContent){
 //        Long datetime = Calendar.getInstance().getTimeInMillis();
-//        ChatMsg msg = new ChatMsg(getUserid(), getUsername(), msgContent, datetime);
+//        Message msg = new Message(getUserid(), getUsername(), msgContent, datetime);
 //        //Enviar aquí
 //    }
 

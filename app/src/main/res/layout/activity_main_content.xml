@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
     android:background="@color/app_white"
     tools:context="imagisoft.rommie.ActivityMain"
-    tools:showIn="@layout/main_appbar"
+    tools:showIn="@layout/activity_main_appbar"
     android:fitsSystemWindows="true">
-
 </android.support.constraint.ConstraintLayout>

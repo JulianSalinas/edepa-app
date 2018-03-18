@@ -1,7 +1,8 @@
 package imagisoft.rommie;
 
 import java.util.ArrayList;
-import imagisoft.edepa.ChatMsg;
+
+import imagisoft.edepa.Message;
 import imagisoft.edepa.Controller;
 import imagisoft.edepa.UDateConverter;
 
@@ -25,20 +26,20 @@ public class ChatViewAdapter extends RecyclerView.Adapter<ChatViewAdapter.ChatMe
     /**
      * Objetos del modelo que serán adaptados visualmente
      */
-    private ArrayList<ChatMsg> msgs;
+    private ArrayList<Message> msgs;
 
     /**
      * Constructor del adaptador
      * @param msgs Mensajes obtenidos del model
      */
-    ChatViewAdapter(ArrayList<ChatMsg> msgs){
+    ChatViewAdapter(ArrayList<Message> msgs){
         this.msgs = msgs;
     }
 
     /**
      * Agrega un nuevo mensaje a la vista
      */
-    public void addMsg(ChatMsg msg){
+    public void addMsg(Message msg){
         msgs.add(msg);
         notifyItemInserted(msgs.size()-1);
     }
@@ -56,7 +57,7 @@ public class ChatViewAdapter extends RecyclerView.Adapter<ChatViewAdapter.ChatMe
      */
     @Override
     public int getItemViewType(int position) {
-        ChatMsg item = msgs.get(position);
+        Message item = msgs.get(position);
         return item.getUserid() == Controller.getInstance().getUserid() ?
                 CHAT_RIGHT_VIEW_TYPE:
                 CHAT_LEFT_VIEW_TYPE;
@@ -79,7 +80,7 @@ public class ChatViewAdapter extends RecyclerView.Adapter<ChatViewAdapter.ChatMe
      */
     @Override
     public void onBindViewHolder(ChatMessageViewHolder holder, int position) {
-        ChatMsg msg = msgs.get(holder.getAdapterPosition());
+        Message msg = msgs.get(holder.getAdapterPosition());
         holder.username.setText(msg.getUsername());
         holder.messageContent.setText(msg.getContent());
         holder.timeDescription.setText(UDateConverter.extractTime(msg.getTime()));
