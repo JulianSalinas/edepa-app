@@ -7,6 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="imagisoft.rommie.ActivityMain"
-    tools:showIn="@layout/activity_main_appbar"
+    tools:showIn="@layout/main_appbar"
     android:fitsSystemWindows="true">
 </android.support.constraint.ConstraintLayout>

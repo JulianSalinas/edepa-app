@@ -1,6 +1,8 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.view.View;
 import android.widget.Toast;
 import android.view.MenuItem;
 import android.content.Context;
@@ -15,12 +17,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarDrawerToggle;
 
+import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
+
 /**
  * Clase análoga al masterpage de un página web
  */
 public abstract class ActivityMain
         extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener{
 
     /**
      * Posibles parámetros para usar con la función switchFragment
@@ -35,6 +39,7 @@ public abstract class ActivityMain
     private DrawerLayout drawer;
     private NavigationView navigation;
     private ActionBarDrawerToggle toggle;
+    private FloatingActionLayout favoriteButton;
 
     /**
      * Se inician todos los componenetes principales de la aplicacion
@@ -47,16 +52,31 @@ public abstract class ActivityMain
         setupToolbar();
         setupToggle();
         navigateById(R.id.nav_schedule);
+
     }
 
     /**
      * Enlaza todas las vistas del fragmento con sus clases
      */
     private void bindViews(){
+
         toolbar = findViewById(R.id.toolbar);
         drawer = findViewById(R.id.main_drawer);
+
         navigation = findViewById(R.id.main_nav);
         navigation.setNavigationItemSelectedListener(this);
+
+        favoriteButton = navigation.getHeaderView(0).findViewById(R.id.favorite_button);
+        favoriteButton.setOnClickListener(this);
+
+    }
+
+    /**
+     * Onclick para el favoriteButton
+     */
+    @Override
+    public void onClick(View v) {
+        showStatusMessage("Has tocado el boton de favoritos");
     }
 
     /**

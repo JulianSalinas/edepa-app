@@ -1,21 +1,19 @@
 package imagisoft.rommie;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
-import android.support.design.widget.TabItem;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TabHost;
-
-import java.util.ArrayList;
+import android.view.LayoutInflater;
+import android.support.v4.app.Fragment;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 
 /**
  * Contiene los tabs de cronograma, agenda y en curso
  */
-public class ScheduleTabs extends Fragment implements TabLayout.OnTabSelectedListener {
+public class ScheduleTabs extends ActivityMainFrag implements TabLayout.OnTabSelectedListener {
 
     /*
      * Usadas para saber cual tab se debe colocar al crearse la vista
@@ -55,10 +53,9 @@ public class ScheduleTabs extends Fragment implements TabLayout.OnTabSelectedLis
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        View v = getView();
 
-        assert v != null;
-        tabLayout = v.findViewById(R.id.tab_layout);
+        assert getView() != null;
+        tabLayout = getView().findViewById(R.id.tab_layout);
         tabLayout.addOnTabSelectedListener(this);
 
         setupInitialConfiguration();
@@ -71,7 +68,7 @@ public class ScheduleTabs extends Fragment implements TabLayout.OnTabSelectedLis
     private void setupInitialConfiguration() {
         tabs = new ArrayList<>();
         tabs.add(new SchedulePager());
-        tabs.add(new ScheduleView());
+        tabs.add(new SchedulePager());
         tabs.add(new ScheduleView());
         switchFragment(tabs.get(activeTab));
     }

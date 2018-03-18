@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_header_img"
         android:elevation="0dp"
-        app:diagonal_angle="0"
+        app:diagonal_angle="8"
         app:diagonal_position="bottom">
 
         <com.flaviofaria.kenburnsview.KenBurnsView
@@ -26,6 +26,7 @@
     </com.github.florent37.diagonallayout.DiagonalLayout>
 
     <com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout
+        android:id="@+id/favorite_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_medium"

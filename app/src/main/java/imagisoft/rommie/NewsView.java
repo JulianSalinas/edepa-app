@@ -1,19 +1,16 @@
 package imagisoft.rommie;
 
-import imagisoft.edepa.Message;
 import imagisoft.edepa.Controller;
 
 import android.os.Bundle;
 import android.view.View;
-import java.util.Calendar;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 
 
-public class NewsView extends Fragment {
+public class NewsView extends ActivityMainFrag  {
 
 
     /**

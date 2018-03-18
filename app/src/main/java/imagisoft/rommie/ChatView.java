@@ -8,14 +8,13 @@ import android.view.View;
 import java.util.Calendar;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.design.widget.TextInputEditText;
 
 
-public class ChatView extends Fragment {
+public class ChatView extends ActivityMainFrag {
 
     /**
      * Boton para enviar los mensajes

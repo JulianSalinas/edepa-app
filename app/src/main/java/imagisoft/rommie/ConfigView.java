@@ -6,15 +6,13 @@ import android.widget.Switch;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.view.LayoutInflater;
-import android.support.v4.app.Fragment;
 import android.support.design.widget.TextInputEditText;
 
-public class ConfigView extends Fragment {
+public class ConfigView extends ActivityMainFrag {
 
     /**
      * Elementos visuales para editar la configuración
      */
-    private RadioButton radioEnglish;
     private RadioButton radioEspanish;
     private Switch switchNotifications;
     private TextInputEditText inputUsername;
@@ -45,7 +43,6 @@ public class ConfigView extends Fragment {
      */
     private void bindViews(){
         assert getView() != null;
-        radioEnglish = getView().findViewById(R.id.radio_english);
         radioEspanish = getView().findViewById(R.id.radio_espanish);
         inputUsername = getView().findViewById(R.id.input_username);
         switchNotifications = getView().findViewById(R.id.switch_notifications);
@@ -64,21 +61,20 @@ public class ConfigView extends Fragment {
             ActivityMainNav activity = (ActivityMainNav) getActivity();
             activity.showStatusMessage(status);
         });
+
     }
 
     /**
      * Prepara los radioButtons para recibir la acción de cambiar el idioma
+     * Solo es necesario un radioButton por que son dos idiomas
      */
     private void setupRadioButtons(){
 
-        ActivityMainNav activity = (ActivityMainNav) getActivity();
-
-        // Basta con poner la función en un solo radioButton
         radioEspanish.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(radioEspanish.isChecked())
-                activity.showStatusMessage("Idioma cambiado a español");
+                showStatusMessage("Idioma cambiado a español");
             else
-                activity.showStatusMessage("Language changed to English");
+                showStatusMessage("Language changed to English");
         });
 
     }
@@ -88,7 +84,6 @@ public class ConfigView extends Fragment {
      * usuario se cambia automaticamente
      */
     private void setupInputUsername() {
-        ActivityMainNav activity = (ActivityMainNav) getActivity();
         inputUsername.setOnFocusChangeListener((v, hasFocus) -> {
             if(!hasFocus) {
                 // TODO: Cambiar aquí el nombre de usuario
