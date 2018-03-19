@@ -10,9 +10,8 @@ import java.util.ArrayList;
 public class ScheduleEvent extends ScheduleBlock {
 
     private String id;
-    private Long end;
-    private Long start;
     private String title;
+    private String location;
     private String briefEnglish;
     private String briefSpanish;
     private ScheduleEventType eventype;
@@ -22,22 +21,12 @@ public class ScheduleEvent extends ScheduleBlock {
         return id;
     }
 
-    @Override
-    public Long getEnd() {
-        return end;
-    }
-
-    @Override
-    public Long getStart() {
-        return start;
-    }
-
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getLocation() {
+        return location;
     }
 
     public String getBriefEnglish() {
@@ -64,18 +53,23 @@ public class ScheduleEvent extends ScheduleBlock {
         return exhibitors;
     }
 
-    public void addExhibitor(Exhibitor exhibitor){
+    public ScheduleEvent addExhibitor(Exhibitor exhibitor){
         exhibitors.add(exhibitor);
+        return this;
     }
 
-    ScheduleEvent(String id, String start, String end, String title, ScheduleEventType eventype){
+    public ScheduleEvent(String id, String start, String end,
+                         String location, String title, ScheduleEventType eventype){
+
         super(start, end);
         this.id = id;
         this.title = title;
+        this.location = location;
         this.eventype = eventype;
         this.briefSpanish = "No hay resumen";
         this.briefEnglish = "There is not a brief";
         exhibitors = new ArrayList<>();
+
     }
 
 }

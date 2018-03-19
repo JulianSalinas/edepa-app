@@ -1,7 +1,6 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.Toast;
 import android.view.MenuItem;
@@ -16,15 +15,22 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarDrawerToggle;
-
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
+
+import java.util.Observer;
+import imagisoft.edepa.UTestController;
 
 /**
  * Clase análoga al masterpage de un página web
  */
 public abstract class ActivityMain
         extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener{
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, Observer {
+
+    /**
+     * Conexión con el controlador
+     */
+    UTestController controller = UTestController.getInstance();
 
     /**
      * Posibles parámetros para usar con la función switchFragment
@@ -53,6 +59,9 @@ public abstract class ActivityMain
         setupToggle();
         navigateById(R.id.nav_schedule);
 
+        // Se subscribe al controlador
+        controller.addObserver(this);
+
     }
 
     /**
@@ -76,7 +85,7 @@ public abstract class ActivityMain
      */
     @Override
     public void onClick(View v) {
-        showStatusMessage("Has tocado el boton de favoritos");
+        controller.testObserverPattern();
     }
 
     /**

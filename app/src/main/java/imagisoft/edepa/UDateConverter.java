@@ -42,8 +42,10 @@ public class UDateConverter {
      * @return Long de la fecha especificada. Si hay error retorna 0L.
      */
     public static Long stringToLong(String datetime) {
-        try{ return stringToLongWrapper(datetime); }
-        catch (Exception e){ return 0L; }
+        Long value= 0L;
+        try{ value = stringToLongWrapper(datetime); }
+        catch (Exception e){ }
+        return value;
     }
 
     /**
@@ -52,8 +54,7 @@ public class UDateConverter {
      */
     private static Long stringToLongWrapper(String datetime) throws Exception{
         SimpleDateFormat format = new SimpleDateFormat("dd/M/yy h:mm a", Locale.ENGLISH);
-        Date date = format.parse(datetime);
-        return date.getTime();
+        return format.parse(datetime).getTime();
     }
 
 }

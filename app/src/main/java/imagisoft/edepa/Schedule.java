@@ -2,12 +2,25 @@ package imagisoft.edepa;
 
 import java.util.ArrayList;
 
+/**
+ * Clase encargarda de la administración de los eventos
+ * Filtrar eventos por tipom dividir en bloques ...
+ */
 public class Schedule {
+
 
     private ArrayList<ScheduleEvent> events;
 
     public Schedule() {
-        events = new ArrayList<>();
+        this.events = new ArrayList<>();
+    }
+
+    public Schedule(ArrayList<ScheduleEvent> events) {
+        this.events = events;
+    }
+
+    public void addEvent(ScheduleEvent event){
+        events.add(event);
     }
 
     /**

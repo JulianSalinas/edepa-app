@@ -3,6 +3,8 @@ package imagisoft.rommie;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.FloatingActionButton;
 
+import java.util.Observable;
+
 public class ActivityMainNav extends ActivityMain implements NavigationView.OnNavigationItemSelectedListener{
 
     /**
@@ -20,56 +22,65 @@ public class ActivityMainNav extends ActivityMain implements NavigationView.OnNa
      * @param id del elemento del menú de navegación seleccionado
      */
     @Override
-    public void navigateById(int id){
+    public void navigateById(int id){ switch (id){
 
-        switch (id){
+        // Cierra la aplicación
+        case R.id.nav_exit:
+            finishAffinity(); break;
 
-            // Cierra la aplicación
-            case R.id.nav_exit: finishAffinity(); break;
+        // Muestra la información general del congreso
+        case R.id.nav_infomation:
+            if(informationView == null)
+                informationView = new InformationView();
+            switchFragment(informationView);
+            break;
 
-            // Muestra la información general del congreso
-            case R.id.nav_infomation:
-                if(informationView == null)
-                    informationView = new InformationView();
-                switchFragment(informationView);
-                break;
+        // Muestra el cronograma del congreso
+        case R.id.nav_schedule:
+            scheduleTabs = ScheduleTabs.newInstance(ScheduleTabs.SCHEDULE_TAB);
+            switchFragment(scheduleTabs);
+            break;
 
-            // Muestra el cronograma del congreso
-            case R.id.nav_schedule:
-                scheduleTabs = ScheduleTabs.newInstance(ScheduleTabs.SCHEDULE_TAB);
-                switchFragment(scheduleTabs);
-                break;
+        // Muestra la lista de expositores o ponentes
+        case R.id.nav_people:
+            if(exhibitorsView == null)
+                exhibitorsView = new ExhibitorsView();
+            switchFragment(exhibitorsView);
+            break;
 
-            // Muestra la lista de expositores o ponentes
-            case R.id.nav_people:
-                if(exhibitorsView == null)
-                    exhibitorsView = new ExhibitorsView();
-                switchFragment(exhibitorsView);
-                break;
+        // Muestra la lista de expositores o ponentes
+        case R.id.nav_chat:
+            if(chatView == null)
+                chatView = new ChatView();
+            switchFragment(chatView);
+            break;
 
-            // Muestra la lista de expositores o ponentes
-            case R.id.nav_chat:
-                if(chatView == null)
-                    chatView = new ChatView();
-                switchFragment(chatView);
-                break;
+        // Muestra la lista de expositores o ponentes
+        case R.id.nav_news:
+            if(newsView == null)
+                newsView = new NewsView();
+            switchFragment(newsView);
+            break;
 
-            // Muestra la lista de expositores o ponentes
-            case R.id.nav_news:
-                if(newsView == null)
-                    newsView = new NewsView();
-                switchFragment(newsView);
-                break;
-
-            // Muestra la lista de expositores o ponentes
-            case R.id.nav_manage:
-                if(configView == null)
-                    configView = new ConfigView();
-                switchFragment(configView);
-                break;
+        // Muestra la lista de expositores o ponentes
+        case R.id.nav_manage:
+            if(configView == null)
+                configView = new ConfigView();
+            switchFragment(configView);
+            break;
 
         }
 
+    }
+
+    /**
+     * Recibir notificaciones del controlador
+     * @param o Instancia del controlador
+     * @param arg Objeto con información que envía el controlador
+     */
+    @Override
+    public void update(Observable o, Object arg) {
+        showStatusMessage((String) arg);
     }
 
 }
