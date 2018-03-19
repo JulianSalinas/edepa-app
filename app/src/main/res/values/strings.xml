@@ -83,5 +83,6 @@
     <string name="text_lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ullamcorper aliquet dictum. Maecenas in imperdiet dui.</string>
     <string name="text_anonymous">Anónimo</string>
     <string name="text_new_username">Nuevo nombre de usuario:</string>
+    <string name="text_no_connection">Sin conexión</string>
 
 </resources>

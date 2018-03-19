@@ -50,6 +50,7 @@ public class SplashScreen extends AppCompatActivity{
         Glide.with(this).load(R.drawable.img_loading).into(viewTerget);
 
         // TODO: Aqui va el código para cargar los datos necesarios al inicio
+
         initApplication();
     }
 

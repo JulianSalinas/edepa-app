@@ -3,7 +3,11 @@ package imagisoft.rommie;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.FloatingActionButton;
 
+import java.util.Collections;
 import java.util.Observable;
+
+import imagisoft.edepa.Controller;
+import imagisoft.edepa.UTestController;
 
 public class ActivityMainNav extends ActivityMain implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -71,16 +75,6 @@ public class ActivityMainNav extends ActivityMain implements NavigationView.OnNa
 
         }
 
-    }
-
-    /**
-     * Recibir notificaciones del controlador
-     * @param o Instancia del controlador
-     * @param arg Objeto con información que envía el controlador
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-        showStatusMessage((String) arg);
     }
 
 }

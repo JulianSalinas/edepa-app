@@ -17,7 +17,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarDrawerToggle;
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
-import java.util.Observer;
 import imagisoft.edepa.UTestController;
 
 /**
@@ -25,12 +24,12 @@ import imagisoft.edepa.UTestController;
  */
 public abstract class ActivityMain
         extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, Observer {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     /**
      * Conexión con el controlador
      */
-    UTestController controller = UTestController.getInstance();
+    private UTestController controller = UTestController.getInstance();
 
     /**
      * Posibles parámetros para usar con la función switchFragment
@@ -59,9 +58,6 @@ public abstract class ActivityMain
         setupToggle();
         navigateById(R.id.nav_schedule);
 
-        // Se subscribe al controlador
-        controller.addObserver(this);
-
     }
 
     /**
@@ -85,7 +81,7 @@ public abstract class ActivityMain
      */
     @Override
     public void onClick(View v) {
-        controller.testObserverPattern();
+
     }
 
     /**
