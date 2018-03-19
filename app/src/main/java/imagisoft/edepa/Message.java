@@ -32,6 +32,10 @@ public class Message {
         return content;
     }
 
+    public Message(){
+        // Requerido por firebase
+    }
+
     public Message(int userid, String username, String content, Long time) {
         this.userid = userid;
         this.username = username;

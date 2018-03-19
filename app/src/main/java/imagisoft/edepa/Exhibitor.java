@@ -19,6 +19,10 @@ public class Exhibitor {
         return personalTitle;
     }
 
+    public Exhibitor() {
+        // Requerido por firebase
+    }
+
     public Exhibitor(String completeName, String personalTitle) {
         this.completeName = completeName;
         this.personalTitle = personalTitle;

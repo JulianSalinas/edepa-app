@@ -58,6 +58,10 @@ public class ScheduleEvent extends ScheduleBlock {
         return this;
     }
 
+    public ScheduleEvent(){
+        // Requerido por firebase
+    }
+
     public ScheduleEvent(String id, String start, String end,
                          String location, String title, ScheduleEventType eventype){
 

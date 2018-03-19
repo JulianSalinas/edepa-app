@@ -20,6 +20,10 @@ public class ScheduleBlock {
         return start;
     }
 
+    public ScheduleBlock(){
+        // Requerido por firebase
+    }
+
     public ScheduleBlock(String start, String end) {
         this.end = UDateConverter.stringToLong(end);
         this.start = UDateConverter.stringToLong(start);
