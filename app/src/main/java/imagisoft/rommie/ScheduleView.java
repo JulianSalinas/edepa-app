@@ -38,7 +38,7 @@ public class ScheduleView extends MainViewFragment {
     }
 
     /**
-     * Se configura la capa que contiene las actividades (copiado de internet)
+     * Se configura la capa que contiene las actividades
      */
     public void setupRecyclerView(ArrayList<ScheduleBlock> items){
         assert getView() != null;
