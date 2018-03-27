@@ -1,15 +1,9 @@
 package imagisoft.rommie;
 
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.FloatingActionButton;
 
-import java.util.Collections;
-import java.util.Observable;
-
-import imagisoft.edepa.Controller;
-import imagisoft.edepa.UTestController;
-
-public class ActivityMainNav extends ActivityMain implements NavigationView.OnNavigationItemSelectedListener{
+public class MainViewNavigation extends MainViewFirebase
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     /**
      * Variables para poder reciclar los fragmentos
@@ -41,7 +35,8 @@ public class ActivityMainNav extends ActivityMain implements NavigationView.OnNa
 
         // Muestra el cronograma del congreso
         case R.id.nav_schedule:
-            scheduleTabs = ScheduleTabs.newInstance(ScheduleTabs.SCHEDULE_TAB);
+            if(scheduleTabs == null)
+                scheduleTabs = new ScheduleTabs();
             switchFragment(scheduleTabs);
             break;
 

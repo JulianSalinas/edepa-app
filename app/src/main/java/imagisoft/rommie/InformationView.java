@@ -13,7 +13,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class InformationView extends ActivityMainFrag implements OnMapReadyCallback{
+public class InformationView extends MainViewFragment implements OnMapReadyCallback{
 
     private GoogleMap googleMap;
     private SupportMapFragment mapFragment;

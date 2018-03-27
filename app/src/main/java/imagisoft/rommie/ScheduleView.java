@@ -13,7 +13,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 /**
  * Contiene cada una de las actividades del congreso
  */
-public class ScheduleView extends ActivityMainFrag {
+public class ScheduleView extends MainViewFragment {
 
     /**
      * Es la capa donde se coloca cada una de las actividades/eventos

@@ -13,7 +13,7 @@ import android.support.v4.app.FragmentTransaction;
 /**
  * Contiene los tabs de cronograma, agenda y en curso
  */
-public class ScheduleTabs extends ActivityMainFrag implements TabLayout.OnTabSelectedListener {
+public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSelectedListener {
 
     /*
      * Usadas para saber cual tab se debe colocar al crearse la vista
@@ -22,55 +22,34 @@ public class ScheduleTabs extends ActivityMainFrag implements TabLayout.OnTabSel
     public static int DIARY_TAB = 1;
     public static int ONGOING_TAB = 2;
 
-    private int activeTab = 0;
+    /**
+     * TabLayout con sus tres vistas principales
+     */
     private TabLayout tabLayout;
     private ArrayList<Fragment> tabs;
 
-    public ScheduleTabs() {
-        // Required empty public constructor
-    }
 
-    public static ScheduleTabs newInstance(int tab) {
-        ScheduleTabs fragment = new ScheduleTabs();
-        Bundle args = new Bundle();
-        args.putInt("tab", tab);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null)
-            activeTab = getArguments().getInt("tab");
-    }
-
+    /**
+     * Se crea la vista que contiene el tabLayout
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         return inflater.inflate(R.layout.schedule_tabs, container, false);
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onActivityCreated(Bundle bundle) {
+        super.onActivityCreated(bundle);
 
         assert getView() != null;
         tabLayout = getView().findViewById(R.id.tab_layout);
         tabLayout.addOnTabSelectedListener(this);
 
-        setupInitialConfiguration();
-    }
-
-    /**
-     * Se coloca la barra de los días en la vista de cada tab
-     * TODO: Se debe hacer una versión especial para el tab en curso, ya que solo se muestra el día actual
-     */
-    private void setupInitialConfiguration() {
         tabs = new ArrayList<>();
         tabs.add(new SchedulePager());
         tabs.add(new SchedulePager());
         tabs.add(new ScheduleView());
-        switchFragment(tabs.get(activeTab));
+        switchFragment(tabs.get(SCHEDULE_TAB));
     }
 
     /**
@@ -84,31 +63,6 @@ public class ScheduleTabs extends ActivityMainFrag implements TabLayout.OnTabSel
         transaction.addToBackStack(null);
         transaction.commit();
     }
-
-    /**
-     * Para que la activity pueda colocar uno de los tabs
-     */
-    public void switchToSchedule(){
-        activeTab = SCHEDULE_TAB;
-        selectTab();
-    }
-
-    public void switchToDiary(){
-        activeTab = DIARY_TAB;
-        selectTab();
-    }
-
-    public void switchToOngoing(){
-        activeTab = ONGOING_TAB;
-        selectTab();
-    }
-
-    public void selectTab(){
-        TabLayout.Tab tab = tabLayout.getTabAt(activeTab);
-        assert tab != null; tab.select();
-        onTabSelected(tabLayout.getTabAt(activeTab));
-    }
-
 
     /**
      * Evento que dispara la función switch framgent

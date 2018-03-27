@@ -35,7 +35,7 @@
         </activity>
 
         <activity
-            android:name=".ActivityMainNav"
+            android:name=".MainViewNavigation"
             android:label="@string/app_title"
             android:theme="@style/AppTheme">
         </activity>

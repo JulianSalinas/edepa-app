@@ -37,7 +37,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /**
      * Se necesita para cambiar el fragmento
      */
-    private ActivityMainNav activity;
+    private MainViewNavigation activity;
 
     /**
      * Constructor de la vista donde se colocan los eventos
@@ -45,7 +45,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public ScheduleViewAdapter(ScheduleView scheduleView, ArrayList<ScheduleBlock> events){
         this.events = events;
         this.context = scheduleView.getContext();
-        this.activity = (ActivityMainNav) scheduleView.getActivity();
+        this.activity = (MainViewNavigation) scheduleView.getActivity();
     }
 
     /**

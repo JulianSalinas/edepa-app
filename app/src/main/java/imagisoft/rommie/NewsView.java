@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 
 
-public class NewsView extends ActivityMainFrag  {
+public class NewsView extends MainViewFragment {
 
 
     /**

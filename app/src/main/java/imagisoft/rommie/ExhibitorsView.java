@@ -13,7 +13,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 /**
  * Muestra la lista de expositores del congreso
  */
-public class ExhibitorsView extends ActivityMainFrag  {
+public class ExhibitorsView extends MainViewFragment {
 
     /**
      * Es la capa donde se coloca cada uno de los expositores

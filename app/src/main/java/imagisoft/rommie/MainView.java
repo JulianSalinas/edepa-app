@@ -17,19 +17,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarDrawerToggle;
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
-import imagisoft.edepa.UTestController;
-
 /**
  * Clase análoga al masterpage de un página web
  */
-public abstract class ActivityMain
-        extends AppCompatActivity
+public abstract class MainView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
-
-    /**
-     * Conexión con el controlador
-     */
-    private UTestController controller = UTestController.getInstance();
 
     /**
      * Posibles parámetros para usar con la función switchFragment
@@ -47,17 +39,16 @@ public abstract class ActivityMain
     private FloatingActionLayout favoriteButton;
 
     /**
-     * Se inician todos los componenetes principales de la aplicacion
+     * Se inician todos los componentes principales de la aplicación
      */
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate (Bundle bundle) {
+        super.onCreate(bundle);
         setContentView(R.layout.activity_main);
         bindViews();
         setupToolbar();
         setupToggle();
         navigateById(R.id.nav_schedule);
-
     }
 
     /**
@@ -71,7 +62,8 @@ public abstract class ActivityMain
         navigation = findViewById(R.id.main_nav);
         navigation.setNavigationItemSelectedListener(this);
 
-        favoriteButton = navigation.getHeaderView(0).findViewById(R.id.favorite_button);
+        View header = navigation.getHeaderView(0);
+        favoriteButton = header.findViewById(R.id.favorite_button);
         favoriteButton.setOnClickListener(this);
 
     }
@@ -93,6 +85,9 @@ public abstract class ActivityMain
         getSupportActionBar().setTitle(null);
     }
 
+    /**
+     * Coloca el botón de menú lateral
+     */
     private void setupToggle(){
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar,
@@ -131,13 +126,18 @@ public abstract class ActivityMain
         navigateById(item.getItemId());
     }
 
-    public abstract void navigateById(int id);
+    /**
+     * Ayuda a la función navigateToItem. La clase MainViewNavigation
+     * es la que implementa esta función
+     * @param id: Identificación de botón presionado
+     */
+    protected abstract void navigateById(int id);
 
     /**
      * Coloca en la pantalla un fragmento previamente creado
      * @param fragment Asociado a la opción elegida por el usuario
      */
-    void switchFragment(Fragment fragment){
+    public void switchFragment(Fragment fragment){
         switchFragment(fragment, FADE_ANIMATION);
     }
 
@@ -145,14 +145,22 @@ public abstract class ActivityMain
      * Coloca en la pantalla un fragmento previamente creado usando un animación
      * @param fragment Asociado a la opción elegida por el usuario
      */
-    void switchFragment(Fragment fragment, int animation){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (animation == FADE_ANIMATION)
-            transaction.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
-        else transaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+    public void switchFragment(Fragment fragment, int animation){
+        FragmentTransaction transaction = createTransactionWithCustomAnimation(animation);
         transaction.replace(R.id.main_container, fragment);
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
+    }
+
+    /**
+     * Coloca una animación personalizada al cambiar de fragmento
+     */
+    public FragmentTransaction createTransactionWithCustomAnimation(int animation){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        int in = animation == FADE_ANIMATION ? R.animator.fade_in : R.animator.slide_in_left;
+        int out = animation == FADE_ANIMATION ? R.animator.fade_out : R.animator.slide_out_right;
+        transaction.setCustomAnimations(in, out);
+        return transaction;
     }
 
     /**

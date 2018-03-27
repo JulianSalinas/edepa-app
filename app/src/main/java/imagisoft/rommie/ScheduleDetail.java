@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 
 // TODO: Corresponde a los detalles de una actividad, falta enlazar todos las opciones
 
-public class ScheduleDetail extends ActivityMainFrag {
+public class ScheduleDetail extends MainViewFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

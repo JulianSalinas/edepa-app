@@ -14,7 +14,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.design.widget.TextInputEditText;
 
 
-public class ChatView extends ActivityMainFrag {
+public class ChatView extends MainViewFragment {
 
     /**
      * Boton para enviar los mensajes
@@ -123,6 +123,7 @@ public class ChatView extends ActivityMainFrag {
         // Enviar mensaje con el controlador aqui
         adapter.addMsg(msg);
         textInputView.setText("");
+
     }
 
 }

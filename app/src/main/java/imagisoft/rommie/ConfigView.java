@@ -8,7 +8,7 @@ import android.widget.RadioButton;
 import android.view.LayoutInflater;
 import android.support.design.widget.TextInputEditText;
 
-public class ConfigView extends ActivityMainFrag {
+public class ConfigView extends MainViewFragment {
 
     /**
      * Elementos visuales para editar la configuración
@@ -58,7 +58,7 @@ public class ConfigView extends ActivityMainFrag {
             String status = isChecked ?
                     getResources().getString(R.string.text_notifications_enabled):
                     getResources().getString(R.string.text_notifications_disabled);
-            ActivityMainNav activity = (ActivityMainNav) getActivity();
+            MainViewNavigation activity = (MainViewNavigation) getActivity();
             activity.showStatusMessage(status);
         });
 
