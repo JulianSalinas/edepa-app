@@ -19,6 +19,14 @@ public class MainViewFragment extends Fragment {
     }
 
     /**
+     * Coloca en la pantalla un fragmento previamente creado
+     * @param fragment Asociado a la opción elegida por el usuario
+     */
+    public void switchFragment(Fragment fragment){
+        switchFragment(fragment, FADE_ANIMATION);
+    }
+
+    /**
      * Coloca en la pantalla un fragmento previamente creado usando un animación
      * @param fragment Asociado a la opción elegida por el usuario
      */

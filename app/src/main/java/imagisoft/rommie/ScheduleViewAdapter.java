@@ -1,15 +1,17 @@
 package imagisoft.rommie;
 
-import java.util.ArrayList;
+import java.util.List;
+
 import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
 import imagisoft.edepa.UDateConverter;
 
 import android.view.View;
+import android.app.Activity;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.content.Context;
 import android.view.LayoutInflater;
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 
@@ -27,25 +29,21 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /**
      * Objetos del modelo que serán adaptados visualmente
      */
-    private ArrayList<ScheduleBlock> events;
+    private List<? extends ScheduleBlock> events;
 
     /**
-     * Se necesita para obtener algunos strings
+     * SchedulePager al que se debe colocar este adaptador
      */
-    private Context context;
-
-    /**
-     * Se necesita para cambiar el fragmento
-     */
-    private MainViewNavigation activity;
+    private ScheduleView scheduleView;
 
     /**
      * Constructor de la vista donde se colocan los eventos
      */
-    public ScheduleViewAdapter(ScheduleView scheduleView, ArrayList<ScheduleBlock> events){
-        this.events = events;
-        this.context = scheduleView.getContext();
-        this.activity = (MainViewNavigation) scheduleView.getActivity();
+    public ScheduleViewAdapter(ScheduleView scheduleView){
+
+        this.scheduleView = scheduleView;
+        this.events = scheduleView.getEvents();
+
     }
 
     /**
@@ -109,13 +107,15 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     public void onBindScheduleEventViewHolder(ScheduleEventViewHolder holder){
 
+        Activity activity = scheduleView.getActivity();
+
         // Items para extraer los datos y colocarlos en la vista
         ScheduleEvent event = (ScheduleEvent) events.get(holder.getAdapterPosition());
 
         // Forma el string para colocar la fecha de la actividad
-        String range =  context.getResources().getString(R.string.text_from) + " " +
+        String range =  activity.getResources().getString(R.string.text_from) + " " +
                         UDateConverter.extractTime(event.getStart()) + " " +
-                        context.getResources().getString(R.string.text_to) + " " +
+                        activity.getResources().getString(R.string.text_to) + " " +
                         UDateConverter.extractTime(event.getEnd());
 
         // Rellana todos los espacios de la actividad
@@ -126,15 +126,15 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         // Coloca el color acorde al tipo de actividad
         int colorResource = event.getEventype().getColor();
         holder.line.setBackgroundResource(colorResource);
-        holder.readmore.setTextColor(context.getResources().getColor(colorResource));
+        holder.readmore.setTextColor(activity.getResources().getColor(colorResource));
 
         /*
         * Función ejecutada al presionar el botón "readmore" de una actividad
         * TODO: Pasar "item" a la "ScheduleDetail" para saber que información mostrar
         */
-        holder.readmore.setOnClickListener(v ->  {
-            activity.switchFragment(new ScheduleDetail());
-        });
+        holder.readmore.setOnClickListener(v ->
+             scheduleView.switchFragment(new ScheduleDetail())
+        );
 
         /*
         * Función ejecutada al presionar la "estrellita" de una actividad
@@ -144,7 +144,8 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             int text = favorite ?
                     R.string.text_marked_as_favorite :
                     R.string.text_unmarked_as_favorite;
-            activity.showStatusMessage(context.getResources().getString(text));
+            String msg = scheduleView.getResources().getString(text);
+            scheduleView.showStatusMessage(msg);
         });
 
     }
@@ -155,9 +156,10 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ScheduleBlock block = events.get(holder.getAdapterPosition());
 
         // Forma el string para colocar la fecha de la actividad
-        String range =  context.getResources().getString(R.string.text_from) + " " +
+        Resources resources = scheduleView.getResources();
+        String range =  resources.getString(R.string.text_from) + " " +
                         UDateConverter.extractTime(block.getStart()) + " " +
-                        context.getResources().getString(R.string.text_to) + " " +
+                        resources.getString(R.string.text_to) + " " +
                         UDateConverter.extractTime(block.getEnd());
 
         // Rellana todos los espacios de la actividad

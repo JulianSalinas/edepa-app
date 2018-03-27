@@ -1,6 +1,6 @@
 package imagisoft.rommie;
 
-import java.util.ArrayList;
+import java.util.List;
 import imagisoft.edepa.ScheduleBlock;
 
 import android.os.Bundle;
@@ -21,10 +21,30 @@ public class ScheduleView extends MainViewFragment {
     private RecyclerView recyclerView;
 
     /**
+     * Eventos para colocar en la lista, se asume que entran
+     * ordenados por fecha
+     */
+    private List<ScheduleBlock> events;
+
+    public List<ScheduleBlock> getEvents(){
+        return events;
+    }
+
+    /**
+     * No se pueden crear constructores con parámetros, por tanto,
+     * se pasan los parámetros de esta forma
+     */
+    public static ScheduleView newInstance(List<ScheduleBlock> events) {
+        ScheduleView fragment = new ScheduleView();
+        fragment.events = events;
+        return fragment;
+    }
+
+    /**
      * Se crea la vista que contiene el recyclerView
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         return inflater.inflate(R.layout.schedule_view, container, false);
     }
 
@@ -32,21 +52,24 @@ public class ScheduleView extends MainViewFragment {
      * Justo después de crear la vista, se debe cargar el contenido del modelo
      */
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // setupRecyclerView(loadModelEvents());
+    public void onActivityCreated(Bundle bundle) {
+        super.onActivityCreated(bundle);
+         setupRecyclerView();
     }
 
     /**
      * Se configura la capa que contiene las actividades
      */
-    public void setupRecyclerView(ArrayList<ScheduleBlock> items){
+    public void setupRecyclerView(){
+
         assert getView() != null;
         recyclerView = getView().findViewById(R.id.schedule_view);
+
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new SmoothLayout(this.getActivity()));
+        recyclerView.setAdapter(new ScheduleViewAdapter(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(new ScheduleViewAdapter(this, items));
+        recyclerView.setLayoutManager(new SmoothLayout(this.getActivity()));
+
     }
 
 }

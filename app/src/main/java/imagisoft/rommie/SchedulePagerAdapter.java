@@ -1,8 +1,9 @@
 package imagisoft.rommie;
 
+import java.util.Set;
 import java.util.ArrayList;
-import java.util.Collections;
 import imagisoft.edepa.Schedule;
+import imagisoft.edepa.ScheduleBlock;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+
+import org.springframework.util.LinkedMultiValueMap;
 
 /**
  * Es el adaptador de la barra que contiene los días del cronograma
@@ -24,24 +27,39 @@ public class SchedulePagerAdapter extends FragmentPagerAdapter {
     private ArrayList<String> dates;
 
     /**
+     * Para dividir los eventos por dia en la vista
+     */
+    private LinkedMultiValueMap<String, ScheduleBlock> eventsByDay;
+
+    /**
      * SchedulePager al que se debe colocar este adaptador
      */
     private SchedulePager schedulePager;
+
+    /**
+     * Arreglo de vistas que contendrá el paginador
+     */
+    private ArrayList<ScheduleView> scheduleViews;
 
     /**
      * En el constructor se agrega el listener para colocar las fechas
      * en el paginador
      */
     public SchedulePagerAdapter(SchedulePager schedulePager) {
+
         super(schedulePager.getFragmentManager());
 
         this.dates = new ArrayList<>();
         this.schedulePager = schedulePager;
 
+        scheduleViews = new ArrayList<>();
+        scheduleViews.addAll(schedulePager.getScheduleViews());
+
         this.schedulePager
                 .getFirebase()
                 .getScheduleReference()
                 .addValueEventListener(new SchedulePagerAdapterValueEventListener());
+
     }
 
     /*
@@ -58,9 +76,7 @@ public class SchedulePagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public Fragment getItem(int position) {
-
-        // TODO: Agregar párametro al schedule view para saber que actividades se deben mostrar
-        return new ScheduleView();
+        return scheduleViews.get(position);
     }
 
     /**
@@ -69,6 +85,12 @@ public class SchedulePagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return dates.get(position);
+    }
+
+    private void createScheduleViews(){
+        Set<String> keys = eventsByDay.keySet();
+        for(String key : keys)
+            scheduleViews.add(ScheduleView.newInstance(eventsByDay.get(key)));
     }
 
     /**
@@ -80,7 +102,9 @@ public class SchedulePagerAdapter extends FragmentPagerAdapter {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             Schedule schedule = schedulePager.getFirebase().getSchedule();
-            dates = Collections.list(schedule.getEventsByDay().keys());
+            eventsByDay = schedule.getEventsByDay();
+            dates.addAll(eventsByDay.keySet());
+            createScheduleViews();
             notifyDataSetChanged();
         }
 

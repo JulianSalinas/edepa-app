@@ -1,5 +1,7 @@
 package imagisoft.rommie;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,15 @@ public class SchedulePager extends MainViewFragment {
      * Barra debajo de los tabs para colocar los días
      */
     private ViewPager viewPager;
+
+    /**
+     * Arreglo de vistas que contendrá el paginador
+     */
+    private ArrayList<ScheduleView> scheduleViews;
+
+    public ArrayList<ScheduleView> getScheduleViews(){
+        return scheduleViews;
+    }
 
     /**
      * Crea la vista del paginador, es decir, donde se colocan los días
@@ -38,9 +49,14 @@ public class SchedulePager extends MainViewFragment {
      * y coloca la interfaz para solo mostrar dichos dias
      */
     private void setupViewPager() {
+
         assert getView() != null;
+
         viewPager = getView().findViewById(R.id.view_pager);
+        scheduleViews = new ArrayList<>();
+
         viewPager.setAdapter(new SchedulePagerAdapter(this));
+
     }
 
 }

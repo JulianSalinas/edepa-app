@@ -28,6 +28,10 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
     private TabLayout tabLayout;
     private ArrayList<Fragment> tabs;
 
+    private SchedulePager schedule;
+    private SchedulePager diary;
+    private ScheduleView ongoing;
+
 
     /**
      * Se crea la vista que contiene el tabLayout
@@ -39,17 +43,23 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
 
     @Override
     public void onActivityCreated(Bundle bundle) {
+
         super.onActivityCreated(bundle);
 
         assert getView() != null;
+        diary = new SchedulePager();
+        ongoing = new ScheduleView();
+        schedule = new SchedulePager();
+
         tabLayout = getView().findViewById(R.id.tab_layout);
         tabLayout.addOnTabSelectedListener(this);
 
         tabs = new ArrayList<>();
-        tabs.add(new SchedulePager());
-        tabs.add(new SchedulePager());
-        tabs.add(new ScheduleView());
+        tabs.add(diary);
+        tabs.add(ongoing);
+        tabs.add(schedule);
         switchFragment(tabs.get(SCHEDULE_TAB));
+
     }
 
     /**

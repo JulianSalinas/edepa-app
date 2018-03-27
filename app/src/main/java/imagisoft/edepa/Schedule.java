@@ -1,7 +1,7 @@
 package imagisoft.edepa;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
+import org.springframework.util.LinkedMultiValueMap;
 
 /**
  * Clase encargarda de la administración de los eventos
@@ -10,7 +10,7 @@ import java.util.Hashtable;
 public class Schedule {
 
     private ArrayList<ScheduleEvent> events;
-    private Hashtable<String, ScheduleEvent> eventsByDay;
+    private LinkedMultiValueMap<String, ScheduleBlock> eventsByDay;
 
     /**
      * Contructores, el primero es requerido por firebase
@@ -32,24 +32,28 @@ public class Schedule {
 
     /**
      * Obtienen todos los eventos sin hacer distinciones
+     * TODO: Arreglar
      */
-    public ArrayList<ScheduleEvent> getEvents(){
-        return events;
+    public ArrayList<ScheduleBlock> getEvents(){
+        ArrayList<ScheduleBlock> eventsOrBlocks = new ArrayList<>();
+        eventsOrBlocks.addAll(events);
+        return eventsOrBlocks;
     }
 
     /**
      * Divide los eventos por dias (formato dd/mm/yy)
      * Implementa instaciación perezosa
      * @return HashTable (12/12/17, Evento)
+     * TODO: Arreglar
      */
-    public Hashtable<String, ScheduleEvent> getEventsByDay(){
+    public LinkedMultiValueMap<String, ScheduleBlock> getEventsByDay(){
 
         if(eventsByDay != null)
             return eventsByDay;
 
-        eventsByDay = new Hashtable<>();
+        eventsByDay = new LinkedMultiValueMap<>();
         for(ScheduleEvent event : events)
-            eventsByDay.put(UDateConverter.extractDate(event.getStart()), event);
+            eventsByDay.add(UDateConverter.extractDate(event.getStart()), event);
 
         return eventsByDay;
 
