@@ -33,10 +33,10 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
 
         // Se revisa si el mapa ya está en la cache para no instanciarlo de nuevo.
         // Permite mostrar el mapa aunque no haya conexión
-        /*if (mapFragment == null) {
+        if (mapFragment == null) {
             mapFragment = SupportMapFragment.newInstance();
             mapFragment.getMapAsync(this);
-        }*/
+        }
 
         // Coloca el gmap en la posición destinada para tal fin
         /*getChildFragmentManager().beginTransaction().replace(R.id.map, mapFragment).commit();
