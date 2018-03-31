@@ -91,7 +91,6 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
     }
 
     /**
-     * TODO: La dirección está estática, debe ser dinámica se debe cargar junto con la aplicación.
      * Se utiliza el API de google para mostrar el mapa y un marcador donde se indique.
      */
 
