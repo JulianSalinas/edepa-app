@@ -15,6 +15,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class InformationView extends MainViewFragment implements OnMapReadyCallback{
@@ -23,24 +27,15 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
     private SupportMapFragment mapFragment;
     private Congress congressInformation;
 
-    public InformationView() {
-        // Required empty public constructor
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-
-        View view = inflater.inflate(R.layout.information_view, container, false);
-
-        setLabelsContent(view);
-        setupMap();
-
-        return view;
+        return inflater.inflate(R.layout.information_view, container, false);
     }
 
-    private void setLabelsContent(View view){
+    private void setLabelsContent(){
 
-        congressInformation = getFirebase().getCongressInformation();
+        View view = getView();
+        assert view != null;
 
         TextView congressName = view.findViewById(R.id.text_congress_name);
         congressName.setText(congressInformation.getName());
@@ -60,8 +55,15 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onActivityCreated(Bundle bundle) {
+        super.onActivityCreated(bundle);
+
+        // Para que la información se actualice en tiempo real y no cada vez que
+        // se abre la aplicación
+        getFirebase()
+                .getCongressReference()
+                .addValueEventListener(new InformationViewValueEventListener());
+
     }
 
     private void setupMap(){
@@ -105,6 +107,26 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
                 .position(coordinates)
                 .title(congressInformation.getLocationTag()));
         moveMapLocation(coordinates);
+    }
+
+    class InformationViewValueEventListener implements ValueEventListener {
+
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+
+            GenericTypeIndicator<Congress> typeIndicator;
+            typeIndicator = new GenericTypeIndicator<Congress>(){};
+            congressInformation = dataSnapshot.getValue(typeIndicator);
+            setLabelsContent();
+            setupMap();
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            // TODO: Colocar algo por si pasa un error
+        }
+
     }
 
 }

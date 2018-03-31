@@ -41,26 +41,21 @@ public abstract class MainViewFirebase extends MainView {
         return congressReference;
     }
 
+    public DatabaseReference getChatReference() {
+        return chatReference;
+    }
+
     /**
      * Cronograma que permanece en memoria para realizar las
      * consultas necesarias
      */
     private Schedule schedule;
-    private Congress congressInformation;
 
     /**
      * Función para que otros fragmentos puedan obtener el cronograma
      */
     public Schedule getSchedule(){
         return schedule;
-    }
-
-    public Congress getCongressInformation() {
-        return congressInformation;
-    }
-
-    public DatabaseReference getChatReference() {
-        return chatReference;
     }
 
     /**
@@ -70,7 +65,6 @@ public abstract class MainViewFirebase extends MainView {
 
         // Por si ocurre un error de conexión que no lance un nullpointer
         schedule = new Schedule();
-        congressInformation = new Congress();
 
         // Guarda en persistencia para volver a descargar
         // Ayuda si la aplicación queda offline
@@ -87,26 +81,8 @@ public abstract class MainViewFirebase extends MainView {
         ValueEventListener listener = new ScheduleValueEventListener();
         scheduleReference.addValueEventListener(listener);
 
-        ValueEventListener listener2 = new CongressValueEventListener();
-        congressReference.addValueEventListener(listener2);
     }
 
-    class CongressValueEventListener implements ValueEventListener{
-
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-
-            GenericTypeIndicator<Congress> typeIndicator;
-            typeIndicator = new GenericTypeIndicator<Congress>(){};
-            congressInformation = dataSnapshot.getValue(typeIndicator);
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-            // TODO: Colocar algo por si pasa un error
-        }
-    }
 
     class ScheduleValueEventListener implements ValueEventListener{
 
