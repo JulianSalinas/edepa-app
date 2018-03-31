@@ -31,7 +31,9 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
 
         View view = inflater.inflate(R.layout.information_view, container, false);
+
         setLabelsContent(view);
+        setupMap();
 
         return view;
     }
@@ -60,6 +62,9 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    private void setupMap(){
 
         // Se revisa si el mapa ya está en la cache para no instanciarlo de nuevo.
         // Permite mostrar el mapa aunque no haya conexión
@@ -69,8 +74,8 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
         }
 
         // Coloca el gmap en la posición destinada para tal fin
-        /*getChildFragmentManager().beginTransaction().replace(R.id.map, mapFragment).commit();
-        */
+        getChildFragmentManager().beginTransaction().replace(R.id.map, mapFragment).commit();
+
     }
 
     private void moveMapLocation(LatLng currentLocation) {
@@ -93,14 +98,14 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
     @Override
     public void onMapReady(GoogleMap map) {
 
-        // Coordenadas del itcr
-        LatLng itcr = new LatLng(9.856355, -83.912864);
+        // Coordenadas del lugar del congreso
+        LatLng coordinates = new LatLng(congressInformation.getyCoord(), congressInformation.getxCoord());
 
         googleMap = map;
         map.addMarker(new MarkerOptions()
-                .position(itcr)
-                .title("ITCR"));
-        moveMapLocation(itcr);
+                .position(coordinates)
+                .title(congressInformation.getLocationTag()));
+        moveMapLocation(coordinates);
     }
 
 }
