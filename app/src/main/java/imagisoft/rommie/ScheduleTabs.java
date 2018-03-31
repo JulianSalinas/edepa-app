@@ -81,19 +81,19 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
             switch (pos){
 
                 case SCHEDULE_TAB:
-//                    if(schedule == null)
+                    if(schedule == null)
                         schedule = new SchedulePager();
                     switchFragment(schedule);
                     break;
 
                 case DIARY_TAB:
-//                    if(diary == null)
+                    if(diary == null)
                         diary = new SchedulePager();
                     switchFragment(diary);
                     break;
 
                 case ONGOING_TAB:
-//                    if(ongoing == null)
+                    if(ongoing == null)
                         ongoing = new BlankFragment();
                     switchFragment(ongoing);
                     break;
