@@ -1,5 +1,6 @@
 package imagisoft.rommie;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 
 import android.os.Bundle;
@@ -10,6 +11,9 @@ import android.support.v4.app.Fragment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 
+import imagisoft.edepa.BlankFragment;
+import imagisoft.edepa.Schedule;
+
 /**
  * Contiene los tabs de cronograma, agenda y en curso
  */
@@ -18,20 +22,19 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
     /*
      * Usadas para saber cual tab se debe colocar al crearse la vista
      */
-    public static int SCHEDULE_TAB = 0;
-    public static int DIARY_TAB = 1;
-    public static int ONGOING_TAB = 2;
+    public static final int SCHEDULE_TAB = 0;
+    public static final int DIARY_TAB = 1;
+    public static final int ONGOING_TAB = 2;
 
     /**
      * TabLayout con sus tres vistas principales
      */
     private TabLayout tabLayout;
-    private ArrayList<Fragment> tabs;
-
     private SchedulePager schedule;
     private SchedulePager diary;
-    private ScheduleView ongoing;
+    private BlankFragment ongoing;
 
+    private int currentTab;
 
     /**
      * Se crea la vista que contiene el tabLayout
@@ -47,18 +50,12 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
         super.onActivityCreated(bundle);
 
         assert getView() != null;
-        diary = new SchedulePager();
-        ongoing = new ScheduleView();
-        schedule = new SchedulePager();
-
         tabLayout = getView().findViewById(R.id.tab_layout);
         tabLayout.addOnTabSelectedListener(this);
 
-        tabs = new ArrayList<>();
-        tabs.add(diary);
-        tabs.add(ongoing);
-        tabs.add(schedule);
-        switchFragment(tabs.get(SCHEDULE_TAB));
+        currentTab = 0;
+        schedule = new SchedulePager();
+        switchFragment(schedule);
 
     }
 
@@ -79,7 +76,34 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
      */
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        switchFragment(tabs.get(tab.getPosition()));
+        int pos = tab.getPosition();
+        if(pos != currentTab){
+
+            currentTab = pos;
+            switch (pos){
+
+                case SCHEDULE_TAB:
+                    if(schedule == null)
+                        schedule = new SchedulePager();
+                    switchFragment(schedule);
+                    break;
+
+                case DIARY_TAB:
+                    if(diary == null)
+                        diary = new SchedulePager();
+                    switchFragment(diary);
+                    break;
+
+                case ONGOING_TAB:
+                    if(ongoing == null)
+                        ongoing = new BlankFragment();
+                    switchFragment(ongoing);
+                    break;
+
+            }
+
+        }
+
     }
 
     @Override
