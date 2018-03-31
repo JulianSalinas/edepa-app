@@ -7,11 +7,7 @@
         <item name="colorPrimaryDark">@color/app_secondary</item>
         <item name="colorAccent">@color/app_accent</item>
         <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowTranslucentNavigation">true</item>
-        <!--<item name="android:fontFamily">@font/yahei_light</item>-->
+
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
@@ -35,6 +31,10 @@
 
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/app_overlay</item>
+    </style>
+
+    <style name="LoginTheme" parent="AppTheme">
+        <item name="android:windowBackground">@color/app_white</item>
     </style>
 
     <!-- Dividers themes. Its used by lists in the app -->

@@ -1,5 +1,6 @@
 package imagisoft.rommie;
 
+import com.firebase.ui.auth.AuthUI;
 import android.support.design.widget.NavigationView;
 
 public class MainViewNavigation extends MainViewFirebase
@@ -26,8 +27,16 @@ public class MainViewNavigation extends MainViewFirebase
         case R.id.nav_exit:
             finishAffinity(); break;
 
+        // Cierra la aplicación y la sesión
+        case R.id.nav_exit_and_signout:
+            AuthUI.getInstance()
+                    .signOut(this)
+                    .addOnCompleteListener(task -> finish());
+            break;
+
         // Muestra la información general del congreso
         case R.id.nav_infomation:
+            currentSection.setText(R.string.nav_info);
             if(informationView == null)
                 informationView = new InformationView();
             switchFragment(informationView);
@@ -35,6 +44,7 @@ public class MainViewNavigation extends MainViewFirebase
 
         // Muestra el cronograma del congreso
         case R.id.nav_schedule:
+            currentSection.setText(R.string.nav_schedule);
             if(scheduleTabs == null)
                 scheduleTabs = new ScheduleTabs();
             switchFragment(scheduleTabs);
@@ -42,6 +52,7 @@ public class MainViewNavigation extends MainViewFirebase
 
         // Muestra la lista de expositores o ponentes
         case R.id.nav_people:
+            currentSection.setText(R.string.nav_people);
             if(exhibitorsView == null)
                 exhibitorsView = new ExhibitorsView();
             switchFragment(exhibitorsView);
@@ -49,6 +60,7 @@ public class MainViewNavigation extends MainViewFirebase
 
         // Muestra la lista de expositores o ponentes
         case R.id.nav_chat:
+            currentSection.setText(R.string.nav_chat);
             if(chatView == null)
                 chatView = new ChatView();
             switchFragment(chatView);
@@ -56,13 +68,15 @@ public class MainViewNavigation extends MainViewFirebase
 
         // Muestra la lista de expositores o ponentes
         case R.id.nav_news:
+            currentSection.setText(R.string.nav_news);
             if(newsView == null)
                 newsView = new NewsView();
             switchFragment(newsView);
             break;
 
-        // Muestra la lista de expositores o ponentes
+        // Muestra la pantalla de administración
         case R.id.nav_manage:
+            currentSection.setText(R.string.nav_settings);
             if(configView == null)
                 configView = new ConfigView();
             switchFragment(configView);

@@ -105,7 +105,7 @@ public class ChatView extends MainViewFragment {
     }
 
     /**
-     * Se llama al controlador para enviar un msg, si se envía se agrega a la vista
+     * Función para enviar un msg, si se envía se agrega a la vista
      */
     public void sendMsg(){
 

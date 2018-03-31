@@ -3,6 +3,7 @@ package imagisoft.rommie;
 import java.util.ArrayList;
 
 import imagisoft.edepa.Congress;
+import imagisoft.edepa.Message;
 import imagisoft.edepa.Schedule;
 import imagisoft.edepa.ScheduleEvent;
 
@@ -26,6 +27,7 @@ public abstract class MainViewFirebase extends MainView {
     final DatabaseReference root;
     final DatabaseReference scheduleReference;
     final DatabaseReference congressReference;
+    final DatabaseReference chatReference;
 
     /**
      * Funciones que sirven para obtener las referencias desde
@@ -43,13 +45,22 @@ public abstract class MainViewFirebase extends MainView {
      */
     private Schedule schedule;
     private Congress congressInformation;
+    private ArrayList<Message> chatRoom;
+
     /**
      * Función para que otros fragmentos puedan obtener el cronograma
      */
     public Schedule getSchedule(){
         return schedule;
     }
-    public Congress getCongressInformation() { return congressInformation; }
+
+    public Congress getCongressInformation() {
+        return congressInformation;
+    }
+
+    public DatabaseReference getChatReference() {
+        return chatReference;
+    }
 
     /**
      * En el constructor se crean las referencias a la BD
@@ -69,6 +80,7 @@ public abstract class MainViewFirebase extends MainView {
         this.root = database.getReference("edepa5");
         this.scheduleReference = root.child("schedule");
         this.congressReference = root.child("congress");
+        this.chatReference =root.child("chat");
 
         // Listener para obtener datos del cronograma desde firebase
         ValueEventListener listener = new ScheduleValueEventListener();

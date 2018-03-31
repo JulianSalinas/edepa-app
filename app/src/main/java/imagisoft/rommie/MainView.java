@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -39,6 +40,11 @@ public abstract class MainView extends AppCompatActivity
     private FloatingActionLayout favoriteButton;
 
     /**
+     * Para colocar el nombre de la sección actual en el menú lateral
+     */
+    protected TextView currentSection;
+
+    /**
      * Se inician todos los componentes principales de la aplicación
      */
     @Override
@@ -65,6 +71,8 @@ public abstract class MainView extends AppCompatActivity
         View header = navigation.getHeaderView(0);
         favoriteButton = header.findViewById(R.id.favorite_button);
         favoriteButton.setOnClickListener(this);
+
+        currentSection = header.findViewById(R.id.current_section_view);
 
     }
 

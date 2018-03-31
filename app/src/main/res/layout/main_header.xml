@@ -15,12 +15,12 @@
         app:diagonal_angle="8"
         app:diagonal_position="bottom">
 
-        <com.flaviofaria.kenburnsview.KenBurnsView
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/img_mountains">
-        </com.flaviofaria.kenburnsview.KenBurnsView>
+        </ImageView>
 
 
     </com.github.florent37.diagonallayout.DiagonalLayout>
@@ -59,6 +59,7 @@
             android:text="@string/nav_menu" />
 
         <TextView
+            android:id="@+id/current_section_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_normal"

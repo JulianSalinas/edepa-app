@@ -20,6 +20,7 @@
     <string name="nav_favorites">Favoritos</string>
     <string name="nav_subsection">Subsección</string>
     <string name="nav_settings">Configuración</string>
+    <string name="nav_exit_and_signout">Cerrar sesión</string>
 
     <!-- Welcome-->
     <string name="text_welcome">Bienvenido</string>

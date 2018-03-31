@@ -77,6 +77,11 @@ dependencies {
 
     compile 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
 
+    compile 'com.firebaseui:firebase-ui-auth:3.2.2'
+
+    compile('com.facebook.android:facebook-android-sdk:4.27.0')
+
+
 }
 
 apply plugin: 'com.google.gms.google-services'
