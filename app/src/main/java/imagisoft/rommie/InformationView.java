@@ -4,6 +4,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
+import android.widget.TextView;
+
+import imagisoft.edepa.Congress;
+import imagisoft.edepa.UDateConverter;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -17,6 +21,7 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
 
     private GoogleMap googleMap;
     private SupportMapFragment mapFragment;
+    private Congress congressInformation;
 
     public InformationView() {
         // Required empty public constructor
@@ -24,7 +29,32 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflater.inflate(R.layout.information_view, container, false);
+
+        View view = inflater.inflate(R.layout.information_view, container, false);
+        setLabelsContent(view);
+
+        return view;
+    }
+
+    private void setLabelsContent(View view){
+
+        congressInformation = getFirebase().getCongressInformation();
+
+        TextView congressName = view.findViewById(R.id.text_congress_name);
+        congressName.setText(congressInformation.getName());
+
+        TextView congressStart = view.findViewById(R.id.shedule_start);
+        congressStart.setText(UDateConverter.extractDate(congressInformation.getStart()));
+
+        TextView congressEnd = view.findViewById(R.id.shedule_end);
+        congressEnd.setText(UDateConverter.extractDate(congressInformation.getEnd()));
+
+        TextView congressDescription = view.findViewById(R.id.text_presentation);
+        congressDescription.setText(congressInformation.getDescription());
+
+        TextView congressLocation = view.findViewById(R.id.text_location);
+        congressLocation.setText(congressInformation.getWrittenLocation());
+
     }
 
     @Override
@@ -59,6 +89,7 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
      * TODO: La dirección está estática, debe ser dinámica se debe cargar junto con la aplicación.
      * Se utiliza el API de google para mostrar el mapa y un marcador donde se indique.
      */
+
     @Override
     public void onMapReady(GoogleMap map) {
 
