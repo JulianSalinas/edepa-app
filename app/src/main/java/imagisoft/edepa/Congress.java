@@ -16,11 +16,17 @@ public class Congress extends ScheduleBlock{
         return name;
     }
 
-    public String getDescription() { return description; }
+    public String getDescription() {
+        return description;
+    }
 
-    public String getWrittenLocation() { return writtenLocation; }
+    public String getWrittenLocation() {
+        return writtenLocation;
+    }
 
-    public Congress(){}
+    public Congress(){
+        // Requerido por firebase
+    }
 
     /**
      * Las fechas se colocan con el formato dd/mm/yyyy hh:mm <am|pm>

@@ -3,18 +3,25 @@ package imagisoft.rommie;
 import java.util.ArrayList;
 import imagisoft.edepa.Message;
 import imagisoft.edepa.Controller;
+import imagisoft.edepa.Schedule;
 import imagisoft.edepa.UDateConverter;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.view.LayoutInflater;
 import android.support.v7.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
 /**
  * Sirve para enlazar las funciones a una actividad en específico
  */
-public class ChatViewAdapter extends RecyclerView.Adapter<ChatViewAdapter.ChatMessageViewHolder> {
+public class ChatViewAdapter
+        extends RecyclerView.Adapter<ChatViewAdapter.ChatMessageViewHolder> {
 
     /**
      * Variables par escoger el tipo de vista que se colocará
@@ -28,11 +35,21 @@ public class ChatViewAdapter extends RecyclerView.Adapter<ChatViewAdapter.ChatMe
     private ArrayList<Message> msgs;
 
     /**
-     * Constructor del adaptador
-     * @param msgs Mensajes obtenidos del model
+     * Referencia al objeto que adapta
      */
-    ChatViewAdapter(ArrayList<Message> msgs){
-        this.msgs = msgs;
+    private ChatView chatView;
+
+    /**
+     * Constructor del adaptador
+     */
+    ChatViewAdapter(ChatView chatView){
+
+        this.chatView = chatView;
+        this.msgs = new ArrayList<>();
+
+        ValueEventListener listener = new ChatViewAdapterValueEventListener();
+        chatView.getFirebase().getChatReference().addValueEventListener(listener);
+
     }
 
     /**
@@ -67,10 +84,17 @@ public class ChatViewAdapter extends RecyclerView.Adapter<ChatViewAdapter.ChatMe
      */
     @Override
     public ChatMessageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = viewType == CHAT_RIGHT_VIEW_TYPE ?
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_view_msg_right, parent, false):
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_view_msg_left, parent, false);
+
+        int layout = viewType == CHAT_RIGHT_VIEW_TYPE ?
+                R.layout.chat_view_msg_right:
+                R.layout.chat_view_msg_left;
+
+        View view = LayoutInflater
+                .from(parent.getContext())
+                .inflate(layout, parent, false);
+
         return new ChatMessageViewHolder(view);
+
     }
 
     /**
@@ -99,6 +123,30 @@ public class ChatViewAdapter extends RecyclerView.Adapter<ChatViewAdapter.ChatMe
             this.username = view.findViewById(R.id.chat_view_msg_username);
             this.timeDescription = view.findViewById(R.id.chat_view_msg_time_description);
             this.messageContent = view.findViewById(R.id.chat_view_msg_content);
+        }
+
+    }
+
+    /**
+     * Clase que conecta las fechas del paginador con las extraídas del
+     * cronograma
+     */
+    class ChatViewAdapterValueEventListener implements ValueEventListener {
+
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+//            Schedule schedule = schedulePager.getFirebase().getSchedule();
+//            eventsByDay = schedule.getEventsByDay();
+//            dates.addAll(eventsByDay.keySet());
+//            createScheduleViews();
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+//            Context context = schedulePager.getContext();
+//            dates.add(context.getResources().getString(R.string.text_no_connection));
+            notifyDataSetChanged();
         }
 
     }

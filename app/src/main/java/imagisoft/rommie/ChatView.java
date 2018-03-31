@@ -32,12 +32,6 @@ public class ChatView extends MainViewFragment {
     private TextInputEditText textInputView;
 
     /**
-     * Referencia al controlador principal
-     */
-    private Controller ctrl = Controller.getInstance();
-
-
-    /**
      * Es necesario el adaptador para colocar nuevos mensajes
      */
     private ChatViewAdapter adapter;
@@ -64,7 +58,6 @@ public class ChatView extends MainViewFragment {
 
     /**
      * Enlaza todas las vistas del fragmento con sus clases
-     * Aquí se consultan los mensajes al controlador por primera vez
      */
     private void bindViews(){
         assert getView() != null;
@@ -77,7 +70,7 @@ public class ChatView extends MainViewFragment {
      * Se prepara el adaptador para poder recibir nuevas vistas de mensajes
      */
     public void setupAdapter(){
-        adapter = new ChatViewAdapter(ctrl.getChatRoom());
+        adapter = new ChatViewAdapter(this);
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
 
             /**
@@ -118,10 +111,10 @@ public class ChatView extends MainViewFragment {
 
         Long datetime = Calendar.getInstance().getTimeInMillis();
         String content = textInputView.getText().toString();
-        Message msg = new Message(ctrl.getUserid(), ctrl.getUsername(), content, datetime);
+//        Message msg = new Message(ctrl.getUserid(), ctrl.getUsername(), content, datetime);
 
         // Enviar mensaje con el controlador aqui
-        adapter.addMsg(msg);
+//        adapter.addMsg(msg);
         textInputView.setText("");
 
     }
