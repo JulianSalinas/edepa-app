@@ -1,8 +1,5 @@
 package imagisoft.rommie;
 
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 
+import com.google.firebase.database.ServerValue;
+
 import imagisoft.edepa.BlankFragment;
-import imagisoft.edepa.Schedule;
 
 /**
  * Contiene los tabs de cronograma, agenda y en curso
@@ -83,19 +81,19 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
             switch (pos){
 
                 case SCHEDULE_TAB:
-                    if(schedule == null)
+//                    if(schedule == null)
                         schedule = new SchedulePager();
                     switchFragment(schedule);
                     break;
 
                 case DIARY_TAB:
-                    if(diary == null)
+//                    if(diary == null)
                         diary = new SchedulePager();
                     switchFragment(diary);
                     break;
 
                 case ONGOING_TAB:
-                    if(ongoing == null)
+//                    if(ongoing == null)
                         ongoing = new BlankFragment();
                     switchFragment(ongoing);
                     break;

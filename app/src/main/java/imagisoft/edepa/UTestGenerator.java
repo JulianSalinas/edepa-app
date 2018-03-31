@@ -1,14 +1,16 @@
 package imagisoft.edepa;
 
+import java.util.ArrayList;
+
 public class UTestGenerator {
 
-    public static Schedule createSchedule(){
+    public static ArrayList<ScheduleEvent> createSchedule(){
 
-        Schedule schedule = new Schedule();
+        ArrayList<ScheduleEvent> schedule = new ArrayList<>();
 
         //#########################################################################################/
 
-        schedule.addEvent( new ScheduleEvent(
+        schedule.add( new ScheduleEvent(
 
                 "c1",
                 "6/12/17 9:00 am",
@@ -23,7 +25,7 @@ public class UTestGenerator {
 
         //#########################################################################################/
 
-        schedule.addEvent( new ScheduleEvent(
+        schedule.add( new ScheduleEvent(
 
                 "c2",
                 "9/12/17 8:00 am",
@@ -38,7 +40,7 @@ public class UTestGenerator {
 
         //#########################################################################################/
 
-        schedule.addEvent( new ScheduleEvent(
+        schedule.add( new ScheduleEvent(
 
                 "c3",
                 "9/12/17 8:00 am",
@@ -54,7 +56,7 @@ public class UTestGenerator {
 
         //#########################################################################################/
 
-        schedule.addEvent( new ScheduleEvent(
+        schedule.add( new ScheduleEvent(
 
                 "c4",
                 "5/12/17 9:00 am",
@@ -69,7 +71,7 @@ public class UTestGenerator {
 
         //#########################################################################################/
 
-        schedule.addEvent( new ScheduleEvent(
+        schedule.add( new ScheduleEvent(
 
                 "c5",
                 "6/12/17 9:00 am",
@@ -84,7 +86,7 @@ public class UTestGenerator {
 
         //#########################################################################################/
 
-        schedule.addEvent( new ScheduleEvent(
+        schedule.add( new ScheduleEvent(
 
                 "c7",
                 "9/12/17 3:30 pm",
@@ -99,7 +101,7 @@ public class UTestGenerator {
 
         //#########################################################################################/
 
-        schedule.addEvent( new ScheduleEvent(
+        schedule.add( new ScheduleEvent(
 
                 "c8",
                 "8/12/17 8:00 am",
@@ -114,7 +116,7 @@ public class UTestGenerator {
 
         //#########################################################################################/
 
-        schedule.addEvent( new ScheduleEvent(
+        schedule.add( new ScheduleEvent(
 
                 "c9",
                 "9/12/17 3:30 pm",
