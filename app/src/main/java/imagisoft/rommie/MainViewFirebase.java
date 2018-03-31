@@ -1,6 +1,8 @@
 package imagisoft.rommie;
 
 import java.util.ArrayList;
+
+import imagisoft.edepa.Congress;
 import imagisoft.edepa.Schedule;
 import imagisoft.edepa.ScheduleEvent;
 
@@ -23,6 +25,7 @@ public abstract class MainViewFirebase extends MainView {
      */
     final DatabaseReference root;
     final DatabaseReference scheduleReference;
+    final DatabaseReference congressReference;
 
     /**
      * Funciones que sirven para obtener las referencias desde
@@ -32,18 +35,21 @@ public abstract class MainViewFirebase extends MainView {
         return scheduleReference;
     }
 
+    public DatabaseReference getCongressReference() { return congressReference; }
+
     /**
      * Cronograma que permanece en memoria para realizar las
      * consultas necesarias
      */
     private Schedule schedule;
-
+    private Congress congressInformation;
     /**
      * Función para que otros fragmentos puedan obtener el cronograma
      */
     public Schedule getSchedule(){
         return schedule;
     }
+    public Congress getCongressInformation() { return congressInformation; }
 
     /**
      * En el constructor se crean las referencias a la BD
@@ -52,6 +58,7 @@ public abstract class MainViewFirebase extends MainView {
 
         // Por si ocurre un error de conexión que no lance un nullpointer
         schedule = new Schedule();
+        congressInformation = new Congress();
 
         // Guarda en persistencia para volver a descargar
         // Ayuda si la aplicación queda offline
@@ -61,11 +68,31 @@ public abstract class MainViewFirebase extends MainView {
         // Creando referencias a la base da datos
         this.root = database.getReference("edepa5");
         this.scheduleReference = root.child("schedule");
+        this.congressReference = root.child("congress");
 
         // Listener para obtener datos del cronograma desde firebase
         ValueEventListener listener = new ScheduleValueEventListener();
         scheduleReference.addValueEventListener(listener);
 
+        ValueEventListener listener2 = new CongressValueEventListener();
+        congressReference.addValueEventListener(listener2);
+    }
+
+    class CongressValueEventListener implements ValueEventListener{
+
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+
+            GenericTypeIndicator<Congress> typeIndicator;
+            typeIndicator = new GenericTypeIndicator<Congress>(){};
+            congressInformation = dataSnapshot.getValue(typeIndicator);
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            // TODO: Colocar algo por si pasa un error
+        }
     }
 
     class ScheduleValueEventListener implements ValueEventListener{
