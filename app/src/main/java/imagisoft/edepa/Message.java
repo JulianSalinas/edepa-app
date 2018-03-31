@@ -10,13 +10,13 @@ public class Message {
      * El id es para identificar si el mensaje corresponde al usuario
      * que esta usando el app, y así, acomoddar los mensajes a la izq o der
      */
-    private int userid;
+    private String userid;
 
     private Long time;
     private String username;
     private String content;
 
-    public int getUserid() {
+    public String getUserid() {
         return userid;
     }
 
@@ -36,7 +36,7 @@ public class Message {
         // Requerido por firebase
     }
 
-    public Message(int userid, String username, String content, Long time) {
+    public Message(String userid, String username, String content, Long time) {
         this.userid = userid;
         this.username = username;
         this.content = content;

@@ -2,26 +2,29 @@ package imagisoft.rommie;
 
 import java.util.ArrayList;
 import imagisoft.edepa.Message;
-import imagisoft.edepa.Controller;
-import imagisoft.edepa.Schedule;
 import imagisoft.edepa.UDateConverter;
 
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.view.LayoutInflater;
 import android.support.v7.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 /**
  * Sirve para enlazar las funciones a una actividad en específico
  */
 public class ChatViewAdapter
         extends RecyclerView.Adapter<ChatViewAdapter.ChatMessageViewHolder> {
+
+    // Se obtiene el usuario que envía
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseUser user = auth.getCurrentUser();
 
     /**
      * Variables par escoger el tipo de vista que se colocará
@@ -47,17 +50,9 @@ public class ChatViewAdapter
         this.chatView = chatView;
         this.msgs = new ArrayList<>();
 
-        ValueEventListener listener = new ChatViewAdapterValueEventListener();
-        chatView.getFirebase().getChatReference().addValueEventListener(listener);
+        ChildEventListener listener = new ChatViewAdapterChildEventListener();
+        chatView.getFirebase().getChatReference().addChildEventListener(listener);
 
-    }
-
-    /**
-     * Agrega un nuevo mensaje a la vista
-     */
-    public void addMsg(Message msg){
-        msgs.add(msg);
-        notifyItemInserted(msgs.size()-1);
     }
 
     /**
@@ -74,7 +69,7 @@ public class ChatViewAdapter
     @Override
     public int getItemViewType(int position) {
         Message item = msgs.get(position);
-        return item.getUserid() == Controller.getInstance().getUserid() ?
+        return item.getUserid().equals(user.getUid()) ?
                 CHAT_RIGHT_VIEW_TYPE:
                 CHAT_LEFT_VIEW_TYPE;
     }
@@ -131,22 +126,38 @@ public class ChatViewAdapter
      * Clase que conecta las fechas del paginador con las extraídas del
      * cronograma
      */
-    class ChatViewAdapterValueEventListener implements ValueEventListener {
+    class ChatViewAdapterChildEventListener implements ChildEventListener {
 
         @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-//            Schedule schedule = schedulePager.getFirebase().getSchedule();
-//            eventsByDay = schedule.getEventsByDay();
-//            dates.addAll(eventsByDay.keySet());
-//            createScheduleViews();
-            notifyDataSetChanged();
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            msgs.add(dataSnapshot.getValue(Message.class));
+            notifyItemInserted(msgs.size()-1);
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            Message msg = dataSnapshot.getValue(Message.class);
+            int index = msgs.indexOf(msg);
+            msgs.set(index, msg);
+            notifyItemChanged(index);
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+            Message msg = dataSnapshot.getValue(Message.class);
+            int index = msgs.indexOf(msg);
+            msgs.remove(index);
+            notifyItemRemoved(index);
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            // No requerido
         }
 
         @Override
         public void onCancelled(DatabaseError databaseError) {
-//            Context context = schedulePager.getContext();
-//            dates.add(context.getResources().getString(R.string.text_no_connection));
-            notifyDataSetChanged();
+            // TODO: Hacer algo aquí
         }
 
     }

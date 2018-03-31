@@ -1,13 +1,13 @@
 package imagisoft.rommie;
 
-import imagisoft.edepa.Controller;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
+
+import java.util.ArrayList;
 
 
 public class NewsView extends MainViewFragment {
@@ -17,12 +17,6 @@ public class NewsView extends MainViewFragment {
      * Es la capa donde se coloca cada uno de los mensajes
      */
     private RecyclerView recyclerView;
-
-    /**
-     * Referencia al controlador principal
-     */
-    private Controller ctrl = Controller.getInstance();
-
 
     /**
      * Es necesario el adaptador para colocar nuevos mensajes
@@ -61,7 +55,7 @@ public class NewsView extends MainViewFragment {
      * Se prepara el adaptador para poder recibir nuevas vistas de noticias
      */
     public void setupAdapter(){
-        adapter = new NewsViewAdapter(ctrl.getNewsRoom());
+        adapter = new NewsViewAdapter(new ArrayList<>());
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
 
             /**

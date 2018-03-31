@@ -1,6 +1,7 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.view.View;
 import android.widget.Toast;
 import android.view.MenuItem;
@@ -33,7 +34,9 @@ public abstract class MainView extends AppCompatActivity
     /**
      * Atributos en común para todas las aplicaciones. Barra de herramientas, menu lateral, etc.
      */
-    private Toolbar toolbar;
+    protected Toolbar toolbar;
+    protected CollapsingToolbarLayout toolbarLayout;
+
     private DrawerLayout drawer;
     private NavigationView navigation;
     private ActionBarDrawerToggle toggle;
@@ -63,6 +66,8 @@ public abstract class MainView extends AppCompatActivity
     private void bindViews(){
 
         toolbar = findViewById(R.id.toolbar);
+        toolbarLayout = findViewById(R.id.toolbar_layout);
+
         drawer = findViewById(R.id.main_drawer);
 
         navigation = findViewById(R.id.main_nav);

@@ -3,7 +3,6 @@ package imagisoft.rommie;
 import java.util.ArrayList;
 
 import imagisoft.edepa.Message;
-import imagisoft.edepa.Controller;
 import imagisoft.edepa.UDateConverter;
 
 import android.view.View;

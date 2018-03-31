@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/app_chat_left"
-        app:cardElevation="0dp"
+        app:cardElevation="1dp"
         app:cardCornerRadius="@dimen/card_radius_chat"
         app:cardUseCompatPadding="true">
 
@@ -39,7 +39,7 @@
                 <TextView
                     android:id="@+id/chat_view_msg_time_description"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_small"
                     android:gravity="center"
                     android:textSize="@dimen/font_smallest"

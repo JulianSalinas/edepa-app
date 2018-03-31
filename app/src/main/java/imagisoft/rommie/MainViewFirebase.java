@@ -37,7 +37,9 @@ public abstract class MainViewFirebase extends MainView {
         return scheduleReference;
     }
 
-    public DatabaseReference getCongressReference() { return congressReference; }
+    public DatabaseReference getCongressReference() {
+        return congressReference;
+    }
 
     /**
      * Cronograma que permanece en memoria para realizar las
@@ -45,7 +47,6 @@ public abstract class MainViewFirebase extends MainView {
      */
     private Schedule schedule;
     private Congress congressInformation;
-    private ArrayList<Message> chatRoom;
 
     /**
      * Función para que otros fragmentos puedan obtener el cronograma

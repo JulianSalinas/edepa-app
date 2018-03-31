@@ -2,6 +2,7 @@ package imagisoft.rommie;
 
 import com.firebase.ui.auth.AuthUI;
 import android.support.design.widget.NavigationView;
+import android.view.View;
 
 public class MainViewNavigation extends MainViewFirebase
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -29,9 +30,8 @@ public class MainViewNavigation extends MainViewFirebase
 
         // Cierra la aplicación y la sesión
         case R.id.nav_exit_and_signout:
-            AuthUI.getInstance()
-                    .signOut(this)
-                    .addOnCompleteListener(task -> finish());
+            AuthUI.getInstance().signOut(this);
+            finishAffinity();
             break;
 
         // Muestra la información general del congreso
@@ -81,7 +81,6 @@ public class MainViewNavigation extends MainViewFirebase
                 configView = new ConfigView();
             switchFragment(configView);
             break;
-
         }
 
     }

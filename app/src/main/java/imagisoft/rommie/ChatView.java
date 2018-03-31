@@ -1,7 +1,6 @@
 package imagisoft.rommie;
 
 import imagisoft.edepa.Message;
-import imagisoft.edepa.Controller;
 
 import android.os.Bundle;
 import android.view.View;
@@ -13,8 +12,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.design.widget.TextInputEditText;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 
 public class ChatView extends MainViewFragment {
+
+    // Se obtiene el usuario que envía
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseUser user = auth.getCurrentUser();
 
     /**
      * Boton para enviar los mensajes
@@ -101,21 +107,29 @@ public class ChatView extends MainViewFragment {
      * Luego se debe actualizar la vista
      */
     private void setupSendCardView() {
-        sendCardView.setOnClickListener(v -> sendMsg());
+        sendCardView.setOnClickListener(v -> sendMessage());
     }
 
     /**
      * Función para enviar un msg, si se envía se agrega a la vista
      */
-    public void sendMsg(){
+    public void sendMessage(){
 
-        Long datetime = Calendar.getInstance().getTimeInMillis();
+        // Se obtiene el usuario que envía el mensaje
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+
         String content = textInputView.getText().toString();
-//        Message msg = new Message(ctrl.getUserid(), ctrl.getUsername(), content, datetime);
 
-        // Enviar mensaje con el controlador aqui
-//        adapter.addMsg(msg);
-        textInputView.setText("");
+        if (!content.isEmpty()) {
+
+            Long datetime = Calendar.getInstance().getTimeInMillis();
+            Message msg = new Message(user.getUid(), user.getDisplayName(), content, datetime);
+
+            getFirebase().getChatReference().push().setValue(msg);
+            textInputView.setText("");
+
+        }
 
     }
 
