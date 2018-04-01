@@ -16,12 +16,26 @@ public class ScheduleBlock {
     public Long getEnd() {
         return end;
     }
+
     public Long getStart() {
         return start;
     }
 
+    public void setEnd(Long end) {
+        this.end = end;
+    }
+
+    public void setStart(Long start) {
+        this.start = start;
+    }
+
     public ScheduleBlock(){
         // Requerido por firebase
+    }
+
+    public ScheduleBlock(Long start, Long end) {
+        this.end = end;
+        this.start = start;
     }
 
     public ScheduleBlock(String start, String end) {

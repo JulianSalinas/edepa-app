@@ -1,21 +1,17 @@
 package imagisoft.rommie;
 
-import java.util.Set;
 import java.util.ArrayList;
-
+import static java.lang.Math.abs;
 import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
 import imagisoft.edepa.UDateConverter;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.google.firebase.database.Query;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.springframework.util.LinkedMultiValueMap;
@@ -30,7 +26,7 @@ public class SchedulePagerAdapter extends FragmentStatePagerAdapter {
      * Para dividir los eventos por dia en la vista
      */
     private ArrayList<String> dates;
-    private ArrayList<ScheduleEvent> events;
+    private ArrayList<ScheduleBlock> events;
     private LinkedMultiValueMap<String, ScheduleBlock> eventsByDay;
 
     private SchedulePager schedulePager;
@@ -86,10 +82,51 @@ public class SchedulePagerAdapter extends FragmentStatePagerAdapter {
      */
     public LinkedMultiValueMap<String, ScheduleBlock> getEventsByDay(){
 
-        for(ScheduleEvent event : events)
+        for(ScheduleBlock event : events)
             eventsByDay.add(UDateConverter.extractDate(event.getStart()), event);
 
         return eventsByDay;
+
+    }
+
+    public void orderEvents(ArrayList<ScheduleBlock> scheduleEvents){
+
+        // La hora del primer evento marca la hora del primer bloque
+        ScheduleEvent first = (ScheduleEvent) scheduleEvents.get(0);
+        ScheduleBlock block = new ScheduleBlock(first.getStart(), first.getEnd());
+
+        // Se añade el encabezado del bloque junto con el primer evento en la vista
+        events.add(block);
+        events.add(first);
+
+        // Se agrupan los eventos si estan anidados (un evento empieza cuando otro está activo),
+        // Si empienzan casi a la misma hora (10 mins = 600000 millis),
+        // Si al terminar un evento solo faltan 10 mins para que inicie el siguiente
+        for(int i = 1; i < scheduleEvents.size(); i++){
+
+            long upEnd = scheduleEvents.get(i-1).getEnd();
+            long upStart = scheduleEvents.get(i-1).getStart();
+            long downEnd = scheduleEvents.get(i).getEnd();
+            long downStart = scheduleEvents.get(i).getStart();
+
+            boolean areNested = upStart > downStart && downStart > upEnd;
+
+            // Agrupar en este caso es equivalente a actualizar la hora de finalización
+            // del bloque. El inicio es colocado cuando dicho bloque se crea
+            boolean diffCondition = abs(upEnd - downStart) <= 600000 ||
+                                    abs(upStart - downStart) < 600000;
+
+            if(diffCondition || areNested) block.setEnd(downEnd);
+
+            // Si no se cumplen las condiciones para agrupar, se inicia un nuevo bloque
+            else {
+                block = new ScheduleBlock(downStart, downEnd);
+                events.add(block);
+            }
+
+            events.add(scheduleEvents.get(i));
+
+        }
 
     }
 
@@ -102,8 +139,12 @@ public class SchedulePagerAdapter extends FragmentStatePagerAdapter {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
 
+            // Se extraen todos los eventos de firebase
+            ArrayList<ScheduleBlock> scheduleEvents = new ArrayList<>();
             for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
-                events.add(postSnapshot.getValue(ScheduleEvent.class));
+                scheduleEvents.add(postSnapshot.getValue(ScheduleEvent.class));
+
+            orderEvents(scheduleEvents);
 
             eventsByDay = getEventsByDay();
             dates.addAll(eventsByDay.keySet());
