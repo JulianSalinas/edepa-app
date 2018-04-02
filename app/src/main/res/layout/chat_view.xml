@@ -12,7 +12,8 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/chat_view_writing_layout"
         android:scrollbars="vertical"
-        tools:listitem="@layout/chat_view_msg_right">
+        tools:listitem="@layout/chat_view_msg_right"
+        android:background="@drawable/img_chat_wallpaper">
     </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
