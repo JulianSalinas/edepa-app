@@ -1,5 +1,6 @@
 package imagisoft.rommie;
 
+import imagisoft.edepa.UTestGenerator;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 
@@ -49,6 +50,9 @@ public abstract class MainViewFirebase extends MainView {
         this.scheduleReference = root.child("schedule");
         this.congressReference = root.child("congress");
         this.chatReference =root.child("chat");
+
+        // Linea que se debe descomentar cuando se necesita subir la información de prueba
+        // this.scheduleReference.setValue(UTestGenerator.createSchedule());
 
     }
 
