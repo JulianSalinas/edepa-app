@@ -6,9 +6,9 @@ public enum ScheduleEventType {
 
 
     CONFERENCIA (R.color.material_pink),
-    TALLER (R.color.material_green),
+    TALLER (R.color.material_deep_orange),
     FERIA_EDEPA ( R.color.material_amber),
-    PONENCIA (R.color.material_blue);
+    PONENCIA (R.color.material_deep_purple);
 
     private final int color;
 

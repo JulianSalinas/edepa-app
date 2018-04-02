@@ -84,7 +84,7 @@
                 <TableRow
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/gradient_cherry_horizontal">
+                    android:background="@color/app_light_detail">
 
                     <TextView
                         android:layout_width="0dp"
@@ -92,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:padding="@dimen/space_small"
                         android:text="@string/text_start"
-                        android:textColor="@color/app_white" />
+                        android:textColor="@color/app_primary_font" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -100,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:padding="@dimen/space_small"
                         android:text="@string/text_end"
-                        android:textColor="@color/app_white" />
+                        android:textColor="@color/app_primary_font" />
 
                 </TableRow>
 
@@ -212,6 +212,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/space_medium"
                 android:text="@string/test_location" />
+
+            <TextView
+                android:id="@+id/text_map"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_medium"
+                android:text="@string/text_map"
+                android:textStyle="italic"
+                android:textColor="#0645AD"
+                android:focusable="true"
+                android:clickable="true"/>
 
             <FrameLayout
                 android:id="@+id/map"

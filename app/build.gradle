@@ -75,9 +75,14 @@ dependencies {
     // Para la vista con scroll
     compile 'com.github.ksoichiro:Android-ObservableScrollView:v1.6.0'
 
+    // Para hacer zoom al croquis
+    compile 'com.github.chrisbanes:PhotoView:2.0.0'
+
     compile 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
 
     compile 'com.firebaseui:firebase-ui-auth:3.2.2'
+
+    compile 'com.firebaseui:firebase-ui-storage:0.6.0'
 
     compile('com.facebook.android:facebook-android-sdk:4.27.0')
 
