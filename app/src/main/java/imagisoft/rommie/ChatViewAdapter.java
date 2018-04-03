@@ -7,6 +7,7 @@ import imagisoft.edepa.UDateConverter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.support.v7.widget.RecyclerView;
 
@@ -102,6 +103,7 @@ public class ChatViewAdapter
         holder.username.setText(msg.getUsername());
         holder.messageContent.setText(msg.getContent());
         holder.timeDescription.setText(UDateConverter.extractTime(msg.getTime()));
+        Linkify.addLinks(holder.messageContent, Linkify.WEB_URLS);
     }
 
     /**
@@ -136,18 +138,12 @@ public class ChatViewAdapter
 
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            Message msg = dataSnapshot.getValue(Message.class);
-            int index = msgs.indexOf(msg);
-            msgs.set(index, msg);
-            notifyItemChanged(index);
+            // Se caia
         }
 
         @Override
         public void onChildRemoved(DataSnapshot dataSnapshot) {
-            Message msg = dataSnapshot.getValue(Message.class);
-            int index = msgs.indexOf(msg);
-            msgs.remove(index);
-            notifyItemRemoved(index);
+            // Se caia
         }
 
         @Override

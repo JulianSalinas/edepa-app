@@ -1,8 +1,5 @@
 package imagisoft.rommie;
 
-import java.util.ArrayList;
-import imagisoft.edepa.Exhibitor;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,27 +17,33 @@ public class ExhibitorsView extends MainViewFragment {
      */
     private RecyclerView recyclerView;
 
+    /**
+     * Se crea el contenedor de los exponentes
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         return inflater.inflate(R.layout.exhibitors_view, container, false);
     }
 
+    /**
+     * Justo después de crear el fragmento se enlazan y preparan las vistas
+     */
     @Override
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
-        // setupRecyclerView(items);
+        setupRecyclerView();
     }
 
     /**
-     * Se configura la capa que contiene las actividades (copiado de internet)
+     * Se configura el recyclerView que contiene los expositores
      */
-    public void setupRecyclerView(ArrayList<Exhibitor> exhibitors){
+    public void setupRecyclerView(){
         assert getView() != null;
         recyclerView = getView().findViewById(R.id.exhibitors_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new SmoothLayout(this.getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(new ExhibitorsViewAdapter(exhibitors));
+        recyclerView.setAdapter(new ExhibitorsViewAdapter(this));
     }
 
 }
