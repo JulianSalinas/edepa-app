@@ -16,6 +16,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.widget.ViewSwitcher;
+
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
 /**
@@ -34,7 +36,6 @@ public abstract class MainView extends AppCompatActivity
      * Atributos en común para todas las aplicaciones. Barra de herramientas, menu lateral, etc.
      */
     protected Toolbar toolbar;
-
     private DrawerLayout drawer;
     private NavigationView navigation;
     private ActionBarDrawerToggle toggle;
@@ -51,7 +52,7 @@ public abstract class MainView extends AppCompatActivity
     @Override
     protected void onCreate (Bundle bundle) {
         super.onCreate(bundle);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_drawer);
         bindViews();
         setupToolbar();
         setupToggle();
@@ -71,9 +72,9 @@ public abstract class MainView extends AppCompatActivity
 
         View header = navigation.getHeaderView(0);
         favoriteButton = header.findViewById(R.id.favorite_button);
-        favoriteButton.setOnClickListener(this);
-
         currentSection = header.findViewById(R.id.current_section_view);
+
+        favoriteButton.setOnClickListener(this);
 
     }
 

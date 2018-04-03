@@ -1,14 +1,14 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
-
-import com.google.firebase.database.ServerValue;
+import android.widget.ViewSwitcher;
 
 import imagisoft.edepa.BlankFragment;
 
@@ -32,29 +32,53 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
     private SchedulePager diary;
     private BlankFragment ongoing;
 
+    /**
+     * Contiene el número de tab que se está mostrando
+     */
     private int currentTab;
+
+    /**
+     * Variable usada para colocar los tabs en la appbar
+     */
+    protected ViewSwitcher switcher;
 
     /**
      * Se crea la vista que contiene el tabLayout
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflater.inflate(R.layout.schedule_tabs, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle) {
+        return inflater.inflate(R.layout.schedule_tabs_view, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle bundle) {
-
         super.onActivityCreated(bundle);
+        assert getActivity() != null;
 
-        assert getView() != null;
-        tabLayout = getView().findViewById(R.id.tab_layout);
+        // Se agrega fucionalidad a los tabs
+        tabLayout = getActivity().findViewById(R.id.tab_layout);
         tabLayout.addOnTabSelectedListener(this);
 
+        // Cuando la vista se crea se colocan los tabs en la appbar
+        switcher = getActivity().findViewById(R.id.toolbar_switcher);
+        switcher.setMeasureAllChildren(false);
+        switcher.showNext();
+
+        // Configuración inicial que se muestra al crear la vista
         currentTab = 0;
         schedule = new SchedulePager();
         switchFragment(schedule);
 
+    }
+
+    /**
+     * Al cambiar a otra sección se deben quitar los tabs
+     * de la appbar
+     */
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        switcher.showNext();
     }
 
     /**

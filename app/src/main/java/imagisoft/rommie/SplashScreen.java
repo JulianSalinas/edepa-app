@@ -1,6 +1,7 @@
 package imagisoft.rommie;
 
 import java.util.Arrays;
+import static android.os.SystemClock.sleep;
 
 import android.os.Bundle;
 import android.view.View;
@@ -64,6 +65,8 @@ public class SplashScreen extends AppCompatActivity{
         ImageView loading_gif = findViewById(R.id.gif_splash_loading);
         GlideDrawableImageViewTarget viewTerget = new GlideDrawableImageViewTarget(loading_gif);
         Glide.with(this).load(R.drawable.img_loading).into(viewTerget);
+
+        sleep(1000);
 
         startLoginActivity();
 

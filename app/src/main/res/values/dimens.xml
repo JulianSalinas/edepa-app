@@ -8,10 +8,11 @@
     <dimen name="space_default">16dp</dimen>
     <dimen name="space_big">20dp</dimen>
     <dimen name="space_biggest">25dp</dimen>
+    <dimen name="space_header">34dp</dimen>
 
     <!--For navigation sidemenu-->
     <dimen name="space_header_items">8dp</dimen>
-    <dimen name="space_header_height">250dp</dimen>
+    <dimen name="space_header_height">260dp</dimen>
 
     <!-- For icons and images-->
     <dimen name="size_icon">25dp</dimen>
@@ -31,6 +32,7 @@
     <dimen name="card_radius">2dp</dimen>
     <dimen name="card_radius_chat">5dp</dimen>
     <dimen name="card_elevation">2dp</dimen>
+    <dimen name="header_elevation">16dp</dimen>
 
     <!-- Fonts sizes-->
     <dimen name="font_smallest">12sp</dimen>
@@ -39,8 +41,13 @@
     <dimen name="font_big">18sp</dimen>
     <dimen name="font_biggest">20sp</dimen>
 
+    <dimen name="font_header_big">24sp</dimen>
+    <dimen name="font_header_normal">20sp</dimen>
+
     <!-- For splash screen-->
     <dimen name="font_splash">28sp</dimen>
     <dimen name="font_logo">60sp</dimen>
+    <dimen name="expanded_toolbar_title_margin_start">64dp</dimen>
+    <dimen name="app_bar_height">230dp</dimen>
 
 </resources>
