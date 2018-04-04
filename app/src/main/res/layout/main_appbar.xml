@@ -40,8 +40,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/app_detail"/>
+                android:layout_height="0dp" />
 
             <include layout="@layout/schedule_tabs"/>
 

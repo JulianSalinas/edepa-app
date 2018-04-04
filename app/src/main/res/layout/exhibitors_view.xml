@@ -1,6 +1,5 @@
 <LinearLayout
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,7 +11,16 @@
         android:background="@color/app_light_detail"
         android:queryBackground="@color/app_white"/>
 
-    <include layout="@layout/exhibitors_list"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/exhibitors_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingEnd="@dimen/space_default"
+        android:paddingStart="@dimen/space_default"
+        android:paddingTop="@dimen/space_default"
+        android:scrollbars="vertical"
+        android:scrollbarStyle="outsideInset"
+        tools:listitem="@layout/exhibitors_item" />
 
 </LinearLayout>
 

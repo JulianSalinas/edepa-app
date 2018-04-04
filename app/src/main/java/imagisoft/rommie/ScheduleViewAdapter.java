@@ -27,23 +27,21 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private int SCHEDULE_EVENT_VIEW_TYPE = 2;
 
     /**
-     * Objetos del modelo que serán adaptados visualmente
-     */
-    private List<? extends ScheduleBlock> events;
-
-    /**
      * SchedulePager al que se debe colocar este adaptador
      */
     private ScheduleView scheduleView;
 
     /**
+     * Objetos del modelo que serán adaptados visualmente
+     */
+    private List<? extends ScheduleBlock> events;
+
+    /**
      * Constructor de la vista donde se colocan los eventos
      */
     public ScheduleViewAdapter(ScheduleView scheduleView){
-
         this.scheduleView = scheduleView;
         this.events = scheduleView.getEvents();
-
     }
 
     /**
@@ -55,7 +53,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     /**
-     *  Obtiene si la vista es un bloque de hora una actividad
+     *  Obtiene si la vista es un bloque de hora o una actividad
      */
     @Override
     public int getItemViewType(int position) {
@@ -103,37 +101,19 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     /**
      * En caso que la vista a crear sea un evento
-     * @param holder ScheduleEventViewHolder
      */
     public void onBindScheduleEventViewHolder(ScheduleEventViewHolder holder){
 
-        Activity activity = scheduleView.getActivity();
-
-        // Items para extraer los datos y colocarlos en la vista
         ScheduleEvent event = (ScheduleEvent) events.get(holder.getAdapterPosition());
 
-        // Forma el string para colocar la fecha de la actividad
-        String range =  activity.getResources().getString(R.string.text_from) + " " +
-                        UDateConverter.extractTime(event.getStart()) + " " +
-                        activity.getResources().getString(R.string.text_to) + " " +
-                        UDateConverter.extractTime(event.getEnd());
-
-        // Rellana todos los espacios de la actividad
-        holder.time.setText(range);
-        holder.header.setText(event.getTitle());
-        holder.eventype.setText(event.getEventype().toString());
-
-        // Coloca el color acorde al tipo de actividad
-        int colorResource = event.getEventype().getColor();
-        holder.line.setBackgroundResource(colorResource);
-        holder.readmore.setTextColor(activity.getResources().getColor(colorResource));
+        bindInformation(holder, event);
+        bindColorEmphasis(holder, event);
 
         /*
         * Función ejecutada al presionar el botón "readmore" de una actividad
-        * TODO: Pasar "item" a la "ScheduleDetail" para saber que información mostrar
         */
         holder.readmore.setOnClickListener(v ->
-             scheduleView.switchFragment(new ScheduleDetail())
+             scheduleView.switchFragment(ScheduleDetail.newInstance(event))
         );
 
         /*
@@ -150,45 +130,51 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
+    /**
+     * Coloca la hora en un encabezado de bloque de eventos
+     */
     public void onBindScheduleBlockViewHolder(ScheduleBlockViewHolder holder){
-
-        // Items para extraer los datos y colocarlos en la vista
         ScheduleBlock block = events.get(holder.getAdapterPosition());
+        holder.time.setText(getDatesAsString(block));
+    }
 
-        // Forma el string para colocar la fecha de la actividad
-        Resources resources = scheduleView.getResources();
-        String range =  resources.getString(R.string.text_from) + " " +
-                        UDateConverter.extractTime(block.getStart()) + " " +
-                        resources.getString(R.string.text_to) + " " +
-                        UDateConverter.extractTime(block.getEnd());
+    /**
+     * Toma la fecha inicio y fin del evento y las concatena y retorna como strings
+     * @param block: Evento o bloque donde se toman las fechas
+     * @return Fechas como un string que se debe mostrar en la UI
+     */
+    private String getDatesAsString(ScheduleBlock block){
 
-        // Rellana todos los espacios de la actividad
-        holder.time.setText(range);
+        Activity activity = scheduleView.getActivity();
+        assert activity != null;
+
+        return  activity.getResources().getString(R.string.text_from) + " " +
+                UDateConverter.extractTime(block.getStart()) + " " +
+                activity.getResources().getString(R.string.text_to) + " " +
+                UDateConverter.extractTime(block.getEnd());
 
     }
 
     /**
-     * Clase para enlzar cada uno de los componentes visuales de la actividad.
-     * Es necesario que esta clase este anidada, asi que, no mover!
+     * Coloca la información de evento en la vista
      */
-    class ScheduleEventViewHolder extends RecyclerView.ViewHolder {
+    private void bindInformation(ScheduleEventViewHolder holder, ScheduleEvent event){
+        holder.time.setText(getDatesAsString(event));
+        holder.header.setText(event.getTitle());
+        holder.eventype.setText(event.getEventype().toString());
+    }
 
-        View line;
-        TextView time;
-        TextView header;
-        TextView eventype;
-        TextView readmore;
-        MaterialFavoriteButton favoriteButton;
+    /**
+     * Coloca el color acorde con el tipo de actividad
+     */
+    private void bindColorEmphasis(ScheduleEventViewHolder holder, ScheduleEvent event){
 
-        ScheduleEventViewHolder(View view) {
-            super(view);
-            this.line = view.findViewById(R.id.schedule_item_line);
-            this.time = view.findViewById(R.id.schedule_item_time);
-            this.header = view.findViewById(R.id.schedule_item_header);
-            this.eventype = view.findViewById(R.id.schedule_item_eventype);
-            this.readmore = view.findViewById(R.id.shedule_item_readmore);
-            this.favoriteButton = view.findViewById(R.id.favorite_button);
-        }
+        Activity activity = scheduleView.getActivity();
+        assert activity != null;
+
+        int colorResource = event.getEventype().getColor();
+        holder.line.setBackgroundResource(colorResource);
+        holder.readmore.setTextColor(activity.getResources().getColor(colorResource));
 
     }
 
@@ -200,7 +186,29 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView time;
         ScheduleBlockViewHolder(View view) {
             super(view);
-            this.time = view.findViewById(R.id.schedule_block_time);
+            this.time = view.findViewById(R.id.schedule_item_time);
+        }
+
+    }
+
+    /**
+     * Clase para enlzar cada uno de los componentes visuales
+     */
+    class ScheduleEventViewHolder extends ScheduleBlockViewHolder {
+
+        View line;
+        TextView header;
+        TextView eventype;
+        TextView readmore;
+        MaterialFavoriteButton favoriteButton;
+
+        ScheduleEventViewHolder(View view) {
+            super(view);
+            this.line = view.findViewById(R.id.schedule_item_line);
+            this.header = view.findViewById(R.id.schedule_item_header);
+            this.eventype = view.findViewById(R.id.schedule_item_eventype);
+            this.readmore = view.findViewById(R.id.schedule_item_readmore);
+            this.favoriteButton = view.findViewById(R.id.favorite_button);
         }
 
     }

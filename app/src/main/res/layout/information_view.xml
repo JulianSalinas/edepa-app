@@ -213,16 +213,13 @@
                 android:layout_marginBottom="@dimen/space_medium"
                 android:text="@string/test_location" />
 
-            <TextView
-                android:id="@+id/text_map"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/button_map"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_medium"
+                android:layout_gravity="end"
                 android:text="@string/text_map"
-                android:textStyle="italic"
-                android:textColor="#0645AD"
-                android:focusable="true"
-                android:clickable="true"/>
+                android:textSize="@dimen/font_smallest"/>
 
             <FrameLayout
                 android:id="@+id/map"

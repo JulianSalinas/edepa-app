@@ -19,6 +19,13 @@ public class MainViewFragment extends Fragment {
     }
 
     /**
+     * Es un invocada cuando un fragmento ocupa ocultar o mostrar la toolbar
+     */
+    public MainViewFirebase getNavigation(){
+        return (MainViewNavigation) getActivity();
+    }
+
+    /**
      * Coloca en la pantalla un fragmento previamente creado
      * @param fragment Asociado a la opción elegida por el usuario
      */

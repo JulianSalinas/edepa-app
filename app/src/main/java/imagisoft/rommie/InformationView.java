@@ -3,6 +3,7 @@ package imagisoft.rommie;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
@@ -53,9 +54,8 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
         TextView congressLocation = view.findViewById(R.id.text_location);
         congressLocation.setText(congressInformation.getWrittenLocation());
 
-        TextView textMap = view.findViewById(R.id.text_map);
-        textMap.setAutoLinkMask(Linkify.ALL);
-        textMap.setOnClickListener(v -> switchFragment(new InformationMap()));
+        Button buttonMap = view.findViewById(R.id.button_map);
+        buttonMap.setOnClickListener(v -> switchFragment(new InformationMap()));
 
     }
 

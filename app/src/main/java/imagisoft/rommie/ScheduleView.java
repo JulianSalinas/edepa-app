@@ -54,7 +54,7 @@ public class ScheduleView extends MainViewFragment {
     @Override
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
-         setupRecyclerView();
+        setupRecyclerView();
     }
 
     /**
