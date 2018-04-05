@@ -1,5 +1,6 @@
 package imagisoft.rommie;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
@@ -8,8 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
 import imagisoft.edepa.ScheduleEvent;
 
@@ -27,11 +30,13 @@ public class ScheduleDetail extends MainViewFragment {
     private TextView textLocation;
     private RecyclerView exhibitorsView;
 
-    private View emphasisView;
+    private View icMap;
     private TextView textHeader;
     private TextView textEventype;
-    private Button buttonMap;
+    private ImageView emphasisView;
+    private FloatingActionLayout favoriteButton;
 
+    private ImageView buttonBack;
     private ExhibitorsViewAdapter exhibitorsAdapter;
 
     /**
@@ -81,15 +86,22 @@ public class ScheduleDetail extends MainViewFragment {
      * Se enlaza cada uno de los componentes visuales
      */
     private void bindViews() {
+
         assert getView() != null;
+
         textAbstract = getView().findViewById(R.id.text_abstract);
         textLocation = getView().findViewById(R.id.text_location);
-        exhibitorsView = getView().findViewById(R.id.exhibitors_view);
-        emphasisView = getView().findViewById(R.id.schedule_detail_top);
         textHeader = getView().findViewById(R.id.schedule_detail_header);
         textEventype =  getView().findViewById(R.id.schedule_detail_eventype);
-        buttonMap = getView().findViewById(R.id.button_map);
+
+        emphasisView = getView().findViewById(R.id.schedule_detail_top);
+        favoriteButton = getView().findViewById(R.id.favorite_button);
+        exhibitorsView = getView().findViewById(R.id.exhibitors_view);
+
+        icMap = getView().findViewById(R.id.ic_map);
+        buttonBack = getView().findViewById(R.id.button_back);
         exhibitorsAdapter = new ExhibitorsViewAdapter(event.getExhibitors());
+
     }
 
     /**
@@ -97,12 +109,18 @@ public class ScheduleDetail extends MainViewFragment {
      * TODO: Colocar el abstract según el idioma
      */
     private void bindInformation(){
+
         textAbstract.setText(event.getBriefSpanish());
         textLocation.setText(event.getLocation());
         textHeader.setText(event.getTitle());
         textEventype.setText(event.getEventype().toString());
-        emphasisView.setBackgroundResource(event.getEventype().getColor());
-        buttonMap.setOnClickListener(v -> switchFragment(new InformationMap()));
+
+        Drawable drawable = getResources().getDrawable(event.getEventype().getResource());
+        emphasisView.setImageDrawable(drawable);
+
+        icMap.setOnClickListener(v -> switchFragment(new InformationMap()));
+        buttonBack.setOnClickListener(v -> getActivity().onBackPressed());
+
     }
 
     /**

@@ -1,9 +1,11 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
@@ -29,6 +31,7 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
     private SupportMapFragment mapFragment;
     private Congress congressInformation;
 
+    private ImageView buttonBack;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         return inflater.inflate(R.layout.information_view, container, false);
@@ -54,8 +57,11 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
         TextView congressLocation = view.findViewById(R.id.text_location);
         congressLocation.setText(congressInformation.getWrittenLocation());
 
-        Button buttonMap = view.findViewById(R.id.button_map);
-        buttonMap.setOnClickListener(v -> switchFragment(new InformationMap()));
+        View icMap = view.findViewById(R.id.ic_map);
+        icMap.setOnClickListener(v -> switchFragment(new InformationMap()));
+
+        buttonBack = view.findViewById(R.id.button_back);
+        buttonBack.setOnClickListener(v -> getActivity().onBackPressed());
 
     }
 
@@ -63,12 +69,25 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
 
+        ActionBar toolbar = getNavigation().getSupportActionBar();
+        if(toolbar != null) toolbar.hide();
+
         // Para que la información se actualice en tiempo real y no cada vez que
         // se abre la aplicación
         getFirebase()
                 .getCongressReference()
                 .addValueEventListener(new InformationViewValueEventListener());
 
+    }
+
+    /**
+     * Al cambiar a otra sección se deben volver a colocar la toolbar
+     */
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ActionBar toolbar = getNavigation().getSupportActionBar();
+        if(toolbar != null) toolbar.show();
     }
 
     private void setupMap(){

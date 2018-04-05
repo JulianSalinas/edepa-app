@@ -25,7 +25,7 @@
                 android:id="@+id/exhibitor_item_line"
                 android:layout_width="@dimen/space_small"
                 android:layout_height="match_parent"
-                android:background="@drawable/gradient_orange"
+                android:background="@drawable/gradient_cherry"
                 android:orientation="horizontal">
             </View>
 
