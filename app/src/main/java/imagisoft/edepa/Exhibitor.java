@@ -31,14 +31,18 @@ public class Exhibitor {
     /*
     * Es la misma persona con solo poseer el mismo nombre
     */
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Exhibitor)) return false;
         Exhibitor exhibitor = (Exhibitor) o;
-        return completeName != null ?
-                completeName.equals(exhibitor.completeName) :
-                exhibitor.completeName == null;
+        return completeName.equals(exhibitor.completeName);
+    }
+
+    @Override
+    public int hashCode() {
+        return completeName.hashCode();
     }
 
 }

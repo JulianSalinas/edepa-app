@@ -14,9 +14,14 @@ import android.widget.TextView;
 
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import imagisoft.edepa.Exhibitor;
+import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
 
-public class ScheduleDetail extends MainViewFragment {
+public class ScheduleDetail extends ExhibitorsViewFragment{
 
     /**
      * Referencia al evento del que se muestran los detalles
@@ -37,7 +42,7 @@ public class ScheduleDetail extends MainViewFragment {
     private FloatingActionLayout favoriteButton;
 
     private ImageView buttonBack;
-    private ExhibitorsViewAdapter exhibitorsAdapter;
+
 
     /**
      * No se pueden crear constructores con parámetros, por tanto,
@@ -47,6 +52,14 @@ public class ScheduleDetail extends MainViewFragment {
         ScheduleDetail fragment = new ScheduleDetail();
         fragment.event = event;
         return fragment;
+    }
+
+    /**
+     * Obtiene todos los expositores que maneja la vista
+     */
+    @Override
+    public List<Exhibitor> getExhibitors() {
+        return event.getExhibitors();
     }
 
     /**
@@ -100,7 +113,7 @@ public class ScheduleDetail extends MainViewFragment {
 
         icMap = getView().findViewById(R.id.ic_map);
         buttonBack = getView().findViewById(R.id.button_back);
-        exhibitorsAdapter = new ExhibitorsViewAdapter(event.getExhibitors());
+        exhibitorsAdapter = new ExhibitorsViewAdapter(this);
 
     }
 

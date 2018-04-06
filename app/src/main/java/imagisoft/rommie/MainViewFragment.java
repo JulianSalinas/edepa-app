@@ -38,6 +38,7 @@ public class MainViewFragment extends Fragment {
      * @param fragment Asociado a la opción elegida por el usuario
      */
     public void switchFragment(Fragment fragment, int animation){
+        assert getActivity() != null;
         MainViewNavigation activity = (MainViewNavigation) getActivity();
         activity.switchFragment(fragment, animation);
     }
@@ -47,6 +48,7 @@ public class MainViewFragment extends Fragment {
      * @param msg Mensaje que se desea mostrar
      */
     public void showStatusMessage(String msg){
+        assert getActivity() != null;
         MainViewNavigation activity = (MainViewNavigation) getActivity();
         activity.showStatusMessage(msg);
     }

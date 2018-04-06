@@ -1,12 +1,11 @@
 package imagisoft.rommie;
 
-import java.util.ArrayList;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.support.v4.view.ViewPager;
+import android.support.annotation.NonNull;
 
 /**
  * Contiene los fragmentos donde se muestras las actividades del congreso
@@ -19,19 +18,10 @@ public class SchedulePager extends MainViewFragment {
     private ViewPager viewPager;
 
     /**
-     * Arreglo de vistas que contendrá el paginador
-     */
-    private ArrayList<ScheduleView> scheduleViews;
-
-    public ArrayList<ScheduleView> getScheduleViews(){
-        return scheduleViews;
-    }
-
-    /**
      * Crea la vista del paginador, es decir, donde se colocan los días
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         return inflater.inflate(R.layout.schedule_pager, container, false);
     }
 
@@ -51,10 +41,7 @@ public class SchedulePager extends MainViewFragment {
     private void setupViewPager() {
 
         assert getView() != null;
-
         viewPager = getView().findViewById(R.id.view_pager);
-        scheduleViews = new ArrayList<>();
-
         viewPager.setAdapter(new SchedulePagerAdapter(this));
 
     }

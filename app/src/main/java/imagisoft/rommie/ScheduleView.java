@@ -4,6 +4,7 @@ import java.util.List;
 import imagisoft.edepa.ScheduleBlock;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
@@ -18,7 +19,7 @@ public class ScheduleView extends MainViewFragment {
     /**
      * Es la capa donde se coloca cada una de las actividades/eventos
      */
-    private RecyclerView recyclerView;
+    private RecyclerView eventsView;
 
     /**
      * Eventos para colocar en la lista, se asume que entran
@@ -41,10 +42,10 @@ public class ScheduleView extends MainViewFragment {
     }
 
     /**
-     * Se crea la vista que contiene el recyclerView
+     * Se crea la vista que contiene el eventsView
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         return inflater.inflate(R.layout.schedule_view, container, false);
     }
 
@@ -54,21 +55,21 @@ public class ScheduleView extends MainViewFragment {
     @Override
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
-        setupRecyclerView();
+        setupEventsView();
     }
 
     /**
      * Se configura la capa que contiene las actividades
      */
-    public void setupRecyclerView(){
+    public void setupEventsView(){
 
         assert getView() != null;
-        recyclerView = getView().findViewById(R.id.schedule_view);
+        eventsView = getView().findViewById(R.id.schedule_view);
 
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new ScheduleViewAdapter(this));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setLayoutManager(new SmoothLayout(this.getActivity()));
+        eventsView.setHasFixedSize(true);
+        eventsView.setAdapter(new ScheduleViewAdapter(this));
+        eventsView.setItemAnimator(new DefaultItemAnimator());
+        eventsView.setLayoutManager(new SmoothLayout(this.getActivity()));
 
     }
 

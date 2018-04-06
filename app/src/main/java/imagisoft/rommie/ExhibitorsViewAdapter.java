@@ -6,6 +6,7 @@ import agency.tango.android.avatarview.utils.StringUtils;
 import imagisoft.edepa.Exhibitor;
 
 import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -25,10 +26,17 @@ public class ExhibitorsViewAdapter
     private List<Exhibitor> exhibitors;
 
     /**
+     * Es un fragmento que implementa una interfaz que \
+     * permite obtener los eventos de un expositor
+     */
+    private ExhibitorsViewFragment exhibitorsView;
+
+    /**
      * Contructor. Se colocan los expositores
      */
-    public ExhibitorsViewAdapter(List<Exhibitor>exhibitors){
-        this.exhibitors = exhibitors;
+    public ExhibitorsViewAdapter(ExhibitorsViewFragment exhibitorsView){
+        this.exhibitorsView = exhibitorsView;
+        this.exhibitors = exhibitorsView.getExhibitors();
     }
 
     /**
@@ -49,7 +57,6 @@ public class ExhibitorsViewAdapter
         return new ExhibitorViewHolder(view);
     }
 
-
     /**
      * Se enlazan los componentes y se agregan funciones a cada uno
      * @param position NO USAR, esta variable no tiene valor fijo. Usar holder.getAdapterPosition()
@@ -59,7 +66,7 @@ public class ExhibitorsViewAdapter
 
         Exhibitor item = exhibitors.get(holder.getAdapterPosition());
 
-        // Rellana todos los espacios de la actividad
+        // Rellena todos los espacios de la actividad
         holder.name.setText(item.getCompleteName());
         holder.title.setText(item.getPersonalTitle());
 
@@ -69,6 +76,9 @@ public class ExhibitorsViewAdapter
 
         holder.avatar.setImageDrawable(placeholder);
         holder.line.setBackgroundColor(color);
+
+        holder.exhibitor.setOnClickListener(v -> exhibitorsView
+                .switchFragment(ScheduleView.newInstance(exhibitorsView.getExhibitorsEvents(item))));
 
     }
 
@@ -90,6 +100,7 @@ public class ExhibitorsViewAdapter
         TextView name;
         TextView title;
         AvatarView avatar;
+        CardView exhibitor;
 
         ExhibitorViewHolder(View view) {
             super(view);
@@ -97,6 +108,7 @@ public class ExhibitorsViewAdapter
             this.name = view.findViewById(R.id.exhibitor_item_name);
             this.title= view.findViewById(R.id.exhibitor_item_title);
             this.avatar = view.findViewById(R.id.exhibitor_item_avatar);
+            this.exhibitor = view.findViewById(R.id.exhibitors_item);
         }
 
     }
