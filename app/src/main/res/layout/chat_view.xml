@@ -39,13 +39,12 @@
                 app:cardElevation="1dp"
                 app:cardUseCompatPadding="true">
 
-                <android.support.design.widget.TextInputEditText
+                <EditText
                     android:id="@+id/chat_view_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#00FFFFFF"
                     android:hint="@string/text_input"
-                    android:imeOptions="actionDone"
                     android:inputType="textMultiLine"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp" />

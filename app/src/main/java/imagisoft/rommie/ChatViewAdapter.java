@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import imagisoft.edepa.Message;
 import imagisoft.edepa.UDateConverter;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -17,9 +18,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
-/**
- * Sirve para enlazar las funciones a una actividad en específico
- */
+
 public class ChatViewAdapter
         extends RecyclerView.Adapter<ChatViewAdapter.ChatMessageViewHolder> {
 
@@ -138,12 +137,12 @@ public class ChatViewAdapter
 
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            // Se caia
+            // No requerido
         }
 
         @Override
         public void onChildRemoved(DataSnapshot dataSnapshot) {
-            // Se caia
+            // No requerido
         }
 
         @Override
@@ -153,7 +152,7 @@ public class ChatViewAdapter
 
         @Override
         public void onCancelled(DatabaseError databaseError) {
-            // TODO: Hacer algo aquí
+            Log.i(chatView.getTag(), databaseError.toString());
         }
 
     }
