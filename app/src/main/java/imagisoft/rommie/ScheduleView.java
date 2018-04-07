@@ -67,7 +67,7 @@ public class ScheduleView extends MainViewFragment {
         eventsView = getView().findViewById(R.id.schedule_view);
 
         eventsView.setHasFixedSize(true);
-        eventsView.setAdapter(new ScheduleViewAdapter(this));
+        eventsView.setAdapter(new ScheduleViewAdapter(this, events));
         eventsView.setItemAnimator(new DefaultItemAnimator());
         eventsView.setLayoutManager(new SmoothLayout(this.getActivity()));
 

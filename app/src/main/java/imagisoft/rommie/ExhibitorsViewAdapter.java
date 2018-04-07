@@ -1,21 +1,19 @@
 package imagisoft.rommie;
 
 import java.util.List;
-
-import agency.tango.android.avatarview.utils.StringUtils;
 import imagisoft.edepa.Exhibitor;
 
-import android.graphics.Color;
-import android.support.v7.widget.CardView;
 import android.view.View;
+import android.graphics.Color;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.view.LayoutInflater;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 
 import agency.tango.android.avatarview.views.AvatarView;
 import agency.tango.android.avatarview.AvatarPlaceholder;
-
+import agency.tango.android.avatarview.utils.StringUtils;
 
 public class ExhibitorsViewAdapter
         extends RecyclerView.Adapter<ExhibitorsViewAdapter.ExhibitorViewHolder> {
@@ -26,13 +24,12 @@ public class ExhibitorsViewAdapter
     private List<Exhibitor> exhibitors;
 
     /**
-     * Es un fragmento que implementa una interfaz que \
-     * permite obtener los eventos de un expositor
+     * Es un fragmento permite obtener los eventos de un expositor
      */
     private ExhibitorsViewFragment exhibitorsView;
 
     /**
-     * Contructor. Se colocan los expositores
+     * Se colocan los expositores
      */
     public ExhibitorsViewAdapter(ExhibitorsViewFragment exhibitorsView){
         this.exhibitorsView = exhibitorsView;
@@ -66,29 +63,41 @@ public class ExhibitorsViewAdapter
 
         Exhibitor item = exhibitors.get(holder.getAdapterPosition());
 
-        // Rellena todos los espacios de la actividad
-        holder.name.setText(item.getCompleteName());
-        holder.title.setText(item.getPersonalTitle());
+        bindInformation(item, holder);
+        bindColor(item.getCompleteName(), holder);
 
-        // Coloca la primra letra del nombre como el avatar
-        int color = Color.parseColor(convertStringToColor(item.getCompleteName()));
-        AvatarPlaceholder placeholder = new AvatarPlaceholder(item.getCompleteName(), 30);
+        holder.exhibitor.setOnClickListener(v -> exhibitorsView.switchFragment(
+                ExhibitorDetail.newInstance(item, exhibitorsView.getExhibitorsEvents(item))));
 
-        holder.avatar.setImageDrawable(placeholder);
+    }
+
+    /**
+     * Coloca la informacíon básica de la persona
+     */
+    public void bindInformation(Exhibitor exhibitor, ExhibitorViewHolder holder){
+        holder.name.setText(exhibitor.getCompleteName());
+        holder.title.setText(exhibitor.getPersonalTitle());
+    }
+
+    /**
+     * Coloca la primra letra del nombre como el avatar y le pone color
+     * con base a eso.
+     */
+    private void bindColor(String name, ExhibitorViewHolder holder){
+        int color = convertStringToColor(name);
+        AvatarPlaceholder avatar = new AvatarPlaceholder(name, 30);
+        holder.avatar.setImageDrawable(avatar);
         holder.line.setBackgroundColor(color);
-
-        holder.exhibitor.setOnClickListener(v -> exhibitorsView
-                .switchFragment(ScheduleView.newInstance(exhibitorsView.getExhibitorsEvents(item))));
-
     }
 
     /**
      * A partir de un string retorna un color.
      * Usada para colorear los avatares y decoraciones del mismo
      */
-    private String convertStringToColor(String text) {
-        return StringUtils.isNullOrEmpty(text) ? "#3F51B5" :
+    private int convertStringToColor(String text) {
+        String color = StringUtils.isNullOrEmpty(text) ? "#3F51B5" :
                 String.format("#FF%06X", (0xFFFFFF & text.hashCode()));
+        return Color.parseColor(color);
     }
 
     /**

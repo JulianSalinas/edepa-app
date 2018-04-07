@@ -1,7 +1,16 @@
 package imagisoft.rommie;
 
-import android.os.Bundle;
+import java.util.List;
+import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collections;
+
+import imagisoft.edepa.Exhibitor;
+import imagisoft.edepa.ScheduleBlock;
+import imagisoft.edepa.ScheduleEvent;
+
 import android.util.Log;
+import android.os.Bundle;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -9,14 +18,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.springframework.util.LinkedMultiValueMap;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-
-import imagisoft.edepa.Exhibitor;
-import imagisoft.edepa.ScheduleBlock;
-import imagisoft.edepa.ScheduleEvent;
 
 public class ExhibitorsViewFragment extends MainViewFragment{
 
@@ -99,20 +100,29 @@ public class ExhibitorsViewFragment extends MainViewFragment{
         exhibitorsAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Por cada evento extrae los expositores y actualiza el
+     * contenido del adaptador
+     */
+    private void updateAdapter(DataSnapshot dataSnapshot){
+        for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
+            ScheduleEvent event = postSnapshot.getValue(ScheduleEvent.class);
+            if(event != null) addExhibitors(event);
+        }
+    }
+
+    /**
+     * Clase que conecta a los expositores con el adaptador en tiempo real
+     */
     class ExhibitorsViewValueEventListener implements ValueEventListener {
 
         /**
-         * Por cada evento extrae los expositores y actualiza la UI
+         * Actualiza tanto adaptador como UI
          */
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-
-            for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
-                ScheduleEvent event = postSnapshot.getValue(ScheduleEvent.class);
-                if(event != null)
-                    addExhibitors(event);
-            }       updateExhibitors();
-
+            updateAdapter(dataSnapshot);
+            updateExhibitors();
         }
 
         /**

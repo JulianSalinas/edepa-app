@@ -26,10 +26,10 @@ public class ExhibitorsView extends ExhibitorsViewFragment {
 
     /**
      * Justo después de crear el fragmento se enlazan y preparan las vistas
-     * Se enlaza con firebase para obtener los expositores de todos los eventos
      */
     @Override
     public void onActivityCreated(Bundle bundle) {
+
         super.onActivityCreated(bundle);
 
         assert getView() != null;
@@ -47,6 +47,5 @@ public class ExhibitorsView extends ExhibitorsViewFragment {
         exhibitorsView.setItemAnimator(new DefaultItemAnimator());
         exhibitorsView.setAdapter(exhibitorsAdapter);
     }
-
 
 }

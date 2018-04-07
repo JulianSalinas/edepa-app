@@ -16,8 +16,8 @@
             android:id="@+id/toolbar_layout"
             android:fitsSystemWindows="true"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_container_img"
-            app:layout_scrollFlags="scroll|snap"
+            android:layout_height="@dimen/size_detail_img"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap"
             app:expandedTitleTextAppearance="@android:color/transparent">
 
             <ImageView
@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/gradient_cherry"/>
+                android:src="@color/app_light_detail"/>
 
             <ImageView
                 android:id="@+id/button_back"
@@ -35,20 +35,35 @@
                 android:layout_height="@dimen/size_icon"
                 android:layout_margin="@dimen/space_default"
                 android:background="@drawable/ic_back"
-                android:backgroundTint="@color/app_white"
+                android:backgroundTint="@color/app_icon"
                 android:contentDescription="@null" />
 
-
-            <TextView
-                android:id="@+id/text_congress_name"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/space_default"
-                android:layout_gravity="bottom"
-                android:text="@string/test_congress"
-                android:textSize="@dimen/font_big"
-                android:textColor="@color/app_secondary_font"
-                android:fontFamily="sans-serif-smallcaps"/>
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_default">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/text_congress_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/space_default"
+                        android:layout_gravity="bottom"
+                        android:text="@string/test_congress"
+                        android:textSize="@dimen/font_big"
+                        android:textColor="@color/material_grey"
+                        android:fontFamily="sans-serif-smallcaps"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 

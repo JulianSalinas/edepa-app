@@ -1,25 +1,24 @@
 package imagisoft.rommie;
 
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.LayoutInflater;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import imagisoft.edepa.Exhibitor;
-import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.ImageView;
+import android.view.LayoutInflater;
+import android.support.v7.app.ActionBar;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.DefaultItemAnimator;
+
+import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
+
 
 public class ScheduleDetail extends ExhibitorsViewFragment{
 

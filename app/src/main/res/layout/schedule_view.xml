@@ -5,5 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="vertical"
-    tools:listitem="@layout/schedule_item" />
+    android:paddingStart="@dimen/space_smallest"
+    android:paddingEnd="@dimen/space_smallest"
+    tools:listitem="@layout/schedule_item"
+    android:scrollbarStyle="outsideInset"/>
 

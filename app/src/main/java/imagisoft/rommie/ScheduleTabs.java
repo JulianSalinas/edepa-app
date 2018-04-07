@@ -29,7 +29,7 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
      */
     private TabLayout tabLayout;
     private SchedulePager schedule;
-    private SchedulePager diary;
+    private BlankFragment diary;
     private BlankFragment ongoing;
 
     /**
@@ -112,7 +112,7 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
 
                 case DIARY_TAB:
                     if(diary == null)
-                        diary = new SchedulePager();
+                        diary = new BlankFragment();
                     switchFragment(diary);
                     break;
 

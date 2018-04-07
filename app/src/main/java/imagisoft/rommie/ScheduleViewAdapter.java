@@ -29,7 +29,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /**
      * SchedulePager al que se debe colocar este adaptador
      */
-    private ScheduleView scheduleView;
+    private MainViewFragment scheduleView;
 
     /**
      * Objetos del modelo que serán adaptados visualmente
@@ -39,9 +39,9 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /**
      * Constructor de la vista donde se colocan los eventos
      */
-    public ScheduleViewAdapter(ScheduleView scheduleView){
+    public ScheduleViewAdapter(MainViewFragment scheduleView, List<? extends ScheduleBlock> events){
         this.scheduleView = scheduleView;
-        this.events = scheduleView.getEvents();
+        this.events = events;
     }
 
     /**
