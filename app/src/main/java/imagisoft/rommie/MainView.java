@@ -1,6 +1,12 @@
 package imagisoft.rommie;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.Toast;
 import android.view.MenuItem;
@@ -16,9 +22,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.widget.ViewSwitcher;
 
+import com.firebase.jobdispatcher.Constraint;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.RetryStrategy;
+import com.firebase.jobdispatcher.Trigger;
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
+
+import java.util.Locale;
 
 /**
  * Clase análoga al masterpage de un página web
@@ -31,6 +45,20 @@ public abstract class MainView extends AppCompatActivity
      */
     public int FADE_ANIMATION = 0;
     public int SLIDE_ANIMATION = 1;
+
+    /**
+     * Variables usadas para correr el servicio de notificaciones
+     */
+    private FirebaseJobDispatcher dispatcher;
+
+    /**
+     * El Id de las notificaciones y el canal están basados en el lenguaje del teléfono
+     */
+    private static final String CHANNEL = Locale.getDefault() == Locale.ENGLISH ?
+            "Servcio de notificaciones" : "Notifications Service";
+
+    private static final String NOTIFICATION_ID = Locale.getDefault() == Locale.ENGLISH ?
+            "Reminders" : "Recordatorios";
 
     /**
      * Atributos en común para todas las aplicaciones. Barra de herramientas, menu lateral, etc.
@@ -56,7 +84,9 @@ public abstract class MainView extends AppCompatActivity
         bindViews();
         setupToolbar();
         setupToggle();
+        setupDispatcher();
         navigateById(R.id.nav_schedule);
+        scheduleJob();
     }
 
     /**
@@ -83,7 +113,15 @@ public abstract class MainView extends AppCompatActivity
      */
     @Override
     public void onClick(View v) {
+        showNotification("Hola mundo cruel");
+    }
 
+    /**
+     * Pone a correr el sercicio de notificaciones
+     */
+    private void setupDispatcher(){
+        GooglePlayDriver driver = new GooglePlayDriver(this);
+        dispatcher = new FirebaseJobDispatcher(driver);
     }
 
     /**
@@ -171,6 +209,56 @@ public abstract class MainView extends AppCompatActivity
         int out = animation == FADE_ANIMATION ? R.animator.fade_out : R.animator.slide_out_right;
         transaction.setCustomAnimations(in, out);
         return transaction;
+    }
+
+    private void scheduleJob() {
+        Job myJob = dispatcher.newJobBuilder()
+                .setService(AlarmService.class)
+                .setTag(CHANNEL)
+                .setRecurring(true)
+                .setLifetime(Lifetime.FOREVER)
+                .setTrigger(Trigger.executionWindow(0, 20))
+                .setReplaceCurrent(false)
+                .setConstraints(Constraint.ON_ANY_NETWORK)
+                .setRetryStrategy(RetryStrategy.DEFAULT_LINEAR)
+                .build();
+        dispatcher.mustSchedule(myJob);
+        showStatusMessage(getString(R.string.turned_on_notifications));
+    }
+
+    private void cancelJob() {
+        dispatcher.cancelAll();
+        showStatusMessage(getString(R.string.turned_off_notifications));
+    }
+
+    public Notification createNotification(String content){
+        return new NotificationCompat.Builder(this, CHANNEL)
+                .setContentTitle("Scheduled Notification")
+                .setContentText(content)
+                .setSmallIcon(R.drawable.ic_information)
+                .setAutoCancel(true).build();
+    }
+
+    public void showNotification(String content){
+
+        Notification notification = createNotification(content);
+        Object service = getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager manager = (NotificationManager) service;
+
+        assert manager != null;
+        createNotificationChannel(manager);
+        manager.notify(0, notification);
+
+    }
+
+    public void createNotificationChannel(NotificationManager manager){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int priority = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL, NOTIFICATION_ID, priority);
+            channel.setLightColor(Color.RED);
+            channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+            manager.createNotificationChannel(channel);
+        }
     }
 
     /**
