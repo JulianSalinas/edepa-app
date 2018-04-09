@@ -2,6 +2,7 @@ package imagisoft.rommie;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
@@ -10,7 +11,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.ViewSwitcher;
 
+import com.firebase.ui.auth.ui.FragmentBase;
+
 import imagisoft.edepa.BlankFragment;
+import imagisoft.edepa.Diary;
 
 /**
  * Contiene los tabs de cronograma, agenda y en curso
@@ -28,9 +32,7 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
      * TabLayout con sus tres vistas principales
      */
     private TabLayout tabLayout;
-    private SchedulePager schedule;
-    private BlankFragment diary;
-    private BlankFragment ongoing;
+    private Fragment [] tabOptions;
 
     /**
      * Contiene el número de tab que se está mostrando
@@ -43,6 +45,16 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
     protected ViewSwitcher switcher;
 
     /**
+     * Se inicializan las variables no gráficas
+     */
+    @Override
+    public void onCreate(@Nullable Bundle bundle) {
+        super.onCreate(bundle);
+        currentTab = 0;
+        tabOptions = new Fragment[3];
+    }
+
+    /**
      * Se crea la vista que contiene el tabLayout
      */
     @Override
@@ -52,6 +64,7 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
 
     @Override
     public void onActivityCreated(Bundle bundle) {
+
         super.onActivityCreated(bundle);
         assert getActivity() != null;
 
@@ -65,9 +78,7 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
         switcher.showNext();
 
         // Configuración inicial que se muestra al crear la vista
-        currentTab = 0;
-        schedule = new SchedulePager();
-        switchFragment(schedule);
+        navigateToPosition(currentTab);
 
     }
 
@@ -98,34 +109,29 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
      */
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        int pos = tab.getPosition();
-        if(pos != currentTab){
+        int position = tab.getPosition();
+        if(position != currentTab)
+            navigateToPosition(position);
+    }
 
-            currentTab = pos;
-            switch (pos){
+    private void navigateToPosition(int position) {
+        currentTab = position;
+        if(tabOptions[position] == null)
+            tabOptions[position] = createTabFragment(position);
+        switchFragment(tabOptions[position]);
+    }
 
-                case SCHEDULE_TAB:
-                    if(schedule == null)
-                        schedule = new SchedulePager();
-                    switchFragment(schedule);
-                    break;
-
-                case DIARY_TAB:
-                    if(diary == null)
-                        diary = new BlankFragment();
-                    switchFragment(diary);
-                    break;
-
-                case ONGOING_TAB:
-                    if(ongoing == null)
-                        ongoing = new BlankFragment();
-                    switchFragment(ongoing);
-                    break;
-
-            }
-
+    public Fragment createTabFragment(int tabId){
+        switch (tabId){
+        case SCHEDULE_TAB:
+            return new SchedulePager();
+        case DIARY_TAB:
+            return ScheduleView.newInstance(Diary.getInstance().getEvents());
+        case ONGOING_TAB:
+            return new BlankFragment();
+        default:
+            return new BlankFragment();
         }
-
     }
 
     @Override
