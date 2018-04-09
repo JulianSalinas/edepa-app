@@ -1,6 +1,7 @@
 package imagisoft.edepa;
 
-import java.util.Date;
+import android.util.Log;
+
 import java.util.Locale;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
@@ -42,10 +43,9 @@ public class UDateConverter {
      * @return Long de la fecha especificada. Si hay error retorna 0L.
      */
     public static Long stringToLong(String datetime) {
-        Long value= 0L;
-        try{ value = stringToLongWrapper(datetime); }
-        catch (Exception e){ }
-        return value;
+        try{ return stringToLongWrapper(datetime); }
+        catch (Exception e){ Log.i(UDateConverter.class.getName(), e.getMessage()); }
+        return 0L;
     }
 
     /**

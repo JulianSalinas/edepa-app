@@ -76,4 +76,20 @@ public class ScheduleEvent extends ScheduleBlock {
 
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ScheduleEvent)) return false;
+        ScheduleEvent event = (ScheduleEvent) o;
+        if (!id.equals(event.id)) return false;
+        return title.equals(event.title);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + title.hashCode();
+        return result;
+    }
+
 }
