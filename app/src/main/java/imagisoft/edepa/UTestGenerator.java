@@ -2,7 +2,31 @@ package imagisoft.edepa;
 
 import java.util.ArrayList;
 
+import imagisoft.rommie.ChatView;
+
 public class UTestGenerator {
+
+    public static ArrayList<Message> createNews(){
+
+        ChatView helper = new ChatView();
+        ArrayList<Message> news = new ArrayList<>();
+
+        news.add(helper.createMessage(
+                "Si quieres saber más de los creadores visita el " +
+                        "siguiente enlace https://github.com/JulianSalinas/Rommie"));
+
+        news.add(helper.createMessage(
+                "Puedes conocer más del congreso en la siguiente página " +
+                        "http://tecdigital.tec.ac.cr:8088/congresos/index.php/edepa/6_edepa"
+        ));
+
+        news.add(helper.createMessage(
+                "Conoce más acerca de nuestros própositos en Youtube " +
+                        "https://www.youtube.com/watch?v=Eccj5tb3nZs"
+        ));
+
+        return news;
+    }
 
     public static ArrayList<ScheduleEvent> createSchedule(){
 

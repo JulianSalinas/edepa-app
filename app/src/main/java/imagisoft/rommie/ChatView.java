@@ -1,35 +1,18 @@
 package imagisoft.rommie;
 
+import java.util.Calendar;
 import imagisoft.edepa.Message;
 
 import android.os.Bundle;
 import android.view.View;
-import java.util.Calendar;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.DefaultItemAnimator;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 
-public class ChatView extends MainViewFragment {
-
-    /**
-     * Se obtiene el usuario actual o que envía
-     */
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    FirebaseUser user = auth.getCurrentUser();
-
-    /**
-     * Es la capa (con su adaptador) donde se coloca cada uno de los mensajes
-     */
-    private RecyclerView chatView;
-    private ChatViewAdapter adapter;
+public class ChatView extends MessagesView {
 
     /**
      * Botón e input para enviar los mensajes
@@ -45,9 +28,9 @@ public class ChatView extends MainViewFragment {
                              ViewGroup container, Bundle bundle) {
 
         View view = inflater.inflate(R.layout.chat_view, container, false);
-        textInputView = view.findViewById(R.id.chat_view_input);
-        chatView = view.findViewById(R.id.chat_view_recycler);
+        mainView = view.findViewById(R.id.chat_view_recycler);
         sendCardView = view.findViewById(R.id.chat_view_send_card);
+        textInputView = view.findViewById(R.id.chat_view_input);
         return view;
 
     }
@@ -58,53 +41,19 @@ public class ChatView extends MainViewFragment {
     @Override
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
-        setupAdapter();
-        setupChatView();
         setupSendCardView();
     }
 
     /**
      * Se prepara el adaptador para poder recibir nuevas vistas de mensajes
      */
+    @Override
     public void setupAdapter(){
 
         if(adapter == null) {
             adapter = new ChatViewAdapter(this);
             registerAdapterDataObserver();
         }
-
-    }
-
-    /**
-     * Agrega un el evento de actualizar inserción al adaptado
-     */
-    public void registerAdapterDataObserver(){
-
-        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-
-            /**
-             * Al insertar un item el scroll se mueve al final
-             */
-            @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                super.onItemRangeInserted(positionStart, itemCount);
-                chatView.scrollToPosition(adapter.getItemCount()-1);
-            }
-
-        });
-
-    }
-
-    /**
-     * Se configura el contenedor de mensajes, chatView
-     */
-    public void setupChatView(){
-
-        chatView.setAdapter(adapter);
-        chatView.setHasFixedSize(true);
-        chatView.setItemAnimator(new DefaultItemAnimator());
-        chatView.setLayoutManager(new SmoothLayout(this.getActivity()));
-        chatView.scrollToPosition(adapter.getItemCount()-1);
 
     }
 

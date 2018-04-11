@@ -3,9 +3,7 @@ package imagisoft.rommie;
 import java.util.Arrays;
 import static android.os.SystemClock.sleep;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.View;
 import android.content.Intent;
 import android.widget.ImageView;

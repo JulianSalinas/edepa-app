@@ -3,6 +3,8 @@ package imagisoft.rommie;
 import java.util.List;
 
 import imagisoft.edepa.Exhibitor;
+import imagisoft.edepa.FavoriteList;
+import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
 
 import android.os.Bundle;
@@ -124,6 +126,13 @@ public class ScheduleDetail extends ExhibitorsViewFragment{
 
         iconMap.setOnClickListener(v -> switchFragment(new InformationMap()));
         buttonBack.setOnClickListener(v -> getNavigation().onBackPressed());
+
+        favoriteButton.setOnClickListener(v -> {
+            List<ScheduleBlock> events = FavoriteList.getInstance().getEvents();
+            if(!events.contains(event)) events.add(event);
+            String msg = getResources().getString(R.string.text_marked_as_favorite);
+            showStatusMessage(msg);
+        });
 
     }
 

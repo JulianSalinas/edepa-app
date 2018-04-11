@@ -58,7 +58,7 @@
     <string name="text_favorite">Favorito</string>
     <string name="text_mark_favorite">Marcar como favorito</string>
     <string name="text_unmark_favorite">Remover de favoritos</string>
-    <string name="text_marked_as_favorite">Agregado a la agenda</string>
+    <string name="text_marked_as_favorite">Agregado en favoritos</string>
     <string name="text_unmarked_as_favorite">Removido de la agenda</string>
 
     <!-- Notifications-->

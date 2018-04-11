@@ -32,6 +32,8 @@ import com.firebase.jobdispatcher.RetryStrategy;
 import com.firebase.jobdispatcher.Trigger;
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
+import imagisoft.edepa.FavoriteList;
+
 /**
  * Clase análoga al masterpage de un página web
  */
@@ -104,7 +106,7 @@ public abstract class MainView extends AppCompatActivity
      */
     @Override
     public void onClick(View v) {
-        showNotification("Hola mundo cruel");
+
     }
 
     /**

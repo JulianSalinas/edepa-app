@@ -48,7 +48,7 @@ public class MainViewNavigation extends MainViewFirebase
         case R.id.nav_schedule:
             currentSection.setText(R.string.nav_schedule);
             if(scheduleTabs == null)
-                scheduleTabs = new ScheduleTabs();
+                scheduleTabs = ScheduleTabs.newInstance();
             switchFragment(scheduleTabs);
             break;
 
