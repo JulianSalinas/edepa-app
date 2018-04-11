@@ -1,17 +1,16 @@
 package imagisoft.rommie;
 
-import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.text.util.Linkify;
-import android.view.LayoutInflater;
-
 import imagisoft.edepa.Congress;
 import imagisoft.edepa.UDateConverter;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.view.LayoutInflater;
+import android.support.annotation.NonNull;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -19,58 +18,91 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 
 public class InformationView extends MainViewFragment implements OnMapReadyCallback{
 
+    /**
+     * Soporte para colocar el mapa
+     */
     private GoogleMap googleMap;
     private SupportMapFragment mapFragment;
-    private Congress congressInformation;
 
+    /**
+     * Vista para mostrar el croquis o minimapa de la sede
+     */
+    private InformationMap miniMap;
+
+    /**
+     * Componentes gráficos de la pantalla de información
+     */
+    private View iconMap;
+    private TextView name;
+    private TextView end;
+    private TextView start;
+    private TextView location;
+    private TextView description;
+
+    /**
+     * Botón para retornar a la pantalla anterior
+     */
     private ImageView buttonBack;
+
+    /**
+     * Referencia hacia la información del congreso que se muestra
+     */
+    private Congress congress;
+
+    /**
+     * Crea la vista principal donde se coloca la información del congreso
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflater.inflate(R.layout.information_view, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle) {
+
+        View view = inflater.inflate(R.layout.information_view, container, false);
+
+        end = view.findViewById(R.id.shedule_end);
+        start = view.findViewById(R.id.shedule_start);
+        name = view.findViewById(R.id.text_congress_name);
+
+        location = view.findViewById(R.id.text_location);
+        description = view.findViewById(R.id.text_presentation);
+
+        iconMap = view.findViewById(R.id.ic_map);
+        buttonBack = view.findViewById(R.id.button_back);
+
+        return view;
+
     }
 
-    private void setLabelsContent(){
+    private void bindInformation(Congress congress){
 
-        View view = getView();
-        assert view != null;
+        this.congress = congress;
 
-        TextView congressName = view.findViewById(R.id.text_congress_name);
-        congressName.setText(congressInformation.getName());
+        if(miniMap == null)
+            miniMap = new InformationMap();
 
-        TextView congressStart = view.findViewById(R.id.shedule_start);
-        congressStart.setText(UDateConverter.extractDate(congressInformation.getStart()));
+        name.setText(congress.getName());
+        start.setText(UDateConverter.extractDate(congress.getStart()));
+        end.setText(UDateConverter.extractDate(congress.getEnd()));
+        description.setText(congress.getDescription());
+        location.setText(congress.getLocation());
 
-        TextView congressEnd = view.findViewById(R.id.shedule_end);
-        congressEnd.setText(UDateConverter.extractDate(congressInformation.getEnd()));
-
-        TextView congressDescription = view.findViewById(R.id.text_presentation);
-        congressDescription.setText(congressInformation.getDescription());
-
-        TextView congressLocation = view.findViewById(R.id.text_location);
-        congressLocation.setText(congressInformation.getWrittenLocation());
-
-        View icMap = view.findViewById(R.id.ic_map);
-        icMap.setOnClickListener(v -> switchFragment(new InformationMap()));
-
-        buttonBack = view.findViewById(R.id.button_back);
-        buttonBack.setOnClickListener(v -> getActivity().onBackPressed());
+        buttonBack.setOnClickListener(v -> getNavigation().onBackPressed());
+        iconMap.setOnClickListener(v -> switchFragment(miniMap));
 
     }
 
     @Override
     public void onActivityCreated(Bundle bundle) {
+
         super.onActivityCreated(bundle);
 
-        ActionBar toolbar = getNavigation().getSupportActionBar();
-        if(toolbar != null) toolbar.hide();
+        setToolbarVisible(false);
 
         // Para que la información se actualice en tiempo real y no cada vez que
         // se abre la aplicación
@@ -85,9 +117,10 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
      */
     @Override
     public void onDestroyView() {
+
         super.onDestroyView();
-        ActionBar toolbar = getNavigation().getSupportActionBar();
-        if(toolbar != null) toolbar.show();
+        setToolbarVisible(true);
+
     }
 
     private void setupMap(){
@@ -123,31 +156,28 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
     public void onMapReady(GoogleMap map) {
 
         // Coordenadas del lugar del congreso
-        LatLng coordinates = new LatLng(congressInformation.getyCoord(), congressInformation.getxCoord());
+        LatLng coordinates = new LatLng(congress.getyCoord(), congress.getxCoord());
 
         googleMap = map;
         map.addMarker(new MarkerOptions()
                 .position(coordinates)
-                .title(congressInformation.getLocationTag()));
+                .title(congress.getLocationTag()));
+
         moveMapLocation(coordinates);
+
     }
 
     class InformationViewValueEventListener implements ValueEventListener {
 
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-
-            GenericTypeIndicator<Congress> typeIndicator;
-            typeIndicator = new GenericTypeIndicator<Congress>(){};
-            congressInformation = dataSnapshot.getValue(typeIndicator);
-            setLabelsContent();
+            bindInformation(dataSnapshot.getValue(Congress.class));
             setupMap();
-
         }
 
         @Override
         public void onCancelled(DatabaseError databaseError) {
-            // TODO: Colocar algo por si pasa un error
+            Log.i(getTag(), databaseError.toString());
         }
 
     }

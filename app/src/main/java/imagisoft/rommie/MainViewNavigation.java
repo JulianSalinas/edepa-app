@@ -2,6 +2,7 @@ package imagisoft.rommie;
 
 import com.firebase.ui.auth.AuthUI;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 public class MainViewNavigation extends MainViewFirebase
@@ -10,12 +11,12 @@ public class MainViewNavigation extends MainViewFirebase
     /**
      * Variables para poder reciclar los fragmentos
      */
-    private ChatView chatView;
-    private NewsView newsView;
-    private ConfigView configView;
-    private ScheduleTabs scheduleTabs;
-    private ExhibitorsView exhibitorsView;
-    private InformationView informationView;
+    private Fragment chatView;
+    private Fragment newsView;
+    private Fragment configView;
+    private Fragment scheduleTabs;
+    private Fragment exhibitorsView;
+    private Fragment informationView;
 
     /**
      * Método utilizado al escoger una opción del menú de navegación
@@ -26,13 +27,14 @@ public class MainViewNavigation extends MainViewFirebase
 
         // Cierra la aplicación
         case R.id.nav_exit:
-            finishAffinity(); break;
+            finishAndRemoveTask();
+            System.exit(0);
 
         // Cierra la aplicación y la sesión
         case R.id.nav_exit_and_signout:
             AuthUI.getInstance().signOut(this);
-            finishAffinity();
-            break;
+            finishAndRemoveTask();
+            System.exit(0);
 
         // Muestra la información general del congreso
         case R.id.nav_infomation:

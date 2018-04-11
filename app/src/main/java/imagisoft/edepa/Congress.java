@@ -1,50 +1,55 @@
 package imagisoft.edepa;
 
-import java.util.ArrayList;
-
 /**
- * Herede de ScheduleBlock solo para reutilizar los atributos
+ * Se hereda de ScheduleBlock solo para reutilizar los atributos
  * Start y End
  */
 public class Congress extends ScheduleBlock{
 
+    /**
+     * Atributos considerados como fundamentales
+     */
     private String name;
+    private String location;
     private String description;
-    private String writtenLocation;
+
+    /**
+     * Atributos marcados como opcionales
+     * Se utilizan para poder obtener los datos que se pueden\
+     * colocar en Google Maps
+     */
     private float xCoord;
     private float yCoord;
     private String locationTag;
 
-
+    /**
+     * Getters y Setters de los atributos fundamentales
+     */
     public String getName() {
-        if(name == null)
-            return "No disponible";
         return name;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
     public String getDescription() {
-        if(description == null)
-            return "No disponible";
         return description;
     }
 
-    public String getWrittenLocation() {
-        if(writtenLocation == null)
-            return "No disponible";
-        return writtenLocation;
+    /**
+     * Getters y Setters de los atributos opcionales
+     */
+    public float getxCoord() {
+        return xCoord;
     }
 
-    public float getxCoord() { return xCoord; }
+    public float getyCoord() {
+        return yCoord;
+    }
 
-    public float getyCoord() { return yCoord; }
-
-    public String getLocationTag() { return locationTag; }
-
-    public Congress(){ }
-
-    /**
-     * Las fechas se colocan con el formato dd/mm/yyyy hh:mm <am|pm>
-     * pero se guardan como long para hacerlo más fácil entre plataformas
-     */
+    public String getLocationTag() {
+        return locationTag;
+    }
 
 }

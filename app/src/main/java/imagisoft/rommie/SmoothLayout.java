@@ -23,9 +23,11 @@ public class SmoothLayout extends LinearLayoutManager{
      * Constructor del layout
      * @param context Actvidad o fragmento donde se ejecuta
      */
-    SmoothLayout(Context context) {
+    public SmoothLayout(Context context) {
+
         super(context);
         this.context = context;
+
     }
 
     /**
@@ -33,8 +35,8 @@ public class SmoothLayout extends LinearLayoutManager{
      * lugar dentro del código, la vista la usa de forma automática
      */
     @Override
-    public void smoothScrollToPosition(RecyclerView view, RecyclerView.State state, final int pos) {
-
+    public void smoothScrollToPosition(RecyclerView view,
+                                       RecyclerView.State state, final int position) {
 
         // Scroll que se mueve acorde a la velocidad aplicada
         LinearSmoothScroller scroller = new LinearSmoothScroller(context) {
@@ -48,6 +50,9 @@ public class SmoothLayout extends LinearLayoutManager{
                 return SmoothLayout.this.computeScrollVectorForPosition(target);
             }
 
+            /**
+             * Calcula la velocidad del scroll según las dimensiones de la pantalla
+             */
             @Override
             protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
                 return MILLISECONDS_PER_INCH/displayMetrics.densityDpi;
@@ -56,7 +61,7 @@ public class SmoothLayout extends LinearLayoutManager{
         };
 
         // Inicia con la animación
-        scroller.setTargetPosition(pos);
+        scroller.setTargetPosition(position);
         startSmoothScroll(scroller);
 
     }

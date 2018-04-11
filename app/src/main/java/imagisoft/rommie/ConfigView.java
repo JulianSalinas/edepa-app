@@ -6,7 +6,11 @@ import android.widget.Switch;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.view.LayoutInflater;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
+
+import imagisoft.edepa.LocaleManager;
+
 
 public class ConfigView extends MainViewFragment {
 
@@ -21,8 +25,15 @@ public class ConfigView extends MainViewFragment {
      * Se crea la vista que contiene la configuracíón
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflater.inflate(R.layout.config_view, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle bundle) {
+
+        View view = inflater.inflate(R.layout.config_view, container, false);
+        radioEspanish = view.findViewById(R.id.radio_espanish);
+        inputUsername = view.findViewById(R.id.input_username);
+        switchNotifications = view.findViewById(R.id.switch_notifications);
+        return view;
+
     }
 
     /**
@@ -30,27 +41,16 @@ public class ConfigView extends MainViewFragment {
      */
     @Override
     public void onActivityCreated(Bundle bundle) {
+
         super.onActivityCreated(bundle);
-        bindViews();
         setupRadioButtons();
         setupInputUsername();
         setupSwitchNotifications();
+
     }
 
     /**
-     * Enlaza todas las vistas del fragmento con sus clases
-     * Aquí se consulta la última configuración guardada
-     */
-    private void bindViews(){
-        assert getView() != null;
-        radioEspanish = getView().findViewById(R.id.radio_espanish);
-        inputUsername = getView().findViewById(R.id.input_username);
-        switchNotifications = getView().findViewById(R.id.switch_notifications);
-    }
-
-    /**
-     * Funcion que apaga o encienda las notificaciones
-     * TODO: Se debe llamar al controlador
+     * Función que apaga o encienda las notificaciones
      */
     private void setupSwitchNotifications(){
 
@@ -58,8 +58,7 @@ public class ConfigView extends MainViewFragment {
             String status = isChecked ?
                     getResources().getString(R.string.text_notifications_enabled):
                     getResources().getString(R.string.text_notifications_disabled);
-            MainViewNavigation activity = (MainViewNavigation) getActivity();
-            activity.showStatusMessage(status);
+            getNavigation().showStatusMessage(status);
         });
 
     }
@@ -71,10 +70,14 @@ public class ConfigView extends MainViewFragment {
     private void setupRadioButtons(){
 
         radioEspanish.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(radioEspanish.isChecked())
+            if(radioEspanish.isChecked()) {
                 showStatusMessage("Idioma cambiado a español");
-            else
+                LocaleManager.getInstance().changeLocale(getContext(), "es");
+            }
+            else {
                 showStatusMessage("Language changed to English");
+                LocaleManager.getInstance().changeLocale(getContext(), "en");
+            }
         });
 
     }
@@ -84,11 +87,13 @@ public class ConfigView extends MainViewFragment {
      * usuario se cambia automaticamente
      */
     private void setupInputUsername() {
+
         inputUsername.setOnFocusChangeListener((v, hasFocus) -> {
             if(!hasFocus) {
                 // TODO: Cambiar aquí el nombre de usuario
             }
         });
+
     }
 
 }

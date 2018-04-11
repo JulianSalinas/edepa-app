@@ -34,7 +34,7 @@
                 android:id="@+id/text_splash_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/test_congress"
+                android:text="@string/text_loading"
                 android:textSize="@dimen/font_normal"
                 android:textAlignment="center"
                 android:textColor="@color/app_white" />

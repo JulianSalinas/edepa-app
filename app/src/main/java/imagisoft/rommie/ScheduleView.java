@@ -4,16 +4,14 @@ import java.util.List;
 import imagisoft.edepa.ScheduleBlock;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 
-/**
- * Contiene cada una de las actividades del congreso
- */
+
 public class ScheduleView extends MainViewFragment {
 
     /**
@@ -27,26 +25,34 @@ public class ScheduleView extends MainViewFragment {
      */
     private List<ScheduleBlock> events;
 
-    public List<ScheduleBlock> getEvents(){
-        return events;
-    }
+    /**
+     * Adaptador para almacenar administrar las vistas de los eventos
+     */
+    private ScheduleViewAdapter adapter;
 
     /**
      * No se pueden crear constructores con parámetros, por tanto,
      * se pasan los parámetros de esta forma
      */
     public static ScheduleView newInstance(List<ScheduleBlock> events) {
+
         ScheduleView fragment = new ScheduleView();
         fragment.events = events;
         return fragment;
+
     }
 
     /**
      * Se crea la vista que contiene el eventsView
      */
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflater.inflate(R.layout.schedule_view, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle bundle) {
+
+        View view = inflater.inflate(R.layout.schedule_view, container, false);
+        eventsView = view.findViewById(R.id.schedule_view);
+        return view;
+
     }
 
     /**
@@ -54,8 +60,15 @@ public class ScheduleView extends MainViewFragment {
      */
     @Override
     public void onActivityCreated(Bundle bundle) {
+
         super.onActivityCreated(bundle);
+
+        // Se revisa porque al entrar por seguna vez, no es necesario colocar el adaptador
+        if(adapter == null)
+            adapter = new ScheduleViewAdapter(this, events);
+
         setupEventsView();
+
     }
 
     /**
@@ -63,11 +76,8 @@ public class ScheduleView extends MainViewFragment {
      */
     public void setupEventsView(){
 
-        assert getView() != null;
-        eventsView = getView().findViewById(R.id.schedule_view);
-
         eventsView.setHasFixedSize(true);
-        eventsView.setAdapter(new ScheduleViewAdapter(this, events));
+        eventsView.setAdapter(adapter);
         eventsView.setItemAnimator(new DefaultItemAnimator());
         eventsView.setLayoutManager(new SmoothLayout(this.getActivity()));
 

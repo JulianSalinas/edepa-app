@@ -3,7 +3,9 @@ package imagisoft.rommie;
 import java.util.Arrays;
 import static android.os.SystemClock.sleep;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.View;
 import android.content.Intent;
 import android.widget.ImageView;
@@ -26,7 +28,7 @@ public class SplashScreen extends AppCompatActivity{
 
     /**
      * Solo se usa la autenticación, sin embargo el método
-     * setPersistenceEnable debe ser llamado antes que cualquier otrsa
+     * setPersistenceEnable debe ser llamado antes que cualquier otra
      * función de Firebase, de lo contrario la app se cierra inesperadamente
      */
     public SplashScreen() {
@@ -47,6 +49,7 @@ public class SplashScreen extends AppCompatActivity{
      */
     @Override
     protected void onCreate(Bundle bundle) {
+
         super.onCreate(bundle);
 
         setContentView(R.layout.splash_screen);
@@ -61,14 +64,22 @@ public class SplashScreen extends AppCompatActivity{
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
-        // Pone a moverse el gif de cargar la aplicación
+        startLoadingImage();
+        startLoginActivity();
+
+    }
+
+    /**
+     * Pone a moverse el gif de cargar la aplicación
+     */
+    private void startLoadingImage(){
+
         ImageView loading_gif = findViewById(R.id.gif_splash_loading);
         GlideDrawableImageViewTarget viewTerget = new GlideDrawableImageViewTarget(loading_gif);
         Glide.with(this).load(R.drawable.img_loading).into(viewTerget);
 
-        sleep(1000);
-
-        startLoginActivity();
+        // Duerme la animación para que apenas sea percibida
+        sleep(1500);
 
     }
 
@@ -79,11 +90,10 @@ public class SplashScreen extends AppCompatActivity{
      */
     private void startLoginActivity() {
 
-        // TODO: EL setIsSmartLockEnable en false es solo para debug
         if (auth.getCurrentUser() == null) {
             startActivityForResult(AuthUI.getInstance()
                     .createSignInIntentBuilder()
-                    .setIsSmartLockEnabled(false)
+                    .setIsSmartLockEnabled(true)
                     .setTheme(R.style.LoginTheme)
                     .setLogo(R.drawable.img_edepa_logo)
                     .setAvailableProviders(Arrays.asList(
@@ -94,7 +104,8 @@ public class SplashScreen extends AppCompatActivity{
             );
         }
 
-        else startApplicaction();
+        else startApplication();
+
     }
 
     /**
@@ -102,18 +113,22 @@ public class SplashScreen extends AppCompatActivity{
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN && resultCode == RESULT_OK)
-            startApplicaction();
+            startApplication();
+
     }
 
     /**
      * Después de haber cargado los datos de la aplicación, se utiliza está función para abrirla
      */
-    private void startApplicaction(){
+    private void startApplication(){
+
         Intent intent = new Intent(getApplicationContext(), MainViewNavigation.class);
         startActivity(intent);
         finish();
+
     }
 
 }

@@ -33,8 +33,10 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.NewsIt
      * Agrega una nueva noticia a la vista
      */
     public void addNew(Message msg){
+
         news.add(msg);
         notifyItemInserted(news.size()-1);
+
     }
 
     /**
@@ -50,9 +52,11 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.NewsIt
      */
     @Override
     public NewsItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.news_item, parent, false);
         return new NewsItemViewHolder(view);
+
     }
 
     /**
@@ -61,10 +65,12 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.NewsIt
      */
     @Override
     public void onBindViewHolder(NewsItemViewHolder holder, int position) {
+
         Message msg = news.get(holder.getAdapterPosition());
         holder.username.setText(msg.getUsername());
         holder.messageContent.setText(msg.getContent());
         holder.timeDescription.setText(UDateConverter.extractTime(msg.getTime()));
+
     }
 
     /**
@@ -77,10 +83,12 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.NewsIt
         TextView messageContent;
 
         NewsItemViewHolder(View view) {
+
             super(view);
             this.username = view.findViewById(R.id.news_item_username);
             this.timeDescription = view.findViewById(R.id.news_item_time_description);
             this.messageContent = view.findViewById(R.id.news_item_content);
+
         }
 
     }

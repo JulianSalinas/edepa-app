@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ImageView;
 import android.view.LayoutInflater;
-import android.support.v7.app.ActionBar;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -28,13 +27,13 @@ public class ScheduleDetail extends ExhibitorsViewFragment{
     private ScheduleEvent event;
 
     /**
-     * Componentes visuales
+     * Componentes visuales para mostrar los detalles de un evento
      */
     private TextView textAbstract;
     private TextView textLocation;
     private RecyclerView exhibitorsView;
 
-    private View icMap;
+    private View iconMap;
     private TextView textHeader;
     private TextView textEventype;
     private ImageView emphasisView;
@@ -65,8 +64,25 @@ public class ScheduleDetail extends ExhibitorsViewFragment{
      * Se crea la vista que con los detalles del evento
      */
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflater.inflate(R.layout.schedule_detail, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle bundle) {
+
+        View view = inflater.inflate(R.layout.schedule_detail, container, false);
+
+        textAbstract = view.findViewById(R.id.text_abstract);
+        textLocation = view.findViewById(R.id.text_location);
+        textHeader = view.findViewById(R.id.schedule_detail_header);
+        textEventype =  view.findViewById(R.id.schedule_detail_eventype);
+
+        emphasisView = view.findViewById(R.id.schedule_detail_top);
+        favoriteButton = view.findViewById(R.id.favorite_button);
+        exhibitorsView = view.findViewById(R.id.exhibitors_view);
+
+        iconMap = view.findViewById(R.id.ic_map);
+        buttonBack = view.findViewById(R.id.button_back);
+
+        return view;
+
     }
 
     /**
@@ -76,12 +92,10 @@ public class ScheduleDetail extends ExhibitorsViewFragment{
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
 
-        ActionBar toolbar = getNavigation().getSupportActionBar();
-        if(toolbar != null) toolbar.hide();
-
-        bindViews();
+        setToolbarVisible(false);
         bindInformation();
         setupExhibitorsView();
+
     }
 
     /**
@@ -89,40 +103,18 @@ public class ScheduleDetail extends ExhibitorsViewFragment{
      */
     @Override
     public void onDestroyView() {
+
         super.onDestroyView();
-        ActionBar toolbar = getNavigation().getSupportActionBar();
-        if(toolbar != null) toolbar.show();
-    }
-
-    /**
-     * Se enlaza cada uno de los componentes visuales
-     */
-    private void bindViews() {
-
-        assert getView() != null;
-
-        textAbstract = getView().findViewById(R.id.text_abstract);
-        textLocation = getView().findViewById(R.id.text_location);
-        textHeader = getView().findViewById(R.id.schedule_detail_header);
-        textEventype =  getView().findViewById(R.id.schedule_detail_eventype);
-
-        emphasisView = getView().findViewById(R.id.schedule_detail_top);
-        favoriteButton = getView().findViewById(R.id.favorite_button);
-        exhibitorsView = getView().findViewById(R.id.exhibitors_view);
-
-        icMap = getView().findViewById(R.id.ic_map);
-        buttonBack = getView().findViewById(R.id.button_back);
-        exhibitorsAdapter = new ExhibitorsViewAdapter(this);
+        setToolbarVisible(true);
 
     }
 
     /**
      * Coloca la información del evento en cada uno de los componentes
-     * TODO: Colocar el abstract según el idioma
      */
     private void bindInformation(){
 
-        textAbstract.setText(event.getBriefSpanish());
+        textAbstract.setText(event.getBrief());
         textLocation.setText(event.getLocation());
         textHeader.setText(event.getTitle());
         textEventype.setText(event.getEventype().toString());
@@ -130,8 +122,8 @@ public class ScheduleDetail extends ExhibitorsViewFragment{
         Drawable drawable = getResources().getDrawable(event.getEventype().getResource());
         emphasisView.setImageDrawable(drawable);
 
-        icMap.setOnClickListener(v -> switchFragment(new InformationMap()));
-        buttonBack.setOnClickListener(v -> getActivity().onBackPressed());
+        iconMap.setOnClickListener(v -> switchFragment(new InformationMap()));
+        buttonBack.setOnClickListener(v -> getNavigation().onBackPressed());
 
     }
 
@@ -139,10 +131,15 @@ public class ScheduleDetail extends ExhibitorsViewFragment{
      * Se configura el exhibitorsView que contiene los expositores
      */
     public void setupExhibitorsView(){
+
+        if (exhibitorsAdapter == null)
+            exhibitorsAdapter = new ExhibitorsViewAdapter(this);
+
         exhibitorsView.setHasFixedSize(true);
         exhibitorsView.setLayoutManager(new SmoothLayout(getActivity()));
         exhibitorsView.setItemAnimator(new DefaultItemAnimator());
         exhibitorsView.setAdapter(exhibitorsAdapter);
+
     }
 
 }

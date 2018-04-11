@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import java.util.Calendar;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.view.LayoutInflater;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.DefaultItemAnimator;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class ChatView extends MainViewFragment {
 
     /**
-     * Se obtiene el usuario que envía
+     * Se obtiene el usuario actual o que envía
      */
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
@@ -35,43 +35,51 @@ public class ChatView extends MainViewFragment {
      * Botón e input para enviar los mensajes
      */
     private CardView sendCardView;
-    private EditText textInputView;
+    private AppCompatEditText textInputView;
 
     /**
-     * Se elige la vista a crear chat_view
+     * Se enlazan las clases con sus vistas
      */
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflater.inflate(R.layout.chat_view, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle bundle) {
+
+        View view = inflater.inflate(R.layout.chat_view, container, false);
+        textInputView = view.findViewById(R.id.chat_view_input);
+        chatView = view.findViewById(R.id.chat_view_recycler);
+        sendCardView = view.findViewById(R.id.chat_view_send_card);
+        return view;
+
     }
 
     /**
-     * Justo después de crear el fragmento se enlazan y preparan las vistas
+     * Se configuran las clases de las vistas y sus eventos
      */
     @Override
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
-        bindViews();
         setupAdapter();
         setupChatView();
         setupSendCardView();
     }
 
     /**
-     * Enlaza todas las vistas del fragmento con sus clases
-     */
-    private void bindViews(){
-        assert getView() != null;
-        textInputView = getView().findViewById(R.id.chat_view_input);
-        chatView = getView().findViewById(R.id.chat_view_recycler);
-        sendCardView = getView().findViewById(R.id.chat_view_send_card);
-    }
-
-    /**
      * Se prepara el adaptador para poder recibir nuevas vistas de mensajes
      */
     public void setupAdapter(){
-        adapter = new ChatViewAdapter(this);
+
+        if(adapter == null) {
+            adapter = new ChatViewAdapter(this);
+            registerAdapterDataObserver();
+        }
+
+    }
+
+    /**
+     * Agrega un el evento de actualizar inserción al adaptado
+     */
+    public void registerAdapterDataObserver(){
+
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
 
             /**
@@ -84,17 +92,20 @@ public class ChatView extends MainViewFragment {
             }
 
         });
+
     }
 
     /**
      * Se configura el contenedor de mensajes, chatView
      */
     public void setupChatView(){
+
         chatView.setAdapter(adapter);
         chatView.setHasFixedSize(true);
         chatView.setItemAnimator(new DefaultItemAnimator());
         chatView.setLayoutManager(new SmoothLayout(this.getActivity()));
         chatView.scrollToPosition(adapter.getItemCount()-1);
+
     }
 
     /**
@@ -109,8 +120,10 @@ public class ChatView extends MainViewFragment {
      * Función para enviar un msg, si se envía se agrega a la vista
      */
     public void sendMessage(){
+
         String content = textInputView.getText().toString();
         if (!content.isEmpty()) sendNotEmptyMessage(content);
+
     }
 
     /**
@@ -118,17 +131,21 @@ public class ChatView extends MainViewFragment {
      * se revisa que el mesaje no este vacío previamente
      */
     private void sendNotEmptyMessage(String content){
+
         Message msg = createMessage(content);
         getFirebase().getChatReference().push().setValue(msg);
         textInputView.setText("");
+
     }
 
     /**
      * Reune los datos y crea un objeto Message
      */
     public Message createMessage(String content){
+
         Long datetime = Calendar.getInstance().getTimeInMillis();
         return new Message(user.getUid(), user.getDisplayName(), content, datetime);
+
     }
 
 }

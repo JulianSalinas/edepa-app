@@ -8,14 +8,20 @@ public class Message {
 
     /**
      * El id es para identificar si el mensaje corresponde al usuario
-     * que esta usando el app, y así, acomoddar los mensajes a la izq o der
+     * que esta usando el app, y así, posteriomente acomodar los mensajes a la izq o der
      */
     private String userid;
 
+    /**
+     * Atributos fundamentales en un mensaje
+     */
     private Long time;
-    private String username;
     private String content;
+    private String username;
 
+    /**
+     * Getters y Setters de los atributos del mensaje
+     */
     public String getUserid() {
         return userid;
     }
@@ -24,23 +30,31 @@ public class Message {
         return time;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
     public String getContent() {
         return content;
     }
 
-    public Message(){
-        // Requerido por firebase
+    public String getUsername() {
+        return username;
     }
 
+    /**
+     * Contructor vacío requerido por firebase
+     */
+    public Message(){
+
+    }
+
+    /**
+     * Constructor utilizado desde el chat para enviar mensajes
+     */
     public Message(String userid, String username, String content, Long time) {
-        this.userid = userid;
-        this.username = username;
-        this.content = content;
+
         this.time = time;
+        this.userid = userid;
+        this.content = content;
+        this.username = username;
+
     }
 
 }

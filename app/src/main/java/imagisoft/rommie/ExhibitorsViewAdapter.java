@@ -32,8 +32,10 @@ public class ExhibitorsViewAdapter
      * Se colocan los expositores
      */
     public ExhibitorsViewAdapter(ExhibitorsViewFragment exhibitorsView){
+
         this.exhibitorsView = exhibitorsView;
         this.exhibitors = exhibitorsView.getExhibitors();
+
     }
 
     /**
@@ -49,9 +51,11 @@ public class ExhibitorsViewAdapter
      */
     @Override
     public ExhibitorViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.exhibitors_item, parent, false);
         return new ExhibitorViewHolder(view);
+
     }
 
     /**
@@ -75,8 +79,10 @@ public class ExhibitorsViewAdapter
      * Coloca la informacíon básica de la persona
      */
     public void bindInformation(Exhibitor exhibitor, ExhibitorViewHolder holder){
+
         holder.name.setText(exhibitor.getCompleteName());
         holder.title.setText(exhibitor.getPersonalTitle());
+
     }
 
     /**
@@ -84,10 +90,12 @@ public class ExhibitorsViewAdapter
      * con base a eso.
      */
     private void bindColor(String name, ExhibitorViewHolder holder){
+
         int color = convertStringToColor(name);
         AvatarPlaceholder avatar = new AvatarPlaceholder(name, 30);
         holder.avatar.setImageDrawable(avatar);
         holder.line.setBackgroundColor(color);
+
     }
 
     /**
@@ -95,9 +103,11 @@ public class ExhibitorsViewAdapter
      * Usada para colorear los avatares y decoraciones del mismo
      */
     private int convertStringToColor(String text) {
+
         String color = StringUtils.isNullOrEmpty(text) ? "#3F51B5" :
                 String.format("#FF%06X", (0xFFFFFF & text.hashCode()));
         return Color.parseColor(color);
+
     }
 
     /**
@@ -112,12 +122,14 @@ public class ExhibitorsViewAdapter
         CardView exhibitor;
 
         ExhibitorViewHolder(View view) {
+
             super(view);
             this.line = view.findViewById(R.id.exhibitor_item_line);
             this.name = view.findViewById(R.id.exhibitor_item_name);
             this.title= view.findViewById(R.id.exhibitor_item_title);
             this.avatar = view.findViewById(R.id.exhibitor_item_avatar);
             this.exhibitor = view.findViewById(R.id.exhibitors_item);
+
         }
 
     }

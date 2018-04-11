@@ -1,8 +1,7 @@
 package imagisoft.edepa;
 
 /**
- * Solo proporciona las horas para un bloque o una activdad
- * Tiene como hijo la clase ScheduleEvent
+ * Solo proporciona las horas para un bloque, evento o noticia
  */
 public class ScheduleBlock {
 
@@ -13,6 +12,9 @@ public class ScheduleBlock {
     private Long end;
     private Long start;
 
+    /**
+     * Getters y Setters de las fechas
+     */
     public Long getEnd() {
         return end;
     }
@@ -29,18 +31,32 @@ public class ScheduleBlock {
         this.start = start;
     }
 
+    /**
+     * Contructor vacío requerido por firebase
+     */
     public ScheduleBlock(){
-        // Requerido por firebase
+
     }
 
+    /**
+     * Contructor a partir de timestamps
+     */
     public ScheduleBlock(Long start, Long end) {
+
         this.end = end;
         this.start = start;
+
     }
 
+    /**
+     * Constructor donde las fechas se ingresan con
+     * el formato dd/mm/yyyy hh:mm <am|pm>
+     */
     public ScheduleBlock(String start, String end) {
+
         this.end = UDateConverter.stringToLong(end);
         this.start = UDateConverter.stringToLong(start);
+
     }
 
 }

@@ -2,6 +2,7 @@ package imagisoft.rommie;
 
 import java.util.List;
 
+import imagisoft.edepa.FavoriteList;
 import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
 import imagisoft.edepa.UDateConverter;
@@ -11,7 +12,6 @@ import android.app.Activity;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.view.LayoutInflater;
-import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 
@@ -27,7 +27,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private int SCHEDULE_EVENT_VIEW_TYPE = 2;
 
     /**
-     * SchedulePager al que se debe colocar este adaptador
+     * SchedulePagerFragment al que se debe colocar este adaptador
      */
     private MainViewFragment scheduleView;
 
@@ -39,9 +39,12 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /**
      * Constructor de la vista donde se colocan los eventos
      */
-    public ScheduleViewAdapter(MainViewFragment scheduleView, List<? extends ScheduleBlock> events){
+    public ScheduleViewAdapter(MainViewFragment scheduleView,
+                               List<? extends ScheduleBlock> events){
+
         this.scheduleView = scheduleView;
         this.events = events;
+
     }
 
     /**
@@ -57,10 +60,12 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     @Override
     public int getItemViewType(int position) {
+
         ScheduleBlock item = events.get(position);
         return (item instanceof ScheduleEvent) ?
                 SCHEDULE_EVENT_VIEW_TYPE:
                 SCHEDULE_BLOCK_VIEW_TYPE;
+
     }
 
     /**
@@ -104,7 +109,8 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     public void onBindScheduleEventViewHolder(ScheduleEventViewHolder holder){
 
-        ScheduleEvent event = (ScheduleEvent) events.get(holder.getAdapterPosition());
+        int position = holder.getAdapterPosition();
+        ScheduleEvent event = (ScheduleEvent) events.get(position);
 
         bindInformation(holder, event);
         bindColorEmphasis(holder, event);
@@ -117,15 +123,28 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         );
 
         /*
+        * Se coloca la estrellita a los eventos que están en favoritos
+        */
+        FavoriteList favoriteList = FavoriteList.getInstance();
+        if(favoriteList.getEvents().contains(event))
+            holder.favoriteButton.setFavorite(true);
+
+        /*
         * Función ejecutada al presionar la "estrellita" de una actividad
-        * TODO: Aquí va la función de agregar a favoritos
         */
         holder.favoriteButton.setOnFavoriteChangeListener((buttonView, favorite) -> {
+
             int text = favorite ?
                     R.string.text_marked_as_favorite :
                     R.string.text_unmarked_as_favorite;
+
+            if(favorite)
+                 favoriteList.addEvent(event);
+            else favoriteList.removeEvent(event);
+
             String msg = scheduleView.getResources().getString(text);
             scheduleView.showStatusMessage(msg);
+
         });
 
     }
@@ -134,8 +153,10 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      * Coloca la hora en un encabezado de bloque de eventos
      */
     public void onBindScheduleBlockViewHolder(ScheduleBlockViewHolder holder){
+
         ScheduleBlock block = events.get(holder.getAdapterPosition());
         holder.time.setText(getDatesAsString(block));
+
     }
 
     /**
@@ -159,9 +180,11 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      * Coloca la información de evento en la vista
      */
     private void bindInformation(ScheduleEventViewHolder holder, ScheduleEvent event){
+
         holder.time.setText(getDatesAsString(event));
         holder.header.setText(event.getTitle());
         holder.eventype.setText(event.getEventype().toString());
+
     }
 
     /**
@@ -203,12 +226,14 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         MaterialFavoriteButton favoriteButton;
 
         ScheduleEventViewHolder(View view) {
+
             super(view);
             this.line = view.findViewById(R.id.schedule_item_line);
             this.header = view.findViewById(R.id.schedule_item_header);
             this.eventype = view.findViewById(R.id.schedule_item_eventype);
             this.readmore = view.findViewById(R.id.schedule_item_readmore);
             this.favoriteButton = view.findViewById(R.id.favorite_button);
+
         }
 
     }

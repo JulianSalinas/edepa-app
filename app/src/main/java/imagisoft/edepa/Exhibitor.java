@@ -2,6 +2,9 @@ package imagisoft.edepa;
 
 public class Exhibitor {
 
+    /**
+     * Nombre donde se incluyen también apellidos de la persona
+     */
     private String completeName;
 
     /**
@@ -11,6 +14,9 @@ public class Exhibitor {
      */
     private String personalTitle;
 
+    /**
+     * Getters y Setters de los atributos del expositor
+     */
     public String getCompleteName() {
         return completeName;
     }
@@ -19,19 +25,26 @@ public class Exhibitor {
         return personalTitle;
     }
 
+    /**
+     * Contructor vacío requerido por firebase
+     */
     public Exhibitor() {
-        // Requerido por firebase
+
     }
 
+    /**
+     * Constructor usado únicamente para generar pruebas
+     */
     public Exhibitor(String completeName, String personalTitle) {
+
         this.completeName = completeName;
         this.personalTitle = personalTitle;
+
     }
 
     /*
     * Es la misma persona con solo poseer el mismo nombre
     */
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -40,6 +53,9 @@ public class Exhibitor {
         return completeName.equals(exhibitor.completeName);
     }
 
+    /**
+     * Función para realizar búsquedas indexadas
+     */
     @Override
     public int hashCode() {
         return completeName.hashCode();

@@ -27,20 +27,20 @@ public class ChatViewAdapter
     FirebaseUser user = auth.getCurrentUser();
 
     /**
-     * Variables par escoger el tipo de vista que se colocará
+     * Constantes paras escoger el tipo de vista que se colocará
      */
     private int CHAT_LEFT_VIEW_TYPE = 1;
     private int CHAT_RIGHT_VIEW_TYPE = 2;
 
     /**
-     * Objetos del modelo que serán adaptados visualmente
-     */
-    private ArrayList<Message> msgs;
-
-    /**
      * Referencia al objeto que adapta
      */
     private ChatView chatView;
+
+    /**
+     * Objetos del modelo que serán adaptados visualmente
+     */
+    private ArrayList<Message> msgs;
 
     /**
      * Constructor del adaptador
@@ -98,11 +98,13 @@ public class ChatViewAdapter
      */
     @Override
     public void onBindViewHolder(ChatMessageViewHolder holder, int position) {
+
         Message msg = msgs.get(holder.getAdapterPosition());
         holder.username.setText(msg.getUsername());
         holder.messageContent.setText(msg.getContent());
         holder.timeDescription.setText(UDateConverter.extractTime(msg.getTime()));
         Linkify.addLinks(holder.messageContent, Linkify.WEB_URLS);
+
     }
 
     /**

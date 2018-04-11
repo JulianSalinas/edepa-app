@@ -32,8 +32,6 @@ import com.firebase.jobdispatcher.RetryStrategy;
 import com.firebase.jobdispatcher.Trigger;
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
-import java.util.Locale;
-
 /**
  * Clase análoga al masterpage de un página web
  */
@@ -50,15 +48,8 @@ public abstract class MainView extends AppCompatActivity
      * Variables usadas para correr el servicio de notificaciones
      */
     private FirebaseJobDispatcher dispatcher;
-
-    /**
-     * El Id de las notificaciones y el canal están basados en el lenguaje del teléfono
-     */
-    private static final String CHANNEL = Locale.getDefault() == Locale.ENGLISH ?
-            "Servcio de notificaciones" : "Notifications Service";
-
-    private static final String NOTIFICATION_ID = Locale.getDefault() == Locale.ENGLISH ?
-            "Reminders" : "Recordatorios";
+    private final String CHANNEL = "Servicio de notificaciones";
+    private final String NOTIFICATION_ID = "Recordatorios";
 
     /**
      * Atributos en común para todas las aplicaciones. Barra de herramientas, menu lateral, etc.
@@ -120,28 +111,34 @@ public abstract class MainView extends AppCompatActivity
      * Pone a correr el sercicio de notificaciones
      */
     private void setupDispatcher(){
+
         GooglePlayDriver driver = new GooglePlayDriver(this);
         dispatcher = new FirebaseJobDispatcher(driver);
+
     }
 
     /**
      * Coloca la barra de herramientas
      */
     private void setupToolbar(){
+
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
         getSupportActionBar().setTitle(null);
+
     }
 
     /**
      * Coloca el botón de menú lateral
      */
     private void setupToggle(){
+
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar,
                 R.string.drawer_open,
                 R.string.drawer_close);
         toggle.syncState();
+
     }
 
     /**
@@ -149,10 +146,12 @@ public abstract class MainView extends AppCompatActivity
      */
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = findViewById(R.id.main_drawer);
         if (drawer.isDrawerOpen(GravityCompat.START))
             drawer.closeDrawer(GravityCompat.START);
         else super.onBackPressed();
+
     }
 
     /**
@@ -161,9 +160,11 @@ public abstract class MainView extends AppCompatActivity
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         drawer.closeDrawer(GravityCompat.START);
         navigateToItem(item);
         return true;
+
     }
 
     /**
@@ -194,24 +195,29 @@ public abstract class MainView extends AppCompatActivity
      * @param fragment Asociado a la opción elegida por el usuario
      */
     public void switchFragment(Fragment fragment, int animation){
+
         FragmentTransaction transaction = createTransactionWithCustomAnimation(animation);
         transaction.replace(R.id.main_container, fragment);
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
+
     }
 
     /**
      * Coloca una animación personalizada al cambiar de fragmento
      */
     public FragmentTransaction createTransactionWithCustomAnimation(int animation){
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         int in = animation == FADE_ANIMATION ? R.animator.fade_in : R.animator.slide_in_left;
         int out = animation == FADE_ANIMATION ? R.animator.fade_out : R.animator.slide_out_right;
         transaction.setCustomAnimations(in, out);
         return transaction;
+
     }
 
     private void scheduleJob() {
+
         Job myJob = dispatcher.newJobBuilder()
                 .setService(AlarmService.class)
                 .setTag(CHANNEL)
@@ -224,19 +230,24 @@ public abstract class MainView extends AppCompatActivity
                 .build();
         dispatcher.mustSchedule(myJob);
         showStatusMessage(getString(R.string.turned_on_notifications));
+
     }
 
     private void cancelJob() {
+
         dispatcher.cancelAll();
         showStatusMessage(getString(R.string.turned_off_notifications));
+
     }
 
     public Notification createNotification(String content){
+
         return new NotificationCompat.Builder(this, CHANNEL)
                 .setContentTitle("Scheduled Notification")
                 .setContentText(content)
                 .setSmallIcon(R.drawable.ic_information)
                 .setAutoCancel(true).build();
+
     }
 
     public void showNotification(String content){
@@ -252,6 +263,7 @@ public abstract class MainView extends AppCompatActivity
     }
 
     public void createNotificationChannel(NotificationManager manager){
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             int priority = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL, NOTIFICATION_ID, priority);
@@ -259,6 +271,7 @@ public abstract class MainView extends AppCompatActivity
             channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             manager.createNotificationChannel(channel);
         }
+
     }
 
     /**
@@ -266,9 +279,11 @@ public abstract class MainView extends AppCompatActivity
      * @param msg Mensaje que se desea mostrar
      */
     public void showStatusMessage(String msg){
+
         Context context = getApplicationContext();
         Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
         toast.show();
+
     }
 
 }

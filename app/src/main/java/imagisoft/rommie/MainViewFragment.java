@@ -1,6 +1,7 @@
 package imagisoft.rommie;
 
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 
 public class MainViewFragment extends Fragment {
 
@@ -42,6 +43,19 @@ public class MainViewFragment extends Fragment {
         MainViewNavigation activity = (MainViewNavigation) getActivity();
         activity.switchFragment(fragment, animation);
     }
+
+    /**
+     * Oculta o muestra la toolbar para fragmentos que lo requieren
+     * @param show: True si se debe mostrar
+     */
+    public void setToolbarVisible(boolean show){
+        ActionBar toolbar = getNavigation().getSupportActionBar();
+        if(toolbar != null) {
+            if (!show) toolbar.hide();
+            else toolbar.show();
+        }
+    }
+
 
     /**
      * Print temporal en la parte inferior de la aplicación

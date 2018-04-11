@@ -20,8 +20,13 @@ public class ExhibitorsView extends ExhibitorsViewFragment {
      * Se crea el contenedor de los exponentes
      */
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflater.inflate(R.layout.exhibitors_view, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle bundle) {
+
+        View view = inflater.inflate(R.layout.exhibitors_view, container, false);
+        exhibitorsView = view.findViewById(R.id.exhibitors_view);
+        return view;
+
     }
 
     /**
@@ -31,9 +36,6 @@ public class ExhibitorsView extends ExhibitorsViewFragment {
     public void onActivityCreated(Bundle bundle) {
 
         super.onActivityCreated(bundle);
-
-        assert getView() != null;
-        exhibitorsView = getView().findViewById(R.id.exhibitors_view);
         setupExhibitorsView();
 
     }
@@ -42,10 +44,12 @@ public class ExhibitorsView extends ExhibitorsViewFragment {
      * Se configura el exhibitorsView que contiene los expositores
      */
     public void setupExhibitorsView(){
+
         exhibitorsView.setHasFixedSize(true);
         exhibitorsView.setLayoutManager(new SmoothLayout(getActivity()));
         exhibitorsView.setItemAnimator(new DefaultItemAnimator());
         exhibitorsView.setAdapter(exhibitorsAdapter);
+
     }
 
 }

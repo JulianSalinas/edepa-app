@@ -66,28 +66,34 @@ public class ExhibitorsViewFragment extends MainViewFragment{
      * @param event: Evento de donde se extraeran los exponentes
      */
     public void addExhibitors(ScheduleEvent event){
+
         for (Exhibitor exhibitor : event.getExhibitors()) {
             exhibitors.add(exhibitor);
             eventsByExhibitors.add(exhibitor, event);
         }
+
     }
 
     /**
      * Elimina los expositores repetidos que participan en más de un evento
      */
     public void removeRepeatedExhibitors(){
+
         HashSet<Exhibitor> hashSet = new HashSet<>();
         hashSet.addAll(exhibitors);
         exhibitors.clear();
         exhibitors.addAll(hashSet);
+
     }
 
     /**
      * Acomoda alfabeticament a los expositores
      */
     public void sortExhibitors(){
+
         Collections.sort(exhibitors, (first, second) ->
                 first.getCompleteName().compareTo(second.getCompleteName()));
+
     }
 
     /**
@@ -95,9 +101,11 @@ public class ExhibitorsViewFragment extends MainViewFragment{
      * nuevo evento
      */
     public void updateExhibitors(){
+
         removeRepeatedExhibitors();
         sortExhibitors();
         exhibitorsAdapter.notifyDataSetChanged();
+
     }
 
     /**
@@ -105,10 +113,12 @@ public class ExhibitorsViewFragment extends MainViewFragment{
      * contenido del adaptador
      */
     private void updateAdapter(DataSnapshot dataSnapshot){
+
         for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
             ScheduleEvent event = postSnapshot.getValue(ScheduleEvent.class);
             if(event != null) addExhibitors(event);
         }
+
     }
 
     /**
