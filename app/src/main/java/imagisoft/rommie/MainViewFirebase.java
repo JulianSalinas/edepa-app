@@ -1,14 +1,8 @@
 package imagisoft.rommie;
 
-import imagisoft.edepa.Message;
-import imagisoft.edepa.UTestGenerator;
-
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
-
-import java.util.ArrayList;
 
 public abstract class MainViewFirebase extends MainView {
 
@@ -61,7 +55,6 @@ public abstract class MainViewFirebase extends MainView {
         // Guarda en persistencia para volver a descargar
         // Ayuda si la aplicación queda offline
         this.database = FirebaseDatabase.getInstance();
-        this.database.setPersistenceEnabled(true);
 
         // Para almacenar imagenes
         this.storage = FirebaseStorage.getInstance();

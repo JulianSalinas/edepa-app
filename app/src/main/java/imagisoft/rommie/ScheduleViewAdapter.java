@@ -27,7 +27,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private int SCHEDULE_EVENT_VIEW_TYPE = 2;
 
     /**
-     * SchedulePagerFragment al que se debe colocar este adaptador
+     * PagerFragment al que se debe colocar este adaptador
      */
     private MainViewFragment scheduleView;
 
@@ -126,7 +126,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         * Se coloca la estrellita a los eventos que están en favoritos
         */
         FavoriteList favoriteList = FavoriteList.getInstance();
-        if(favoriteList.getEvents().contains(event))
+        if(favoriteList.getSortedEvents().contains(event))
             holder.favoriteButton.setFavorite(true);
 
         /*

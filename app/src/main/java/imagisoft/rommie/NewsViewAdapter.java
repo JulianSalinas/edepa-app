@@ -5,20 +5,22 @@ import android.view.ViewGroup;
 import android.view.LayoutInflater;
 
 import com.google.firebase.database.ChildEventListener;
+
 /**
  * Sirve para enlazar las funciones a una actividad en específico
  */
-public class NewsViewAdapter extends MessagesViewAdapter {
+public class NewsViewAdapter extends MessagesViewAdapterOnline {
+
 
     /**
-     * Constructor del adaptador
+     * Constructor del adaptador usado para recibir mensajes online
      */
-    public NewsViewAdapter(NewsView newsView){
+    public NewsViewAdapter(MainViewFragment view) {
 
-        super(newsView);
+        super(view);
 
-        ChildEventListener listener = new NewsViewAdapter.MessageViewAdapterChildEventListener();
-        newsView.getFirebase().getNewsReference().addChildEventListener(listener);
+        ChildEventListener listener = new MessageViewAdapterChildEventListener();
+        view.getFirebase().getNewsReference().addChildEventListener(listener);
 
     }
 

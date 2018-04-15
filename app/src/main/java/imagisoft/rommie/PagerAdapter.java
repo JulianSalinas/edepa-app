@@ -14,14 +14,15 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import org.springframework.util.LinkedMultiValueMap;
 
 
-public class SchedulePager extends FragmentStatePagerAdapter {
+public class PagerAdapter extends FragmentStatePagerAdapter {
 
     /**
      * Para dividir los eventos por dia en la vista
      */
-    protected ArrayList<String> dates;
-    protected ArrayList<ScheduleBlock> events;
-    protected LinkedMultiValueMap<String, ScheduleBlock> eventsByDay;
+    protected List<String> dates;
+    protected List<ScheduleEvent> events;
+    protected List<ScheduleBlock> blocks;
+    protected LinkedMultiValueMap<String, ScheduleBlock> blocksByDay;
 
     /**
      * Se guarda referencia a la páginas para reutilizarlas
@@ -37,16 +38,15 @@ public class SchedulePager extends FragmentStatePagerAdapter {
      * En el constructor se agrega el listener para colocar las fechas
      * en el paginador
      */
-    public SchedulePager(MainViewFragment schedulePager) {
+    public PagerAdapter(MainViewFragment schedulePager) {
 
         super(schedulePager.getChildFragmentManager());
-
         this.schedulePager = schedulePager;
 
         this.dates = new ArrayList<>();
         this.events = new ArrayList<>();
-        this.eventsByDay = new LinkedMultiValueMap<>();
-
+        this.blocks = new ArrayList<>();
+        this.blocksByDay = new LinkedMultiValueMap<>();
         this.pages = new Fragment[dates.size()];
 
     }
@@ -64,11 +64,9 @@ public class SchedulePager extends FragmentStatePagerAdapter {
      */
     @Override
     public Fragment getItem(int position) {
-
         if(pages[position] == null)
             pages[position] = createScheduleView(position);
         return pages[position];
-
     }
 
     /**
@@ -76,10 +74,8 @@ public class SchedulePager extends FragmentStatePagerAdapter {
      * cuando sea necesario.
      */
     private ScheduleView createScheduleView(int position){
-
-        List<ScheduleBlock> events = eventsByDay.get(dates.get(position));
-        return ScheduleView.newInstance(events);
-
+        List<ScheduleBlock> blocks = blocksByDay.get(dates.get(position));
+        return ScheduleView.newInstance(blocks);
     }
 
     /**
@@ -91,41 +87,58 @@ public class SchedulePager extends FragmentStatePagerAdapter {
     }
 
     /**
-     * Divide los eventos por dias (formato dd/mm/yy)
-     * @return HashTable (12/12/17, Evento)
+     * Cuando algún evento se agrega es necesario actualizar
      */
-    public LinkedMultiValueMap<String, ScheduleBlock> getEventsByDay(){
+    @Override
+    public void notifyDataSetChanged(){
 
-        for(ScheduleBlock event : events)
-            eventsByDay.add(UDateConverter.extractDate(event.getStart()), event);
+        orderEvents();
 
-        return eventsByDay;
+        dates = new ArrayList<>();
+        blocksByDay = new LinkedMultiValueMap<>();
+
+        blocksByDay = getBlocksByDay();
+        dates.addAll(blocksByDay.keySet());
+
+        pages = new Fragment[dates.size()];
+        super.notifyDataSetChanged();
 
     }
 
     /**
-     * Algoritmo para ordenar y agrupar los eventos por su fechas
-     * @param scheduleEvents: Eventos que se deben ordenar
+     * Divide los eventos por dias (formato dd/mm/yy)
+     * @return HashTable (12/12/17, Evento)
      */
-    public void orderEvents(ArrayList<ScheduleBlock> scheduleEvents){
+    public LinkedMultiValueMap<String, ScheduleBlock> getBlocksByDay(){
+        for(ScheduleBlock event : blocks)
+            blocksByDay.add(UDateConverter.extractDate(event.getStart()), event);
+        return blocksByDay;
+    }
+
+    /**
+     * Algoritmo para ordenar y agrupar los eventos por su fechas
+     */
+    public void orderEvents(){
+
+        blocks = new ArrayList<>();
 
         // La hora del primer evento marca la hora del primer bloque
-        ScheduleEvent first = (ScheduleEvent) scheduleEvents.get(0);
+        ScheduleEvent first = events.get(0);
         ScheduleBlock block = new ScheduleBlock(first.getStart(), first.getEnd());
 
         // Se añade el encabezado del bloque junto con el primer evento en la vista
-        events.add(block);
-        events.add(first);
+        blocks.add(block);
+        blocks.add(first);
 
         // Se agrupan los eventos si estan anidados (un evento empieza cuando otro está activo),
         // Si empienzan casi a la misma hora (10 mins = 600000 millis),
         // Si al terminar un evento solo faltan 10 mins para que inicie el siguiente
-        for(int i = 1; i < scheduleEvents.size(); i++){
+        for(int i = 1; i < events.size(); i++){
 
-            long upEnd = scheduleEvents.get(i-1).getEnd();
-            long upStart = scheduleEvents.get(i-1).getStart();
-            long downEnd = scheduleEvents.get(i).getEnd();
-            long downStart = scheduleEvents.get(i).getStart();
+            long upEnd = events.get(i-1).getEnd();
+            long upStart = events.get(i-1).getStart();
+            long downEnd = events.get(i).getEnd();
+            long downStart = events.get(i).getStart();
 
             boolean areNested = upStart > downStart && downStart > upEnd;
 
@@ -139,10 +152,10 @@ public class SchedulePager extends FragmentStatePagerAdapter {
             // Si no se cumplen las condiciones para agrupar, se inicia un nuevo bloque
             else {
                 block = new ScheduleBlock(downStart, downEnd);
-                events.add(block);
+                blocks.add(block);
             }
 
-            events.add(scheduleEvents.get(i));
+            blocks.add(events.get(i));
 
         }
 

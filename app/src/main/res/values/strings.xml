@@ -40,8 +40,8 @@
     <string name="text_conference">Conferencia</string>
 
     <!-- Schedule View  -->
-    <string name="text_people">Personas</string>
-    <string name="text_ongoing">En curso</string>
+    <string name="text_people">People</string>
+    <string name="text_ongoing">Ongoing</string>
     <string name="text_abstract">Resumen</string>
     <string name="text_readmore">LEER MÁS</string>
     <string name="text_location">Ubicación</string>
@@ -51,7 +51,7 @@
 
     <!-- Configuration -->
     <string name="text_language">Idioma</string>
-    <string name="text_username">Nombre de usuario</string>
+    <string name="text_username">Username</string>
     <string name="text_username_help">Elige el nombre que usarás en el chat</string>
 
     <!-- Favorites -->
@@ -97,5 +97,6 @@
     <string name="channel">Servicio de notificaciones</string>
     <string name="notification_id">Recordatorios</string>
     <string name="not_available">No disponible</string>
+    <string name="text_language_changed">Desea reiniciar la aplicación ahora para cambiar el idioma</string>
 
 </resources>

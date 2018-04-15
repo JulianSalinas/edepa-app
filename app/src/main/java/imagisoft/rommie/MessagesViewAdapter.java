@@ -1,6 +1,9 @@
 package imagisoft.rommie;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import imagisoft.edepa.Message;
 import imagisoft.edepa.UDateConverter;
 
@@ -20,7 +23,9 @@ import com.google.firebase.database.DatabaseError;
 public abstract class MessagesViewAdapter
         extends RecyclerView.Adapter<MessagesViewAdapter.MessageViewHolder> {
 
-    // Se obtiene el usuario que envía
+    /**
+     * Se obtiene el usuario actual o que envía
+     */
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
 
@@ -72,48 +77,13 @@ public abstract class MessagesViewAdapter
      */
     protected class MessageViewHolder extends RecyclerView.ViewHolder {
 
-        TextView username;
-        TextView timeDescription;
-        TextView messageContent;
+        @BindView(R.id.msg_username) TextView username;
+        @BindView(R.id.msg_content) TextView messageContent;
+        @BindView(R.id.msg_time_description) TextView timeDescription;
 
         MessageViewHolder(View view) {
             super(view);
-            this.username = view.findViewById(R.id.msg_username);
-            this.timeDescription = view.findViewById(R.id.msg_time_description);
-            this.messageContent = view.findViewById(R.id.msg_content);
-        }
-
-    }
-
-    /**
-     * Recibe los mensajes de firebase y los coloca en la vista
-     */
-    protected class MessageViewAdapterChildEventListener implements ChildEventListener {
-
-        @Override
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            msgs.add(dataSnapshot.getValue(Message.class));
-            notifyItemInserted(msgs.size()-1);
-        }
-
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            // No requerido
-        }
-
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-            // No requerido
-        }
-
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            // No requerido
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-            Log.i(view.getTag(), databaseError.toString());
+            ButterKnife.bind(this, view);
         }
 
     }

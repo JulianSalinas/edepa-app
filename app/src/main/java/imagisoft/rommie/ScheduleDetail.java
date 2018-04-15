@@ -116,7 +116,7 @@ public class ScheduleDetail extends ExhibitorsViewFragment{
      */
     private void bindInformation(){
 
-        textAbstract.setText(event.getBrief());
+        textAbstract.setText(event.getBrief(getActivity()));
         textLocation.setText(event.getLocation());
         textHeader.setText(event.getTitle());
         textEventype.setText(event.getEventype().toString());
@@ -128,7 +128,7 @@ public class ScheduleDetail extends ExhibitorsViewFragment{
         buttonBack.setOnClickListener(v -> getNavigation().onBackPressed());
 
         favoriteButton.setOnClickListener(v -> {
-            List<ScheduleBlock> events = FavoriteList.getInstance().getEvents();
+            List<ScheduleEvent> events = FavoriteList.getInstance().getSortedEvents();
             if(!events.contains(event)) events.add(event);
             String msg = getResources().getString(R.string.text_marked_as_favorite);
             showStatusMessage(msg);

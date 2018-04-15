@@ -3,14 +3,14 @@ package imagisoft.rommie;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.view.View;
+
 import android.widget.Toast;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -30,7 +30,6 @@ import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.Lifetime;
 import com.firebase.jobdispatcher.RetryStrategy;
 import com.firebase.jobdispatcher.Trigger;
-import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
 import imagisoft.edepa.FavoriteList;
 
@@ -38,109 +37,103 @@ import imagisoft.edepa.FavoriteList;
  * Clase análoga al masterpage de un página web
  */
 public abstract class MainView extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     /**
      * Posibles parámetros para usar con la función switchFragment
      */
-    public int FADE_ANIMATION = 0;
-    public int SLIDE_ANIMATION = 1;
+    public final int FADE_ANIMATION = 0;
+    public final int SLIDE_ANIMATION = 1;
 
     /**
      * Variables usadas para correr el servicio de notificaciones
      */
     private FirebaseJobDispatcher dispatcher;
-    private final String CHANNEL = "Servicio de notificaciones";
     private final String NOTIFICATION_ID = "Recordatorios";
+    private final String CHANNEL = "Servicio de notificaciones";
 
     /**
-     * Atributos en común para todas las aplicaciones. Barra de herramientas, menu lateral, etc.
+     * Atributos en común para todas las aplicaciones.
      */
     protected Toolbar toolbar;
-    private DrawerLayout drawer;
-    private NavigationView navigation;
-    private ActionBarDrawerToggle toggle;
-    private FloatingActionLayout favoriteButton;
-
-    /**
-     * Para colocar el nombre de la sección actual en el menú lateral
-     */
-    protected TextView currentSection;
+    protected DrawerLayout drawer;
+    protected NavigationView navigation;
+    protected ActionBarDrawerToggle toggle;
 
     /**
      * Se inician todos los componentes principales de la aplicación
      */
     @Override
     protected void onCreate (Bundle bundle) {
+
         super.onCreate(bundle);
+        FavoriteList.getInstance().loadFavorites(this);
+
         setContentView(R.layout.main_drawer);
-        bindViews();
+        bindMainViews();
+        bindNavigationViews();
         setupToolbar();
         setupToggle();
         setupDispatcher();
         navigateById(R.id.nav_schedule);
         scheduleJob();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FavoriteList.getInstance().saveFavorites(this);
     }
 
     /**
      * Enlaza todas las vistas del fragmento con sus clases
      */
-    private void bindViews(){
+    private void bindMainViews(){
 
         toolbar = findViewById(R.id.toolbar);
         drawer = findViewById(R.id.main_drawer);
-
         navigation = findViewById(R.id.main_nav);
         navigation.setNavigationItemSelectedListener(this);
 
-        View header = navigation.getHeaderView(0);
-        favoriteButton = header.findViewById(R.id.favorite_button);
-        currentSection = header.findViewById(R.id.current_section_view);
-
-        favoriteButton.setOnClickListener(this);
-
     }
 
     /**
-     * Onclick para el favoriteButton
+     * Sección de las vista que hay en el encabezado
      */
-    @Override
-    public void onClick(View v) {
-
-    }
+    public abstract void bindNavigationViews();
 
     /**
-     * Pone a correr el sercicio de notificaciones
+     * Onclick para el favoriteButton para colocar el tab de favoritos
      */
-    private void setupDispatcher(){
-
-        GooglePlayDriver driver = new GooglePlayDriver(this);
-        dispatcher = new FirebaseJobDispatcher(driver);
-
-    }
+    public abstract void onFavoriteButtonClick();
 
     /**
      * Coloca la barra de herramientas
      */
     private void setupToolbar(){
-
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
         getSupportActionBar().setTitle(null);
-
     }
 
     /**
      * Coloca el botón de menú lateral
      */
     private void setupToggle(){
-
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar,
                 R.string.drawer_open,
                 R.string.drawer_close);
         toggle.syncState();
+    }
 
+    /**
+     * Pone a correr el sercicio de notificaciones
+     */
+    private void setupDispatcher(){
+        GooglePlayDriver driver = new GooglePlayDriver(this);
+        dispatcher = new FirebaseJobDispatcher(driver);
     }
 
     /**
@@ -148,12 +141,10 @@ public abstract class MainView extends AppCompatActivity
      */
     @Override
     public void onBackPressed() {
-
         DrawerLayout drawer = findViewById(R.id.main_drawer);
         if (drawer.isDrawerOpen(GravityCompat.START))
             drawer.closeDrawer(GravityCompat.START);
         else super.onBackPressed();
-
     }
 
     /**
@@ -162,11 +153,9 @@ public abstract class MainView extends AppCompatActivity
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
         drawer.closeDrawer(GravityCompat.START);
         navigateToItem(item);
         return true;
-
     }
 
     /**
@@ -197,29 +186,24 @@ public abstract class MainView extends AppCompatActivity
      * @param fragment Asociado a la opción elegida por el usuario
      */
     public void switchFragment(Fragment fragment, int animation){
-
         FragmentTransaction transaction = createTransactionWithCustomAnimation(animation);
         transaction.replace(R.id.main_container, fragment);
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
-
     }
 
     /**
      * Coloca una animación personalizada al cambiar de fragmento
      */
     public FragmentTransaction createTransactionWithCustomAnimation(int animation){
-
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         int in = animation == FADE_ANIMATION ? R.animator.fade_in : R.animator.slide_in_left;
         int out = animation == FADE_ANIMATION ? R.animator.fade_out : R.animator.slide_out_right;
         transaction.setCustomAnimations(in, out);
         return transaction;
-
     }
 
     private void scheduleJob() {
-
         Job myJob = dispatcher.newJobBuilder()
                 .setService(AlarmService.class)
                 .setTag(CHANNEL)
@@ -232,24 +216,19 @@ public abstract class MainView extends AppCompatActivity
                 .build();
         dispatcher.mustSchedule(myJob);
         showStatusMessage(getString(R.string.turned_on_notifications));
-
     }
 
     private void cancelJob() {
-
         dispatcher.cancelAll();
         showStatusMessage(getString(R.string.turned_off_notifications));
-
     }
 
     public Notification createNotification(String content){
-
         return new NotificationCompat.Builder(this, CHANNEL)
                 .setContentTitle("Scheduled Notification")
                 .setContentText(content)
                 .setSmallIcon(R.drawable.ic_information)
                 .setAutoCancel(true).build();
-
     }
 
     public void showNotification(String content){
@@ -265,7 +244,6 @@ public abstract class MainView extends AppCompatActivity
     }
 
     public void createNotificationChannel(NotificationManager manager){
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             int priority = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL, NOTIFICATION_ID, priority);
@@ -273,7 +251,6 @@ public abstract class MainView extends AppCompatActivity
             channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             manager.createNotificationChannel(channel);
         }
-
     }
 
     /**
@@ -281,10 +258,28 @@ public abstract class MainView extends AppCompatActivity
      * @param msg Mensaje que se desea mostrar
      */
     public void showStatusMessage(String msg){
-
         Context context = getApplicationContext();
         Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    /**
+     * Luego de invocar está función se debe actualizar la actividad para que
+     * se usen los nuevos strings
+     * @param context: Actividad desde la que se invoca el cambio de idioma
+     * @param lang: Puede ser "en" o "es"
+     */
+    public void changeLocale(Context context, String lang) {
+
+//        if (lang.equalsIgnoreCase("")) return;
+//
+//        locale = new Locale(lang);
+//        saveLocale(context, lang);
+//
+//        Locale.setDefault(locale);
+//        Configuration config = new Configuration();
+//        config.locale = locale;
+//        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
 
     }
 

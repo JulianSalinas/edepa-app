@@ -1,26 +1,25 @@
 package imagisoft.edepa;
 
+import android.util.Log;
+
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 
-public class FavoriteList {
-
-    /**
-     * Patrón singleton
-     */
-    private static final FavoriteList ourInstance = new FavoriteList();
+public class FavoriteList extends Preferences {
 
     /**
      * Instancia única para que todos accedan a la misma lista de favoritos
      */
+    private static final FavoriteList ourInstance = new FavoriteList();
+
     public static FavoriteList getInstance() {
         return ourInstance;
     }
@@ -28,24 +27,38 @@ public class FavoriteList {
     /**
      * Identifica el archivo json del que se obtienen los favoritos
      */
-    private String key;
+    private final String key = "FAVORITES";
+
+    /**
+     * Bandera para saber si han habido cambios
+     */
+    private boolean changed = true;
+
+    public boolean isChanged() {
+        return changed;
+    }
 
     /**
      * Eventos que el usuario marcó como favoritos
      */
-    private List<ScheduleBlock> events;
+    private List<ScheduleEvent> events;
 
-    /**
-     * Se obtiene los eventos favoritos del usuario
-     */
-    public List<ScheduleBlock> getEvents() {
+    public List<ScheduleEvent> getSortedEvents() {
+
+        changed = false;
+
+        Collections.sort(events, (before, after) ->
+                before.getStart() >= after.getStart() ? 1 : -1);
+
         return events;
+
     }
 
     /**
      * Se llama cuando el usuario marca la estrellita de un evento
      */
     public void addEvent(ScheduleEvent event){
+        changed = true;
         events.add(event);
     }
 
@@ -53,6 +66,7 @@ public class FavoriteList {
      * Se llama cuando el usuario desmarca la estrellita de un evento
      */
     public void removeEvent(ScheduleEvent event){
+        changed = true;
         events.remove(event);
     }
 
@@ -60,29 +74,16 @@ public class FavoriteList {
      * Se inicializa la lista de favoritos
      */
     private FavoriteList() {
-
-        key = "FAVORITES";
         events = new ArrayList<>();
-
-    }
-
-    /**
-     * Obtiene un segmento de almacenamiento para guardar los eventos
-     * @param context: Actividad desde donde se llama la aplicación
-     */
-    public SharedPreferences getSharedPreferences(Context context){
-        return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     /**
      * Crear un string con formato json a partir de los eventos
      */
-    public String getFavoritesAsJson(){
-
+    private String getFavoritesAsJson(){
         JSONArray json = new JSONArray();
         for (ScheduleBlock event : events) json.put(event);
         return json.toString();
-
     }
 
     /**
@@ -90,12 +91,27 @@ public class FavoriteList {
      * variable events de ésta clase.
      * @param context: Actividad desde donde se llama la aplicación
      */
-    public List<ScheduleBlock> loadFavorites(Context context) {
+    public void loadFavorites(Context context) {
 
         SharedPreferences prefs = getSharedPreferences(context);
-        try { return loadFavoritesAux(new JSONArray(prefs.getString(key, null))); }
-        catch (JSONException e) { return events; }
+        if(!prefs.contains(key)) saveFavorites(context);
 
+        try {
+            loadFavoritesAux(new JSONArray(prefs.getString(key, " ")));
+        }
+        catch (JSONException e) {
+            Log.i(key, e.getMessage());
+        }
+
+    }
+
+    /**
+     * Ayuda a la función loadFavorites a manejar el error que se genera al cargar
+     * por primera vez la lista de favoritos, ya que, la primer vez no existe
+     */
+    private void loadFavoritesAux(JSONArray json) throws JSONException{
+        for (int i = 0; i < json.length(); i++)
+            events.add((ScheduleEvent) json.get(i));
     }
 
     /**
@@ -104,22 +120,9 @@ public class FavoriteList {
      * @param context: Actividad desde donde se llama la aplicación
      */
     public void saveFavorites(Context context) {
-
-        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-        editor.putString(key, !events.isEmpty() ? getFavoritesAsJson() : null);
+        SharedPreferences.Editor editor = getSharedEditor(context);
+        editor.putString(key, getFavoritesAsJson());
         editor.apply();
-
-    }
-
-    /**
-     * Ayuda a la función loadFavorites a manejar el error que se genera al cargar
-     * por primera vez la lista de favoritos, ya que, la primer vez no existe
-     */
-    public List<ScheduleBlock> loadFavoritesAux(JSONArray json) throws JSONException{
-
-        for (int i = 0; i < json.length(); i++) events.add((ScheduleEvent) json.get(i));
-        return events;
-
     }
 
 }

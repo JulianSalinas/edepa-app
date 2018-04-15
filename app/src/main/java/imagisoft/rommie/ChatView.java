@@ -1,13 +1,13 @@
 package imagisoft.rommie;
 
 import java.util.Calendar;
+import butterknife.BindView;
 import imagisoft.edepa.Message;
 
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.AppCompatEditText;
 
@@ -17,26 +17,19 @@ public class ChatView extends MessagesView {
     /**
      * Botón e input para enviar los mensajes
      */
-    private CardView sendCardView;
-    private AppCompatEditText textInputView;
+    @BindView(R.id.chat_view_send_card) CardView sendCardView;
+    @BindView(R.id.chat_view_input) AppCompatEditText textInputView;
 
     /**
      * Se enlazan las clases con sus vistas
      */
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle bundle) {
-
-        View view = inflater.inflate(R.layout.chat_view, container, false);
-        mainView = view.findViewById(R.id.chat_view_recycler);
-        sendCardView = view.findViewById(R.id.chat_view_send_card);
-        textInputView = view.findViewById(R.id.chat_view_input);
-        return view;
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
+        return inflate(inflater, container, R.layout.chat_view);
     }
 
     /**
-     * Se configuran las clases de las vistas y sus eventos
+     * Al terminar de asociar las vistas se coloca el adaptador
      */
     @Override
     public void onActivityCreated(Bundle bundle) {
@@ -49,17 +42,14 @@ public class ChatView extends MessagesView {
      */
     @Override
     public void setupAdapter(){
-
         if(adapter == null) {
             adapter = new ChatViewAdapter(this);
             registerAdapterDataObserver();
         }
-
     }
 
     /**
-     * Al presionar el boton se llama al controlador para enviar el mensaje
-     * Luego se debe actualizar la vista
+     * Al presionar el botón se llama al controlador para enviar el mensaje
      */
     private void setupSendCardView() {
         sendCardView.setOnClickListener(v -> sendMessage());
@@ -69,32 +59,27 @@ public class ChatView extends MessagesView {
      * Función para enviar un msg, si se envía se agrega a la vista
      */
     public void sendMessage(){
-
         String content = textInputView.getText().toString();
         if (!content.isEmpty()) sendNotEmptyMessage(content);
-
     }
 
     /**
-     * Función para enviar un msg, si se envía se agrega a la vista
-     * se revisa que el mesaje no este vacío previamente
+     * Función usada por sendMessage
+     * Se revisa que el mesaje no este vacío previamente
      */
     private void sendNotEmptyMessage(String content){
-
         Message msg = createMessage(content);
         getFirebase().getChatReference().push().setValue(msg);
         textInputView.setText("");
-
     }
 
     /**
-     * Reune los datos y crea un objeto Message
+     * Reúne los datos (fecha y usuario) y crea un objeto Message
      */
     public Message createMessage(String content){
-
+        String username = getCurrentUsername();
         Long datetime = Calendar.getInstance().getTimeInMillis();
-        return new Message(user.getUid(), user.getDisplayName(), content, datetime);
-
+        return new Message(user.getUid(), username, content, datetime);
     }
 
 }

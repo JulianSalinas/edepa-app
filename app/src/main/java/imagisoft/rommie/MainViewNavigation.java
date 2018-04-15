@@ -1,9 +1,17 @@
 package imagisoft.rommie;
 
 import com.firebase.ui.auth.AuthUI;
+import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
+
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
+
+import butterknife.BindView;
 
 public class MainViewNavigation extends MainViewFirebase
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -17,6 +25,43 @@ public class MainViewNavigation extends MainViewFirebase
     private Fragment scheduleTabs;
     private Fragment exhibitorsView;
     private Fragment informationView;
+
+    /**
+     * Atributos custom
+     */
+    private TextView currentSection;
+    private FloatingActionLayout favoriteButton;
+
+    /**
+     * Sección de las vista que hay en el encabezado
+     */
+    public void bindNavigationViews(){
+        View header = navigation.getHeaderView(0);
+        favoriteButton = header.findViewById(R.id.favorite_button);
+        currentSection = header.findViewById(R.id.current_section_view);
+        favoriteButton.setOnClickListener(v -> onFavoriteButtonClick());
+    }
+
+    /**
+     * Envía al usuario al tab donde están sus favoritos
+     */
+    @Override
+    public void onFavoriteButtonClick() {
+
+        int favTab = ScheduleTabs.FAVORITES_TAB;
+        currentSection.setText(R.string.nav_favorites);
+
+        if(scheduleTabs == null)
+            scheduleTabs = ScheduleTabs.newInstance(favTab);
+        else
+            ((ScheduleTabs) scheduleTabs).setCurrentTab(favTab);
+
+        switchFragment(scheduleTabs);
+        ((ScheduleTabs) scheduleTabs).navigateToPosition(favTab);
+
+    }
+
+
 
     /**
      * Método utilizado al escoger una opción del menú de navegación
@@ -49,6 +94,7 @@ public class MainViewNavigation extends MainViewFirebase
             currentSection.setText(R.string.nav_schedule);
             if(scheduleTabs == null)
                 scheduleTabs = ScheduleTabs.newInstance();
+            else ((ScheduleTabs) scheduleTabs).navigateToPosition(ScheduleTabs.SCHEDULE_TAB);
             switchFragment(scheduleTabs);
             break;
 

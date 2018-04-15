@@ -14,13 +14,8 @@ public class NewsView extends MessagesView {
      * Se crea el contenedor de los atributos que son vistas
      */
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle bundle) {
-
-        View view = inflater.inflate(R.layout.news_view, container, false);
-        mainView = view.findViewById(R.id.news_view_recycler);
-        return view;
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
+        return inflate(inflater, container, R.layout.news_view);
     }
 
     /**

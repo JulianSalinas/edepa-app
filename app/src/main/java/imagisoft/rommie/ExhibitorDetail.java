@@ -1,7 +1,6 @@
 package imagisoft.rommie;
 
 import java.util.List;
-
 import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.ScheduleBlock;
 
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ImageView;
 import android.view.LayoutInflater;
-import android.support.v7.app.ActionBar;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -87,6 +85,7 @@ public class ExhibitorDetail extends MainViewFragment{
 
         bindInformation();
         setupEventsView();
+
     }
 
     /**

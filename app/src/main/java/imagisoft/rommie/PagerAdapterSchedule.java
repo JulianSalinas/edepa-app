@@ -1,9 +1,6 @@
 package imagisoft.rommie;
 
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import java.util.ArrayList;
-import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
 
 import com.google.firebase.database.Query;
@@ -12,13 +9,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class SchedulePagerAdapter extends SchedulePager {
+public class PagerAdapterSchedule extends PagerAdapter {
 
     /**
      * En el constructor se agrega el listener para colocar las fechas
      * en el paginador
      */
-    public SchedulePagerAdapter(MainViewFragment schedulePager) {
+    public PagerAdapterSchedule(MainViewFragment schedulePager) {
 
         super(schedulePager);
 
@@ -42,14 +39,9 @@ public class SchedulePagerAdapter extends SchedulePager {
         public void onDataChange(DataSnapshot dataSnapshot) {
 
             // Se extraen todos los eventos de firebase
-            ArrayList<ScheduleBlock> scheduleEvents = new ArrayList<>();
             for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
-                scheduleEvents.add(postSnapshot.getValue(ScheduleEvent.class));
+                events.add(postSnapshot.getValue(ScheduleEvent.class));
 
-            orderEvents(scheduleEvents);
-            eventsByDay = getEventsByDay();
-            dates.addAll(eventsByDay.keySet());
-            pages = new Fragment[dates.size()];
             notifyDataSetChanged();
 
         }

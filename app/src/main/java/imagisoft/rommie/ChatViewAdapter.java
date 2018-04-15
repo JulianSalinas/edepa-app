@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import com.google.firebase.database.ChildEventListener;
 
 
-public class ChatViewAdapter extends MessagesViewAdapter{
+public class ChatViewAdapter extends MessagesViewAdapterOnline{
 
     /**
      * Constantes paras escoger el tipo de vista que se colocará
@@ -18,14 +18,14 @@ public class ChatViewAdapter extends MessagesViewAdapter{
     private int CHAT_RIGHT_VIEW_TYPE = 2;
 
     /**
-     * Constructor del adaptador
+     * Se asocia con firebase para recibir los mensajes
      */
     public ChatViewAdapter(ChatView chatView){
 
         super(chatView);
 
         ChildEventListener listener = new MessageViewAdapterChildEventListener();
-        chatView.getFirebase().getChatReference().addChildEventListener(listener);
+        view.getFirebase().getChatReference().addChildEventListener(listener);
 
     }
 
@@ -34,12 +34,9 @@ public class ChatViewAdapter extends MessagesViewAdapter{
      */
     @Override
     public int getItemViewType(int position) {
-
         Message item = msgs.get(position);
-        return item.getUserid().equals(user.getUid()) ?
-                CHAT_RIGHT_VIEW_TYPE:
-                CHAT_LEFT_VIEW_TYPE;
-
+        boolean isThisUser = item.getUserid().equals(user.getUid());
+        return isThisUser ? CHAT_RIGHT_VIEW_TYPE: CHAT_LEFT_VIEW_TYPE;
     }
 
     /**

@@ -1,11 +1,16 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import butterknife.BindView;
+import imagisoft.edepa.Preferences;
 
 
 public abstract class MessagesView extends MainViewFragment {
@@ -13,23 +18,33 @@ public abstract class MessagesView extends MainViewFragment {
     /**
      * Se obtiene el usuario actual o que envía
      */
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    FirebaseUser user = auth.getCurrentUser();
+    protected FirebaseAuth auth = FirebaseAuth.getInstance();
+    protected FirebaseUser user = auth.getCurrentUser();
 
     /**
      * Es la capa (con su adaptador) donde se coloca cada uno de los mensajes
      */
-    protected RecyclerView mainView;
     protected MessagesViewAdapter adapter;
+    @BindView(R.id.messages_view_recycler) RecyclerView mainView;
+
+    /**
+     * Se inicializan las variables no gráficas
+     */
+    @Override
+    public void onCreate(@Nullable Bundle bundle) {
+        super.onCreate(bundle);
+    }
 
     /**
      * Se configuran las clases de las vistas y sus eventos
      */
     @Override
     public void onActivityCreated(Bundle bundle) {
+
         super.onActivityCreated(bundle);
         setupAdapter();
         setupMainView();
+
     }
 
     /**
