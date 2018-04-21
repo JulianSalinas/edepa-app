@@ -41,6 +41,7 @@ dependencies {
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.google.android.gms:play-services-maps:15.0.0'
+    implementation 'com.google.android.gms:play-services-auth:15.0.0'
     implementation 'com.google.android.gms:play-services-location:15.0.0'
 
     testImplementation 'junit:junit:4.12'
@@ -76,19 +77,24 @@ dependencies {
 
     implementation 'com.github.neopixl:PixlUI:v1.1.2'
 
+    implementation 'com.github.metalurgus:LocaleText:0.0.1.1'
+
+    implementation 'com.github.medyo:android-about-page:1.2.4'
+
+    implementation 'com.alimuzaffar.lib:animated-edit-text:1.1'
+
+    implementation 'com.afollestad:aesthetic:0.4.6'
+
     implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
     implementation 'com.firebaseui:firebase-ui-auth:3.2.2'
     implementation 'com.firebaseui:firebase-ui-storage:0.6.0'
 
     implementation 'com.google.code.gson:gson:2.8.2'
-    implementation 'com.jakewharton:butterknife:8.8.1'
     implementation 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
     implementation('com.facebook.android:facebook-android-sdk:4.27.0')
-    annotationProcessor 'com.jakewharton:butterknife-implementationr:8.8.1'
 
-
+    implementation "com.jakewharton:butterknife:8.8.1"
+    annotationProcessor "com.jakewharton:butterknife-compiler:8.8.1"
 }
-
-
 
 apply plugin: 'com.google.gms.google-services'

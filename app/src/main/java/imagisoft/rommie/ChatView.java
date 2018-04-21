@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.AppCompatEditText;
+import android.support.design.widget.TextInputEditText;
 
 
 public class ChatView extends MessagesView {
@@ -17,11 +17,14 @@ public class ChatView extends MessagesView {
     /**
      * Botón e input para enviar los mensajes
      */
-    @BindView(R.id.chat_view_send_card) CardView sendCardView;
-    @BindView(R.id.chat_view_input) AppCompatEditText textInputView;
+    @BindView(R.id.send_card_view)
+    CardView sendCardView;
+
+    @BindView(R.id.text_input_view)
+    TextInputEditText textInputView;
 
     /**
-     * Se enlazan las clases con sus vistas
+     * Se enlazan los componentes visuales con los atributos
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
@@ -29,7 +32,7 @@ public class ChatView extends MessagesView {
     }
 
     /**
-     * Al terminar de asociar las vistas se coloca el adaptador
+     * Función que se llema cada vez que se coloca el fragmento en la actividad
      */
     @Override
     public void onActivityCreated(Bundle bundle) {
@@ -38,7 +41,8 @@ public class ChatView extends MessagesView {
     }
 
     /**
-     * Se prepara el adaptador para poder recibir nuevas vistas de mensajes
+     * Se prepara el adaptador para poder recibir nuevas vistas de mensajes. Si
+     * el adaptador ya había sido colocado no es necesario crearlo otra vez
      */
     @Override
     public void setupAdapter(){
@@ -49,14 +53,15 @@ public class ChatView extends MessagesView {
     }
 
     /**
-     * Al presionar el botón se llama al controlador para enviar el mensaje
+     * Al presionar el botón se reunen los datos del msg y luego se envía
      */
     private void setupSendCardView() {
         sendCardView.setOnClickListener(v -> sendMessage());
     }
 
     /**
-     * Función para enviar un msg, si se envía se agrega a la vista
+     * Función para enviar un msg. Toma el contenido y si no está vacío
+     * procede a enviarlo
      */
     public void sendMessage(){
         String content = textInputView.getText().toString();
@@ -66,6 +71,7 @@ public class ChatView extends MessagesView {
     /**
      * Función usada por sendMessage
      * Se revisa que el mesaje no este vacío previamente
+     * @param content: Contenido del mensaje extraido del input
      */
     private void sendNotEmptyMessage(String content){
         Message msg = createMessage(content);
@@ -74,7 +80,9 @@ public class ChatView extends MessagesView {
     }
 
     /**
-     * Reúne los datos (fecha y usuario) y crea un objeto Message
+     * Reúne los datos del mensaje; usuario y fecha
+     * y crea el objeto.
+     * @param content: Contenido del mensaje extraido del input
      */
     public Message createMessage(String content){
         String username = getCurrentUsername();

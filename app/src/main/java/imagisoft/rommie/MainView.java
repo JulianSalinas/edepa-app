@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
+import android.view.View;
 import android.widget.Toast;
 import android.view.MenuItem;
 import android.content.Context;
@@ -70,6 +71,7 @@ public abstract class MainView extends AppCompatActivity
         FavoriteList.getInstance().loadFavorites(this);
 
         setContentView(R.layout.main_drawer);
+
         bindMainViews();
         bindNavigationViews();
         setupToolbar();

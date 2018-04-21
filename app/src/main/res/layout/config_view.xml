@@ -37,7 +37,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/text_presentation"
+            android:id="@+id/description_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/space_medium"
@@ -50,41 +50,48 @@
             android:layout_marginBottom="@dimen/space_medium"
             android:background="@color/app_light_detail" />
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/username_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/text_username"
-            android:textSize="@dimen/font_big" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/space_medium"
-            android:textSize="@dimen/font_smallest"
-            android:text="@string/text_username_help" />
+            android:orientation="vertical">
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/space_medium"
-            app:cardCornerRadius="1dp"
-            app:cardElevation="1dp">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/input_username"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#00FFFFFF"
-                android:textSize="@dimen/font_small"
-                android:hint="@string/text_input"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:text="@string/text_anonymous"/>
+                android:text="@string/text_username"
+                android:textSize="@dimen/font_big" />
 
-        </android.support.v7.widget.CardView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_medium"
+                android:textSize="@dimen/font_smallest"
+                android:text="@string/text_username_help" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="1dp"
+                app:cardUseCompatPadding="true"
+                android:layout_marginBottom="@dimen/space_default">
+
+                <EditText
+                    android:id="@+id/username_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#00FFFFFF"
+                    android:hint="@string/text_input"
+                    android:inputType="none"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp" />
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -104,7 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/space_medium"
             android:textSize="@dimen/font_smallest"
-            android:text="@string/text_username_help" />
+            android:text="@string/text_language_help" />
 
         <RadioGroup
             android:layout_width="match_parent"
@@ -122,9 +129,51 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/app_primary_font"
+                android:layout_marginBottom="@dimen/space_medium"
                 android:text="English" />
 
         </RadioGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_line"
+            android:layout_marginBottom="@dimen/space_medium"
+            android:background="@color/app_light_detail" />
+
+        <LinearLayout
+            android:id="@+id/about_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/space_medium"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_about"
+                android:textSize="@dimen/font_big" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_smallest"
+                android:text="@string/text_version" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_medium"
+                android:textSize="@dimen/font_smallest"
+                android:text="@string/about_readmore" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_line"
+            android:layout_marginBottom="@dimen/space_medium"
+            android:background="@color/app_light_detail" />
 
     </LinearLayout>
 

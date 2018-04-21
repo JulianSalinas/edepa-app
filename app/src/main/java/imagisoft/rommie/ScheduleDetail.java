@@ -2,19 +2,19 @@ package imagisoft.rommie;
 
 import java.util.List;
 
+import butterknife.BindView;
 import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.FavoriteList;
-import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
 
 import android.os.Bundle;
+import android.text.util.Linkify;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ImageView;
 import android.view.LayoutInflater;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 
@@ -31,18 +31,29 @@ public class ScheduleDetail extends ExhibitorsViewFragment{
     /**
      * Componentes visuales para mostrar los detalles de un evento
      */
-    private TextView textAbstract;
-    private TextView textLocation;
-    private RecyclerView exhibitorsView;
+    @BindView(R.id.brief)
+    TextView briefTextView;
 
-    private View iconMap;
-    private TextView textHeader;
-    private TextView textEventype;
-    private ImageView emphasisView;
-    private FloatingActionLayout favoriteButton;
+    @BindView(R.id.header)
+    TextView headerTextView;
 
-    private ImageView buttonBack;
+    @BindView(R.id.icon_map)
+    View iconMap;
 
+    @BindView(R.id.eventype)
+    TextView eventypeTextView;
+
+    @BindView(R.id.emphasis_image_view)
+    ImageView emphasisImageView;
+
+    @BindView(R.id.exhibitor_recycler_view)
+    RecyclerView exhibitorsRecyclerView;
+
+    @BindView(R.id.favorite_button)
+    FloatingActionLayout favoriteButton;
+
+    @BindView(R.id.button_back)
+    ImageView buttonBack;
 
     /**
      * No se pueden crear constructores con parámetros, por tanto,
@@ -66,25 +77,8 @@ public class ScheduleDetail extends ExhibitorsViewFragment{
      * Se crea la vista que con los detalles del evento
      */
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle bundle) {
-
-        View view = inflater.inflate(R.layout.schedule_detail, container, false);
-
-        textAbstract = view.findViewById(R.id.text_abstract);
-        textLocation = view.findViewById(R.id.text_location);
-        textHeader = view.findViewById(R.id.schedule_detail_header);
-        textEventype =  view.findViewById(R.id.schedule_detail_eventype);
-
-        emphasisView = view.findViewById(R.id.schedule_detail_top);
-        favoriteButton = view.findViewById(R.id.favorite_button);
-        exhibitorsView = view.findViewById(R.id.exhibitors_view);
-
-        iconMap = view.findViewById(R.id.ic_map);
-        buttonBack = view.findViewById(R.id.button_back);
-
-        return view;
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
+        return inflate(inflater, container, R.layout.schedule_detail);
     }
 
     /**
@@ -116,13 +110,14 @@ public class ScheduleDetail extends ExhibitorsViewFragment{
      */
     private void bindInformation(){
 
-        textAbstract.setText(event.getBrief(getActivity()));
-        textLocation.setText(event.getLocation());
-        textHeader.setText(event.getTitle());
-        textEventype.setText(event.getEventype().toString());
+        briefTextView.setText(event.getBrief("es"));
+        Linkify.addLinks(briefTextView, Linkify.WEB_URLS);
+
+        headerTextView.setText(event.getTitle());
+        eventypeTextView.setText(event.getEventype().toString());
 
         Drawable drawable = getResources().getDrawable(event.getEventype().getResource());
-        emphasisView.setImageDrawable(drawable);
+        emphasisImageView.setImageDrawable(drawable);
 
         iconMap.setOnClickListener(v -> switchFragment(new InformationMap()));
         buttonBack.setOnClickListener(v -> getNavigation().onBackPressed());
@@ -137,17 +132,17 @@ public class ScheduleDetail extends ExhibitorsViewFragment{
     }
 
     /**
-     * Se configura el exhibitorsView que contiene los expositores
+     * Se configura el exhibitorsRecyclerView que contiene los expositores
      */
     public void setupExhibitorsView(){
 
         if (exhibitorsAdapter == null)
             exhibitorsAdapter = new ExhibitorsViewAdapter(this);
 
-        exhibitorsView.setHasFixedSize(true);
-        exhibitorsView.setLayoutManager(new SmoothLayout(getActivity()));
-        exhibitorsView.setItemAnimator(new DefaultItemAnimator());
-        exhibitorsView.setAdapter(exhibitorsAdapter);
+        exhibitorsRecyclerView.setHasFixedSize(true);
+        exhibitorsRecyclerView.setLayoutManager(new SmoothLayout(getActivity()));
+        exhibitorsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        exhibitorsRecyclerView.setAdapter(exhibitorsAdapter);
 
     }
 

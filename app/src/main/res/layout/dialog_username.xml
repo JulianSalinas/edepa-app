@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="@dimen/size_dialog"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/default_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_default"
+        android:layout_marginBottom="@dimen/space_default"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/size_icon"
+                android:layout_height="@dimen/size_icon"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_face"
+                android:backgroundTint="@color/app_icon"
+                android:contentDescription="@null" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="90"
+            android:layout_gravity="center_vertical"
+            android:paddingEnd="@dimen/space_medium"
+            android:paddingStart="@dimen/space_medium"
+            android:text="@string/text_username"
+            android:textSize="@dimen/font_big" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="1dp"
+        app:cardUseCompatPadding="true"
+        android:layout_marginBottom="@dimen/space_default">
+
+        <EditText
+            android:id="@+id/input_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#00FFFFFF"
+            android:hint="@string/text_input"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
+
+    </android.support.v7.widget.CardView>
+
+    <Button
+        android:id="@+id/confirm_button"
+        style="?android:textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/space_default"
+        android:text="@string/text_confirm"
+        android:textStyle="bold"
+        android:textColor="@color/app_secondary_font"
+        android:background="@color/app_accent" />
+
+</LinearLayout>

@@ -1,16 +1,13 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
+import butterknife.BindView;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import butterknife.BindView;
-import imagisoft.edepa.Preferences;
 
 
 public abstract class MessagesView extends MainViewFragment {
@@ -25,7 +22,9 @@ public abstract class MessagesView extends MainViewFragment {
      * Es la capa (con su adaptador) donde se coloca cada uno de los mensajes
      */
     protected MessagesViewAdapter adapter;
-    @BindView(R.id.messages_view_recycler) RecyclerView mainView;
+
+    @BindView(R.id.messages_view_recycler)
+    RecyclerView mainView;
 
     /**
      * Se inicializan las variables no gráficas
@@ -40,18 +39,15 @@ public abstract class MessagesView extends MainViewFragment {
      */
     @Override
     public void onActivityCreated(Bundle bundle) {
-
         super.onActivityCreated(bundle);
         setupAdapter();
         setupMainView();
-
     }
 
     /**
      * Agrega un el evento de actualizar inserción al adaptado
      */
     public void registerAdapterDataObserver(){
-
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
 
             /**
@@ -64,20 +60,17 @@ public abstract class MessagesView extends MainViewFragment {
             }
 
         });
-
     }
 
     /**
      * Se configura el contenedor de mensajes, mainView
      */
     public void setupMainView(){
-
         mainView.setAdapter(adapter);
         mainView.setHasFixedSize(true);
         mainView.setItemAnimator(new DefaultItemAnimator());
         mainView.setLayoutManager(new SmoothLayout(this.getActivity()));
         mainView.scrollToPosition(adapter.getItemCount()-1);
-
     }
 
     /**

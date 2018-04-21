@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
-import android.support.annotation.NonNull;
 
 
 public class NewsView extends MessagesView {

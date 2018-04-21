@@ -8,7 +8,7 @@
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/exhibitors_item"
+        android:id="@+id/exhibitor_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardElevation="0dp"
@@ -22,7 +22,7 @@
             android:orientation="horizontal">
 
             <View
-                android:id="@+id/exhibitor_item_line"
+                android:id="@+id/line"
                 android:layout_width="@dimen/space_small"
                 android:layout_height="match_parent"
                 android:background="@drawable/gradient_cherry"
@@ -51,7 +51,7 @@
                             android:orientation="horizontal">
 
                             <agency.tango.android.avatarview.views.AvatarView
-                                android:id="@+id/exhibitor_item_avatar"
+                                android:id="@+id/exhibitor_avatar_view"
                                 android:layout_width="@dimen/avatar_small_width"
                                 android:layout_height="@dimen/avatar_small_height"
                                 android:layout_margin="@dimen/space_medium" />
@@ -69,7 +69,7 @@
                                     android:orientation="vertical">
 
                                     <TextView
-                                        android:id="@+id/exhibitor_item_name"
+                                        android:id="@+id/name_text_view"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginBottom="@dimen/space_smallest"
@@ -78,7 +78,7 @@
                                         android:textSize="@dimen/font_normal" />
 
                                     <TextView
-                                        android:id="@+id/exhibitor_item_title"
+                                        android:id="@+id/title_text_view"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:text="@string/test_university"

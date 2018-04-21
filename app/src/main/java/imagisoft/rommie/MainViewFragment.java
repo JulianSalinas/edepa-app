@@ -1,6 +1,7 @@
 package imagisoft.rommie;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.ButterKnife;
@@ -137,6 +138,15 @@ public class MainViewFragment extends Fragment {
         assert getActivity() != null;
         MainViewNavigation activity = (MainViewNavigation) getActivity();
         activity.switchFragment(fragment, animation);
+    }
+
+    /**
+     * Reinicia la aplicación. Se utiliza cuando se cambia el idioma o el tema
+     */
+    public void restartApplication(){
+        Intent refresh = new Intent(getActivity(), MainViewNavigation.class);
+        startActivity(refresh);
+        getNavigation().finish();
     }
 
     /**

@@ -14,7 +14,8 @@ public class ExhibitorsView extends ExhibitorsViewFragment {
     /**
      * Es la capa donde se coloca cada uno de los expositores
      */
-    @BindView(R.id.exhibitors_view) RecyclerView exhibitorsView;
+    @BindView(R.id.exhibitor_recycler_view)
+    RecyclerView exhibitorsRecyclerView;
 
     /**
      * Se crea el contenedor de los exponentes
@@ -34,13 +35,13 @@ public class ExhibitorsView extends ExhibitorsViewFragment {
     }
 
     /**
-     * Se configura el exhibitorsView que contiene los expositores
+     * Se configura el exhibitorsRecyclerView que contiene los expositores
      */
     public void setupExhibitorsView(){
-        exhibitorsView.setHasFixedSize(true);
-        exhibitorsView.setLayoutManager(new SmoothLayout(getActivity()));
-        exhibitorsView.setItemAnimator(new DefaultItemAnimator());
-        exhibitorsView.setAdapter(exhibitorsAdapter);
+        exhibitorsRecyclerView.setHasFixedSize(true);
+        exhibitorsRecyclerView.setLayoutManager(new SmoothLayout(getActivity()));
+        exhibitorsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        exhibitorsRecyclerView.setAdapter(exhibitorsAdapter);
     }
 
 }

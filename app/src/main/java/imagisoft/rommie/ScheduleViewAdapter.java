@@ -2,6 +2,8 @@ package imagisoft.rommie;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import imagisoft.edepa.FavoriteList;
 import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
@@ -113,7 +115,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ScheduleEvent event = (ScheduleEvent) events.get(position);
 
         bindInformation(holder, event);
-        bindColorEmphasis(holder, event);
+        bindEmphasisColor(holder, event);
 
         /*
         * Función ejecutada al presionar el botón "readmore" de una actividad
@@ -190,7 +192,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /**
      * Coloca el color acorde con el tipo de actividad
      */
-    private void bindColorEmphasis(ScheduleEventViewHolder holder, ScheduleEvent event){
+    private void bindEmphasisColor(ScheduleEventViewHolder holder, ScheduleEvent event){
 
         Activity activity = scheduleView.getActivity();
         assert activity != null;
@@ -219,21 +221,24 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     class ScheduleEventViewHolder extends ScheduleBlockViewHolder {
 
+        @BindView(R.id.line)
         View line;
+
+        @BindView(R.id.header)
         TextView header;
+
+        @BindView(R.id.eventype)
         TextView eventype;
+
+        @BindView(R.id.readmore)
         TextView readmore;
+
+        @BindView(R.id.favorite_button)
         MaterialFavoriteButton favoriteButton;
 
         ScheduleEventViewHolder(View view) {
-
             super(view);
-            this.line = view.findViewById(R.id.schedule_item_line);
-            this.header = view.findViewById(R.id.schedule_item_header);
-            this.eventype = view.findViewById(R.id.schedule_item_eventype);
-            this.readmore = view.findViewById(R.id.schedule_item_readmore);
-            this.favoriteButton = view.findViewById(R.id.favorite_button);
-
+            ButterKnife.bind(this, view);
         }
 
     }

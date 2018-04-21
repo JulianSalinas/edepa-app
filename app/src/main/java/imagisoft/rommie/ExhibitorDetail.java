@@ -1,6 +1,8 @@
 package imagisoft.rommie;
 
 import java.util.List;
+
+import butterknife.BindView;
 import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.ScheduleBlock;
 
@@ -10,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ImageView;
 import android.view.LayoutInflater;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 
@@ -23,13 +24,27 @@ public class ExhibitorDetail extends MainViewFragment{
     /**
      * Componentes visuales
      */
-    private TextView textName;
-    private TextView textTitle;
-    private ImageView buttonBack;
-    private ImageView emphasisView;
-    private RecyclerView eventsView;
-    private AvatarView avatarView;
+    @BindView((R.id.button_back))
+    ImageView buttonBack;
 
+    @BindView(R.id.name_text_view)
+    TextView nameTextView;
+
+    @BindView(R.id.title_text_view)
+    TextView titleTextView;
+
+    @BindView(R.id.emphasis_image_view)
+    ImageView emphasisImageView;
+
+    @BindView(R.id.exhibitor_avatar_view)
+    AvatarView exhibitorAvatarView;
+
+    @BindView(R.id.exhibitor_recycler_view)
+    RecyclerView exhibitorsRecyclerView;
+
+    /**
+     * Atributos importantes
+     */
     private Exhibitor exhibitor;
     private List<ScheduleBlock> events;
     private ScheduleViewAdapter adapter;
@@ -39,35 +54,18 @@ public class ExhibitorDetail extends MainViewFragment{
      * se pasan los parámetros de esta forma
      */
     public static ExhibitorDetail newInstance(Exhibitor exhibitor, List<ScheduleBlock> events) {
-
         ExhibitorDetail fragment = new ExhibitorDetail();
         fragment.events = events;
         fragment.exhibitor = exhibitor;
         return fragment;
-
     }
 
     /**
      * Se crea la vista con los eventos del expositor
      */
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle bundle) {
-
-        View view = inflater.inflate(R.layout.exhibitor_detail, container, false);
-
-        textName = view.findViewById(R.id.exhibitor_detail_name);
-        textTitle = view.findViewById(R.id.exhibitor_detail_title);
-        avatarView = view.findViewById(R.id.exhibitor_detail_avatar);
-
-        eventsView = view.findViewById(R.id.exhibitors_view);
-        emphasisView = view.findViewById(R.id.schedule_detail_top);
-
-        // Botón para devolverse debido a que en está sección no hay toolbar
-        buttonBack = view.findViewById(R.id.button_back);
-
-        return view;
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
+        return inflate(inflater, container, R.layout.exhibitor_detail);
     }
 
     /**
@@ -93,37 +91,29 @@ public class ExhibitorDetail extends MainViewFragment{
      */
     @Override
     public void onDestroyView() {
-
         super.onDestroyView();
         setToolbarVisible(true);
-
     }
-
 
     /**
      * Coloca la información del expositor
      */
     private void bindInformation(){
-
         String name = exhibitor.getCompleteName();
-
-        textName.setText(name);
-        textTitle.setText(exhibitor.getPersonalTitle());
-        avatarView.setImageDrawable(new AvatarPlaceholder(name, 30));
+        this.nameTextView.setText(name);
+        titleTextView.setText(exhibitor.getPersonalTitle());
+        exhibitorAvatarView.setImageDrawable(new AvatarPlaceholder(name, 30));
         buttonBack.setOnClickListener(v -> getNavigation().onBackPressed());
-
     }
 
     /**
-     * Se configura el eventsView que contiene los eventos
+     * Se configura el exhibitorsRecyclerView que contiene los eventos
      */
     public void setupEventsView(){
-
-        eventsView.setHasFixedSize(true);
-        eventsView.setLayoutManager(new SmoothLayout(getActivity()));
-        eventsView.setItemAnimator(new DefaultItemAnimator());
-        eventsView.setAdapter(adapter);
-
+        exhibitorsRecyclerView.setHasFixedSize(true);
+        exhibitorsRecyclerView.setLayoutManager(new SmoothLayout(getActivity()));
+        exhibitorsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        exhibitorsRecyclerView.setAdapter(adapter);
     }
 
 }

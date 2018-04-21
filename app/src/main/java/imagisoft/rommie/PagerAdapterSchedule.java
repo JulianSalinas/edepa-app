@@ -23,7 +23,7 @@ public class PagerAdapterSchedule extends PagerAdapter {
         Query query = this.schedulePager
                 .getFirebase()
                 .getScheduleReference()
-                .orderByChild("start");
+                .orderByChild("startTextView");
 
         query.addValueEventListener(new SchedulePagerAdapterValueEventListener());
 

@@ -18,6 +18,7 @@ import agency.tango.android.avatarview.views.AvatarView;
 import agency.tango.android.avatarview.AvatarPlaceholder;
 import agency.tango.android.avatarview.utils.StringUtils;
 
+
 public class ExhibitorsViewAdapter
         extends RecyclerView.Adapter<ExhibitorsViewAdapter.ExhibitorViewHolder> {
 
@@ -69,7 +70,7 @@ public class ExhibitorsViewAdapter
         bindInformation(item, holder);
         bindColor(item.getCompleteName(), holder);
 
-        holder.exhibitor.setOnClickListener(v -> exhibitorsView.switchFragment(
+        holder.exhibitorCardView.setOnClickListener(v -> exhibitorsView.switchFragment(
                 ExhibitorDetail.newInstance(item, exhibitorsView.getExhibitorsEvents(item))));
 
     }
@@ -78,18 +79,18 @@ public class ExhibitorsViewAdapter
      * Coloca la informacíon básica de la persona
      */
     public void bindInformation(Exhibitor exhibitor, ExhibitorViewHolder holder){
-        holder.name.setText(exhibitor.getCompleteName());
-        holder.title.setText(exhibitor.getPersonalTitle());
+        holder.nameTextView.setText(exhibitor.getCompleteName());
+        holder.titleTextView.setText(exhibitor.getPersonalTitle());
     }
 
     /**
-     * Coloca la primra letra del nombre como el avatar y le pone color
+     * Coloca la primra letra del nombre como el exhibitorAvatarView y le pone color
      * con base a eso.
      */
     private void bindColor(String name, ExhibitorViewHolder holder){
         int color = convertStringToColor(name);
         AvatarPlaceholder avatar = new AvatarPlaceholder(name, 30);
-        holder.avatar.setImageDrawable(avatar);
+        holder.exhibitorAvatarView.setImageDrawable(avatar);
         holder.line.setBackgroundColor(color);
     }
 
@@ -108,11 +109,20 @@ public class ExhibitorsViewAdapter
      */
     class ExhibitorViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.exhibitor_item_line) View line;
-        @BindView(R.id.exhibitor_item_name) TextView name;
-        @BindView(R.id.exhibitor_item_title) TextView title;
-        @BindView(R.id.exhibitors_item) CardView exhibitor;
-        @BindView(R.id.exhibitor_item_avatar) AvatarView avatar;
+        @BindView(R.id.line)
+        View line;
+
+        @BindView(R.id.name_text_view)
+        TextView nameTextView;
+
+        @BindView(R.id.title_text_view)
+        TextView titleTextView;
+
+        @BindView(R.id.exhibitor_card_view)
+        CardView exhibitorCardView;
+
+        @BindView(R.id.exhibitor_avatar_view)
+        AvatarView exhibitorAvatarView;
 
         ExhibitorViewHolder(View view) {
             super(view);

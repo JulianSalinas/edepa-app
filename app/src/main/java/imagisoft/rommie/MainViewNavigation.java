@@ -3,15 +3,11 @@ package imagisoft.rommie;
 import com.firebase.ui.auth.AuthUI;
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+import android.support.v4.app.Fragment;
+import android.support.design.widget.NavigationView;
 
-import butterknife.BindView;
 
 public class MainViewNavigation extends MainViewFirebase
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -21,6 +17,7 @@ public class MainViewNavigation extends MainViewFirebase
      */
     private Fragment chatView;
     private Fragment newsView;
+    private Fragment aboutView;
     private Fragment configView;
     private Fragment scheduleTabs;
     private Fragment exhibitorsView;
@@ -57,11 +54,8 @@ public class MainViewNavigation extends MainViewFirebase
             ((ScheduleTabs) scheduleTabs).setCurrentTab(favTab);
 
         switchFragment(scheduleTabs);
-        ((ScheduleTabs) scheduleTabs).navigateToPosition(favTab);
 
     }
-
-
 
     /**
      * Método utilizado al escoger una opción del menú de navegación
@@ -94,7 +88,7 @@ public class MainViewNavigation extends MainViewFirebase
             currentSection.setText(R.string.nav_schedule);
             if(scheduleTabs == null)
                 scheduleTabs = ScheduleTabs.newInstance();
-            else ((ScheduleTabs) scheduleTabs).navigateToPosition(ScheduleTabs.SCHEDULE_TAB);
+            else ((ScheduleTabs) scheduleTabs).setCurrentTab(ScheduleTabs.SCHEDULE_TAB);
             switchFragment(scheduleTabs);
             break;
 
@@ -129,6 +123,15 @@ public class MainViewNavigation extends MainViewFirebase
                 configView = new ConfigView();
             switchFragment(configView);
             break;
+
+        // Muestra la pantalla acerca de
+        case R.id.nav_about:
+            currentSection.setText(R.string.nav_about);
+            if(aboutView == null)
+                aboutView = new AboutView();
+            switchFragment(aboutView);
+            break;
+
         }
 
     }

@@ -21,7 +21,7 @@
             app:expandedTitleTextAppearance="@android:color/transparent">
 
             <ImageView
-                android:id="@+id/schedule_detail_top"
+                android:id="@+id/emphasis_image_view"
                 android:contentDescription="@null"
                 app:layout_collapseMode="parallax"
                 android:layout_width="match_parent"
@@ -51,7 +51,7 @@
                     android:orientation="horizontal">
 
                     <agency.tango.android.avatarview.views.AvatarView
-                        android:id="@+id/exhibitor_detail_avatar"
+                        android:id="@+id/exhibitor_avatar_view"
                         android:layout_width="@dimen/avatar_default_width"
                         android:layout_height="@dimen/avatar_default_height"
                         android:layout_margin="@dimen/space_default" />
@@ -63,7 +63,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/exhibitor_detail_name"
+                            android:id="@+id/name_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
@@ -73,7 +73,7 @@
                             android:textSize="@dimen/font_big" />
 
                         <TextView
-                            android:id="@+id/exhibitor_detail_title"
+                            android:id="@+id/title_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/test_dummy"
@@ -138,7 +138,7 @@
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/exhibitors_view"
+                android:id="@+id/exhibitor_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:listitem="@layout/exhibitors_item" />

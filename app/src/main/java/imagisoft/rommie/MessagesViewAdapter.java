@@ -7,7 +7,6 @@ import butterknife.ButterKnife;
 import imagisoft.edepa.Message;
 import imagisoft.edepa.UDateConverter;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.text.util.Linkify;
@@ -15,9 +14,6 @@ import android.support.v7.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 
 
 public abstract class MessagesViewAdapter
@@ -65,10 +61,10 @@ public abstract class MessagesViewAdapter
     public void onBindViewHolder(MessageViewHolder holder, int position) {
 
         Message msg = msgs.get(holder.getAdapterPosition());
-        holder.username.setText(msg.getUsername());
-        holder.messageContent.setText(msg.getContent());
-        holder.timeDescription.setText(UDateConverter.extractTime(msg.getTime()));
-        Linkify.addLinks(holder.messageContent, Linkify.WEB_URLS);
+        holder.msgUsername.setText(msg.getUsername());
+        holder.msgContent.setText(msg.getContent());
+        holder.msgTimeDescription.setText(UDateConverter.extractTime(msg.getTime()));
+        Linkify.addLinks(holder.msgContent, Linkify.WEB_URLS);
 
     }
 
@@ -77,9 +73,14 @@ public abstract class MessagesViewAdapter
      */
     protected class MessageViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.msg_username) TextView username;
-        @BindView(R.id.msg_content) TextView messageContent;
-        @BindView(R.id.msg_time_description) TextView timeDescription;
+        @BindView(R.id.msg_username)
+        TextView msgUsername;
+
+        @BindView(R.id.msg_content)
+        TextView msgContent;
+
+        @BindView(R.id.msg_time_description)
+        TextView msgTimeDescription;
 
         MessageViewHolder(View view) {
             super(view);

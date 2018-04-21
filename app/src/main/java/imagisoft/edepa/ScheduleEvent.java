@@ -3,7 +3,11 @@ package imagisoft.edepa;
 import java.util.List;
 import java.util.ArrayList;
 import com.google.gson.Gson;
+
+import android.app.Activity;
 import android.content.Context;
+
+import imagisoft.rommie.R;
 
 /**
  * Contiene toda la información de un evento en particular
@@ -55,9 +59,9 @@ public class ScheduleEvent extends ScheduleBlock {
      * Solo se retorna uno de los resumenes
      * Esto va a depender del idioma que tenga el usuario en la
      * configuración y de los idiomas presentes .
-     * @param context: Actividad donde se ejecuta
+     * @param lang: "es" o "en
      */
-    public String getBrief(Context context) {
+    public String getBrief(String lang) {
 
         String brief =
                 briefEnglish != null && briefSpanish == null ? briefEnglish:
@@ -66,23 +70,22 @@ public class ScheduleEvent extends ScheduleBlock {
         if(brief != null) return brief;
 
         else if (briefEnglish != null & briefSpanish != null){
-
-            String lang = Preferences.getInstance()
-                    .getStringPreference(context, Preferences.LANG_KEY_VALUE);
-
             return !lang.equals("en") ? briefSpanish : briefEnglish;
         }
 
-        else return null;
+        else return createDefaultBrief();
 
     }
 
-    public void setBriefEnglish(String briefEnglish) {
-        this.briefEnglish = briefEnglish;
-    }
+    public String createDefaultBrief(){
 
-    public void setBriefSpanish(String briefSpanish) {
-        this.briefSpanish = briefSpanish;
+        return "La actividad está programada en el horario de " +
+                UDateConverter.extractTime(getStart()) + " a " +
+                UDateConverter.extractTime(getEnd()) + " en el " + location +
+                ". Puede utilizar el chat para realizar cualquier consulta" +
+                ". Para más información del congreso puede consultar el siguiente enlace" +
+                " http://tecdigital.tec.ac.cr:8088/congresos/index.php/edepa/6_edepa";
+
     }
 
     /**
@@ -105,9 +108,13 @@ public class ScheduleEvent extends ScheduleBlock {
      * Contructor vacío requerido por firebase
      */
     public ScheduleEvent(){
-        briefSpanish = "Sin resumen";
+
     }
 
+    /**
+     * Constructor usado solo para tests, no utiliza los resumenes
+     * por no se tiene información para eso.
+     */
     public ScheduleEvent(String id, String start, String end,
                          String location, String title, ScheduleEventType eventype){
 
@@ -116,7 +123,27 @@ public class ScheduleEvent extends ScheduleBlock {
         this.title = title;
         this.location = location;
         this.eventype = eventype;
-        exhibitors = new ArrayList<>();
+        this.exhibitors = new ArrayList<>();
+
+    }
+
+    /**
+     * Permite pasar como parámetro al servicio de alarma
+     */
+    public static String toJson(ScheduleEvent event){
+
+        Gson g = new Gson();
+        return g.toJson(event);
+
+    }
+
+    /**
+     * Proceso inversa de la función toJSon
+     */
+    public static ScheduleEvent fromJson(String event){
+
+        Gson g = new Gson();
+        return g.fromJson(event, ScheduleEvent.class);
 
     }
 
@@ -139,26 +166,6 @@ public class ScheduleEvent extends ScheduleBlock {
         int result = id.hashCode();
         result = 31 * result + title.hashCode();
         return result;
-    }
-
-    /**
-     * Permite pasar como parámetro al servicio de alarma
-     */
-    public static String toJson(ScheduleEvent event){
-
-        Gson g = new Gson();
-        return g.toJson(event);
-
-    }
-
-    /**
-     * Proceso inversa de la función toJSon
-     */
-    public static ScheduleEvent fromJson(String event){
-
-        Gson g = new Gson();
-        return g.fromJson(event, ScheduleEvent.class);
-
     }
 
 }

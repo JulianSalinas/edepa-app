@@ -19,6 +19,7 @@ public abstract class MainViewFirebase extends MainView {
     final DatabaseReference root;
     final DatabaseReference newsReference;
     final DatabaseReference chatReference;
+    final DatabaseReference configReference;
     final DatabaseReference scheduleReference;
     final DatabaseReference congressReference;
 
@@ -37,6 +38,10 @@ public abstract class MainViewFirebase extends MainView {
 
     public DatabaseReference getChatReference() {
         return chatReference;
+    }
+
+    public DatabaseReference getConfigReference() {
+        return configReference;
     }
 
     public DatabaseReference getScheduleReference() {
@@ -63,6 +68,7 @@ public abstract class MainViewFirebase extends MainView {
         this.root = database.getReference("edepa5");
         this.chatReference = root.child("chat");
         this.newsReference = root.child("news");
+        this.configReference = root.child("config");
         this.scheduleReference = root.child("schedule");
         this.congressReference = root.child("congress");
 

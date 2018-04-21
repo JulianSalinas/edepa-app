@@ -12,7 +12,7 @@
         android:queryBackground="@color/app_white"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/exhibitors_view"
+        android:id="@+id/exhibitor_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingEnd="@dimen/space_default"

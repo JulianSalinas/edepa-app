@@ -1,5 +1,6 @@
 package imagisoft.rommie;
 
+import butterknife.BindView;
 import imagisoft.edepa.Congress;
 import imagisoft.edepa.UDateConverter;
 
@@ -10,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.LayoutInflater;
-import android.support.annotation.NonNull;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -40,17 +40,29 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
     /**
      * Componentes gráficos de la pantalla de información
      */
-    private View iconMap;
-    private TextView name;
-    private TextView end;
-    private TextView start;
-    private TextView location;
-    private TextView description;
+    @BindView(R.id.icon_map)
+    View iconMap;
+
+    @BindView(R.id.name_text_view)
+    TextView nameTextView;
+
+    @BindView(R.id.end_text_view)
+    TextView endTextView;
+
+    @BindView(R.id.start_text_view)
+    TextView startTextView;
+
+    @BindView(R.id.location_text_view)
+    TextView locationTextView;
+
+    @BindView(R.id.description_text_view)
+    TextView descriptionTextView;
 
     /**
      * Botón para retornar a la pantalla anterior
      */
-    private ImageView buttonBack;
+    @BindView(R.id.button_back)
+    ImageView buttonBack;
 
     /**
      * Referencia hacia la información del congreso que se muestra
@@ -61,24 +73,14 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
      * Crea la vista principal donde se coloca la información del congreso
      */
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-
-        View view = inflater.inflate(R.layout.information_view, container, false);
-
-        end = view.findViewById(R.id.shedule_end);
-        start = view.findViewById(R.id.shedule_start);
-        name = view.findViewById(R.id.text_congress_name);
-
-        location = view.findViewById(R.id.text_location);
-        description = view.findViewById(R.id.text_presentation);
-
-        iconMap = view.findViewById(R.id.ic_map);
-        buttonBack = view.findViewById(R.id.button_back);
-
-        return view;
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
+        return inflate(inflater, container, R.layout.information_view);
     }
 
+    /**
+     * Coloca toda la información obtenida de la bd en los componentes visuales
+     * @param congress: Clase con la información del congreso
+     */
     private void bindInformation(Congress congress){
 
         this.congress = congress;
@@ -86,17 +88,21 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
         if(miniMap == null)
             miniMap = new InformationMap();
 
-        name.setText(congress.getName());
-        start.setText(UDateConverter.extractDate(congress.getStart()));
-        end.setText(UDateConverter.extractDate(congress.getEnd()));
-        description.setText(congress.getDescription());
-        location.setText(congress.getLocation());
+        nameTextView.setText(congress.getName());
+        locationTextView.setText(congress.getLocation());
+        descriptionTextView.setText(congress.getDescription());
+        endTextView.setText(UDateConverter.extractDate(congress.getEnd()));
+        startTextView.setText(UDateConverter.extractDate(congress.getStart()));
 
-        buttonBack.setOnClickListener(v -> getNavigation().onBackPressed());
         iconMap.setOnClickListener(v -> switchFragment(miniMap));
+        buttonBack.setOnClickListener(v -> getNavigation().onBackPressed());
 
     }
 
+    /**
+     * Se coloca un listener para refrescar la vista cuando hay un cambio
+     * en la base de datos
+     */
     @Override
     public void onActivityCreated(Bundle bundle) {
 

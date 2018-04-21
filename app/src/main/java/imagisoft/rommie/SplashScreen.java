@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
 public class SplashScreen extends AppCompatActivity{
 
@@ -73,8 +72,7 @@ public class SplashScreen extends AppCompatActivity{
     private void startLoadingImage(){
 
         ImageView loading_gif = findViewById(R.id.gif_splash_loading);
-        GlideDrawableImageViewTarget viewTerget = new GlideDrawableImageViewTarget(loading_gif);
-        Glide.with(this).load(R.drawable.img_loading).into(viewTerget);
+        Glide.with(this).load(R.drawable.img_loading).into(loading_gif);
 
         // Duerme la animación para que apenas sea percibida
         sleep(1500);
