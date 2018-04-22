@@ -8,5 +8,7 @@
     android:layout_height="match_parent"
     tools:context="imagisoft.rommie.MainView"
     tools:showIn="@layout/main_appbar"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="@color/app_white"
+    android:tag=":aesthetic_ignore">
 </android.support.constraint.ConstraintLayout>

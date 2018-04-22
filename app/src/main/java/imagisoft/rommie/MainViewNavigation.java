@@ -1,8 +1,10 @@
 package imagisoft.rommie;
 
+import com.afollestad.aesthetic.Aesthetic;
 import com.firebase.ui.auth.AuthUI;
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
@@ -54,6 +56,8 @@ public class MainViewNavigation extends MainViewFirebase
             ((ScheduleTabs) scheduleTabs).setCurrentTab(favTab);
 
         switchFragment(scheduleTabs);
+
+//        Aesthetic.get().colorStatusBar(CustomColor.BLACK).apply();
 
     }
 
@@ -122,6 +126,12 @@ public class MainViewNavigation extends MainViewFirebase
             if(configView == null)
                 configView = new ConfigView();
             switchFragment(configView);
+            break;
+
+        // Muestra la pantalla acerca de
+        case R.id.nav_pallete:
+            currentSection.setText(R.string.nav_palette);
+            switchFragment(new ThemeChooser());
             break;
 
         // Muestra la pantalla acerca de

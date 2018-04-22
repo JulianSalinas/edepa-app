@@ -8,6 +8,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class PagerAdapterSchedule extends PagerAdapter {
 
@@ -23,7 +26,7 @@ public class PagerAdapterSchedule extends PagerAdapter {
         Query query = this.schedulePager
                 .getFirebase()
                 .getScheduleReference()
-                .orderByChild("startTextView");
+                .orderByChild("start");
 
         query.addValueEventListener(new SchedulePagerAdapterValueEventListener());
 
@@ -38,10 +41,13 @@ public class PagerAdapterSchedule extends PagerAdapter {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
 
+            List<ScheduleEvent> newEvents = new ArrayList<>();
+
             // Se extraen todos los eventos de firebase
             for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
-                events.add(postSnapshot.getValue(ScheduleEvent.class));
+                newEvents.add(postSnapshot.getValue(ScheduleEvent.class));
 
+            events = newEvents;
             notifyDataSetChanged();
 
         }

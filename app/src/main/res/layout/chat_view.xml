@@ -47,7 +47,8 @@
                     android:backgroundTint="#00FFFFFF"
                     android:hint="@string/text_input"
                     android:paddingLeft="8dp"
-                    android:paddingRight="8dp" />
+                    android:paddingRight="8dp"
+                    android:tag=":aesthetic_ignore"/>
 
             </android.support.v7.widget.CardView>
 
@@ -62,7 +63,7 @@
                 android:id="@+id/send_card_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:cardBackgroundColor="@color/app_detail"
+                app:cardBackgroundColor="?colorAccent"
                 app:cardCornerRadius="3dp"
                 app:cardElevation="@dimen/card_elevation"
                 app:cardUseCompatPadding="true">
@@ -73,7 +74,7 @@
                     android:layout_gravity="center"
                     android:contentDescription="@null"
                     android:src="@drawable/ic_send"
-                    android:tint="@color/app_white" />
+                    android:tint="?android:textColorPrimaryInverse" />
 
             </android.support.v7.widget.CardView>
 

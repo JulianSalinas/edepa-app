@@ -14,7 +14,8 @@
         app:cardBackgroundColor="@color/app_chat_left"
         app:cardElevation="1dp"
         app:cardCornerRadius="@dimen/card_radius_chat"
-        app:cardUseCompatPadding="true">
+        app:cardUseCompatPadding="true"
+        android:tag=":aesthetic_ignore">
 
         <LinearLayout
             android:layout_width="wrap_content"

@@ -10,6 +10,7 @@ public class PagerAdapterFavorites extends PagerAdapter {
         super(schedulePager);
         FavoriteList favorites = FavoriteList.getInstance();
         events = favorites.getSortedEvents();
+        notifyDataSetChanged();
     }
 
 }

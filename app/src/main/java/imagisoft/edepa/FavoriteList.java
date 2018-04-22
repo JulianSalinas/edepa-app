@@ -2,6 +2,7 @@ package imagisoft.edepa;
 
 import android.util.Log;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,6 +12,9 @@ import org.json.JSONException;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 
 public class FavoriteList extends Preferences {
@@ -78,40 +82,21 @@ public class FavoriteList extends Preferences {
     }
 
     /**
-     * Crear un string con formato json a partir de los eventos
-     */
-    private String getFavoritesAsJson(){
-        JSONArray json = new JSONArray();
-        for (ScheduleBlock event : events) json.put(event);
-        return json.toString();
-    }
-
-    /**
      * Carga a partir del archivo de preferencias compartido, los favoritos en la
      * variable events de ésta clase.
      * @param context: Actividad desde donde se llama la aplicación
      */
     public void loadFavorites(Context context) {
 
+        Type type = new TypeToken<List<ScheduleEvent>>(){}.getType();
         SharedPreferences prefs = getSharedPreferences(context);
         if(!prefs.contains(key)) saveFavorites(context);
 
-        try {
-            loadFavoritesAux(new JSONArray(prefs.getString(key, " ")));
-        }
-        catch (JSONException e) {
-            Log.i(key, e.getMessage());
-        }
+        Gson gson = new Gson();
+        String favs = prefs.getString(key, null);
+        events = (List<ScheduleEvent>) gson.fromJson(favs, type);
 
-    }
 
-    /**
-     * Ayuda a la función loadFavorites a manejar el error que se genera al cargar
-     * por primera vez la lista de favoritos, ya que, la primer vez no existe
-     */
-    private void loadFavoritesAux(JSONArray json) throws JSONException{
-        for (int i = 0; i < json.length(); i++)
-            events.add((ScheduleEvent) json.get(i));
     }
 
     /**
@@ -120,8 +105,9 @@ public class FavoriteList extends Preferences {
      * @param context: Actividad desde donde se llama la aplicación
      */
     public void saveFavorites(Context context) {
+        Gson gson = new Gson();
         SharedPreferences.Editor editor = getSharedEditor(context);
-        editor.putString(key, getFavoritesAsJson());
+        editor.putString(key, gson.toJson(events));
         editor.apply();
     }
 

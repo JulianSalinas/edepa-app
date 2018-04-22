@@ -75,7 +75,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/space_line"
-        android:background="@color/app_light_detail"
+        android:background="@color/app_detail_light"
         android:layout_alignBottom="@id/news_item">
     </View>
 

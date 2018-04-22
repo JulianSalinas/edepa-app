@@ -11,8 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_header_img"
         android:scaleType="centerCrop"
-        android:src="@color/app_actionbar"
-        android:contentDescription="@null">
+        android:background="@color/app_detail_light"
+        android:contentDescription="@null"
+        android:tag=":aesthetic_ignore">
     </ImageView>
 
     <LinearLayout
@@ -26,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/nav_menu"
-            android:textColor="@color/app_secondary_font"
+            android:textColor="?android:textColorPrimary"
             android:textSize="@dimen/font_header_big" />
 
         <TextView
@@ -34,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/nav_subsection"
-            android:textColor="@color/app_secondary_font"
+            android:textColor="?android:textColorPrimary"
             android:textSize="@dimen/font_normal"
             android:textStyle="bold" />
 
@@ -46,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_medium"
         android:layout_marginBottom="@dimen/space_medium"
-        app:fabColor="@color/material_red"
+        app:fabColor="@color/app_accent"
         android:layout_gravity="bottom"
         app:elevation="8dp">
 

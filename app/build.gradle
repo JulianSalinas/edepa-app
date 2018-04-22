@@ -29,7 +29,8 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation "com.android.support:support-compat:27.1.1"
+    implementation 'com.android.support:support-compat:27.1.1'
+    implementation 'com.android.support:preference-v14:27.1.1'
 
     implementation 'com.google.firebase:firebase-core:15.0.0'
     implementation 'com.google.firebase:firebase-auth:15.0.0'
@@ -72,18 +73,18 @@ dependencies {
     // Para la vista con scroll
     implementation 'com.github.ksoichiro:Android-ObservableScrollView:v1.6.0'
 
+    implementation 'com.github.kizitonwose.colorpreference:support:1.0.6'
+
+    implementation 'com.larswerkman:lobsterpicker:1.0.1'
+
     // Para hacer zoom al croquis
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
-
-    implementation 'com.github.neopixl:PixlUI:v1.1.2'
 
     implementation 'com.github.metalurgus:LocaleText:0.0.1.1'
 
     implementation 'com.github.medyo:android-about-page:1.2.4'
 
-    implementation 'com.alimuzaffar.lib:animated-edit-text:1.1'
-
-    implementation 'com.afollestad:aesthetic:0.4.6'
+    implementation 'com.afollestad:aesthetic:0.4.7'
 
     implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
     implementation 'com.firebaseui:firebase-ui-auth:3.2.2'

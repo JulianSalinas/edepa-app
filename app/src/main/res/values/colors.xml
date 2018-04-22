@@ -2,15 +2,16 @@
 <resources>
 
     <color name="app_white">#FFFFFF</color>
-    <color name="app_primary">#F3F3F3</color>
-    <color name="app_secondary">#383838</color>
-    <color name="app_overlay">#66000000</color>
-    <color name="app_actionbar">#383838</color>
-    <color name="app_icon">#383838</color>
+    <color name="app_overlay">#b0000000</color>
+
+    <color name="app_primary">#383838</color>
+    <color name="app_primary_dark">#e51d1d1d</color>
 
     <color name="app_accent">#E51937</color>
+    <color name="app_accent_dark">#E51937</color>
+
     <color name="app_detail">#EB6159</color>
-    <color name="app_light_detail">#f5f5f5</color>
+    <color name="app_detail_light">#f5f5f5</color>
 
     <color name="app_primary_font">#212121</color>
     <color name="app_secondary_font">#FFFFFF</color>

@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/space_line"
             android:layout_marginBottom="@dimen/space_medium"
-            android:background="@color/app_light_detail" />
+            android:background="@color/app_detail_light" />
 
         <LinearLayout
             android:id="@+id/username_view"
@@ -87,7 +87,8 @@
                     android:hint="@string/text_input"
                     android:inputType="none"
                     android:paddingLeft="8dp"
-                    android:paddingRight="8dp" />
+                    android:paddingRight="8dp"
+                    android:tag=":aesthetic_ignore"/>
 
             </android.support.v7.widget.CardView>
 
@@ -97,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/space_line"
             android:layout_marginBottom="@dimen/space_medium"
-            android:background="@color/app_light_detail" />
+            android:background="@color/app_detail_light" />
 
         <TextView
             android:layout_width="match_parent"
@@ -138,7 +139,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/space_line"
             android:layout_marginBottom="@dimen/space_medium"
-            android:background="@color/app_light_detail" />
+            android:background="@color/app_detail_light" />
 
         <LinearLayout
             android:id="@+id/about_view"
@@ -173,7 +174,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/space_line"
             android:layout_marginBottom="@dimen/space_medium"
-            android:background="@color/app_light_detail" />
+            android:background="@color/app_detail_light" />
 
     </LinearLayout>
 

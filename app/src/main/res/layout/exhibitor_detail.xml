@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@color/app_light_detail"/>
+                android:src="@color/app_detail_light"/>
 
             <ImageView
                 android:id="@+id/button_back"
@@ -35,7 +35,7 @@
                 android:layout_height="@dimen/size_icon"
                 android:layout_margin="@dimen/space_default"
                 android:background="@drawable/ic_back"
-                android:backgroundTint="@color/app_icon"
+                android:backgroundTint="@color/app_primary_font"
                 android:contentDescription="@null" />
 
             <RelativeLayout
@@ -121,7 +121,7 @@
                         android:layout_height="@dimen/size_icon"
                         android:layout_gravity="center"
                         android:background="@drawable/ic_schedule"
-                        android:backgroundTint="@color/app_icon"
+                        android:backgroundTint="@color/app_primary_font"
                         android:contentDescription="@null" />
                 </LinearLayout>
 

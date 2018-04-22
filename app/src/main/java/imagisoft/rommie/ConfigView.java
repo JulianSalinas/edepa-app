@@ -19,6 +19,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 
 public class ConfigView extends MainViewFragment {
@@ -67,9 +68,14 @@ public class ConfigView extends MainViewFragment {
 
         super.onActivityCreated(bundle);
 
-        if(getCurrentLang().equals(Locale.ENGLISH.getLanguage()))
-             radioEnglish.setChecked(true);
-        else radioSpanish.setChecked(true);
+        if(getCurrentLang().equals("en")) {
+            radioEnglish.setChecked(true);
+            radioSpanish.setChecked(false);
+        }
+        else {
+            radioEnglish.setChecked(false);
+            radioSpanish.setChecked(true);
+        }
 
         usernameTextView.setText(getCurrentUsername());
         usernameTextView.setFocusable(false);
@@ -97,12 +103,17 @@ public class ConfigView extends MainViewFragment {
      * Prepara los radioButtons para recibir la acción de cambiar el idioma
      * Solo es necesario un radioButton por que son dos idiomas
      */
-    private void setupRadioButtons(){
+    @OnClick(R.id.radio_english)
+    public void setupRadioButtons(){
+        setupRadioButtons2();
+    }
 
-        radioSpanish.setOnCheckedChangeListener((buttonView, isChecked) -> {
+    @OnClick(R.id.radio_espanish)
+    public void setupRadioButtons2(){
 
-            String lang = radioSpanish.isChecked() ? "es" : "en";
+        String lang = radioSpanish.isChecked() ? "es" : "en";
 
+        if (!lang.equals(getCurrentLang())) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setMessage(getResources().getString(R.string.text_language_changed))
                     .setCancelable(true)
@@ -111,8 +122,7 @@ public class ConfigView extends MainViewFragment {
 
             AlertDialog alert = builder.create();
             alert.show();
-
-        });
+        }
 
     }
 
@@ -122,19 +132,15 @@ public class ConfigView extends MainViewFragment {
      */
     public void changeLanguage(String lang){
 
-        if(changeLang){
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
 
-            Resources res = getResources();
-            DisplayMetrics dm = res.getDisplayMetrics();
-            Configuration conf = res.getConfiguration();
-
-            conf.locale = new Locale(lang);
-            res.updateConfiguration(conf, dm);
-            setCurrentLang(lang);
-            restartApplication();
-            changeLang = true;
-
-        }
+        conf.locale = new Locale(lang);
+        res.updateConfiguration(conf, dm);
+        setCurrentLang(lang);
+        restartApplication();
+        changeLang = true;
 
     }
 
@@ -143,18 +149,13 @@ public class ConfigView extends MainViewFragment {
      */
     public void cancelLanguage(){
 
-        if(!changeLang){
-
-            if(radioSpanish.isChecked()){
-                radioSpanish.setChecked(false);
-                radioEnglish.setChecked(true);
-            }
-            else{
-                radioSpanish.setChecked(true);
-                radioEnglish.setChecked(false);
-            }
-
-            changeLang = true;
+        if(radioSpanish.isChecked()){
+            radioSpanish.setChecked(false);
+            radioEnglish.setChecked(true);
+        }
+        else{
+            radioSpanish.setChecked(true);
+            radioEnglish.setChecked(false);
         }
 
     }
@@ -162,8 +163,20 @@ public class ConfigView extends MainViewFragment {
     /**
      * Función que abre un dialogo para ingresar el nombre de usuario
      */
+
+    @OnClick(R.id.username_text_view)
+    public void openUsernameDialogClick(){
+        openUsernameDialogAux();
+    }
+
+    @OnLongClick(R.id.username_text_view)
+    public boolean openUsernameDialogLongClick(){
+        openUsernameDialogAux();
+        return true;
+    }
+
     @OnClick(R.id.username_view)
-    public void openUsernameDialog(){
+    public void openUsernameDialogAux(){
 
         final Dialog dialog = new Dialog(getNavigation());
         dialog.setTitle(R.string.text_username);

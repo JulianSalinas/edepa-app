@@ -4,13 +4,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:tag=":aesthetic_ignore">
 
     <android.support.design.widget.AppBarLayout
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:layout_height="wrap_content">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
@@ -18,16 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_detail_img"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-            app:expandedTitleTextAppearance="@android:color/transparent">
-
-            <ImageView
-                android:id="@+id/emphasis_image_view"
-                android:contentDescription="@null"
-                app:layout_collapseMode="parallax"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@color/app_light_detail"/>
+            app:expandedTitleTextAppearance="@android:color/transparent"
+            android:background="@color/app_detail_light">
 
             <ImageView
                 android:id="@+id/button_back"
@@ -35,7 +27,7 @@
                 android:layout_height="@dimen/size_icon"
                 android:layout_margin="@dimen/space_default"
                 android:background="@drawable/ic_back"
-                android:backgroundTint="@color/app_icon"
+                android:backgroundTint="?android:textColorPrimary"
                 android:contentDescription="@null" />
 
             <RelativeLayout
@@ -58,7 +50,7 @@
                         android:layout_gravity="bottom"
                         android:text="@string/test_congress"
                         android:textSize="@dimen/font_big"
-                        android:textColor="@color/material_grey"
+                        android:textColor="?android:textColorPrimary"
                         android:fontFamily="sans-serif-smallcaps"/>
 
                 </LinearLayout>
@@ -122,7 +114,7 @@
                 <TableRow
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/app_light_detail">
+                    android:background="@color/app_detail_light">
 
                     <TextView
                         android:layout_width="0dp"
@@ -171,7 +163,7 @@
                 android:layout_height="@dimen/space_line"
                 android:layout_marginTop="@dimen/space_default"
                 android:layout_marginBottom="@dimen/space_default"
-                android:background="@color/app_light_detail" />
+                android:background="@color/app_detail_light" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -217,7 +209,7 @@
                 android:layout_height="@dimen/space_line"
                 android:layout_marginTop="@dimen/space_default"
                 android:layout_marginBottom="@dimen/space_default"
-                android:background="@color/app_light_detail" />
+                android:background="@color/app_detail_light" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -287,7 +279,7 @@
                 android:id="@+id/map"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_gmap"
-                android:background="@color/app_light_detail">
+                android:background="@color/app_detail_light">
             </FrameLayout>
 
         </LinearLayout>

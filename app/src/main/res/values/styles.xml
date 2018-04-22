@@ -2,9 +2,18 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/app_primary</item>
-        <item name="colorPrimaryDark">#e51d1d1d</item>
+        <item name="colorPrimary">@color/app_white</item>
+        <item name="colorPrimaryDark">@color/app_primary_dark</item>
         <item name="colorAccent">@color/app_accent</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="AppTheme2" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/app_primary</item>
+        <item name="colorPrimaryDark">@color/material_pink</item>
+        <item name="colorAccent">@color/material_pink</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
@@ -40,7 +49,7 @@
     <style name="divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">15dp</item>
-        <item name="android:background">@color/app_light_detail</item>
+        <item name="android:background">@color/app_detail_light</item>
     </style>
 
     <style name="table_divider">

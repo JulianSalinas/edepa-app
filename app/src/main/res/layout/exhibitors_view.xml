@@ -8,7 +8,7 @@
     <SearchView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_light_detail"
+        android:background="@color/app_detail_light"
         android:queryBackground="@color/app_white"/>
 
     <android.support.v7.widget.RecyclerView

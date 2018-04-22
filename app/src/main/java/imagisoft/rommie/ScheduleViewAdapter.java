@@ -129,7 +129,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         */
         FavoriteList favoriteList = FavoriteList.getInstance();
         if(favoriteList.getSortedEvents().contains(event))
-            holder.favoriteButton.setFavorite(true);
+            holder.favoriteButton.setFavorite(true, false);
 
         /*
         * Función ejecutada al presionar la "estrellita" de una actividad
@@ -146,6 +146,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             String msg = scheduleView.getResources().getString(text);
             scheduleView.showStatusMessage(msg);
+            FavoriteList.getInstance().saveFavorites(scheduleView.getNavigation());
 
         });
 

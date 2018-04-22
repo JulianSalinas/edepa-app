@@ -77,7 +77,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/space_line"
-                    android:background="@color/app_light_detail" />
+                    android:background="@color/app_detail_light" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -99,6 +99,7 @@
                             android:layout_centerVertical="true"
                             android:padding="@dimen/space_medium"
                             android:text="@string/text_readmore"
+                            android:tag=":aesthetic_ignore"
                             android:textColor="@color/app_detail" />
 
                     </RelativeLayout>

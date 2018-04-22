@@ -40,8 +40,8 @@
     <string name="text_conference">Conferencia</string>
 
     <!-- Schedule View  -->
-    <string name="text_people">Personas</string>
-    <string name="text_ongoing">En curso</string>
+    <string name="text_people">People</string>
+    <string name="text_ongoing">Ongoing</string>
     <string name="text_abstract">Resumen</string>
     <string name="text_readmore">LEER MÁS</string>
     <string name="text_location">Ubicación</string>
@@ -51,14 +51,14 @@
 
     <!-- Configuration -->
     <string name="text_language">Idioma</string>
-    <string name="text_username">Nombre de usuario</string>
+    <string name="text_username">Usuario</string>
     <string name="text_username_help">Elige el nombre que usarás en el chat</string>
 
     <!-- Favorites -->
     <string name="text_favorite">Favorito</string>
     <string name="text_mark_favorite">Marcar como favorito</string>
     <string name="text_unmark_favorite">Remover de favoritos</string>
-    <string name="text_marked_as_favorite">Agregado a la agenda</string>
+    <string name="text_marked_as_favorite">Agregado en favoritos</string>
     <string name="text_unmarked_as_favorite">Removido de la agenda</string>
 
     <!-- Notifications-->
@@ -97,5 +97,31 @@
     <string name="channel">Servicio de notificaciones</string>
     <string name="notification_id">Recordatorios</string>
     <string name="not_available">No disponible</string>
+    <string name="text_language_changed">Desea reiniciar la aplicación ahora para cambiar el idioma</string>
+    <string name="copy">copiar</string>
+    <string name="paste">pegar</string>
+    <string name="replace">remplazar</string>
+    <string name="text_language_help">Se solicitará reiniciar la aplicación</string>
+    <string name="text_confirm">confirmar</string>
+    <string name="text_press_here">Presiona aquí</string>
+    <string name="text_username_changed">El nombre de usuario  se ha  cambiado</string>
+    <string name="text_about">Acerca de</string>
+    <string name="text_version">Versión 1.0.0</string>
+    <string name="about_readmore">Toca para más detalles</string>
+    <string name="text_connect_with_us">Contáctanos</string>
+
+    <string name="text_about_description">
+        Aplicación para que puedas estar al tanto del EDEPA.
+        Desarrollada por estudiantes del Instituto Tecnológico de Costa Rica
+    </string>
+    <string name="nav_about">Acerca de</string>
+    <string name="nav_more">Más opciones</string>
+    <string name="text_description">Descripción</string>
+    <string name="Choose_theme">Seleciona un tema</string>
+    <string name="nav_palette">Personalizar</string>
+    <string name="text_without_favorites">No tienes favoritos</string>
+    <string name="text_without_ongoing">Sin eventos en curso</string>
+    <string name="text_save">Guardar</string>
+    <string name="text_cancel">Cancelar</string>
 
 </resources>

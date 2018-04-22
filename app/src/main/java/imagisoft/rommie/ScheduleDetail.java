@@ -3,10 +3,13 @@ package imagisoft.rommie;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.FavoriteList;
 import imagisoft.edepa.ScheduleEvent;
+import imagisoft.edepa.UColorConverter;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.util.Linkify;
 import android.view.View;
@@ -18,10 +21,13 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 
+import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
 
 public class ScheduleDetail extends ExhibitorsViewFragment{
+
+    int statusBarColor;
 
     /**
      * Referencia al evento del que se muestran los detalles
@@ -50,10 +56,10 @@ public class ScheduleDetail extends ExhibitorsViewFragment{
     RecyclerView exhibitorsRecyclerView;
 
     @BindView(R.id.favorite_button)
-    FloatingActionLayout favoriteButton;
+    MaterialFavoriteButton favoriteButton;
 
     @BindView(R.id.button_back)
-    ImageView buttonBack;
+    View buttonBack;
 
     /**
      * No se pueden crear constructores con parámetros, por tanto,
@@ -86,9 +92,10 @@ public class ScheduleDetail extends ExhibitorsViewFragment{
      */
     @Override
     public void onActivityCreated(Bundle bundle) {
-        super.onActivityCreated(bundle);
 
+        super.onActivityCreated(bundle);
         setToolbarVisible(false);
+        statusBarColor = getStatusBarColor();
         bindInformation();
         setupExhibitorsView();
 
@@ -102,6 +109,7 @@ public class ScheduleDetail extends ExhibitorsViewFragment{
 
         super.onDestroyView();
         setToolbarVisible(true);
+        setStatusBarColor(statusBarColor);
 
     }
 
@@ -116,17 +124,22 @@ public class ScheduleDetail extends ExhibitorsViewFragment{
         headerTextView.setText(event.getTitle());
         eventypeTextView.setText(event.getEventype().toString());
 
-        Drawable drawable = getResources().getDrawable(event.getEventype().getResource());
-        emphasisImageView.setImageDrawable(drawable);
+        int color = getResources().getColor(event.getEventype().getColor());
+        emphasisImageView.setBackgroundColor(color);
+        setStatusBarColor(UColorConverter.darken(color, 12));
 
         iconMap.setOnClickListener(v -> switchFragment(new InformationMap()));
         buttonBack.setOnClickListener(v -> getNavigation().onBackPressed());
 
-        favoriteButton.setOnClickListener(v -> {
+        favoriteButton.setFavorite(FavoriteList.getInstance().getSortedEvents().contains(event));
+
+        favoriteButton.setOnFavoriteChangeListener((buttonView, favorite) -> {
             List<ScheduleEvent> events = FavoriteList.getInstance().getSortedEvents();
             if(!events.contains(event)) events.add(event);
+            else events.remove(event);
             String msg = getResources().getString(R.string.text_marked_as_favorite);
             showStatusMessage(msg);
+            FavoriteList.getInstance().saveFavorites(getNavigation());
         });
 
     }

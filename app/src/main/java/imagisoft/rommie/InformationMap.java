@@ -17,9 +17,10 @@ import com.google.firebase.database.ValueEventListener;
 public class InformationMap extends MainViewFragment {
 
     private String imgKey;
-    private StorageReference imgRef;
+    private String imgRef;
 
-    @BindView(R.id.img_map) PhotoView miniMap;
+    @BindView(R.id.img_map)
+    PhotoView miniMap;
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -43,9 +44,7 @@ public class InformationMap extends MainViewFragment {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                imgRef = getFirebase()
-                        .getStorage()
-                        .getReferenceFromUrl(imgKey);
+                imgRef = dataSnapshot.getValue(String.class);
                 loadMinimapAsync();
             }
 

@@ -8,11 +8,7 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/app_actionbar"
-        app:tabTextColor="@color/app_special_font"
-        app:tabSelectedTextColor="@color/app_white"
-        app:tabIndicatorColor="@color/app_detail">
+        android:layout_height="wrap_content">
 
         <android.support.design.widget.TabItem
             android:id="@+id/tab_item_schedule"

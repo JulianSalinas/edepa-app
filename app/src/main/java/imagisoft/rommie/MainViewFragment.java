@@ -161,6 +161,15 @@ public class MainViewFragment extends Fragment {
         }
     }
 
+    public void setStatusBarColor(int color){
+        MainViewNavigation activity = (MainViewNavigation) getActivity();
+        activity.getWindow().setStatusBarColor(color);
+    }
+
+    public int getStatusBarColor(){
+        MainViewNavigation activity = (MainViewNavigation) getActivity();
+        return activity.getWindow().getStatusBarColor();
+    }
 
     /**
      * Print temporal en la parte inferior de la aplicación

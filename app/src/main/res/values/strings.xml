@@ -117,5 +117,11 @@
     <string name="nav_about">Acerca de</string>
     <string name="nav_more">Más opciones</string>
     <string name="text_description">Descripción</string>
+    <string name="Choose_theme">Seleciona un tema</string>
+    <string name="nav_palette">Personalizar</string>
+    <string name="text_without_favorites">No tienes favoritos</string>
+    <string name="text_without_ongoing">Sin eventos en curso</string>
+    <string name="text_save">Guardar</string>
+    <string name="text_cancel">Cancelar</string>
 
 </resources>

@@ -10,6 +10,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 
+import imagisoft.edepa.FavoriteList;
+
 /**
  * Contiene los tabs de cronograma, agenda y en curso
  */
@@ -144,8 +146,7 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
      */
     public void navigateToPosition(int position) {
         currentTab = position;
-        if(tabOptions[position] == null)
-            tabOptions[position] = createTabFragment(position);
+        tabOptions[position] = createTabFragment(position);
         switchFragment(tabOptions[position]);
         paintTab(position);
     }
@@ -168,13 +169,24 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
     public Fragment createTabFragment(int tabId){ switch (tabId){
 
         case SCHEDULE_TAB:
-            return new PagerFragmentSchedule();
+            if(tabOptions[tabId] == null)
+                return new PagerFragmentSchedule();
+            else return tabOptions[tabId];
 
         case FAVORITES_TAB:
-            return new PagerFragmentFavorites();
+            if (FavoriteList.getInstance().getSortedEvents().isEmpty()) {
+                return BlankFragment.newInstance(getResources()
+                        .getString(R.string.text_without_favorites));
+            }
+            else {
+                return new PagerFragmentFavorites();
+            }
 
         case ONGOING_TAB:
-            return new PagerFragmentFavorites();
+            if(tabOptions[tabId] == null)
+                return BlankFragment.newInstance(getResources()
+                        .getString(R.string.text_without_ongoing));
+            else return tabOptions[tabId];
 
         default:
             return new PagerFragmentSchedule();

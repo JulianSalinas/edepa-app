@@ -4,12 +4,15 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
-import android.view.View;
+import android.support.v7.preference.PreferenceManager;
+import android.view.Window;
+import android.view.WindowAnimationFrameStats;
 import android.widget.Toast;
 import android.view.MenuItem;
 import android.content.Context;
@@ -24,6 +27,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarDrawerToggle;
 
+import com.afollestad.aesthetic.Aesthetic;
 import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
@@ -32,6 +36,7 @@ import com.firebase.jobdispatcher.Lifetime;
 import com.firebase.jobdispatcher.RetryStrategy;
 import com.firebase.jobdispatcher.Trigger;
 
+import static imagisoft.rommie.CustomColor.*;
 import imagisoft.edepa.FavoriteList;
 
 /**
@@ -67,9 +72,15 @@ public abstract class MainView extends AppCompatActivity
     @Override
     protected void onCreate (Bundle bundle) {
 
-        super.onCreate(bundle);
-        FavoriteList.getInstance().loadFavorites(this);
+        Aesthetic.attach(this);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        getWindow().setStatusBarColor(pref.getInt(APP_PRIMARY_DARK.toString(), APP_PRIMARY_DARK.getColor()));
+        getWindow().setNavigationBarColor(pref.getInt(APP_ACCENT_DARK.toString(), APP_ACCENT_DARK.getColor()));
 
+        super.onCreate(bundle);
+        if (Aesthetic.isFirstTime()) setTheme();
+
+        FavoriteList.getInstance().loadFavorites(this);
         setContentView(R.layout.main_drawer);
 
         bindMainViews();
@@ -80,6 +91,19 @@ public abstract class MainView extends AppCompatActivity
         navigateById(R.id.nav_schedule);
         scheduleJob();
 
+    }
+
+    /**
+     * Coloca el tema según los colores que esten en las preferencias
+     */
+    public void setTheme(){
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        Aesthetic.get()
+                .isDark(true)
+                .colorPrimary(pref.getInt(APP_PRIMARY.toString(), APP_PRIMARY.getColor()))
+                .colorPrimaryDark(pref.getInt(APP_PRIMARY_DARK.toString(), APP_PRIMARY_DARK.getColor()))
+                .colorAccent(pref.getInt(APP_ACCENT.toString(), APP_ACCENT.getColor()))
+                .apply();
     }
 
     @Override
@@ -115,8 +139,6 @@ public abstract class MainView extends AppCompatActivity
      */
     private void setupToolbar(){
         setSupportActionBar(toolbar);
-        assert getSupportActionBar() != null;
-        getSupportActionBar().setTitle(null);
     }
 
     /**

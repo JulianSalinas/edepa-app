@@ -4,10 +4,6 @@ import java.util.List;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 
-import android.app.Activity;
-import android.content.Context;
-
-import imagisoft.rommie.R;
 
 /**
  * Contiene toda la información de un evento en particular
@@ -55,6 +51,14 @@ public class ScheduleEvent extends ScheduleBlock {
         return eventype;
     }
 
+    public void setBriefEnglish(String briefEnglish) {
+        this.briefEnglish = briefEnglish;
+    }
+
+    public void setBriefSpanish(String briefSpanish) {
+        this.briefSpanish = briefSpanish;
+    }
+
     /**
      * Solo se retorna uno de los resumenes
      * Esto va a depender del idioma que tenga el usuario en la
@@ -82,9 +86,7 @@ public class ScheduleEvent extends ScheduleBlock {
         return "La actividad está programada en el horario de " +
                 UDateConverter.extractTime(getStart()) + " a " +
                 UDateConverter.extractTime(getEnd()) + " en el " + location +
-                ". Puede utilizar el chat para realizar cualquier consulta" +
-                ". Para más información del congreso puede consultar el siguiente enlace" +
-                " http://tecdigital.tec.ac.cr:8088/congresos/index.php/edepa/6_edepa";
+                ". Puede utilizar el chat para realizar cualquier consulta.";
 
     }
 
