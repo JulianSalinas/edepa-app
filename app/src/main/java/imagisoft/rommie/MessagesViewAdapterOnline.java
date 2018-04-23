@@ -2,6 +2,9 @@ package imagisoft.rommie;
 
 import android.util.Log;
 import imagisoft.edepa.Message;
+import imagisoft.edepa.Timestamp;
+import imagisoft.edepa.UDateConverter;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ChildEventListener;
@@ -23,8 +26,31 @@ public abstract class MessagesViewAdapterOnline extends MessagesViewAdapter {
 
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            msgs.add(dataSnapshot.getValue(Message.class));
-            notifyItemInserted(msgs.size()-1);
+
+            Message receivedMessage = dataSnapshot.getValue(Message.class);
+            String receivedDate = UDateConverter.extractDate(receivedMessage.getTime());
+
+            if (lastMessage == null) {
+                lastMessage = receivedMessage;
+                msgs.add(new Timestamp(receivedMessage.getTime()));
+                notifyItemInserted(msgs.size()-1);;
+            }
+
+            String lastReceivedDate = UDateConverter.extractDate(lastMessage.getTime());
+
+            if(receivedDate.equals(lastReceivedDate)){
+                msgs.add(receivedMessage);
+                notifyItemInserted(msgs.size()-1);
+            }
+            else {
+                msgs.add(new Timestamp(receivedMessage.getTime()));
+                notifyItemInserted(msgs.size()-1);
+                msgs.add(receivedMessage);
+                notifyItemInserted(msgs.size()-1);
+            }
+
+            lastMessage = receivedMessage;
+
         }
 
         @Override

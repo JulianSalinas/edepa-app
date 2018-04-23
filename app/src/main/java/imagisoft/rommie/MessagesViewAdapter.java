@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import imagisoft.edepa.Message;
+import imagisoft.edepa.Timestamp;
 import imagisoft.edepa.UDateConverter;
 
 import android.view.View;
@@ -12,12 +13,13 @@ import android.widget.TextView;
 import android.text.util.Linkify;
 import android.support.v7.widget.RecyclerView;
 
+import com.bumptech.glide.request.transition.Transition;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
 public abstract class MessagesViewAdapter
-        extends RecyclerView.Adapter<MessagesViewAdapter.MessageViewHolder> {
+        extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /**
      * Se obtiene el usuario actual o que envía
@@ -33,7 +35,9 @@ public abstract class MessagesViewAdapter
     /**
      * Objetos del modelo que serán adaptados visualmente
      */
-    protected ArrayList<Message> msgs;
+    protected ArrayList<Timestamp> msgs;
+
+    protected Message lastMessage;
 
     /**
      * Constructor del adaptador
@@ -58,13 +62,42 @@ public abstract class MessagesViewAdapter
      * @param position NO USAR, esta variable no tiene valor fijo. Usar holder.getAdapterPosition()
      */
     @Override
-    public void onBindViewHolder(MessageViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
 
-        Message msg = msgs.get(holder.getAdapterPosition());
-        holder.msgUsername.setText(msg.getUsername());
-        holder.msgContent.setText(msg.getContent());
-        holder.msgTimeDescription.setText(UDateConverter.extractTime(msg.getTime()));
-        Linkify.addLinks(holder.msgContent, Linkify.WEB_URLS);
+        Timestamp timestamp = msgs.get(viewHolder.getAdapterPosition());
+
+        if(timestamp instanceof Message) {
+
+            Message msg = (Message) timestamp;
+            MessageViewHolder holder = (MessageViewHolder) viewHolder;
+            holder.msgUsername.setText(msg.getUsername());
+            holder.msgContent.setText(msg.getContent());
+            holder.msgTimeDescription.setText(UDateConverter.extractTime(msg.getTime()));
+            Linkify.addLinks(holder.msgContent, Linkify.WEB_URLS);
+
+        }
+
+        else {
+
+            TimestampViewHolder holder = (TimestampViewHolder) viewHolder;
+            holder.chatSeparatorTime.setText(UDateConverter.extractDate(timestamp.getTime()));
+
+        }
+
+    }
+
+    /**
+     * Clase para dividir los mensajes por hora
+     */
+    protected class TimestampViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.chat_separator_time)
+        TextView chatSeparatorTime;
+
+        TimestampViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
 
     }
 

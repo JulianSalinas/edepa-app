@@ -93,7 +93,14 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
 
         // Configuración inicial que se muestra al crear la vista
         navigateToPosition(currentTab);
+        paintTab(currentTab);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        navigateToPosition(currentTab);
     }
 
     /**
@@ -175,12 +182,13 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
 
         case FAVORITES_TAB:
             if (FavoriteList.getInstance().getSortedEvents().isEmpty()) {
-                return BlankFragment.newInstance(getResources()
+                if(tabOptions[tabId] == null || !(tabOptions[tabId] instanceof BlankFragment))
+                    return BlankFragment.newInstance(getResources()
                         .getString(R.string.text_without_favorites));
+                else return tabOptions[tabId];
             }
-            else {
-                return new PagerFragmentFavorites();
-            }
+            else return new PagerFragmentFavorites();
+
 
         case ONGOING_TAB:
             if(tabOptions[tabId] == null)

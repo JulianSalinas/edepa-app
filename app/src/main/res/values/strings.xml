@@ -123,5 +123,6 @@
     <string name="text_without_ongoing">Sin eventos en curso</string>
     <string name="text_save">Guardar</string>
     <string name="text_cancel">Cancelar</string>
+    <string name="Search">Buscar</string>
 
 </resources>

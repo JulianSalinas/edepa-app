@@ -5,6 +5,8 @@ import com.firebase.ui.auth.AuthUI;
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
@@ -31,6 +33,14 @@ public class MainViewNavigation extends MainViewFirebase
     private TextView currentSection;
     private FloatingActionLayout favoriteButton;
 
+    boolean isScheduleView;
+
+    @Override
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        isScheduleView = true;
+    }
+
     /**
      * Sección de las vista que hay en el encabezado
      */
@@ -50,14 +60,18 @@ public class MainViewNavigation extends MainViewFirebase
         int favTab = ScheduleTabs.FAVORITES_TAB;
         currentSection.setText(R.string.nav_favorites);
 
-        if(scheduleTabs == null)
+        if(scheduleTabs == null) {
             scheduleTabs = ScheduleTabs.newInstance(favTab);
-        else
+        }
+        else {
+
             ((ScheduleTabs) scheduleTabs).setCurrentTab(favTab);
 
-        switchFragment(scheduleTabs);
+            if (isScheduleView)
+                ((ScheduleTabs) scheduleTabs).navigateToPosition(favTab);
 
-//        Aesthetic.get().colorStatusBar(CustomColor.BLACK).apply();
+        }
+        switchFragment(scheduleTabs);
 
     }
 
@@ -85,15 +99,27 @@ public class MainViewNavigation extends MainViewFirebase
             if(informationView == null)
                 informationView = new InformationView();
             switchFragment(informationView);
+            isScheduleView = false;
             break;
 
         // Muestra el cronograma del congreso
         case R.id.nav_schedule:
             currentSection.setText(R.string.nav_schedule);
+
             if(scheduleTabs == null)
-                scheduleTabs = ScheduleTabs.newInstance();
-            else ((ScheduleTabs) scheduleTabs).setCurrentTab(ScheduleTabs.SCHEDULE_TAB);
+                scheduleTabs = ScheduleTabs.newInstance(ScheduleTabs.SCHEDULE_TAB);
+
+            else {
+
+                ((ScheduleTabs) scheduleTabs).setCurrentTab(ScheduleTabs.SCHEDULE_TAB);
+
+                if (isScheduleView)
+                    ((ScheduleTabs) scheduleTabs).navigateToPosition(ScheduleTabs.SCHEDULE_TAB);
+
+            }
+
             switchFragment(scheduleTabs);
+            isScheduleView = true;
             break;
 
         // Muestra la lista de expositores o ponentes
@@ -102,6 +128,7 @@ public class MainViewNavigation extends MainViewFirebase
             if(exhibitorsView == null)
                 exhibitorsView = new ExhibitorsView();
             switchFragment(exhibitorsView);
+            isScheduleView = false;
             break;
 
         // Muestra la lista de expositores o ponentes
@@ -110,6 +137,7 @@ public class MainViewNavigation extends MainViewFirebase
             if(chatView == null)
                 chatView = new ChatView();
             switchFragment(chatView);
+            isScheduleView = false;
             break;
 
         // Muestra la lista de expositores o ponentes
@@ -118,6 +146,7 @@ public class MainViewNavigation extends MainViewFirebase
             if(newsView == null)
                 newsView = new NewsView();
             switchFragment(newsView);
+            isScheduleView = false;
             break;
 
         // Muestra la pantalla de administración
@@ -126,12 +155,14 @@ public class MainViewNavigation extends MainViewFirebase
             if(configView == null)
                 configView = new ConfigView();
             switchFragment(configView);
+            isScheduleView = false;
             break;
 
         // Muestra la pantalla acerca de
         case R.id.nav_pallete:
             currentSection.setText(R.string.nav_palette);
             switchFragment(new ThemeChooser());
+            isScheduleView = false;
             break;
 
         // Muestra la pantalla acerca de
@@ -140,6 +171,7 @@ public class MainViewNavigation extends MainViewFirebase
             if(aboutView == null)
                 aboutView = new AboutView();
             switchFragment(aboutView);
+            isScheduleView = false;
             break;
 
         }

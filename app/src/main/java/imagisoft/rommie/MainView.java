@@ -66,6 +66,10 @@ public abstract class MainView extends AppCompatActivity
     protected NavigationView navigation;
     protected ActionBarDrawerToggle toggle;
 
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
+
     /**
      * Se inician todos los componentes principales de la aplicación
      */

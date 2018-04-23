@@ -1,5 +1,6 @@
 package imagisoft.rommie;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,6 +27,7 @@ public class ExhibitorsViewAdapter
      * Objetos del modelo que serán adaptados visualmente
      */
     private List<Exhibitor> exhibitors;
+    private List<Exhibitor> filteredExhibitors;
 
     /**
      * Es un fragmento permite obtener los eventos de un expositor
@@ -38,6 +40,7 @@ public class ExhibitorsViewAdapter
     public ExhibitorsViewAdapter(ExhibitorsViewFragment exhibitorsView){
         this.exhibitorsView = exhibitorsView;
         this.exhibitors = exhibitorsView.getExhibitors();
+        this.filteredExhibitors = this.exhibitors;
     }
 
     /**
@@ -45,7 +48,7 @@ public class ExhibitorsViewAdapter
      */
     @Override
     public int getItemCount() {
-        return exhibitors.size();
+        return filteredExhibitors.size();
     }
 
     /**
@@ -65,7 +68,7 @@ public class ExhibitorsViewAdapter
     @Override
     public void onBindViewHolder(ExhibitorViewHolder holder, final int position) {
 
-        Exhibitor item = exhibitors.get(holder.getAdapterPosition());
+        Exhibitor item = filteredExhibitors.get(holder.getAdapterPosition());
 
         bindInformation(item, holder);
         bindColor(item.getCompleteName(), holder);
@@ -102,6 +105,28 @@ public class ExhibitorsViewAdapter
         String color = StringUtils.isNullOrEmpty(text) ? "#3F51B5" :
                 String.format("#FF%06X", (0xFFFFFF & text.hashCode()));
         return Color.parseColor(color);
+    }
+
+    /**
+     * Según una palabra de búsqueda se filtran todos los expositores
+     * @param keyword: Palabra de búsqueda
+     */
+    public void filter(String keyword){
+
+        keyword = keyword.toLowerCase();
+        filteredExhibitors = new ArrayList<>();
+        for(Exhibitor exhibitor : exhibitors){
+
+            String name = exhibitor.getCompleteName().toLowerCase();
+            String title = exhibitor.getPersonalTitle().toLowerCase();
+
+            if(name.contains(keyword) || title.contains(keyword))
+                filteredExhibitors.add(exhibitor);
+
+        }
+
+        notifyDataSetChanged();
+
     }
 
     /**

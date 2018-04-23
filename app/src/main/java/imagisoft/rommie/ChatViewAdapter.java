@@ -2,6 +2,7 @@ package imagisoft.rommie;
 
 import imagisoft.edepa.Message;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ public class ChatViewAdapter extends MessagesViewAdapterOnline{
     /**
      * Constantes paras escoger el tipo de vista que se colocará
      */
+    private int CHAT_TIMESTAMP = 0;
     private int CHAT_LEFT_VIEW_TYPE = 1;
     private int CHAT_RIGHT_VIEW_TYPE = 2;
 
@@ -34,26 +36,35 @@ public class ChatViewAdapter extends MessagesViewAdapterOnline{
      */
     @Override
     public int getItemViewType(int position) {
-        Message item = msgs.get(position);
-        boolean isThisUser = item.getUserid().equals(user.getUid());
-        return isThisUser ? CHAT_RIGHT_VIEW_TYPE: CHAT_LEFT_VIEW_TYPE;
+
+        if(msgs.get(position) instanceof Message) {
+            Message item = (Message) msgs.get(position);
+            boolean isThisUser = item.getUserid().equals(user.getUid());
+            return isThisUser ? CHAT_RIGHT_VIEW_TYPE : CHAT_LEFT_VIEW_TYPE;
+        }
+
+        else return CHAT_TIMESTAMP;
+
     }
 
     /**
      * Crear la vista del mensaje, ajustando a izq o der según corresponda
      */
     @Override
-    public MessageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        int layout = viewType == CHAT_RIGHT_VIEW_TYPE ?
-                R.layout.chat_view_msg_right:
+        int layout =
+                viewType == CHAT_TIMESTAMP ? R.layout.date_separator :
+                viewType == CHAT_RIGHT_VIEW_TYPE ? R.layout.chat_view_msg_right:
                 R.layout.chat_view_msg_left;
 
         View view = LayoutInflater
                 .from(parent.getContext())
                 .inflate(layout, parent, false);
 
-        return new MessageViewHolder(view);
+        return viewType == CHAT_TIMESTAMP ?
+                new TimestampViewHolder(view) :
+                new MessageViewHolder(view);
 
     }
 

@@ -4,7 +4,7 @@ package imagisoft.edepa;
  * Clase usada para enviar y recibir mensajes del chat
  * Tambien se usa para la sección de noticias porque tiene los mismos datos
  */
-public class Message {
+public class Message extends Timestamp{
 
     /**
      * El id es para identificar si el mensaje corresponde al usuario
@@ -15,7 +15,6 @@ public class Message {
     /**
      * Atributos fundamentales en un mensaje
      */
-    private Long time;
     private String content;
     private String username;
 
@@ -26,9 +25,6 @@ public class Message {
         return userid;
     }
 
-    public Long getTime() {
-        return time;
-    }
 
     public String getContent() {
         return content;
@@ -42,7 +38,7 @@ public class Message {
      * Contructor vacío requerido por firebase
      */
     public Message(){
-
+        super();
     }
 
     /**
@@ -50,7 +46,7 @@ public class Message {
      */
     public Message(String userid, String username, String content, Long time) {
 
-        this.time = time;
+        super(time);
         this.userid = userid;
         this.content = content;
         this.username = username;
