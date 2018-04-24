@@ -22,4 +22,14 @@
         android:key="app_accent_dark"
         android:title="Color de acento oscuro"/>
 
+    <!--<imagisoft.rommie.ColorPicker-->
+        <!--android:defaultValue="@color/app_accent"-->
+        <!--android:key="app_header_color"-->
+        <!--android:title="Color del menú"/>-->
+
+    <!--<imagisoft.rommie.ColorPicker-->
+        <!--android:defaultValue="@color/app_primary_font"-->
+        <!--android:key="app_header_text_color"-->
+        <!--android:title="Color del texto del menú"/>-->
+
 </android.support.v7.preference.PreferenceScreen>

@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -17,6 +18,7 @@ import com.kizitonwose.colorpreferencecompat.ColorPreferenceCompat;
 import com.larswerkman.lobsterpicker.LobsterPicker;
 import com.larswerkman.lobsterpicker.sliders.LobsterOpacitySlider;
 import com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider;
+import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
 import imagisoft.edepa.UColorConverter;
 
@@ -115,6 +117,10 @@ public class ThemePicker extends PreferenceFragmentCompat
 
         Aesthetic theme = Aesthetic.get();
         View menu = activity.getMenuView();
+
+        TextView t1 = menu.findViewById(R.id.current_menu_view);
+        TextView t2 = menu.findViewById(R.id.current_section_view);
+
         CustomColor colorRes = CustomColor.valueOf(preferenceKey.toUpperCase());
         int color = prefs.getInt(preferenceKey, colorRes.getColor());
 
@@ -123,33 +129,35 @@ public class ThemePicker extends PreferenceFragmentCompat
             case APP_PRIMARY:
                 theme.colorPrimary(color);
                 color = UColorConverter.darken(color, 12);
+                prefs.edit().putInt(APP_ACCENT_DARK.toString(), color).apply();
 
             case APP_PRIMARY_DARK:
                 theme.colorPrimaryDark(color);
-                getActivity().getWindow()
+                activity.getWindow()
                         .setStatusBarColor(color);
                 break;
 
             case APP_ACCENT:
                 theme.colorAccent(color);
+                FloatingActionLayout fabBtn = menu.findViewById(R.id.favorite_button);
+                fabBtn.setFabColor(color);
                 break;
 
             case APP_ACCENT_DARK:
                 theme.colorNavigationBar(color);
-                getActivity().getWindow()
+                activity.getWindow()
                         .setNavigationBarColor(color);
                 break;
 
-            case APP_HEADER_COLOR:
-                menu.findViewById(R.id.emphasis_image_view).setBackgroundColor(color);
-                break;
-
-            case APP_HEADER_TEXT_COLOR:
-                TextView t1 = menu.findViewById(R.id.current_menu_view);
-                TextView t2 = menu.findViewById(R.id.current_section_view);
-                t1.setTextColor(color);
-                t2.setTextColor(color);
-                break;
+//            case APP_HEADER_COLOR:
+//                int tempColor = t1.getCurrentTextColor();
+//                menu.findViewById(R.id.emphasis_image_view).setBackgroundColor(color);
+//                color = tempColor;
+//
+//            case APP_HEADER_TEXT_COLOR:
+//                t1.setTextColor(color);
+//                t2.setTextColor(color);
+//                break;
 
         }
 

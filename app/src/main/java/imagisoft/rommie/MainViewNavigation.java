@@ -3,12 +3,16 @@ package imagisoft.rommie;
 import com.firebase.ui.auth.AuthUI;
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.preference.PreferenceManager;
 import android.view.View;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
+
+import static imagisoft.rommie.CustomColor.*;
 
 
 public class MainViewNavigation extends MainViewFirebase
@@ -29,6 +33,7 @@ public class MainViewNavigation extends MainViewFirebase
     /**
      * Atributos custom
      */
+    private TextView currentMenu;
     private TextView currentSection;
     private FloatingActionLayout favoriteButton;
 
@@ -55,10 +60,22 @@ public class MainViewNavigation extends MainViewFirebase
      * Sección de las vista que hay en el encabezado
      */
     public void bindNavigationViews(){
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
         View header = navigation.getHeaderView(0);
         favoriteButton = header.findViewById(R.id.favorite_button);
+        currentMenu = header.findViewById(R.id.current_menu_view);
         currentSection = header.findViewById(R.id.current_section_view);
         favoriteButton.setOnClickListener(v -> onFavoriteButtonClick());
+
+//        int menuColor = prefs.getInt(APP_HEADER_COLOR.toString(), APP_HEADER_COLOR.getColor());
+//        currentMenu.setTextColor(menuColor);
+//        currentSection.setTextColor(menuColor);
+//
+//        int fabColor = prefs.getInt(APP_ACCENT.toString(), APP_ACCENT.getColor());
+//        favoriteButton.setFabColor(fabColor);
+
     }
 
     /**

@@ -62,7 +62,6 @@ public abstract class MainViewFirebase extends MainView {
         // Guarda en persistencia para volver a descargar
         // Ayuda si la aplicación queda offline
         this.database = FirebaseDatabase.getInstance();
-        this.database.setPersistenceEnabled(true);
 
         // No se puede mover arriba de this.database
         this.auth = FirebaseAuth.getInstance();

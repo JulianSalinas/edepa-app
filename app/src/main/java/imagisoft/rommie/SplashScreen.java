@@ -1,19 +1,15 @@
 package imagisoft.rommie;
 
 import java.util.Arrays;
-import static android.os.SystemClock.sleep;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.content.Intent;
-import android.widget.ImageView;
-import android.support.v7.app.AppCompatActivity;
-
-import com.bumptech.glide.Glide;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
+import android.support.v7.app.AppCompatActivity;
 import com.google.firebase.database.FirebaseDatabase;
+
 
 public class SplashScreen extends AppCompatActivity{
 
@@ -23,11 +19,6 @@ public class SplashScreen extends AppCompatActivity{
     private FirebaseAuth auth;
     private FirebaseDatabase database;
     private static final int RC_SIGN_IN = 123;
-
-    /**
-     * Duración del splash
-     */
-    private static final int SPLASH_DISPLAY_LENGTH = 1500;
 
     /**
      * Solo se usa la autenticación, sin embargo el método
@@ -59,16 +50,9 @@ public class SplashScreen extends AppCompatActivity{
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
-        ImageView loading_gif = findViewById(R.id.gif_splash_loading);
-        Glide.with(this).load(R.drawable.img_loading).into(loading_gif);
-
-        new Handler().postDelayed(this::startAll, SPLASH_DISPLAY_LENGTH);
-
-    }
-
-    private void startAll(){
         startDatabase();
         startLoginActivity();
+
     }
 
     /**

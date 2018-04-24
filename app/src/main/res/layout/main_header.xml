@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <ImageView
+        android:id="@+id/emphasis_image_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_header_img"
         android:scaleType="centerCrop"
@@ -24,6 +25,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/current_menu_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/nav_menu"
@@ -47,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_medium"
         android:layout_marginBottom="@dimen/space_medium"
-        app:fabColor="@color/app_accent"
+        app:fabColor="?colorAccent"
         android:layout_gravity="bottom"
         app:elevation="8dp">
 

@@ -77,7 +77,8 @@
                 app:cardCornerRadius="3dp"
                 app:cardElevation="1dp"
                 app:cardUseCompatPadding="true"
-                android:layout_marginBottom="@dimen/space_default">
+                android:layout_marginBottom="@dimen/space_default"
+                android:tag=":aesthetic_ignore">
 
                 <EditText
                     android:id="@+id/username_text_view"

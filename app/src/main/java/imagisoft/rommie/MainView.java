@@ -88,12 +88,13 @@ public abstract class MainView extends AppCompatActivity
         setContentView(R.layout.main_drawer);
 
         bindMainViews();
-        bindNavigationViews();
         setupToolbar();
         setupToggle();
+        bindNavigationViews();
+
         setupDispatcher();
         navigateById(R.id.nav_schedule);
-        scheduleJob();
+//        scheduleJob();
 
     }
 
@@ -103,7 +104,7 @@ public abstract class MainView extends AppCompatActivity
     public void setTheme(){
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         Aesthetic.get()
-                .isDark(true)
+                .isDark(false)
                 .colorPrimary(pref.getInt(APP_PRIMARY.toString(), APP_PRIMARY.getColor()))
                 .colorPrimaryDark(pref.getInt(APP_PRIMARY_DARK.toString(), APP_PRIMARY_DARK.getColor()))
                 .colorAccent(pref.getInt(APP_ACCENT.toString(), APP_ACCENT.getColor()))

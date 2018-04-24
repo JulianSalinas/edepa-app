@@ -14,7 +14,8 @@
         android:text="@string/text_without_favorites"
         android:textSize="@dimen/font_black_fragment"
         android:textStyle="bold"
-        android:textColor="?colorAccent"
+        android:fontFamily="sans-serif-smallcaps"
+        android:textColor="@color/app_special_font"
         android:textAlignment="center"/>
 
 </RelativeLayout>

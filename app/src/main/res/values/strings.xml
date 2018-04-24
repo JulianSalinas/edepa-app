@@ -119,8 +119,8 @@
     <string name="text_description">Descripción</string>
     <string name="Choose_theme">Seleciona un tema</string>
     <string name="nav_palette">Personalizar</string>
-    <string name="text_without_favorites">No tienes favoritos</string>
-    <string name="text_without_ongoing">Sin eventos en curso</string>
+    <string name="text_without_favorites">No tienes\nfavoritos</string>
+    <string name="text_without_ongoing">Sin eventos\nen curso</string>
     <string name="text_save">Guardar</string>
     <string name="text_cancel">Cancelar</string>
     <string name="Search">Buscar</string>
