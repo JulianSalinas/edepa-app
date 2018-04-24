@@ -1,5 +1,6 @@
 package imagisoft.rommie;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
@@ -9,6 +10,7 @@ public abstract class MainViewFirebase extends MainView {
     /**
      * Conexión con Firebase
      */
+    final FirebaseAuth auth;
     final FirebaseStorage storage;
     final FirebaseDatabase database;
 
@@ -60,6 +62,10 @@ public abstract class MainViewFirebase extends MainView {
         // Guarda en persistencia para volver a descargar
         // Ayuda si la aplicación queda offline
         this.database = FirebaseDatabase.getInstance();
+        this.database.setPersistenceEnabled(true);
+
+        // No se puede mover arriba de this.database
+        this.auth = FirebaseAuth.getInstance();
 
         // Para almacenar imagenes
         this.storage = FirebaseStorage.getInstance();

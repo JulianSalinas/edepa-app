@@ -1,14 +1,9 @@
 package imagisoft.edepa;
 
-import android.util.Log;
-
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -94,7 +89,7 @@ public class FavoriteList extends Preferences {
 
         Gson gson = new Gson();
         String favs = prefs.getString(key, null);
-        events = (List<ScheduleEvent>) gson.fromJson(favs, type);
+        events = gson.fromJson(favs, type);
 
 
     }

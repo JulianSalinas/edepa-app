@@ -291,24 +291,5 @@ public abstract class MainView extends AppCompatActivity
         toast.show();
     }
 
-    /**
-     * Luego de invocar está función se debe actualizar la actividad para que
-     * se usen los nuevos strings
-     * @param context: Actividad desde la que se invoca el cambio de idioma
-     * @param lang: Puede ser "en" o "es"
-     */
-    public void changeLocale(Context context, String lang) {
-
-//        if (lang.equalsIgnoreCase("")) return;
-//
-//        locale = new Locale(lang);
-//        saveLocale(context, lang);
-//
-//        Locale.setDefault(locale);
-//        Configuration config = new Configuration();
-//        config.locale = locale;
-//        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
-
-    }
 
 }

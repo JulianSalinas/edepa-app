@@ -7,6 +7,7 @@ import butterknife.ButterKnife;
 import imagisoft.edepa.FavoriteList;
 import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
+import imagisoft.edepa.ScheduleEventType;
 import imagisoft.edepa.UDateConverter;
 
 import android.view.View;
@@ -38,6 +39,8 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     private List<? extends ScheduleBlock> events;
 
+    private List<? extends ScheduleBlock> filteredEvents;
+
     /**
      * Constructor de la vista donde se colocan los eventos
      */
@@ -46,6 +49,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         this.scheduleView = scheduleView;
         this.events = events;
+        this.filteredEvents = this.events;
 
     }
 
@@ -54,7 +58,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     @Override
     public int getItemCount() {
-        return events.size();
+        return filteredEvents.size();
     }
 
     /**
@@ -63,7 +67,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemViewType(int position) {
 
-        ScheduleBlock item = events.get(position);
+        ScheduleBlock item = filteredEvents.get(position);
         return (item instanceof ScheduleEvent) ?
                 SCHEDULE_EVENT_VIEW_TYPE:
                 SCHEDULE_BLOCK_VIEW_TYPE;
@@ -112,7 +116,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindScheduleEventViewHolder(ScheduleEventViewHolder holder){
 
         int position = holder.getAdapterPosition();
-        ScheduleEvent event = (ScheduleEvent) events.get(position);
+        ScheduleEvent event = (ScheduleEvent) filteredEvents.get(position);
 
         bindInformation(holder, event);
         bindEmphasisColor(holder, event);
@@ -157,7 +161,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     public void onBindScheduleBlockViewHolder(ScheduleBlockViewHolder holder){
 
-        ScheduleBlock block = events.get(holder.getAdapterPosition());
+        ScheduleBlock block = filteredEvents.get(holder.getAdapterPosition());
         holder.time.setText(getDatesAsString(block));
 
     }
@@ -201,6 +205,10 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         int colorResource = event.getEventype().getColor();
         holder.line.setBackgroundResource(colorResource);
         holder.readmore.setTextColor(activity.getResources().getColor(colorResource));
+
+    }
+
+    public void filter(ScheduleEventType type){
 
     }
 

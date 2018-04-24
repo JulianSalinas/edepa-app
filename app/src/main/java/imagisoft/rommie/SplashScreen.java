@@ -4,6 +4,7 @@ import java.util.Arrays;
 import static android.os.SystemClock.sleep;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.content.Intent;
 import android.widget.ImageView;
@@ -19,9 +20,14 @@ public class SplashScreen extends AppCompatActivity{
     /**
      * Conexión con Firebase
      */
-    final FirebaseAuth auth;
-    final FirebaseDatabase database;
+    private FirebaseAuth auth;
+    private FirebaseDatabase database;
     private static final int RC_SIGN_IN = 123;
+
+    /**
+     * Duración del splash
+     */
+    private static final int SPLASH_DISPLAY_LENGTH = 1500;
 
     /**
      * Solo se usa la autenticación, sin embargo el método
@@ -29,14 +35,6 @@ public class SplashScreen extends AppCompatActivity{
      * función de Firebase, de lo contrario la app se cierra inesperadamente
      */
     public SplashScreen() {
-
-        // Guarda en persistencia para volver a descargar
-        // Ayuda si la aplicación queda offline
-        this.database = FirebaseDatabase.getInstance();
-        this.database.setPersistenceEnabled(true);
-
-        // No se puede mover arriba de this.database
-        this.auth = FirebaseAuth.getInstance();
 
     }
 
@@ -61,21 +59,32 @@ public class SplashScreen extends AppCompatActivity{
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
-        startLoadingImage();
-        startLoginActivity();
-
-    }
-
-    /**
-     * Pone a moverse el gif de cargar la aplicación
-     */
-    private void startLoadingImage(){
-
         ImageView loading_gif = findViewById(R.id.gif_splash_loading);
         Glide.with(this).load(R.drawable.img_loading).into(loading_gif);
 
-        // Duerme la animación para que apenas sea percibida
-        sleep(1500);
+        new Handler().postDelayed(this::startAll, SPLASH_DISPLAY_LENGTH);
+
+    }
+
+    private void startAll(){
+        startDatabase();
+        startLoginActivity();
+    }
+
+    /**
+     * Solo se usa la autenticación, sin embargo el método
+     * setPersistenceEnable debe ser llamado antes que cualquier otra
+     * función de Firebase, de lo contrario la app se cierra inesperadamente
+     */
+    private void startDatabase(){
+
+        // Guarda en persistencia para volver a descargar
+        // Ayuda si la aplicación queda offline
+        this.database = FirebaseDatabase.getInstance();
+        this.database.setPersistenceEnabled(true);
+
+        // No se puede mover arriba de this.database
+        this.auth = FirebaseAuth.getInstance();
 
     }
 

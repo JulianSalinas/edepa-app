@@ -18,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import agency.tango.android.avatarview.views.AvatarView;
 import agency.tango.android.avatarview.AvatarPlaceholder;
 import agency.tango.android.avatarview.utils.StringUtils;
+import imagisoft.edepa.UNormalizerSearch;
 
 
 public class ExhibitorsViewAdapter
@@ -113,17 +114,21 @@ public class ExhibitorsViewAdapter
      */
     public void filter(String keyword){
 
-        keyword = keyword.toLowerCase();
+        keyword = UNormalizerSearch.removeAccents(keyword.toLowerCase());
+
         filteredExhibitors = new ArrayList<>();
         for(Exhibitor exhibitor : exhibitors){
 
-            String name = exhibitor.getCompleteName().toLowerCase();
-            String title = exhibitor.getPersonalTitle().toLowerCase();
+            String name = UNormalizerSearch.removeAccents(exhibitor.getCompleteName().toLowerCase());
+            String title = UNormalizerSearch.removeAccents(exhibitor.getPersonalTitle().toLowerCase());
 
             if(name.contains(keyword) || title.contains(keyword))
                 filteredExhibitors.add(exhibitor);
 
         }
+
+        if (filteredExhibitors.isEmpty())
+            filteredExhibitors = exhibitors;
 
         notifyDataSetChanged();
 

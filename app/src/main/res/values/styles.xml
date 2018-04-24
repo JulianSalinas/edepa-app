@@ -6,15 +6,10 @@
         <item name="colorPrimaryDark">@color/app_primary_dark</item>
         <item name="colorAccent">@color/app_accent</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
-        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
-    <style name="AppTheme2" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/app_primary</item>
-        <item name="colorPrimaryDark">@color/material_pink</item>
-        <item name="colorAccent">@color/material_pink</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
-        <item name="android:fontFamily">sans-serif-light</item>
+    <style name="AppTheme.Splash">
+        <item name="android:windowBackground">@drawable/splashscreen</item>
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

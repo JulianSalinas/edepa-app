@@ -10,6 +10,7 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.afollestad.aesthetic.Aesthetic;
 import com.kizitonwose.colorpreferencecompat.ColorPreferenceCompat;
@@ -17,19 +18,28 @@ import com.larswerkman.lobsterpicker.LobsterPicker;
 import com.larswerkman.lobsterpicker.sliders.LobsterOpacitySlider;
 import com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider;
 
+import imagisoft.edepa.UColorConverter;
+
 import static imagisoft.rommie.CustomColor.*;
 
 
-public class ThemeChooser extends PreferenceFragmentCompat
+public class ThemePicker extends PreferenceFragmentCompat
         implements Preference.OnPreferenceClickListener{
 
     /**
      * Se obtiene las preferencias para obtener los colores
      */
     private SharedPreferences prefs;
+    private MainViewNavigation activity;
 
-    public ThemeChooser() {
-        // Required empty public constructor
+    public ThemePicker() {
+        // se requiere el constructor vacio
+    }
+
+    public static ThemePicker newInstance(MainViewNavigation activity){
+        ThemePicker themePicker = new ThemePicker();
+        themePicker.activity = activity;
+        return themePicker;
     }
 
     /**
@@ -88,7 +98,7 @@ public class ThemeChooser extends PreferenceFragmentCompat
         // Se muestra la pantalla para selecciona el color
         new AlertDialog.Builder(getActivity())
                 .setView(colorView)
-                .setTitle("Escoge un color")
+                .setTitle(getResources().getString(R.string.choose_a_color))
                 .setPositiveButton(getResources().getString(R.string.text_save), (dialogInterface, i) -> {
                     ((ColorPreferenceCompat) preference).setValue(lobsterPicker.getColor());
                     changeCustomColor(preference.getKey());
@@ -104,6 +114,7 @@ public class ThemeChooser extends PreferenceFragmentCompat
     public void changeCustomColor(String preferenceKey){
 
         Aesthetic theme = Aesthetic.get();
+        View menu = activity.getMenuView();
         CustomColor colorRes = CustomColor.valueOf(preferenceKey.toUpperCase());
         int color = prefs.getInt(preferenceKey, colorRes.getColor());
 
@@ -111,12 +122,11 @@ public class ThemeChooser extends PreferenceFragmentCompat
 
             case APP_PRIMARY:
                 theme.colorPrimary(color);
-                break;
+                color = UColorConverter.darken(color, 12);
 
             case APP_PRIMARY_DARK:
                 theme.colorPrimaryDark(color);
-                getActivity()
-                        .getWindow()
+                getActivity().getWindow()
                         .setStatusBarColor(color);
                 break;
 
@@ -126,10 +136,21 @@ public class ThemeChooser extends PreferenceFragmentCompat
 
             case APP_ACCENT_DARK:
                 theme.colorNavigationBar(color);
-                getActivity()
-                        .getWindow()
+                getActivity().getWindow()
                         .setNavigationBarColor(color);
                 break;
+
+            case APP_HEADER_COLOR:
+                menu.findViewById(R.id.emphasis_image_view).setBackgroundColor(color);
+                break;
+
+            case APP_HEADER_TEXT_COLOR:
+                TextView t1 = menu.findViewById(R.id.current_menu_view);
+                TextView t2 = menu.findViewById(R.id.current_section_view);
+                t1.setTextColor(color);
+                t2.setTextColor(color);
+                break;
+
         }
 
         theme.apply();
