@@ -10,121 +10,119 @@
     <string name="drawer_close">Close navigation drawer</string>
 
     <!-- Navigation menu strings-->
-    <string name="nav_exit">Salir</string>
     <string name="nav_chat">Chat</string>
-    <string name="nav_news">Noticias</string>
-    <string name="nav_info">Información</string>
-    <string name="nav_people">Expositores</string>
-    <string name="nav_menu">Menú principal</string>
-    <string name="nav_schedule">Cronograma</string>
-    <string name="nav_favorites">Favoritos</string>
-    <string name="nav_subsection">Subsección</string>
-    <string name="nav_settings">Configuración</string>
-    <string name="nav_exit_and_signout">Cerrar sesión</string>
+    <string name="nav_exit">Exit</string>
+    <string name="nav_news">News</string>
+    <string name="nav_about">About</string>
+    <string name="nav_info">Information</string>
+    <string name="nav_more">More</string>
+    <string name="nav_people">People</string>
+    <string name="nav_menu">Main menu</string>
+    <string name="nav_schedule">Schedule</string>
+    <string name="nav_favorites">Favorites</string>
+    <string name="nav_palette">Color palette</string>
+    <string name="nav_subsection">Subsection</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_exit_and_signout">Sign out</string>
 
     <!-- Welcome-->
-    <string name="text_welcome">Bienvenido</string>
-    <string name="text_getstarted">Ingresar</string>
+    <string name="text_welcome">Welcome</string>
+    <string name="text_getstarted">Get Started</string>
 
     <!-- Dates -->
-    <string name="text_to">a</string>
-    <string name="text_from">De</string>
-    <string name="text_end">Final</string>
-    <string name="text_date">Fecha</string>
-    <string name="text_start">Inicio</string>
+    <string name="text_to">to</string>
+    <string name="text_from">From</string>
+    <string name="text_end">End</string>
+    <string name="text_date">Date</string>
+    <string name="text_start">Start</string>
 
     <!-- Events Types -->
-    <string name="text_talk">Charla</string>
+    <string name="text_talk">Talk</string>
     <string name="text_curse">Taller</string>
     <string name="text_edepa">Feria EDEPA</string>
-    <string name="text_conference">Conferencia</string>
+    <string name="text_conference">Conference</string>
 
     <!-- Schedule View  -->
     <string name="text_people">People</string>
     <string name="text_ongoing">Ongoing</string>
-    <string name="text_abstract">Resumen</string>
-    <string name="text_readmore">LEER MÁS</string>
-    <string name="text_location">Ubicación</string>
-    <string name="text_input">Escribe aquí</string>
-    <string name="text_exhibitor">Expositores</string>
-    <string name="text_presentation">Presentación</string>
+    <string name="text_abstract">Abstract</string>
+    <string name="text_readmore">READ MORE</string>
+    <string name="text_location">Location</string>
+    <string name="text_input">Write here</string>
+    <string name="text_exhibitor">People</string>
+    <string name="text_presentation">Presentation</string>
 
     <!-- Configuration -->
-    <string name="text_language">Idioma</string>
-    <string name="text_username">Usuario</string>
-    <string name="text_username_help">Elige el nombre que usarás en el chat</string>
+    <string name="text_language">Language</string>
+    <string name="text_username">Username</string>
+    <string name="text_username_help">Press to choose the name you will use in the chat</string>
 
-    <!-- Favorites -->
-    <string name="text_favorite">Favorito</string>
-    <string name="text_mark_favorite">Marcar como favorito</string>
-    <string name="text_unmark_favorite">Remover de favoritos</string>
-    <string name="text_marked_as_favorite">Agregado en favoritos</string>
-    <string name="text_unmarked_as_favorite">Removido de la agenda</string>
+    <!-- Favoritos -->
+    <string name="text_favorite">Favorite</string>
+    <string name="text_mark_favorite">Mark as favorite</string>
+    <string name="text_unmark_favorite">Remove from favorites</string>
+    <string name="text_marked_as_favorite">Added to favorites</string>
+    <string name="text_unmarked_as_favorite">Removed from favorites</string>
 
-    <!-- Notifications-->
-    <string name="text_notifications">Notificaciones</string>
-    <string name="text_notifications_enabled">Notificaciones activadas</string>
-    <string name="text_notifications_disabled">Notificaciones desactivadas</string>
-    <string name="text_notifications_help">Necesitas tener una conexión a internet para recibir notificacaciones</string>
+    <!-- Notificaciones -->
+    <string name="text_notifications">Notifications</string>
+    <string name="text_notifications_enabled">Notifications enabled</string>
+    <string name="text_turned_on_notifications">Notifications enabled</string>
+    <string name="text_notifications_disabled">Notifications disabled</string>
+    <string name="text_turned_off_notifications">Notifications disabled</string>
+    <string name="text_notifications_help">You need an internet connection to receive notifications</string>
 
-    <!--Testing strings-->
+    <!-- Otros strings -->
+    <string name="copy">copy</string>
+    <string name="paste">paste</string>
+    <string name="replace">replace</string>
+    <string name="text_save">Save</string>
+    <string name="text_search">Search</string>
+    <string name="text_cancel">Cancel</string>
+
+    <string name="text_map">Map</string>
+    <string name="text_loading">Loading</string>
+    <string name="text_events">Related events</string>
+
+    <string name="text_about">About</string>
+    <string name="text_confirm">OK</string>
+    <string name="text_version">Version 1.0.0</string>
+    <string name="text_press_here">Press here</string>
+    <string name="text_not_available">Not available</string>
+    <string name="text_connect_with_us">Contact Us</string>
+    <string name="text_about_readmore">Touch for more details</string>
+    <string name="text_language_help">Press to change the language. Restart required.</string>
+    <string name="text_username_changed">Username has been changed</string>
+    <string name="text_language_changed">You want to restart now to change the language?</string>
+
+    <string name="text_about_description">
+        Application to be aware of EDEPA.
+        Developed by Instituto Tecnológico de Costa Rica students.
+    </string>
+
+    <string name="text_description">Description</string>
+    <string name="text_choose_color">Choose a color</string>
+    <string name="text_choose_theme">Choose a theme</string>
+    <string name="text_without_favorites">You have\nnot favorites</string>
+    <string name="text_without_ongoing">No ongoing\nevents</string>
+
+    <!--Testing strings - No es necesario traducirlos-->
     <string name="test_dummy">Dummy</string>
-    <string name="test_type">Conferencia</string>
-    <string name="test_app_date_start">15/12/2018</string>
-    <string name="test_app_date_end">18/12/2018</string>
     <string name="test_app_time">8:00am</string>
-    <string name="test_app_range_time">De 8:00am a 11:00am</string>
-    <string name="test_pressthepoint">toca el punto</string>
-    <string name="test_exhibitor">Nombre Apellido</string>
-    <string name="test_university">Universidad de Costa Rica</string>
+    <string name="test_type">Conferencia</string>
+    <string name="text_anonymous">Anonymous</string>
     <string name="test_location">Auditorio A1</string>
+    <string name="test_app_date_end">18/12/2018</string>
+    <string name="test_app_date_start">15/12/2018</string>
+    <string name="test_exhibitor">Nombre Apellido</string>
+    <string name="text_no_connection">You are offline</string>
+    <string name="test_pressthepoint">toca el punto</string>
+    <string name="test_app_range_time">De 8:00am a 11:00am</string>
+    <string name="test_university">Universidad de Costa Rica</string>
+    <string name="text_new_username">New username</string>
     <string name="test_invitation">La escuela de matemática te invita este 2018 al:</string>
     <string name="test_event">"Esto es un nombre lo suficientemente largo para cubrir dos líneas"</string>
     <string name="test_congress">Encuentro sobre la Didáctica de la Estadística, Probabilidad y el Análisis de datos</string>
     <string name="text_lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ullamcorper aliquet dictum. Maecenas in imperdiet dui.</string>
-    <string name="text_anonymous">Anónimo</string>
-    <string name="text_new_username">Nuevo nombre de usuario:</string>
-    <string name="text_no_connection">Sin conexión</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank exhibitorsView</string>
-    <string name="text_map">Mapa</string>
-    <string name="text_events">Eventos relacionados</string>
-    <string name="turned_off_notifications">Notificaciones desactivadas</string>
-    <string name="turned_on_notifications">Notificaciones activadas</string>
-    <string name="text_loading">Cargando</string>
-
-    <string name="channel">Servicio de notificaciones</string>
-    <string name="notification_id">Recordatorios</string>
-    <string name="not_available">No disponible</string>
-    <string name="text_language_changed">Desea reiniciar la aplicación ahora para cambiar el idioma</string>
-    <string name="copy">copiar</string>
-    <string name="paste">pegar</string>
-    <string name="replace">remplazar</string>
-    <string name="text_language_help">Se solicitará reiniciar la aplicación</string>
-    <string name="text_confirm">confirmar</string>
-    <string name="text_press_here">Presiona aquí</string>
-    <string name="text_username_changed">El nombre de usuario  se ha  cambiado</string>
-    <string name="text_about">Acerca de</string>
-    <string name="text_version">Versión 1.0.0</string>
-    <string name="about_readmore">Toca para más detalles</string>
-    <string name="text_connect_with_us">Contáctanos</string>
-
-    <string name="text_about_description">
-        Aplicación para que puedas estar al tanto del EDEPA.
-        Desarrollada por estudiantes del Instituto Tecnológico de Costa Rica
-    </string>
-    <string name="nav_about">Acerca de</string>
-    <string name="nav_more">Más opciones</string>
-    <string name="text_description">Descripción</string>
-    <string name="Choose_theme">Seleciona un tema</string>
-    <string name="nav_palette">Personalizar</string>
-    <string name="text_without_favorites">No tienes\nfavoritos</string>
-    <string name="text_without_ongoing">Sin eventos\nen curso</string>
-    <string name="text_save">Guardar</string>
-    <string name="text_cancel">Cancelar</string>
-    <string name="Search">Buscar</string>
-    <string name="text_search">Buscar</string>
-    <string name="choose_a_color">Selecciona un color</string>
 
 </resources>

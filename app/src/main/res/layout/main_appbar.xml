@@ -8,15 +8,17 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:elevation="15dp">
 
-        <android.support.v7.widget.Toolbar
+        <imagisoft.rommie.CenteredToolbar
             android:id="@+id/toolbar"
             app:title="@string/app_name"
+            app:titleTextColor="?android:textColorPrimary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
 
-        </android.support.v7.widget.Toolbar>
+        </imagisoft.rommie.CenteredToolbar>
 
         <ViewSwitcher
             android:id="@+id/toolbar_switcher"

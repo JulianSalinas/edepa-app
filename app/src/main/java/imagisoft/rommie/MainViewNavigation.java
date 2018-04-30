@@ -84,7 +84,6 @@ public class MainViewNavigation extends MainViewFirebase
     @Override
     public void onFavoriteButtonClick() {
 
-        toolbar.setTitle(R.string.app_name);
         int favTab = ScheduleTabs.FAVORITES_TAB;
         currentSection.setText(R.string.nav_favorites);
 
@@ -154,7 +153,6 @@ public class MainViewNavigation extends MainViewFirebase
         // Muestra la lista de expositores o ponentes
         case R.id.nav_people:
             currentSection.setText(R.string.nav_people);
-            toolbar.setTitle(R.string.nav_people);
             if(exhibitorsView == null)
                 exhibitorsView = new ExhibitorsView();
             switchFragment(exhibitorsView);
@@ -164,7 +162,6 @@ public class MainViewNavigation extends MainViewFirebase
         // Muestra la lista de expositores o ponentes
         case R.id.nav_chat:
             currentSection.setText(R.string.nav_chat);
-            toolbar.setTitle(R.string.nav_chat);
             if(chatView == null)
                 chatView = new ChatView();
             switchFragment(chatView);
@@ -174,7 +171,6 @@ public class MainViewNavigation extends MainViewFirebase
         // Muestra la lista de expositores o ponentes
         case R.id.nav_news:
             currentSection.setText(R.string.nav_news);
-            toolbar.setTitle(R.string.nav_news);
             if(newsView == null)
                 newsView = new NewsView();
             switchFragment(newsView);
@@ -184,7 +180,6 @@ public class MainViewNavigation extends MainViewFirebase
         // Muestra la pantalla de administración
         case R.id.nav_manage:
             currentSection.setText(R.string.nav_settings);
-            toolbar.setTitle(R.string.nav_settings);
             if(configView == null)
                 configView = new ConfigView();
             switchFragment(configView);
@@ -194,7 +189,6 @@ public class MainViewNavigation extends MainViewFirebase
         // Muestra la pantalla acerca de
         case R.id.nav_pallete:
             currentSection.setText(R.string.nav_palette);
-            toolbar.setTitle(R.string.nav_palette);
             if(themePicker == null)
                 themePicker = ThemePicker.newInstance(this);
             switchFragment(themePicker);
@@ -204,7 +198,6 @@ public class MainViewNavigation extends MainViewFirebase
         // Muestra la pantalla acerca de
         case R.id.nav_about:
             currentSection.setText(R.string.nav_about);
-            toolbar.setTitle(R.string.nav_about);
             if(aboutView == null)
                 aboutView = new AboutView();
             switchFragment(aboutView);

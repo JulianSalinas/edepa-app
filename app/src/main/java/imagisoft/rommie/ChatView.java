@@ -2,6 +2,7 @@ package imagisoft.rommie;
 
 import java.util.Calendar;
 import butterknife.BindView;
+import butterknife.OnClick;
 import imagisoft.edepa.Message;
 
 import android.os.Bundle;
@@ -38,6 +39,14 @@ public class ChatView extends MessagesView {
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
         setupSendCardView();
+        toolbarText = getToolbar().getTitle();
+        getToolbar().setTitle(getResources().getString(R.string.nav_chat));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getToolbar().setTitle(toolbarText);
     }
 
     /**

@@ -27,7 +27,7 @@
                 android:layout_height="@dimen/size_icon"
                 android:layout_margin="@dimen/space_default"
                 android:background="@drawable/ic_back"
-                android:backgroundTint="?android:textColorPrimary"
+                android:backgroundTint="@color/material_grey"
                 android:contentDescription="@null" />
 
             <RelativeLayout
@@ -50,7 +50,7 @@
                         android:layout_gravity="bottom"
                         android:text="@string/test_congress"
                         android:textSize="@dimen/font_big"
-                        android:textColor="?android:textColorPrimary"
+                        android:textColor="@color/material_grey"
                         android:fontFamily="sans-serif-smallcaps"/>
 
                 </LinearLayout>

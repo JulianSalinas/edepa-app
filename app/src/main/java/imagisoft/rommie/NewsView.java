@@ -23,6 +23,14 @@ public class NewsView extends MessagesView {
     @Override
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
+        toolbarText = getToolbar().getTitle();
+        getToolbar().setTitle(getResources().getString(R.string.nav_news));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getToolbar().setTitle(toolbarText);
     }
 
     /**

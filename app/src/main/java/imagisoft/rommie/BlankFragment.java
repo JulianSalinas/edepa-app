@@ -1,7 +1,6 @@
 package imagisoft.rommie;
 
 
-import android.hardware.camera2.params.BlackLevelPattern;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -30,9 +29,6 @@ public class BlankFragment extends MainViewFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-//        View view = inflater.inflate(R.layout.fragment_blank, container, false);
-//        descriptionTextView = view.findViewById(R.id.description_text_view);
-//        return view;
         return inflate(inflater, container, R.layout.fragment_blank);
     }
 

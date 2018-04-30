@@ -38,6 +38,14 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements SearchView
         searchView = getView().findViewById(R.id.exhibitor_search_view);
         searchView.setQueryHint(getResources().getString(R.string.text_search));
         searchView.setOnQueryTextListener(this);
+        toolbarText = getToolbar().getTitle();
+        getToolbar().setTitle(getResources().getString(R.string.nav_people));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getToolbar().setTitle(toolbarText);
     }
 
     /**

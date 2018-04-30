@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -33,6 +32,7 @@ public class ThemePicker extends PreferenceFragmentCompat
      */
     private SharedPreferences prefs;
     private MainViewNavigation activity;
+    private CharSequence toolbarText;
 
     public ThemePicker() {
         // se requiere el constructor vacio
@@ -52,6 +52,19 @@ public class ThemePicker extends PreferenceFragmentCompat
         super.onCreate(bundle);
         assert getActivity() != null;
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+    }
+
+    @Override
+    public void onActivityCreated(Bundle bundle) {
+        super.onActivityCreated(bundle);
+        toolbarText = activity.getToolbar().getTitle();
+        activity.getToolbar().setTitle(getResources().getString(R.string.nav_palette));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        activity.getToolbar().setTitle(toolbarText);
     }
 
     /**
@@ -100,7 +113,7 @@ public class ThemePicker extends PreferenceFragmentCompat
         // Se muestra la pantalla para selecciona el color
         new AlertDialog.Builder(getActivity())
                 .setView(colorView)
-                .setTitle(getResources().getString(R.string.choose_a_color))
+                .setTitle(getResources().getString(R.string.text_choose_color))
                 .setPositiveButton(getResources().getString(R.string.text_save), (dialogInterface, i) -> {
                     ((ColorPreferenceCompat) preference).setValue(lobsterPicker.getColor());
                     changeCustomColor(preference.getKey());
@@ -130,6 +143,7 @@ public class ThemePicker extends PreferenceFragmentCompat
                 theme.colorPrimary(color);
                 color = UColorConverter.darken(color, 12);
                 prefs.edit().putInt(APP_ACCENT_DARK.toString(), color).apply();
+                break;
 
             case APP_PRIMARY_DARK:
                 theme.colorPrimaryDark(color);

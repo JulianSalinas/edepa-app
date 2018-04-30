@@ -16,6 +16,9 @@ public class AboutView extends MainViewFragment {
         Element versionElement = new Element();
         versionElement.setTitle(getResources().getString(R.string.text_version));
 
+        toolbarText = getToolbar().getTitle();
+        getToolbar().setTitle(getResources().getString(R.string.nav_about));
+
         return new AboutPage(getNavigation())
                 .isRTL(false)
                 .addItem(versionElement)
@@ -26,7 +29,12 @@ public class AboutView extends MainViewFragment {
                 .addGitHub("JulianSalinas/Rommie")
                 .setDescription(getResources().getString(R.string.text_about_description))
                 .create();
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getToolbar().setTitle(toolbarText);
     }
 
 }

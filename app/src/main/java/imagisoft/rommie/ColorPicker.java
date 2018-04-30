@@ -21,7 +21,7 @@ public class ColorPicker extends ColorPreferenceCompat{
 
     @Override
     protected void onClick() {
-        // Se requiere así por que se requiere que
+        // Se requiere así
     }
 
 }

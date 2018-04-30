@@ -2,6 +2,7 @@ package imagisoft.rommie;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.ButterKnife;
@@ -25,7 +26,9 @@ public class MainViewFragment extends Fragment {
      */
     public final int FADE_ANIMATION = 0;
     public final int SLIDE_ANIMATION = 1;
-    
+
+    protected CharSequence toolbarText;
+
     /**
      * Es un invocada cuando un fragmento ocupa colocar un listener
      * de firebase
@@ -153,6 +156,7 @@ public class MainViewFragment extends Fragment {
      * Oculta o muestra la toolbar para fragmentos que lo requieren
      * @param show: True si se debe mostrar
      */
+
     public void setToolbarVisible(boolean show){
         ActionBar toolbar = getNavigation().getSupportActionBar();
         if(toolbar != null) {
@@ -169,6 +173,10 @@ public class MainViewFragment extends Fragment {
     public int getStatusBarColor(){
         MainViewNavigation activity = (MainViewNavigation) getActivity();
         return activity.getWindow().getStatusBarColor();
+    }
+
+    public Toolbar getToolbar(){
+        return getNavigation().getToolbar();
     }
 
     /**
