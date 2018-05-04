@@ -1,5 +1,6 @@
 package imagisoft.rommie;
 
+import android.arch.lifecycle.Lifecycle;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import imagisoft.edepa.FavoriteList;
 
@@ -31,6 +35,8 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
     private TabLayout tabLayout;
     private Fragment [] tabOptions;
     protected ViewSwitcher switcher;
+
+    private List<Fragment> profilePendingList = new ArrayList<>();
 
     /**
      * Función que la actividad usa para cambiar a un tab específico
@@ -100,7 +106,8 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
     @Override
     public void onResume() {
         super.onResume();
-        navigateToPosition(currentTab);
+        if(!profilePendingList.isEmpty())
+            navigateToPosition(currentTab);
     }
 
     /**
@@ -119,12 +126,19 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
      */
     @Override
     public void switchFragment(Fragment fragment){
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
-        transaction.replace(R.id.tabs_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        if (getNavigation().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
+            transaction.replace(R.id.tabs_container, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
+        else {
+            profilePendingList.clear();
+            profilePendingList.add(fragment);
+        }
     }
+
 
     /**
      * Evento que dispara la función switch framgent

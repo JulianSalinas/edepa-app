@@ -4,15 +4,18 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 
+import android.arch.lifecycle.Lifecycle;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
 import android.support.v7.preference.PreferenceManager;
-import android.view.Window;
-import android.view.WindowAnimationFrameStats;
+import android.util.DisplayMetrics;
 import android.widget.Toast;
 import android.view.MenuItem;
 import android.content.Context;
@@ -36,8 +39,14 @@ import com.firebase.jobdispatcher.Lifetime;
 import com.firebase.jobdispatcher.RetryStrategy;
 import com.firebase.jobdispatcher.Trigger;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Stack;
+
 import static imagisoft.rommie.CustomColor.*;
 import imagisoft.edepa.FavoriteList;
+import imagisoft.edepa.Preferences;
 
 /**
  * Clase análoga al masterpage de un página web
@@ -55,6 +64,7 @@ public abstract class MainView extends AppCompatActivity
      * Variables usadas para correr el servicio de notificaciones
      */
     private FirebaseJobDispatcher dispatcher;
+    private final String CURRENT_RESOURCE_KEY = "CURRENT_RESOURCE";
     private final String NOTIFICATION_ID = "Recordatorios";
     private final String CHANNEL = "Servicio de notificaciones";
 
@@ -66,9 +76,13 @@ public abstract class MainView extends AppCompatActivity
     protected NavigationView navigation;
     protected ActionBarDrawerToggle toggle;
 
+    private Stack<Fragment> profilePendingList = new Stack<>();
+
     public Toolbar getToolbar() {
         return toolbar;
     }
+
+    int currentResource = R.id.nav_schedule;
 
     /**
      * Se inician todos los componentes principales de la aplicación
@@ -77,9 +91,24 @@ public abstract class MainView extends AppCompatActivity
     protected void onCreate (Bundle bundle) {
 
         Aesthetic.attach(this);
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        getWindow().setStatusBarColor(pref.getInt(APP_PRIMARY_DARK.toString(), APP_PRIMARY_DARK.getColor()));
-        getWindow().setNavigationBarColor(pref.getInt(APP_ACCENT_DARK.toString(), APP_ACCENT_DARK.getColor()));
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        getWindow().setStatusBarColor(prefs.getInt(APP_PRIMARY_DARK.toString(), APP_PRIMARY_DARK.getColor()));
+        getWindow().setNavigationBarColor(prefs.getInt(APP_ACCENT_DARK.toString(), APP_ACCENT_DARK.getColor()));
+
+        String lang = prefs.getString("LANG_KEY_VALUE", null);
+
+        if(lang == null) {
+            lang = Locale.getDefault().getLanguage();
+            Preferences.getInstance()
+                    .setPreference(this, Preferences.LANG_KEY_VALUE, lang);
+        }
+
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+
+        conf.locale = new Locale(lang);
+        res.updateConfiguration(conf, dm);
 
         super.onCreate(bundle);
         if (Aesthetic.isFirstTime()) setTheme();
@@ -93,7 +122,7 @@ public abstract class MainView extends AppCompatActivity
         bindNavigationViews();
 
         setupDispatcher();
-        navigateById(R.id.nav_schedule);
+        navigateById(currentResource);
 //        scheduleJob();
 
     }
@@ -109,6 +138,33 @@ public abstract class MainView extends AppCompatActivity
                 .colorPrimaryDark(pref.getInt(APP_PRIMARY_DARK.toString(), APP_PRIMARY_DARK.getColor()))
                 .colorAccent(pref.getInt(APP_ACCENT.toString(), APP_ACCENT.getColor()))
                 .apply();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundel) {
+        bundel.putInt(CURRENT_RESOURCE_KEY, currentResource);
+        super.onSaveInstanceState(bundel);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle bundle) {
+        super.onRestoreInstanceState(bundle);
+        if(bundle != null) {
+            currentResource = bundle.getInt(CURRENT_RESOURCE_KEY);
+            navigateById(currentResource);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!profilePendingList.isEmpty())
+            switchFragment(profilePendingList.pop());
     }
 
     @Override
@@ -144,6 +200,7 @@ public abstract class MainView extends AppCompatActivity
      */
     private void setupToolbar(){
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
     }
 
     /**
@@ -173,7 +230,14 @@ public abstract class MainView extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.main_drawer);
         if (drawer.isDrawerOpen(GravityCompat.START))
             drawer.closeDrawer(GravityCompat.START);
-        else super.onBackPressed();
+        else {
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0)
+                super.onBackPressed();
+            else {
+                finishAndRemoveTask();
+                System.exit(0);
+            }
+        }
     }
 
     /**
@@ -215,10 +279,16 @@ public abstract class MainView extends AppCompatActivity
      * @param fragment Asociado a la opción elegida por el usuario
      */
     public void switchFragment(Fragment fragment, int animation){
-        FragmentTransaction transaction = createTransactionWithCustomAnimation(animation);
-        transaction.replace(R.id.main_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commitAllowingStateLoss();
+        if(getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
+            FragmentTransaction transaction = createTransactionWithCustomAnimation(animation);
+            transaction.replace(R.id.main_container, fragment);
+            transaction.addToBackStack(null);
+            transaction.commitAllowingStateLoss();
+        }
+        else {
+            profilePendingList.clear();
+            profilePendingList.add(fragment);
+        }
     }
 
     /**
@@ -244,12 +314,12 @@ public abstract class MainView extends AppCompatActivity
                 .setRetryStrategy(RetryStrategy.DEFAULT_LINEAR)
                 .build();
         dispatcher.mustSchedule(myJob);
-        showStatusMessage(getString(R.string.turned_on_notifications));
+        showStatusMessage(getString(R.string.text_turned_on_notifications));
     }
 
     private void cancelJob() {
         dispatcher.cancelAll();
-        showStatusMessage(getString(R.string.turned_off_notifications));
+        showStatusMessage(getString(R.string.text_turned_off_notifications));
     }
 
     public Notification createNotification(String content){
