@@ -1,5 +1,13 @@
 package imagisoft.rommie;
 
+import android.support.v7.widget.RecyclerView;
+import android.text.util.Linkify;
+import android.view.View;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -7,15 +15,6 @@ import butterknife.ButterKnife;
 import imagisoft.edepa.Message;
 import imagisoft.edepa.Timestamp;
 import imagisoft.edepa.UDateConverter;
-
-import android.view.View;
-import android.widget.TextView;
-import android.text.util.Linkify;
-import android.support.v7.widget.RecyclerView;
-
-import com.bumptech.glide.request.transition.Transition;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 
 public abstract class MessagesViewAdapter

@@ -2,8 +2,8 @@ package imagisoft.rommie;
 
 import android.util.Log;
 
-import com.firebase.jobdispatcher.JobService;
 import com.firebase.jobdispatcher.JobParameters;
+import com.firebase.jobdispatcher.JobService;
 
 import imagisoft.edepa.ScheduleEvent;
 

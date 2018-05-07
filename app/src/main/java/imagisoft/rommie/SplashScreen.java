@@ -1,17 +1,18 @@
 package imagisoft.rommie;
 
-import java.util.Arrays;
-
-import android.os.Bundle;
-import android.view.View;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
-import android.support.v7.app.AppCompatActivity;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Arrays;
 
-public class SplashScreen extends AppCompatActivity{
+
+public class SplashScreen extends AppCompatActivity {
 
     /**
      * Conexión con Firebase
@@ -83,8 +84,8 @@ public class SplashScreen extends AppCompatActivity{
             startActivityForResult(AuthUI.getInstance()
                     .createSignInIntentBuilder()
                     .setIsSmartLockEnabled(true)
-                    .setTheme(R.style.LoginTheme)
-                    .setLogo(R.drawable.img_edepa_logo)
+                    .setTheme(R.style.AppTheme_SplashTheme)
+                    .setLogo(R.drawable.ic_edepa)
                     .setAvailableProviders(Arrays.asList(
                             new AuthUI.IdpConfig.EmailBuilder().build(),
                             new AuthUI.IdpConfig.PhoneBuilder().build(),
@@ -114,7 +115,7 @@ public class SplashScreen extends AppCompatActivity{
      */
     private void startApplication(){
 
-        Intent intent = new Intent(getApplicationContext(), MainViewNavigation.class);
+        Intent intent = new Intent(getApplicationContext(), MainActivityNavigation.class);
         startActivity(intent);
         finish();
 

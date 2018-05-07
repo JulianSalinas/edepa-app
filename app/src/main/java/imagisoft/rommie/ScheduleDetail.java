@@ -1,31 +1,27 @@
 package imagisoft.rommie;
 
+import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.RecyclerView;
+import android.text.util.Linkify;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.github.ivbaranov.mfb.MaterialFavoriteButton;
+
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.FavoriteList;
 import imagisoft.edepa.ScheduleEvent;
 import imagisoft.edepa.UColorConverter;
 
-import android.graphics.Color;
-import android.os.Bundle;
-import android.text.util.Linkify;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.ImageView;
-import android.view.LayoutInflater;
-import android.graphics.drawable.Drawable;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.DefaultItemAnimator;
 
-import com.github.ivbaranov.mfb.MaterialFavoriteButton;
-import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
-
-
-public class ScheduleDetail extends ExhibitorsViewFragment{
+public class ScheduleDetail extends ExhibitorsViewFragment {
 
     int statusBarColor;
 

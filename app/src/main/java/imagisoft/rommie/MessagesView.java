@@ -1,13 +1,14 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
-import butterknife.BindView;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import butterknife.BindView;
 
 
 public abstract class MessagesView extends MainViewFragment {

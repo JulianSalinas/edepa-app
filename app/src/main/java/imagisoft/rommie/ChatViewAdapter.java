@@ -1,12 +1,13 @@
 package imagisoft.rommie;
 
-import imagisoft.edepa.Message;
-
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.LayoutInflater;
-import android.support.v7.widget.RecyclerView;
+
 import com.google.firebase.database.ChildEventListener;
+
+import imagisoft.edepa.Message;
 
 
 public class ChatViewAdapter extends MessagesViewAdapterOnline{

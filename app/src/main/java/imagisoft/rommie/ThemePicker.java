@@ -21,7 +21,8 @@ import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
 import imagisoft.edepa.UColorConverter;
 
-import static imagisoft.rommie.CustomColor.*;
+import static imagisoft.rommie.CustomColor.APP_ACCENT_DARK;
+import static imagisoft.rommie.CustomColor.APP_PRIMARY;
 
 
 public class ThemePicker extends PreferenceFragmentCompat
@@ -31,14 +32,14 @@ public class ThemePicker extends PreferenceFragmentCompat
      * Se obtiene las preferencias para obtener los colores
      */
     private SharedPreferences prefs;
-    private MainViewNavigation activity;
+    private MainActivityNavigation activity;
     private CharSequence toolbarText;
 
     public ThemePicker() {
         // se requiere el constructor vacio
     }
 
-    public static ThemePicker newInstance(MainViewNavigation activity){
+    public static ThemePicker newInstance(MainActivityNavigation activity){
         ThemePicker themePicker = new ThemePicker();
         themePicker.activity = activity;
         return themePicker;

@@ -4,7 +4,7 @@ package imagisoft.edepa;
  * Clase usada para enviar y recibir mensajes del chat
  * Tambien se usa para la sección de noticias porque tiene los mismos datos
  */
-public class Message extends Timestamp{
+public class Message extends Timestamp {
 
     /**
      * El id es para identificar si el mensaje corresponde al usuario

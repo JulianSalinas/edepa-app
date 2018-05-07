@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1016122522358",
+    "firebase_url": "https://rommie-91186.firebaseio.com",
+    "project_id": "rommie-91186",
+    "storage_bucket": "rommie-91186.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1016122522358:android:3c310675a5564c8d",
+        "android_client_info": {
+          "package_name": "imagisoft.rommie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1016122522358-pv16d3kl33tatd2ool2vlb98tcgquoag.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "imagisoft.rommie",
+            "certificate_hash": "ef8744117315e81dc43c118436c83d844f483d0b"
+          }
+        },
+        {
+          "client_id": "1016122522358-elfkvn4s0eip8h7me5ksr8dpvkp70ecv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDD1cFxmQoEJE6LDiiex-HGGbC7Sg7QXJo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1016122522358-elfkvn4s0eip8h7me5ksr8dpvkp70ecv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

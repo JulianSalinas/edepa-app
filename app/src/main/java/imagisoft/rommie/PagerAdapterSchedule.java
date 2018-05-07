@@ -1,15 +1,16 @@
 package imagisoft.rommie;
 
 import android.util.Log;
-import imagisoft.edepa.ScheduleEvent;
 
-import com.google.firebase.database.Query;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import imagisoft.edepa.ScheduleEvent;
 
 
 public class PagerAdapterSchedule extends PagerAdapter {

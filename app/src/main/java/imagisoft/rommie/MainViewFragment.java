@@ -2,20 +2,20 @@ package imagisoft.rommie;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.ViewGroup;
-import butterknife.ButterKnife;
-import imagisoft.edepa.Preferences;
-
-import android.view.LayoutInflater;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Locale;
+
+import butterknife.ButterKnife;
+import imagisoft.edepa.Preferences;
 
 
 public class MainViewFragment extends Fragment {
@@ -33,15 +33,15 @@ public class MainViewFragment extends Fragment {
      * Es un invocada cuando un fragmento ocupa colocar un listener
      * de firebase
      */
-    public MainViewFirebase getFirebase(){
-        return (MainViewFirebase) getActivity();
+    public MainActivityFirebase getFirebase(){
+        return (MainActivityFirebase) getActivity();
     }
 
     /**
      * Es un invocada cuando un fragmento ocupa ocultar o mostrar la toolbar
      */
-    public MainViewFirebase getNavigation(){
-        return (MainViewNavigation) getActivity();
+    public MainActivityFirebase getNavigation(){
+        return (MainActivityNavigation) getActivity();
     }
 
     /**
@@ -130,24 +130,16 @@ public class MainViewFragment extends Fragment {
      * @param fragment Asociado a la opción elegida por el usuario
      */
     public void switchFragment(Fragment fragment){
-        switchFragment(fragment, FADE_ANIMATION);
-    }
-
-    /**
-     * Coloca en la pantalla un fragmento previamente creado usando un animación
-     * @param fragment Asociado a la opción elegida por el usuario
-     */
-    public void switchFragment(Fragment fragment, int animation){
         assert getActivity() != null;
-        MainViewNavigation activity = (MainViewNavigation) getActivity();
-        activity.switchFragment(fragment, animation);
+        MainActivityNavigation activity = (MainActivityNavigation) getActivity();
+        activity.switchFragment(fragment);
     }
 
     /**
      * Reinicia la aplicación. Se utiliza cuando se cambia el idioma o el tema
      */
     public void restartApplication(){
-        Intent refresh = new Intent(getActivity(), MainViewNavigation.class);
+        Intent refresh = new Intent(getActivity(), MainActivityNavigation.class);
         startActivity(refresh);
         getNavigation().finish();
     }
@@ -166,12 +158,12 @@ public class MainViewFragment extends Fragment {
     }
 
     public void setStatusBarColor(int color){
-        MainViewNavigation activity = (MainViewNavigation) getActivity();
+        MainActivityNavigation activity = (MainActivityNavigation) getActivity();
         activity.getWindow().setStatusBarColor(color);
     }
 
     public int getStatusBarColor(){
-        MainViewNavigation activity = (MainViewNavigation) getActivity();
+        MainActivityNavigation activity = (MainActivityNavigation) getActivity();
         return activity.getWindow().getStatusBarColor();
     }
 
@@ -185,7 +177,7 @@ public class MainViewFragment extends Fragment {
      */
     public void showStatusMessage(String msg){
         assert getActivity() != null;
-        MainViewNavigation activity = (MainViewNavigation) getActivity();
+        MainActivityNavigation activity = (MainActivityNavigation) getActivity();
         activity.showStatusMessage(msg);
     }
 

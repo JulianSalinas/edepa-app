@@ -1,8 +1,9 @@
 package imagisoft.edepa;
 
-import java.util.List;
-import java.util.ArrayList;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**

@@ -1,5 +1,14 @@
 package imagisoft.rommie;
 
+import android.app.Activity;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.github.ivbaranov.mfb.MaterialFavoriteButton;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -9,14 +18,6 @@ import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
 import imagisoft.edepa.ScheduleEventType;
 import imagisoft.edepa.UDateConverter;
-
-import android.view.View;
-import android.app.Activity;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.view.LayoutInflater;
-import android.support.v7.widget.RecyclerView;
-import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 
 /**
  * Sirve para enlazar las funciones a una actividad en específico

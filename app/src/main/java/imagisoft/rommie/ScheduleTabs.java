@@ -2,14 +2,14 @@ package imagisoft.rommie;
 
 import android.arch.lifecycle.Lifecycle;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.LayoutInflater;
-import android.widget.ViewSwitcher;
-import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ViewSwitcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public class ScheduleTabs extends MainViewFragment implements TabLayout.OnTabSel
      */
     private int currentTab;
     private TabLayout tabLayout;
-    private Fragment [] tabOptions;
+    private Fragment[] tabOptions;
     protected ViewSwitcher switcher;
 
     private List<Fragment> profilePendingList = new ArrayList<>();

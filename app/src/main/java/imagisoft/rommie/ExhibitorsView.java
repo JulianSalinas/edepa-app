@@ -1,13 +1,14 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
-import android.view.View;
-import butterknife.BindView;
-import android.view.ViewGroup;
-import android.view.LayoutInflater;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.SearchView;
+
+import butterknife.BindView;
 
 
 public class ExhibitorsView extends ExhibitorsViewFragment implements SearchView.OnQueryTextListener{

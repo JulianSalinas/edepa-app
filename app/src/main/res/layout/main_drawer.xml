@@ -22,8 +22,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         android:background="@color/app_white"
-        app:itemIconTint="?android:textColorPrimary"
-        app:itemTextColor="?android:textColorPrimary"
+
         app:headerLayout="@layout/main_header"
         app:menu="@menu/nav_menu"
         android:tag=":aesthetic_ignore"/>

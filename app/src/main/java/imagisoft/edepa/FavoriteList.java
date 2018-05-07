@@ -1,15 +1,15 @@
 package imagisoft.edepa;
 
-import java.lang.reflect.Type;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 public class FavoriteList extends Preferences {

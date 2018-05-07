@@ -1,23 +1,22 @@
 package imagisoft.rommie;
 
+import android.graphics.Color;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import agency.tango.android.avatarview.AvatarPlaceholder;
+import agency.tango.android.avatarview.utils.StringUtils;
+import agency.tango.android.avatarview.views.AvatarView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import imagisoft.edepa.Exhibitor;
-
-import android.view.View;
-import android.graphics.Color;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.view.LayoutInflater;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
-
-import agency.tango.android.avatarview.views.AvatarView;
-import agency.tango.android.avatarview.AvatarPlaceholder;
-import agency.tango.android.avatarview.utils.StringUtils;
 import imagisoft.edepa.UNormalizerSearch;
 
 

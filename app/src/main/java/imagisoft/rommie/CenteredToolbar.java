@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.TextView;
+
 import com.afollestad.aesthetic.AestheticToolbar;
 
 public class CenteredToolbar extends AestheticToolbar {
@@ -59,7 +60,7 @@ public class CenteredToolbar extends AestheticToolbar {
             centeredTitleTextView.setGravity(Gravity.CENTER);
             centeredTitleTextView.setTextAppearance(getContext(), R.style.TextAppearance_AppCompat_Widget_ActionBar_Title);
 
-            Toolbar.LayoutParams lp = new Toolbar.LayoutParams(LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+            Toolbar.LayoutParams lp = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
             lp.gravity = Gravity.CENTER;
             centeredTitleTextView.setLayoutParams(lp);
 

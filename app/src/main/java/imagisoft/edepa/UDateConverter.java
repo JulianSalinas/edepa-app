@@ -2,9 +2,9 @@ package imagisoft.edepa;
 
 import android.util.Log;
 
-import java.util.Locale;
-import java.util.Calendar;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class UDateConverter {
 

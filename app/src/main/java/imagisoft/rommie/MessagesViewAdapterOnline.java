@@ -1,13 +1,14 @@
 package imagisoft.rommie;
 
 import android.util.Log;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+
 import imagisoft.edepa.Message;
 import imagisoft.edepa.Timestamp;
 import imagisoft.edepa.UDateConverter;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ChildEventListener;
 
 
 public abstract class MessagesViewAdapterOnline extends MessagesViewAdapter {

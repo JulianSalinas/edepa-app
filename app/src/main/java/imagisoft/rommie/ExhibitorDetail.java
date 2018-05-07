@@ -1,22 +1,21 @@
 package imagisoft.rommie;
 
+import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import java.util.List;
 
+import agency.tango.android.avatarview.AvatarPlaceholder;
+import agency.tango.android.avatarview.views.AvatarView;
 import butterknife.BindView;
 import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.ScheduleBlock;
-
-import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.ImageView;
-import android.view.LayoutInflater;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.DefaultItemAnimator;
-
-import agency.tango.android.avatarview.views.AvatarView;
-import agency.tango.android.avatarview.AvatarPlaceholder;
 
 
 public class ExhibitorDetail extends MainViewFragment{

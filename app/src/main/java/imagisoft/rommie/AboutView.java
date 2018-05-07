@@ -1,12 +1,12 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.LayoutInflater;
 
-import mehdi.sakout.aboutpage.Element;
 import mehdi.sakout.aboutpage.AboutPage;
+import mehdi.sakout.aboutpage.Element;
 
 public class AboutView extends MainViewFragment {
 
@@ -22,7 +22,7 @@ public class AboutView extends MainViewFragment {
         return new AboutPage(getNavigation())
                 .isRTL(false)
                 .addItem(versionElement)
-                .setImage(R.drawable.img_edepa_logo)
+                .setImage(R.drawable.ic_edepa)
                 .addGroup(getResources().getString(R.string.text_connect_with_us))
                 .addEmail("july12sali@gmail.com", "Julian Salinas")
                 .addEmail("bdinarte1996@gmail.com", "Brandon Dinarte")

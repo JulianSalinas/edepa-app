@@ -26,7 +26,7 @@
                 android:id="@+id/line"
                 android:layout_width="@dimen/space_small"
                 android:layout_height="match_parent"
-                android:background="@drawable/gradient_cherry"
+                android:background="@color/material_blue"
                 android:orientation="horizontal">
             </View>
 

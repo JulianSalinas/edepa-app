@@ -1,17 +1,18 @@
 package imagisoft.rommie;
 
-import java.util.List;
-import java.util.ArrayList;
-
-import static java.lang.Math.abs;
-import imagisoft.edepa.ScheduleBlock;
-import imagisoft.edepa.ScheduleEvent;
-import imagisoft.edepa.UDateConverter;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import org.springframework.util.LinkedMultiValueMap;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import imagisoft.edepa.ScheduleBlock;
+import imagisoft.edepa.ScheduleEvent;
+import imagisoft.edepa.UDateConverter;
+
+import static java.lang.Math.abs;
 
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
@@ -27,7 +28,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     /**
      * Se guarda referencia a la páginas para reutilizarlas
      */
-    protected Fragment [] pages;
+    protected Fragment[] pages;
 
     /**
      * Representa donde está ubicado este adaptador

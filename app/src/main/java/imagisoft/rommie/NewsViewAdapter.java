@@ -1,14 +1,13 @@
 package imagisoft.rommie;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.LayoutInflater;
 
 import com.google.firebase.database.ChildEventListener;
 
 import imagisoft.edepa.Message;
-import imagisoft.edepa.Timestamp;
 
 /**
  * Sirve para enlazar las funciones a una actividad en específico
