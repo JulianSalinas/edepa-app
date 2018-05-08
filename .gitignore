@@ -8,3 +8,11 @@
 /build
 /captures
 .externalNativeBuild
+
+\.idea/caches/
+
+\.idea/dictionaries/
+
+\.idea/inspectionProfiles/
+
+\.idea

@@ -1,15 +1,22 @@
 package imagisoft.rommie;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
+
+import imagisoft.edepa.Preferences;
 
 
 public class SplashScreen extends AppCompatActivity {
@@ -39,21 +46,49 @@ public class SplashScreen extends AppCompatActivity {
 
         super.onCreate(bundle);
 
-        setContentView(R.layout.splash_screen);
-        View contentView = findViewById(R.id.fullscreen_content);
+        Preferences prefs = Preferences.getInstance();
 
-        // Esconde los items que no son importantes en la pantalla
-        contentView.setSystemUiVisibility(
-                  View.SYSTEM_UI_FLAG_LOW_PROFILE
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        boolean isFirstUse = prefs
+                .getBooleanPreference(this, Preferences.FIRST_USE_KEY_VALUE);
+
+        if(!isFirstUse || isOnline()) {
+
+            if(isFirstUse && isOnline())
+                prefs.setPreference(this, Preferences.FIRST_USE_KEY_VALUE, false);
+
+            setContentView(R.layout.splash_screen);
+
+        }
+
+        else {
+
+            setContentView(R.layout.fragment_blank);
+            TextView textView = findViewById(R.id.description_text_view);
+            textView.setText(R.string.text_you_need_internet);
+            View content = findViewById(R.id.fullscreen_content);
+
+            content.setOnClickListener(v -> {
+                finishAndRemoveTask();
+                System.exit(0);
+            });
+
+        }
 
         startDatabase();
         startLoginActivity();
 
+    }
+
+    /**
+     * Revisa si existe conexión a internet
+     */
+    private boolean isOnline() {
+
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
     /**
@@ -93,8 +128,8 @@ public class SplashScreen extends AppCompatActivity {
                     .build(), RC_SIGN_IN
             );
         }
-
         else startApplication();
+
 
     }
 
@@ -103,22 +138,18 @@ public class SplashScreen extends AppCompatActivity {
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN && resultCode == RESULT_OK)
             startApplication();
-
     }
 
     /**
      * Después de haber cargado los datos de la aplicación, se utiliza está función para abrirla
      */
     private void startApplication(){
-
         Intent intent = new Intent(getApplicationContext(), MainActivityNavigation.class);
         startActivity(intent);
         finish();
-
     }
 
 }

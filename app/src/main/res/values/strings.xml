@@ -105,6 +105,7 @@
     <string name="text_choose_theme">Choose a theme</string>
     <string name="text_without_favorites">You have\nnot favorites</string>
     <string name="text_without_ongoing">No ongoing\nevents</string>
+    <string name="text_you_need_internet">Necesitas conexión \na internet para sincronizar \npor primera vez</string>
 
     <!--Testing strings - No es necesario traducirlos-->
     <string name="test_dummy">Dummy</string>

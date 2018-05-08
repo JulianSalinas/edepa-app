@@ -11,7 +11,7 @@
     </style>
 
     <style name="AppTheme.SplashTheme">
-        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="android:windowBackground">@drawable/ic_edepa_splash</item>
     </style>
 
     <style
