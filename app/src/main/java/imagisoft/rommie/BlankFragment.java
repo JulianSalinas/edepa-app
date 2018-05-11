@@ -1,8 +1,6 @@
 package imagisoft.rommie;
 
-
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,19 +10,42 @@ import butterknife.BindView;
 
 public class BlankFragment extends MainActivityFragment {
 
+    /**
+     * Usada paa obtener el argumento dentro de bundle
+     */
+    private String DESCRIPTION_KEY = "DESCRIPTION";
+
+    /**
+     * Información que se muestra en el fragmento en blanco
+     */
     private String description;
 
+    /**
+     * Contenedor visual de la variable "description"
+     */
     @BindView(R.id.description_text_view)
     TextView descriptionTextView;
 
+    /**
+     * Se requiere el constructor vacio
+     */
     public BlankFragment() {
-        // Required empty public constructor
+
     }
 
-    public static BlankFragment newInstance(String text){
-        BlankFragment blankFragment = new BlankFragment();
-        blankFragment.description = text;
-        return blankFragment;
+    /**
+     * Se toma la descripción desde los argumentos
+     * @param bundle: Contiene la descripción
+     */
+    @Override
+    public void onCreate(Bundle bundle) {
+
+        super.onCreate(bundle);
+
+        if(bundle != null)
+            description = bundle.getString(DESCRIPTION_KEY);
+        else
+            description = getString(R.string.text_without_description);
     }
 
     @Override
@@ -33,7 +54,7 @@ public class BlankFragment extends MainActivityFragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle bundle) {
+    public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
         descriptionTextView.setText(description);
     }

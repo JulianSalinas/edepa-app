@@ -3,10 +3,10 @@ package imagisoft.rommie;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +22,83 @@ import imagisoft.edepa.Preferences;
 
 public abstract class MainActivityFragment extends Fragment {
 
-    private final Preferences prefs;
-
+    /**
+     * Cuando se cambian los fragmentos es necesario conservar el
+     * nombre del anterior para poder colocarlo al presionar atrás
+     */
     protected CharSequence lastUsedToolbarText;
 
+    protected static String TAG = "MainActivityFragment";
+
+    protected final Preferences prefs = Preferences.getInstance();
+
+    /**
+     * Requiere constructor vacío
+     */
     public MainActivityFragment() {
-        prefs = Preferences.getInstance();
+
+    }
+
+    @Override
+    public void onCreate(Bundle bundle) {
+        Log.i(TAG, "onCreate()");
+        super.onCreate(bundle);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
+        Log.i(TAG, "onCreateView()");
+        return super.onCreateView(inflater, container, bundle);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle bundle) {
+        Log.i(TAG, "onActivityCreate()");
+        super.onActivityCreated(bundle);
+        lastUsedToolbarText = getToolbar().getTitle();
+    }
+
+    @Override
+    public void onStart() {
+        Log.i(TAG, "onStart()");
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        Log.i(TAG, "onResume()");
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        Log.i(TAG, "onPause()");
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        Log.i(TAG, "onStop()");
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.i(TAG, "onDestroy()");
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDestroyView() {
+        Log.i(TAG, "onDestroyView()");
+        super.onDestroyView();
+        getToolbar().setTitle(lastUsedToolbarText);
+    }
+
+    @Override
+    public void onDetach() {
+        Log.i(TAG, "onDetach()");
+        super.onDetach();
     }
 
     /**
@@ -40,7 +111,7 @@ public abstract class MainActivityFragment extends Fragment {
     }
 
     /**
-     * Es un invocada cuando un fragmento ocupa colocar un listener
+     * Es invocada cuando un fragmento ocupa colocar un listener
      * de firebase
      */
     public MainActivityFirebase getFirebase(){
@@ -48,7 +119,7 @@ public abstract class MainActivityFragment extends Fragment {
     }
 
     /**
-     * Es un invocada cuando un fragmento ocupa ocultar o mostrar la toolbar
+     * Es invocada cuando un fragmento ocupa ocultar o mostrar la toolbar
      */
     public MainActivityFirebase getNavigation(){
         return (MainActivityNavigation) getActivity();
@@ -173,18 +244,6 @@ public abstract class MainActivityFragment extends Fragment {
 
     public void setToolbarText(int resource){
         getNavigation().getToolbar().setTitle(resource);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle bundle) {
-        super.onActivityCreated(bundle);
-        lastUsedToolbarText = getToolbar().getTitle();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        getToolbar().setTitle(lastUsedToolbarText);
     }
 
     /**

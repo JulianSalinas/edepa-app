@@ -128,5 +128,6 @@
     <string name="text_lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ullamcorper aliquet dictum. Maecenas in imperdiet dui.</string>
     <string name="text_atelier">Taller</string>
     <string name="text_fair">Feria-EDEPA</string>
+    <string name="text_without_description">Sin descripción</string>
 
 </resources>
