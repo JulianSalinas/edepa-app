@@ -126,5 +126,7 @@
     <string name="test_event">"Esto es un nombre lo suficientemente largo para cubrir dos líneas"</string>
     <string name="test_congress">Encuentro sobre la Didáctica de la Estadística, Probabilidad y el Análisis de datos</string>
     <string name="text_lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ullamcorper aliquet dictum. Maecenas in imperdiet dui.</string>
+    <string name="text_atelier">Taller</string>
+    <string name="text_fair">Feria-EDEPA</string>
 
 </resources>

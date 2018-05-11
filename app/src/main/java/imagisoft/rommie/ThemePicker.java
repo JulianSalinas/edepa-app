@@ -10,16 +10,14 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
 import com.afollestad.aesthetic.Aesthetic;
 import com.kizitonwose.colorpreferencecompat.ColorPreferenceCompat;
 import com.larswerkman.lobsterpicker.LobsterPicker;
 import com.larswerkman.lobsterpicker.sliders.LobsterOpacitySlider;
 import com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider;
-import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
-import imagisoft.edepa.UColorConverter;
+import imagisoft.miscellaneous.ColorConverter;
 
 import static imagisoft.rommie.CustomColor.APP_ACCENT_DARK;
 import static imagisoft.rommie.CustomColor.APP_PRIMARY;
@@ -132,7 +130,7 @@ public class ThemePicker extends PreferenceFragmentCompat
 
             case APP_PRIMARY:
                 theme.colorPrimary(color);
-                color = UColorConverter.darken(color, 12);
+                color = ColorConverter.darken(color, 12);
                 prefs.edit().putInt(APP_ACCENT_DARK.toString(), color).apply();
                 break;
 

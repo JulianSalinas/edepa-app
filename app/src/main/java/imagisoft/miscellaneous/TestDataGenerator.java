@@ -1,10 +1,14 @@
-package imagisoft.edepa;
+package imagisoft.miscellaneous;
 
 import java.util.ArrayList;
 
+import imagisoft.edepa.Exhibitor;
+import imagisoft.edepa.Message;
+import imagisoft.edepa.ScheduleEvent;
+import imagisoft.edepa.ScheduleEventType;
 import imagisoft.rommie.ChatView;
 
-public class UTestGenerator {
+public class TestDataGenerator {
 
     public static ArrayList<Message> createNews(){
 

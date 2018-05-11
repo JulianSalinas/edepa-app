@@ -14,7 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import imagisoft.edepa.Message;
 import imagisoft.edepa.Timestamp;
-import imagisoft.edepa.UDateConverter;
+import imagisoft.miscellaneous.DateConverter;
 
 
 public abstract class MessagesViewAdapter
@@ -71,7 +71,7 @@ public abstract class MessagesViewAdapter
             MessageViewHolder holder = (MessageViewHolder) viewHolder;
             holder.msgUsername.setText(msg.getUsername());
             holder.msgContent.setText(msg.getContent());
-            holder.msgTimeDescription.setText(UDateConverter.extractTime(msg.getTime()));
+            holder.msgTimeDescription.setText(DateConverter.extractTime(msg.getTime()));
             Linkify.addLinks(holder.msgContent, Linkify.WEB_URLS);
 
         }
@@ -79,7 +79,7 @@ public abstract class MessagesViewAdapter
         else {
 
             TimestampViewHolder holder = (TimestampViewHolder) viewHolder;
-            holder.chatSeparatorTime.setText(UDateConverter.extractDate(timestamp.getTime()));
+            holder.chatSeparatorTime.setText(DateConverter.extractDate(timestamp.getTime()));
 
         }
 

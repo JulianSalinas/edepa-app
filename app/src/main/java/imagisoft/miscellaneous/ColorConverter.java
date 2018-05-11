@@ -1,9 +1,19 @@
-package imagisoft.edepa;
+package imagisoft.miscellaneous;
 
 import android.graphics.Color;
 
-public class UColorConverter {
+/**
+ * Sirve para realizar ciertas operaciones con los colores
+ * como aclararlos u oscurecerlos
+ */
+public class ColorConverter {
 
+    /**
+     * Oscurece un color dado
+     * @param base: Color base
+     * @param amount: Cantidad que se debe oscurecer.
+     *                Normalmente 12 para los colores material
+     */
     public static int darken(int base, int amount) {
         float[] hsv = new float[3];
         Color.colorToHSV(base, hsv);
@@ -16,10 +26,10 @@ public class UColorConverter {
     }
 
     /**
-     * lightens a given color
-     * @param base base color
-     * @param amount amount between 0 and 100
-     * @return lightened
+     * Enclarece un color dado
+     * @param base: Color base
+     * @param amount: Cantidad que se debe enclarecer
+     *                Normalmente 12 para los colores material
      */
     public static int lighten(int base, int amount) {
         float[] hsv = new float[3];
@@ -91,6 +101,5 @@ public class UColorConverter {
                 light + sat //Value
         };
     }
-
 
 }

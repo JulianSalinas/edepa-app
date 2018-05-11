@@ -1,12 +1,11 @@
-package imagisoft.edepa;
+package imagisoft.miscellaneous;
 
 import android.util.Log;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Locale;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
-public class UDateConverter {
+public class DateConverter {
 
     /**
      * Extrae la fecha (sin hora) de un tipo de dato Long
@@ -44,7 +43,7 @@ public class UDateConverter {
      */
     public static Long stringToLong(String datetime) {
         try{ return stringToLongWrapper(datetime); }
-        catch (Exception e){ Log.i(UDateConverter.class.getName(), e.getMessage()); }
+        catch (Exception e){ Log.i(DateConverter.class.getName(), e.getMessage()); }
         return 0L;
     }
 

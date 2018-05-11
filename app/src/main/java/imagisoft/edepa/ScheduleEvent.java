@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import imagisoft.miscellaneous.DateConverter;
+
 
 /**
  * Contiene toda la información de un evento en particular
@@ -34,80 +36,6 @@ public class ScheduleEvent extends ScheduleBlock {
     private List<Exhibitor> exhibitors;
 
     /**
-     * Getters de los atributos fundamentales
-     */
-    public String getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public ScheduleEventType getEventype() {
-        return eventype;
-    }
-
-    public void setBriefEnglish(String briefEnglish) {
-        this.briefEnglish = briefEnglish;
-    }
-
-    public void setBriefSpanish(String briefSpanish) {
-        this.briefSpanish = briefSpanish;
-    }
-
-    /**
-     * Solo se retorna uno de los resumenes
-     * Esto va a depender del idioma que tenga el usuario en la
-     * configuración y de los idiomas presentes .
-     * @param lang: "es" o "en
-     */
-    public String getBrief(String lang) {
-
-        String brief =
-                briefEnglish != null && briefSpanish == null ? briefEnglish:
-                briefEnglish == null && briefSpanish != null ? briefSpanish: null;
-
-        if(brief != null) return brief;
-
-        else if (briefEnglish != null & briefSpanish != null){
-            return !lang.equals("en") ? briefSpanish : briefEnglish;
-        }
-
-        else return createDefaultBrief();
-
-    }
-
-    public String createDefaultBrief(){
-
-        return "La actividad está programada en el horario de " +
-                UDateConverter.extractTime(getStart()) + " a " +
-                UDateConverter.extractTime(getEnd()) + " en el " + location +
-                ". Puede utilizar el chat para realizar cualquier consulta.";
-
-    }
-
-    /**
-     * Obtiene la lista de expositores asistentes
-     */
-    public List<Exhibitor> getExhibitors() {
-        return exhibitors;
-    }
-
-    /**
-     * Agrega un nuevo expositro al evento.
-     * Esta función solo es usada para generar pruebas
-     */
-    public ScheduleEvent addExhibitor(Exhibitor exhibitor){
-        exhibitors.add(exhibitor);
-        return this;
-    }
-
-    /**
      * Contructor vacío requerido por firebase
      */
     public ScheduleEvent(){
@@ -131,23 +59,87 @@ public class ScheduleEvent extends ScheduleBlock {
     }
 
     /**
+     * Getters de los atributos del evento
+     */
+    public String getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public ScheduleEventType getEventype() {
+        return eventype;
+    }
+
+    public List<Exhibitor> getExhibitors() {
+        return exhibitors;
+    }
+
+    /**
+     * Solo se retorna uno de los resumenes
+     * Esto va a depender del idioma que tenga el usuario en la configuración
+     * Si el resumen solo está disponible en un idioma entonces se usa ese
+     * @param lang: "es" o "en"
+     */
+    public String getBrief(String lang) {
+
+        String brief =
+                briefEnglish != null && briefSpanish == null ? briefEnglish:
+                briefEnglish == null && briefSpanish != null ? briefSpanish: null;
+
+        if(brief != null) return brief;
+
+        else if (briefEnglish != null & briefSpanish != null){
+            return lang.equals("es") ? briefSpanish : briefEnglish;
+        }
+
+        else return createDefaultBrief();
+
+    }
+
+    /**
+     * Se usa en caso que el administrador no haya régistrado ningún resumen
+     * para el evento.
+     * TODO: Mover esto de lugar
+     */
+    public String createDefaultBrief(){
+
+        return "La actividad está programada en el horario de " +
+                DateConverter.extractTime(getStart()) + " a " +
+                DateConverter.extractTime(getEnd()) + " en el " + location +
+                ". Puede utilizar el chat para realizar cualquier consulta.";
+
+    }
+
+    /**
+     * Agrega un nuevo expositro al evento.
+     * Esta función solo es usada para generar pruebas
+     */
+    public ScheduleEvent addExhibitor(Exhibitor exhibitor){
+        exhibitors.add(exhibitor);
+        return this;
+    }
+
+    /**
      * Permite pasar como parámetro al servicio de alarma
      */
     public static String toJson(ScheduleEvent event){
-
-        Gson g = new Gson();
-        return g.toJson(event);
-
+        Gson gson = new Gson();
+        return gson.toJson(event);
     }
 
     /**
      * Proceso inversa de la función toJSon
      */
     public static ScheduleEvent fromJson(String event){
-
-        Gson g = new Gson();
-        return g.fromJson(event, ScheduleEvent.class);
-
+        Gson gson = new Gson();
+        return gson.fromJson(event, ScheduleEvent.class);
     }
 
     /**

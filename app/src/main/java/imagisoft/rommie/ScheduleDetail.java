@@ -18,7 +18,7 @@ import butterknife.BindView;
 import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.FavoriteList;
 import imagisoft.edepa.ScheduleEvent;
-import imagisoft.edepa.UColorConverter;
+import imagisoft.miscellaneous.ColorConverter;
 
 
 public class ScheduleDetail extends ExhibitorsViewFragment {
@@ -122,7 +122,7 @@ public class ScheduleDetail extends ExhibitorsViewFragment {
 
         int color = getResources().getColor(event.getEventype().getColor());
         emphasisImageView.setBackgroundColor(color);
-        setStatusBarColor(UColorConverter.darken(color, 12));
+        setStatusBarColor(ColorConverter.darken(color, 12));
 
         iconMap.setOnClickListener(v -> switchFragment(new InformationMap()));
         buttonBack.setOnClickListener(v -> getNavigation().onBackPressed());

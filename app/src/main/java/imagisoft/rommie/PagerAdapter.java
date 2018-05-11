@@ -2,7 +2,6 @@ package imagisoft.rommie;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 
 import org.springframework.util.LinkedMultiValueMap;
 
@@ -11,7 +10,7 @@ import java.util.List;
 
 import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
-import imagisoft.edepa.UDateConverter;
+import imagisoft.miscellaneous.DateConverter;
 
 import static java.lang.Math.abs;
 
@@ -113,7 +112,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
      */
     public LinkedMultiValueMap<String, ScheduleBlock> getBlocksByDay(){
         for(ScheduleBlock event : blocks)
-            blocksByDay.add(UDateConverter.extractDate(event.getStart()), event);
+            blocksByDay.add(DateConverter.extractDate(event.getStart()), event);
         return blocksByDay;
     }
 

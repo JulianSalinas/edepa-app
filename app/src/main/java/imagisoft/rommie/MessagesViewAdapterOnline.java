@@ -8,7 +8,7 @@ import com.google.firebase.database.DatabaseError;
 
 import imagisoft.edepa.Message;
 import imagisoft.edepa.Timestamp;
-import imagisoft.edepa.UDateConverter;
+import imagisoft.miscellaneous.DateConverter;
 
 
 public abstract class MessagesViewAdapterOnline extends MessagesViewAdapter {
@@ -29,7 +29,7 @@ public abstract class MessagesViewAdapterOnline extends MessagesViewAdapter {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
             Message receivedMessage = dataSnapshot.getValue(Message.class);
-            String receivedDate = UDateConverter.extractDate(receivedMessage.getTime());
+            String receivedDate = DateConverter.extractDate(receivedMessage.getTime());
 
             if (lastMessage == null) {
                 lastMessage = receivedMessage;
@@ -37,7 +37,7 @@ public abstract class MessagesViewAdapterOnline extends MessagesViewAdapter {
                 notifyItemInserted(msgs.size()-1);;
             }
 
-            String lastReceivedDate = UDateConverter.extractDate(lastMessage.getTime());
+            String lastReceivedDate = DateConverter.extractDate(lastMessage.getTime());
 
             if(receivedDate.equals(lastReceivedDate)){
                 msgs.add(receivedMessage);

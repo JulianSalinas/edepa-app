@@ -78,8 +78,8 @@ public abstract class MainActivityFirebase extends MainActivityCustom {
         this.congressReference = root.child("congress");
 
         // Linea que se debe descomentar cuando se necesita subir la información de prueba
-        // this.scheduleReference.setValue(UTestGenerator.createSchedule());
-        // ArrayList<Message> msgs = UTestGenerator.createNews();
+        // this.scheduleReference.setValue(TestDataGenerator.createSchedule());
+        // ArrayList<Message> msgs = TestDataGenerator.createNews();
         // for (Message msg : msgs)
         //    newsReference.push().setValue(msg);
 

@@ -17,7 +17,7 @@ import imagisoft.edepa.FavoriteList;
 import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
 import imagisoft.edepa.ScheduleEventType;
-import imagisoft.edepa.UDateConverter;
+import imagisoft.miscellaneous.DateConverter;
 
 /**
  * Sirve para enlazar las funciones a una actividad en específico
@@ -178,9 +178,9 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         assert activity != null;
 
         return  activity.getResources().getString(R.string.text_from) + " " +
-                UDateConverter.extractTime(block.getStart()) + " " +
+                DateConverter.extractTime(block.getStart()) + " " +
                 activity.getResources().getString(R.string.text_to) + " " +
-                UDateConverter.extractTime(block.getEnd());
+                DateConverter.extractTime(block.getEnd());
 
     }
 

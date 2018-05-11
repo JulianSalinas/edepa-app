@@ -1,6 +1,5 @@
 package imagisoft.rommie;
 
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import butterknife.BindView;
 import imagisoft.edepa.Congress;
-import imagisoft.edepa.UDateConverter;
+import imagisoft.miscellaneous.DateConverter;
 
 
 public class InformationView extends MainActivityFragment implements OnMapReadyCallback {
@@ -91,8 +90,8 @@ public class InformationView extends MainActivityFragment implements OnMapReadyC
         nameTextView.setText(congress.getName());
         locationTextView.setText(congress.getLocation());
         descriptionTextView.setText(congress.getDescription());
-        endTextView.setText(UDateConverter.extractDate(congress.getEnd()));
-        startTextView.setText(UDateConverter.extractDate(congress.getStart()));
+        endTextView.setText(DateConverter.extractDate(congress.getEnd()));
+        startTextView.setText(DateConverter.extractDate(congress.getStart()));
 
         iconMap.setOnClickListener(v -> switchFragment(miniMap));
         buttonBack.setOnClickListener(v -> getNavigation().onBackPressed());

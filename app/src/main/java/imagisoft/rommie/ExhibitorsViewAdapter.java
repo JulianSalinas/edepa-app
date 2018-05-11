@@ -17,7 +17,7 @@ import agency.tango.android.avatarview.views.AvatarView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import imagisoft.edepa.Exhibitor;
-import imagisoft.edepa.UNormalizerSearch;
+import imagisoft.miscellaneous.SearchNormalizer;
 
 
 public class ExhibitorsViewAdapter
@@ -113,13 +113,13 @@ public class ExhibitorsViewAdapter
      */
     public void filter(String keyword){
 
-        keyword = UNormalizerSearch.removeAccents(keyword.toLowerCase());
+        keyword = SearchNormalizer.removeAccents(keyword.toLowerCase());
 
         filteredExhibitors = new ArrayList<>();
         for(Exhibitor exhibitor : exhibitors){
 
-            String name = UNormalizerSearch.removeAccents(exhibitor.getCompleteName().toLowerCase());
-            String title = UNormalizerSearch.removeAccents(exhibitor.getPersonalTitle().toLowerCase());
+            String name = SearchNormalizer.removeAccents(exhibitor.getCompleteName().toLowerCase());
+            String title = SearchNormalizer.removeAccents(exhibitor.getPersonalTitle().toLowerCase());
 
             if(name.contains(keyword) || title.contains(keyword))
                 filteredExhibitors.add(exhibitor);

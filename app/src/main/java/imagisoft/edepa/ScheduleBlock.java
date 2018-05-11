@@ -1,5 +1,7 @@
 package imagisoft.edepa;
 
+import imagisoft.miscellaneous.DateConverter;
+
 /**
  * Solo proporciona las horas para un bloque, evento o noticia
  */
@@ -42,10 +44,8 @@ public class ScheduleBlock {
      * Contructor a partir de timestamps
      */
     public ScheduleBlock(Long start, Long end) {
-
         this.end = end;
         this.start = start;
-
     }
 
     /**
@@ -53,10 +53,8 @@ public class ScheduleBlock {
      * el formato dd/mm/yyyy hh:mm <am|pm>
      */
     public ScheduleBlock(String start, String end) {
-
-        this.end = UDateConverter.stringToLong(end);
-        this.start = UDateConverter.stringToLong(start);
-
+        this.end = DateConverter.stringToLong(end);
+        this.start = DateConverter.stringToLong(start);
     }
 
 }

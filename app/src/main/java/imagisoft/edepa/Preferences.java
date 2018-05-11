@@ -9,11 +9,14 @@ public class Preferences {
     /**
      * Constantes para poder guardar y cargar preferencias
      */
-    public static final String FIRST_USE_KEY_VALUE = "FIRST_USE_KEY_VALUE";
     public static final String LANG_KEY_VALUE = "LANG_KEY_VALUE";
     public static final String USER_KEY_VALUE = "USER_KEY_VALUE";
+    public static final String FIRST_USE_KEY_VALUE = "FIRST_USE_KEY_VALUE";
     public static final String ALARM_STATE_KEY_VALUE = "ALARM_STATE_KEY_VALUE";
 
+    /**
+     * Solo permite acceder a una instancia de preferencias
+     */
     private static final Preferences ourInstance = new Preferences();
 
     /**
@@ -45,10 +48,8 @@ public class Preferences {
      * @param key: Asociado al valor que se debe obtener
      */
     public String getStringPreference(Context context, String key) {
-
         SharedPreferences prefs = getSharedPreferences(context);
         return prefs.getString(key, null);
-
     }
 
     /**
@@ -57,10 +58,8 @@ public class Preferences {
      * @param key: Asociado al valor que se debe obtener
      */
     public Boolean getBooleanPreference(Context context, String key) {
-
         SharedPreferences prefs = getSharedPreferences(context);
         return prefs.getBoolean(key, true);
-
     }
 
     /**
@@ -70,12 +69,10 @@ public class Preferences {
      * @param value: Valor de la preferencia a guardar
      */
     public void setPreference(Context context, String key, Object value) {
-
         SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         if(value instanceof String) editor.putString(key, (String) value);
         else editor.putBoolean(key, (Boolean) value);
         editor.apply();
-
     }
 
 }
