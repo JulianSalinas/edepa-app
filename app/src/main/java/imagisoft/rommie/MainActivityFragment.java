@@ -2,6 +2,8 @@ package imagisoft.rommie;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -18,16 +20,24 @@ import butterknife.ButterKnife;
 import imagisoft.edepa.Preferences;
 
 
-public class MainViewFragment extends Fragment {
+public abstract class MainActivityFragment extends Fragment {
 
-    Preferences prefs = Preferences.getInstance();
+    private final Preferences prefs;
+
+    protected CharSequence lastUsedToolbarText;
+
+    public MainActivityFragment() {
+        prefs = Preferences.getInstance();
+    }
+
     /**
-     * Posibles parámetros para usar con la función switchFragment
+     * Enlaza los componentes visuales con sus vistas
      */
-    public final int FADE_ANIMATION = 0;
-    public final int SLIDE_ANIMATION = 1;
-
-    protected CharSequence toolbarText;
+    protected View inflate(LayoutInflater inflater, ViewGroup container, int resource){
+        View view = inflater.inflate(resource, container, false);
+        ButterKnife.bind(this, view);
+        return view;
+    }
 
     /**
      * Es un invocada cuando un fragmento ocupa colocar un listener
@@ -117,15 +127,6 @@ public class MainViewFragment extends Fragment {
     }
 
     /**
-     * Enlaza los componentes visuales con sus vistas
-     */
-    protected View inflate(LayoutInflater inflater, ViewGroup container, int resource){
-        View view = inflater.inflate(resource, container, false);
-        ButterKnife.bind(this, view);
-        return view;
-    }
-
-    /**
      * Coloca en la pantalla un fragmento previamente creado
      * @param fragment Asociado a la opción elegida por el usuario
      */
@@ -144,15 +145,10 @@ public class MainViewFragment extends Fragment {
         getNavigation().finish();
     }
 
-    /**
-     * Oculta o muestra la toolbar para fragmentos que lo requieren
-     * @param show: True si se debe mostrar
-     */
-
-    public void setToolbarVisible(boolean show){
+    public void setToolbarVisibility(int visibility){
         ActionBar toolbar = getNavigation().getSupportActionBar();
         if(toolbar != null) {
-            if (!show) toolbar.hide();
+            if (visibility != View.VISIBLE) toolbar.hide();
             else toolbar.show();
         }
     }
@@ -167,8 +163,28 @@ public class MainViewFragment extends Fragment {
         return activity.getWindow().getStatusBarColor();
     }
 
+    public void setTabLayoutVisibility(int visibility){
+        getNavigation().getTabLayout().setVisibility(visibility);
+    }
+
     public Toolbar getToolbar(){
         return getNavigation().getToolbar();
+    }
+
+    public void setToolbarText(int resource){
+        getNavigation().getToolbar().setTitle(resource);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle bundle) {
+        super.onActivityCreated(bundle);
+        lastUsedToolbarText = getToolbar().getTitle();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getToolbar().setTitle(lastUsedToolbarText);
     }
 
     /**

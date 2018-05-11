@@ -16,7 +16,7 @@ public abstract class MessagesViewAdapterOnline extends MessagesViewAdapter {
     /**
      * Constructor del adaptador usado para recibir mensajes online
      */
-    public MessagesViewAdapterOnline(MainViewFragment view) {
+    public MessagesViewAdapterOnline(MainActivityFragment view) {
         super(view);
     }
 

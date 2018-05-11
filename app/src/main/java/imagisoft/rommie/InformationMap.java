@@ -14,7 +14,7 @@ import com.google.firebase.database.ValueEventListener;
 import butterknife.BindView;
 
 
-public class InformationMap extends MainViewFragment {
+public class InformationMap extends MainActivityFragment {
 
     private String imgKey;
     private String imgRef;
@@ -37,6 +37,7 @@ public class InformationMap extends MainViewFragment {
     public void onActivityCreated(Bundle bundle) {
 
         super.onActivityCreated(bundle);
+        setToolbarText(R.string.text_map);
 
         getFirebase()
                 .getConfigReference().child(imgKey)

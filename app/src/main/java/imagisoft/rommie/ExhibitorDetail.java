@@ -18,7 +18,7 @@ import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.ScheduleBlock;
 
 
-public class ExhibitorDetail extends MainViewFragment{
+public class ExhibitorDetail extends MainActivityFragment {
 
     /**
      * Componentes visuales
@@ -75,7 +75,7 @@ public class ExhibitorDetail extends MainViewFragment{
 
         super.onActivityCreated(bundle);
 
-        setToolbarVisible(false);
+        setToolbarVisibility(View.GONE);
 
         if(adapter == null)
             adapter = new ScheduleViewAdapter(this, events);
@@ -91,7 +91,7 @@ public class ExhibitorDetail extends MainViewFragment{
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        setToolbarVisible(true);
+        setToolbarVisibility(View.VISIBLE);
     }
 
     /**

@@ -5,7 +5,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 
-public abstract class MainActivityFirebase extends MainActivity {
+public abstract class MainActivityFirebase extends MainActivityCustom {
 
     /**
      * Conexión con Firebase

@@ -19,7 +19,7 @@ public class PagerAdapterSchedule extends PagerAdapter {
      * En el constructor se agrega el listener para colocar las fechas
      * en el paginador
      */
-    public PagerAdapterSchedule(MainViewFragment schedulePager) {
+    public PagerAdapterSchedule(MainActivityFragment schedulePager) {
 
         super(schedulePager);
 

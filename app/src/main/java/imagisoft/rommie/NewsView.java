@@ -14,23 +14,14 @@ public class NewsView extends MessagesView {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
+        setToolbarText(R.string.nav_people);
         return inflate(inflater, container, R.layout.news_view);
     }
 
-    /**
-     * Justo después de crear el fragmento se enlazan y preparan las vistas
-     */
     @Override
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
-        toolbarText = getToolbar().getTitle();
-        getToolbar().setTitle(getResources().getString(R.string.nav_news));
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        getToolbar().setTitle(toolbarText);
+        setToolbarText(R.string.nav_news);
     }
 
     /**

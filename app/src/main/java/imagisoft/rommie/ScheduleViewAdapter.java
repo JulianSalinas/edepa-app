@@ -33,7 +33,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /**
      * PagerFragment al que se debe colocar este adaptador
      */
-    private MainViewFragment scheduleView;
+    private MainActivityFragment scheduleView;
 
     /**
      * Objetos del modelo que serán adaptados visualmente
@@ -45,7 +45,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /**
      * Constructor de la vista donde se colocan los eventos
      */
-    public ScheduleViewAdapter(MainViewFragment scheduleView,
+    public ScheduleViewAdapter(MainActivityFragment scheduleView,
                                List<? extends ScheduleBlock> events){
 
         this.scheduleView = scheduleView;

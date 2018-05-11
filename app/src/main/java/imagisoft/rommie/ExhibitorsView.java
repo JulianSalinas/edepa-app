@@ -13,6 +13,7 @@ import butterknife.BindView;
 
 public class ExhibitorsView extends ExhibitorsViewFragment implements SearchView.OnQueryTextListener{
 
+    @BindView(R.id.exhibitor_search_view)
     SearchView searchView;
 
     /**
@@ -36,17 +37,15 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements SearchView
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
         setupExhibitorsView();
-        searchView = getView().findViewById(R.id.exhibitor_search_view);
+        setHasOptionsMenu(true);
+        setToolbarText(R.string.nav_people);
         searchView.setQueryHint(getResources().getString(R.string.text_search));
         searchView.setOnQueryTextListener(this);
-        toolbarText = getToolbar().getTitle();
-        getToolbar().setTitle(getResources().getString(R.string.nav_people));
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        getToolbar().setTitle(toolbarText);
     }
 
     /**

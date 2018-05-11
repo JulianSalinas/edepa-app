@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseUser;
 import butterknife.BindView;
 
 
-public abstract class MessagesView extends MainViewFragment {
+public abstract class MessagesView extends MainActivityFragment {
 
     /**
      * Se obtiene el usuario actual o que envía

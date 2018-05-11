@@ -32,17 +32,11 @@ public class ThemePicker extends PreferenceFragmentCompat
      * Se obtiene las preferencias para obtener los colores
      */
     private SharedPreferences prefs;
-    private MainActivityNavigation activity;
     private CharSequence toolbarText;
+    private MainActivityNavigation activity;
 
     public ThemePicker() {
         // se requiere el constructor vacio
-    }
-
-    public static ThemePicker newInstance(MainActivityNavigation activity){
-        ThemePicker themePicker = new ThemePicker();
-        themePicker.activity = activity;
-        return themePicker;
     }
 
     /**
@@ -51,8 +45,8 @@ public class ThemePicker extends PreferenceFragmentCompat
     @Override
     public void onCreate(@Nullable Bundle bundle) {
         super.onCreate(bundle);
-        assert getActivity() != null;
-        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        activity = (MainActivityNavigation) getActivity();
+        prefs = PreferenceManager.getDefaultSharedPreferences(activity);
     }
 
     @Override
@@ -130,10 +124,6 @@ public class ThemePicker extends PreferenceFragmentCompat
     public void changeCustomColor(String preferenceKey){
 
         Aesthetic theme = Aesthetic.get();
-        View menu = activity.getMenuView();
-
-        TextView t1 = menu.findViewById(R.id.current_menu_view);
-        TextView t2 = menu.findViewById(R.id.current_section_view);
 
         CustomColor colorRes = CustomColor.valueOf(preferenceKey.toUpperCase());
         int color = prefs.getInt(preferenceKey, colorRes.getColor());
@@ -154,8 +144,6 @@ public class ThemePicker extends PreferenceFragmentCompat
 
             case APP_ACCENT:
                 theme.colorAccent(color);
-                FloatingActionLayout fabBtn = menu.findViewById(R.id.favorite_button);
-                fabBtn.setFabColor(color);
                 break;
 
             case APP_ACCENT_DARK:
@@ -163,16 +151,6 @@ public class ThemePicker extends PreferenceFragmentCompat
                 activity.getWindow()
                         .setNavigationBarColor(color);
                 break;
-
-//            case APP_HEADER_COLOR:
-//                int tempColor = t1.getCurrentTextColor();
-//                menu.findViewById(R.id.emphasis_image_view).setBackgroundColor(color);
-//                color = tempColor;
-//
-//            case APP_HEADER_TEXT_COLOR:
-//                t1.setTextColor(color);
-//                t2.setTextColor(color);
-//                break;
 
         }
 

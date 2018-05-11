@@ -90,7 +90,7 @@ public class ScheduleDetail extends ExhibitorsViewFragment {
     public void onActivityCreated(Bundle bundle) {
 
         super.onActivityCreated(bundle);
-        setToolbarVisible(false);
+        setToolbarVisibility(View.GONE);
         statusBarColor = getStatusBarColor();
         bindInformation();
         setupExhibitorsView();
@@ -104,7 +104,7 @@ public class ScheduleDetail extends ExhibitorsViewFragment {
     public void onDestroyView() {
 
         super.onDestroyView();
-        setToolbarVisible(true);
+        setToolbarVisibility(View.VISIBLE);
         setStatusBarColor(statusBarColor);
 
     }

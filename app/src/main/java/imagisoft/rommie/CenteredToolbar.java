@@ -56,11 +56,16 @@ public class CenteredToolbar extends AestheticToolbar {
             //Cambiar tipo de letra
             //centeredTitleTextView.setTypeface(...);
             centeredTitleTextView.setSingleLine();
-            centeredTitleTextView.setEllipsize(TextUtils.TruncateAt.END);
             centeredTitleTextView.setGravity(Gravity.CENTER);
-            centeredTitleTextView.setTextAppearance(getContext(), R.style.TextAppearance_AppCompat_Widget_ActionBar_Title);
+            centeredTitleTextView.setEllipsize(TextUtils.TruncateAt.END);
 
-            Toolbar.LayoutParams lp = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+            centeredTitleTextView.setTextAppearance(getContext(),
+                    R.style.TextAppearance_AppCompat_Widget_ActionBar_Title);
+
+            Toolbar.LayoutParams lp = new Toolbar.LayoutParams(
+                    Toolbar.LayoutParams.WRAP_CONTENT,
+                    Toolbar.LayoutParams.WRAP_CONTENT);
+
             lp.gravity = Gravity.CENTER;
             centeredTitleTextView.setLayoutParams(lp);
 

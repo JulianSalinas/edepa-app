@@ -21,7 +21,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class ConfigView extends MainViewFragment {
+public class ConfigView extends MainActivityFragment {
 
     /**
      * Elementos visuales para editar la configuración
@@ -61,14 +61,7 @@ public class ConfigView extends MainViewFragment {
         super.onActivityCreated(bundle);
         switchNotifications.setChecked(getCurrentAlarmState());
         setupSwitchNotifications();
-        toolbarText = getToolbar().getTitle();
-        getToolbar().setTitle(getResources().getString(R.string.nav_settings));
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        getToolbar().setTitle(toolbarText);
+        setToolbarText(R.string.nav_settings);
     }
 
     /**

@@ -6,7 +6,7 @@ import imagisoft.edepa.FavoriteList;
 public class PagerAdapterFavorites extends PagerAdapter {
 
 
-    public PagerAdapterFavorites(MainViewFragment schedulePager) {
+    public PagerAdapterFavorites(MainActivityFragment schedulePager) {
         super(schedulePager);
         FavoriteList favorites = FavoriteList.getInstance();
         events = favorites.getSortedEvents();

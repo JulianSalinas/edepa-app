@@ -13,7 +13,7 @@ import butterknife.BindView;
 import imagisoft.edepa.ScheduleBlock;
 
 
-public class ScheduleView extends MainViewFragment {
+public class ScheduleView extends MainActivityFragment {
 
     /**
      * Es la capa donde se coloca cada una de las actividades/eventos

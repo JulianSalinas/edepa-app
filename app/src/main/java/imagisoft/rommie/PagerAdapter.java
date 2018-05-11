@@ -1,6 +1,7 @@
 package imagisoft.rommie;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import org.springframework.util.LinkedMultiValueMap;
@@ -15,7 +16,7 @@ import imagisoft.edepa.UDateConverter;
 import static java.lang.Math.abs;
 
 
-public class PagerAdapter extends FragmentStatePagerAdapter {
+public class PagerAdapter extends FragmentPagerAdapter {
 
     /**
      * Para dividir los eventos por dia en la vista
@@ -33,13 +34,13 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     /**
      * Representa donde está ubicado este adaptador
      */
-    protected MainViewFragment schedulePager;
+    protected MainActivityFragment schedulePager;
 
     /**
      * En el constructor se agrega el listener para colocar las fechas
      * en el paginador
      */
-    public PagerAdapter(MainViewFragment schedulePager) {
+    public PagerAdapter(MainActivityFragment schedulePager) {
 
         super(schedulePager.getChildFragmentManager());
         this.schedulePager = schedulePager;

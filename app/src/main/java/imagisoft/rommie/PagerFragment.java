@@ -1,6 +1,7 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -10,7 +11,7 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 
 
-public abstract class PagerFragment extends MainViewFragment {
+public abstract class PagerFragment extends MainActivityFragment {
 
     /**
      * Barra debajo de los tabs para colocar los días
@@ -21,7 +22,7 @@ public abstract class PagerFragment extends MainViewFragment {
     /**
      * El adaptador contiene los fragmentos del páginador
      */
-    protected FragmentStatePagerAdapter adapter;
+    protected FragmentPagerAdapter adapter;
 
     /**
      * Crea la vista del paginador, es decir, donde se colocan los días
@@ -38,6 +39,14 @@ public abstract class PagerFragment extends MainViewFragment {
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
         this.setupViewPager();
+        setTabLayoutVisibility(View.VISIBLE);
+        setToolbarText(R.string.app_name);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        setTabLayoutVisibility(View.GONE);
     }
 
     /**

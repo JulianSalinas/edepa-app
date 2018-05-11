@@ -39,14 +39,7 @@ public class ChatView extends MessagesView {
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
         setupSendCardView();
-        toolbarText = getToolbar().getTitle();
-        getToolbar().setTitle(getResources().getString(R.string.nav_chat));
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        getToolbar().setTitle(toolbarText);
+        setToolbarText(R.string.nav_chat);
     }
 
     /**

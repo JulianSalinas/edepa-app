@@ -1,102 +1,100 @@
 package imagisoft.rommie;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.preference.PreferenceManager;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.firebase.ui.auth.AuthUI;
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
+import java.util.HashMap;
 
-public class MainActivityNavigation extends MainActivityFirebase
-        implements NavigationView.OnNavigationItemSelectedListener{
+import imagisoft.edepa.FavoriteList;
+import imagisoft.edepa.ScheduleBlock;
+
+
+public class MainActivityNavigation extends MainActivityFirebase implements
+        NavigationView.OnNavigationItemSelectedListener, TabLayout.OnTabSelectedListener, View.OnClickListener{
+
+    /*
+     * Usadas para saber cual tab se debe colocar al crearse la vista
+     */
+    public static final int SCHEDULE_TAB = 0;
+    public static final int FAVORITES_TAB = 1;
+    public static final int ONGOING_TAB = 2;
 
     /**
      * Variables para poder reciclar los fragmentos
      */
     private Fragment chatView;
     private Fragment newsView;
+    private Fragment blankView;
     private Fragment aboutView;
     private Fragment configView;
     private Fragment themePicker;
-    private Fragment scheduleTabs;
+    private Fragment scheduleView;
+    private Fragment favoritesView;
     private Fragment exhibitorsView;
     private Fragment informationView;
 
-    /**
-     * Atributos custom
-     */
-    private TextView currentMenu;
+    private HashMap<Integer, Fragment> fragments;
+
     private TextView currentSection;
     private FloatingActionLayout favoriteButton;
 
-    boolean isScheduleView;
-
-    public View getMenuView(){
-        return navigation.getHeaderView(0);
-    }
+    /**
+     * Atributos de control
+     */
+    private int currentTab;
+    private boolean isScheduleView;
 
     @Override
+    @SuppressLint("UseSparseArrays")
     protected void onCreate(Bundle bundle) {
+
         super.onCreate(bundle);
         isScheduleView = true;
-
         toolbar.setTitle(R.string.app_name);
-        scheduleTabs = ScheduleTabs.newInstance(ScheduleTabs.SCHEDULE_TAB);
+        tabLayout.setVisibility(View.GONE);
+        currentTab = 0;
+
+        fragments = new HashMap<>();
+        fragments.put(R.id.schedule_view, new PagerFragmentSchedule());
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_container, scheduleTabs);
+        transaction.replace(R.id.main_container, fragments.get(R.id.schedule_view));
         transaction.commitAllowingStateLoss();
 
     }
 
-    /**
-     * Sección de las vista que hay en el encabezado
-     */
-    public void bindNavigationViews(){
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    @Override
+    protected void onPostCreate(Bundle bundle) {
 
         View header = navigation.getHeaderView(0);
         favoriteButton = header.findViewById(R.id.favorite_button);
-        currentMenu = header.findViewById(R.id.current_menu_view);
         currentSection = header.findViewById(R.id.current_section_view);
-        favoriteButton.setOnClickListener(v -> onFavoriteButtonClick());
 
-//        int menuColor = prefs.getInt(APP_HEADER_COLOR.toString(), APP_HEADER_COLOR.getColor());
-//        currentMenu.setTextColor(menuColor);
-//        currentSection.setTextColor(menuColor);
-//
-//        int fabColor = prefs.getInt(APP_ACCENT.toString(), APP_ACCENT.getColor());
-//        favoriteButton.setFabColor(fabColor);
+        favoriteButton.setOnClickListener(this);
+        navigation.setNavigationItemSelectedListener(this);
+        tabLayout.addOnTabSelectedListener(this);
+
+        super.onPostCreate(bundle);
 
     }
 
-    /**
-     * Envía al usuario al tab donde están sus favoritos
-     */
+
     @Override
-    public void onFavoriteButtonClick() {
-
-        int favTab = ScheduleTabs.FAVORITES_TAB;
-        currentSection.setText(R.string.nav_favorites);
-
-        if(scheduleTabs == null) {
-            scheduleTabs = ScheduleTabs.newInstance(favTab);
-        }
-        else {
-
-            ((ScheduleTabs) scheduleTabs).setCurrentTab(favTab);
-
-            if (isScheduleView)
-                ((ScheduleTabs) scheduleTabs).navigateToPosition(favTab);
-
-        }
-        switchFragment(scheduleTabs);
+    public void onClick(View v) {
 
     }
 
@@ -105,105 +103,112 @@ public class MainActivityNavigation extends MainActivityFirebase
      * @param id del elemento del menú de navegación seleccionado
      */
     @Override
-    public void navigateById(int id){ switch (id){
+    public void navigateById(int id){
 
-        // Cierra la aplicación
-        case R.id.nav_exit:
-            finishAndRemoveTask();
-            System.exit(0);
+        if (id == R.id.nav_exit) onExit();
 
-        // Cierra la aplicación y la sesión
-        case R.id.nav_exit_and_signout:
+        else if(id == R.id.nav_exit_and_signout){
             AuthUI.getInstance().signOut(this);
-            finishAndRemoveTask();
-            System.exit(0);
-
-        // Muestra la información general del congreso
-        case R.id.nav_infomation:
-            currentSection.setText(R.string.nav_info);
-            if(informationView == null)
-                informationView = new InformationView();
-            switchFragment(informationView);
-            isScheduleView = false;
-            break;
-
-        // Muestra el cronograma del congreso
-        case R.id.nav_schedule:
-            currentSection.setText(R.string.nav_schedule);
-            toolbar.setTitle(R.string.app_name);
-
-            if(scheduleTabs == null)
-                scheduleTabs = ScheduleTabs.newInstance(ScheduleTabs.SCHEDULE_TAB);
-
-            else {
-
-                ((ScheduleTabs) scheduleTabs).setCurrentTab(ScheduleTabs.SCHEDULE_TAB);
-
-                if (isScheduleView)
-                    ((ScheduleTabs) scheduleTabs).navigateToPosition(ScheduleTabs.SCHEDULE_TAB);
-
-            }
-
-            switchFragment(scheduleTabs);
-            isScheduleView = true;
-            break;
-
-        // Muestra la lista de expositores o ponentes
-        case R.id.nav_people:
-            currentSection.setText(R.string.nav_people);
-            if(exhibitorsView == null)
-                exhibitorsView = new ExhibitorsView();
-            switchFragment(exhibitorsView);
-            isScheduleView = false;
-            break;
-
-        // Muestra la lista de expositores o ponentes
-        case R.id.nav_chat:
-            currentSection.setText(R.string.nav_chat);
-            if(chatView == null)
-                chatView = new ChatView();
-            switchFragment(chatView);
-            isScheduleView = false;
-            break;
-
-        // Muestra la lista de expositores o ponentes
-        case R.id.nav_news:
-            currentSection.setText(R.string.nav_news);
-            if(newsView == null)
-                newsView = new NewsView();
-            switchFragment(newsView);
-            isScheduleView = false;
-            break;
-
-        // Muestra la pantalla de administración
-        case R.id.nav_manage:
-            currentSection.setText(R.string.nav_settings);
-            if(configView == null)
-                configView = new ConfigView();
-            switchFragment(configView);
-            isScheduleView = false;
-            break;
-
-        // Muestra la pantalla acerca de
-        case R.id.nav_pallete:
-            currentSection.setText(R.string.nav_palette);
-            if(themePicker == null)
-                themePicker = ThemePicker.newInstance(this);
-            switchFragment(themePicker);
-            isScheduleView = false;
-            break;
-
-        // Muestra la pantalla acerca de
-        case R.id.nav_about:
-            currentSection.setText(R.string.nav_about);
-            if(aboutView == null)
-                aboutView = new AboutView();
-            switchFragment(aboutView);
-            isScheduleView = false;
-            break;
-
+            onExit();
         }
 
+        if(!fragments.containsKey(id))
+            fragments.put(id, createFragmentById(id));
+
+        switchFragment(fragments.get(id));
+
+    }
+
+    public Fragment createFragmentById(int fragmentId){ switch (fragmentId){
+        case R.id.nav_chat: return new ChatView();
+        case R.id.nav_news: return new NewsView();
+        case R.id.nav_about: return new AboutView();
+        case R.id.nav_manage: return new ConfigView();
+        case R.id.nav_pallete: return new ThemePicker();
+        case R.id.nav_people: return new ExhibitorsView();
+        case R.id.nav_infomation: return new InformationView();
+        case R.id.nav_schedule: return new PagerFragmentSchedule();
+        case 1: return BlankFragment.newInstance("No ongoing events");
+        case 2: return new PagerFragmentFavorites();
+        default: return new PagerFragmentSchedule();
+    }}
+
+    /**
+     * Según el tab que escoge el usuario, se instancia la vista
+     * (instanciación perezosa) y se coloca en pantalla
+     * @param position: Número de tab de izq a der
+     */
+    public void navigateToPosition(int position) {
+        currentTab = position;
+        if (position == 0)
+            navigateById(R.id.nav_schedule);
+        else
+            navigateById(position);
+        paintTab(position);
+    }
+
+    /**
+     * Coloca el indicador debajo del tab seleccionado
+     * @param position: Número de tab de izq a der
+     */
+    private void paintTab(int position){
+//        TabLayout.Tab tab = tabLayout.getTabAt(position);
+//        assert tab != null;
+//        tab.select();
+    }
+
+    /**
+     * Sirve de apoyo a la función navigateToPosition para realizar
+     * la instanciación
+     * @param tabId: Alguno de los atributos estáticos definidos
+     */
+    public Fragment createTabFragment(int tabId){
+
+//        case SCHEDULE_TAB:
+//            if(tabOptions[tabId] == null)
+//                return new PagerFragmentSchedule();
+//            else return tabOptions[tabId];
+//
+//        case FAVORITES_TAB:
+//            if (FavoriteList.getInstance().getSortedEvents().isEmpty()) {
+//                if(tabOptions[tabId] == null || !(tabOptions[tabId] instanceof BlankFragment))
+//                    return BlankFragment.newInstance(getResources()
+//                            .getString(R.string.text_without_favorites));
+//                else return tabOptions[tabId];
+//            }
+//            else return new PagerFragmentFavorites();
+//
+//
+//        case ONGOING_TAB:
+//            if(tabOptions[tabId] == null)
+//                return BlankFragment.newInstance(getResources()
+//                        .getString(R.string.text_without_ongoing));
+//            else return tabOptions[tabId];
+//
+//        default:
+//            return new PagerFragmentSchedule();
+        return null;
+
+    }
+
+    /**
+     * Evento que dispara la función switch framgent
+     */
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        int position = tab.getPosition();
+        if(position != currentTab)
+            navigateToPosition(position);
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+        // Se requiere sobrescribir
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+        // Se requiere sobrescribir
     }
 
 }

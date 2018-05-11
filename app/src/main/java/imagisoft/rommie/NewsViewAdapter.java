@@ -20,7 +20,7 @@ public class NewsViewAdapter extends MessagesViewAdapterOnline {
     /**
      * Constructor del adaptador usado para recibir mensajes online
      */
-    public NewsViewAdapter(MainViewFragment view) {
+    public NewsViewAdapter(MainActivityFragment view) {
 
         super(view);
 

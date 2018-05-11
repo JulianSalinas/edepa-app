@@ -19,7 +19,7 @@ import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
 
 
-public class ExhibitorsViewFragment extends MainViewFragment{
+public class ExhibitorsViewFragment extends MainActivityFragment {
 
     /**
      * Lista de expositores obtenida de la lista de eventos

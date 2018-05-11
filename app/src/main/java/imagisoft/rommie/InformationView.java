@@ -1,5 +1,6 @@
 package imagisoft.rommie;
 
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +24,7 @@ import imagisoft.edepa.Congress;
 import imagisoft.edepa.UDateConverter;
 
 
-public class InformationView extends MainViewFragment implements OnMapReadyCallback {
+public class InformationView extends MainActivityFragment implements OnMapReadyCallback {
 
     /**
      * Soporte para colocar el mapa
@@ -107,7 +108,7 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
 
         super.onActivityCreated(bundle);
 
-        setToolbarVisible(false);
+        setToolbarVisibility(View.GONE);
 
         // Para que la información se actualice en tiempo real y no cada vez que
         // se abre la aplicación
@@ -124,7 +125,7 @@ public class InformationView extends MainViewFragment implements OnMapReadyCallb
     public void onDestroyView() {
 
         super.onDestroyView();
-        setToolbarVisible(true);
+        setToolbarVisibility(View.VISIBLE);
 
     }
 

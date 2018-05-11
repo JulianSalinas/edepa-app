@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 
-public class BlankFragment extends MainViewFragment {
+public class BlankFragment extends MainActivityFragment {
 
     private String description;
 

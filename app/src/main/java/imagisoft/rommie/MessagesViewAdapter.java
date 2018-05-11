@@ -29,7 +29,7 @@ public abstract class MessagesViewAdapter
     /**
      * Referencia al objeto que adapta
      */
-    protected MainViewFragment view;
+    protected MainActivityFragment view;
 
     /**
      * Objetos del modelo que serán adaptados visualmente
@@ -41,7 +41,7 @@ public abstract class MessagesViewAdapter
     /**
      * Constructor del adaptador
      */
-    public MessagesViewAdapter(MainViewFragment view){
+    public MessagesViewAdapter(MainActivityFragment view){
 
         this.view = view;
         this.msgs = new ArrayList<>();
