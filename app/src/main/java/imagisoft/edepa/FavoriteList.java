@@ -15,37 +15,57 @@ import java.util.List;
 public class FavoriteList extends Preferences {
 
     /**
+     * Bandera para saber si han habido cambios desde la última consulta
+     */
+    private boolean changed;
+
+    /**
+     * Eventos que el usuario marcó como favoritos y que están en memoria
+     */
+    private List<ScheduleEvent> events;
+
+    /**
+     * Identifica el archivo json del que se obtienen los favoritos
+     */
+    private static final String key = "FAVORITES";
+
+    /**
      * Instancia única para que todos accedan a la misma lista de favoritos
      */
     private static final FavoriteList ourInstance = new FavoriteList();
 
+
+    /**
+     * La clase no se debe instanciar, se debe obtener el único objeto de esta forma
+     */
     public static FavoriteList getInstance() {
         return ourInstance;
     }
 
     /**
-     * Identifica el archivo json del que se obtienen los favoritos
+     * Se inicializa la lista de favoritos, esto antes de leer los favoritos del json
      */
-    private final String key = "FAVORITES";
+    private FavoriteList() {
+        events = new ArrayList<>();
+    }
 
     /**
-     * Bandera para saber si han habido cambios
+     * Retorna si han habido cambios desde la última consulta
      */
-    private boolean changed = true;
-
     public boolean isChanged() {
         return changed;
     }
 
     /**
-     * Eventos que el usuario marcó como favoritos
+     * Consulta todos los favoritos (que están en memoria)
+     * Deben ordenarse antes de retornarlos para que se puedan mostrar
+     * de la forma esperada por la interfaz de usuario
      */
-    private List<ScheduleEvent> events;
-
     public List<ScheduleEvent> getSortedEvents() {
 
         changed = false;
 
+        // Ordena los elementos (sin crear una lista nueva)
         Collections.sort(events, (before, after) ->
                 before.getStart() >= after.getStart() ? 1 : -1);
 
@@ -54,7 +74,8 @@ public class FavoriteList extends Preferences {
     }
 
     /**
-     * Se llama cuando el usuario marca la estrellita de un evento
+     * Se deb llamar cuando el usuario marca la estrellita de un evento
+     * La bandera de cambios se activa
      */
     public void addEvent(ScheduleEvent event){
         changed = true;
@@ -62,7 +83,8 @@ public class FavoriteList extends Preferences {
     }
 
     /**
-     * Se llama cuando el usuario desmarca la estrellita de un evento
+     * Se debe llamar cuando el usuario desmarca la estrellita de un evento
+     * La bandera de cambios se activa
      */
     public void removeEvent(ScheduleEvent event){
         changed = true;
@@ -70,23 +92,20 @@ public class FavoriteList extends Preferences {
     }
 
     /**
-     * Se inicializa la lista de favoritos
-     */
-    private FavoriteList() {
-        events = new ArrayList<>();
-    }
-
-    /**
-     * Carga a partir del archivo de preferencias compartido, los favoritos en la
-     * variable events de ésta clase.
+     * Carga la lista de favoritos en la variable 'events' de éste objeto
+     * a partir delarchivo de preferencias.
      * @param context: Actividad desde donde se llama la aplicación
      */
     public void loadFavorites(Context context) {
 
+        // Si es el primer uso de la aplicación, se debe crear el archivo
+        // aunque la cantidad de favoritos este vacía en memoria
         Type type = new TypeToken<List<ScheduleEvent>>(){}.getType();
         SharedPreferences prefs = getSharedPreferences(context);
         if(!prefs.contains(key)) saveFavorites(context);
 
+        // Se guarda toda la lista de favoritos como un json dentro de las
+        // preferencias para obtener un acceso más eficiente.
         Gson gson = new Gson();
         String favs = prefs.getString(key, null);
         events = gson.fromJson(favs, type);
@@ -95,8 +114,8 @@ public class FavoriteList extends Preferences {
     }
 
     /**
-     * Usa la función getFavoritesAsJson y lo guarda en el archivo compartido de preferencias
-     * Si no hay eventos guarda un null
+     * Usa la función getFavoritesAsJson y lo guarda en el archivo de
+     * preferencias. Si no hay eventos guarda un null
      * @param context: Actividad desde donde se llama la aplicación
      */
     public void saveFavorites(Context context) {
