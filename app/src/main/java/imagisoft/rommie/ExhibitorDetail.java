@@ -3,12 +3,14 @@ package imagisoft.rommie;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import agency.tango.android.avatarview.AvatarPlaceholder;
@@ -53,18 +55,32 @@ public class ExhibitorDetail extends MainActivityFragment {
      * se pasan los parámetros de esta forma
      */
     public static ExhibitorDetail newInstance(Exhibitor exhibitor, List<ScheduleBlock> events) {
+
         ExhibitorDetail fragment = new ExhibitorDetail();
-        fragment.events = events;
-        fragment.exhibitor = exhibitor;
+
+        Bundle args = new Bundle();
+        args.putParcelable("exhibitor", exhibitor);
+        args.putParcelableArrayList("events", new ArrayList<>(events));
+
+        fragment.setArguments(args);
         return fragment;
+
     }
 
-    /**
-     * Se crea la vista con los eventos del expositor
-     */
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflate(inflater, container, R.layout.exhibitor_detail);
+    public void onCreate(Bundle bundle) {
+
+        super.onCreate(bundle);
+        this.resource = R.layout.exhibitor_detail;
+
+        Bundle args = getArguments();
+
+        if (args != null){
+            exhibitor = args.getParcelable("exhibitor");
+            events = args.getParcelableArrayList("events");
+        }
+
     }
 
     /**
@@ -76,6 +92,7 @@ public class ExhibitorDetail extends MainActivityFragment {
         super.onActivityCreated(bundle);
 
         setToolbarVisibility(View.GONE);
+        setTabLayoutVisibility(View.GONE);
 
         if(adapter == null)
             adapter = new ScheduleViewAdapter(this, events);
@@ -99,10 +116,10 @@ public class ExhibitorDetail extends MainActivityFragment {
      */
     private void bindInformation(){
         String name = exhibitor.getCompleteName();
-        this.nameTextView.setText(name);
+        nameTextView.setText(name);
         titleTextView.setText(exhibitor.getPersonalTitle());
         exhibitorAvatarView.setImageDrawable(new AvatarPlaceholder(name, 30));
-        buttonBack.setOnClickListener(v -> getNavigation().onBackPressed());
+        buttonBack.setOnClickListener(v -> activity.onBackPressed());
     }
 
     /**

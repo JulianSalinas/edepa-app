@@ -41,7 +41,7 @@ public class ThemePicker extends PreferenceFragmentCompat
      * Se inicializan las preferencias
      */
     @Override
-    public void onCreate(@Nullable Bundle bundle) {
+    public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         activity = (MainActivityNavigation) getActivity();
         prefs = PreferenceManager.getDefaultSharedPreferences(activity);

@@ -25,7 +25,7 @@ public class NewsViewAdapter extends MessagesViewAdapterOnline {
         super(view);
 
         ChildEventListener listener = new MessageViewAdapterChildEventListener();
-        view.getFirebase().getNewsReference().addChildEventListener(listener);
+        view.activity.getNewsReference().addChildEventListener(listener);
 
     }
 

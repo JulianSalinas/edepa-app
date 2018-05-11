@@ -1,8 +1,10 @@
 package imagisoft.rommie;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,32 +26,53 @@ import imagisoft.edepa.Preferences;
 public abstract class MainActivityFragment extends Fragment {
 
     /**
+     * Entero que representa el layout que está utilizando el
+     * fragmento
+     */
+    protected int resource;
+
+    /**
+     * Para obtener un referencia a la actividad ya con el cast
+     */
+    protected MainActivityNavigation activity;
+
+    /**
      * Cuando se cambian los fragmentos es necesario conservar el
-     * nombre del anterior para poder colocarlo al presionar atrás
+     * nombre que estaba en la barra de herramientas para poder
+     * colocarlo al presionar atrás
      */
     protected CharSequence lastUsedToolbarText;
 
-    protected static String TAG = "MainActivityFragment";
-
-    protected final Preferences prefs = Preferences.getInstance();
+    /**
+     * Al igual que el anterior es necesario recordar si los tabs
+     * estaban visibles anteriormente
+     */
+    protected int lastTabLayoutVisibility;
 
     /**
-     * Requiere constructor vacío
+     * Utilizada exclusivamente para depuración en el Logcat
      */
-    public MainActivityFragment() {
+    protected final String TAG = "MainActivityFragment";
 
-    }
+    /**
+     * Variable para que todos los fragmentos tengan a mano las
+     * preferencias compartidas.
+     */
+    protected final Preferences prefs = Preferences.getInstance();
 
     @Override
     public void onCreate(Bundle bundle) {
         Log.i(TAG, "onCreate()");
         super.onCreate(bundle);
+        activity = (MainActivityNavigation) getActivity();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         Log.i(TAG, "onCreateView()");
-        return super.onCreateView(inflater, container, bundle);
+        View view = inflater.inflate(resource, container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
@@ -56,6 +80,7 @@ public abstract class MainActivityFragment extends Fragment {
         Log.i(TAG, "onActivityCreate()");
         super.onActivityCreated(bundle);
         lastUsedToolbarText = getToolbar().getTitle();
+        lastTabLayoutVisibility = getTabLayout().getVisibility();
     }
 
     @Override
@@ -93,36 +118,13 @@ public abstract class MainActivityFragment extends Fragment {
         Log.i(TAG, "onDestroyView()");
         super.onDestroyView();
         getToolbar().setTitle(lastUsedToolbarText);
+        getTabLayout().setVisibility(lastTabLayoutVisibility);
     }
 
     @Override
     public void onDetach() {
         Log.i(TAG, "onDetach()");
         super.onDetach();
-    }
-
-    /**
-     * Enlaza los componentes visuales con sus vistas
-     */
-    protected View inflate(LayoutInflater inflater, ViewGroup container, int resource){
-        View view = inflater.inflate(resource, container, false);
-        ButterKnife.bind(this, view);
-        return view;
-    }
-
-    /**
-     * Es invocada cuando un fragmento ocupa colocar un listener
-     * de firebase
-     */
-    public MainActivityFirebase getFirebase(){
-        return (MainActivityFirebase) getActivity();
-    }
-
-    /**
-     * Es invocada cuando un fragmento ocupa ocultar o mostrar la toolbar
-     */
-    public MainActivityFirebase getNavigation(){
-        return (MainActivityNavigation) getActivity();
     }
 
     /**
@@ -192,7 +194,7 @@ public abstract class MainActivityFragment extends Fragment {
 
         assert user != null;
         return user.getDisplayName() == null ||
-                !user.getDisplayName().isEmpty() ?
+                user.getDisplayName().isEmpty() ?
                 context.getResources().getString(R.string.text_anonymous) : user.getDisplayName();
 
     }
@@ -201,23 +203,22 @@ public abstract class MainActivityFragment extends Fragment {
      * Coloca en la pantalla un fragmento previamente creado
      * @param fragment Asociado a la opción elegida por el usuario
      */
-    public void switchFragment(Fragment fragment){
+    public void switchFragment(Fragment fragment, boolean addToBackStack){
         assert getActivity() != null;
         MainActivityNavigation activity = (MainActivityNavigation) getActivity();
-        activity.switchFragment(fragment);
+        activity.switchFragment(fragment, addToBackStack);
     }
 
     /**
      * Reinicia la aplicación. Se utiliza cuando se cambia el idioma o el tema
      */
     public void restartApplication(){
-        Intent refresh = new Intent(getActivity(), MainActivityNavigation.class);
-        startActivity(refresh);
-        getNavigation().finish();
+        MainActivityNavigation activity = (MainActivityNavigation) getActivity();
+        activity.restartApplication();
     }
 
     public void setToolbarVisibility(int visibility){
-        ActionBar toolbar = getNavigation().getSupportActionBar();
+        ActionBar toolbar = activity.getSupportActionBar();
         if(toolbar != null) {
             if (visibility != View.VISIBLE) toolbar.hide();
             else toolbar.show();
@@ -235,15 +236,19 @@ public abstract class MainActivityFragment extends Fragment {
     }
 
     public void setTabLayoutVisibility(int visibility){
-        getNavigation().getTabLayout().setVisibility(visibility);
+        activity.getTabLayout().setVisibility(visibility);
+    }
+
+    public TabLayout getTabLayout(){
+        return activity.getTabLayout();
     }
 
     public Toolbar getToolbar(){
-        return getNavigation().getToolbar();
+        return activity.getToolbar();
     }
 
     public void setToolbarText(int resource){
-        getNavigation().getToolbar().setTitle(resource);
+        activity.getToolbar().setTitle(resource);
     }
 
     /**

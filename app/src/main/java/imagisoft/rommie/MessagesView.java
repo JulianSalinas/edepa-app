@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,14 +27,6 @@ public abstract class MessagesView extends MainActivityFragment {
 
     @BindView(R.id.messages_view_recycler)
     RecyclerView mainView;
-
-    /**
-     * Se inicializan las variables no gráficas
-     */
-    @Override
-    public void onCreate(@Nullable Bundle bundle) {
-        super.onCreate(bundle);
-    }
 
     /**
      * Se configuran las clases de las vistas y sus eventos

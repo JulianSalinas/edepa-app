@@ -58,16 +58,6 @@ public class ScheduleDetail extends ExhibitorsViewFragment {
     View buttonBack;
 
     /**
-     * No se pueden crear constructores con parámetros, por tanto,
-     * se pasan los parámetros de esta forma
-     */
-    public static ScheduleDetail newInstance(ScheduleEvent event) {
-        ScheduleDetail fragment = new ScheduleDetail();
-        fragment.event = event;
-        return fragment;
-    }
-
-    /**
      * Obtiene todos los expositores que maneja la vista
      */
     @Override
@@ -76,11 +66,30 @@ public class ScheduleDetail extends ExhibitorsViewFragment {
     }
 
     /**
-     * Se crea la vista que con los detalles del evento
+     * No se pueden crear constructores con parámetros, por tanto,
+     * se pasan los parámetros de esta forma
      */
+    public static ScheduleDetail newInstance(ScheduleEvent event) {
+
+        ScheduleDetail fragment = new ScheduleDetail();
+
+        Bundle args = new Bundle();
+        args.putParcelable("event", event);
+
+        fragment.setArguments(args);
+        return fragment;
+
+    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflate(inflater, container, R.layout.schedule_detail);
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        resource = R.layout.schedule_detail;
+
+        Bundle args = getArguments();
+        if(args != null)
+            event = args.getParcelable("event");
+
     }
 
     /**
@@ -91,6 +100,7 @@ public class ScheduleDetail extends ExhibitorsViewFragment {
 
         super.onActivityCreated(bundle);
         setToolbarVisibility(View.GONE);
+        setTabLayoutVisibility(View.GONE);
         statusBarColor = getStatusBarColor();
         bindInformation();
         setupExhibitorsView();
@@ -124,8 +134,8 @@ public class ScheduleDetail extends ExhibitorsViewFragment {
         emphasisImageView.setBackgroundColor(color);
         setStatusBarColor(ColorConverter.darken(color, 12));
 
-        iconMap.setOnClickListener(v -> switchFragment(new InformationMap()));
-        buttonBack.setOnClickListener(v -> getNavigation().onBackPressed());
+        iconMap.setOnClickListener(v -> switchFragment(new InformationMap(), true));
+        buttonBack.setOnClickListener(v -> activity.onBackPressed());
 
         favoriteButton.setFavorite(FavoriteList.getInstance().getSortedEvents().contains(event));
 
@@ -135,7 +145,7 @@ public class ScheduleDetail extends ExhibitorsViewFragment {
             else events.remove(event);
             String msg = getResources().getString(R.string.text_marked_as_favorite);
             showStatusMessage(msg);
-            FavoriteList.getInstance().saveFavorites(getNavigation());
+            FavoriteList.getInstance().saveFavorites(activity);
         });
 
     }

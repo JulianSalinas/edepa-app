@@ -45,12 +45,10 @@ public class ConfigView extends MainActivityFragment {
      */
     boolean changeLang = true;
 
-    /**
-     * Se crea la vista que contiene la configuracíón
-     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflate(inflater, container, R.layout.config_view);
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        resource = R.layout.config_view;
     }
 
     /**
@@ -62,6 +60,7 @@ public class ConfigView extends MainActivityFragment {
         switchNotifications.setChecked(getCurrentAlarmState());
         setupSwitchNotifications();
         setToolbarText(R.string.nav_settings);
+        setTabLayoutVisibility(View.GONE);
     }
 
     /**
@@ -73,7 +72,7 @@ public class ConfigView extends MainActivityFragment {
             String status = isChecked ?
                     getResources().getString(R.string.text_notifications_enabled):
                     getResources().getString(R.string.text_notifications_disabled);
-            getNavigation().showStatusMessage(status);
+            activity.showStatusMessage(status);
         });
     }
 
@@ -102,7 +101,7 @@ public class ConfigView extends MainActivityFragment {
     @OnClick(R.id.language_view)
     public void openLanguage(){
 
-        final Dialog dialog = new Dialog(getNavigation());
+        final Dialog dialog = new Dialog(activity);
         dialog.setTitle(R.string.text_language);
         dialog.setContentView(R.layout.dialog_lang);
 
@@ -145,7 +144,7 @@ public class ConfigView extends MainActivityFragment {
     @OnClick(R.id.username_view)
     public void openUsernameDialogAux(){
 
-        final Dialog dialog = new Dialog(getNavigation());
+        final Dialog dialog = new Dialog(activity);
         dialog.setTitle(R.string.text_username);
         dialog.setContentView(R.layout.dialog_username);
 
@@ -179,7 +178,7 @@ public class ConfigView extends MainActivityFragment {
      */
     @OnClick(R.id.about_view)
     public void openAbout(){
-        getNavigation().switchFragment(new AboutView());
+        activity.switchFragment(new AboutView(), true);
     }
 
 }

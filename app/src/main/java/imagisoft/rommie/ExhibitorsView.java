@@ -22,12 +22,10 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements SearchView
     @BindView(R.id.exhibitor_recycler_view)
     RecyclerView exhibitorsRecyclerView;
 
-    /**
-     * Se crea el contenedor de los exponentes
-     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflate(inflater, container, R.layout.exhibitors_view);
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        this.resource = R.layout.exhibitors_view;
     }
 
     /**
@@ -39,6 +37,7 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements SearchView
         setupExhibitorsView();
         setHasOptionsMenu(true);
         setToolbarText(R.string.nav_people);
+        setTabLayoutVisibility(View.GONE);
         searchView.setQueryHint(getResources().getString(R.string.text_search));
         searchView.setOnQueryTextListener(this);
     }

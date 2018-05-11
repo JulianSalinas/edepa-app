@@ -24,12 +24,10 @@ public abstract class PagerFragment extends MainActivityFragment {
      */
     protected FragmentPagerAdapter adapter;
 
-    /**
-     * Crea la vista del paginador, es decir, donde se colocan los días
-     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflate(inflater, container, R.layout.schedule_pager);
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        this.resource = R.layout.schedule_pager;
     }
 
     /**
@@ -39,8 +37,8 @@ public abstract class PagerFragment extends MainActivityFragment {
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
         this.setupViewPager();
-        setTabLayoutVisibility(View.VISIBLE);
         setToolbarText(R.string.app_name);
+        setTabLayoutVisibility(View.VISIBLE);
     }
 
     @Override

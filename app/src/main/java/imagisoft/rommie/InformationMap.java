@@ -26,11 +26,7 @@ public class InformationMap extends MainActivityFragment {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         this.imgKey = "minimap";
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflate(inflater, container, R.layout.information_map);
+        resource = R.layout.information_map;
     }
 
     @Override
@@ -38,9 +34,9 @@ public class InformationMap extends MainActivityFragment {
 
         super.onActivityCreated(bundle);
         setToolbarText(R.string.text_map);
+        setTabLayoutVisibility(View.GONE);
 
-        getFirebase()
-                .getConfigReference().child(imgKey)
+        activity.getConfigReference().child(imgKey)
                 .addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -59,7 +55,7 @@ public class InformationMap extends MainActivityFragment {
     }
 
     private void loadMinimapAsync(){
-        Glide.with(getNavigation())
+        Glide.with(activity)
                 .load(imgRef)
                 .into(miniMap);
     }

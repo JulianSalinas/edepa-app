@@ -3,9 +3,7 @@ package imagisoft.rommie;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -14,20 +12,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
-import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import com.afollestad.aesthetic.Aesthetic;
 import com.firebase.jobdispatcher.Constraint;
@@ -39,8 +29,8 @@ import com.firebase.jobdispatcher.RetryStrategy;
 import com.firebase.jobdispatcher.Trigger;
 
 import java.util.Locale;
-import java.util.Stack;
 
+import butterknife.BindView;
 import imagisoft.edepa.FavoriteList;
 import imagisoft.edepa.Preferences;
 
@@ -53,22 +43,22 @@ import static imagisoft.rommie.CustomColor.APP_PRIMARY_DARK;
 public abstract class MainActivityCustom extends MainActivityClassic
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    /**
-     * Variables usadas para correr el servicio de notificaciones
-     */
-    private FirebaseJobDispatcher dispatcher;
-    private final String CURRENT_RESOURCE_KEY = "CURRENT_RESOURCE_KEY";
+    protected final String REMAINDER_KEY = "Recordatorios";
+    protected final String CHANNEL_KEY = "Canal de notificaciones";
+    protected final String CURRENT_RESOURCE_KEY = "CURRENT_RESOURCE_KEY";
 
-    private final String REMAINDER_KEY = "Recordatorios";
-    private final String CHANNEL_KEY = "Canal de notificaciones";
-
+    protected FirebaseJobDispatcher dispatcher;
     protected int currentResource = R.id.nav_schedule;
 
-    /**
-     * Se inician todos los componentes principales de la aplicación
-     */
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
+
+    public TabLayout getTabLayout() {
+        return tabLayout;
+    }
+
     @Override
-    protected void onCreate (Bundle bundle) {
+    protected void onCreate(Bundle bundle) {
 
         Aesthetic.attach(this);
 
@@ -81,30 +71,6 @@ public abstract class MainActivityCustom extends MainActivityClassic
 
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle bundel) {
-        bundel.putInt(CURRENT_RESOURCE_KEY, currentResource);
-        super.onSaveInstanceState(bundel);
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle bundle) {
-
-        super.onRestoreInstanceState(bundle);
-
-        if(bundle != null) {
-            currentResource = bundle.getInt(CURRENT_RESOURCE_KEY);
-            navigateById(currentResource);
-        }
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(!profilePendingList.isEmpty())
-            switchFragment(profilePendingList.pop());
-    }
 
     @Override
     protected void onDestroy() {
@@ -147,24 +113,6 @@ public abstract class MainActivityCustom extends MainActivityClassic
         GooglePlayDriver driver = new GooglePlayDriver(this);
         dispatcher = new FirebaseJobDispatcher(driver);
     }
-
-    /**
-     * Al presionar un item del menu lateral se llama a la función para
-     * colocar en la pantalla el fragment relacionado a ese item
-     */
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        drawer.closeDrawer(GravityCompat.START);
-        navigateById(item.getItemId());
-        return true;
-    }
-
-    /**
-     * Ayuda a la función navigateToItem. La clase MainActivityNavigation
-     * es la que implementa esta función
-     * @param id: Identificación de botón presionado
-     */
-    protected abstract void navigateById(int id);
 
 
     private void scheduleJob() {

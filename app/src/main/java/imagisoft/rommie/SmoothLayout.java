@@ -2,17 +2,13 @@ package imagisoft.rommie;
 
 import android.content.Context;
 import android.graphics.PointF;
+import android.util.DisplayMetrics;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
-import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
+
 
 public class SmoothLayout extends LinearLayoutManager {
-
-    /**
-     * Determina que tan rápido se mueve el scroll
-     */
-    private static final float MILLISECONDS_PER_INCH = 50f;
 
     /**
      * Necesario para saber a que vista se le agrega el efecto
@@ -20,14 +16,17 @@ public class SmoothLayout extends LinearLayoutManager {
     private Context context;
 
     /**
+     * Determina que tan rápido se mueve el scroll
+     */
+    private final float MILLISECONDS_PER_INCH = 50f;
+
+    /**
      * Constructor del layout
      * @param context Actvidad o fragmento donde se ejecuta
      */
     public SmoothLayout(Context context) {
-
         super(context);
         this.context = context;
-
     }
 
     /**

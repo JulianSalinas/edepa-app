@@ -126,7 +126,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         * Función ejecutada al presionar el botón "readmore" de una actividad
         */
         holder.readmore.setOnClickListener(v ->
-             scheduleView.switchFragment(ScheduleDetail.newInstance(event))
+             scheduleView.switchFragment(ScheduleDetail.newInstance(event), false)
         );
 
         /*
@@ -151,7 +151,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             String msg = scheduleView.getResources().getString(text);
             scheduleView.showStatusMessage(msg);
-            FavoriteList.getInstance().saveFavorites(scheduleView.getNavigation());
+            FavoriteList.getInstance().saveFavorites(scheduleView.activity);
 
         });
 

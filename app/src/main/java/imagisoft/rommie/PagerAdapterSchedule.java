@@ -24,8 +24,7 @@ public class PagerAdapterSchedule extends PagerAdapter {
         super(schedulePager);
 
         // Se deben ordenar los eventos por fecha de inicio
-        Query query = this.schedulePager
-                .getFirebase()
+        Query query = this.schedulePager.activity
                 .getScheduleReference()
                 .orderByChild("start");
 

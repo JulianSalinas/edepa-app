@@ -24,7 +24,7 @@ public class ChatView extends MessagesView {
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        resource = R.layout.chat_view;
+        this.resource = R.layout.chat_view;
     }
 
     /**

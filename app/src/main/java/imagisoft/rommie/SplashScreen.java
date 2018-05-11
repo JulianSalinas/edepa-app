@@ -18,7 +18,11 @@ import java.util.Arrays;
 
 import imagisoft.edepa.Preferences;
 
-
+/**
+ * Solo se usa la autenticación, sin embargo el método
+ * setPersistenceEnable debe ser llamado antes que cualquier otra
+ * función de Firebase, de lo contrario la app se cierra inesperadamente
+ */
 public class SplashScreen extends AppCompatActivity {
 
     /**
@@ -27,15 +31,6 @@ public class SplashScreen extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseDatabase database;
     private static final int RC_SIGN_IN = 123;
-
-    /**
-     * Solo se usa la autenticación, sin embargo el método
-     * setPersistenceEnable debe ser llamado antes que cualquier otra
-     * función de Firebase, de lo contrario la app se cierra inesperadamente
-     */
-    public SplashScreen() {
-
-    }
 
     /**
      * Esconde las propiedades de la pantalla y solo muesrta la imagen de carga,

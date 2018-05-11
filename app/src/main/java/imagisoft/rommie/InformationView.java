@@ -68,12 +68,10 @@ public class InformationView extends MainActivityFragment implements OnMapReadyC
      */
     private Congress congress;
 
-    /**
-     * Crea la vista principal donde se coloca la información del congreso
-     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflate(inflater, container, R.layout.information_view);
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        this.resource = R.layout.information_view;
     }
 
     /**
@@ -93,8 +91,8 @@ public class InformationView extends MainActivityFragment implements OnMapReadyC
         endTextView.setText(DateConverter.extractDate(congress.getEnd()));
         startTextView.setText(DateConverter.extractDate(congress.getStart()));
 
-        iconMap.setOnClickListener(v -> switchFragment(miniMap));
-        buttonBack.setOnClickListener(v -> getNavigation().onBackPressed());
+        iconMap.setOnClickListener(v -> switchFragment(miniMap, true));
+        buttonBack.setOnClickListener(v -> activity.onBackPressed());
 
     }
 
@@ -108,11 +106,11 @@ public class InformationView extends MainActivityFragment implements OnMapReadyC
         super.onActivityCreated(bundle);
 
         setToolbarVisibility(View.GONE);
+        setTabLayoutVisibility(View.GONE);
 
         // Para que la información se actualice en tiempo real y no cada vez que
         // se abre la aplicación
-        getFirebase()
-                .getCongressReference()
+        activity.getCongressReference()
                 .addValueEventListener(new InformationViewValueEventListener());
 
     }
@@ -122,10 +120,8 @@ public class InformationView extends MainActivityFragment implements OnMapReadyC
      */
     @Override
     public void onDestroyView() {
-
         super.onDestroyView();
         setToolbarVisibility(View.VISIBLE);
-
     }
 
     private void setupMap(){

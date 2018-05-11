@@ -74,7 +74,7 @@ public class ExhibitorsViewAdapter
         bindColor(item.getCompleteName(), holder);
 
         holder.exhibitorCardView.setOnClickListener(v -> exhibitorsView.switchFragment(
-                ExhibitorDetail.newInstance(item, exhibitorsView.getExhibitorsEvents(item))));
+                ExhibitorDetail.newInstance(item, exhibitorsView.getExhibitorsEvents(item)), false));
 
     }
 
@@ -113,13 +113,13 @@ public class ExhibitorsViewAdapter
      */
     public void filter(String keyword){
 
-        keyword = SearchNormalizer.removeAccents(keyword.toLowerCase());
+        keyword = SearchNormalizer.normalize(keyword);
 
         filteredExhibitors = new ArrayList<>();
         for(Exhibitor exhibitor : exhibitors){
 
-            String name = SearchNormalizer.removeAccents(exhibitor.getCompleteName().toLowerCase());
-            String title = SearchNormalizer.removeAccents(exhibitor.getPersonalTitle().toLowerCase());
+            String name = SearchNormalizer.normalize(exhibitor.getCompleteName());
+            String title = SearchNormalizer.normalize(exhibitor.getPersonalTitle());
 
             if(name.contains(keyword) || title.contains(keyword))
                 filteredExhibitors.add(exhibitor);

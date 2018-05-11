@@ -41,8 +41,7 @@ public class ExhibitorsViewFragment extends MainActivityFragment {
         eventsByExhibitors = new LinkedMultiValueMap<>();
         exhibitorsAdapter = new ExhibitorsViewAdapter(this);
 
-        getFirebase()
-                .getScheduleReference()
+        activity.getScheduleReference()
                 .addValueEventListener(new ExhibitorsViewValueEventListener());
 
     }

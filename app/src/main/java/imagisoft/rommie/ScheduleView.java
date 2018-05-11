@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,17 +38,27 @@ public class ScheduleView extends MainActivityFragment {
      * se pasan los parámetros de esta forma
      */
     public static ScheduleView newInstance(List<ScheduleBlock> events) {
+
+        Bundle args = new Bundle();
+        args.putParcelableArrayList("events", new ArrayList<>(events));
+
         ScheduleView fragment = new ScheduleView();
-        fragment.events = events;
+        fragment.setArguments(args);
+
         return fragment;
     }
 
-    /**
-     * Se crea la vista que contiene el exhibitorsRecyclerView
-     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflate(inflater, container, R.layout.schedule_view);
+    public void onCreate(Bundle bundle) {
+
+        super.onCreate(bundle);
+        this.resource = R.layout.schedule_view;
+
+        Bundle args = getArguments();
+
+        if (args != null)
+            events = args.getParcelableArrayList("events");
+
     }
 
     /**

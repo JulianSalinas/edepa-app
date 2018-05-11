@@ -1,79 +1,64 @@
 package imagisoft.rommie;
 
 import android.annotation.SuppressLint;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.preference.PreferenceManager;
+import android.support.v4.view.GravityCompat;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
 import com.firebase.ui.auth.AuthUI;
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
 import java.util.HashMap;
 
-import imagisoft.edepa.FavoriteList;
-import imagisoft.edepa.ScheduleBlock;
-
 
 public class MainActivityNavigation extends MainActivityFirebase implements
         NavigationView.OnNavigationItemSelectedListener, TabLayout.OnTabSelectedListener, View.OnClickListener{
 
-    /*
-     * Usadas para saber cual tab se debe colocar al crearse la vista
-     */
-    public static final int SCHEDULE_TAB = 0;
-    public static final int FAVORITES_TAB = 1;
-    public static final int ONGOING_TAB = 2;
-
-    /**
-     * Variables para poder reciclar los fragmentos
-     */
-    private Fragment chatView;
-    private Fragment newsView;
-    private Fragment blankView;
-    private Fragment aboutView;
-    private Fragment configView;
-    private Fragment themePicker;
-    private Fragment scheduleView;
-    private Fragment favoritesView;
-    private Fragment exhibitorsView;
-    private Fragment informationView;
-
-    private HashMap<Integer, Fragment> fragments;
-
     private TextView currentSection;
     private FloatingActionLayout favoriteButton;
 
-    /**
-     * Atributos de control
-     */
-    private int currentTab;
-    private boolean isScheduleView;
+    private HashMap<Integer, Fragment> tabbedFragments;
+    private HashMap<Integer, Fragment> independentFragments;
+
+    protected int currentResource = R.id.nav_schedule;
 
     @Override
     @SuppressLint("UseSparseArrays")
     protected void onCreate(Bundle bundle) {
 
         super.onCreate(bundle);
-        isScheduleView = true;
-        toolbar.setTitle(R.string.app_name);
-        tabLayout.setVisibility(View.GONE);
-        currentTab = 0;
 
-        fragments = new HashMap<>();
-        fragments.put(R.id.schedule_view, new PagerFragmentSchedule());
+        tabbedFragments = new HashMap<>();
+        independentFragments = new HashMap<>();
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_container, fragments.get(R.id.schedule_view));
-        transaction.commitAllowingStateLoss();
+        if (bundle != null){
+//            currentResource = bundle.getInt(CURRENT_RESOURCE_KEY);
+//            toolbar.setTitle(R.string.app_name);
+//            tabLayout.setVisibility(View.GONE);
+//            independentFragments.put(currentResource, createFragmentById(currentResource));
+        }
+
+        if (bundle == null) {
+
+            currentResource = R.id.schedule_view;
+            toolbar.setTitle(R.string.app_name);
+            tabLayout.setVisibility(View.GONE);
+            independentFragments.put(currentResource, new PagerFragmentSchedule());
+
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.main_container, independentFragments.get(currentResource));
+            transaction.commitAllowingStateLoss();
+
+        }
+
 
     }
 
@@ -92,6 +77,40 @@ public class MainActivityNavigation extends MainActivityFirebase implements
 
     }
 
+    public void restartApplication(){
+        Intent refresh = new Intent(this, MainActivityNavigation.class);
+        startActivity(refresh);
+        finish();
+    }
+
+    /**
+     * Al presionar un item del menu lateral se llama a la función para
+     * colocar en la pantalla el fragment relacionado a ese item
+     */
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        drawer.closeDrawer(GravityCompat.START);
+        navigateById(item.getItemId());
+        return true;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        bundle.putInt(CURRENT_RESOURCE_KEY, currentResource);
+        super.onSaveInstanceState(bundle);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle bundle) {
+
+        super.onRestoreInstanceState(bundle);
+
+        if(bundle != null) {
+            currentResource = bundle.getInt(CURRENT_RESOURCE_KEY);
+            navigateById(currentResource);
+        }
+
+    }
 
     @Override
     public void onClick(View v) {
@@ -100,22 +119,22 @@ public class MainActivityNavigation extends MainActivityFirebase implements
 
     /**
      * Método utilizado al escoger una opción del menú de navegación
-     * @param id del elemento del menú de navegación seleccionado
+     * @param idResource del elemento del menú de navegación seleccionado
      */
-    @Override
-    public void navigateById(int id){
+    public void navigateById(int idResource){
 
-        if (id == R.id.nav_exit) onExit();
+        if (idResource == R.id.nav_exit) onExit();
 
-        else if(id == R.id.nav_exit_and_signout){
+        else if(idResource == R.id.nav_exit_and_signout){
             AuthUI.getInstance().signOut(this);
             onExit();
         }
 
-        if(!fragments.containsKey(id))
-            fragments.put(id, createFragmentById(id));
+        if(!independentFragments.containsKey(idResource))
+            independentFragments.put(idResource, createFragmentById(idResource));
 
-        switchFragment(fragments.get(id));
+        currentResource = idResource;
+        switchFragment(independentFragments.get(idResource), true);
 
     }
 
@@ -128,8 +147,6 @@ public class MainActivityNavigation extends MainActivityFirebase implements
         case R.id.nav_people: return new ExhibitorsView();
         case R.id.nav_infomation: return new InformationView();
         case R.id.nav_schedule: return new PagerFragmentSchedule();
-        case 1: return BlankFragment.newInstance("No ongoing events");
-        case 2: return new PagerFragmentFavorites();
         default: return new PagerFragmentSchedule();
     }}
 
@@ -139,12 +156,12 @@ public class MainActivityNavigation extends MainActivityFirebase implements
      * @param position: Número de tab de izq a der
      */
     public void navigateToPosition(int position) {
-        currentTab = position;
-        if (position == 0)
-            navigateById(R.id.nav_schedule);
-        else
-            navigateById(position);
-        paintTab(position);
+//        currentTab = position;
+//        if (position == 0)
+//            navigateById(R.id.nav_schedule);
+//        else
+//            navigateById(position);
+//        paintTab(position);
     }
 
     /**
@@ -196,9 +213,9 @@ public class MainActivityNavigation extends MainActivityFirebase implements
      */
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        int position = tab.getPosition();
-        if(position != currentTab)
-            navigateToPosition(position);
+//        int position = tab.getPosition();
+//        if(position != currentTab)
+//            navigateToPosition(position);
     }
 
     @Override

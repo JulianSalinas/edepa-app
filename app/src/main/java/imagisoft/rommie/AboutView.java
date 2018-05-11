@@ -12,11 +12,15 @@ import mehdi.sakout.aboutpage.AboutPage;
 
 public class AboutView extends MainActivityFragment {
 
+    /**
+     * Usa una librería, por lo que no se debe llamar a la función
+     * super.onCreateVie. Solo se retorna la vista que crea la librería.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
 
-        super.onCreateView(inflater, container, bundle);
-        this.setToolbarText(R.string.nav_about);
+        setToolbarText(R.string.nav_about);
+        setTabLayoutVisibility(View.GONE);
 
         Resources res = getResources();
         Element versionElement = new Element();
