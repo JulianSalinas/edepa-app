@@ -1,5 +1,7 @@
 package imagisoft.edepa;
 
+import android.os.Parcel;
+
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -162,5 +164,48 @@ public class ScheduleEvent extends ScheduleBlock {
         result = 31 * result + title.hashCode();
         return result;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.location);
+        dest.writeInt(this.eventype == null ? -1 : this.eventype.ordinal());
+        dest.writeString(this.briefEnglish);
+        dest.writeString(this.briefSpanish);
+        dest.writeTypedList(this.exhibitors);
+    }
+
+    protected ScheduleEvent(Parcel in) {
+        super(in);
+        this.id = in.readString();
+        this.title = in.readString();
+        this.location = in.readString();
+        int tmpEventype = in.readInt();
+        this.eventype = tmpEventype == -1 ? null : ScheduleEventType.values()[tmpEventype];
+        this.briefEnglish = in.readString();
+        this.briefSpanish = in.readString();
+        this.exhibitors = in.createTypedArrayList(Exhibitor.CREATOR);
+    }
+
+    public static final Creator<ScheduleEvent> CREATOR = new Creator<ScheduleEvent>() {
+
+        @Override
+        public ScheduleEvent createFromParcel(Parcel source) {
+            return new ScheduleEvent(source);
+        }
+
+        @Override
+        public ScheduleEvent[] newArray(int size) {
+            return new ScheduleEvent[size];
+        }
+
+    };
 
 }

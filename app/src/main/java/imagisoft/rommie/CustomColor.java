@@ -6,8 +6,6 @@ public enum CustomColor {
     APP_PRIMARY_DARK (R.color.app_primary_dark),
     APP_ACCENT (R.color.app_accent),
     APP_ACCENT_DARK (R.color.app_accent_dark);
-//    APP_HEADER_COLOR(R.color.app_detail_light),
-//    APP_HEADER_TEXT_COLOR(R.color.app_primary_font);
 
     /**
      * Color predeterminado

@@ -14,7 +14,7 @@ public class SearchNormalizer {
     /**
      * Remueven tildes y cambia todos a minúsculas
      */
-    private static String normalize(String str){
+    public static String normalize(String str){
         return removeAccents(str).toLowerCase();
     }
 
