@@ -1,14 +1,11 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.widget.CardView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.support.v7.widget.CardView;
+import android.support.design.widget.TextInputEditText;
 
 import java.util.Calendar;
-
 import butterknife.BindView;
 import imagisoft.edepa.Message;
 
@@ -24,12 +21,10 @@ public class ChatView extends MessagesView {
     @BindView(R.id.text_input_view)
     TextInputEditText textInputView;
 
-    /**
-     * Se enlazan los componentes visuales con los atributos
-     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflate(inflater, container, R.layout.chat_view);
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        resource = R.layout.chat_view;
     }
 
     /**
@@ -40,6 +35,31 @@ public class ChatView extends MessagesView {
         super.onActivityCreated(bundle);
         setupSendCardView();
         setToolbarText(R.string.nav_chat);
+        setTabLayoutVisibility(View.GONE);
+    }
+
+    /**
+     * Guarda lo que el usuario ha escrito en el chat para cuando regrese
+     * al mismo fragmento o se gire la pantalla
+     * @param outState: Bundle con el contenido del chat
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("text_input", textInputView.getEditableText().toString());
+    }
+
+    /**
+     * Restaura en lo que el usuario habia escrito en el chat después
+     * de salirse de la panralla o al girarla
+     * @param savedInstanceState: Bundle con el contenido del chat
+     */
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if(savedInstanceState != null)
+            textInputView.setText(savedInstanceState.getString("text_input"));
     }
 
     /**
@@ -77,7 +97,7 @@ public class ChatView extends MessagesView {
      */
     private void sendNotEmptyMessage(String content){
         Message msg = createMessage(content);
-        getFirebase().getChatReference().push().setValue(msg);
+        activity.getChatReference().push().setValue(msg);
         textInputView.setText("");
     }
 

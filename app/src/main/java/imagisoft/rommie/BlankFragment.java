@@ -1,9 +1,6 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -11,52 +8,53 @@ import butterknife.BindView;
 public class BlankFragment extends MainActivityFragment {
 
     /**
-     * Usada paa obtener el argumento dentro de bundle
-     */
-    private String DESCRIPTION_KEY = "DESCRIPTION";
-
-    /**
-     * Información que se muestra en el fragmento en blanco
-     */
-    private String description;
-
-    /**
-     * Contenedor visual de la variable "description"
+     * El texto en el centro que muestra en fragmento
      */
     @BindView(R.id.description_text_view)
     TextView descriptionTextView;
 
     /**
-     * Se requiere el constructor vacio
+     * Crea una nueva instancia del fragmento
+     * Guarda y restaura el mensaje en caso de que la pantalla se gire
+     * @param description: Mensaje que se debe mostrar en el fragmento
+     * @return BlankFragment
      */
-    public BlankFragment() {
+    public static BlankFragment newInstance(String description){
+
+        Bundle args = new Bundle();
+        args.putString("msg", description);
+
+        BlankFragment fragment = new BlankFragment();
+        fragment.setArguments(args);
+
+        return fragment;
 
     }
 
     /**
-     * Se toma la descripción desde los argumentos
-     * @param bundle: Contiene la descripción
+     * Se toma el mensaje desde los argumentos
+     * @param bundle: No es necesario
      */
     @Override
     public void onCreate(Bundle bundle) {
-
         super.onCreate(bundle);
-
-        if(bundle != null)
-            description = bundle.getString(DESCRIPTION_KEY);
-        else
-            description = getString(R.string.text_without_description);
+        resource = R.layout.fragment_blank;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        return inflate(inflater, container, R.layout.fragment_blank);
-    }
-
+    /**
+     * Se coloca el mensaje en la vista
+     * @param bundle: No es necesario
+     */
     @Override
     public void onActivityCreated(Bundle bundle) {
+
         super.onActivityCreated(bundle);
-        descriptionTextView.setText(description);
+
+        Bundle args = getArguments();
+
+        if(args != null)
+            descriptionTextView.setText(args.getString("description"));
+
     }
 
 }

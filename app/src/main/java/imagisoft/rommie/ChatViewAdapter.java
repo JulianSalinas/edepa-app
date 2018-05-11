@@ -27,7 +27,7 @@ public class ChatViewAdapter extends MessagesViewAdapterOnline{
         super(chatView);
 
         ChildEventListener listener = new MessageViewAdapterChildEventListener();
-        view.getFirebase().getChatReference().addChildEventListener(listener);
+        view.activity.getChatReference().addChildEventListener(listener);
 
     }
 
