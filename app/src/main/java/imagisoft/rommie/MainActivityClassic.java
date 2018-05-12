@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.Stack;
@@ -36,6 +37,9 @@ public abstract class MainActivityClassic extends AppCompatActivity {
     @BindView(R.id.navigation)
     NavigationView navigation;
 
+    @BindView(R.id.toolbar_container)
+    View toolbarContainer;
+
     protected ActionBarDrawerToggle toggle;
     protected Stack<Fragment> profilePendingList = new Stack<>();
 
@@ -44,6 +48,10 @@ public abstract class MainActivityClassic extends AppCompatActivity {
      */
     public Toolbar getToolbar() {
         return toolbar;
+    }
+
+    public View getToolbarContainer() {
+        return toolbarContainer;
     }
 
     /**

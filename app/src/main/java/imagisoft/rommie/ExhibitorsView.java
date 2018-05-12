@@ -52,24 +52,6 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements MaterialSe
         inflater.inflate(R.menu.search_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.search_item);
         searchView.setMenuItem(searchItem);
-        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-            @Override
-            public void onSearchViewShown() {
-
-            }
-
-            @Override
-            public void onSearchViewClosed() {
-
-            }
-        });
-
-//        searchItem.setOnMenuItemClickListener(item -> {
-//            searchView.setVisibility(View.VISIBLE);
-//            setToolbarVisibility(View.GONE);
-//            return true;
-//        });
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 

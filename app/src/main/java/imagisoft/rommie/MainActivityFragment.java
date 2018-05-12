@@ -216,20 +216,14 @@ public abstract class MainActivityFragment extends Fragment {
     }
 
     public void setToolbarVisibility(int visibility){
-        ActionBar toolbar = activity.getSupportActionBar();
-        if(toolbar != null) {
-            if (visibility != View.VISIBLE) toolbar.hide();
-            else toolbar.show();
-        }
+        activity.getToolbarContainer().setVisibility(visibility);
+        getToolbar().setVisibility(visibility);
+        getSearchView().setVisibility(visibility);
     }
 
     public void setStatusBarColor(int color){
         MainActivityNavigation activity = (MainActivityNavigation) getActivity();
         activity.getWindow().setStatusBarColor(color);
-    }
-
-    public void updateLanguage(String lang){
-        activity.updateLanguage(lang);
     }
 
     public int getStatusBarColor(){
