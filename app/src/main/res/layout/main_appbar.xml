@@ -11,15 +11,27 @@
         android:layout_height="wrap_content"
         app:elevation="15dp">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            app:title="@string/app_name"
-            app:titleTextColor="?android:textColorSecondary"
+        <FrameLayout
+            android:id="@+id/toolbar_container"
             android:layout_width="match_parent"
-            android:layout_height="@android:dimen/app_icon_size">
-        </android.support.v7.widget.Toolbar>
+            android:layout_height="?attr/actionBarSize">
 
-        <include layout="@layout/schedule_tabs"/>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                app:title="@string/app_name"
+                app:titleTextColor="?android:textColorSecondary"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
+            </android.support.v7.widget.Toolbar>
+
+            <com.miguelcatalan.materialsearchview.MaterialSearchView
+                android:id="@+id/search_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </FrameLayout>
+
+        <include layout="@layout/schedule_tabs" />
 
     </android.support.design.widget.AppBarLayout>
 

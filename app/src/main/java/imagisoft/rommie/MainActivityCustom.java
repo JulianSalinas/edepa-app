@@ -24,6 +24,7 @@ import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.Lifetime;
 import com.firebase.jobdispatcher.RetryStrategy;
 import com.firebase.jobdispatcher.Trigger;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.Locale;
 
@@ -59,12 +60,19 @@ public abstract class MainActivityCustom extends MainActivityClassic
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
 
+    @BindView(R.id.search_view)
+    MaterialSearchView searchView;
+
     /**
      * Necesario para que los fragmenos que necesitan los tabs
      * puedan ocultarlos
      */
     public TabLayout getTabLayout() {
         return tabLayout;
+    }
+
+    public MaterialSearchView getSearchView() {
+        return searchView;
     }
 
     /**

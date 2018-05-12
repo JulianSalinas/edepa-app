@@ -59,6 +59,7 @@ dependencies {
     implementation 'com.afollestad:aesthetic:0.4.7'
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation "com.jakewharton:butterknife:8.8.1"
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
     implementation 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
 
     testImplementation 'junit:junit:4.12'

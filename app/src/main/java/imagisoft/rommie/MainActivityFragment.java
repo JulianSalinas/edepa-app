@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.Locale;
 
@@ -60,33 +62,23 @@ public abstract class MainActivityFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle bundle) {
-        Log.i(TAG, "onCreate()");
         super.onCreate(bundle);
         activity = (MainActivityNavigation) getActivity();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        Log.i(TAG, "onCreateView()");
         View view = inflater.inflate(resource, container, false);
+        setHasOptionsMenu(true);
         ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onActivityCreated(Bundle bundle) {
-        Log.i(TAG, "onActivityCreate()");
         super.onActivityCreated(bundle);
         lastUsedToolbarText = getToolbar().getTitle();
         lastTabLayoutVisibility = getTabLayout().getVisibility();
-    }
-
-    public void onBackPressed() {
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.popBackStack(
-                fragmentManager.getBackStackEntryAt(
-                        fragmentManager.getBackStackEntryCount()-2).getId(),
-                FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
     @Override
@@ -255,6 +247,10 @@ public abstract class MainActivityFragment extends Fragment {
 
     public Toolbar getToolbar(){
         return activity.getToolbar();
+    }
+
+    public MaterialSearchView getSearchView(){
+        return activity.getSearchView();
     }
 
     public void setToolbarText(int resource){

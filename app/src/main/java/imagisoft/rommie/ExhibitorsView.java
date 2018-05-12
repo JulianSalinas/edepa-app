@@ -1,18 +1,21 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.SearchView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import butterknife.BindView;
 
 
-public class ExhibitorsView extends ExhibitorsViewFragment implements SearchView.OnQueryTextListener{
+public class ExhibitorsView extends ExhibitorsViewFragment implements MaterialSearchView.OnQueryTextListener {
 
-    @BindView(R.id.exhibitor_search_view)
-    SearchView searchView;
+
+    MaterialSearchView searchView;
 
     /**
      * Es la capa donde se coloca cada uno de los expositores
@@ -36,13 +39,38 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements SearchView
         setHasOptionsMenu(true);
         setToolbarText(R.string.nav_people);
         setTabLayoutVisibility(View.GONE);
-        searchView.setQueryHint(getResources().getString(R.string.text_search));
+        searchView = getSearchView();
+        searchView.setHint(getResources().getString(R.string.text_search));
         searchView.setOnQueryTextListener(this);
+        searchView.setVoiceSearch(false);
+        searchView.setCursorDrawable(R.drawable.custom_cursor);
+        searchView.setEllipsize(true);
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.search_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.search_item);
+        searchView.setMenuItem(searchItem);
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+
+            }
+        });
+
+//        searchItem.setOnMenuItemClickListener(item -> {
+//            searchView.setVisibility(View.VISIBLE);
+//            setToolbarVisibility(View.GONE);
+//            return true;
+//        });
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     /**
@@ -54,6 +82,7 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements SearchView
         exhibitorsRecyclerView.setItemAnimator(new DefaultItemAnimator());
         exhibitorsRecyclerView.setAdapter(exhibitorsAdapter);
     }
+
 
     /**
      * Ejecutada al presionar el botón de búsqueda
