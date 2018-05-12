@@ -96,7 +96,8 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
         searchView = getSearchView();
         searchView.setHint(getResources().getString(R.string.text_search));
 //        searchView.setOnQueryTextListener(this);
-        searchView.setVoiceSearch(false);
+        searchView.setVoiceSearch(true);
+        searchView.setVoiceIcon(getResources().getDrawable(R.drawable.ic_voice));
         searchView.setCursorDrawable(R.drawable.custom_cursor);
         searchView.setEllipsize(true);
 

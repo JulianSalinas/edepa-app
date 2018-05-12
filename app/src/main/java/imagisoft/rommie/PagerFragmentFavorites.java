@@ -1,9 +1,23 @@
 package imagisoft.rommie;
 
-
+import android.os.Bundle;
 import imagisoft.edepa.FavoriteList;
 
-public class PagerFragmentFavorites extends PagerFragment {
+
+public class PagerFragmentFavorites extends PagerFragment{
+
+
+    private FavoriteList favorites;
+
+    /**
+     * Se define cúal es el layout que va a utilizar
+     * @param bundle: No se utiliza
+     */
+    @Override
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        this.favorites = FavoriteList.getInstance();
+    }
 
     /**
      * Obtiene los eventos, extrae todos los días que componen los eventos
@@ -18,7 +32,6 @@ public class PagerFragmentFavorites extends PagerFragment {
 
         pager.setAdapter(adapter);
 
-        FavoriteList favorites = FavoriteList.getInstance();
         if(favorites.isChanged()) {
             favorites.getSortedEvents();
             adapter.notifyDataSetChanged();
