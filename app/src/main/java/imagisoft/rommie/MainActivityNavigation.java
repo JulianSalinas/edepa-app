@@ -3,15 +3,18 @@ package imagisoft.rommie;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
@@ -20,8 +23,16 @@ import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 import java.util.HashMap;
 
 
-public class MainActivityNavigation extends MainActivityFirebase implements
-        NavigationView.OnNavigationItemSelectedListener, TabLayout.OnTabSelectedListener, View.OnClickListener{
+public class MainActivityNavigation extends MainActivityFirebase
+        implements NavigationView.OnNavigationItemSelectedListener,
+        TabLayout.OnTabSelectedListener, View.OnClickListener{
+
+    /**
+     * Usadas para cambiar los fragmentos usando un hilo
+     * diferente para que la animación se vea mas fluida
+     */
+    Handler handler;
+    Runnable pendingRunnable;
 
     /**
      * Vistas en el encanbezado del menú principal
@@ -42,6 +53,7 @@ public class MainActivityNavigation extends MainActivityFirebase implements
 
     /**
      * Se define cúal es el layout que va a utilizar
+     * dependiendo desde donde se abra la aplicación
      * @param bundle: No se utiliza
      */
     @Override
@@ -50,6 +62,7 @@ public class MainActivityNavigation extends MainActivityFirebase implements
 
         super.onCreate(bundle);
 
+        handler = new Handler();
         tabbedFragments = new HashMap<>();
         independentFragments = new HashMap<>();
 
@@ -64,6 +77,12 @@ public class MainActivityNavigation extends MainActivityFirebase implements
 
     }
 
+    /**
+     * Inicializa la aplicación utilizando parametros
+     * Es usada cuando se cambia el idioma o la app se abre
+     * desde una notificación
+     * @param args: Argumentos dentro de Intent
+     */
     protected void onCreateWithBundle(Bundle args){
 
         onCreateWithNoArgs();
@@ -83,6 +102,10 @@ public class MainActivityNavigation extends MainActivityFirebase implements
 
     }
 
+    /**
+     * Inicializa la aplicación sin argumentos
+     * Es usada cuando se abre la app desde el icono
+     */
     protected void onCreateWithNoArgs(){
 
         currentResource = R.id.schedule_view;
@@ -139,27 +162,20 @@ public class MainActivityNavigation extends MainActivityFirebase implements
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        drawer.closeDrawer(GravityCompat.START);
         navigateById(item.getItemId());
+        handlePandinRunnable();
         return true;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle bundle) {
-//        bundle.putInt(CURRENT_RESOURCE_KEY, currentResource);
-        super.onSaveInstanceState(bundle);
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle bundle) {
-
-        super.onRestoreInstanceState(bundle);
-
-//        if(bundle != null) {
-//            currentResource = bundle.getInt(CURRENT_RESOURCE_KEY);
-//            navigateById(currentResource);
-//        }
-
+    /**
+     * Pone a correr el hilo que se había programado para cambiar
+     * el fragmento actual.
+     */
+    public void handlePandinRunnable(){
+        if (pendingRunnable != null) {
+            handler.postDelayed(pendingRunnable, 300);
+            pendingRunnable = null;
+        }
     }
 
     /**
@@ -183,11 +199,17 @@ public class MainActivityNavigation extends MainActivityFirebase implements
             onExit();
         }
 
-        if(!independentFragments.containsKey(idResource))
-            independentFragments.put(idResource, createFragmentById(idResource));
+        pendingRunnable = () -> {
 
-        currentResource = idResource;
-        switchFragment(independentFragments.get(idResource));
+            if(!independentFragments.containsKey(idResource))
+                independentFragments.put(idResource, createFragmentById(idResource));
+
+            currentResource = idResource;
+            switchFragment(independentFragments.get(idResource));
+
+        };
+        
+        drawer.closeDrawer(GravityCompat.START);
 
     }
 
