@@ -129,5 +129,6 @@
     <string name="text_atelier">Taller</string>
     <string name="text_fair">Feria-EDEPA</string>
     <string name="text_without_description">Sin descripción</string>
+    <string name="text_today">Hoy</string>
 
 </resources>

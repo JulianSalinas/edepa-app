@@ -2,17 +2,15 @@ package imagisoft.rommie;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-
 import org.springframework.util.LinkedMultiValueMap;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import static java.lang.Math.abs;
 
 import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
 import imagisoft.miscellaneous.DateConverter;
-
-import static java.lang.Math.abs;
 
 
 public class PagerAdapter extends FragmentPagerAdapter {

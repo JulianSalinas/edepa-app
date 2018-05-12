@@ -1,19 +1,15 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.RecyclerView;
-import android.text.util.Linkify;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.widget.ImageView;
+import android.text.util.Linkify;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.DefaultItemAnimator;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 
 import java.util.List;
-
 import butterknife.BindView;
 import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.FavoriteList;
@@ -81,6 +77,10 @@ public class ScheduleDetail extends ExhibitorsViewFragment {
 
     }
 
+    /**
+     * Se define cúal es el layout que va a utilizar
+     * @param bundle: No se utiliza
+     */
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -93,7 +93,9 @@ public class ScheduleDetail extends ExhibitorsViewFragment {
     }
 
     /**
-     * Justo después de crear la vista se deben cargar los detalles del evento
+     * Se configura la vista después de que la actividad se reinicia
+     * ya sea por cambio de idioma o al girar la pantalla
+     * @param bundle: No se utiliza
      */
     @Override
     public void onActivityCreated(Bundle bundle) {
@@ -134,7 +136,7 @@ public class ScheduleDetail extends ExhibitorsViewFragment {
         emphasisImageView.setBackgroundColor(color);
         setStatusBarColor(ColorConverter.darken(color, 12));
 
-        iconMap.setOnClickListener(v -> switchFragment(new InformationMap(), true));
+        iconMap.setOnClickListener(v -> switchFragment(new InformationMap()));
         buttonBack.setOnClickListener(v -> activity.onBackPressed());
 
         favoriteButton.setFavorite(FavoriteList.getInstance().getSortedEvents().contains(event));

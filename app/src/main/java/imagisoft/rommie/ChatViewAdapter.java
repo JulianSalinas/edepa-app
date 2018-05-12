@@ -14,12 +14,13 @@ public class ChatViewAdapter extends MessagesViewAdapterOnline{
     /**
      * Constantes paras escoger el tipo de vista que se colocará
      */
-    private int CHAT_TIMESTAMP = 0;
-    private int CHAT_LEFT_VIEW_TYPE = 1;
-    private int CHAT_RIGHT_VIEW_TYPE = 2;
+    private final int CHAT_TIMESTAMP = 0;
+    private final int CHAT_LEFT_VIEW_TYPE = 1;
+    private final int CHAT_RIGHT_VIEW_TYPE = 2;
 
     /**
      * Se asocia con firebase para recibir los mensajes
+     * @param chatView: Vista que hace uso de este adaptador
      */
     public ChatViewAdapter(ChatView chatView){
 
@@ -32,6 +33,7 @@ public class ChatViewAdapter extends MessagesViewAdapterOnline{
 
     /**
      *  Obtiene si el mensaje va a la izq o der
+     *  @param position: Posición del mensaje dentro del arreglo
      */
     @Override
     public int getItemViewType(int position) {
@@ -48,6 +50,8 @@ public class ChatViewAdapter extends MessagesViewAdapterOnline{
 
     /**
      * Crear la vista del mensaje, ajustando a izq o der según corresponda
+     * @param parent: Vista padre
+     * @param viewType: Alguna de las constantes definidas en ésta clase
      */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

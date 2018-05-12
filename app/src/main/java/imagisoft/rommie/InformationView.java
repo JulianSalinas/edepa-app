@@ -2,18 +2,17 @@ package imagisoft.rommie;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.CameraUpdateFactory;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -91,7 +90,7 @@ public class InformationView extends MainActivityFragment implements OnMapReadyC
         endTextView.setText(DateConverter.extractDate(congress.getEnd()));
         startTextView.setText(DateConverter.extractDate(congress.getStart()));
 
-        iconMap.setOnClickListener(v -> switchFragment(miniMap, true));
+        iconMap.setOnClickListener(v -> switchFragment(miniMap));
         buttonBack.setOnClickListener(v -> activity.onBackPressed());
 
     }

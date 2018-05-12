@@ -17,7 +17,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/space_medium"
+            android:layout_marginBottom="@dimen/space_small"
             android:orientation="horizontal">
 
             <TextView
@@ -46,8 +46,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/space_line"
-            android:layout_marginTop="@dimen/space_default"
-            android:layout_marginBottom="@dimen/space_default"
+            android:layout_marginTop="@dimen/space_medium"
+            android:layout_marginBottom="@dimen/space_medium"
             android:background="@color/app_detail_light" />
 
         <LinearLayout
@@ -60,14 +60,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_medium"
+                android:layout_marginBottom="@dimen/space_small"
                 android:text="@string/text_username"
                 android:textSize="@dimen/font_big" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_medium"
                 android:text="@string/text_username_help" />
 
         </LinearLayout>
@@ -75,8 +74,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/space_line"
-            android:layout_marginTop="@dimen/space_default"
-            android:layout_marginBottom="@dimen/space_default"
+            android:layout_marginTop="@dimen/space_medium"
+            android:layout_marginBottom="@dimen/space_medium"
             android:background="@color/app_detail_light" />
 
         <LinearLayout
@@ -89,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginBottom="@dimen/space_medium"
+                android:layout_marginBottom="@dimen/space_small"
                 android:text="@string/text_language"
                 android:textSize="@dimen/font_big" />
 
@@ -103,8 +102,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/space_line"
-            android:layout_marginTop="@dimen/space_default"
-            android:layout_marginBottom="@dimen/space_default"
+            android:layout_marginTop="@dimen/space_medium"
+            android:layout_marginBottom="@dimen/space_medium"
             android:background="@color/app_detail_light" />
 
         <LinearLayout
@@ -117,7 +116,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_medium"
+                android:layout_marginBottom="@dimen/space_small"
                 android:text="@string/text_about"
                 android:textSize="@dimen/font_big" />
 
@@ -129,7 +128,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_medium"
                 android:text="@string/text_about_readmore" />
 
         </LinearLayout>
@@ -137,7 +135,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/space_line"
-            android:layout_marginTop="@dimen/space_default"
+            android:layout_marginTop="@dimen/space_medium"
             android:layout_marginBottom="@dimen/space_medium"
             android:background="@color/app_detail_light" />
 

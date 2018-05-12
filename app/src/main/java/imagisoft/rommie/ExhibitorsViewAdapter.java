@@ -1,19 +1,20 @@
 package imagisoft.rommie;
 
-import android.graphics.Color;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.graphics.Color;
 import android.widget.TextView;
+import android.view.LayoutInflater;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
+import agency.tango.android.avatarview.views.AvatarView;
 import agency.tango.android.avatarview.AvatarPlaceholder;
 import agency.tango.android.avatarview.utils.StringUtils;
-import agency.tango.android.avatarview.views.AvatarView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import imagisoft.edepa.Exhibitor;
@@ -74,7 +75,7 @@ public class ExhibitorsViewAdapter
         bindColor(item.getCompleteName(), holder);
 
         holder.exhibitorCardView.setOnClickListener(v -> exhibitorsView.switchFragment(
-                ExhibitorDetail.newInstance(item, exhibitorsView.getExhibitorsEvents(item)), false));
+                ExhibitorDetail.newInstance(item, exhibitorsView.getExhibitorsEvents(item))));
 
     }
 

@@ -1,9 +1,7 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.PhotoView;
@@ -22,6 +20,10 @@ public class InformationMap extends MainActivityFragment {
     @BindView(R.id.img_map)
     PhotoView miniMap;
 
+    /**
+     * Se define cúal es el layout que va a utilizar
+     * @param bundle: No se utiliza
+     */
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -29,6 +31,11 @@ public class InformationMap extends MainActivityFragment {
         resource = R.layout.information_map;
     }
 
+    /**
+     * Se configura la vista después de que la actividad se reinicia
+     * ya sea por cambio de idioma o al girar la pantalla
+     * @param bundle: No se utiliza
+     */
     @Override
     public void onActivityCreated(Bundle bundle) {
 
@@ -54,6 +61,10 @@ public class InformationMap extends MainActivityFragment {
 
     }
 
+    /**
+     * Carga el croquis en segundo plano para que la transición
+     * se fluida
+     */
     private void loadMinimapAsync(){
         Glide.with(activity)
                 .load(imgRef)

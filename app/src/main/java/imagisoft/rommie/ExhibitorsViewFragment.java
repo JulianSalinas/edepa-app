@@ -6,13 +6,12 @@ import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-
 import org.springframework.util.LinkedMultiValueMap;
 
+import java.util.List;
+import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 
 import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.ScheduleBlock;

@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 
+
 public class BlankFragment extends MainActivityFragment {
 
     /**

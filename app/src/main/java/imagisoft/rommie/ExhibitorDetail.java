@@ -1,20 +1,16 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import agency.tango.android.avatarview.AvatarPlaceholder;
+import android.widget.ImageView;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.DefaultItemAnimator;
 import agency.tango.android.avatarview.views.AvatarView;
+import agency.tango.android.avatarview.AvatarPlaceholder;
+
+import java.util.List;
+import java.util.ArrayList;
 import butterknife.BindView;
 import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.ScheduleBlock;
@@ -53,6 +49,8 @@ public class ExhibitorDetail extends MainActivityFragment {
     /**
      * No se pueden crear constructores con parámetros, por tanto,
      * se pasan los parámetros de esta forma
+     * @param exhibitor: Expositor de que se deben mostrar los detalles
+     * @param events: Eventos en los que participa el expositor
      */
     public static ExhibitorDetail newInstance(Exhibitor exhibitor, List<ScheduleBlock> events) {
 
@@ -67,7 +65,10 @@ public class ExhibitorDetail extends MainActivityFragment {
 
     }
 
-
+    /**
+     * Se define cúal es el layout que va a utilizar
+     * @param bundle: No se utiliza
+     */
     @Override
     public void onCreate(Bundle bundle) {
 
@@ -84,7 +85,9 @@ public class ExhibitorDetail extends MainActivityFragment {
     }
 
     /**
-     * Justo después de crear la vista se deben cargar los detalles del evento
+     * Se configura la vista después de que la actividad se reinicia
+     * ya sea por cambio de idioma o al girar la pantalla
+     * @param bundle: No se utiliza
      */
     @Override
     public void onActivityCreated(Bundle bundle) {

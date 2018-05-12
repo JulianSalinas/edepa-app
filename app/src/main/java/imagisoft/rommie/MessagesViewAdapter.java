@@ -1,14 +1,15 @@
 package imagisoft.rommie;
 
-import android.support.v7.widget.RecyclerView;
-import android.text.util.Linkify;
 import android.view.View;
 import android.widget.TextView;
+import android.text.util.Linkify;
+import android.support.v7.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,10 +22,9 @@ public abstract class MessagesViewAdapter
         extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /**
-     * Se obtiene el usuario actual o que envía
+     * Último mensaje enviado en el congreso
      */
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    FirebaseUser user = auth.getCurrentUser();
+    protected Message lastMessage;
 
     /**
      * Referencia al objeto que adapta
@@ -36,16 +36,18 @@ public abstract class MessagesViewAdapter
      */
     protected ArrayList<Timestamp> msgs;
 
-    protected Message lastMessage;
+    /**
+     * Se obtiene el usuario actual o que envía
+     */
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseUser user = auth.getCurrentUser();
 
     /**
      * Constructor del adaptador
      */
     public MessagesViewAdapter(MainActivityFragment view){
-
         this.view = view;
         this.msgs = new ArrayList<>();
-
     }
 
     /**
@@ -79,7 +81,15 @@ public abstract class MessagesViewAdapter
         else {
 
             TimestampViewHolder holder = (TimestampViewHolder) viewHolder;
-            holder.chatSeparatorTime.setText(DateConverter.extractDate(timestamp.getTime()));
+
+            Long currentTime = Calendar.getInstance().getTimeInMillis();
+            String currentDate = DateConverter.extractDate(currentTime);
+            String lastTimestampDate = DateConverter.extractDate(timestamp.getTime());
+
+            if (currentDate.equals(lastTimestampDate))
+                holder.timeSeparator.setText(view.getResources().getString(R.string.text_today));
+            else
+                holder.timeSeparator.setText(DateConverter.extractDate(timestamp.getTime()));
 
         }
 
@@ -91,7 +101,7 @@ public abstract class MessagesViewAdapter
     protected class TimestampViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.chat_separator_time)
-        TextView chatSeparatorTime;
+        TextView timeSeparator;
 
         TimestampViewHolder(View view) {
             super(view);

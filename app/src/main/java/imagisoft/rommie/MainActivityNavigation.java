@@ -9,6 +9,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -22,14 +23,27 @@ import java.util.HashMap;
 public class MainActivityNavigation extends MainActivityFirebase implements
         NavigationView.OnNavigationItemSelectedListener, TabLayout.OnTabSelectedListener, View.OnClickListener{
 
+    /**
+     * Vistas en el encanbezado del menú principal
+     */
     private TextView currentSection;
     private FloatingActionLayout favoriteButton;
 
+    /**
+     * Colección de fragmentos o secciones de la aplicación
+     */
     private HashMap<Integer, Fragment> tabbedFragments;
     private HashMap<Integer, Fragment> independentFragments;
 
+    /**
+     * Hace referencia al layout que está en uso
+     */
     protected int currentResource = R.id.nav_schedule;
 
+    /**
+     * Se define cúal es el layout que va a utilizar
+     * @param bundle: No se utiliza
+     */
     @Override
     @SuppressLint("UseSparseArrays")
     protected void onCreate(Bundle bundle) {
@@ -39,29 +53,55 @@ public class MainActivityNavigation extends MainActivityFirebase implements
         tabbedFragments = new HashMap<>();
         independentFragments = new HashMap<>();
 
-        if (bundle != null){
-//            currentResource = bundle.getInt(CURRENT_RESOURCE_KEY);
-//            toolbar.setTitle(R.string.app_name);
-//            tabLayout.setVisibility(View.GONE);
-//            independentFragments.put(currentResource, createFragmentById(currentResource));
-        }
+        Intent intent = getIntent();
+        Bundle args = intent.getExtras();
 
-        if (bundle == null) {
+        if(args != null)
+            onCreateWithBundle(args);
 
-            currentResource = R.id.schedule_view;
-            toolbar.setTitle(R.string.app_name);
-            tabLayout.setVisibility(View.GONE);
-            independentFragments.put(currentResource, new PagerFragmentSchedule());
-
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.main_container, independentFragments.get(currentResource));
-            transaction.commitAllowingStateLoss();
-
-        }
-
+        else if (bundle == null)
+            onCreateWithNoArgs();
 
     }
 
+    protected void onCreateWithBundle(Bundle args){
+
+        onCreateWithNoArgs();
+        String key = "currentResource";
+        if (args.containsKey(key)) {
+
+            currentResource = args.getInt("currentResource");
+            independentFragments.put(currentResource, createFragmentById(currentResource));
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .addToBackStack(null)
+                    .replace(R.id.main_container, independentFragments.get(currentResource))
+                    .commitAllowingStateLoss();
+        }
+
+        getIntent().removeExtra("currentResource");
+
+    }
+
+    protected void onCreateWithNoArgs(){
+
+        currentResource = R.id.schedule_view;
+        toolbar.setTitle(R.string.app_name);
+        tabLayout.setVisibility(View.GONE);
+        independentFragments.put(currentResource, new PagerFragmentSchedule());
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_container, independentFragments.get(currentResource))
+                .commitAllowingStateLoss();
+
+    }
+
+    /**
+     * Después que se crea la activida y se configura, se colocan
+     * los ventos del botón de favoritos y los tabs
+     * @param bundle: No se utiliza
+     */
     @Override
     protected void onPostCreate(Bundle bundle) {
 
@@ -77,10 +117,20 @@ public class MainActivityNavigation extends MainActivityFirebase implements
 
     }
 
+    /**
+     * Se reinicia la aplicación, conservado el estado actual
+     */
     public void restartApplication(){
+
+        Bundle args = new Bundle();
+        args.putInt("currentResource", currentResource);
+
         Intent refresh = new Intent(this, MainActivityNavigation.class);
+        refresh.putExtras(args);
+
         startActivity(refresh);
         finish();
+
     }
 
     /**
@@ -96,7 +146,7 @@ public class MainActivityNavigation extends MainActivityFirebase implements
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-        bundle.putInt(CURRENT_RESOURCE_KEY, currentResource);
+//        bundle.putInt(CURRENT_RESOURCE_KEY, currentResource);
         super.onSaveInstanceState(bundle);
     }
 
@@ -105,13 +155,16 @@ public class MainActivityNavigation extends MainActivityFirebase implements
 
         super.onRestoreInstanceState(bundle);
 
-        if(bundle != null) {
-            currentResource = bundle.getInt(CURRENT_RESOURCE_KEY);
-            navigateById(currentResource);
-        }
+//        if(bundle != null) {
+//            currentResource = bundle.getInt(CURRENT_RESOURCE_KEY);
+//            navigateById(currentResource);
+//        }
 
     }
 
+    /**
+     * Ejecutada por el bóton de favoritos
+     */
     @Override
     public void onClick(View v) {
 
@@ -134,7 +187,7 @@ public class MainActivityNavigation extends MainActivityFirebase implements
             independentFragments.put(idResource, createFragmentById(idResource));
 
         currentResource = idResource;
-        switchFragment(independentFragments.get(idResource), true);
+        switchFragment(independentFragments.get(idResource));
 
     }
 

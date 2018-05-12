@@ -1,24 +1,28 @@
 package imagisoft.rommie;
 
-import android.app.Dialog;
-import android.content.res.Configuration;
-import android.content.res.Resources;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.app.Dialog;
 import android.view.Window;
+import android.view.Gravity;
+import android.widget.Switch;
 import android.widget.Button;
 import android.widget.EditText;
+import android.util.DisplayMetrics;
 import android.widget.LinearLayout;
-import android.widget.Switch;
+import android.content.res.Resources;
+import android.content.res.Configuration;
+
+import com.afollestad.aesthetic.Aesthetic;
 
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import imagisoft.miscellaneous.ColorConverter;
+import io.reactivex.disposables.Disposable;
 
 
 public class ConfigView extends MainActivityFragment {
@@ -26,7 +30,6 @@ public class ConfigView extends MainActivityFragment {
     /**
      * Elementos visuales para editar la configuración
      */
-
     @BindView(R.id.about_view)
     View aboutView;
 
@@ -40,11 +43,9 @@ public class ConfigView extends MainActivityFragment {
     Switch switchNotifications;
 
     /**
-     * Por si el usuario cancela el cambio de idioma, se pueda colocar la
-     * interfaz como estaba antes
+     * Se define cúal es el layout que va a utilizar
+     * @param bundle: No se utiliza
      */
-    boolean changeLang = true;
-
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -52,7 +53,9 @@ public class ConfigView extends MainActivityFragment {
     }
 
     /**
-     * Justo después de crear el fragmento se configuran las vistas
+     * Se configura la vista después de que la actividad se reinicia
+     * ya sea por cambio de idioma o al girar la pantalla
+     * @param bundle: No se utiliza
      */
     @Override
     public void onActivityCreated(Bundle bundle) {
@@ -90,14 +93,15 @@ public class ConfigView extends MainActivityFragment {
         conf.locale = new Locale(lang);
         res.updateConfiguration(conf, dm);
         setCurrentLang(lang);
+
         restartApplication();
-        changeLang = true;
 
     }
 
     /**
      * Función que abre un dialogo para cambiar el idioma
      */
+    @SuppressLint("CheckResult")
     @OnClick(R.id.language_view)
     public void openLanguage(){
 
@@ -117,21 +121,30 @@ public class ConfigView extends MainActivityFragment {
         Button englishButton = dialog.findViewById(R.id.english_button);
         Button spanishButton = dialog.findViewById(R.id.spanish_button);
 
-        if (getCurrentLang().equals("es")){
-            spanishButton.setBackgroundColor(getResources().getColor(R.color.app_accent));
-            englishButton.setBackgroundColor(getResources().getColor(R.color.app_detail));
-        }
+        Aesthetic.get()
+                .colorAccent()
+                .take(1)
+                .subscribe((Integer color) -> {
+                    if (getCurrentLang().equals("es")) {
+                        spanishButton.setBackgroundColor(color);
+                        englishButton.setBackgroundColor(ColorConverter.lighten(color, 12));
+                    }
+                    else {
+                        spanishButton.setBackgroundColor(ColorConverter.lighten(color, 12));
+                        englishButton.setBackgroundColor(color);
+                    }
+                });
+
 
         englishButton.setOnClickListener(v -> {
-            if (!getCurrentLang().equals("en")){
+            if (!getCurrentLang().equals("en"))
                 changeLanguage("en");
-            }
+
         });
 
         spanishButton.setOnClickListener(v -> {
-            if (!getCurrentLang().equals("es")){
+            if (!getCurrentLang().equals("es"))
                 changeLanguage("es");
-            }
         });
 
         dialog.show();
@@ -178,7 +191,7 @@ public class ConfigView extends MainActivityFragment {
      */
     @OnClick(R.id.about_view)
     public void openAbout(){
-        activity.switchFragment(new AboutView(), true);
+        activity.switchFragment(new AboutView());
     }
 
 }

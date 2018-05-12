@@ -1,18 +1,16 @@
 package imagisoft.rommie;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TableLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -81,6 +79,14 @@ public abstract class MainActivityFragment extends Fragment {
         super.onActivityCreated(bundle);
         lastUsedToolbarText = getToolbar().getTitle();
         lastTabLayoutVisibility = getTabLayout().getVisibility();
+    }
+
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.popBackStack(
+                fragmentManager.getBackStackEntryAt(
+                        fragmentManager.getBackStackEntryCount()-2).getId(),
+                FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
     @Override
@@ -203,10 +209,10 @@ public abstract class MainActivityFragment extends Fragment {
      * Coloca en la pantalla un fragmento previamente creado
      * @param fragment Asociado a la opción elegida por el usuario
      */
-    public void switchFragment(Fragment fragment, boolean addToBackStack){
+    public void switchFragment(Fragment fragment){
         assert getActivity() != null;
         MainActivityNavigation activity = (MainActivityNavigation) getActivity();
-        activity.switchFragment(fragment, addToBackStack);
+        activity.switchFragment(fragment);
     }
 
     /**
@@ -228,6 +234,10 @@ public abstract class MainActivityFragment extends Fragment {
     public void setStatusBarColor(int color){
         MainActivityNavigation activity = (MainActivityNavigation) getActivity();
         activity.getWindow().setStatusBarColor(color);
+    }
+
+    public void updateLanguage(String lang){
+        activity.updateLanguage(lang);
     }
 
     public int getStatusBarColor(){

@@ -30,15 +30,14 @@ public class ThemePicker extends PreferenceFragmentCompat
      * Se obtiene las preferencias para obtener los colores
      */
     private SharedPreferences prefs;
+
+    private int tabLayoutVisibility;
     private CharSequence toolbarText;
     private MainActivityNavigation activity;
 
-    public ThemePicker() {
-        // se requiere el constructor vacio
-    }
-
     /**
-     * Se inicializan las preferencias
+     * Se define cúal es el layout que va a utilizar
+     * @param bundle: No se utiliza
      */
     @Override
     public void onCreate(Bundle bundle) {
@@ -47,16 +46,27 @@ public class ThemePicker extends PreferenceFragmentCompat
         prefs = PreferenceManager.getDefaultSharedPreferences(activity);
     }
 
+    /**
+     * Se configura la vista después de que la actividad se reinicia
+     * ya sea por cambio de idioma o al girar la pantalla
+     * @param bundle: No se utiliza
+     */
     @Override
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
         toolbarText = activity.getToolbar().getTitle();
+        tabLayoutVisibility = activity.getTabLayout().getVisibility();
         activity.getToolbar().setTitle(getResources().getString(R.string.nav_palette));
+        activity.getTabLayout().setVisibility(View.GONE);
     }
 
+    /**
+     * Al destruirse la vista se coloca el título que la aplicación
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        activity.getTabLayout().setVisibility(tabLayoutVisibility);
         activity.getToolbar().setTitle(toolbarText);
     }
 

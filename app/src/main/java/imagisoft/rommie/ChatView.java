@@ -21,6 +21,10 @@ public class ChatView extends MessagesView {
     @BindView(R.id.text_input_view)
     TextInputEditText textInputView;
 
+    /**
+     * Se define cúal es el layout que va a utilizar
+     * @param bundle: No se utiliza
+     */
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -28,7 +32,9 @@ public class ChatView extends MessagesView {
     }
 
     /**
-     * Función que se llema cada vez que se coloca el fragmento en la actividad
+     * Se configura la vista después de que la actividad se reinicia
+     * ya sea por cambio de idioma o al girar la pantalla
+     * @param bundle: No se utiliza
      */
     @Override
     public void onActivityCreated(Bundle bundle) {

@@ -1,12 +1,9 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentPagerAdapter;
 
 import butterknife.BindView;
 
@@ -24,6 +21,10 @@ public abstract class PagerFragment extends MainActivityFragment {
      */
     protected FragmentPagerAdapter adapter;
 
+    /**
+     * Se define cúal es el layout que va a utilizar
+     * @param bundle: No se utiliza
+     */
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -31,7 +32,9 @@ public abstract class PagerFragment extends MainActivityFragment {
     }
 
     /**
-     * Al crearse el fragmento se prepara el paginador para mostrar los días
+     * Se configura la vista después de que la actividad se reinicia
+     * ya sea por cambio de idioma o al girar la pantalla
+     * @param bundle: No se utiliza
      */
     @Override
     public void onActivityCreated(Bundle bundle) {

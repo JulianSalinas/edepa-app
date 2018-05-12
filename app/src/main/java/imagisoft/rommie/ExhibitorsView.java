@@ -1,12 +1,10 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.DefaultItemAnimator;
 
 import butterknife.BindView;
 
@@ -57,12 +55,20 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements SearchView
         exhibitorsRecyclerView.setAdapter(exhibitorsAdapter);
     }
 
+    /**
+     * Ejecutada al presionar el botón de búsqueda
+     * @param query: Lo que está escrito en la barra de búsqueda
+     */
     @Override
     public boolean onQueryTextSubmit(String query) {
         exhibitorsAdapter.filter(query);
         return true;
     }
 
+    /**
+     * Ejecutada cada vez que se ingresa una letra
+     * @param newText: Lo que está escrito en la barra de búsqueda
+     */
     @Override
     public boolean onQueryTextChange(String newText) {
         exhibitorsAdapter.filter(newText);

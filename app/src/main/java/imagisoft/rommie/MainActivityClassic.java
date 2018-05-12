@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -24,8 +23,6 @@ import butterknife.ButterKnife;
  * Clase análoga al masterpage de un página web
  */
 public abstract class MainActivityClassic extends AppCompatActivity {
-
-    protected static String TAG = "MainActivity";
 
     /**
      * Atributos en común para todas las aplicaciones.
@@ -56,7 +53,6 @@ public abstract class MainActivityClassic extends AppCompatActivity {
     @Override
     protected void onCreate (Bundle bundle) {
 
-        Log.i(TAG, "OnCreate()");
         super.onCreate(bundle);
 
         setContentView(R.layout.main_drawer);
@@ -73,48 +69,18 @@ public abstract class MainActivityClassic extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onStart() {
-        Log.i(TAG, "OnStart()");
-        super.onStart();
-    }
-
+    /**
+     * Cuando la aplicación regresa de la pausa, coloca el
+     * último fragmento que quedo pendiente
+     */
     @Override
     protected void onResume() {
 
-        Log.i(TAG, "OnResume()");
         super.onResume();
 
         if(!profilePendingList.isEmpty())
-            switchFragment(profilePendingList.pop(), false);
+            switchFragment(profilePendingList.pop());
 
-    }
-
-    @Override
-    protected void onPause() {
-        Log.i(TAG, "OnPause()");
-        super.onPause();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle bundle) {
-        Log.i(TAG, "onSaveInstanceState()");
-        super.onSaveInstanceState(bundle);
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle bundle) {
-        Log.i(TAG, "onRestoreInstanceState()");
-        super.onRestoreInstanceState(bundle);
-    }
-
-    /**
-     * Al cerrar la aplicación
-     */
-    @Override
-    protected void onDestroy() {
-        Log.i(TAG, "onDestroy()");
-        super.onDestroy();
     }
 
     /**
@@ -136,7 +102,7 @@ public abstract class MainActivityClassic extends AppCompatActivity {
         if (drawer.isDrawerOpen(GravityCompat.START))
             drawer.closeDrawer(GravityCompat.START);
 
-        else if (fm.getBackStackEntryCount() > 0)
+        if (fm.getBackStackEntryCount() > 0)
             super.onBackPressed();
 
         else onExit();
@@ -147,31 +113,44 @@ public abstract class MainActivityClassic extends AppCompatActivity {
      * Coloca en la pantalla un fragmento previamente creado
      * @param fragment Asociado a la opción elegida por el usuario
      */
-    public void switchFragment(Fragment fragment, boolean addToBackStack){
+    public void switchFragment(Fragment fragment){
 
         Lifecycle.State state = getLifecycle().getCurrentState();
 
+        // Si la app está en pausa no se remplaza el fragmento
         if(state.isAtLeast(Lifecycle.State.RESUMED))
-            replaceFragment(fragment, addToBackStack);
+            replaceFragment(fragment);
 
-        else {
-            profilePendingList.clear();
-            profilePendingList.add(fragment);
-        }
+        else updateProfilePendingList(fragment);
 
     }
 
-    private void replaceFragment(Fragment fragment, boolean addToBackStack){
+    /**
+     * Usada por la función switchFragment
+     * Crear y ejecuta la transacción para cambiar el fragmento
+     * @param fragment: Fragmento a colocat en pantalla
+     */
+    private void replaceFragment(Fragment fragment){
 
-        FragmentTransaction ft =
-                 getSupportFragmentManager()
+        getSupportFragmentManager()
                 .beginTransaction()
+                .addToBackStack(null)
                 .replace(R.id.main_container, fragment)
-                .setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
+                .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
+                .commit();
 
-        if (addToBackStack)
-            ft.addToBackStack(null).commit();
+    }
 
+    /**
+     * Usada por la función switchFragment
+     * Si la aplicación está pausada, todas los fragmentos que se
+     * deban colorcar en pantalla hacen fila en profilePendigList
+     * @param fragment: Fragmento que se iba a colocar pero la aplicación
+     *                  estaba en pausa
+     */
+    private void updateProfilePendingList(Fragment fragment){
+        profilePendingList.clear();
+        profilePendingList.add(fragment);
     }
 
     /**
