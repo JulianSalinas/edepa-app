@@ -51,10 +51,8 @@ public class BlankFragment extends MainActivityFragment {
 
         super.onActivityCreated(bundle);
 
-        Bundle args = getArguments();
-
-        if(args != null)
-            descriptionTextView.setText(args.getString("description"));
+        if(bundle != null)
+            descriptionTextView.setText(bundle.getString("description"));
 
     }
 

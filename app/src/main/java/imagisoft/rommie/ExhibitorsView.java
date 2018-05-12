@@ -26,6 +26,7 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements MaterialSe
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+        setHasOptionsMenu(true);
         this.resource = R.layout.exhibitors_view;
     }
 
@@ -36,7 +37,6 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements MaterialSe
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
         setupExhibitorsView();
-        setHasOptionsMenu(true);
         setToolbarText(R.string.nav_people);
         setTabLayoutVisibility(View.GONE);
         searchView = getSearchView();
@@ -45,6 +45,18 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements MaterialSe
         searchView.setVoiceSearch(false);
         searchView.setCursorDrawable(R.drawable.custom_cursor);
         searchView.setEllipsize(true);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        searchView.closeSearch();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        searchView.closeSearch();
     }
 
     @Override

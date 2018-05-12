@@ -12,7 +12,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 
@@ -144,6 +146,13 @@ public abstract class MainActivityCustom extends MainActivityClassic
         Configuration conf = res.getConfiguration();
         conf.locale = new Locale(lang);
         res.updateConfiguration(conf, dm);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(searchView.isSearchOpen())
+            searchView.closeSearch();
+        super.onBackPressed();
     }
 
     /**

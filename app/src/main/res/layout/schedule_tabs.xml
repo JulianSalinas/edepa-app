@@ -18,7 +18,7 @@
             android:text="@string/nav_schedule" />
 
         <android.support.design.widget.TabItem
-            android:id="@+id/tab_item_agenda"
+            android:id="@+id/tab_item_favorites"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/nav_favorites" />

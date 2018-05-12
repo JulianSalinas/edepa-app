@@ -77,6 +77,8 @@ public class ScheduleView extends MainActivityFragment {
 
     }
 
+
+
     /**
      * Se configura la capa que contiene las actividades
      */

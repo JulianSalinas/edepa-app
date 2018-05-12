@@ -9,7 +9,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 import java.util.ArrayList;
-
 import imagisoft.edepa.ScheduleEvent;
 
 

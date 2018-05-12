@@ -8,13 +8,10 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
@@ -24,15 +21,14 @@ import java.util.HashMap;
 
 
 public class MainActivityNavigation extends MainActivityFirebase
-        implements NavigationView.OnNavigationItemSelectedListener,
-        TabLayout.OnTabSelectedListener, View.OnClickListener{
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener{
 
     /**
      * Usadas para cambiar los fragmentos usando un hilo
      * diferente para que la animación se vea mas fluida
      */
-    Handler handler;
-    Runnable pendingRunnable;
+    private Handler handler;
+    private Runnable pendingRunnable;
 
     /**
      * Vistas en el encanbezado del menú principal
@@ -43,13 +39,12 @@ public class MainActivityNavigation extends MainActivityFirebase
     /**
      * Colección de fragmentos o secciones de la aplicación
      */
-    private HashMap<Integer, Fragment> tabbedFragments;
     private HashMap<Integer, Fragment> independentFragments;
 
     /**
      * Hace referencia al layout que está en uso
      */
-    protected int currentResource = R.id.nav_schedule;
+    protected int currentResource = R.id.schedule_view;
 
     /**
      * Se define cúal es el layout que va a utilizar
@@ -63,7 +58,6 @@ public class MainActivityNavigation extends MainActivityFirebase
         super.onCreate(bundle);
 
         handler = new Handler();
-        tabbedFragments = new HashMap<>();
         independentFragments = new HashMap<>();
 
         Intent intent = getIntent();
@@ -87,9 +81,10 @@ public class MainActivityNavigation extends MainActivityFirebase
 
         onCreateWithNoArgs();
         String key = "currentResource";
+
         if (args.containsKey(key)) {
 
-            currentResource = args.getInt("currentResource");
+            currentResource = args.getInt(key);
             independentFragments.put(currentResource, createFragmentById(currentResource));
             getSupportFragmentManager()
                     .beginTransaction()
@@ -98,7 +93,7 @@ public class MainActivityNavigation extends MainActivityFirebase
                     .commitAllowingStateLoss();
         }
 
-        getIntent().removeExtra("currentResource");
+        getIntent().removeExtra(key);
 
     }
 
@@ -111,7 +106,7 @@ public class MainActivityNavigation extends MainActivityFirebase
         currentResource = R.id.schedule_view;
         toolbar.setTitle(R.string.app_name);
         tabLayout.setVisibility(View.GONE);
-        independentFragments.put(currentResource, new PagerFragmentSchedule());
+        independentFragments.put(currentResource, createFragmentById(currentResource));
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -134,7 +129,6 @@ public class MainActivityNavigation extends MainActivityFirebase
 
         favoriteButton.setOnClickListener(this);
         navigation.setNavigationItemSelectedListener(this);
-        tabLayout.addOnTabSelectedListener(this);
 
         super.onPostCreate(bundle);
 
@@ -163,7 +157,7 @@ public class MainActivityNavigation extends MainActivityFirebase
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         navigateById(item.getItemId());
-        handlePandinRunnable();
+        handlePendingRunnable();
         return true;
     }
 
@@ -171,9 +165,9 @@ public class MainActivityNavigation extends MainActivityFirebase
      * Pone a correr el hilo que se había programado para cambiar
      * el fragmento actual.
      */
-    public void handlePandinRunnable(){
+    public void handlePendingRunnable(){
         if (pendingRunnable != null) {
-            handler.postDelayed(pendingRunnable, 300);
+            handler.post(pendingRunnable);
             pendingRunnable = null;
         }
     }
@@ -208,99 +202,31 @@ public class MainActivityNavigation extends MainActivityFirebase
             switchFragment(independentFragments.get(idResource));
 
         };
-        
+
         drawer.closeDrawer(GravityCompat.START);
 
     }
 
     public Fragment createFragmentById(int fragmentId){ switch (fragmentId){
-        case R.id.nav_chat: return new ChatView();
-        case R.id.nav_news: return new NewsView();
-        case R.id.nav_about: return new AboutView();
-        case R.id.nav_manage: return new ConfigView();
-        case R.id.nav_pallete: return new ThemePicker();
-        case R.id.nav_people: return new ExhibitorsView();
-        case R.id.nav_infomation: return new InformationView();
-        case R.id.nav_schedule: return new PagerFragmentSchedule();
-        default: return new PagerFragmentSchedule();
+        case R.id.nav_chat:
+            return new ChatView();
+        case R.id.nav_news:
+            return new NewsView();
+        case R.id.nav_about:
+            return new AboutView();
+        case R.id.nav_manage:
+            return new ConfigView();
+        case R.id.nav_pallete:
+            return new ThemePicker();
+        case R.id.nav_people:
+            return new ExhibitorsView();
+        case R.id.nav_infomation:
+            return new InformationView();
+        case R.id.schedule_view:
+            return ScheduleTabs.newInstance(ScheduleTabs.SCHEDULE_TAB);
+        default:
+            return ScheduleTabs.newInstance(ScheduleTabs.SCHEDULE_TAB);
+
     }}
-
-    /**
-     * Según el tab que escoge el usuario, se instancia la vista
-     * (instanciación perezosa) y se coloca en pantalla
-     * @param position: Número de tab de izq a der
-     */
-    public void navigateToPosition(int position) {
-//        currentTab = position;
-//        if (position == 0)
-//            navigateById(R.id.nav_schedule);
-//        else
-//            navigateById(position);
-//        paintTab(position);
-    }
-
-    /**
-     * Coloca el indicador debajo del tab seleccionado
-     * @param position: Número de tab de izq a der
-     */
-    private void paintTab(int position){
-//        TabLayout.Tab tab = tabLayout.getTabAt(position);
-//        assert tab != null;
-//        tab.select();
-    }
-
-    /**
-     * Sirve de apoyo a la función navigateToPosition para realizar
-     * la instanciación
-     * @param tabId: Alguno de los atributos estáticos definidos
-     */
-    public Fragment createTabFragment(int tabId){
-
-//        case SCHEDULE_TAB:
-//            if(tabOptions[tabId] == null)
-//                return new PagerFragmentSchedule();
-//            else return tabOptions[tabId];
-//
-//        case FAVORITES_TAB:
-//            if (FavoriteList.getInstance().getSortedEvents().isEmpty()) {
-//                if(tabOptions[tabId] == null || !(tabOptions[tabId] instanceof BlankFragment))
-//                    return BlankFragment.newInstance(getResources()
-//                            .getString(R.string.text_without_favorites));
-//                else return tabOptions[tabId];
-//            }
-//            else return new PagerFragmentFavorites();
-//
-//
-//        case ONGOING_TAB:
-//            if(tabOptions[tabId] == null)
-//                return BlankFragment.newInstance(getResources()
-//                        .getString(R.string.text_without_ongoing));
-//            else return tabOptions[tabId];
-//
-//        default:
-//            return new PagerFragmentSchedule();
-        return null;
-
-    }
-
-    /**
-     * Evento que dispara la función switch framgent
-     */
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-//        int position = tab.getPosition();
-//        if(position != currentTab)
-//            navigateToPosition(position);
-    }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-        // Se requiere sobrescribir
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-        // Se requiere sobrescribir
-    }
 
 }
