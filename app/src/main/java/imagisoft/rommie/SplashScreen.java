@@ -56,6 +56,10 @@ public class SplashScreen extends AppCompatActivity {
             startLoginActivity();
         }
 
+        else if(!isFirstUse && !isOnline()){
+            startDatabase();
+            startApplication();
+        }
 
         else if(isFirstUse && !isOnline()){
             new AlertDialog.Builder(this)
@@ -67,8 +71,6 @@ public class SplashScreen extends AppCompatActivity {
                         System.exit(0);
                     }).show();
         }
-
-        else startApplication();
 
     }
 
