@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:pikolo="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
     android:gravity="center_horizontal">
 
-    <com.larswerkman.lobsterpicker.LobsterPicker
-        android:layout_marginTop="10dp"
-        android:id="@+id/lobster_picker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <com.madrapps.pikolo.HSLColorPicker
+        android:id="@+id/color_picker"
+        android:layout_width="210dp"
+        android:layout_height="210dp"
+        android:layout_centerInParent="true"
+        app:arc_length="360"
+        app:hue_arc_length="150"
+        app:saturation_arc_length="150"
+        app:lightness_arc_length="150"
+        pikolo:radius_offset="150dp"
+        pikolo:saturation_start_angle="150" />
 
-    <com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:id="@+id/shade_slider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/ok_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:layout_centerInParent="true"
+        android:tint="?colorAccent"
+        android:src="@drawable/ic_check"
+        android:tag=":aesthetic_ignore"/>
 
-    <com.larswerkman.lobsterpicker.sliders.LobsterOpacitySlider
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:id="@+id/opacity_slider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-</LinearLayout>
+</RelativeLayout>

@@ -256,9 +256,11 @@ public abstract class MainActivityFragment extends Fragment {
      * @param msg Mensaje que se desea mostrar
      */
     public void showStatusMessage(String msg){
-        assert getActivity() != null;
-        MainActivityNavigation activity = (MainActivityNavigation) getActivity();
         activity.showStatusMessage(msg);
+    }
+
+    public void showStatusMessage(int resource){
+        activity.showStatusMessage(getResources().getString(resource));
     }
 
 }

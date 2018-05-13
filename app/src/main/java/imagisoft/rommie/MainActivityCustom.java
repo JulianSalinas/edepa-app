@@ -33,8 +33,9 @@ import java.util.Locale;
 import butterknife.BindView;
 import imagisoft.edepa.FavoriteList;
 import imagisoft.edepa.Preferences;
+import imagisoft.miscellaneous.ColorConverter;
 
-import static imagisoft.rommie.CustomColor.APP_ACCENT_DARK;
+import static imagisoft.rommie.CustomColor.APP_PRIMARY;
 import static imagisoft.rommie.CustomColor.APP_PRIMARY_DARK;
 
 /**
@@ -49,6 +50,11 @@ public abstract class MainActivityCustom extends MainActivityClassic
     protected final String CHANNEL_KEY = "CHANNEL_KEY";
     protected final String REMAINDER_KEY = "REMAINDER_KEY";
     protected final String CURRENT_RESOURCE_KEY = "CURRENT_RESOURCE_KEY";
+
+    /**
+     * Lista de favoritos
+     */
+    protected FavoriteList favoriteList;
 
     /**
      * Es el encargado de programar las notificaciones
@@ -91,7 +97,9 @@ public abstract class MainActivityCustom extends MainActivityClassic
         setTheme();
         setLanguage();
         setupDispatcher();
-        FavoriteList.getInstance().loadFavorites(this);
+
+        favoriteList = FavoriteList.getInstance();
+        favoriteList.loadFavorites(this);
 
         super.onCreate(bundle);
 
@@ -103,7 +111,17 @@ public abstract class MainActivityCustom extends MainActivityClassic
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        FavoriteList.getInstance().saveFavorites(this);
+        favoriteList.saveFavorites(this);
+    }
+
+    /**
+     * Cierra absolutamente la aplicación
+     * Antes de hacerlo guarda los favoritos
+     */
+    public void onExit(){
+        onDestroy();
+        finishAndRemoveTask();
+        System.exit(0);
     }
 
     /**
@@ -112,8 +130,10 @@ public abstract class MainActivityCustom extends MainActivityClassic
      */
     private void setTheme(){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        getWindow().setStatusBarColor(prefs.getInt(APP_PRIMARY_DARK.toString(), APP_PRIMARY_DARK.getColor()));
-        getWindow().setNavigationBarColor(prefs.getInt(APP_ACCENT_DARK.toString(), APP_ACCENT_DARK.getColor()));
+        int primaryColor = prefs.getInt(APP_PRIMARY.toString(), APP_PRIMARY.getColor());
+        int primaryDark = prefs.getInt(APP_PRIMARY_DARK.toString(), APP_PRIMARY_DARK.getColor());
+        getWindow().setStatusBarColor(primaryDark);
+        getWindow().setNavigationBarColor(primaryColor);
     }
 
     /**
@@ -148,6 +168,10 @@ public abstract class MainActivityCustom extends MainActivityClassic
         res.updateConfiguration(conf, dm);
     }
 
+    /**
+     * Tambien cierra la barra de búsqueda
+     * si es necesario
+     */
     @Override
     public void onBackPressed() {
         if(searchView.isSearchOpen())

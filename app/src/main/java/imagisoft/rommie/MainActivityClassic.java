@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import org.springframework.core.io.Resource;
+
 import java.util.Stack;
 
 import butterknife.BindView;

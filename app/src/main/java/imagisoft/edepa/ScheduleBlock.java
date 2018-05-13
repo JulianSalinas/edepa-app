@@ -3,6 +3,8 @@ package imagisoft.edepa;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Objects;
+
 import imagisoft.miscellaneous.DateConverter;
 
 /**
@@ -58,6 +60,20 @@ public class ScheduleBlock implements Parcelable {
     public ScheduleBlock(String start, String end) {
         this.end = DateConverter.stringToLong(end);
         this.start = DateConverter.stringToLong(start);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ScheduleBlock that = (ScheduleBlock) o;
+        return Objects.equals(end, that.end) &&
+                Objects.equals(start, that.start);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(end, start);
     }
 
     @Override

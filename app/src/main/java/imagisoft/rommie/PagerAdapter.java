@@ -63,16 +63,17 @@ public class PagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public Fragment getItem(int position) {
-        if(pages[position] == null)
-            pages[position] = createScheduleView(position);
-        return pages[position];
+//        if(pages[position] == null)
+//            pages[position] = createScheduleView(position);
+//        return pages[position];
+        return createScheduleView(position);
     }
 
     /**
      * Función usada por getItem para obtener una nueva instancia únicamente
      * cuando sea necesario.
      */
-    private ScheduleView createScheduleView(int position){
+    protected ScheduleView createScheduleView(int position){
         List<ScheduleBlock> blocks = blocksByDay.get(dates.get(position));
         return ScheduleView.newInstance(blocks);
     }
@@ -91,12 +92,12 @@ public class PagerAdapter extends FragmentPagerAdapter {
     @Override
     public void notifyDataSetChanged(){
 
-        orderEvents();
+        createBlocks();
 
         dates = new ArrayList<>();
         blocksByDay = new LinkedMultiValueMap<>();
 
-        blocksByDay = getBlocksByDay();
+        groupBlockByDate();
         dates.addAll(blocksByDay.keySet());
 
         pages = new Fragment[dates.size()];
@@ -106,56 +107,56 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
     /**
      * Divide los eventos por dias (formato dd/mm/yy)
-     * @return HashTable (12/12/17, Evento)
      */
-    public LinkedMultiValueMap<String, ScheduleBlock> getBlocksByDay(){
+    public void groupBlockByDate(){
         for(ScheduleBlock event : blocks)
             blocksByDay.add(DateConverter.extractDate(event.getStart()), event);
-        return blocksByDay;
     }
 
     /**
      * Algoritmo para ordenar y agrupar los eventos por su fechas
      */
-    public void orderEvents(){
+    public void createBlocks(){
 
-        blocks = new ArrayList<>();
+        if(events.size() > 0) {
+            blocks = new ArrayList<>();
 
-        // La hora del primer evento marca la hora del primer bloque
-        ScheduleEvent first = events.get(0);
-        ScheduleBlock block = new ScheduleBlock(first.getStart(), first.getEnd());
+            // La hora del primer evento marca la hora del primer bloque
+            ScheduleEvent first = events.get(0);
+            ScheduleBlock block = new ScheduleBlock(first.getStart(), first.getEnd());
 
-        // Se añade el encabezado del bloque junto con el primer evento en la vista
-        blocks.add(block);
-        blocks.add(first);
+            // Se añade el encabezado del bloque junto con el primer evento en la vista
+            blocks.add(block);
+            blocks.add(first);
 
-        // Se agrupan los eventos si estan anidados (un evento empieza cuando otro está activo),
-        // Si empienzan casi a la misma hora (10 mins = 600000 millis),
-        // Si al terminar un evento solo faltan 10 mins para que inicie el siguiente
-        for(int i = 1; i < events.size(); i++){
+            // Se agrupan los eventos si estan anidados (un evento empieza cuando otro está activo),
+            // Si empienzan casi a la misma hora (10 mins = 600000 millis),
+            // Si al terminar un evento solo faltan 10 mins para que inicie el siguiente
+            for (int i = 1; i < events.size(); i++) {
 
-            long upEnd = events.get(i-1).getEnd();
-            long upStart = events.get(i-1).getStart();
-            long downEnd = events.get(i).getEnd();
-            long downStart = events.get(i).getStart();
+                long upEnd = events.get(i - 1).getEnd();
+                long upStart = events.get(i - 1).getStart();
+                long downEnd = events.get(i).getEnd();
+                long downStart = events.get(i).getStart();
 
-            boolean areNested = upStart > downStart && downStart > upEnd;
+                boolean areNested = upStart > downStart && downStart > upEnd;
 
-            // Agrupar en este caso es equivalente a actualizar la hora de finalización
-            // del bloque. El inicio es colocado cuando dicho bloque se crea
-            boolean diffCondition = abs(upEnd - downStart) <= 600000 ||
-                    abs(upStart - downStart) < 600000;
+                // Agrupar en este caso es equivalente a actualizar la hora de finalización
+                // del bloque. El inicio es colocado cuando dicho bloque se crea
+                boolean diffCondition = abs(upEnd - downStart) <= 600000 ||
+                        abs(upStart - downStart) < 600000;
 
-            if(diffCondition || areNested) block.setEnd(downEnd);
+                if (diffCondition || areNested) block.setEnd(downEnd);
 
-            // Si no se cumplen las condiciones para agrupar, se inicia un nuevo bloque
-            else {
-                block = new ScheduleBlock(downStart, downEnd);
-                blocks.add(block);
+                    // Si no se cumplen las condiciones para agrupar, se inicia un nuevo bloque
+                else {
+                    block = new ScheduleBlock(downStart, downEnd);
+                    blocks.add(block);
+                }
+
+                blocks.add(events.get(i));
+
             }
-
-            blocks.add(events.get(i));
-
         }
 
     }

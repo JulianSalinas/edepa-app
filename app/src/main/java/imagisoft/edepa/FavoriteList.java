@@ -2,6 +2,7 @@ package imagisoft.edepa;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -73,13 +74,24 @@ public class FavoriteList extends Preferences {
 
     }
 
+    public boolean contains(ScheduleEvent event){
+        for(ScheduleEvent scheduleEvent : events){
+            if(scheduleEvent.equals(event))
+                return true;
+        }
+        return false;
+//        return events.contains(event);
+    }
+
     /**
      * Se deb llamar cuando el usuario marca la estrellita de un evento
      * La bandera de cambios se activa
      */
     public void addEvent(ScheduleEvent event){
-        changed = true;
-        events.add(event);
+        if(!events.contains(event)) {
+            changed = true;
+            events.add(event);
+        }
     }
 
     /**
@@ -87,8 +99,10 @@ public class FavoriteList extends Preferences {
      * La bandera de cambios se activa
      */
     public void removeEvent(ScheduleEvent event){
-        changed = true;
-        events.remove(event);
+        if(events.contains(event)) {
+            changed = true;
+            events.remove(event);
+        }
     }
 
     /**

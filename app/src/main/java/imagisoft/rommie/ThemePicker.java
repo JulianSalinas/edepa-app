@@ -1,21 +1,34 @@
 package imagisoft.rommie;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.afollestad.aesthetic.Aesthetic;
 import com.kizitonwose.colorpreferencecompat.ColorPreferenceCompat;
 import com.larswerkman.lobsterpicker.LobsterPicker;
 import com.larswerkman.lobsterpicker.sliders.LobsterOpacitySlider;
 import com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider;
+import com.madrapps.pikolo.HSLColorPicker;
+import com.madrapps.pikolo.listeners.OnColorSelectionListener;
+import com.madrapps.pikolo.listeners.SimpleColorSelectionListener;
 
 import imagisoft.miscellaneous.ColorConverter;
 
@@ -95,34 +108,39 @@ public class ThemePicker extends PreferenceFragmentCompat
      */
     private void showColorDialog(final Preference preference) {
 
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View colorView = inflater.inflate(R.layout.dialog_color, null);
+        final Dialog dialog = new Dialog(activity);
+        dialog.setTitle(getResources().getString(R.string.text_choose_color));
+        dialog.setContentView(R.layout.dialog_color);
 
-        // Color por defecto para inicializar el último color usado en la vista
-        int color = PreferenceManager.getDefaultSharedPreferences(
-                getActivity()).getInt(APP_PRIMARY.toString(), Color.BLACK);
+        Window window = dialog.getWindow();
+
+        window.setLayout(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        window.setGravity(Gravity.CENTER);
+        window.setBackgroundDrawableResource(R.color.app_white);
+
+        ImageView imageOk = dialog.findViewById(R.id.ok_button);
+        imageOk.setOnClickListener(v -> dialog.dismiss());
+
+        ImageViewCompat.setImageTintList(imageOk,
+                ColorStateList.valueOf(((ColorPreferenceCompat) preference).getValue()));
 
         // Se la pantalla para seleccionar
-        final LobsterPicker lobsterPicker = colorView.findViewById(R.id.lobster_picker);
-        LobsterShadeSlider shadeSlider = colorView.findViewById(R.id.shade_slider);
-        LobsterOpacitySlider opacitySlider = colorView.findViewById(R.id.opacity_slider);
+        final HSLColorPicker colorPicker = dialog.findViewById(R.id.color_picker);
+        colorPicker.setColorSelectionListener(new SimpleColorSelectionListener(){
+            @Override
+            public void onColorSelected(int color) {
+                ((ColorPreferenceCompat) preference).setValue(color);
+                changeCustomColor(preference.getKey());
+                ImageViewCompat.setImageTintList(imageOk, ColorStateList.valueOf(color));
+            }
+        });
 
-        lobsterPicker.addDecorator(shadeSlider);
-        lobsterPicker.addDecorator(opacitySlider);
-        lobsterPicker.setColorHistoryEnabled(true);
-        lobsterPicker.setHistory(color);
-        lobsterPicker.setColor(color);
+        dialog.findViewById(R.id.ok_button).setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
 
-        // Se muestra la pantalla para selecciona el color
-        new AlertDialog.Builder(getActivity())
-                .setView(colorView)
-                .setTitle(getResources().getString(R.string.text_choose_color))
-                .setPositiveButton(getResources().getString(R.string.text_save), (dialogInterface, i) -> {
-                    ((ColorPreferenceCompat) preference).setValue(lobsterPicker.getColor());
-                    changeCustomColor(preference.getKey());
-                })
-                .setNegativeButton(getResources().getString(R.string.text_cancel), null)
-                .show();
     }
 
     /**

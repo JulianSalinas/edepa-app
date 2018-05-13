@@ -41,6 +41,8 @@ public class SplashScreen extends AppCompatActivity {
 
         super.onCreate(bundle);
 
+        setTheme(R.style.AppTheme);
+
         Preferences prefs = Preferences.getInstance();
 
         boolean isFirstUse = prefs

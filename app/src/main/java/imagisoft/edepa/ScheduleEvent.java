@@ -155,16 +155,6 @@ public class ScheduleEvent extends ScheduleBlock {
         return id.equals(event.id) && title.equals(event.title);
     }
 
-    /**
-     * Función para realizar búsquedas indexadas
-     */
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + title.hashCode();
-        return result;
-    }
-
     @Override
     public int describeContents() {
         return 0;

@@ -26,12 +26,12 @@ public class ScheduleView extends MainActivityFragment {
      * Eventos para colocar en la lista, se asume que entran
      * ordenados por fecha
      */
-    private List<ScheduleBlock> events;
+    protected List<ScheduleBlock> events;
 
     /**
      * Adaptador para almacenar administrar las vistas de los eventos
      */
-    private ScheduleViewAdapter adapter;
+    protected ScheduleViewAdapter adapter;
 
     /**
      * No se pueden crear constructores con parámetros, por tanto,
@@ -76,8 +76,6 @@ public class ScheduleView extends MainActivityFragment {
         setupEventsView();
 
     }
-
-
 
     /**
      * Se configura la capa que contiene las actividades

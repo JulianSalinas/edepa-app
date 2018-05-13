@@ -19,6 +19,12 @@ public class PagerFragmentFavorites extends PagerFragment{
         this.favorites = FavoriteList.getInstance();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        favorites.saveFavorites(activity);
+    }
+
     /**
      * Obtiene los eventos, extrae todos los días que componen los eventos
      * y ajusta la interfaz para solo mostrar dichos días por medio de un adaptador
