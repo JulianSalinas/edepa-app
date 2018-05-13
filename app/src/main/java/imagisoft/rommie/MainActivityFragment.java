@@ -190,7 +190,10 @@ public abstract class MainActivityFragment extends Fragment {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
 
-        assert user != null;
+        if(user == null){
+            return context.getResources().getString(R.string.text_anonymous);
+        }
+
         return user.getDisplayName() == null ||
                 user.getDisplayName().isEmpty() ?
                 context.getResources().getString(R.string.text_anonymous) : user.getDisplayName();

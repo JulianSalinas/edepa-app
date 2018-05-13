@@ -1,11 +1,13 @@
 package imagisoft.rommie;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -31,6 +33,7 @@ public class SplashScreen extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseDatabase database;
     private static final int RC_SIGN_IN = 123;
+    private Preferences prefs = Preferences.getInstance();
 
     /**
      * Esconde las propiedades de la pantalla y solo muesrta la imagen de carga,
@@ -42,37 +45,30 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(bundle);
 
         setTheme(R.style.AppTheme);
-
-        Preferences prefs = Preferences.getInstance();
+        setContentView(R.layout.splash_screen);
 
         boolean isFirstUse = prefs
                 .getBooleanPreference(this, Preferences.FIRST_USE_KEY_VALUE);
 
-        if(!isFirstUse || isOnline()) {
-
-            if(isFirstUse && isOnline())
-                prefs.setPreference(this, Preferences.FIRST_USE_KEY_VALUE, false);
-
-            setContentView(R.layout.splash_screen);
-
+        if(isFirstUse && isOnline()) {
+            startDatabase();
+            prefs.setPreference(this, Preferences.FIRST_USE_KEY_VALUE, false);
+            startLoginActivity();
         }
 
-        else {
 
-            setContentView(R.layout.fragment_blank);
-            TextView textView = findViewById(R.id.description_text_view);
-            textView.setText(R.string.text_you_need_internet);
-            View content = findViewById(R.id.fullscreen_content);
-
-            content.setOnClickListener(v -> {
-                finishAndRemoveTask();
-                System.exit(0);
-            });
-
+        else if(isFirstUse && !isOnline()){
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.text_no_connection)
+                    .setMessage(R.string.text_you_need_internet)
+                    .setPositiveButton(R.string.text_retry, (dialog, which) -> recreate())
+                    .setNegativeButton(R.string.nav_exit, (dialog, which) -> {
+                        finishAndRemoveTask();
+                        System.exit(0);
+                    }).show();
         }
 
-        startDatabase();
-        startLoginActivity();
+        else startApplication();
 
     }
 
@@ -112,21 +108,17 @@ public class SplashScreen extends AppCompatActivity {
      */
     private void startLoginActivity() {
 
-        if (auth.getCurrentUser() == null) {
-            startActivityForResult(AuthUI.getInstance()
-                    .createSignInIntentBuilder()
-                    .setIsSmartLockEnabled(true)
-                    .setTheme(R.style.AppTheme_SplashTheme)
-                    .setLogo(R.drawable.ic_edepa)
-                    .setAvailableProviders(Arrays.asList(
-                            new AuthUI.IdpConfig.EmailBuilder().build(),
-                            new AuthUI.IdpConfig.PhoneBuilder().build(),
-                            new AuthUI.IdpConfig.GoogleBuilder().build()))
-                    .build(), RC_SIGN_IN
-            );
-        }
-        else startApplication();
-
+        startActivityForResult(AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setIsSmartLockEnabled(false)
+                .setTheme(R.style.AppTheme)
+                .setLogo(R.drawable.ic_edepa)
+                .setAvailableProviders(Arrays.asList(
+                        new AuthUI.IdpConfig.EmailBuilder().build(),
+                        new AuthUI.IdpConfig.PhoneBuilder().build(),
+                        new AuthUI.IdpConfig.GoogleBuilder().build()))
+                .build(), RC_SIGN_IN
+        );
 
     }
 
@@ -135,9 +127,22 @@ public class SplashScreen extends AppCompatActivity {
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN && resultCode == RESULT_OK)
+        if (requestCode == RC_SIGN_IN && resultCode == RESULT_OK) {
+
+            if(auth.getCurrentUser() != null) {
+                prefs.setPreference(this,
+                        Preferences.USER_KEY_VALUE,
+                        auth.getCurrentUser().getDisplayName());
+            }
+            else {
+                prefs.setPreference(this,
+                        Preferences.USER_KEY_VALUE,
+                        getResources().getString(R.string.text_anonymous));
+            }
             startApplication();
+        }
     }
 
     /**
