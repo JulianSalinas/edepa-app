@@ -44,7 +44,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:fontFamily="sans-serif-smallcaps"
                         android:text="@string/test_event"
                         android:textSize="@dimen/font_normal" />
 

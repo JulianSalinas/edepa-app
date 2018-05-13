@@ -8,6 +8,7 @@ import android.text.util.Linkify;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
+import com.like.LikeButton;
 
 import java.util.List;
 import butterknife.BindView;
@@ -17,9 +18,7 @@ import imagisoft.edepa.ScheduleEvent;
 import imagisoft.miscellaneous.ColorConverter;
 
 
-public class ScheduleDetail extends ExhibitorsViewFragment {
-
-    int statusBarColor;
+public class ScheduleDetail extends MainActivityFragment {
 
     /**
      * Referencia al evento del que se muestran los detalles
@@ -29,37 +28,17 @@ public class ScheduleDetail extends ExhibitorsViewFragment {
     /**
      * Componentes visuales para mostrar los detalles de un evento
      */
-    @BindView(R.id.brief)
-    TextView briefTextView;
-
     @BindView(R.id.header)
     TextView headerTextView;
-
-    @BindView(R.id.icon_map)
-    View iconMap;
-
-    @BindView(R.id.eventype)
-    TextView eventypeTextView;
 
     @BindView(R.id.emphasis_image_view)
     ImageView emphasisImageView;
 
-    @BindView(R.id.exhibitor_recycler_view)
-    RecyclerView exhibitorsRecyclerView;
-
     @BindView(R.id.favorite_button)
-    MaterialFavoriteButton favoriteButton;
+    LikeButton favoriteButton;
 
     @BindView(R.id.button_back)
     View buttonBack;
-
-    /**
-     * Obtiene todos los expositores que maneja la vista
-     */
-    @Override
-    public List<Exhibitor> getExhibitors() {
-        return event.getExhibitors();
-    }
 
     /**
      * No se pueden crear constructores con parámetros, por tanto,
@@ -99,26 +78,8 @@ public class ScheduleDetail extends ExhibitorsViewFragment {
      */
     @Override
     public void onActivityCreated(Bundle bundle) {
-
         super.onActivityCreated(bundle);
-        setToolbarVisibility(View.GONE);
-        setTabLayoutVisibility(View.GONE);
-        statusBarColor = getStatusBarColor();
         bindInformation();
-        setupExhibitorsView();
-
-    }
-
-    /**
-     * Al cambiar a otra sección se deben volver a colocar la toolbar
-     */
-    @Override
-    public void onDestroyView() {
-
-        super.onDestroyView();
-        setToolbarVisibility(View.VISIBLE);
-        setStatusBarColor(statusBarColor);
-
     }
 
     /**
@@ -126,44 +87,28 @@ public class ScheduleDetail extends ExhibitorsViewFragment {
      */
     private void bindInformation(){
 
-        briefTextView.setText(event.getBrief("es"));
-        Linkify.addLinks(briefTextView, Linkify.WEB_URLS);
+//        briefTextView.setText(event.getBrief("es"));
+//        Linkify.addLinks(briefTextView, Linkify.WEB_URLS);
 
         headerTextView.setText(event.getTitle());
-        eventypeTextView.setText(event.getEventype().toString());
+//        eventypeTextView.setText(event.getEventype().toString());
 
         int color = getResources().getColor(event.getEventype().getColor());
         emphasisImageView.setBackgroundColor(color);
-        setStatusBarColor(ColorConverter.darken(color, 12));
 
-        iconMap.setOnClickListener(v -> switchFragment(new InformationMap()));
+//        iconMap.setOnClickListener(v -> switchFragment(new InformationMap()));
         buttonBack.setOnClickListener(v -> activity.onBackPressed());
 
-        favoriteButton.setFavorite(FavoriteList.getInstance().getSortedEvents().contains(event));
+        favoriteButton.setLiked(FavoriteList.getInstance().getSortedEvents().contains(event));
 
-        favoriteButton.setOnFavoriteChangeListener((buttonView, favorite) -> {
-            List<ScheduleEvent> events = FavoriteList.getInstance().getSortedEvents();
-            if(!events.contains(event)) events.add(event);
-            else events.remove(event);
-            String msg = getResources().getString(R.string.text_marked_as_favorite);
-            showStatusMessage(msg);
-            FavoriteList.getInstance().saveFavorites(activity);
-        });
-
-    }
-
-    /**
-     * Se configura el exhibitorsRecyclerView que contiene los expositores
-     */
-    public void setupExhibitorsView(){
-
-        if (exhibitorsAdapter == null)
-            exhibitorsAdapter = new ExhibitorsViewAdapter(this);
-
-        exhibitorsRecyclerView.setHasFixedSize(true);
-        exhibitorsRecyclerView.setLayoutManager(new SmoothLayout(getActivity()));
-        exhibitorsRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        exhibitorsRecyclerView.setAdapter(exhibitorsAdapter);
+//        favoriteButton.setOnFavoriteChangeListener((buttonView, favorite) -> {
+//            List<ScheduleEvent> events = FavoriteList.getInstance().getSortedEvents();
+//            if(!events.contains(event)) events.add(event);
+//            else events.remove(event);
+//            String msg = getResources().getString(R.string.text_marked_as_favorite);
+//            showStatusMessage(msg);
+//            FavoriteList.getInstance().saveFavorites(activity);
+//        });
 
     }
 
