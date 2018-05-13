@@ -29,14 +29,22 @@
                 android:scaleType="centerCrop"
                 android:src="@color/app_detail_light"/>
 
-            <ImageView
+            <RelativeLayout
                 android:id="@+id/button_back"
-                android:layout_width="@dimen/size_icon"
-                android:layout_height="@dimen/size_icon"
-                android:layout_margin="@dimen/space_default"
-                android:background="@drawable/ic_back"
-                android:backgroundTint="@color/app_primary_font"
-                android:contentDescription="@null" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="@dimen/default_margin">
+
+                <ImageView
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="@dimen/size_icon"
+                    android:layout_height="@dimen/size_icon"
+                    android:background="@drawable/ic_back"
+                    android:backgroundTint="@color/app_primary_font"
+                    android:contentDescription="@null" />
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -67,7 +75,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
-                            android:fontFamily="sans-serif-smallcaps"
                             android:text="@string/test_exhibitor"
                             android:textColor="@color/app_primary_font"
                             android:textSize="@dimen/font_big" />
@@ -141,12 +148,7 @@
                 android:id="@+id/exhibitor_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/exhibitors_item" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp">
-            </View>
+                tools:listitem="@layout/schedule_item" />
 
         </LinearLayout>
 

@@ -92,20 +92,8 @@ public class ExhibitorsViewAdapter
      * con base a eso.
      */
     private void bindColor(String name, ExhibitorViewHolder holder){
-        int color = convertStringToColor(name);
         AvatarPlaceholder avatar = new AvatarPlaceholder(name, 30);
         holder.exhibitorAvatarView.setImageDrawable(avatar);
-        holder.line.setBackgroundColor(color);
-    }
-
-    /**
-     * A partir de un string retorna un color.
-     * Usada para colorear los avatares y decoraciones del mismo
-     */
-    private int convertStringToColor(String text) {
-        String color = StringUtils.isNullOrEmpty(text) ? "#3F51B5" :
-                String.format("#FF%06X", (0xFFFFFF & text.hashCode()));
-        return Color.parseColor(color);
     }
 
     /**
@@ -138,9 +126,6 @@ public class ExhibitorsViewAdapter
      * Clase para enlazar cada uno de los componentes visuales
      */
     class ExhibitorViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.line)
-        View line;
 
         @BindView(R.id.name_text_view)
         TextView nameTextView;

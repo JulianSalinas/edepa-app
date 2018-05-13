@@ -9,9 +9,6 @@
         android:id="@+id/exhibitor_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingEnd="@dimen/space_default"
-        android:paddingStart="@dimen/space_default"
-        android:paddingTop="@dimen/space_default"
         android:scrollbars="vertical"
         android:scrollbarStyle="outsideInset"
         tools:listitem="@layout/exhibitors_item" />

@@ -22,7 +22,7 @@ public class ExhibitorDetail extends MainActivityFragment {
      * Componentes visuales
      */
     @BindView((R.id.button_back))
-    ImageView buttonBack;
+    View buttonBack;
 
     @BindView(R.id.name_text_view)
     TextView nameTextView;

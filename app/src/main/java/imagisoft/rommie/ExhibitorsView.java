@@ -1,6 +1,7 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -72,10 +73,16 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements MaterialSe
      * Se configura el exhibitorsRecyclerView que contiene los expositores
      */
     public void setupExhibitorsView(){
+
         exhibitorsRecyclerView.setHasFixedSize(true);
         exhibitorsRecyclerView.setLayoutManager(new SmoothLayout(getActivity()));
         exhibitorsRecyclerView.setItemAnimator(new DefaultItemAnimator());
         exhibitorsRecyclerView.setAdapter(exhibitorsAdapter);
+
+        exhibitorsRecyclerView.addItemDecoration(
+                new DividerItemDecoration(activity,
+                DividerItemDecoration.VERTICAL));
+
     }
 
 
