@@ -1,6 +1,5 @@
 package imagisoft.rommie;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.app.Dialog;
@@ -12,17 +11,14 @@ import android.widget.EditText;
 import android.util.DisplayMetrics;
 import android.widget.LinearLayout;
 import android.content.res.Resources;
+import android.annotation.SuppressLint;
 import android.content.res.Configuration;
-
 import com.afollestad.aesthetic.Aesthetic;
 
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import imagisoft.miscellaneous.ColorConverter;
-import io.reactivex.disposables.Disposable;
 
 
 public class ConfigView extends MainActivityFragment {
@@ -99,15 +95,26 @@ public class ConfigView extends MainActivityFragment {
     }
 
     /**
-     * Función que abre un dialogo para cambiar el idioma
+     * Crea un nuevo dialog a partir un layout
+     * @param title: R.string.<resource>
+     * @param layout: R.layout.<resource>
+     * @return Dialog creado y configurado
      */
-    @SuppressLint("CheckResult")
-    @OnClick(R.id.language_view)
-    public void openLanguage(){
+    public Dialog createDialog(int title, int layout){
 
         final Dialog dialog = new Dialog(activity);
-        dialog.setTitle(R.string.text_language);
-        dialog.setContentView(R.layout.dialog_lang);
+        dialog.setTitle(title);
+        dialog.setContentView(layout);
+        configDialog(dialog);
+        return dialog;
+
+    }
+
+    /**
+     * Ajusta el dialogo para que se vea bien
+     * @param dialog: Dialog previamente creado
+     */
+    public void configDialog(final Dialog dialog){
 
         Window window = dialog.getWindow();
 
@@ -118,6 +125,16 @@ public class ConfigView extends MainActivityFragment {
         window.setGravity(Gravity.CENTER);
         window.setBackgroundDrawableResource(R.color.app_white);
 
+    }
+
+    /**
+     * Función que abre un dialogo para cambiar el idioma
+     */
+    @SuppressLint("CheckResult")
+    @OnClick(R.id.language_view)
+    public void openLanguage(){
+
+        final Dialog dialog = createDialog(R.string.text_language, R.layout.dialog_lang);
         Button englishButton = dialog.findViewById(R.id.english_button);
         Button spanishButton = dialog.findViewById(R.id.spanish_button);
 
@@ -125,21 +142,25 @@ public class ConfigView extends MainActivityFragment {
                 .colorAccent()
                 .take(1)
                 .subscribe((Integer color) -> {
+
+                    // Coloca el bóton del idioma activo de un tono más oscuro
+
                     if (getCurrentLang().equals("es")) {
                         spanishButton.setBackgroundColor(color);
                         englishButton.setBackgroundColor(ColorConverter.lighten(color, 12));
                     }
+
                     else {
                         spanishButton.setBackgroundColor(ColorConverter.lighten(color, 12));
                         englishButton.setBackgroundColor(color);
                     }
+
                 });
 
 
         englishButton.setOnClickListener(v -> {
             if (!getCurrentLang().equals("en"))
                 changeLanguage("en");
-
         });
 
         spanishButton.setOnClickListener(v -> {
@@ -157,22 +178,9 @@ public class ConfigView extends MainActivityFragment {
     @OnClick(R.id.username_view)
     public void openUsernameDialogAux(){
 
-        final Dialog dialog = new Dialog(activity);
-        dialog.setTitle(R.string.text_username);
-        dialog.setContentView(R.layout.dialog_username);
-
-        Window window = dialog.getWindow();
-
-        window.setLayout(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-
-        window.setGravity(Gravity.CENTER);
-        window.setBackgroundDrawableResource(R.color.app_white);
-
+        final Dialog dialog = createDialog(R.string.text_username, R.layout.dialog_username);
         Button confirmButton = dialog.findViewById(R.id.confirm_button);
         EditText inputUsername = dialog.findViewById(R.id.input_username);
-
         inputUsername.setText(getCurrentUsername());
 
         confirmButton.setOnClickListener(v ->{
