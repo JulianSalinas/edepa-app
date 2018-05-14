@@ -2,28 +2,28 @@ package imagisoft.edepa;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.ArrayList;
+import java.lang.reflect.Type;
+import java.util.Collections;
 
 
 public class FavoriteList extends Preferences {
 
     /**
-     * Bandera para saber si han habido cambios desde la última consulta
-     */
-    private boolean changed;
-
-    /**
      * Eventos que el usuario marcó como favoritos y que están en memoria
      */
     private List<ScheduleEvent> events;
+
+    /**
+     * Contiene referencia a todas las clases que necesitan saber el
+     * estado de los eventos favoritos
+     */
+    private ArrayList<FavoriteListener> listeners;
 
     /**
      * Identifica el archivo json del que se obtienen los favoritos
@@ -35,8 +35,8 @@ public class FavoriteList extends Preferences {
      */
     private static final FavoriteList ourInstance = new FavoriteList();
 
-
     /**
+     * Patrón singleton
      * La clase no se debe instanciar, se debe obtener el único objeto de esta forma
      */
     public static FavoriteList getInstance() {
@@ -48,23 +48,40 @@ public class FavoriteList extends Preferences {
      */
     private FavoriteList() {
         events = new ArrayList<>();
+        listeners = new ArrayList<>();
     }
 
     /**
-     * Retorna si han habido cambios desde la última consulta
+     * Agrega una nueva clase que necesita saber el estado de los eventos
+     * @param listener: Clase que implementa FavoriteListener
      */
-    public boolean isChanged() {
-        return changed;
+    public void addListener(FavoriteListener listener){
+        if(!listeners.contains(listener))
+            listeners.add(listener);
     }
 
+    /**
+     * Remueve un objeto que ya no necesita saber el estado de los eventos
+     * @param listener: Clase que implementa FavoriteListener
+     */
+    public void removeListener(FavoriteListener listener){
+        listeners.remove(listener);
+    }
+
+    /**
+     * Retorna true si no hay favoritos
+     * @return True si la lista está vacía
+     */
+    public boolean isEmpty(){
+        return events.isEmpty();
+    }
+    
     /**
      * Consulta todos los favoritos (que están en memoria)
      * Deben ordenarse antes de retornarlos para que se puedan mostrar
      * de la forma esperada por la interfaz de usuario
      */
     public List<ScheduleEvent> getSortedEvents() {
-
-        changed = false;
 
         // Ordena los elementos (sin crear una lista nueva)
         Collections.sort(events, (before, after) ->
@@ -74,24 +91,28 @@ public class FavoriteList extends Preferences {
 
     }
 
+    /**
+     * Retorna True si el evento está en favoritos
+     * @param event: Evento
+     * @return True si la lista de favoritos contiene el evento
+     */
     public boolean contains(ScheduleEvent event){
-        for(ScheduleEvent scheduleEvent : events){
-            if(scheduleEvent.equals(event))
-                return true;
-        }
-        return false;
-//        return events.contains(event);
+        return events.contains(event);
     }
 
     /**
-     * Se deb llamar cuando el usuario marca la estrellita de un evento
+     * Se debe llamar cuando el usuario marca la estrellita de un evento
      * La bandera de cambios se activa
      */
     public void addEvent(ScheduleEvent event){
-        if(!events.contains(event)) {
-            changed = true;
+
+        if(!events.contains(event))
             events.add(event);
+
+        for(FavoriteListener listener : listeners){
+            listener.onFavoriteAdded(event);
         }
+
     }
 
     /**
@@ -99,10 +120,14 @@ public class FavoriteList extends Preferences {
      * La bandera de cambios se activa
      */
     public void removeEvent(ScheduleEvent event){
-        if(events.contains(event)) {
-            changed = true;
+
+        if(events.contains(event))
             events.remove(event);
+
+        for(FavoriteListener listener : listeners){
+            listener.onFavoriteRemoved(event);
         }
+
     }
 
     /**
