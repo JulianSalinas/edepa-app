@@ -35,6 +35,7 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import imagisoft.edepa.FavoriteList;
+import imagisoft.edepa.FavoriteListener;
 import imagisoft.edepa.Preferences;
 import imagisoft.edepa.ScheduleEvent;
 import imagisoft.miscellaneous.DateConverter;
@@ -46,7 +47,7 @@ import static imagisoft.rommie.CustomColor.APP_PRIMARY_DARK;
  * Clase análoga al masterpage de un página web
  */
 public abstract class MainActivityCustom extends MainActivityClassic
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, FavoriteListener {
 
     /**
      * Constantes utilizadas para el servio de notificaciones
@@ -104,6 +105,7 @@ public abstract class MainActivityCustom extends MainActivityClassic
 
         favoriteList = FavoriteList.getInstance();
         favoriteList.loadFavorites(this);
+        favoriteList.addListener(this);
 
         super.onCreate(bundle);
 
@@ -184,21 +186,22 @@ public abstract class MainActivityCustom extends MainActivityClassic
     }
 
     /**
-     * Agrega el favorito a la lista y crea una alarma
-     * para recordarle el evento al usuario
-     * @param event: Evente favorito
+     * Crea una alarma con base al evento agregado en favoritos
+     * @param event: Evento favorito
      */
-    public void addFavorite(ScheduleEvent event){
-        favoriteList.addEvent(event);
+    @Override
+    public void onFavoriteAdded(ScheduleEvent event) {
         startAlarmAtParticularTime(event);
+        showStatusMessage(R.string.text_marked_as_favorite);
     }
 
     /**
-     * Remueve el favorito junto con la respectiva alarma
-     * @param event: Evento favorito
+     * Remueve la alarma al borrar el evento de favoritos
+     * @param event: Evento removido de favoritos
      */
-    public void removeFavorite(ScheduleEvent event){
-        favoriteList.removeEvent(event);
+    @Override
+    public void onFavoriteRemoved(ScheduleEvent event) {
+        showStatusMessage(R.string.text_unmarked_as_favorite);
     }
 
     /**

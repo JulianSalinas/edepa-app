@@ -1,24 +1,20 @@
 package imagisoft.rommie;
 
-import android.arch.lifecycle.Lifecycle;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
-import org.springframework.core.io.Resource;
+import android.content.Context;
+import android.support.v4.app.Fragment;
+import android.arch.lifecycle.Lifecycle;
+import android.support.v7.widget.Toolbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.design.widget.NavigationView;
 
 import java.util.Stack;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
