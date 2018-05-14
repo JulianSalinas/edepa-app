@@ -22,6 +22,7 @@ public abstract class MainActivityFirebase extends MainActivityCustom {
     final DatabaseReference newsReference;
     final DatabaseReference chatReference;
     final DatabaseReference configReference;
+    final DatabaseReference ongoingReference;
     final DatabaseReference scheduleReference;
     final DatabaseReference congressReference;
 
@@ -44,6 +45,10 @@ public abstract class MainActivityFirebase extends MainActivityCustom {
 
     public DatabaseReference getConfigReference() {
         return configReference;
+    }
+
+    public DatabaseReference getOngoingReference() {
+        return ongoingReference;
     }
 
     public DatabaseReference getScheduleReference() {
@@ -74,6 +79,7 @@ public abstract class MainActivityFirebase extends MainActivityCustom {
         this.chatReference = root.child("chat");
         this.newsReference = root.child("news");
         this.configReference = root.child("config");
+        this.ongoingReference = root.child("ongoing");
         this.scheduleReference = root.child("schedule");
         this.congressReference = root.child("congress");
 

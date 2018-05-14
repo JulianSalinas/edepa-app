@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 /**
  * Únicamente sirve para poner marcas de tiempo en distintas
@@ -12,7 +13,7 @@ import java.util.Calendar;
  */
 public class Timestamp implements Parcelable {
 
-    private Long time;
+    protected Long time;
 
     public Long getTime() {
         return time;
@@ -32,6 +33,19 @@ public class Timestamp implements Parcelable {
 
     public Timestamp(Long time) {
         this.time = time;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Timestamp)) return false;
+        Timestamp timestamp = (Timestamp) o;
+        return Objects.equals(time, timestamp.time);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(time);
     }
 
     @Override
@@ -61,4 +75,5 @@ public class Timestamp implements Parcelable {
         }
 
     };
+
 }

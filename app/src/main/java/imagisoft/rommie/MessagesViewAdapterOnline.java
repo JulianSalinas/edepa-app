@@ -56,7 +56,10 @@ public abstract class MessagesViewAdapterOnline extends MessagesViewAdapter {
 
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            // No requerido
+            Message receivedMessage = dataSnapshot.getValue(Message.class);
+            int index = msgs.indexOf(receivedMessage);
+            msgs.set(index, receivedMessage);
+            notifyItemChanged(index);
         }
 
         @Override
