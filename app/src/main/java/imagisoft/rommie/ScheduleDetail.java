@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import java.util.List;
 import butterknife.BindView;
@@ -24,6 +25,8 @@ public class ScheduleDetail extends MainActivityFragment {
      * Referencia al evento del que se muestran los detalles
      */
     private ScheduleEvent event;
+
+    private FavoriteList favoriteList = FavoriteList.getInstance();
 
     /**
      * Componentes visuales para mostrar los detalles de un evento
@@ -99,16 +102,22 @@ public class ScheduleDetail extends MainActivityFragment {
 //        iconMap.setOnClickListener(v -> switchFragment(new InformationMap()));
         buttonBack.setOnClickListener(v -> activity.onBackPressed());
 
-        favoriteButton.setLiked(FavoriteList.getInstance().getSortedEvents().contains(event));
+        favoriteButton.setLiked(favoriteList.contains(event));
+        favoriteButton.setOnLikeListener(new OnLikeListener() {
 
-//        favoriteButton.setOnFavoriteChangeListener((buttonView, favorite) -> {
-//            List<ScheduleEvent> events = FavoriteList.getInstance().getSortedEvents();
-//            if(!events.contains(event)) events.add(event);
-//            else events.remove(event);
-//            String msg = getResources().getString(R.string.text_marked_as_favorite);
-//            showStatusMessage(msg);
-//            FavoriteList.getInstance().saveFavorites(activity);
-//        });
+            @Override
+            public void liked(LikeButton likeButton) {
+                activity.addFavorite(event);
+                showStatusMessage(R.string.text_marked_as_favorite);
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                activity.removeFavorite(event);
+                showStatusMessage(R.string.text_unmarked_as_favorite);
+            }
+
+        });
 
     }
 

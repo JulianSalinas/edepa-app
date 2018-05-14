@@ -173,4 +173,9 @@ public abstract class MainActivityClassic extends AppCompatActivity {
         toast.show();
     }
 
+    public void showStatusMessage(int resource){
+        String msg = getResources().getString(resource);
+        showStatusMessage(msg);
+    }
+
 }

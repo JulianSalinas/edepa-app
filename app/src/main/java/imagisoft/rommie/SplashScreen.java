@@ -46,19 +46,14 @@ public class SplashScreen extends AppCompatActivity {
 
         setTheme(R.style.AppTheme);
         setContentView(R.layout.splash_screen);
+        startDatabase();
 
         boolean isFirstUse = prefs
                 .getBooleanPreference(this, Preferences.FIRST_USE_KEY_VALUE);
 
         if(isFirstUse && isOnline()) {
-            startDatabase();
             prefs.setPreference(this, Preferences.FIRST_USE_KEY_VALUE, false);
             startLoginActivity();
-        }
-
-        else if(!isFirstUse && !isOnline()){
-            startDatabase();
-            startApplication();
         }
 
         else if(isFirstUse && !isOnline()){
@@ -71,6 +66,8 @@ public class SplashScreen extends AppCompatActivity {
                         System.exit(0);
                     }).show();
         }
+
+        else startApplication();
 
     }
 
@@ -96,7 +93,6 @@ public class SplashScreen extends AppCompatActivity {
         // Guarda en persistencia para volver a descargar
         // Ayuda si la aplicación queda offline
         this.database = FirebaseDatabase.getInstance();
-        this.database.setPersistenceEnabled(true);
 
         // No se puede mover arriba de this.database
         this.auth = FirebaseAuth.getInstance();

@@ -1,7 +1,13 @@
 package imagisoft.rommie;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -17,7 +23,10 @@ import android.widget.TextView;
 import com.firebase.ui.auth.AuthUI;
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 public class MainActivityNavigation extends MainActivityFirebase
@@ -135,6 +144,23 @@ public class MainActivityNavigation extends MainActivityFirebase
     }
 
     /**
+     * Al tocar una notificación mientras la aplicación está abierta
+     * hace que ésta funcion sea llamada para colocar la nueva pantalla
+     * @param intent: Contiene que pantalla debe abrir la aplicación 
+     */
+    @Override
+    protected void onNewIntent(Intent intent) {
+
+        super.onNewIntent(intent);
+
+        Bundle args = intent.getExtras();
+
+        if(args != null)
+            onCreateWithBundle(args);
+
+    }
+
+    /**
      * Se reinicia la aplicación, conservado el estado actual
      */
     public void restartApplication(){
@@ -177,7 +203,12 @@ public class MainActivityNavigation extends MainActivityFirebase
      */
     @Override
     public void onClick(View v) {
-
+//        long currentTime = System.currentTimeMillis();
+////        long nowPlus5Minutes = currentTime + TimeUnit.MINUTES.toMillis(5);
+//        long eventStart = new Date(currentTime + 5 * 60 * 1000).getTime();
+//        long diference = eventStart - currentTime;
+//        startAlarmAtParticularTime(eventStart);
+//        startAlarmAtParticularTime(diference);
     }
 
     /**

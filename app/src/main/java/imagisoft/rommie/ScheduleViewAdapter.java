@@ -153,14 +153,20 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             @Override
             public void liked(LikeButton likeButton) {
-                favoriteList.addEvent(event);
+                scheduleView.activity.addFavorite(event);
                 scheduleView.showStatusMessage(R.string.text_marked_as_favorite);
             }
 
+            /**
+             * Elimina el evento de favoritos y los remueve de la
+             * vista junto con el encabezado si es el único evento en
+             * ese horario
+             * @param likeButton: Bónton con forma de estrella
+             */
             @Override
             public void unLiked(LikeButton likeButton) {
 
-                favoriteList.removeEvent(event);
+                scheduleView.activity.removeFavorite(event);
                 scheduleView.showStatusMessage(R.string.text_unmarked_as_favorite);
 
                 if(scheduleView instanceof ScheduleViewFavorites) {

@@ -6,7 +6,6 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import butterknife.BindView;
-import fr.castorflex.android.verticalviewpager.VerticalViewPager;
 import imagisoft.edepa.ScheduleEvent;
 import imagisoft.miscellaneous.ColorConverter;
 

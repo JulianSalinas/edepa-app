@@ -1,9 +1,12 @@
 package imagisoft.rommie;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -12,9 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.view.GravityCompat;
 import android.support.v7.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 
@@ -28,12 +29,15 @@ import com.firebase.jobdispatcher.RetryStrategy;
 import com.firebase.jobdispatcher.Trigger;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
+import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import imagisoft.edepa.FavoriteList;
 import imagisoft.edepa.Preferences;
-import imagisoft.miscellaneous.ColorConverter;
+import imagisoft.edepa.ScheduleEvent;
+import imagisoft.miscellaneous.DateConverter;
 
 import static imagisoft.rommie.CustomColor.APP_PRIMARY;
 import static imagisoft.rommie.CustomColor.APP_PRIMARY_DARK;
@@ -180,6 +184,24 @@ public abstract class MainActivityCustom extends MainActivityClassic
     }
 
     /**
+     * Agrega el favorito a la lista y crea una alarma
+     * para recordarle el evento al usuario
+     * @param event: Evente favorito
+     */
+    public void addFavorite(ScheduleEvent event){
+        favoriteList.addEvent(event);
+        startAlarmAtParticularTime(event);
+    }
+
+    /**
+     * Remueve el favorito junto con la respectiva alarma
+     * @param event: Evento favorito
+     */
+    public void removeFavorite(ScheduleEvent event){
+        favoriteList.removeEvent(event);
+    }
+
+    /**
      * Pone a correr el sercicio de notificaciones
      */
     private void setupDispatcher(){
@@ -187,8 +209,58 @@ public abstract class MainActivityCustom extends MainActivityClassic
         dispatcher = new FirebaseJobDispatcher(driver);
     }
 
+    public void startAlarmAtParticularTime(ScheduleEvent event) {
+        long now = System.currentTimeMillis();
+//        long eventStart = event.getStart();
+        long eventStart = now + TimeUnit.SECONDS.toMillis(20);
+        long alarmTime = eventStart - now;
+        startAlarmAtParticularTime(alarmTime, event);
+    }
 
-    private void scheduleJob() {
+    public void startAlarmAtParticularTime(long alarmTime, ScheduleEvent event) {
+
+        Bundle args = new Bundle();
+        args.putParcelable("event", event);
+
+        Intent intent = new Intent(".AlarmReceiver");
+        intent.setClass(this, AlarmReceiver.class);
+        intent.putExtras(args);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this.getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        if(alarmManager != null) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
+            showStatusMessage(getResources().getString(R.string.text_alarm) + " " +
+                    DateConverter.extractDate(alarmTime) + " " +
+                    DateConverter.extractTime(alarmTime));
+        }
+
+
+    }
+
+    public void startAlarmAtParticularTime(long alarmTime) {
+
+        Intent intent = new Intent(".AlarmReceiver");
+        intent.setClass(this, AlarmReceiver.class);;
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this.getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        if(alarmManager != null) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
+            showStatusMessage(getResources().getString(R.string.text_alarm) + " " +
+                    DateConverter.extractDate(alarmTime) + " " +
+                    DateConverter.extractTime(alarmTime));
+        }
+
+
+    }
+
+
+    private void createEventAlarm() {
         Job myJob = dispatcher.newJobBuilder()
                 .setService(AlarmService.class)
                 .setTag(CHANNEL_KEY)
@@ -200,14 +272,13 @@ public abstract class MainActivityCustom extends MainActivityClassic
                 .setRetryStrategy(RetryStrategy.DEFAULT_LINEAR)
                 .build();
         dispatcher.mustSchedule(myJob);
-        showStatusMessage(getString(R.string.text_turned_on_notifications));
     }
 
     public Notification createNotification(String title, String content){
         return new NotificationCompat.Builder(this, CHANNEL_KEY)
                 .setContentTitle(title)
                 .setContentText(content)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setAutoCancel(true).build();
     }
 
