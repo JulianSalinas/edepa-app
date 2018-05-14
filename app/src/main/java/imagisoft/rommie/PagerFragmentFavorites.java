@@ -1,13 +1,17 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
+import android.util.Log;
+
 import imagisoft.edepa.FavoriteList;
+import imagisoft.edepa.FavoriteListener;
+import imagisoft.edepa.ScheduleEvent;
 
 
-public class PagerFragmentFavorites extends PagerFragment{
+public class PagerFragmentFavorites extends PagerFragment implements FavoriteListener{
 
 
-    private FavoriteList favorites;
+    private FavoriteList favoriteList;
 
     /**
      * Se define cúal es el layout que va a utilizar
@@ -16,13 +20,13 @@ public class PagerFragmentFavorites extends PagerFragment{
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        this.favorites = FavoriteList.getInstance();
+        this.favoriteList = FavoriteList.getInstance();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        favorites.saveFavorites(activity);
+        favoriteList.saveFavorites(activity);
     }
 
     /**
@@ -38,11 +42,16 @@ public class PagerFragmentFavorites extends PagerFragment{
 
         pager.setAdapter(adapter);
 
-        if(favorites.isChanged()) {
-            favorites.getSortedEvents();
-            adapter.notifyDataSetChanged();
-        }
+    }
 
+    @Override
+    public void onFavoriteAdded(ScheduleEvent event) {
+        Log.i("PagerFragmentFavorites", "Favorite added");
+    }
+
+    @Override
+    public void onFavoriteRemoved(ScheduleEvent event) {
+        Log.i("PagerFragmentFavorites", "favorite removed");
     }
 
 }

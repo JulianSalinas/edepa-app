@@ -7,10 +7,19 @@ import android.util.Log;
 import android.view.View;
 import android.support.v4.view.ViewPager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.animation.Animation;
+
+import com.labo.kaji.fragmentanimations.CubeAnimation;
+import com.labo.kaji.fragmentanimations.MoveAnimation;
 
 import butterknife.BindView;
 
+import static javax.xml.datatype.DatatypeConstants.DURATION;
 
+/**
+ * Cada subclase tiene que encargarse de colocar el páginador
+ * y su respectivo adaptador
+ */
 public abstract class PagerFragment extends MainActivityFragment {
 
     /**
@@ -22,7 +31,7 @@ public abstract class PagerFragment extends MainActivityFragment {
     /**
      * El adaptador contiene los fragmentos del páginador
      */
-    protected FragmentPagerAdapter adapter;
+    protected PagerAdapter adapter;
 
     /**
      * Se define cúal es el layout que va a utilizar
@@ -41,15 +50,15 @@ public abstract class PagerFragment extends MainActivityFragment {
      */
     @Override
     public void onActivityCreated(Bundle bundle) {
+
         super.onActivityCreated(bundle);
         this.setupViewPager();
+
         setToolbarText(R.string.app_name);
         setTabLayoutVisibility(View.VISIBLE);
 
-        if(bundle != null) {
-            Log.i("Pagerint", String.valueOf(bundle.getInt("currentPage")));
+        if(bundle != null)
             pager.setCurrentItem(bundle.getInt("currentPage"));
-        }
 
     }
 
@@ -57,17 +66,15 @@ public abstract class PagerFragment extends MainActivityFragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("currentPage", pager.getCurrentItem());
-        Log.i("Pagerout", String.valueOf(pager.getCurrentItem()));
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if(savedInstanceState != null) {
-            Log.i("Pagerint", String.valueOf(savedInstanceState.getInt("currentPage")));
+        if(savedInstanceState != null)
             pager.setCurrentItem(savedInstanceState.getInt("currentPage"));
-        }
     }
+
 
     /**
      * Obtiene los eventos, extrae todos los días que componen los eventos

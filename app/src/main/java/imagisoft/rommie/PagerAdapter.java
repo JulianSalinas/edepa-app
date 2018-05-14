@@ -12,41 +12,58 @@ import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
 import imagisoft.miscellaneous.DateConverter;
 
-
-public class PagerAdapter extends FragmentPagerAdapter {
+/**
+ * Los eventos debe ser suminitrados por la clase implementante
+ * Cuando se agreguen todos los eventos se debe usar la función notifyDataSetChanged()
+ */
+public abstract class PagerAdapter extends FragmentPagerAdapter {
 
     /**
      * Para dividir los eventos por dia en la vista
      */
     protected List<String> dates;
-    protected List<ScheduleEvent> events;
-    protected List<ScheduleBlock> blocks;
-    protected LinkedMultiValueMap<String, ScheduleBlock> blocksByDay;
 
     /**
      * Se guarda referencia a la páginas para reutilizarlas
      */
-    protected Fragment[] pages;
+    protected ArrayList<Fragment> pages;
+
+    /**
+     * Lista de eventos, sin contar los bloques que solo muestran
+     * una hora determinada
+     */
+    protected List<ScheduleEvent> events;
+
+    /**
+     * Combinación de eventos con bloques que solo muestran la hora
+     */
+    protected List<ScheduleBlock> blocks;
+
+    /**
+     * Diccionario donde un clave contiene multiples bloques que
+     * pertenecen al mismo día
+     */
+    protected LinkedMultiValueMap<String, ScheduleBlock> blocksByDay;
 
     /**
      * Representa donde está ubicado este adaptador
      */
-    protected MainActivityFragment schedulePager;
+    protected PagerFragment fragment;
 
     /**
      * En el constructor se agrega el listener para colocar las fechas
      * en el paginador
      */
-    public PagerAdapter(MainActivityFragment schedulePager) {
+    public PagerAdapter(PagerFragment fragment) {
 
-        super(schedulePager.getChildFragmentManager());
-        this.schedulePager = schedulePager;
+        super(fragment.getChildFragmentManager());
+        this.fragment = fragment;
 
         this.dates = new ArrayList<>();
         this.events = new ArrayList<>();
         this.blocks = new ArrayList<>();
+        this.pages = new ArrayList<>();
         this.blocksByDay = new LinkedMultiValueMap<>();
-        this.pages = new Fragment[dates.size()];
 
     }
 
@@ -63,10 +80,17 @@ public class PagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public Fragment getItem(int position) {
-//        if(pages[position] == null)
-//            pages[position] = createScheduleView(position);
-//        return pages[position];
-        return createScheduleView(position);
+        if(pages.get(position) == null)
+            pages.set(position, createScheduleView(position));
+        return pages.get(position);
+    }
+
+    /**
+     * Se usa para que la vista se puede actualizar
+     * Usa más recursos pero con la cantidad de datos no se nota
+     */
+    public int getItemPosition(Object object){
+        return POSITION_NONE;
     }
 
     /**
@@ -87,20 +111,39 @@ public class PagerAdapter extends FragmentPagerAdapter {
     }
 
     /**
+     * Agrega un nuevo evento
+     * @param event: ScheduleEvent
+     */
+    public void addEvent(ScheduleEvent event){
+        events.add(event);
+    }
+
+    /**
+     * Agrega un nuevo conjunto de eventos
+     * @param events: ArrayList<ScheduleEvent>
+     */
+    public void addEvents(List<ScheduleEvent> events){
+        this.events.addAll(events);
+    }
+
+
+    /**
      * Cuando algún evento se agrega es necesario actualizar
      */
     @Override
     public void notifyDataSetChanged(){
 
+        // Llena la variable blocks
         createBlocks();
 
-        dates = new ArrayList<>();
-        blocksByDay = new LinkedMultiValueMap<>();
+        // Se reinicia para no agregar repetidos
+        dates.clear();
+        blocksByDay.clear();
 
-        groupBlockByDate();
+        // Llena la variable blocksByDate
+        groupBlocksByDay();
         dates.addAll(blocksByDay.keySet());
 
-        pages = new Fragment[dates.size()];
         super.notifyDataSetChanged();
 
     }
@@ -108,7 +151,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
     /**
      * Divide los eventos por dias (formato dd/mm/yy)
      */
-    public void groupBlockByDate(){
+    public void groupBlocksByDay(){
         for(ScheduleBlock event : blocks)
             blocksByDay.add(DateConverter.extractDate(event.getStart()), event);
     }
@@ -116,10 +159,10 @@ public class PagerAdapter extends FragmentPagerAdapter {
     /**
      * Algoritmo para ordenar y agrupar los eventos por su fechas
      */
-    public void createBlocks(){
+    public void createBlocks() {
 
         if(events.size() > 0) {
-            blocks = new ArrayList<>();
+            blocks.clear();
 
             // La hora del primer evento marca la hora del primer bloque
             ScheduleEvent first = events.get(0);
@@ -148,7 +191,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
                 if (diffCondition || areNested) block.setEnd(downEnd);
 
-                    // Si no se cumplen las condiciones para agrupar, se inicia un nuevo bloque
+                // Si no se cumplen las condiciones para agrupar, se inicia un nuevo bloque
                 else {
                     block = new ScheduleBlock(downStart, downEnd);
                     blocks.add(block);
@@ -158,7 +201,6 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
             }
         }
-
     }
 
 }
