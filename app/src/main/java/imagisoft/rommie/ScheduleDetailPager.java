@@ -1,13 +1,14 @@
 package imagisoft.rommie;
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.content.pm.ActivityInfo;
+import android.support.v4.view.ViewPager;
 
 import butterknife.BindView;
 import imagisoft.edepa.ScheduleEvent;
 import imagisoft.miscellaneous.ColorConverter;
+
 
 public class ScheduleDetailPager extends MainActivityFragment {
 
@@ -20,6 +21,10 @@ public class ScheduleDetailPager extends MainActivityFragment {
      * Referencia al evento del que se muestran los detalles
      */
     private ScheduleEvent event;
+
+    public ScheduleEvent getEvent(){
+        return event;
+    }
 
     /**
      * El adaptador contiene los fragmentos del páginador
@@ -120,7 +125,7 @@ public class ScheduleDetailPager extends MainActivityFragment {
         // Se revisa porque al entrar por seguna vez, no es necesario colocar el adaptador
         // de lo contrario se reinicia a la posición inicial (visualmente)
         if(adapter == null)
-            adapter = new ScheduleDetailPagerAdapter(this.getChildFragmentManager(), event);
+            adapter = new ScheduleDetailPagerAdapter(this);
 
         pager.setAdapter(adapter);
 

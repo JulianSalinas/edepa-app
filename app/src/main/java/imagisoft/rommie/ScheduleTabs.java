@@ -2,27 +2,35 @@ package imagisoft.rommie;
 
 
 import android.arch.lifecycle.Lifecycle;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import imagisoft.edepa.FavoriteList;
 
 /**
  * Contiene los tabs de cronograma, agenda y en curso
  */
-public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTabSelectedListener {
+public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTabSelectedListener{
 
     /*
      * Usadas para saber cual tab se debe colocar al crearse la vista
@@ -31,17 +39,33 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
     public static final int FAVORITES_TAB = 1;
     public static final int ONGOING_TAB = 2;
 
-    MaterialSearchView searchView;
+    /**
+     * Cambia de fragmento hacia uno donde se pueden realizar
+     * las búsquedas
+     */
+    private MaterialSearchView searchView;
 
     /**
      * TabLayout con sus tres vistas principales
      */
     private int currentTab;
-    private Fragment[] tabOptions;
+    private ScheduleView ongoingFragment;
+    private PagerFragmentSchedule scheduleFragment;
+    private PagerFragmentFavorites favoritesFragment;
+
+    private FavoriteList favoriteList;
+
+    /**
+     * Usadas para cambiar los fragmentos usando un hilo
+     * diferente para que la animación se vea mas fluida
+     */
+    private Handler handler;
+    private Runnable pendingRunnable;
+
     private List<Fragment> profilePendingList = new ArrayList<>();
 
     /**
-     * Funciónque la actividad usa para cambiar a un tab específico
+     * Función que la actividad usa para cambiar a un tab específico
      */
     public void setCurrentTab(int currentTab){
         this.currentTab = currentTab;
@@ -70,8 +94,8 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
 
         super.onCreate(bundle);
         setHasOptionsMenu(true);
+        handler = new Handler();
 
-        this.tabOptions = new Fragment[3];
         this.resource = R.layout.schedule_tabs_view;
 
         Bundle args = getArguments();
@@ -88,11 +112,13 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
     public void onActivityCreated(Bundle bundle) {
 
         super.onActivityCreated(bundle);
+        favoriteList = FavoriteList.getInstance();
         getTabLayout().addOnTabSelectedListener(this);
 
         setToolbarVisibility(View.VISIBLE);
         setTabLayoutVisibility(View.VISIBLE);
 
+//        tabLayout = getTabLayout();
         searchView = getSearchView();
         searchView.setHint(getResources().getString(R.string.text_search));
 //        searchView.setOnQueryTextListener(this);
@@ -104,9 +130,8 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
         if(bundle != null)
             currentTab = bundle.getInt("currentTab");
 
-        tabOptions[currentTab] = createTabFragment(currentTab);
-        replaceFragment(tabOptions[currentTab]);
-        paintTab(currentTab);
+        navigateToPosition(currentTab);
+        handlePendingRunnable();
 
     }
 
@@ -139,8 +164,10 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if(savedInstanceState != null)
+        if(savedInstanceState != null) {
             currentTab = savedInstanceState.getInt("currentTab");
+            paintTab(currentTab);
+        }
     }
 
     @Override
@@ -148,6 +175,17 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
         super.onResume();
         if(!profilePendingList.isEmpty())
             navigateToPosition(currentTab);
+    }
+
+    /**
+     * Pone a correr el hilo que se había programado para cambiar
+     * el fragmento actual.
+     */
+    public void handlePendingRunnable(){
+        if (pendingRunnable != null) {
+            handler.postDelayed(pendingRunnable, 200);
+            pendingRunnable = null;
+        }
     }
 
     /**
@@ -177,10 +215,10 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
                 .beginTransaction()
                 .addToBackStack(null)
                 .replace(R.id.tabs_container, fragment)
-                .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
                 .commit();
 
     }
+
 
     /**
      * Usada por la función switchFragment
@@ -201,30 +239,32 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         int position = tab.getPosition();
-        if(position != currentTab)
+        if(position != currentTab) {
             navigateToPosition(position);
+            handlePendingRunnable();
+        }
     }
 
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
-        // Se requiere sobrescribir
+        // Get this tab view
+        View v = tab.getCustomView();
+
+        if (v != null) {
+            setAlpha(v, false);
+
+            // Stop the animation if the tab was animating.
+            // This makes the transition smooth
+            Animation viewAnimation = v.getAnimation();
+
+            if (viewAnimation != null)
+                viewAnimation.cancel();
+        }
     }
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
         // Se requiere sobrescribir
-    }
-
-    /**
-     * Según el tab que escoge el usuario, se instancia la vista
-     * (instanciación perezosa) y se coloca en pantalla
-     * @param position: Número de tab de izq a der
-     */
-    public void navigateToPosition(int position) {
-        currentTab = position;
-        tabOptions[position] = createTabFragment(position);
-        switchFragment(tabOptions[position]);
-        paintTab(position);
     }
 
     /**
@@ -238,36 +278,71 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
     }
 
     /**
-     * Sirve de apoyo a la función navigateToPosition para realizar
-     * la instanciación
-     * @param tabId: Alguno de los atributos estáticos definidos
+     * Según el tab que escoge el usuario, se instancia la vista
+     * (instanciación perezosa) y se coloca en pantalla
+     * @param position: Número de tab de izq a der
      */
-    public Fragment createTabFragment(int tabId){ switch (tabId){
+    public void navigateToPosition(int position) {
 
-        case SCHEDULE_TAB:
-            if(tabOptions[tabId] == null)
-                return new PagerFragmentSchedule();
-            else return tabOptions[tabId];
+        currentTab = position;
+//        paintTab(position);
 
-        case FAVORITES_TAB:
-            if (FavoriteList.getInstance().getSortedEvents().isEmpty()) {
-                if(tabOptions[tabId] == null || !(tabOptions[tabId] instanceof BlankFragment))
-                    return BlankFragmentTabbed.newInstance(getResources()
-                            .getString(R.string.text_without_favorites));
-                else return tabOptions[tabId];
+        pendingRunnable = () -> {
+
+            if(position == SCHEDULE_TAB){
+                if(scheduleFragment == null)
+                    scheduleFragment = new PagerFragmentSchedule();
+                switchFragment(scheduleFragment);
             }
-            else return new PagerFragmentFavorites();
 
+            else if (position == FAVORITES_TAB){
 
-        case ONGOING_TAB:
-            if(tabOptions[tabId] == null)
-                return BlankFragmentTabbed.newInstance(getResources()
-                        .getString(R.string.text_without_ongoing));
-            else return tabOptions[tabId];
+                if(favoriteList.isEmpty()) {
+                    String description = activity.getString(R.string.text_without_favorites);
+                    switchFragment(BlankFragment.newInstance(description));
+                }
 
-        default:
-            return new PagerFragmentSchedule();
+                else {
+                    if(favoritesFragment == null)
+                        favoritesFragment = new PagerFragmentFavorites();
+                    switchFragment(favoritesFragment);
+                }
 
-    }}
+            }
+
+            else {
+
+                if (ongoingFragment == null)
+                    ongoingFragment = ScheduleViewOngoing.newInstance();
+                switchFragment(ongoingFragment);
+
+            }
+
+        };
+
+    }
+
+    private void setAlpha(View view, boolean selected) {
+        if (selected) {
+            if (Build.VERSION.SDK_INT < 11) {
+                AlphaAnimation alpha = new AlphaAnimation(1F, 1F);
+                alpha.setDuration(0);
+                alpha.setFillAfter(true);
+                view.startAnimation(alpha);
+            } else {
+                view.setAlpha(1);
+            }
+        } else {
+            if (Build.VERSION.SDK_INT < 11) {
+                AlphaAnimation alpha = new AlphaAnimation(0.7F, 0.7F);
+                alpha.setDuration(0);
+                alpha.setFillAfter(true);
+                view.startAnimation(alpha);
+            } else {
+                view.setAlpha((float) 0.7);
+            }
+        }
+    }
+
 
 }

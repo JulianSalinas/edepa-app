@@ -13,7 +13,7 @@ import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.ScheduleEvent;
 
 
-public class ScheduleDetailFocus extends ExhibitorsViewFragment {
+public class ScheduleDetailBrief extends ExhibitorsViewFragment {
 
     /**
      * Referencia al evento del que se muestran los detalles
@@ -44,9 +44,9 @@ public class ScheduleDetailFocus extends ExhibitorsViewFragment {
      * No se pueden crear constructores con parámetros, por tanto,
      * se pasan los parámetros de esta forma
      */
-    public static ScheduleDetailFocus newInstance(ScheduleEvent event) {
+    public static ScheduleDetailBrief newInstance(ScheduleEvent event) {
 
-        ScheduleDetailFocus fragment = new ScheduleDetailFocus();
+        ScheduleDetailBrief fragment = new ScheduleDetailBrief();
 
         Bundle args = new Bundle();
         args.putParcelable("event", event);

@@ -8,7 +8,7 @@ import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
 
 
-public class PagerAdapterFavorites extends PagerAdapter implements FavoriteListener{
+public class PagerAdapterFavorites extends PagerAdapter {
 
     /**
      * Para agreagar los eventos que solicita la clase padre
@@ -18,7 +18,7 @@ public class PagerAdapterFavorites extends PagerAdapter implements FavoriteListe
     public PagerAdapterFavorites(PagerFragment fragment) {
         super(fragment);
         favoriteList = FavoriteList.getInstance();
-        addEvents(favoriteList.getSortedEvents());
+        events = favoriteList.getSortedEvents();
         notifyDataSetChanged();
     }
 
@@ -32,14 +32,5 @@ public class PagerAdapterFavorites extends PagerAdapter implements FavoriteListe
         return ScheduleViewFavorites.newInstance(blocks);
     }
 
-    @Override
-    public void onFavoriteAdded(ScheduleEvent event) {
-
-    }
-
-    @Override
-    public void onFavoriteRemoved(ScheduleEvent event) {
-
-    }
 
 }

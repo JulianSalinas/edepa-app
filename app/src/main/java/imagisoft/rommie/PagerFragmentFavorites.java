@@ -41,6 +41,7 @@ public class PagerFragmentFavorites extends PagerFragment implements FavoriteLis
             adapter = new PagerAdapterFavorites(this);
 
         pager.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
     }
 

@@ -1,20 +1,20 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v7.widget.DefaultItemAnimator;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 import butterknife.BindView;
+import imagisoft.edepa.FavoriteList;
+import imagisoft.edepa.FavoriteListener;
 import imagisoft.edepa.ScheduleBlock;
+import imagisoft.edepa.ScheduleEvent;
 
 
-public class ScheduleView extends MainActivityFragment {
+public class ScheduleView extends MainActivityFragment{
 
     /**
      * Es la capa donde se coloca cada una de las actividades/eventos
@@ -26,7 +26,7 @@ public class ScheduleView extends MainActivityFragment {
      * Eventos para colocar en la lista, se asume que entran
      * ordenados por fecha
      */
-    protected List<ScheduleBlock> events;
+    protected List<? extends ScheduleBlock> events;
 
     /**
      * Adaptador para almacenar administrar las vistas de los eventos
@@ -37,7 +37,7 @@ public class ScheduleView extends MainActivityFragment {
      * No se pueden crear constructores con parámetros, por tanto,
      * se pasan los parámetros de esta forma
      */
-    public static ScheduleView newInstance(List<ScheduleBlock> events) {
+    public static ScheduleView newInstance(List<? extends ScheduleBlock> events) {
 
         Bundle args = new Bundle();
         args.putParcelableArrayList("events", new ArrayList<>(events));
@@ -68,12 +68,16 @@ public class ScheduleView extends MainActivityFragment {
     public void onActivityCreated(Bundle bundle) {
 
         super.onActivityCreated(bundle);
+        setupAdapter();
+        setupEventsView();
+
+    }
+
+    protected void setupAdapter(){
 
         // Se revisa porque al entrar por seguna vez, no es necesario colocar el adaptador
         if(adapter == null)
             adapter = new ScheduleViewAdapter(this, events);
-
-        setupEventsView();
 
     }
 

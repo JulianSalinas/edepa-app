@@ -4,29 +4,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.ImageView;
-import android.text.util.Linkify;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.DefaultItemAnimator;
-import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
-import java.util.List;
 import butterknife.BindView;
-import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.FavoriteList;
 import imagisoft.edepa.ScheduleEvent;
-import imagisoft.miscellaneous.ColorConverter;
 
 
-public class ScheduleDetail extends MainActivityFragment {
+public class ScheduleDetailFront extends MainActivityFragment implements OnLikeListener{
 
     /**
      * Referencia al evento del que se muestran los detalles
      */
     private ScheduleEvent event;
 
-    private FavoriteList favoriteList = FavoriteList.getInstance();
+    /**
+     * Es para marcar la estrella en caso que se necesite
+     */
+    private FavoriteList favoriteList;
 
     /**
      * Componentes visuales para mostrar los detalles de un evento
@@ -47,9 +43,9 @@ public class ScheduleDetail extends MainActivityFragment {
      * No se pueden crear constructores con parámetros, por tanto,
      * se pasan los parámetros de esta forma
      */
-    public static ScheduleDetail newInstance(ScheduleEvent event) {
+    public static ScheduleDetailFront newInstance(ScheduleEvent event) {
 
-        ScheduleDetail fragment = new ScheduleDetail();
+        ScheduleDetailFront fragment = new ScheduleDetailFront();
 
         Bundle args = new Bundle();
         args.putParcelable("event", event);
@@ -66,7 +62,8 @@ public class ScheduleDetail extends MainActivityFragment {
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        resource = R.layout.schedule_detail;
+        this.resource = R.layout.schedule_detail;
+        this.favoriteList = FavoriteList.getInstance();
 
         Bundle args = getArguments();
         if(args != null)
@@ -90,35 +87,25 @@ public class ScheduleDetail extends MainActivityFragment {
      */
     private void bindInformation(){
 
-//        briefTextView.setText(event.getBrief("es"));
-//        Linkify.addLinks(briefTextView, Linkify.WEB_URLS);
-
         headerTextView.setText(event.getTitle());
-//        eventypeTextView.setText(event.getEventype().toString());
 
         int color = getResources().getColor(event.getEventype().getColor());
         emphasisImageView.setBackgroundColor(color);
-
-//        iconMap.setOnClickListener(v -> switchFragment(new InformationMap()));
         buttonBack.setOnClickListener(v -> activity.onBackPressed());
 
         favoriteButton.setLiked(favoriteList.contains(event));
-        favoriteButton.setOnLikeListener(new OnLikeListener() {
+        favoriteButton.setOnLikeListener(this);
 
-            @Override
-            public void liked(LikeButton likeButton) {
-                activity.addFavorite(event);
-                showStatusMessage(R.string.text_marked_as_favorite);
-            }
+    }
 
-            @Override
-            public void unLiked(LikeButton likeButton) {
-                activity.removeFavorite(event);
-                showStatusMessage(R.string.text_unmarked_as_favorite);
-            }
+    @Override
+    public void liked(LikeButton likeButton) {
+        favoriteList.addEvent(event);
+    }
 
-        });
-
+    @Override
+    public void unLiked(LikeButton likeButton) {
+        favoriteList.removeEvent(event);
     }
 
 }

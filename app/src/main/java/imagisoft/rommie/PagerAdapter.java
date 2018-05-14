@@ -26,7 +26,7 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
     /**
      * Se guarda referencia a la páginas para reutilizarlas
      */
-    protected ArrayList<Fragment> pages;
+    protected Fragment [] pages;
 
     /**
      * Lista de eventos, sin contar los bloques que solo muestran
@@ -62,7 +62,7 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
         this.dates = new ArrayList<>();
         this.events = new ArrayList<>();
         this.blocks = new ArrayList<>();
-        this.pages = new ArrayList<>();
+        this.pages = new Fragment[dates.size()];
         this.blocksByDay = new LinkedMultiValueMap<>();
 
     }
@@ -80,9 +80,9 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public Fragment getItem(int position) {
-        if(pages.get(position) == null)
-            pages.set(position, createScheduleView(position));
-        return pages.get(position);
+        if(pages[position] == null)
+            pages[position] = createScheduleView(position);
+        return pages[position];
     }
 
     /**
@@ -144,6 +144,7 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
         groupBlocksByDay();
         dates.addAll(blocksByDay.keySet());
 
+        pages = new Fragment[dates.size()];
         super.notifyDataSetChanged();
 
     }

@@ -1,39 +1,25 @@
 package imagisoft.rommie;
 
-import android.app.Dialog;
-import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.media.Image;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.ImageViewCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceFragmentCompat;
-import android.support.v7.preference.PreferenceManager;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.app.Dialog;
 import android.view.Window;
+import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.support.v7.preference.Preference;
+import android.support.v4.widget.ImageViewCompat;
+import android.support.v7.preference.PreferenceManager;
+import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.afollestad.aesthetic.Aesthetic;
-import com.kizitonwose.colorpreferencecompat.ColorPreferenceCompat;
-import com.larswerkman.lobsterpicker.LobsterPicker;
-import com.larswerkman.lobsterpicker.sliders.LobsterOpacitySlider;
-import com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider;
 import com.madrapps.pikolo.HSLColorPicker;
-import com.madrapps.pikolo.listeners.OnColorSelectionListener;
-import com.madrapps.pikolo.listeners.SimpleColorSelectionListener;
-
 import imagisoft.miscellaneous.ColorConverter;
-
+import com.kizitonwose.colorpreferencecompat.ColorPreferenceCompat;
+import com.madrapps.pikolo.listeners.SimpleColorSelectionListener;
 import static imagisoft.rommie.CustomColor.APP_ACCENT_DARK;
-import static imagisoft.rommie.CustomColor.APP_PRIMARY;
 
 
 public class ThemePicker extends PreferenceFragmentCompat

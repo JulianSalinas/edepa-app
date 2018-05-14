@@ -2,13 +2,11 @@ package imagisoft.rommie;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
@@ -18,6 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import imagisoft.edepa.FavoriteList;
+import imagisoft.edepa.FavoriteListener;
 import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
 import imagisoft.edepa.ScheduleEventType;
@@ -26,7 +25,8 @@ import imagisoft.miscellaneous.DateConverter;
 /**
  * Sirve para enlazar las funciones a una actividad en específico
  */
-public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ScheduleViewAdapter
+        extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /**
      * Variables par escoger el tipo de vista que se colocará
@@ -37,28 +37,48 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /**
      * PagerFragment al que se debe colocar este adaptador
      */
-    private MainActivityFragment scheduleView;
+    protected MainActivityFragment view;
 
     /**
      * Objetos del modelo que serán adaptados visualmente
      */
-    private List<? extends ScheduleBlock> events;
+    protected List<ScheduleBlock> events;
 
-    private List<? extends ScheduleBlock> eventsIndexedMirror;
-
-    private final FavoriteList favoriteList = FavoriteList.getInstance();
+    /**
+     * Necesaria para saber a cúal poner la estrella
+     */
+    protected FavoriteList favoriteList;
 
     /**
      * Constructor de la vista donde se colocan los eventos
      */
-    public ScheduleViewAdapter(MainActivityFragment scheduleView,
-                               List<? extends ScheduleBlock> events){
+    public ScheduleViewAdapter(MainActivityFragment view,
+                               List<? extends ScheduleBlock> events) {
 
-        this.scheduleView = scheduleView;
-        this.events = new ArrayList<>(events);
-        this.eventsIndexedMirror = new ArrayList<>(events);
+        this.view = view;
+        this.events = new ArrayList<>();
+        this.events.addAll(events);
+        this.setupFavorites();
 
     }
+
+    /**
+     * Con este constructor se deben poner los eventos posteriormente
+     */
+    public ScheduleViewAdapter(MainActivityFragment view) {
+        this.view = view;
+        this.events = new ArrayList<>();
+        this.setupFavorites();
+    }
+
+    /**
+     * Pone el listener en escucha
+     */
+    public void setupFavorites(){
+        this.favoriteList = FavoriteList.getInstance();
+//        this.favoriteList.addListener(this);
+    }
+
 
     /**
      * Requerida para saber la cantidad vistas que se tiene que crear
@@ -133,7 +153,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         * Función ejecutada al presionar el botón "readmore" de una actividad
         */
         holder.readmore.setOnClickListener(v ->
-             scheduleView.switchFragment(ScheduleDetailPager.newInstance(event))
+             view.switchFragment(ScheduleDetailPager.newInstance(event))
         );
 
         /*
@@ -153,53 +173,37 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             @Override
             public void liked(LikeButton likeButton) {
-                scheduleView.activity.addFavorite(event);
-                scheduleView.showStatusMessage(R.string.text_marked_as_favorite);
+                favoriteList.addEvent(event);
             }
 
-            /**
-             * Elimina el evento de favoritos y los remueve de la
-             * vista junto con el encabezado si es el único evento en
-             * ese horario
-             * @param likeButton: Bónton con forma de estrella
-             */
             @Override
             public void unLiked(LikeButton likeButton) {
+                favoriteList.removeEvent(event);
 
-                scheduleView.activity.removeFavorite(event);
-                scheduleView.showStatusMessage(R.string.text_unmarked_as_favorite);
-
-                if(scheduleView instanceof ScheduleViewFavorites) {
-
+                if(view instanceof ScheduleViewFavorites) {
                     int index = events.indexOf(event);
-
                     final ScheduleBlock before = events.get(index - 1);
-
                     final ScheduleBlock after =
                             events.size() - 1 >= index + 1 ? events.get(index + 1) : null;
 
                     events.remove(index);
                     notifyItemRemoved(index);
 
-                    if(after == null && !(before instanceof ScheduleEvent)){
+                    if (after == null && !(before instanceof ScheduleEvent)) {
                         index = events.indexOf(before);
                         events.remove(index);
                         notifyItemRemoved(index);
                     }
-
-                    else if (!(after instanceof ScheduleEvent) && !(before instanceof ScheduleEvent)){
+                    else if (!(after instanceof ScheduleEvent) && !(before instanceof ScheduleEvent)) {
                         index = events.indexOf(before);
                         events.remove(index);
                         notifyItemRemoved(index);
                     }
-
-                    if(events.size() == 1){
+                    if (events.size() == 1) {
                         events.remove(0);
                         notifyItemRemoved(0);
                     }
-
                 }
-
             }
 
         });
@@ -223,7 +227,7 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     private String getDatesAsString(ScheduleBlock block){
 
-        Activity activity = scheduleView.getActivity();
+        Activity activity = view.getActivity();
         assert activity != null;
 
         return  activity.getResources().getString(R.string.text_from) + " " +
@@ -247,18 +251,14 @@ public class ScheduleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /**
      * Coloca el color acorde con el tipo de actividad
      */
-    private void bindEmphasisColor(ScheduleEventViewHolder holder, ScheduleEvent event){
+    private void bindEmphasisColor(ScheduleEventViewHolder holder, ScheduleEvent event) {
 
-        Activity activity = scheduleView.getActivity();
+        Activity activity = view.getActivity();
         assert activity != null;
 
         int colorResource = event.getEventype().getColor();
         holder.line.setBackgroundResource(colorResource);
         holder.readmore.setTextColor(activity.getResources().getColor(colorResource));
-
-    }
-
-    public void filter(ScheduleEventType type){
 
     }
 
