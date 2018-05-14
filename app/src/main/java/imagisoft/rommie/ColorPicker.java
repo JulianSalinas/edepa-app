@@ -2,9 +2,13 @@ package imagisoft.rommie;
 
 import android.content.Context;
 import android.util.AttributeSet;
-
 import com.kizitonwose.colorpreferencecompat.ColorPreferenceCompat;
 
+/**
+ * Es utilizada en las preferencias.
+ * La preferencia tiene un circulo con color, al presionarlo muestra
+ * dos dialogos. Por eso se sobre escribe el onClick, para evitarlos
+ */
 public class ColorPicker extends ColorPreferenceCompat{
 
     public ColorPicker(Context context) {
