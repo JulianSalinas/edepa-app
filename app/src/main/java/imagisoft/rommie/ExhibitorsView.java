@@ -1,13 +1,13 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.MenuItem;
+import android.view.MenuInflater;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import butterknife.BindView;
@@ -15,8 +15,10 @@ import butterknife.BindView;
 
 public class ExhibitorsView extends ExhibitorsViewFragment implements MaterialSearchView.OnQueryTextListener {
 
-
-    MaterialSearchView searchView;
+    /**
+     * Tomada de la toolbar de la actividad
+     */
+    private MaterialSearchView searchView;
 
     /**
      * Es la capa donde se coloca cada uno de los expositores
@@ -24,6 +26,10 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements MaterialSe
     @BindView(R.id.exhibitor_recycler_view)
     RecyclerView exhibitorsRecyclerView;
 
+    /**
+     * Se define cúal es el layout que va a utilizar
+     * @param bundle: No se utiliza
+     */
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -40,6 +46,14 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements MaterialSe
         setupExhibitorsView();
         setToolbarText(R.string.nav_people);
         setTabLayoutVisibility(View.GONE);
+        setupSearchView();
+    }
+
+    /**
+     * Activa la barra de búsqueda de la actividad
+     * para poder buscar expositores expecificos
+     */
+    private void setupSearchView(){
         searchView = getSearchView();
         searchView.setHint(getResources().getString(R.string.text_search));
         searchView.setOnQueryTextListener(this);
@@ -49,6 +63,10 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements MaterialSe
         searchView.setEllipsize(true);
     }
 
+    /**
+     * Cuando el fragmento se cambia se debe cerrar
+     * la barra de búsquedad
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -61,6 +79,9 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements MaterialSe
         searchView.closeSearch();
     }
 
+    /**
+     * Se agrega el icono de la barra de búsqueda en la toolbar
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);
@@ -79,6 +100,7 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements MaterialSe
         exhibitorsRecyclerView.setItemAnimator(new DefaultItemAnimator());
         exhibitorsRecyclerView.setAdapter(exhibitorsAdapter);
 
+        // Efecto visual para dividir a los expositores
         exhibitorsRecyclerView.addItemDecoration(
                 new DividerItemDecoration(activity,
                 DividerItemDecoration.VERTICAL));

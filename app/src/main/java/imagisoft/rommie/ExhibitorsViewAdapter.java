@@ -2,7 +2,6 @@ package imagisoft.rommie;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.graphics.Color;
 import android.widget.TextView;
 import android.view.LayoutInflater;
 import android.support.v7.widget.CardView;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 
 import agency.tango.android.avatarview.views.AvatarView;
 import agency.tango.android.avatarview.AvatarPlaceholder;
-import agency.tango.android.avatarview.utils.StringUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +26,10 @@ public class ExhibitorsViewAdapter
      * Objetos del modelo que serán adaptados visualmente
      */
     private List<Exhibitor> exhibitors;
+
+    /**
+     * Referencia a los expositores resultados de la búsqueda
+     */
     private List<Exhibitor> filteredExhibitors;
 
     /**
@@ -115,6 +117,8 @@ public class ExhibitorsViewAdapter
 
         }
 
+        // Si ninguno coincide con el criterio de búequeda ex mejor
+        // mostrar a todos en vez de no mostrar alguno 
         if (filteredExhibitors.isEmpty())
             filteredExhibitors = exhibitors;
 

@@ -40,10 +40,15 @@ public class ExhibitorDetail extends MainActivityFragment {
     RecyclerView exhibitorsRecyclerView;
 
     /**
-     * Atributos importantes
+     * Expositor que se muestra junto con los eventos
+     * relacionados
      */
     private Exhibitor exhibitor;
     private List<ScheduleBlock> events;
+
+    /**
+     * Adaptador para colocar los eventos relacionados
+     */
     private ScheduleViewAdapter adapter;
 
     /**
@@ -103,15 +108,6 @@ public class ExhibitorDetail extends MainActivityFragment {
         bindInformation();
         setupEventsView();
 
-    }
-
-    /**
-     * Al cambiar a otra sección se debe volver a colocar la toolbar
-     */
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        setToolbarVisibility(View.VISIBLE);
     }
 
     /**
