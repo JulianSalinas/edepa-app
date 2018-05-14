@@ -32,9 +32,10 @@ public abstract class MainActivityFragment extends Fragment {
     protected int resource;
 
     /**
-     * Para obtener un referencia a la actividad ya con el cast
+     * Al igual que el anterior es necesario recordar si los tabs
+     * estaban visibles anteriormente
      */
-    protected MainActivityNavigation activity;
+    protected int lastTabLayoutVisibility;
 
     /**
      * Cuando se cambian los fragmentos es necesario conservar el
@@ -44,15 +45,9 @@ public abstract class MainActivityFragment extends Fragment {
     protected CharSequence lastUsedToolbarText;
 
     /**
-     * Al igual que el anterior es necesario recordar si los tabs
-     * estaban visibles anteriormente
+     * Para obtener un referencia a la actividad ya con el cast
      */
-    protected int lastTabLayoutVisibility;
-
-    /**
-     * Utilizada exclusivamente para depuración en el Logcat
-     */
-    protected final String TAG = "MainActivityFragment";
+    protected MainActivityNavigation activity;
 
     /**
      * Variable para que todos los fragmentos tengan a mano las
@@ -60,12 +55,44 @@ public abstract class MainActivityFragment extends Fragment {
      */
     protected final Preferences prefs = Preferences.getInstance();
 
+    /**
+     * Permite a las subclases utilizar los componentes de la actividad
+     */
+    public TabLayout getTabLayout(){
+        return activity.getTabLayout();
+    }
+
+    public Toolbar getToolbar(){
+        return activity.getToolbar();
+    }
+
+    public MaterialSearchView getSearchView(){
+        return activity.getSearchView();
+    }
+
+    /**
+     * Permite que cada sección o fragmento muestre un nombre
+     * diferente cuando se coloque
+     * @param resource: R.string.<resource>
+     */
+    public void setToolbarText(int resource){
+        activity.getToolbar().setTitle(resource);
+    }
+
+    /**
+     * Las subclases deben color el atributo resource aquí.
+     */
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         activity = (MainActivityNavigation) getActivity();
     }
 
+    /**
+     * Todas las subclases usan el mismo método, lo único que cambia
+     * es el resource, por tanto se implementa aquí.
+     * @return Vista del fragmento
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         View view = inflater.inflate(resource, container, false);
@@ -74,6 +101,11 @@ public abstract class MainActivityFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Cuando se cambia el fragmento, se debe recordar el estado
+     * anterior del toolbar y del tablayout. Las subclases pueden editar
+     * estas vistas sin verse afectadas.
+     */
     @Override
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
@@ -81,49 +113,17 @@ public abstract class MainActivityFragment extends Fragment {
         lastTabLayoutVisibility = getTabLayout().getVisibility();
     }
 
-    @Override
-    public void onStart() {
-        Log.i(TAG, "onStart()");
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        Log.i(TAG, "onResume()");
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        Log.i(TAG, "onPause()");
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        Log.i(TAG, "onStop()");
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        Log.i(TAG, "onDestroy()");
-        super.onDestroy();
-    }
-
+    /**
+     * Al quitarse este fragmento la barra de tareas y el tab layout
+     * se debe colocar a como estaban antes
+     */
     @Override
     public void onDestroyView() {
-        Log.i(TAG, "onDestroyView()");
         super.onDestroyView();
         getToolbar().setTitle(lastUsedToolbarText);
         getTabLayout().setVisibility(lastTabLayoutVisibility);
     }
 
-    @Override
-    public void onDetach() {
-        Log.i(TAG, "onDetach()");
-        super.onDetach();
-    }
 
     /**
      * Obtiene el lenguaje de la configuracíon. Si
@@ -132,23 +132,26 @@ public abstract class MainActivityFragment extends Fragment {
      */
     public String getCurrentLang(){
 
-        String lang = prefs.getStringPreference(getActivity(), Preferences.LANG_KEY_VALUE);
+        String lang = prefs.getStringPreference(activity, Preferences.LANG_KEY_VALUE);
 
         if(lang == null) {
-            lang = Locale.getDefault().getLanguage();
-            setCurrentLang(lang);
+            setCurrentLang(Locale.getDefault().getLanguage());
+            return getCurrentLang();
         }
 
         return lang;
-
-    }
-
-    public void setCurrentLang(String lang){
-        prefs.setPreference(getActivity(), Preferences.LANG_KEY_VALUE, lang);
     }
 
     /**
-     * Obtiene el actual nombre de usuario, si el la primera vez toma
+     * Guarda el idioma actual en la configuración
+     * @param lang "es" o "en"
+     */
+    public void setCurrentLang(String lang){
+        prefs.setPreference(activity, Preferences.LANG_KEY_VALUE, lang);
+    }
+
+    /**
+     * Obtiene el actual nombre de usuario, si es la primera vez, toma
      * el usuario desde el login por defecto
      */
     public String getCurrentUsername(){
@@ -162,21 +165,6 @@ public abstract class MainActivityFragment extends Fragment {
 
         return username;
 
-    }
-
-    public void setCurrentUsername(String username){
-        prefs.setPreference(getActivity(), Preferences.USER_KEY_VALUE, username);
-    }
-
-    /**
-     * Obtiene el estado actual de la alarma
-     */
-    public Boolean getCurrentAlarmState(){
-        return prefs.getBooleanPreference(getActivity(), Preferences.ALARM_STATE_KEY_VALUE);
-    }
-
-    public void setCurrentAlarmState(boolean state){
-        prefs.setPreference(getActivity(), Preferences.ALARM_STATE_KEY_VALUE, state);
     }
 
     /**
@@ -201,6 +189,30 @@ public abstract class MainActivityFragment extends Fragment {
     }
 
     /**
+     * Permite cambiar el nombre de usuario para usar en el chat
+     * @param username: Nombre de usuario del chat
+     */
+    public void setCurrentUsername(String username){
+        prefs.setPreference(getActivity(), Preferences.USER_KEY_VALUE, username);
+    }
+
+    /**
+     * Obtiene el estado actual de la alarma
+     * @return True si las alarmas están permitidas
+     */
+    public Boolean getCurrentAlarmState(){
+        return prefs.getBooleanPreference(getActivity(), Preferences.ALARM_STATE_KEY_VALUE);
+    }
+
+    /**
+     * Cambia el estado actual de las alarmas
+     * @param state True si se desean recibir notificaciones
+     */
+    public void setCurrentAlarmState(boolean state){
+        prefs.setPreference(getActivity(), Preferences.ALARM_STATE_KEY_VALUE, state);
+    }
+
+    /**
      * Coloca en la pantalla un fragmento previamente creado
      * @param fragment Asociado a la opción elegida por el usuario
      */
@@ -211,47 +223,42 @@ public abstract class MainActivityFragment extends Fragment {
     }
 
     /**
-     * Reinicia la aplicación. Se utiliza cuando se cambia el idioma o el tema
+     * Reinicia la aplicación. Se utiliza cuando se cambia el idioma
      */
     public void restartApplication(){
-        MainActivityNavigation activity = (MainActivityNavigation) getActivity();
         activity.restartApplication();
     }
 
+    /**
+     * Oculta tanto la toolbar como la barra de búsqueda que la
+     * acompaña
+     * @param visibility View.GONE o View.VISIBLE
+     */
     public void setToolbarVisibility(int visibility){
         activity.getToolbarContainer().setVisibility(visibility);
         getToolbar().setVisibility(visibility);
         getSearchView().setVisibility(visibility);
     }
 
-    public void setStatusBarColor(int color){
-        MainActivityNavigation activity = (MainActivityNavigation) getActivity();
-        activity.getWindow().setStatusBarColor(color);
-    }
-
-    public int getStatusBarColor(){
-        MainActivityNavigation activity = (MainActivityNavigation) getActivity();
-        return activity.getWindow().getStatusBarColor();
-    }
-
+    /**
+     * Permite a los fragmentos colocar los tabs de cronograma y
+     * favoritos en la toolbar
+     * @param visibility View.GONE o View.VISIBLE
+     */
     public void setTabLayoutVisibility(int visibility){
         activity.getTabLayout().setVisibility(visibility);
     }
 
-    public TabLayout getTabLayout(){
-        return activity.getTabLayout();
+    /**
+     * Permiten ver y colocar el color de la barra superior
+     * donde se muestran las notificaciones
+     */
+    public void setStatusBarColor(int color){
+        activity.getWindow().setStatusBarColor(color);
     }
 
-    public Toolbar getToolbar(){
-        return activity.getToolbar();
-    }
-
-    public MaterialSearchView getSearchView(){
-        return activity.getSearchView();
-    }
-
-    public void setToolbarText(int resource){
-        activity.getToolbar().setTitle(resource);
+    public int getStatusBarColor(){
+        return activity.getWindow().getStatusBarColor();
     }
 
     /**
@@ -262,6 +269,11 @@ public abstract class MainActivityFragment extends Fragment {
         activity.showStatusMessage(msg);
     }
 
+    /**
+     * Realiza lo mismo que showStatusMessage(String msg) solo
+     * que esta utiliza un recurso de R.string
+     * @param resource: R.string.<resource>
+     */
     public void showStatusMessage(int resource){
         activity.showStatusMessage(getResources().getString(resource));
     }
