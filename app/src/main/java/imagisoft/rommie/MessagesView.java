@@ -37,7 +37,7 @@ public abstract class MessagesView extends MainActivityFragment {
     }
 
     /**
-     * Agrega un el evento de actualizar inserción al adaptado
+     * Coloca la vista hasta el último elemento insertado
      */
     public void registerAdapterDataObserver(){
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {

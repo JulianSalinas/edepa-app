@@ -64,7 +64,10 @@ public abstract class MessagesViewAdapterOnline extends MessagesViewAdapter {
 
         @Override
         public void onChildRemoved(DataSnapshot dataSnapshot) {
-            // No requerido
+            Message receivedMessage = dataSnapshot.getValue(Message.class);
+            int index = msgs.indexOf(receivedMessage);
+            msgs.remove(receivedMessage);
+            notifyItemRemoved(index);
         }
 
         @Override
