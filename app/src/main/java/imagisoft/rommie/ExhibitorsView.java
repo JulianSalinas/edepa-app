@@ -45,7 +45,7 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements MaterialSe
         super.onActivityCreated(bundle);
         setupExhibitorsView();
         setToolbarText(R.string.nav_people);
-        setTabLayoutVisibility(View.GONE);
+        setToolbarVisibility(View.VISIBLE);
         setupSearchView();
     }
 

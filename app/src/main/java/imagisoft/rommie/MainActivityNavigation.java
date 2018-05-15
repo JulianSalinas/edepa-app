@@ -42,7 +42,7 @@ public class MainActivityNavigation extends MainActivityFirebase
     /**
      * Vistas en el encanbezado del menú principal
      */
-    private TextView currentSection;
+    TextView currentSection;
     private FloatingActionLayout favoriteButton;
 
     /**
@@ -77,6 +77,13 @@ public class MainActivityNavigation extends MainActivityFirebase
 
         else if (bundle == null)
             onCreateWithNoArgs();
+
+        View header = navigation.getHeaderView(0);
+        favoriteButton = header.findViewById(R.id.favorite_button);
+        currentSection = header.findViewById(R.id.current_section_view);
+
+        favoriteButton.setOnClickListener(this);
+        navigation.setNavigationItemSelectedListener(this);
 
     }
 
@@ -125,25 +132,6 @@ public class MainActivityNavigation extends MainActivityFirebase
     }
 
     /**
-     * Después que se crea la activida y se configura, se colocan
-     * los ventos del botón de favoritos y los tabs
-     * @param bundle: No se utiliza
-     */
-    @Override
-    protected void onPostCreate(Bundle bundle) {
-
-        View header = navigation.getHeaderView(0);
-        favoriteButton = header.findViewById(R.id.favorite_button);
-        currentSection = header.findViewById(R.id.current_section_view);
-
-        favoriteButton.setOnClickListener(this);
-        navigation.setNavigationItemSelectedListener(this);
-
-        super.onPostCreate(bundle);
-
-    }
-
-    /**
      * Al tocar una notificación mientras la aplicación está abierta
      * hace que ésta funcion sea llamada para colocar la nueva pantalla
      * @param intent: Contiene que pantalla debe abrir la aplicación 
@@ -155,9 +143,13 @@ public class MainActivityNavigation extends MainActivityFirebase
 
         Bundle args = intent.getExtras();
 
-        if(args != null)
-            onCreateWithBundle(args);
-
+        if(args != null){
+            Intent refresh = new Intent(this, MainActivityNavigation.class);
+            refresh.putExtras(args);
+            startActivity(refresh);
+            finish();
+        }
+//        onCreateWithBundle(args);
     }
 
     /**
@@ -203,6 +195,15 @@ public class MainActivityNavigation extends MainActivityFirebase
      */
     @Override
     public void onClick(View v) {
+        if(!independentFragments.containsKey(R.id.nav_schedule)) {
+            independentFragments.put(R.id.nav_schedule, ScheduleTabs.newInstance(1));
+            switchFragment(independentFragments.get(R.id.nav_schedule));
+        }
+        else{
+            ScheduleTabs tabs = (ScheduleTabs) independentFragments.get(R.id.nav_schedule);
+            tabs.setCurrentTab(1);
+            switchFragment(independentFragments.get(R.id.nav_schedule));
+        }
 //        long currentTime = System.currentTimeMillis();
 ////        long nowPlus5Minutes = currentTime + TimeUnit.MINUTES.toMillis(5);
 //        long eventStart = new Date(currentTime + 5 * 60 * 1000).getTime();

@@ -48,13 +48,13 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
     /**
      * Representa donde está ubicado este adaptador
      */
-    protected PagerFragment fragment;
+    protected  MainActivityFragment fragment;
 
     /**
      * En el constructor se agrega el listener para colocar las fechas
      * en el paginador
      */
-    public PagerAdapter(PagerFragment fragment) {
+    public PagerAdapter( MainActivityFragment fragment) {
 
         super(fragment.getChildFragmentManager());
         this.fragment = fragment;
@@ -62,8 +62,8 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
         this.dates = new ArrayList<>();
         this.events = new ArrayList<>();
         this.blocks = new ArrayList<>();
-        this.pages = new Fragment[dates.size()];
         this.blocksByDay = new LinkedMultiValueMap<>();
+        this.pages = new Fragment[dates.size()];
 
     }
 
@@ -80,18 +80,18 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public Fragment getItem(int position) {
-        if(pages[position] == null)
-            pages[position] = createScheduleView(position);
-        return pages[position];
+//        if(pages[position] == null)
+//            pages[position] = createScheduleView(position);
+        return createScheduleView(position);
     }
 
     /**
      * Se usa para que la vista se puede actualizar
      * Usa más recursos pero con la cantidad de datos no se nota
      */
-    public int getItemPosition(Object object){
-        return POSITION_NONE;
-    }
+//    public int getItemPosition(Object object){
+//        return POSITION_NONE;
+//    }
 
     /**
      * Función usada por getItem para obtener una nueva instancia únicamente
@@ -137,8 +137,8 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
         createBlocks();
 
         // Se reinicia para no agregar repetidos
-        dates.clear();
-        blocksByDay.clear();
+        dates = new ArrayList<>();
+        blocksByDay = new LinkedMultiValueMap<>();
 
         // Llena la variable blocksByDate
         groupBlocksByDay();
@@ -163,7 +163,7 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
     public void createBlocks() {
 
         if(events.size() > 0) {
-            blocks.clear();
+            blocks = new ArrayList<>();
 
             // La hora del primer evento marca la hora del primer bloque
             ScheduleEvent first = events.get(0);

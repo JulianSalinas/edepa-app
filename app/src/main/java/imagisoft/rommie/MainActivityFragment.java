@@ -77,6 +77,8 @@ public abstract class MainActivityFragment extends Fragment {
      */
     public void setToolbarText(int resource){
         activity.getToolbar().setTitle(resource);
+        activity.currentSection.setText(resource);
+        activity.currentSection.setText(resource);
     }
 
     /**
@@ -120,10 +122,10 @@ public abstract class MainActivityFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        activity.currentSection.setText(lastUsedToolbarText);
         getToolbar().setTitle(lastUsedToolbarText);
         getTabLayout().setVisibility(lastTabLayoutVisibility);
     }
-
 
     /**
      * Obtiene el lenguaje de la configuracíon. Si

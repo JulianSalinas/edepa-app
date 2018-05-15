@@ -1,6 +1,7 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.ImageView;
@@ -38,6 +39,9 @@ public class ScheduleDetailFront extends MainActivityFragment implements OnLikeL
 
     @BindView(R.id.button_back)
     View buttonBack;
+
+    @BindView(R.id.readmore)
+    View readmore;
 
     /**
      * No se pueden crear constructores con parámetros, por tanto,
@@ -95,6 +99,12 @@ public class ScheduleDetailFront extends MainActivityFragment implements OnLikeL
 
         favoriteButton.setLiked(favoriteList.contains(event));
         favoriteButton.setOnLikeListener(this);
+
+        readmore.setOnClickListener(v -> {
+            Fragment parent = getParentFragment();
+            ScheduleDetailPager pager = ((ScheduleDetailPager) parent);
+            pager.pager.setCurrentItem(1);
+        });
 
     }
 

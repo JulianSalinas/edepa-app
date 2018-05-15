@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import imagisoft.edepa.Preferences;
 import imagisoft.edepa.ScheduleEvent;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -30,7 +31,11 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         this.context = context;
         Bundle args = intent.getExtras();
-        if(args != null) {
+
+        boolean receive = Preferences.getInstance()
+                .getBooleanPreference(context, Preferences.ALARM_STATE_KEY_VALUE);
+
+        if(args != null && receive) {
 
             ScheduleEvent event = intent.getExtras().getParcelable("event");
             String title = context.getResources().getString(R.string.text_remainder);
@@ -44,14 +49,13 @@ public class AlarmReceiver extends BroadcastReceiver {
 //        Uri ringtoneUri = RingtoneManager.getActualDefaultRingtoneUri(context, type);
 //        Ringtone ringtoneSound = RingtoneManager.getRingtone(context, ringtoneUri);
 //        if (ringtoneSound != null) ringtoneSound.play();
-        Log.i("alarma", "lawealawea");
 
     }
 
     public Notification createNotification(String title, String content){
 
         Bundle args = new Bundle();
-        args.putInt("currentResource", R.id.nav_chat);
+        args.putInt("currentResource", R.id.nav_schedule);
 
         Intent intent = new Intent(context, MainActivityNavigation.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_NO_HISTORY);

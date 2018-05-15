@@ -41,6 +41,7 @@ public class ChatView extends MessagesView {
         super.onActivityCreated(bundle);
         setupSendCardView();
         setToolbarText(R.string.nav_chat);
+        setToolbarVisibility(View.VISIBLE);
         setTabLayoutVisibility(View.GONE);
     }
 

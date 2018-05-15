@@ -84,14 +84,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/space_default"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/text_readmore"
+                android:text="@string/text_abstract"
                 android:textColor="@color/app_white"
                 android:textSize="@dimen/font_big"
                 android:tag=":aesthetic_ignore"/>
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:contentDescription="-"
-                android:src="@drawable/ic_down"
+                android:src="@drawable/ic_right"
                 android:tint="@color/app_white"/>
         </LinearLayout>
 

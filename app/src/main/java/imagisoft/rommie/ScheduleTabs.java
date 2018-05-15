@@ -271,7 +271,7 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
      * Coloca el indicador debajo del tab seleccionado
      * @param position: Número de tab de izq a der
      */
-    private void paintTab(int position){
+    public void paintTab(int position){
         TabLayout.Tab tab = getTabLayout().getTabAt(position);
         assert tab != null;
         tab.select();
@@ -285,7 +285,7 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
     public void navigateToPosition(int position) {
 
         currentTab = position;
-//        paintTab(position);
+        paintTab(position);
 
         pendingRunnable = () -> {
 
@@ -303,7 +303,7 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
                 }
 
                 else {
-                    if(favoritesFragment == null)
+//                    if(favoritesFragment == null)
                         favoritesFragment = new PagerFragmentFavorites();
                     switchFragment(favoritesFragment);
                 }

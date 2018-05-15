@@ -26,6 +26,7 @@ public class NewsView extends MessagesView {
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
         setToolbarText(R.string.nav_news);
+        setToolbarVisibility(View.VISIBLE);
         setTabLayoutVisibility(View.GONE);
     }
 

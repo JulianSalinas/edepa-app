@@ -104,6 +104,7 @@ public class ScheduleDetailPager extends MainActivityFragment {
     public void onDestroyView() {
         super.onDestroyView();
         setStatusBarColor(statusBarColor);
+        setToolbarVisibility(View.GONE);
     }
 
     @Override

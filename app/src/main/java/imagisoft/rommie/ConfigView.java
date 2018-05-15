@@ -59,6 +59,7 @@ public class ConfigView extends MainActivityFragment {
         switchNotifications.setChecked(getCurrentAlarmState());
         setupSwitchNotifications();
         setToolbarText(R.string.nav_settings);
+        setToolbarVisibility(View.VISIBLE);
         setTabLayoutVisibility(View.GONE);
     }
 

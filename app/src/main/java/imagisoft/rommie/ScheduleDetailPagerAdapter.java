@@ -11,6 +11,7 @@ public class ScheduleDetailPagerAdapter extends FragmentPagerAdapter {
      * Evento que se adapta visualmente
      */
     private ScheduleEvent event;
+    private ScheduleDetailPager pager;
 
     public ScheduleDetailPagerAdapter(ScheduleDetailPager pager) {
         super(pager.getChildFragmentManager());

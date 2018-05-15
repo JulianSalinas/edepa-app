@@ -20,6 +20,7 @@ public class AboutView extends MainActivityFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
 
         setToolbarText(R.string.nav_about);
+        setToolbarVisibility(View.VISIBLE);
         setTabLayoutVisibility(View.GONE);
 
         Resources res = getResources();
