@@ -29,28 +29,10 @@ public abstract class MessagesViewAdapterOnline extends MessagesViewAdapter {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
             Message receivedMessage = dataSnapshot.getValue(Message.class);
-            String receivedDate = DateConverter.extractDate(receivedMessage.getTime());
-
-            if (lastMessage == null) {
-                lastMessage = receivedMessage;
-                msgs.add(new Timestamp(receivedMessage.getTime()));
-                notifyItemInserted(msgs.size()-1);;
-            }
-
-            String lastReceivedDate = DateConverter.extractDate(lastMessage.getTime());
-
-            if(receivedDate.equals(lastReceivedDate)){
+            if (receivedMessage != null){
                 msgs.add(receivedMessage);
                 notifyItemInserted(msgs.size()-1);
             }
-            else {
-                msgs.add(new Timestamp(receivedMessage.getTime()));
-                notifyItemInserted(msgs.size()-1);
-                msgs.add(receivedMessage);
-                notifyItemInserted(msgs.size()-1);
-            }
-
-            lastMessage = receivedMessage;
 
         }
 

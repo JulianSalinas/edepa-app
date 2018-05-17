@@ -49,9 +49,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="8:00pm"
-                android:textColor="@color/app_secondary_font"
-                android:textSize="50sp"
+                android:textSize="30sp"
                 android:textStyle="bold"
+                android:textColor="@color/app_white"
                 android:tag=":aesthetic_ignore"/>
 
             <TextView
@@ -62,7 +62,7 @@
                 android:layout_marginStart="@dimen/space_biggest"
                 android:layout_marginEnd="@dimen/font_biggest"
                 android:text="@string/test_event"
-                android:textColor="@color/app_secondary_font"
+                android:textColor="@color/app_white"
                 android:textSize="@dimen/font_biggest"
                 android:textAlignment="center"
                 android:tag=":aesthetic_ignore"/>
@@ -79,11 +79,20 @@
 
         </LinearLayout>
 
+        <!--<View-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="2dp"-->
+            <!--android:background="@color/app_white"-->
+            <!--android:layout_alignTop="@+id/readmore">-->
+
+        <!--</View>-->
+
         <LinearLayout
             android:id="@+id/readmore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/space_default"
+            android:paddingTop="@dimen/space_default"
+            android:paddingStart="@dimen/space_default"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal">
@@ -103,6 +112,7 @@
                 android:contentDescription="-"
                 android:src="@drawable/ic_right"
                 android:tint="@color/app_white"/>
+
         </LinearLayout>
 
     </RelativeLayout>

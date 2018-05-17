@@ -34,6 +34,7 @@ public class PagerAdapterSchedule extends PagerAdapter {
 
         // Se cargan todos los datos una única vez
         query.addListenerForSingleValueEvent(listener);
+        query.addChildEventListener(listener);
 
     }
 
@@ -41,7 +42,7 @@ public class PagerAdapterSchedule extends PagerAdapter {
      * Clase que conecta las fechas del paginador con las extraídas del
      * cronograma
      */
-    class SchedulePagerAdapterValueEventListener implements ValueEventListener {
+    class SchedulePagerAdapterValueEventListener implements ValueEventListener, ChildEventListener {
 
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -50,6 +51,32 @@ public class PagerAdapterSchedule extends PagerAdapter {
                 events.add(postSnapshot.getValue(ScheduleEvent.class));
 
             notifyDataSetChanged();
+
+        }
+
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
+            int index = events.indexOf(event);
+            events.set(index, event);
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+            ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
+            int index = events.indexOf(event);
+            events.remove(index);
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
         }
 

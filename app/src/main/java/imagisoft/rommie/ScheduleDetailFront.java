@@ -1,5 +1,6 @@
 package imagisoft.rommie;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.like.OnLikeListener;
 import butterknife.BindView;
 import imagisoft.edepa.FavoriteList;
 import imagisoft.edepa.ScheduleEvent;
+import imagisoft.miscellaneous.DateConverter;
 
 
 public class ScheduleDetailFront extends MainActivityFragment implements OnLikeListener{
@@ -42,6 +44,9 @@ public class ScheduleDetailFront extends MainActivityFragment implements OnLikeL
 
     @BindView(R.id.readmore)
     View readmore;
+
+    @BindView(R.id.schedule_detail_time)
+    TextView timeTextView;
 
     /**
      * No se pueden crear constructores con parámetros, por tanto,
@@ -89,9 +94,13 @@ public class ScheduleDetailFront extends MainActivityFragment implements OnLikeL
     /**
      * Coloca la información del evento en cada uno de los componentes
      */
+    @SuppressLint("SetTextI18n")
     private void bindInformation(){
 
         headerTextView.setText(event.getTitle());
+        timeTextView.setText(
+                DateConverter.extractDate(event.getStart()) + "\n" +
+                DateConverter.extractTime(event.getStart()));
 
         int color = getResources().getColor(event.getEventype().getColor());
         emphasisImageView.setBackgroundColor(color);

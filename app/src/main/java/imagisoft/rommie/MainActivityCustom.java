@@ -235,9 +235,9 @@ public abstract class MainActivityCustom extends MainActivityClassic
 
         if(alarmManager != null) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
-            showStatusMessage(getResources().getString(R.string.text_alarm) + " " +
-                    DateConverter.extractDate(alarmTime) + " " +
-                    DateConverter.extractTime(alarmTime));
+//            showStatusMessage(getResources().getString(R.string.text_alarm) + " " +
+//                    DateConverter.extractDate(alarmTime) + " " +
+//                    DateConverter.extractTime(alarmTime));
         }
 
 

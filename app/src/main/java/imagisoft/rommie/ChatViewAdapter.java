@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import com.google.firebase.database.ChildEventListener;
 
 import imagisoft.edepa.Message;
+import imagisoft.miscellaneous.DateConverter;
 
 
 public class ChatViewAdapter extends MessagesViewAdapterOnline{
@@ -14,9 +15,10 @@ public class ChatViewAdapter extends MessagesViewAdapterOnline{
     /**
      * Constantes paras escoger el tipo de vista que se colocará
      */
-    private final int CHAT_TIMESTAMP = 0;
-    private final int CHAT_LEFT_VIEW_TYPE = 1;
-    private final int CHAT_RIGHT_VIEW_TYPE = 2;
+    private final int CHAT_LEFT_VIEW_TYPE = 0;
+    private final int CHAT_RIGHT_VIEW_TYPE = 1;
+    private final int CHAT_LEFT_VIEW_TYPE_WITH_SEPARATOR = 2;
+    private final int CHAT_RIGHT_VIEW_TYPE_WITH_SEPARATOR = 3;
 
     /**
      * Se asocia con firebase para recibir los mensajes
@@ -32,20 +34,24 @@ public class ChatViewAdapter extends MessagesViewAdapterOnline{
     }
 
     /**
-     *  Obtiene si el mensaje va a la izq o der
-     *  @param position: Posición del mensaje dentro del arreglo
+     * Regresa un item donde sin fecha porque el item de arriba
+     * que es del mismo día ya tiene uno
+     * @param item: Message
      */
     @Override
-    public int getItemViewType(int position) {
+    protected int getItemViewTypeWithoutSeparator(Message item){
+        return item.getUserid().equals(user.getUid()) ?
+                CHAT_RIGHT_VIEW_TYPE: CHAT_LEFT_VIEW_TYPE;
+    }
 
-        if(msgs.get(position) instanceof Message) {
-            Message item = (Message) msgs.get(position);
-            boolean isThisUser = item.getUserid().equals(user.getUid());
-            return isThisUser ? CHAT_RIGHT_VIEW_TYPE : CHAT_LEFT_VIEW_TYPE;
-        }
-
-        else return CHAT_TIMESTAMP;
-
+    /**
+     * El item necesita indicar el dia usando un separador
+     * @param item: Message
+     */
+    protected int getItemViewTypeWithSeparator(Message item){
+        return item.getUserid().equals(user.getUid()) ?
+                CHAT_RIGHT_VIEW_TYPE_WITH_SEPARATOR :
+                CHAT_LEFT_VIEW_TYPE_WITH_SEPARATOR;
     }
 
     /**
@@ -57,17 +63,22 @@ public class ChatViewAdapter extends MessagesViewAdapterOnline{
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         int layout =
-                viewType == CHAT_TIMESTAMP ? R.layout.date_separator :
+
+                viewType == CHAT_LEFT_VIEW_TYPE ? R.layout.chat_view_msg_left:
                 viewType == CHAT_RIGHT_VIEW_TYPE ? R.layout.chat_view_msg_right:
-                R.layout.chat_view_msg_left;
+
+                viewType == CHAT_LEFT_VIEW_TYPE_WITH_SEPARATOR ?
+                        R.layout.chat_view_msg_left_with_separator:
+                        R.layout.chat_view_msg_right_with_separator;
 
         View view = LayoutInflater
                 .from(parent.getContext())
                 .inflate(layout, parent, false);
 
-        return viewType == CHAT_TIMESTAMP ?
-                new TimestampViewHolder(view) :
-                new MessageViewHolder(view);
+        return  viewType == CHAT_LEFT_VIEW_TYPE ||
+                viewType == CHAT_RIGHT_VIEW_TYPE ?
+                new MessageViewHolder(view):
+                new MessageWithSeparatorViewHolder(view);
 
     }
 

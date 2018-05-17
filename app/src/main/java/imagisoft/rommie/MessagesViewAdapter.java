@@ -34,7 +34,7 @@ public abstract class MessagesViewAdapter
     /**
      * Objetos del modelo que serán adaptados visualmente
      */
-    protected ArrayList<Timestamp> msgs;
+    protected ArrayList<Message> msgs;
 
     /**
      * Se obtiene el usuario actual o que envía
@@ -59,18 +59,66 @@ public abstract class MessagesViewAdapter
     }
 
     /**
+     *  Obtiene si es una noticia o una marca de tiempo
+     */
+    @Override
+    public int getItemViewType(int position) {
+
+        final Message item = msgs.get(position);
+
+        if (position == 0)
+            return getItemViewTypeWithSeparator(item);
+
+        else {
+
+            Message upItem = msgs.get(position - 1);
+            String itemDate = DateConverter.extractDate(item.getTime());
+            String upItemDate = DateConverter.extractDate(upItem.getTime());
+
+            if (itemDate.equals(upItemDate))
+                return getItemViewTypeWithoutSeparator(item);
+            else
+                return getItemViewTypeWithSeparator(item);
+
+        }
+
+    }
+
+    /**
+     * Regresa un item donde sin fecha porque el item de arriba
+     * que es del mismo día ya tiene uno
+     * @param item: Message
+     */
+    protected abstract int getItemViewTypeWithoutSeparator(Message item);
+
+    /**
+     * El item necesita indicar el dia usando un separador
+     * @param item: Message
+     */
+    protected abstract int getItemViewTypeWithSeparator(Message item);
+
+    /**
      * Se enlazan los componentes
      * @param position NO USAR, esta variable no tiene valor fijo. Usar holder.getAdapterPosition()
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
 
-        Timestamp timestamp = msgs.get(viewHolder.getAdapterPosition());
+        Message msg = msgs.get(viewHolder.getAdapterPosition());
 
-        if(timestamp instanceof Message) {
+        if(viewHolder instanceof MessageWithSeparatorViewHolder) {
 
-            Message msg = (Message) timestamp;
-            MessageViewHolder holder = (MessageViewHolder) viewHolder;
+            MessageWithSeparatorViewHolder holder = (MessageWithSeparatorViewHolder) viewHolder;
+
+            Long currentTime = Calendar.getInstance().getTimeInMillis();
+            String currentDate = DateConverter.extractDate(currentTime);
+            String lastTimestampDate = DateConverter.extractDate(msg.getTime());
+
+            if (currentDate.equals(lastTimestampDate))
+                holder.timeSeparator.setText(view.getResources().getString(R.string.text_today));
+            else
+                holder.timeSeparator.setText(DateConverter.extractDate(msg.getTime()));
+
             holder.msgUsername.setText(msg.getUsername());
             holder.msgContent.setText(msg.getContent());
             holder.msgTimeDescription.setText(DateConverter.extractTime(msg.getTime()));
@@ -80,16 +128,12 @@ public abstract class MessagesViewAdapter
 
         else {
 
-            TimestampViewHolder holder = (TimestampViewHolder) viewHolder;
+            MessageViewHolder holder = (MessageViewHolder) viewHolder;
 
-            Long currentTime = Calendar.getInstance().getTimeInMillis();
-            String currentDate = DateConverter.extractDate(currentTime);
-            String lastTimestampDate = DateConverter.extractDate(timestamp.getTime());
-
-            if (currentDate.equals(lastTimestampDate))
-                holder.timeSeparator.setText(view.getResources().getString(R.string.text_today));
-            else
-                holder.timeSeparator.setText(DateConverter.extractDate(timestamp.getTime()));
+            holder.msgUsername.setText(msg.getUsername());
+            holder.msgContent.setText(msg.getContent());
+            holder.msgTimeDescription.setText(DateConverter.extractTime(msg.getTime()));
+            Linkify.addLinks(holder.msgContent, Linkify.WEB_URLS);
 
         }
 
@@ -98,12 +142,12 @@ public abstract class MessagesViewAdapter
     /**
      * Clase para dividir los mensajes por hora
      */
-    protected class TimestampViewHolder extends RecyclerView.ViewHolder {
+    protected class MessageWithSeparatorViewHolder extends MessageViewHolder {
 
         @BindView(R.id.chat_separator_time)
         TextView timeSeparator;
 
-        TimestampViewHolder(View view) {
+        MessageWithSeparatorViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }

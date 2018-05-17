@@ -127,13 +127,14 @@ public class InformationView extends MainActivityFragment implements OnMapReadyC
 
         // Se revisa si el mapa ya está en la cache para no instanciarlo de nuevo.
         // Permite mostrar el mapa aunque no haya conexión
-        if (mapFragment == null) {
-            mapFragment = SupportMapFragment.newInstance();
-            mapFragment.getMapAsync(this);
-        }
+         if (mapFragment == null) {
+             mapFragment = SupportMapFragment.newInstance();
+             getChildFragmentManager().beginTransaction().replace(R.id.map, mapFragment).commit();
+         }
 
+
+        mapFragment.getMapAsync(this);
         // Coloca el gmap en la posición destinada para tal fin
-        getChildFragmentManager().beginTransaction().replace(R.id.map, mapFragment).commit();
 
     }
 
@@ -156,6 +157,8 @@ public class InformationView extends MainActivityFragment implements OnMapReadyC
     public void onMapReady(GoogleMap map) {
 
         // Coordenadas del lugar del congreso
+        Log.i("mapY", String.valueOf(congress.getyCoord()));
+        Log.i("mapX", String.valueOf(congress.getxCoord()));
         LatLng coordinates = new LatLng(congress.getyCoord(), congress.getxCoord());
 
         googleMap = map;

@@ -61,7 +61,6 @@ public class ChatView extends MessagesView {
      * de salirse de la panralla o al girarla
      * @param savedInstanceState: Bundle con el contenido del chat
      */
-
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
