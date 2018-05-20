@@ -9,9 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,7 +21,6 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 import imagisoft.edepa.FavoriteList;
 
 /**
@@ -49,7 +45,7 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
      * TabLayout con sus tres vistas principales
      */
     private int currentTab;
-    private ScheduleView ongoingFragment;
+    private EventsView ongoingFragment;
     private PagerFragmentSchedule scheduleFragment;
     private PagerFragmentFavorites favoritesFragment;
 
@@ -299,11 +295,11 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
 
                 if(favoriteList.isEmpty()) {
                     String description = activity.getString(R.string.text_without_favorites);
-                    switchFragment(BlankFragment.newInstance(description));
+                    // switchFragment(BlankFragment.newInstance(description));
                 }
 
                 else {
-//                    if(favoritesFragment == null)
+                    if(favoritesFragment == null)
                         favoritesFragment = new PagerFragmentFavorites();
                     switchFragment(favoritesFragment);
                 }
@@ -313,7 +309,7 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
             else {
 
                 if (ongoingFragment == null)
-                    ongoingFragment = ScheduleViewOngoing.newInstance();
+                    ongoingFragment = EventsViewOngoing.newInstance();
                 switchFragment(ongoingFragment);
 
             }

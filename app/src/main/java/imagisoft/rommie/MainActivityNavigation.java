@@ -1,21 +1,13 @@
 package imagisoft.rommie;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -23,10 +15,7 @@ import android.widget.TextView;
 import com.firebase.ui.auth.AuthUI;
 import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 public class MainActivityNavigation extends MainActivityFirebase
@@ -53,7 +42,7 @@ public class MainActivityNavigation extends MainActivityFirebase
     /**
      * Hace referencia al layout que está en uso
      */
-    protected int currentResource = R.id.schedule_view;
+    protected int currentResource = R.id.events_view;
 
     /**
      * Se define cúal es el layout que va a utilizar
@@ -119,7 +108,7 @@ public class MainActivityNavigation extends MainActivityFirebase
      */
     protected void onCreateWithNoArgs(){
 
-        currentResource = R.id.schedule_view;
+        currentResource = R.id.events_view;
         toolbar.setTitle(R.string.app_name);
         tabLayout.setVisibility(View.GONE);
         independentFragments.put(currentResource, createFragmentById(currentResource));
@@ -254,7 +243,7 @@ public class MainActivityNavigation extends MainActivityFirebase
             return new ExhibitorsView();
         case R.id.nav_infomation:
             return new InformationView();
-        case R.id.schedule_view:
+        case R.id.events_view:
             return ScheduleTabs.newInstance(ScheduleTabs.SCHEDULE_TAB);
         default:
             return ScheduleTabs.newInstance(ScheduleTabs.SCHEDULE_TAB);

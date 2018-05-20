@@ -13,7 +13,7 @@ import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.ScheduleEvent;
 
 
-public class ScheduleDetailBrief extends ExhibitorsViewFragment {
+public class ScheduleDetailBrief extends ExhibitorsView{
 
     /**
      * Referencia al evento del que se muestran los detalles
@@ -32,13 +32,6 @@ public class ScheduleDetailBrief extends ExhibitorsViewFragment {
     @BindView(R.id.exhibitor_recycler_view)
     RecyclerView exhibitorsRecyclerView;
 
-    /**
-     * Obtiene todos los expositores que maneja la vista
-     */
-    @Override
-    public List<Exhibitor> getExhibitors() {
-        return event.getExhibitors();
-    }
 
     /**
      * No se pueden crear constructores con parámetros, por tanto,

@@ -1,20 +1,9 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
-import android.support.v4.view.ViewPager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.view.animation.Animation;
-
-import com.labo.kaji.fragmentanimations.CubeAnimation;
-import com.labo.kaji.fragmentanimations.MoveAnimation;
-
 import butterknife.BindView;
-
-import static javax.xml.datatype.DatatypeConstants.DURATION;
+import android.support.v4.view.ViewPager;
 
 /**
  * Cada subclase tiene que encargarse de colocar el páginador
@@ -50,31 +39,11 @@ public abstract class PagerFragment extends MainActivityFragment {
      */
     @Override
     public void onActivityCreated(Bundle bundle) {
-
         super.onActivityCreated(bundle);
         this.setupViewPager();
-
         setToolbarText(R.string.app_name);
         setTabLayoutVisibility(View.VISIBLE);
-
-        if(bundle != null)
-            pager.setCurrentItem(bundle.getInt("currentPage"));
-
     }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("currentPage", pager.getCurrentItem());
-    }
-
-    @Override
-    public void onViewStateRestored(Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if(savedInstanceState != null)
-            pager.setCurrentItem(savedInstanceState.getInt("currentPage"));
-    }
-
 
     /**
      * Obtiene los eventos, extrae todos los días que componen los eventos

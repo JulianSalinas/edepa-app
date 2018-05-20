@@ -1,90 +1,60 @@
 package imagisoft.rommie;
 
-import android.util.Log;
+import android.support.v4.app.Fragment;
 
 import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.List;
-import java.util.ArrayList;
 import imagisoft.edepa.ScheduleEvent;
 
 
-public class PagerAdapterSchedule extends PagerAdapter {
+public class PagerAdapterSchedule
+        extends PagerAdapter implements ChildEventListener {
 
     /**
      * En el constructor se agrega el listener para colocar las fechas
      * en el paginador
      */
     public PagerAdapterSchedule(PagerFragment fragment) {
-
         super(fragment);
 
-        // Se deben ordenar los eventos por fecha de inicio
-        Query query = this.fragment.activity
+        fragment.activity
                 .getScheduleReference()
-                .orderByChild("start");
+                .orderByChild("start")
+                .addChildEventListener(this);
+        
+    }
 
-        // Este implementa las dos interfaces necesarias para sincronizar los datos
-        SchedulePagerAdapterValueEventListener listener
-                = new SchedulePagerAdapterValueEventListener();
+    @Override
+    protected EventsView createScheduleView(String date) {
+        return EventsViewSchedule.newInstance(date);
+    }
 
-        // Se cargan todos los datos una única vez
-        query.addListenerForSingleValueEvent(listener);
-        query.addChildEventListener(listener);
+    @Override
+    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
+        if (event != null) addPageIfNotExists(event);
+    }
+
+    @Override
+    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
     }
 
-    /**
-     * Clase que conecta las fechas del paginador con las extraídas del
-     * cronograma
-     */
-    class SchedulePagerAdapterValueEventListener implements ValueEventListener, ChildEventListener {
+    @Override
+    public void onChildRemoved(DataSnapshot dataSnapshot) {
+        ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
+        if (event != null) removePageIfLast(event);
+    }
 
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-
-            for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
-                events.add(postSnapshot.getValue(ScheduleEvent.class));
-
-            notifyDataSetChanged();
-
-        }
-
-        @Override
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
-            int index = events.indexOf(event);
-            events.set(index, event);
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-            ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
-            int index = events.indexOf(event);
-            events.remove(index);
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-            Log.i(fragment.getTag(), databaseError.toString());
-        }
+    @Override
+    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
     }
 
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
+
+    }
 }

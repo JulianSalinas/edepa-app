@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import imagisoft.miscellaneous.DateConverter;
 
@@ -144,16 +145,24 @@ public class ScheduleEvent extends ScheduleBlock {
         return gson.fromJson(event, ScheduleEvent.class);
     }
 
-    /**
-     * Un evento es el mismo si tiene el mismo id y el mismo título
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ScheduleEvent)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         ScheduleEvent event = (ScheduleEvent) o;
-        return id.equals(event.id) && title.equals(event.title);
+        return Objects.equals(id, event.id);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), id);
+    }
+
+    /**
+     * Un evento es el mismo si tiene el mismo id y el mismo título
+     */
+
 
     @Override
     public int describeContents() {

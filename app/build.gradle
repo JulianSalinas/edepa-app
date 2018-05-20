@@ -40,6 +40,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:15.0.1'
     implementation 'com.google.android.gms:play-services-location:15.0.1'
 
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.larswerkman:lobsterpicker:1.0.1'
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
     implementation 'com.github.bumptech.glide:glide:4.6.1'
@@ -54,6 +55,7 @@ dependencies {
 
     implementation 'com.firebaseui:firebase-ui-auth:3.2.2'
     implementation 'com.firebaseui:firebase-ui-storage:0.6.0'
+    implementation 'com.firebaseui:firebase-ui-database:3.3.1'
     implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
 
     implementation 'com.labo.kaji:fragmentanimations:0.1.1'

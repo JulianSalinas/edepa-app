@@ -21,6 +21,7 @@ import java.util.Locale;
 
 import butterknife.ButterKnife;
 import imagisoft.edepa.Preferences;
+import imagisoft.edepa.ScheduleEvent;
 
 
 public abstract class MainActivityFragment extends Fragment {

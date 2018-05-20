@@ -1,11 +1,20 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ImageView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
+
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+
 import agency.tango.android.avatarview.views.AvatarView;
 import agency.tango.android.avatarview.AvatarPlaceholder;
 
@@ -14,9 +23,10 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.ScheduleBlock;
+import imagisoft.edepa.ScheduleEvent;
 
 
-public class ExhibitorDetail extends MainActivityFragment {
+public class ExhibitorDetail extends EventsView {
 
     /**
      * Componentes visuales
@@ -36,38 +46,33 @@ public class ExhibitorDetail extends MainActivityFragment {
     @BindView(R.id.exhibitor_avatar_view)
     AvatarView exhibitorAvatarView;
 
-    @BindView(R.id.exhibitor_recycler_view)
-    RecyclerView exhibitorsRecyclerView;
-
     /**
      * Expositor que se muestra junto con los eventos
      * relacionados
      */
     private Exhibitor exhibitor;
-    private List<ScheduleBlock> events;
+    private ArrayList<ScheduleEvent> events;
 
-    /**
-     * Adaptador para colocar los eventos relacionados
-     */
-    private ScheduleViewAdapter adapter;
+    public Exhibitor getExhibitor() {
+        return exhibitor;
+    }
+
+    public ArrayList<ScheduleEvent> getEvents() {
+        return events;
+    }
 
     /**
      * No se pueden crear constructores con parámetros, por tanto,
      * se pasan los parámetros de esta forma
      * @param exhibitor: Expositor de que se deben mostrar los detalles
-     * @param events: Eventos en los que participa el expositor
      */
-    public static ExhibitorDetail newInstance(Exhibitor exhibitor, List<ScheduleBlock> events) {
-
+    public static ExhibitorDetail newInstance(Exhibitor exhibitor, List<ScheduleEvent> events) {
         ExhibitorDetail fragment = new ExhibitorDetail();
-
         Bundle args = new Bundle();
         args.putParcelable("exhibitor", exhibitor);
         args.putParcelableArrayList("events", new ArrayList<>(events));
-
         fragment.setArguments(args);
         return fragment;
-
     }
 
     /**
@@ -96,18 +101,10 @@ public class ExhibitorDetail extends MainActivityFragment {
      */
     @Override
     public void onActivityCreated(Bundle bundle) {
-
         super.onActivityCreated(bundle);
-
         setToolbarVisibility(View.GONE);
         setTabLayoutVisibility(View.GONE);
-
-        if(adapter == null)
-            adapter = new ScheduleViewAdapter(this, events);
-
         bindInformation();
-        setupEventsView();
-
     }
 
     /**
@@ -121,14 +118,17 @@ public class ExhibitorDetail extends MainActivityFragment {
         buttonBack.setOnClickListener(v -> activity.onBackPressed());
     }
 
-    /**
-     * Se configura el exhibitorsRecyclerView que contiene los eventos
-     */
+    @Override
+    protected void setupAdapter() {
+        if(eventsViewAdapter == null)
+            eventsViewAdapter = new EventsViewAdapterExhibitor(this);
+    }
+
     public void setupEventsView(){
-        exhibitorsRecyclerView.setHasFixedSize(true);
-        exhibitorsRecyclerView.setLayoutManager(new SmoothLayout(getActivity()));
-        exhibitorsRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        exhibitorsRecyclerView.setAdapter(adapter);
+        eventsView.setHasFixedSize(true);
+        eventsView.setAdapter(eventsViewAdapter);
+        eventsView.setItemAnimator(new DefaultItemAnimator());
+        eventsView.setLayoutManager(new SmoothLayout(activity));
     }
 
 }

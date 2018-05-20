@@ -10,10 +10,21 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
+import imagisoft.edepa.Exhibitor;
 
 
-public class ExhibitorsView extends ExhibitorsViewFragment implements MaterialSearchView.OnQueryTextListener {
+public class ExhibitorsView extends MainActivityFragment
+        implements MaterialSearchView.OnQueryTextListener {
+
+    /**
+     * Es la capa donde se coloca cada uno de los expositores
+     */
+    @BindView(R.id.exhibitor_recycler_view)
+    RecyclerView exhibitorsRecyclerView;
 
     /**
      * Tomada de la toolbar de la actividad
@@ -21,10 +32,16 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements MaterialSe
     private MaterialSearchView searchView;
 
     /**
-     * Es la capa donde se coloca cada uno de los expositores
+     * Lista de expositores obtenida de la lista de eventos
      */
-    @BindView(R.id.exhibitor_recycler_view)
-    RecyclerView exhibitorsRecyclerView;
+    protected ExhibitorsViewAdapter exhibitorsAdapter;
+
+
+    public void setupAdapter(){
+        if (exhibitorsAdapter == null){
+            exhibitorsAdapter = new ExhibitorsViewAdapter(this);
+        }
+    }
 
     /**
      * Se define cúal es el layout que va a utilizar
@@ -43,10 +60,12 @@ public class ExhibitorsView extends ExhibitorsViewFragment implements MaterialSe
     @Override
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
-        setupExhibitorsView();
         setToolbarText(R.string.nav_people);
+        setTabLayoutVisibility(View.GONE);
         setToolbarVisibility(View.VISIBLE);
         setupSearchView();
+        setupAdapter();
+        setupExhibitorsView();
     }
 
     /**

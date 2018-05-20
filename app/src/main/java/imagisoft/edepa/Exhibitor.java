@@ -2,8 +2,11 @@ package imagisoft.edepa;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
-public class Exhibitor implements Parcelable {
+import java.util.Collections;
+
+public class Exhibitor implements Parcelable, Comparable<Exhibitor> {
 
     /**
      * Nombre donde se incluyen también apellidos de la persona
@@ -94,4 +97,8 @@ public class Exhibitor implements Parcelable {
 
     };
 
+    @Override
+    public int compareTo(Exhibitor exhibitor) {
+        return completeName.compareTo(exhibitor.getCompleteName());
+    }
 }

@@ -7,6 +7,13 @@ import android.view.LayoutInflater;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+
+import org.springframework.util.LinkedMultiValueMap;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -16,11 +23,12 @@ import agency.tango.android.avatarview.AvatarPlaceholder;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import imagisoft.edepa.Exhibitor;
+import imagisoft.edepa.ScheduleEvent;
 import imagisoft.miscellaneous.SearchNormalizer;
 
 
-public class ExhibitorsViewAdapter
-        extends RecyclerView.Adapter<ExhibitorsViewAdapter.ExhibitorViewHolder> {
+public class ExhibitorsViewAdapter extends RecyclerView.Adapter
+        <ExhibitorsViewAdapter.ExhibitorViewHolder> implements ChildEventListener{
 
     /**
      * Objetos del modelo que serán adaptados visualmente
@@ -32,18 +40,28 @@ public class ExhibitorsViewAdapter
      */
     private List<Exhibitor> filteredExhibitors;
 
+    protected LinkedMultiValueMap<Exhibitor, ScheduleEvent> eventsByExhibitor;
+
     /**
      * Es un fragmento permite obtener los eventos de un expositor
      */
-    private ExhibitorsViewFragment exhibitorsView;
+    private MainActivityFragment exhibitorsView;
 
     /**
      * Se colocan los expositores
      */
-    public ExhibitorsViewAdapter(ExhibitorsViewFragment exhibitorsView){
+    public ExhibitorsViewAdapter(MainActivityFragment exhibitorsView){
         this.exhibitorsView = exhibitorsView;
-        this.exhibitors = exhibitorsView.getExhibitors();
+        this.exhibitors = new ArrayList<>();
+        this.eventsByExhibitor = new LinkedMultiValueMap<>();
         this.filteredExhibitors = this.exhibitors;
+        setupListener();
+    }
+
+    protected void setupListener(){
+        exhibitorsView.activity
+                .getScheduleReference()
+                .addChildEventListener(this);
     }
 
     /**
@@ -77,7 +95,7 @@ public class ExhibitorsViewAdapter
         bindColor(item.getCompleteName(), holder);
 
         holder.exhibitorCardView.setOnClickListener(v -> exhibitorsView.switchFragment(
-                ExhibitorDetail.newInstance(item, exhibitorsView.getExhibitorsEvents(item))));
+                ExhibitorDetail.newInstance(item, eventsByExhibitor.get(item))));
 
     }
 
@@ -147,6 +165,64 @@ public class ExhibitorsViewAdapter
             super(view);
             ButterKnife.bind(this, view);
         }
+
+    }
+
+    @Override
+    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
+        if(event != null && event.getExhibitors() != null){
+            for(Exhibitor exhibitor: event.getExhibitors()){
+                if(!exhibitors.contains(exhibitor)){
+                    int index = Collections.binarySearch(exhibitors, exhibitor);
+                    exhibitors.add(-index-1, exhibitor);
+                    notifyItemInserted(-index-1);
+                }
+                eventsByExhibitor.add(exhibitor, event);
+            }
+        }
+    }
+
+    @Override
+    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+        ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
+        if(event != null && event.getExhibitors() != null){
+            for(Exhibitor exhibitor: event.getExhibitors()){
+                if(exhibitors.contains(exhibitor)){
+                    int index = exhibitors.indexOf(exhibitor);
+                    exhibitors.set(index, exhibitor);
+                    notifyItemChanged(index);
+                }
+                else {
+                    int index = Collections.binarySearch(exhibitors, exhibitor);
+                    exhibitors.add(-index-1, exhibitor);
+                    notifyItemInserted(-index-1);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onChildRemoved(DataSnapshot dataSnapshot) {
+        ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
+        if(event != null && event.getExhibitors() != null){
+            for(Exhibitor exhibitor: event.getExhibitors()){
+                if(exhibitors.contains(exhibitor)){
+                    int index = exhibitors.indexOf(exhibitor);
+                    exhibitors.remove(index);
+                    notifyItemRemoved(index);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+    }
+
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
 
     }
 

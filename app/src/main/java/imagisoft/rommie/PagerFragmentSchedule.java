@@ -9,8 +9,6 @@ public class PagerFragmentSchedule extends PagerFragment {
      */
     protected void setupViewPager() {
 
-        // Se revisa porque al entrar por seguna vez, no es necesario colocar el adaptador
-        // de lo contrario se reinicia a la posición inicial (visualmente)
         if(adapter == null)
             adapter = new PagerAdapterSchedule(this);
 
