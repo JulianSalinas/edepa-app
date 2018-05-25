@@ -11,14 +11,12 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
+import com.mklimek.circleinitialsview.CircleInitialsView;
 import org.springframework.util.LinkedMultiValueMap;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
-
-import agency.tango.android.avatarview.views.AvatarView;
-import agency.tango.android.avatarview.AvatarPlaceholder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,8 +25,8 @@ import imagisoft.edepa.ScheduleEvent;
 import imagisoft.miscellaneous.SearchNormalizer;
 
 
-public class ExhibitorsViewAdapter extends RecyclerView.Adapter
-        <ExhibitorsViewAdapter.ExhibitorViewHolder> implements ChildEventListener{
+public class ExhibitorsAdapter extends RecyclerView.Adapter
+        <ExhibitorsAdapter.ExhibitorViewHolder> implements ChildEventListener{
 
     /**
      * Objetos del modelo que serán adaptados visualmente
@@ -45,12 +43,12 @@ public class ExhibitorsViewAdapter extends RecyclerView.Adapter
     /**
      * Es un fragmento permite obtener los eventos de un expositor
      */
-    private MainActivityFragment exhibitorsView;
+    private ActivityFragment exhibitorsView;
 
     /**
      * Se colocan los expositores
      */
-    public ExhibitorsViewAdapter(MainActivityFragment exhibitorsView){
+    public ExhibitorsAdapter(ActivityFragment exhibitorsView){
         this.exhibitorsView = exhibitorsView;
         this.exhibitors = new ArrayList<>();
         this.eventsByExhibitor = new LinkedMultiValueMap<>();
@@ -92,7 +90,7 @@ public class ExhibitorsViewAdapter extends RecyclerView.Adapter
         Exhibitor item = filteredExhibitors.get(holder.getAdapterPosition());
 
         bindInformation(item, holder);
-        bindColor(item.getCompleteName(), holder);
+        holder.exhibitorAvatarView.setText(item.getCompleteName());
 
         holder.exhibitorCardView.setOnClickListener(v -> exhibitorsView.switchFragment(
                 ExhibitorDetail.newInstance(item, eventsByExhibitor.get(item))));
@@ -105,15 +103,6 @@ public class ExhibitorsViewAdapter extends RecyclerView.Adapter
     public void bindInformation(Exhibitor exhibitor, ExhibitorViewHolder holder){
         holder.nameTextView.setText(exhibitor.getCompleteName());
         holder.titleTextView.setText(exhibitor.getPersonalTitle());
-    }
-
-    /**
-     * Coloca la primra letra del nombre como el exhibitorAvatarView y le pone color
-     * con base a eso.
-     */
-    private void bindColor(String name, ExhibitorViewHolder holder){
-        AvatarPlaceholder avatar = new AvatarPlaceholder(name, 30);
-        holder.exhibitorAvatarView.setImageDrawable(avatar);
     }
 
     /**
@@ -159,7 +148,7 @@ public class ExhibitorsViewAdapter extends RecyclerView.Adapter
         CardView exhibitorCardView;
 
         @BindView(R.id.exhibitor_avatar_view)
-        AvatarView exhibitorAvatarView;
+        CircleInitialsView exhibitorAvatarView;
 
         ExhibitorViewHolder(View view) {
             super(view);

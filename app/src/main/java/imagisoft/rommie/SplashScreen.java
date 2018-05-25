@@ -142,7 +142,7 @@ public class SplashScreen extends AppCompatActivity {
      * Después de haber cargado los datos de la aplicación, se utiliza está función para abrirla
      */
     private void startApplication(){
-        Intent intent = new Intent(getApplicationContext(), MainActivityNavigation.class);
+        Intent intent = new Intent(getApplicationContext(), ActivityNavigation.class);
         startActivity(intent);
         finish();
     }

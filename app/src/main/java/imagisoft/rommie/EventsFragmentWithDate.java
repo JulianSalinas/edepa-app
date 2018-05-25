@@ -1,13 +1,14 @@
 package imagisoft.rommie;
 
-import android.os.Bundle;
 import android.util.Log;
+import android.os.Bundle;
 
-public abstract class EventsViewWithDate extends EventsView {
 
-    protected String date;
+public abstract class EventsFragmentWithDate extends EventsFragment {
 
-    public String getDate() {
+    protected long date;
+
+    public long getDate() {
         return date;
     }
 
@@ -15,25 +16,23 @@ public abstract class EventsViewWithDate extends EventsView {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Bundle args = getArguments();
-        if(args != null && args.containsKey("date")) {
-            date = args.getString("date");
-            Log.i(getTag(), "dateReceived");
-        }
+        if (args != null && args.containsKey("date"))
+            date = args.getLong("date");
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("date", date);
-        Log.i(getTag(), "dateSaved");
+        outState.putLong("date", date);
+        Log.i("EventsFragmentWithDate", "::onSaveInstanceState");
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if(savedInstanceState != null) {
-            date = savedInstanceState.getString("date");
-            Log.i(getTag(), "dateLoaded");
+            date = savedInstanceState.getLong("date");
+            Log.i("EventsFragmentWithDate", "::onViewStateRestored");
         }
     }
 

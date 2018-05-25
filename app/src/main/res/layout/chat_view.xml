@@ -7,12 +7,12 @@
     android:background="@color/app_white">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/messages_view_recycler"
+        android:id="@+id/messages_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/chat_view_writing_layout"
         android:scrollbars="vertical"
-        tools:listitem="@layout/chat_view_msg_right"
+        tools:listitem="@layout/msg_right"
         android:background="@drawable/img_chat_wallpaper">
     </android.support.v7.widget.RecyclerView>
 

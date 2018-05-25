@@ -19,7 +19,7 @@ import com.madrapps.pikolo.HSLColorPicker;
 import imagisoft.miscellaneous.ColorConverter;
 import com.kizitonwose.colorpreferencecompat.ColorPreferenceCompat;
 import com.madrapps.pikolo.listeners.SimpleColorSelectionListener;
-import static imagisoft.rommie.CustomColor.APP_ACCENT_DARK;
+import static imagisoft.rommie.DefaultColor.APP_ACCENT_DARK;
 
 
 public class ThemePicker extends PreferenceFragmentCompat
@@ -33,7 +33,7 @@ public class ThemePicker extends PreferenceFragmentCompat
     private int tabLayoutVisibility;
     private int toolbarVisibility;
     private CharSequence toolbarText;
-    private MainActivityNavigation activity;
+    private ActivityNavigation activity;
 
     /**
      * Se define cúal es el layout que va a utilizar
@@ -42,7 +42,7 @@ public class ThemePicker extends PreferenceFragmentCompat
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        activity = (MainActivityNavigation) getActivity();
+        activity = (ActivityNavigation) getActivity();
         prefs = PreferenceManager.getDefaultSharedPreferences(activity);
     }
 
@@ -78,7 +78,7 @@ public class ThemePicker extends PreferenceFragmentCompat
     @Override
     public void onCreatePreferences(Bundle bundle, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
-        for(CustomColor color: CustomColor.values())
+        for(DefaultColor color: DefaultColor.values())
             findPreference(color.toString()).setOnPreferenceClickListener(this);
     }
 
@@ -140,10 +140,10 @@ public class ThemePicker extends PreferenceFragmentCompat
 
         Aesthetic theme = Aesthetic.get();
 
-        CustomColor colorRes = CustomColor.valueOf(preferenceKey.toUpperCase());
+        DefaultColor colorRes = DefaultColor.valueOf(preferenceKey.toUpperCase());
         int color = prefs.getInt(preferenceKey, colorRes.getColor());
 
-        switch (CustomColor.valueOf(preferenceKey.toUpperCase())){
+        switch (DefaultColor.valueOf(preferenceKey.toUpperCase())){
 
             case APP_PRIMARY:
                 theme.colorPrimary(color);

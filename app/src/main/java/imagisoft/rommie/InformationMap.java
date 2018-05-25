@@ -12,7 +12,7 @@ import com.google.firebase.database.ValueEventListener;
 import butterknife.BindView;
 
 
-public class InformationMap extends MainActivityFragment {
+public class InformationMap extends ActivityFragment {
 
     private String imgKey;
     private String imgRef;
@@ -28,37 +28,37 @@ public class InformationMap extends MainActivityFragment {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         this.imgKey = "minimap";
-        resource = R.layout.information_map;
+    }
+
+    @Override
+    public void setupResource() {
+        this.resource = R.layout.information_map;
     }
 
     /**
      * Se configura la vista después de que la actividad se reinicia
      * ya sea por cambio de idioma o al girar la pantalla
-     * @param bundle: No se utiliza
      */
     @Override
-    public void onActivityCreated(Bundle bundle) {
-
-        super.onActivityCreated(bundle);
+    public void setupActivityView() {
         setToolbarText(R.string.text_map);
         setTabLayoutVisibility(View.GONE);
 
         activity.getConfigReference().child(imgKey)
                 .addValueEventListener(new ValueEventListener() {
 
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                imgRef = dataSnapshot.getValue(String.class);
-                loadMinimapAsync();
-            }
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        imgRef = dataSnapshot.getValue(String.class);
+                        loadMinimapAsync();
+                    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                miniMap.setImageResource(R.drawable.img_edepa_map);
-            }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        miniMap.setImageResource(R.drawable.img_edepa_map);
+                    }
 
-        });
-
+                });
     }
 
     /**

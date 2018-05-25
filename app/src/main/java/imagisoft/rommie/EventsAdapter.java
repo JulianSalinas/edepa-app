@@ -15,14 +15,13 @@ import com.like.OnLikeListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import imagisoft.edepa.FavoriteList;
-import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
 import imagisoft.miscellaneous.DateConverter;
 
 /**
  * Sirve para enlazar las funciones a una actividad en específico
  */
-public class EventsViewAdapter
+public class EventsAdapter
         extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /**
@@ -34,7 +33,7 @@ public class EventsViewAdapter
     /**
      * PagerFragment al que se debe colocar este adaptador
      */
-    protected MainActivityFragment view;
+    protected ActivityFragment fragment;
 
     /**
      * Necesaria para saber a cúal poner la estrella
@@ -49,9 +48,9 @@ public class EventsViewAdapter
     /**
      * Con este constructor se deben poner los eventos posteriormente
      */
-    public EventsViewAdapter(MainActivityFragment view) {
+    public EventsAdapter(ActivityFragment fragment) {
         super();
-        this.view = view;
+        this.fragment = fragment;
         this.events = new ArrayList<>();
         this.favoriteList = FavoriteList.getInstance();
     }
@@ -59,21 +58,17 @@ public class EventsViewAdapter
     @Override public RecyclerView.ViewHolder
     onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        // Vista para mostrar la hora inicial de un bloque de actividades
-        if(viewType == SINGLE){
-            View view = LayoutInflater
-                    .from(parent.getContext())
-                    .inflate(R.layout.schedule_item, parent, false);
-            return new ScheduleEventViewHolder(view);
-        }
+        int layout = viewType == SINGLE ?
+                R.layout.schedule_item :
+                R.layout.schedule_item_with_sep;
 
-        // Vista para mostrar las actividades como tal
-        else {
-            View view = LayoutInflater
-                    .from(parent.getContext())
-                    .inflate(R.layout.schedule_item_with_separator, parent, false);
-            return new ScheduleEventWithSeparatorViewHolder(view);
-        }
+        View view = LayoutInflater
+                .from(parent.getContext())
+                .inflate(layout, parent, false);
+
+        return viewType == SINGLE ?
+                new ScheduleEventVH(view):
+                new ScheduleEventWithSepVH(view);
 
     }
 
@@ -87,6 +82,7 @@ public class EventsViewAdapter
 
     /**
      *  Obtiene si la vista es un bloque de hora o una actividad
+     *  TODO: Mejorar
      */
     @Override
     public int getItemViewType(int position) {
@@ -113,31 +109,32 @@ public class EventsViewAdapter
 
     /**
      * Se enlazan los componentes y se agregan funciones a cada uno
-     * @param position NO USAR, esta variable no tiene valor fijo. Usar holder.getAdapterPosition()
+     * @param position NO USAR, esta variable no tiene valor fijo.
+     *                 Usar holder.getAdapterPosition()
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         if(holder.getItemViewType() == SINGLE)
-            onBindScheduleEventViewHolder((ScheduleEventViewHolder) holder);
+            onBindScheduleEventVH((ScheduleEventVH) holder);
         else
-            onBindScheduleEventWithSeparatorViewHolder((ScheduleEventWithSeparatorViewHolder) holder);
+            onBindScheduleEventWithSepVH((ScheduleEventWithSepVH) holder);
 
     }
 
     /**
      * Coloca la hora en un encabezado de bloque de eventos
      */
-    public void onBindScheduleEventWithSeparatorViewHolder(ScheduleEventWithSeparatorViewHolder holder){
+    public void onBindScheduleEventWithSepVH(ScheduleEventWithSepVH holder){
         final ScheduleEvent event = events.get(holder.getAdapterPosition());
         holder.scheduleSeparator.setText(getDatesAsString(event));
-        onBindScheduleEventViewHolder(holder);
+        onBindScheduleEventVH(holder);
     }
 
     /**
      * En caso que la vista a crear sea un evento
      */
-    public void onBindScheduleEventViewHolder(ScheduleEventViewHolder holder){
+    public void onBindScheduleEventVH(ScheduleEventVH holder){
 
         final int position = holder.getAdapterPosition();
         final ScheduleEvent event = events.get(position);
@@ -149,7 +146,7 @@ public class EventsViewAdapter
         * Función ejecutada al presionar el botón "readmore" de una actividad
         */
         holder.readmore.setOnClickListener(v ->
-             view.switchFragment(ScheduleDetailPager.newInstance(event))
+             fragment.switchFragment(ScheduleDetailPager.newInstance(event))
         );
 
         /*
@@ -187,7 +184,7 @@ public class EventsViewAdapter
      * @return Fechas como un string que se debe mostrar en la UI
      */
     protected String getDatesAsString(ScheduleEvent event){
-        Activity activity = view.activity;
+        Activity activity = fragment.activity;
         return  activity.getResources().getString(R.string.text_from) + " " +
                 DateConverter.extractTime(event.getStart()) + " " +
                 activity.getResources().getString(R.string.text_to) + " " +
@@ -197,7 +194,7 @@ public class EventsViewAdapter
     /**
      * Coloca la información de evento en la vista
      */
-    private void bindInformation(ScheduleEventViewHolder holder, ScheduleEvent event){
+    private void bindInformation(ScheduleEventVH holder, ScheduleEvent event){
         holder.header.setText(event.getTitle());
         holder.eventype.setText(event.getEventype().toString());
         holder.time_description.setText(getDatesAsString(event));
@@ -206,22 +203,23 @@ public class EventsViewAdapter
     /**
      * Coloca el color acorde con el tipo de actividad
      */
-    private void bindEmphasisColor(ScheduleEventViewHolder holder, ScheduleEvent event) {
-        Activity activity = view.activity;
+    private void bindEmphasisColor(ScheduleEventVH holder, ScheduleEvent event) {
+        Activity activity = fragment.activity;
         int colorResource = event.getEventype().getColor();
-        holder.line.setBackgroundResource(colorResource);
-        holder.readmore.setTextColor(activity.getResources().getColor(colorResource));
+        int color = activity.getResources().getColor(colorResource);
+        holder.line.setBackgroundColor(color);
+        holder.readmore.setTextColor(color);
     }
 
     /**
      * Clase para mostrar los bloques donde inicia cada actividad
      */
-    class ScheduleEventWithSeparatorViewHolder extends ScheduleEventViewHolder{
+    class ScheduleEventWithSepVH extends ScheduleEventVH {
 
         @BindView(R.id.schedule_item_time)
         TextView scheduleSeparator;
 
-        ScheduleEventWithSeparatorViewHolder(View view) {
+        ScheduleEventWithSepVH(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
@@ -231,7 +229,7 @@ public class EventsViewAdapter
     /**
      * Clase para enlzar cada uno de los componentes visuales
      */
-    class ScheduleEventViewHolder extends RecyclerView.ViewHolder {
+    class ScheduleEventVH extends RecyclerView.ViewHolder {
 
         @BindView(R.id.line)
         View line;
@@ -251,7 +249,7 @@ public class EventsViewAdapter
         @BindView(R.id.time_descripcion)
         TextView time_description;
 
-        ScheduleEventViewHolder(View view) {
+        ScheduleEventVH(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }

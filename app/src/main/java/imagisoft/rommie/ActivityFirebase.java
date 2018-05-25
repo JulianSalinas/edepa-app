@@ -5,7 +5,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 
-public abstract class MainActivityFirebase extends MainActivityCustom {
+
+public abstract class ActivityFirebase extends ActivityCustom {
 
     /**
      * Conexión con Firebase
@@ -62,7 +63,7 @@ public abstract class MainActivityFirebase extends MainActivityCustom {
     /**
      * En el constructor se crean las referencias a la BD
      */
-    public MainActivityFirebase(){
+    public ActivityFirebase(){
 
         // Guarda en persistencia para volver a descargar
         // Ayuda si la aplicación queda offline
@@ -76,18 +77,13 @@ public abstract class MainActivityFirebase extends MainActivityCustom {
 
         // Creando referencias a la base da datos
         this.root = database.getReference("edepa5");
+
         this.chatReference = root.child("chat");
         this.newsReference = root.child("news");
         this.configReference = root.child("config");
         this.ongoingReference = root.child("ongoing");
         this.scheduleReference = root.child("schedule");
         this.congressReference = root.child("congress");
-
-        // Linea que se debe descomentar cuando se necesita subir la información de prueba
-        // this.scheduleReference.setValue(TestDataGenerator.createSchedule());
-        // ArrayList<Message> msgs = TestDataGenerator.createNews();
-        // for (Message msg : msgs)
-        //    newsReference.push().setValue(msg);
 
     }
 

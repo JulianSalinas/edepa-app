@@ -26,7 +26,7 @@ import imagisoft.edepa.FavoriteList;
 /**
  * Contiene los tabs de cronograma, agenda y en curso
  */
-public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTabSelectedListener{
+public class ScheduleTabs extends ActivityFragment implements TabLayout.OnTabSelectedListener{
 
     /*
      * Usadas para saber cual tab se debe colocar al crearse la vista
@@ -45,7 +45,7 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
      * TabLayout con sus tres vistas principales
      */
     private int currentTab;
-    private EventsView ongoingFragment;
+    private EventsFragment ongoingFragment;
     private PagerFragmentSchedule scheduleFragment;
     private PagerFragmentFavorites favoritesFragment;
 
@@ -92,12 +92,15 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
         setHasOptionsMenu(true);
         handler = new Handler();
 
-        this.resource = R.layout.schedule_tabs_view;
-
         Bundle args = getArguments();
         if(args != null)
             currentTab = args.getInt("currentTab");
 
+    }
+
+    @Override
+    public void setupResource() {
+        this.resource = R.layout.schedule_tabs_view;
     }
 
     /**
@@ -110,9 +113,6 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
         super.onActivityCreated(bundle);
         favoriteList = FavoriteList.getInstance();
         getTabLayout().addOnTabSelectedListener(this);
-
-        setToolbarVisibility(View.VISIBLE);
-        setTabLayoutVisibility(View.VISIBLE);
 
 //        tabLayout = getTabLayout();
         searchView = getSearchView();
@@ -129,6 +129,12 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
         navigateToPosition(currentTab);
         handlePendingRunnable();
 
+    }
+
+    @Override
+    public void setupActivityView() {
+        setToolbarVisibility(View.VISIBLE);
+        setTabLayoutVisibility(View.VISIBLE);
     }
 
     @Override
@@ -243,7 +249,7 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
 
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
-        // Get this tab view
+        // Get this tab fragment
         View v = tab.getCustomView();
 
         if (v != null) {
@@ -309,7 +315,7 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
             else {
 
                 if (ongoingFragment == null)
-                    ongoingFragment = EventsViewOngoing.newInstance();
+                    ongoingFragment = EventsFragmentOngoing.newInstance();
                 switchFragment(ongoingFragment);
 
             }

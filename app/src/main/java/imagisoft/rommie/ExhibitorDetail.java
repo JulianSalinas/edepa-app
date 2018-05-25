@@ -1,32 +1,20 @@
 package imagisoft.rommie;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ImageView;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
-
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-
-import agency.tango.android.avatarview.views.AvatarView;
-import agency.tango.android.avatarview.AvatarPlaceholder;
 
 import java.util.List;
 import java.util.ArrayList;
 import butterknife.BindView;
+import com.mklimek.circleinitialsview.CircleInitialsView;
 import imagisoft.edepa.Exhibitor;
-import imagisoft.edepa.ScheduleBlock;
 import imagisoft.edepa.ScheduleEvent;
 
 
-public class ExhibitorDetail extends EventsView {
+public class ExhibitorDetail extends EventsFragment {
 
     /**
      * Componentes visuales
@@ -44,7 +32,7 @@ public class ExhibitorDetail extends EventsView {
     ImageView emphasisImageView;
 
     @BindView(R.id.exhibitor_avatar_view)
-    AvatarView exhibitorAvatarView;
+    CircleInitialsView exhibitorAvatarView;
 
     /**
      * Expositor que se muestra junto con los eventos
@@ -83,7 +71,6 @@ public class ExhibitorDetail extends EventsView {
     public void onCreate(Bundle bundle) {
 
         super.onCreate(bundle);
-        this.resource = R.layout.exhibitor_detail;
 
         Bundle args = getArguments();
 
@@ -94,14 +81,19 @@ public class ExhibitorDetail extends EventsView {
 
     }
 
+    @Override
+    public void setupResource() {
+        this.resource = R.layout.exhibitor_detail;
+    }
+
     /**
      * Se configura la vista después de que la actividad se reinicia
      * ya sea por cambio de idioma o al girar la pantalla
-     * @param bundle: No se utiliza
      */
+
     @Override
-    public void onActivityCreated(Bundle bundle) {
-        super.onActivityCreated(bundle);
+    public void setupActivityView() {
+        super.setupActivityView();
         setToolbarVisibility(View.GONE);
         setTabLayoutVisibility(View.GONE);
         bindInformation();
@@ -114,21 +106,21 @@ public class ExhibitorDetail extends EventsView {
         String name = exhibitor.getCompleteName();
         nameTextView.setText(name);
         titleTextView.setText(exhibitor.getPersonalTitle());
-        exhibitorAvatarView.setImageDrawable(new AvatarPlaceholder(name, 30));
+        exhibitorAvatarView.setText(name);
         buttonBack.setOnClickListener(v -> activity.onBackPressed());
     }
 
     @Override
     protected void setupAdapter() {
-        if(eventsViewAdapter == null)
-            eventsViewAdapter = new EventsViewAdapterExhibitor(this);
+        if(eventsVA == null)
+            eventsVA = new EventsAdapterExhibitor(this);
     }
 
     public void setupEventsView(){
-        eventsView.setHasFixedSize(true);
-        eventsView.setAdapter(eventsViewAdapter);
-        eventsView.setItemAnimator(new DefaultItemAnimator());
-        eventsView.setLayoutManager(new SmoothLayout(activity));
+        eventsRV.setHasFixedSize(true);
+        eventsRV.setAdapter(eventsVA);
+        eventsRV.setItemAnimator(new DefaultItemAnimator());
+        eventsRV.setLayoutManager(new SmoothLayout(activity));
     }
 
 }

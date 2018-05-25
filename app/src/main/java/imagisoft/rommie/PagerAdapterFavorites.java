@@ -1,7 +1,5 @@
 package imagisoft.rommie;
 
-import java.util.List;
-
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,8 +21,8 @@ public class PagerAdapterFavorites extends PagerAdapter implements ChildEventLis
     }
 
     @Override
-    protected EventsView createScheduleView(String date) {
-        return EventsViewFavorites.newInstance(date);
+    protected EventsFragment createScheduleView(long date) {
+        return EventsFragmentFavorites.newInstance(date);
     }
 
     @Override

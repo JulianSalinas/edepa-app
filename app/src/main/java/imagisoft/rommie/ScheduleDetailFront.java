@@ -15,7 +15,7 @@ import imagisoft.edepa.ScheduleEvent;
 import imagisoft.miscellaneous.DateConverter;
 
 
-public class ScheduleDetailFront extends MainActivityFragment implements OnLikeListener{
+public class ScheduleDetailFront extends ActivityFragment implements OnLikeListener{
 
     /**
      * Referencia al evento del que se muestran los detalles
@@ -71,7 +71,6 @@ public class ScheduleDetailFront extends MainActivityFragment implements OnLikeL
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        this.resource = R.layout.schedule_detail;
         this.favoriteList = FavoriteList.getInstance();
 
         Bundle args = getArguments();
@@ -80,14 +79,17 @@ public class ScheduleDetailFront extends MainActivityFragment implements OnLikeL
 
     }
 
+    @Override
+    public void setupResource() {
+        this.resource = R.layout.schedule_detail;
+    }
+
     /**
      * Se configura la vista después de que la actividad se reinicia
      * ya sea por cambio de idioma o al girar la pantalla
-     * @param bundle: No se utiliza
      */
     @Override
-    public void onActivityCreated(Bundle bundle) {
-        super.onActivityCreated(bundle);
+    public void setupActivityView() {
         bindInformation();
     }
 

@@ -30,7 +30,6 @@ public class Message extends Timestamp implements Parcelable {
         return userid;
     }
 
-
     public String getContent() {
         return content;
     }
@@ -46,17 +45,14 @@ public class Message extends Timestamp implements Parcelable {
         super();
     }
 
-
     /**
      * Constructor utilizado desde el chat para enviar mensajes
      */
     public Message(String userid, String username, String content, Long time) {
-
         super(time);
         this.userid = userid;
         this.content = content;
         this.username = username;
-
     }
 
     @Override

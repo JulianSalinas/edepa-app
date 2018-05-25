@@ -7,13 +7,11 @@ import android.text.util.Linkify;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 
-import java.util.List;
 import butterknife.BindView;
-import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.ScheduleEvent;
 
 
-public class ScheduleDetailBrief extends ExhibitorsView{
+public class ScheduleDetailBrief extends ExhibitorsFragment {
 
     /**
      * Referencia al evento del que se muestran los detalles
@@ -94,7 +92,7 @@ public class ScheduleDetailBrief extends ExhibitorsView{
     public void setupExhibitorsView(){
 
         if (exhibitorsAdapter == null)
-            exhibitorsAdapter = new ExhibitorsViewAdapter(this);
+            exhibitorsAdapter = new ExhibitorsAdapter(this);
 
         exhibitorsRecyclerView.setHasFixedSize(true);
         exhibitorsRecyclerView.setLayoutManager(new SmoothLayout(getActivity()));

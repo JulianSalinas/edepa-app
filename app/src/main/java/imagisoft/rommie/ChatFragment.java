@@ -7,10 +7,18 @@ import android.support.design.widget.TextInputEditText;
 
 import java.util.Calendar;
 import butterknife.BindView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import imagisoft.edepa.Message;
 
 
-public class ChatView extends MessagesView {
+public class ChatFragment extends MessagesFragment {
+
+    /**
+     * Se obtiene el usuario actual o que envía
+     */
+    protected FirebaseAuth auth = FirebaseAuth.getInstance();
+    protected FirebaseUser user = auth.getCurrentUser();
 
     /**
      * Botón e input para enviar los mensajes
@@ -23,11 +31,9 @@ public class ChatView extends MessagesView {
 
     /**
      * Se define cúal es el layout que va a utilizar
-     * @param bundle: No se utiliza
      */
     @Override
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
+    public void setupResource() {
         this.resource = R.layout.chat_view;
     }
 
@@ -40,9 +46,14 @@ public class ChatView extends MessagesView {
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
         setupSendCardView();
+    }
+
+    @Override
+    public void setupActivityView() {
         setToolbarText(R.string.nav_chat);
         setToolbarVisibility(View.VISIBLE);
         setTabLayoutVisibility(View.GONE);
+        super.setupActivityView();
     }
 
     /**
@@ -53,7 +64,8 @@ public class ChatView extends MessagesView {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("text_input", textInputView.getEditableText().toString());
+        String text = textInputView.getEditableText().toString();
+        outState.putString("text_input", text);
     }
 
     /**
@@ -64,8 +76,11 @@ public class ChatView extends MessagesView {
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if(savedInstanceState != null)
-            textInputView.setText(savedInstanceState.getString("text_input"));
+        if(savedInstanceState != null){
+            String text = savedInstanceState.getString("text_input");
+            textInputView.setText(text);
+            messagesRV.scrollToPosition(messagesVA.getItemCount() - 1);
+        }
     }
 
     /**
@@ -74,8 +89,8 @@ public class ChatView extends MessagesView {
      */
     @Override
     public void setupAdapter(){
-        if(adapter == null) {
-            adapter = new ChatViewAdapter(this);
+        if(messagesVA == null) {
+            messagesVA = new ChatAdapter(this);
             registerAdapterDataObserver();
         }
     }

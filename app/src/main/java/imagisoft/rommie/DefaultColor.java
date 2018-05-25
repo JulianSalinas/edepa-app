@@ -1,6 +1,6 @@
 package imagisoft.rommie;
 
-public enum CustomColor {
+public enum DefaultColor {
 
     APP_PRIMARY (R.color.app_primary),
     APP_PRIMARY_DARK (R.color.app_primary_dark),
@@ -23,7 +23,7 @@ public enum CustomColor {
      * Constructor que solo es necesario para que la clase/enumerado
      * lo identifique. No se usa en práctica
      */
-    CustomColor(int color) {
+    DefaultColor(int color) {
         this.color = color;
     }
 

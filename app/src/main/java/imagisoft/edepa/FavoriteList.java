@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
 import java.util.Collections;
 
 
-public class FavoriteList extends Preferences {
+public class FavoriteList extends Preferences implements FavoriteListener{
 
     /**
      * Eventos que el usuario marcó como favoritos y que están en memoria
@@ -65,7 +65,8 @@ public class FavoriteList extends Preferences {
      * @param listener: Clase que implementa FavoriteListener
      */
     public void removeListener(FavoriteListener listener){
-        listeners.remove(listener);
+        if(listeners.contains(listener))
+            listeners.remove(listener);
     }
 
     /**
@@ -105,14 +106,10 @@ public class FavoriteList extends Preferences {
      * La bandera de cambios se activa
      */
     public void addEvent(ScheduleEvent event){
-
-        if(!events.contains(event))
+        if(!events.contains(event)) {
             events.add(event);
-
-        for(FavoriteListener listener : listeners){
-            listener.onFavoriteAdded(event);
+            onFavoriteAdded(event);
         }
-
     }
 
     /**
@@ -120,14 +117,22 @@ public class FavoriteList extends Preferences {
      * La bandera de cambios se activa
      */
     public void removeEvent(ScheduleEvent event){
-
-        if(events.contains(event))
+        if(events.contains(event)) {
             events.remove(event);
-
-        for(FavoriteListener listener : listeners){
-            listener.onFavoriteRemoved(event);
+            onFavoriteRemoved(event);
         }
+    }
 
+    @Override
+    public void onFavoriteAdded(ScheduleEvent event) {
+        for(FavoriteListener listener : listeners)
+            listener.onFavoriteAdded(event);
+    }
+
+    @Override
+    public void onFavoriteRemoved(ScheduleEvent event) {
+        for(FavoriteListener listener : listeners)
+            listener.onFavoriteRemoved(event);
     }
 
     /**
@@ -148,7 +153,6 @@ public class FavoriteList extends Preferences {
         Gson gson = new Gson();
         String favs = prefs.getString(key, null);
         events = gson.fromJson(favs, type);
-
 
     }
 

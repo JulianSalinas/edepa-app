@@ -1,30 +1,26 @@
 package imagisoft.rommie;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.LayoutInflater;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
+import android.support.design.widget.TabLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.Locale;
-
 import butterknife.ButterKnife;
 import imagisoft.edepa.Preferences;
-import imagisoft.edepa.ScheduleEvent;
+import static imagisoft.edepa.Preferences.LANG_KEY_VALUE;
+import static imagisoft.edepa.Preferences.USER_KEY_VALUE;
+import static imagisoft.edepa.Preferences.ALARM_STATE_KEY_VALUE;
 
 
-public abstract class MainActivityFragment extends Fragment {
+public abstract class ActivityFragment extends Fragment {
 
     /**
      * Entero que representa el layout que está utilizando el
@@ -33,8 +29,8 @@ public abstract class MainActivityFragment extends Fragment {
     protected int resource;
 
     /**
-     * Al igual que el anterior es necesario recordar si los tabs
-     * estaban visibles anteriormente
+     * Recuerda si los tabs estaban visibles antes de cambiar
+     * el fragmento. Esto para poder restablecerlo al presionar atrás
      */
     protected int lastTabLayoutVisibility;
 
@@ -46,9 +42,10 @@ public abstract class MainActivityFragment extends Fragment {
     protected CharSequence lastUsedToolbarText;
 
     /**
-     * Para obtener un referencia a la actividad ya con el cast
+     * Para obtener un referencia a la actividad y no hacer
+     * cast en cada momento que se requiera
      */
-    protected MainActivityNavigation activity;
+    protected ActivityNavigation activity;
 
     /**
      * Variable para que todos los fragmentos tengan a mano las
@@ -57,16 +54,28 @@ public abstract class MainActivityFragment extends Fragment {
     protected final Preferences prefs = Preferences.getInstance();
 
     /**
-     * Permite a las subclases utilizar los componentes de la actividad
+     * Permite a las subclases utilizar los tabs.
+     * Probablemente para ocultarlos
+     * @return TabLayout del cronograma
      */
     public TabLayout getTabLayout(){
         return activity.getTabLayout();
     }
 
+    /**
+     * Permite obtener la toolbar a las subclases.
+     * Probablemente para cambiar el nombre.
+     * @return Toolbar global de la aplicación
+     */
     public Toolbar getToolbar(){
         return activity.getToolbar();
     }
 
+    /**
+     * Permite obtener la barra de búsqueda que por defecto esta
+     * oculta a menos que se utilice el onCreateOptionsMenu
+     * @return MaterialSearchView de la aplicación
+     */
     public MaterialSearchView getSearchView(){
         return activity.getSearchView();
     }
@@ -79,25 +88,32 @@ public abstract class MainActivityFragment extends Fragment {
     public void setToolbarText(int resource){
         activity.getToolbar().setTitle(resource);
         activity.currentSection.setText(resource);
-        activity.currentSection.setText(resource);
     }
 
     /**
-     * Las subclases deben color el atributo resource aquí.
+     * Las subclases deben sobreescribirse y colocar el
+     * atributo resource aquí.
+     * @param bundle: Contiene los argumentos
      */
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        activity = (MainActivityNavigation) getActivity();
+        activity = (ActivityNavigation) getActivity();
+        setupResource();
     }
+
+    /**
+     * Obliga a las subclases a colocar el atributo resource
+     */
+    public abstract void setupResource();
 
     /**
      * Todas las subclases usan el mismo método, lo único que cambia
      * es el resource, por tanto se implementa aquí.
      * @return Vista del fragmento
      */
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
+    @Override public View
+    onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         View view = inflater.inflate(resource, container, false);
         setHasOptionsMenu(true);
         ButterKnife.bind(this, view);
@@ -108,17 +124,26 @@ public abstract class MainActivityFragment extends Fragment {
      * Cuando se cambia el fragmento, se debe recordar el estado
      * anterior del toolbar y del tablayout. Las subclases pueden editar
      * estas vistas sin verse afectadas.
+     * @param bundle: Argumentos guardados
      */
     @Override
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
         lastUsedToolbarText = getToolbar().getTitle();
         lastTabLayoutVisibility = getTabLayout().getVisibility();
+        setupActivityView();
     }
 
     /**
+     * Permite a las subclases configurar que partes
+     * de la actividad deben estar visibles, usando
+     * setToolbarVisibility, setTabLayoutVisibility...
+     */
+    public abstract void setupActivityView();
+
+    /**
      * Al quitarse este fragmento la barra de tareas y el tab layout
-     * se debe colocar a como estaban antes
+     * se deben colocar a como estaban antes
      */
     @Override
     public void onDestroyView() {
@@ -134,14 +159,20 @@ public abstract class MainActivityFragment extends Fragment {
      * @return "es" o "en"
      */
     public String getCurrentLang(){
+        String lang = prefs
+                .getStringPreference(activity, LANG_KEY_VALUE);
+        if(lang == null) lang = setDefaultLang();
+        return lang;
+    }
 
-        String lang = prefs.getStringPreference(activity, Preferences.LANG_KEY_VALUE);
-
-        if(lang == null) {
-            setCurrentLang(Locale.getDefault().getLanguage());
-            return getCurrentLang();
-        }
-
+    /**
+     * Es usada para colocar el idioma cuando aún el usuario
+     * no lo ha definido
+     * @return lang: Lenguaje seteado
+     */
+    public String setDefaultLang(){
+        String lang = Locale.getDefault().getLanguage();
+        setCurrentLang(lang);
         return lang;
     }
 
@@ -150,7 +181,7 @@ public abstract class MainActivityFragment extends Fragment {
      * @param lang "es" o "en"
      */
     public void setCurrentLang(String lang){
-        prefs.setPreference(activity, Preferences.LANG_KEY_VALUE, lang);
+        prefs.setPreference(activity, LANG_KEY_VALUE, lang);
     }
 
     /**
@@ -159,35 +190,34 @@ public abstract class MainActivityFragment extends Fragment {
      */
     public String getCurrentUsername(){
 
-        String username = prefs.getStringPreference(getActivity(), Preferences.USER_KEY_VALUE);
+        String username = prefs
+                .getStringPreference(activity, USER_KEY_VALUE);
 
-        if(username == null) {
-            username = getDefaultUsername(getActivity());
-            setCurrentUsername(username);
-        }
+        if(username == null)
+            username = setDefaultUsername();
 
         return username;
-
     }
 
     /**
      * Cuando el usuario hace login con el # de teléfono, su nombre está vacío por lo que
      * hay que crear uno. Al hacer login con Google o correo el nombre por defecto que se
      * coloca es el de dicha cuenta.
-     * @param context: Actividad desde donde se llama la aplicación
      */
-    public String getDefaultUsername(Context context){
+    public String setDefaultUsername(){
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
 
-        if(user == null){
-            return context.getResources().getString(R.string.text_anonymous);
-        }
+        if(user == null)
+            return activity.getResources().getString(R.string.text_anonymous);
 
-        return user.getDisplayName() == null ||
-                user.getDisplayName().isEmpty() ?
-                context.getResources().getString(R.string.text_anonymous) : user.getDisplayName();
+        String name = user.getDisplayName();
+        name =  name == null || name.isEmpty() ?
+                activity.getResources().getString(R.string.text_anonymous):name;
+
+        prefs.setPreference(activity, USER_KEY_VALUE, name);
+        return name;
 
     }
 
@@ -196,7 +226,7 @@ public abstract class MainActivityFragment extends Fragment {
      * @param username: Nombre de usuario del chat
      */
     public void setCurrentUsername(String username){
-        prefs.setPreference(getActivity(), Preferences.USER_KEY_VALUE, username);
+        prefs.setPreference(getActivity(), USER_KEY_VALUE, username);
     }
 
     /**
@@ -204,7 +234,7 @@ public abstract class MainActivityFragment extends Fragment {
      * @return True si las alarmas están permitidas
      */
     public Boolean getCurrentAlarmState(){
-        return prefs.getBooleanPreference(getActivity(), Preferences.ALARM_STATE_KEY_VALUE);
+        return prefs.getBooleanPreference(activity, ALARM_STATE_KEY_VALUE);
     }
 
     /**
@@ -212,7 +242,7 @@ public abstract class MainActivityFragment extends Fragment {
      * @param state True si se desean recibir notificaciones
      */
     public void setCurrentAlarmState(boolean state){
-        prefs.setPreference(getActivity(), Preferences.ALARM_STATE_KEY_VALUE, state);
+        prefs.setPreference(activity, ALARM_STATE_KEY_VALUE, state);
     }
 
     /**
@@ -220,8 +250,6 @@ public abstract class MainActivityFragment extends Fragment {
      * @param fragment Asociado a la opción elegida por el usuario
      */
     public void switchFragment(Fragment fragment){
-        assert getActivity() != null;
-        MainActivityNavigation activity = (MainActivityNavigation) getActivity();
         activity.switchFragment(fragment);
     }
 

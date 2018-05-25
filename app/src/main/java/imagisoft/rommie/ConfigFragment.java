@@ -5,11 +5,8 @@ import android.view.View;
 import android.app.Dialog;
 import android.view.Window;
 import android.view.Gravity;
-import android.widget.Switch;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.*;
 import android.util.DisplayMetrics;
-import android.widget.LinearLayout;
 import android.content.res.Resources;
 import android.annotation.SuppressLint;
 import android.content.res.Configuration;
@@ -20,8 +17,12 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import imagisoft.miscellaneous.ColorConverter;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
-public class ConfigView extends MainActivityFragment {
+
+public class ConfigFragment extends ActivityFragment
+        implements CompoundButton.OnCheckedChangeListener{
 
     /**
      * Elementos visuales para editar la configuración
@@ -40,12 +41,10 @@ public class ConfigView extends MainActivityFragment {
 
     /**
      * Se define cúal es el layout que va a utilizar
-     * @param bundle: No se utiliza
      */
     @Override
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
-        resource = R.layout.config_view;
+    public void setupResource() {
+        this.resource = R.layout.config_view;
     }
 
     /**
@@ -57,25 +56,27 @@ public class ConfigView extends MainActivityFragment {
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
         switchNotifications.setChecked(getCurrentAlarmState());
-        setupSwitchNotifications();
+        switchNotifications.setOnCheckedChangeListener(this);
+    }
+
+    @Override
+    public void setupActivityView() {
         setToolbarText(R.string.nav_settings);
-        setToolbarVisibility(View.VISIBLE);
-        setTabLayoutVisibility(View.GONE);
+        setToolbarVisibility(VISIBLE);
+        setTabLayoutVisibility(GONE);
     }
 
     /**
      * Función que apaga o enciende las notificaciones
      */
-    private void setupSwitchNotifications(){
-        switchNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            setCurrentAlarmState(isChecked);
-            String status = isChecked ?
-                    getResources().getString(R.string.text_notifications_enabled):
-                    getResources().getString(R.string.text_notifications_disabled);
-            activity.showStatusMessage(status);
-        });
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        setCurrentAlarmState(isChecked);
+        String status = isChecked ?
+                getResources().getString(R.string.text_notifications_enabled):
+                getResources().getString(R.string.text_notifications_disabled);
+        activity.showStatusMessage(status);
     }
-
 
     /**
      * Reinicia la aplicación con el idioma seleccionado
@@ -106,7 +107,7 @@ public class ConfigView extends MainActivityFragment {
         final Dialog dialog = new Dialog(activity);
         dialog.setTitle(title);
         dialog.setContentView(layout);
-        configDialog(dialog);
+        setupDialog(dialog);
         return dialog;
 
     }
@@ -115,16 +116,18 @@ public class ConfigView extends MainActivityFragment {
      * Ajusta el dialogo para que se vea bien
      * @param dialog: Dialog previamente creado
      */
-    public void configDialog(final Dialog dialog){
+    public void setupDialog(final Dialog dialog){
 
         Window window = dialog.getWindow();
+        if (window != null) {
 
-        window.setLayout(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+            window.setLayout(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        window.setGravity(Gravity.CENTER);
-        window.setBackgroundDrawableResource(R.color.app_white);
+            window.setGravity(Gravity.CENTER);
+            window.setBackgroundDrawableResource(R.color.app_white);
+        }
 
     }
 
@@ -144,17 +147,13 @@ public class ConfigView extends MainActivityFragment {
                 .take(1)
                 .subscribe((Integer color) -> {
 
-                    // Coloca el bóton del idioma activo de un tono más oscuro
+                    spanishButton.setBackgroundColor(
+                            getCurrentLang().equals("es") ? color :
+                                    ColorConverter.lighten(color, 12));
 
-                    if (getCurrentLang().equals("es")) {
-                        spanishButton.setBackgroundColor(color);
-                        englishButton.setBackgroundColor(ColorConverter.lighten(color, 12));
-                    }
-
-                    else {
-                        spanishButton.setBackgroundColor(ColorConverter.lighten(color, 12));
-                        englishButton.setBackgroundColor(color);
-                    }
+                    englishButton.setBackgroundColor(
+                            getCurrentLang().equals("en") ? color :
+                                    ColorConverter.lighten(color, 12));
 
                 });
 
@@ -177,18 +176,19 @@ public class ConfigView extends MainActivityFragment {
      * Función que abre un dialogo para ingresar el nombre de usuario
      */
     @OnClick(R.id.username_view)
-    public void openUsernameDialogAux(){
+    public void openUsernameDialog(){
 
-        final Dialog dialog = createDialog(R.string.text_username, R.layout.dialog_username);
-        Button confirmButton = dialog.findViewById(R.id.confirm_button);
+        final Dialog dialog =
+                createDialog(R.string.text_username, R.layout.dialog_username);
+
         EditText inputUsername = dialog.findViewById(R.id.input_username);
         inputUsername.setText(getCurrentUsername());
 
-        confirmButton.setOnClickListener(v ->{
+        dialog.findViewById(R.id.confirm_button).setOnClickListener(v ->{
             String username = inputUsername.getEditableText().toString();
             setCurrentUsername(username);
+            showStatusMessage(R.string.text_username_changed);
             dialog.dismiss();
-            showStatusMessage(getResources().getString(R.string.text_username_changed));
         });
 
         dialog.show();
@@ -200,7 +200,7 @@ public class ConfigView extends MainActivityFragment {
      */
     @OnClick(R.id.about_view)
     public void openAbout(){
-        activity.switchFragment(new AboutView());
+        activity.switchFragment(new AboutFragment());
     }
 
 }

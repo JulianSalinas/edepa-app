@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -13,12 +14,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
-import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionLayout;
 
 import java.util.HashMap;
 
 
-public class MainActivityNavigation extends MainActivityFirebase
+public class ActivityNavigation extends ActivityFirebase
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener{
 
     /**
@@ -32,7 +32,7 @@ public class MainActivityNavigation extends MainActivityFirebase
      * Vistas en el encanbezado del menú principal
      */
     TextView currentSection;
-    private FloatingActionLayout favoriteButton;
+//    private FloatingActionButton favoriteButton;
 
     /**
      * Colección de fragmentos o secciones de la aplicación
@@ -68,10 +68,10 @@ public class MainActivityNavigation extends MainActivityFirebase
             onCreateWithNoArgs();
 
         View header = navigation.getHeaderView(0);
-        favoriteButton = header.findViewById(R.id.favorite_button);
+//        favoriteButton = header.findViewById(R.id.favorite_button);
         currentSection = header.findViewById(R.id.current_section_view);
 
-        favoriteButton.setOnClickListener(this);
+//        favoriteButton.setOnClickListener(this);
         navigation.setNavigationItemSelectedListener(this);
 
     }
@@ -133,7 +133,7 @@ public class MainActivityNavigation extends MainActivityFirebase
         Bundle args = intent.getExtras();
 
         if(args != null){
-            Intent refresh = new Intent(this, MainActivityNavigation.class);
+            Intent refresh = new Intent(this, ActivityNavigation.class);
             refresh.putExtras(args);
             startActivity(refresh);
             finish();
@@ -149,7 +149,7 @@ public class MainActivityNavigation extends MainActivityFirebase
         Bundle args = new Bundle();
         args.putInt("currentResource", currentResource);
 
-        Intent refresh = new Intent(this, MainActivityNavigation.class);
+        Intent refresh = new Intent(this, ActivityNavigation.class);
         refresh.putExtras(args);
 
         startActivity(refresh);
@@ -230,19 +230,19 @@ public class MainActivityNavigation extends MainActivityFirebase
 
     public Fragment createFragmentById(int fragmentId){ switch (fragmentId){
         case R.id.nav_chat:
-            return new ChatView();
+            return new ChatFragment();
         case R.id.nav_news:
             return new NewsView();
         case R.id.nav_about:
-            return new AboutView();
+            return new AboutFragment();
         case R.id.nav_manage:
-            return new ConfigView();
+            return new ConfigFragment();
         case R.id.nav_pallete:
             return new ThemePicker();
         case R.id.nav_people:
-            return new ExhibitorsView();
+            return new ExhibitorsFragment();
         case R.id.nav_infomation:
-            return new InformationView();
+            return new InformationFragment();
         case R.id.events_view:
             return ScheduleTabs.newInstance(ScheduleTabs.SCHEDULE_TAB);
         default:

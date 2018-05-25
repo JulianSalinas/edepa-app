@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
  * Cada subclase tiene que encargarse de colocar el páginador
  * y su respectivo adaptador
  */
-public abstract class PagerFragment extends MainActivityFragment {
+public abstract class PagerFragment extends ActivityFragment {
 
     /**
      * Barra debajo de los tabs para colocar los días
@@ -24,11 +24,10 @@ public abstract class PagerFragment extends MainActivityFragment {
 
     /**
      * Se define cúal es el layout que va a utilizar
-     * @param bundle: No se utiliza
      */
+
     @Override
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
+    public void setupResource() {
         this.resource = R.layout.schedule_pager;
     }
 
@@ -40,7 +39,11 @@ public abstract class PagerFragment extends MainActivityFragment {
     @Override
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
-        this.setupViewPager();
+        setupViewPager();
+    }
+
+    @Override
+    public void setupActivityView() {
         setToolbarText(R.string.app_name);
         setTabLayoutVisibility(View.VISIBLE);
     }

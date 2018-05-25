@@ -1,25 +1,21 @@
 package imagisoft.rommie;
 
-import android.app.Activity;
 import android.util.Log;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.ScheduleEvent;
 import imagisoft.miscellaneous.DateConverter;
 
-class EventsViewAdapterExhibitor
-        extends EventsViewAdapter implements ChildEventListener{
+class EventsAdapterExhibitor
+        extends EventsAdapter implements ChildEventListener{
 
     private Exhibitor exhibitor;
 
-    public EventsViewAdapterExhibitor(EventsView view) {
+    public EventsAdapterExhibitor(EventsFragment view) {
         super(view);
 //        setupReference();
         this.exhibitor = ((ExhibitorDetail) view).getExhibitor();
@@ -27,7 +23,7 @@ class EventsViewAdapterExhibitor
     }
 
     public void setupReference(){
-        view.activity.getScheduleReference().addChildEventListener(this);
+        fragment.activity.getScheduleReference().addChildEventListener(this);
     }
 
     /**
@@ -85,12 +81,12 @@ class EventsViewAdapterExhibitor
 
     @Override
     public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-        Log.i(view.getTag(), s);
+        Log.i(fragment.getTag(), s);
     }
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
-        Log.i(view.getTag(), databaseError.getDetails());
+        Log.i(fragment.getTag(), databaseError.getDetails());
     }
 
 }

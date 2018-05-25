@@ -10,14 +10,10 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
-import imagisoft.edepa.Exhibitor;
 
 
-public class ExhibitorsView extends MainActivityFragment
+public class ExhibitorsFragment extends ActivityFragment
         implements MaterialSearchView.OnQueryTextListener {
 
     /**
@@ -34,12 +30,12 @@ public class ExhibitorsView extends MainActivityFragment
     /**
      * Lista de expositores obtenida de la lista de eventos
      */
-    protected ExhibitorsViewAdapter exhibitorsAdapter;
+    protected ExhibitorsAdapter exhibitorsAdapter;
 
 
     public void setupAdapter(){
         if (exhibitorsAdapter == null){
-            exhibitorsAdapter = new ExhibitorsViewAdapter(this);
+            exhibitorsAdapter = new ExhibitorsAdapter(this);
         }
     }
 
@@ -51,6 +47,10 @@ public class ExhibitorsView extends MainActivityFragment
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void setupResource() {
         this.resource = R.layout.exhibitors_view;
     }
 
@@ -58,8 +58,7 @@ public class ExhibitorsView extends MainActivityFragment
      * Justo después de crear el fragmento se enlazan y preparan las vistas
      */
     @Override
-    public void onActivityCreated(Bundle bundle) {
-        super.onActivityCreated(bundle);
+    public void setupActivityView() {
         setToolbarText(R.string.nav_people);
         setTabLayoutVisibility(View.GONE);
         setToolbarVisibility(View.VISIBLE);

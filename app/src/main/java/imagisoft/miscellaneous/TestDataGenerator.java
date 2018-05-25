@@ -6,13 +6,13 @@ import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.Message;
 import imagisoft.edepa.ScheduleEvent;
 import imagisoft.edepa.ScheduleEventType;
-import imagisoft.rommie.ChatView;
+import imagisoft.rommie.ChatFragment;
 
 public class TestDataGenerator {
 
     public static ArrayList<Message> createNews(){
 
-        ChatView helper = new ChatView();
+        ChatFragment helper = new ChatFragment();
         ArrayList<Message> news = new ArrayList<>();
 
         news.add(helper.createMessage(

@@ -7,16 +7,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ChildEventListener;
 
 
-public class EventsViewAdapterOngoing
-        extends EventsViewAdapter implements ChildEventListener {
+public class EventsAdapterOngoing
+        extends EventsAdapter implements ChildEventListener {
 
-    public EventsViewAdapterOngoing(EventsView view) {
+    public EventsAdapterOngoing(EventsFragment view) {
         super(view);
         setupReference();
     }
 
     public void setupReference(){
-        view.activity.getOngoingReference().addChildEventListener(this);
+        fragment.activity.getOngoingReference().addChildEventListener(this);
     }
 
     @Override
@@ -45,12 +45,12 @@ public class EventsViewAdapterOngoing
 
     @Override
     public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-        Log.i(view.getTag(), s);
+        Log.i(fragment.getTag(), s);
     }
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
-        Log.i(view.getTag(), databaseError.getDetails());
+        Log.i(fragment.getTag(), databaseError.getDetails());
     }
 
 }

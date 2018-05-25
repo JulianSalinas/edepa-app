@@ -7,7 +7,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -29,7 +28,6 @@ import com.firebase.jobdispatcher.RetryStrategy;
 import com.firebase.jobdispatcher.Trigger;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -40,21 +38,14 @@ import imagisoft.edepa.Preferences;
 import imagisoft.edepa.ScheduleEvent;
 import imagisoft.miscellaneous.DateConverter;
 
-import static imagisoft.rommie.CustomColor.APP_PRIMARY;
-import static imagisoft.rommie.CustomColor.APP_PRIMARY_DARK;
+import static imagisoft.rommie.DefaultColor.APP_PRIMARY;
+import static imagisoft.rommie.DefaultColor.APP_PRIMARY_DARK;
 
 /**
  * Clase análoga al masterpage de un página web
  */
-public abstract class MainActivityCustom extends MainActivityClassic
+public abstract class ActivityCustom extends ActivityClassic
         implements NavigationView.OnNavigationItemSelectedListener, FavoriteListener {
-
-    /**
-     * Constantes utilizadas para el servio de notificaciones
-     */
-    protected final String CHANNEL_KEY = "CHANNEL_KEY";
-    protected final String REMAINDER_KEY = "REMAINDER_KEY";
-    protected final String CURRENT_RESOURCE_KEY = "CURRENT_RESOURCE_KEY";
 
     /**
      * Lista de favoritos
@@ -102,32 +93,9 @@ public abstract class MainActivityCustom extends MainActivityClassic
         setTheme();
         setLanguage();
         setupDispatcher();
-
-        favoriteList = FavoriteList.getInstance();
-        favoriteList.loadFavorites(this);
-        favoriteList.addListener(this);
-
+        setupFavoriteList();
         super.onCreate(bundle);
 
-    }
-
-    /**
-     * Al cerrar la aplicación se guarda la lista de favoritos
-     */
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        favoriteList.saveFavorites(this);
-    }
-
-    /**
-     * Cierra absolutamente la aplicación
-     * Antes de hacerlo guarda los favoritos
-     */
-    public void onExit(){
-        onDestroy();
-        finishAndRemoveTask();
-        System.exit(0);
     }
 
     /**
@@ -135,11 +103,19 @@ public abstract class MainActivityCustom extends MainActivityClassic
      * por la librería aesthetics de forma automática.
      */
     private void setTheme(){
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        int primaryColor = prefs.getInt(APP_PRIMARY.toString(), APP_PRIMARY.getColor());
-        int primaryDark = prefs.getInt(APP_PRIMARY_DARK.toString(), APP_PRIMARY_DARK.getColor());
-        getWindow().setStatusBarColor(primaryDark);
-        getWindow().setNavigationBarColor(primaryColor);
+        getWindow().setStatusBarColor(getDefaultColor(APP_PRIMARY));
+        getWindow().setNavigationBarColor(getDefaultColor(APP_PRIMARY_DARK));
+    }
+
+    /**
+     * Usada por settheme para obtener los colores por defecto
+     * @param defaultColor: DefaultColor  de la aplicación
+     * @return color por defecto en DefaultColor
+     */
+    private int getDefaultColor(DefaultColor defaultColor){
+        return PreferenceManager
+                .getDefaultSharedPreferences(this)
+                .getInt(defaultColor.toString(), defaultColor.getColor());
     }
 
     /**
@@ -174,6 +150,37 @@ public abstract class MainActivityCustom extends MainActivityClassic
         res.updateConfiguration(conf, dm);
     }
 
+
+    /**
+     * Mueve los favoritos a memoria y coloca un
+     * listener para ejecutar acciones cuando se agregue un evento
+     */
+    private void setupFavoriteList(){
+        favoriteList = FavoriteList.getInstance();
+        favoriteList.loadFavorites(this);
+        favoriteList.addListener(this);
+    }
+
+    /**
+     * Al cerrar la aplicación se guarda la lista de favoritos
+     */
+    @Override
+    protected void onDestroy() {
+        favoriteList.saveFavorites(this);
+        favoriteList.removeListener(this);
+        super.onDestroy();
+    }
+
+    /**
+     * Cierra absolutamente la aplicación
+     * Antes de hacerlo guarda los favoritos
+     */
+    public void onExit(){
+        onDestroy();
+        finishAndRemoveTask();
+        System.exit(0);
+    }
+
     /**
      * Tambien cierra la barra de búsqueda
      * si es necesario
@@ -191,7 +198,7 @@ public abstract class MainActivityCustom extends MainActivityClassic
      */
     @Override
     public void onFavoriteAdded(ScheduleEvent event) {
-        startAlarmAtParticularTime(event);
+        // startAlarmAtParticularTime(event);
         showStatusMessage(R.string.text_marked_as_favorite);
     }
 
@@ -214,7 +221,7 @@ public abstract class MainActivityCustom extends MainActivityClassic
 
     public void startAlarmAtParticularTime(ScheduleEvent event) {
         long now = System.currentTimeMillis();
-//        long eventStart = event.getStart();
+        // long eventStart = event.getStart();
         long eventStart = now + TimeUnit.SECONDS.toMillis(20);
         long alarmTime = eventStart - now;
         startAlarmAtParticularTime(alarmTime, event);
@@ -231,42 +238,19 @@ public abstract class MainActivityCustom extends MainActivityClassic
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                this.getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if(alarmManager != null) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
-//            showStatusMessage(getResources().getString(R.string.text_alarm) + " " +
-//                    DateConverter.extractDate(alarmTime) + " " +
-//                    DateConverter.extractTime(alarmTime));
+            startService(intent);
         }
 
 
     }
-
-    public void startAlarmAtParticularTime(long alarmTime) {
-
-        Intent intent = new Intent(".AlarmReceiver");
-        intent.setClass(this, AlarmReceiver.class);;
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                this.getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        if(alarmManager != null) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
-            showStatusMessage(getResources().getString(R.string.text_alarm) + " " +
-                    DateConverter.extractDate(alarmTime) + " " +
-                    DateConverter.extractTime(alarmTime));
-        }
-
-
-    }
-
 
     private void createEventAlarm() {
         Job myJob = dispatcher.newJobBuilder()
                 .setService(AlarmService.class)
-                .setTag(CHANNEL_KEY)
                 .setRecurring(true)
                 .setLifetime(Lifetime.FOREVER)
                 .setTrigger(Trigger.executionWindow(0, 20))
@@ -275,41 +259,6 @@ public abstract class MainActivityCustom extends MainActivityClassic
                 .setRetryStrategy(RetryStrategy.DEFAULT_LINEAR)
                 .build();
         dispatcher.mustSchedule(myJob);
-    }
-
-    public Notification createNotification(String title, String content){
-        return new NotificationCompat.Builder(this, CHANNEL_KEY)
-                .setContentTitle(title)
-                .setContentText(content)
-                .setSmallIcon(R.mipmap.ic_launcher_round)
-                .setAutoCancel(true).build();
-    }
-
-    public void showNotification(Notification notification){
-
-        Object service = getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationManager manager = (NotificationManager) service;
-
-        assert manager != null;
-        createNotificationChannel(manager);
-        manager.notify(0, notification);
-
-    }
-
-    public void createNotificationChannel(NotificationManager manager){
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            NotificationChannel channel = new NotificationChannel(
-                    CHANNEL_KEY, REMAINDER_KEY,
-                    NotificationManager.IMPORTANCE_DEFAULT);
-
-            channel.setLightColor(Color.RED);
-            channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-            manager.createNotificationChannel(channel);
-
-        }
-
     }
 
 }

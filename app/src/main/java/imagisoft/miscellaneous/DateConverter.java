@@ -1,6 +1,12 @@
 package imagisoft.miscellaneous;
 
+import android.text.format.DateUtils;
 import android.util.Log;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
@@ -54,6 +60,32 @@ public class DateConverter {
     private static Long stringToLongWrapper(String datetime) throws Exception{
         SimpleDateFormat format = new SimpleDateFormat("dd/M/yy h:mm a", Locale.ENGLISH);
         return format.parse(datetime).getTime();
+    }
+
+    /**
+     * Redondea al dia más cercano.
+     * Por ejemplo "12/12/18 2:30 pm" es redondado a "12/12/18 0:00 pm"
+     * @param datetime: Fecha a redondear
+     * @return Fecha redondeada
+     */
+    public static Long atStartOfDay(Long datetime) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(datetime);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTimeInMillis();
+    }
+
+    public static Long atEndOFDay(Long datetime) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(datetime);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        return calendar.getTimeInMillis();
     }
 
 }

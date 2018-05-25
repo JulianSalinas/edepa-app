@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import java.util.Collections;
 
+
 public class Exhibitor implements Parcelable, Comparable<Exhibitor> {
 
     /**
@@ -42,10 +43,8 @@ public class Exhibitor implements Parcelable, Comparable<Exhibitor> {
      * Constructor usado únicamente para generar pruebas
      */
     public Exhibitor(String completeName, String personalTitle) {
-
         this.completeName = completeName;
         this.personalTitle = personalTitle;
-
     }
 
     /*

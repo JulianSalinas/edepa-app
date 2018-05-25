@@ -1,7 +1,5 @@
 package imagisoft.rommie;
 
-import android.support.v4.app.Fragment;
-
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,12 +21,11 @@ public class PagerAdapterSchedule
                 .getScheduleReference()
                 .orderByChild("start")
                 .addChildEventListener(this);
-        
     }
 
     @Override
-    protected EventsView createScheduleView(String date) {
-        return EventsViewSchedule.newInstance(date);
+    protected EventsFragment createScheduleView(long date) {
+        return EventsFragmentSchedule.newInstance(date);
     }
 
     @Override

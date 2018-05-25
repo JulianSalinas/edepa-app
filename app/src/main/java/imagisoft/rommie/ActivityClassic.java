@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 /**
  * Clase análoga al masterpage de un página web
  */
-public abstract class MainActivityClassic extends AppCompatActivity {
+public abstract class ActivityClassic extends AppCompatActivity {
 
     /**
      * Atributos en común para todas las aplicaciones.
@@ -81,12 +81,9 @@ public abstract class MainActivityClassic extends AppCompatActivity {
      */
     @Override
     protected void onResume() {
-
         super.onResume();
-
         if(!profilePendingList.isEmpty())
             switchFragment(profilePendingList.pop());
-
     }
 
     /**
@@ -169,6 +166,10 @@ public abstract class MainActivityClassic extends AppCompatActivity {
         toast.show();
     }
 
+    /**
+     * Utiliza en vez de un string un recurso
+     * @param resource: R.string.<resource>
+     */
     public void showStatusMessage(int resource){
         String msg = getResources().getString(resource);
         showStatusMessage(msg);

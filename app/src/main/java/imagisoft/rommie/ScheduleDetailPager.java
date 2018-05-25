@@ -2,15 +2,17 @@ package imagisoft.rommie;
 
 import android.os.Bundle;
 import android.view.View;
-import android.content.pm.ActivityInfo;
 import android.support.v4.view.ViewPager;
 
 import butterknife.BindView;
 import imagisoft.edepa.ScheduleEvent;
 import imagisoft.miscellaneous.ColorConverter;
 
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR;
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 
-public class ScheduleDetailPager extends MainActivityFragment {
+
+public class ScheduleDetailPager extends ActivityFragment {
 
     private int statusBarColor;
 
@@ -54,12 +56,16 @@ public class ScheduleDetailPager extends MainActivityFragment {
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        this.resource = R.layout.schedule_detail_vertical;
 
         Bundle args = getArguments();
         if(args != null)
             event = args.getParcelable("event");
 
+    }
+
+    @Override
+    public void setupResource() {
+        this.resource = R.layout.schedule_detail_vertical;
     }
 
     /**
@@ -71,11 +77,6 @@ public class ScheduleDetailPager extends MainActivityFragment {
     public void onActivityCreated(Bundle bundle) {
 
         super.onActivityCreated(bundle);
-        this.setupViewPager();
-
-        statusBarColor = getStatusBarColor();
-        setToolbarVisibility(View.GONE);
-        setTabLayoutVisibility(View.GONE);
 
         if(bundle != null)
             pager.setCurrentItem(bundle.getInt("currentPage"));
@@ -86,15 +87,23 @@ public class ScheduleDetailPager extends MainActivityFragment {
     }
 
     @Override
+    public void setupActivityView() {
+        this.setupViewPager();
+        statusBarColor = getStatusBarColor();
+        setToolbarVisibility(View.GONE);
+        setTabLayoutVisibility(View.GONE);
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
-        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+        activity.setRequestedOrientation(SCREEN_ORIENTATION_FULL_SENSOR);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        activity.setRequestedOrientation(SCREEN_ORIENTATION_PORTRAIT);
     }
 
     /**

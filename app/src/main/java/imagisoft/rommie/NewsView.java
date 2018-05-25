@@ -1,33 +1,28 @@
 package imagisoft.rommie;
 
-import android.os.Bundle;
 import android.view.View;
-import android.support.annotation.Nullable;
 
 
-public class NewsView extends MessagesView {
+public class NewsView extends MessagesFragment {
 
     /**
      * Se define cúal es el layout que va a utilizar
-     * @param bundle: No se utiliza
      */
     @Override
-    public void onCreate(@Nullable Bundle bundle) {
-        super.onCreate(bundle);
+    public void setupResource() {
         this.resource = R.layout.news_view;
     }
 
     /**
      * Se configura la vista después de que la actividad se reinicia
      * ya sea por cambio de idioma o al girar la pantalla
-     * @param bundle: No se utiliza
      */
     @Override
-    public void onActivityCreated(Bundle bundle) {
-        super.onActivityCreated(bundle);
+    public void setupActivityView() {
         setToolbarText(R.string.nav_news);
         setToolbarVisibility(View.VISIBLE);
         setTabLayoutVisibility(View.GONE);
+        super.setupActivityView();
     }
 
     /**
@@ -36,8 +31,8 @@ public class NewsView extends MessagesView {
     @Override
     public void setupAdapter(){
 
-        if(adapter == null) {
-            adapter = new NewsViewAdapter(this);
+        if(messagesVA == null) {
+            messagesVA = new NewsViewAdapter(this);
             registerAdapterDataObserver();
         }
 

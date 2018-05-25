@@ -22,7 +22,7 @@ import imagisoft.edepa.Congress;
 import imagisoft.miscellaneous.DateConverter;
 
 
-public class InformationView extends MainActivityFragment implements OnMapReadyCallback {
+public class InformationFragment extends ActivityFragment implements OnMapReadyCallback {
 
     /**
      * Soporte para colocar el mapa
@@ -70,6 +70,10 @@ public class InformationView extends MainActivityFragment implements OnMapReadyC
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+    }
+
+    @Override
+    public void setupResource() {
         this.resource = R.layout.information_view;
     }
 
@@ -95,15 +99,8 @@ public class InformationView extends MainActivityFragment implements OnMapReadyC
 
     }
 
-    /**
-     * Se coloca un listener para refrescar la vista cuando hay un cambio
-     * en la base de datos
-     */
     @Override
-    public void onActivityCreated(Bundle bundle) {
-
-        super.onActivityCreated(bundle);
-
+    public void setupActivityView() {
         setToolbarVisibility(View.GONE);
         setTabLayoutVisibility(View.GONE);
 
@@ -111,7 +108,6 @@ public class InformationView extends MainActivityFragment implements OnMapReadyC
         // se abre la aplicación
         activity.getCongressReference()
                 .addValueEventListener(new InformationViewValueEventListener());
-
     }
 
     /**
