@@ -3,6 +3,7 @@ package imagisoft.rommie;
 import butterknife.BindView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.view.View;
 
 
 public abstract class EventsFragment extends ActivityFragment {
@@ -11,7 +12,7 @@ public abstract class EventsFragment extends ActivityFragment {
      * Se colocan los eventos de manera visual
      */
     @BindView(R.id.events_view)
-    RecyclerView eventsRV;
+    CustomRecyclerView eventsRV;
 
     /**
      * Adaptador para eventsRV
@@ -34,6 +35,7 @@ public abstract class EventsFragment extends ActivityFragment {
         eventsRV.setAdapter(eventsVA);
         eventsRV.setItemAnimator(new DefaultItemAnimator());
         eventsRV.setLayoutManager(new SmoothLayout(activity));
+        eventsRV.setEmptyView(View.inflate(activity, R.layout.fragment_blank, null));
     }
 
     protected abstract void setupAdapter();

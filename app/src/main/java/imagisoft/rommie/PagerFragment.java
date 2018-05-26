@@ -25,10 +25,13 @@ public abstract class PagerFragment extends ActivityFragment {
     /**
      * Se define cúal es el layout que va a utilizar
      */
-
     @Override
     public void setupResource() {
         this.resource = R.layout.schedule_pager;
+    }
+
+    public void setCurrentItem(int position){
+        pager.setCurrentItem(position);
     }
 
     /**

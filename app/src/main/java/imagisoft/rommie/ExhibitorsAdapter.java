@@ -1,5 +1,6 @@
 package imagisoft.rommie;
 
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.ScheduleEvent;
+import imagisoft.miscellaneous.ColorGenerator;
 import imagisoft.miscellaneous.SearchNormalizer;
 
 
@@ -90,7 +92,12 @@ public class ExhibitorsAdapter extends RecyclerView.Adapter
         Exhibitor item = filteredExhibitors.get(holder.getAdapterPosition());
 
         bindInformation(item, holder);
-        holder.exhibitorAvatarView.setText(item.getCompleteName());
+        String name = item.getCompleteName();
+        holder.exhibitorAvatarView.setText(name);
+        holder.exhibitorAvatarView.setTextColor(Color.WHITE);
+
+        holder.exhibitorAvatarView
+                .setBackgroundColor(ColorGenerator.MATERIAL.getColor(name));
 
         holder.exhibitorCardView.setOnClickListener(v -> exhibitorsView.switchFragment(
                 ExhibitorDetail.newInstance(item, eventsByExhibitor.get(item))));

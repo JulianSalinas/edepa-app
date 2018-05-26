@@ -1,5 +1,6 @@
 package imagisoft.rommie;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import butterknife.BindView;
 import com.mklimek.circleinitialsview.CircleInitialsView;
 import imagisoft.edepa.Exhibitor;
 import imagisoft.edepa.ScheduleEvent;
+import imagisoft.miscellaneous.ColorGenerator;
 
 
 public class ExhibitorDetail extends EventsFragment {
@@ -107,6 +109,11 @@ public class ExhibitorDetail extends EventsFragment {
         nameTextView.setText(name);
         titleTextView.setText(exhibitor.getPersonalTitle());
         exhibitorAvatarView.setText(name);
+        exhibitorAvatarView.setTextColor(Color.WHITE);
+
+        exhibitorAvatarView
+                .setBackgroundColor(ColorGenerator.MATERIAL.getColor(name));
+
         buttonBack.setOnClickListener(v -> activity.onBackPressed());
     }
 
