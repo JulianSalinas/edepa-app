@@ -2,6 +2,7 @@ package imagisoft.edepa;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -10,6 +11,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.lang.reflect.Type;
 import java.util.Collections;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Semaphore;
 
 
 public class FavoriteList extends Preferences implements FavoriteListener{
@@ -23,7 +26,7 @@ public class FavoriteList extends Preferences implements FavoriteListener{
      * Contiene referencia a todas las clases que necesitan saber el
      * estado de los eventos favoritos
      */
-    private ArrayList<FavoriteListener> listeners;
+    private List<FavoriteListener> listeners;
 
     /**
      * Identifica el archivo json del que se obtienen los favoritos
@@ -34,6 +37,9 @@ public class FavoriteList extends Preferences implements FavoriteListener{
      * Instancia única para que todos accedan a la misma lista de favoritos
      */
     private static final FavoriteList ourInstance = new FavoriteList();
+
+    private Semaphore semaphoreListeners = new Semaphore(1);
+    private Semaphore semaphoreFavorites = new Semaphore(1);
 
     /**
      * Patrón singleton
@@ -47,8 +53,8 @@ public class FavoriteList extends Preferences implements FavoriteListener{
      * Se inicializa la lista de favoritos, esto antes de leer los favoritos del json
      */
     private FavoriteList() {
-        events = new ArrayList<>();
-        listeners = new ArrayList<>();
+        events = Collections.synchronizedList(new ArrayList<>());
+        listeners = Collections.synchronizedList(new ArrayList<>());
     }
 
     /**
@@ -56,8 +62,35 @@ public class FavoriteList extends Preferences implements FavoriteListener{
      * @param listener: Clase que implementa FavoriteListener
      */
     public void addListener(FavoriteListener listener){
-        if(!listeners.contains(listener))
-            listeners.add(listener);
+
+        try {
+
+            semaphoreListeners.acquire();
+
+            if(!listeners.contains(listener)) {
+                listeners.add(listener);
+                Log.i("FavoriteList::", "addListener::" + listener.toString());
+
+                String str = "";
+                for(ScheduleEvent event: events){
+                    str = str.concat(event.getId() + ". ");
+                }
+                Log.i("FavoriteList::", "currentFavorites::" + str);
+
+            }
+
+            for(ScheduleEvent event: events)
+                listener.onFavoriteAdded(event);
+
+            semaphoreListeners.release();
+
+        }
+        catch (InterruptedException e) {
+
+            Log.i("FavoriteList::", "addListenerError::" + e.getMessage());
+
+        }
+
     }
 
     /**
@@ -65,8 +98,39 @@ public class FavoriteList extends Preferences implements FavoriteListener{
      * @param listener: Clase que implementa FavoriteListener
      */
     public void removeListener(FavoriteListener listener){
-        if(listeners.contains(listener))
-            listeners.remove(listener);
+
+        try {
+
+            semaphoreListeners.acquire();
+
+            if(listeners.contains(listener)) {
+                listeners.remove(listener);
+                Log.i("FavoriteList::", "removeListener::" + listener.toString());
+            }
+
+            semaphoreListeners.release();
+
+        }
+        catch (InterruptedException e) {
+
+            Log.i("FavoriteList::", "removeListenerError::" + e.getMessage());
+
+        }
+
+    }
+
+    public void removeAllListeners(){
+
+        try {
+            semaphoreListeners.acquire();
+            listeners.clear();
+            semaphoreListeners.release();
+        }
+        catch (InterruptedException e) {
+
+            Log.i("FavoriteList::", "removeAllListenersError::" + e.getMessage());
+
+        }
     }
 
     /**
@@ -75,21 +139,6 @@ public class FavoriteList extends Preferences implements FavoriteListener{
      */
     public boolean isEmpty(){
         return events.isEmpty();
-    }
-    
-    /**
-     * Consulta todos los favoritos (que están en memoria)
-     * Deben ordenarse antes de retornarlos para que se puedan mostrar
-     * de la forma esperada por la interfaz de usuario
-     */
-    public List<ScheduleEvent> getSortedEvents() {
-
-        // Ordena los elementos (sin crear una lista nueva)
-        Collections.sort(events, (before, after) ->
-                before.getStart() >= after.getStart() ? 1 : -1);
-
-        return events;
-
     }
 
     /**
@@ -109,6 +158,7 @@ public class FavoriteList extends Preferences implements FavoriteListener{
         if(!events.contains(event)) {
             events.add(event);
             onFavoriteAdded(event);
+            Log.i("FavoriteList::", "addEvent::" + event.getId());
         }
     }
 
@@ -120,19 +170,54 @@ public class FavoriteList extends Preferences implements FavoriteListener{
         if(events.contains(event)) {
             events.remove(event);
             onFavoriteRemoved(event);
+            Log.i("FavoriteList::", "removeEvent::" + event.getId());
         }
     }
 
     @Override
     public void onFavoriteAdded(ScheduleEvent event) {
-        for(FavoriteListener listener : listeners)
-            listener.onFavoriteAdded(event);
+
+        try {
+
+            semaphoreFavorites.acquire();
+
+            for(FavoriteListener listener : listeners)
+                listener.onFavoriteAdded(event);
+
+            semaphoreFavorites.release();
+
+            Log.i("FavoriteList::", "onFavoriteAdded::" + event.getId());
+
+        }
+        catch (InterruptedException e) {
+
+            Log.i("FavoriteList::", "onFavoriteAddedError::" + e.getMessage());
+
+        }
+
     }
 
     @Override
     public void onFavoriteRemoved(ScheduleEvent event) {
-        for(FavoriteListener listener : listeners)
-            listener.onFavoriteRemoved(event);
+
+        try {
+
+            semaphoreFavorites.acquire();
+
+            for(FavoriteListener listener : listeners)
+                listener.onFavoriteRemoved(event);
+
+            semaphoreFavorites.release();
+
+            Log.i("FavoriteList::", "onFavoriteRemoved::" + event.getId());
+
+        }
+        catch (InterruptedException e) {
+
+            Log.i("FavoriteList::", "onFavoriteRemovedError::" + e.getMessage());
+
+        }
+
     }
 
     /**

@@ -9,7 +9,7 @@ import imagisoft.edepa.Message;
 /**
  * Sirve para enlazar las funciones a una actividad en específico
  */
-public class NewsViewAdapter extends MessagesAdapterOnline {
+public class NewsAdapter extends MessagesAdapterOnline {
 
     private int NEWS_ITEM = 1;
     private int NEWS_ITEM_WITH_SEP = 0;
@@ -17,7 +17,7 @@ public class NewsViewAdapter extends MessagesAdapterOnline {
     /**
      * Constructor del adaptador usado para recibir mensajes online
      */
-    public NewsViewAdapter(ActivityFragment view) {
+    public NewsAdapter(ActivityFragment view) {
         super(view);
     }
 

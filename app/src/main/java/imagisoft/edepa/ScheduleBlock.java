@@ -16,8 +16,8 @@ public class ScheduleBlock implements Parcelable {
      * Las fechas se colocan con el formato dd/mm/yyyy hh:mm <am|pm>
      * pero se guardan como long para hacerlo más fácil entre plataformas
      */
-    private Long end;
-    private Long start;
+    protected Long end;
+    protected Long start;
 
     /**
      * Getters y Setters de las fechas

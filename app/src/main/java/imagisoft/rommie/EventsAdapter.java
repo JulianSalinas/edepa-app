@@ -1,5 +1,6 @@
 package imagisoft.rommie;
 
+import android.util.Log;
 import android.view.View;
 import android.app.Activity;
 import android.view.ViewGroup;
@@ -89,20 +90,24 @@ public class EventsAdapter
 
         ScheduleEvent item = events.get(position);
 
-        if(position == 0){
+        if(position == 0)
             return WITH_SEPARATOR;
-        }
+
         else {
             ScheduleEvent upItem = events.get(position - 1);
             long itemStart = item.getStart();
+            long upItemStart = item.getStart();
             long upItemEnd = upItem.getEnd();
+
             long diff = Math.abs(upItemEnd - itemStart);
+
+            if (upItemStart <= itemStart && itemStart < upItemEnd)
+                return SINGLE;
 
             if(diff >= 20 * 60 * 1000)
                 return WITH_SEPARATOR;
-            else
-                return SINGLE;
-            
+
+            else return SINGLE;
         }
 
     }
@@ -126,8 +131,9 @@ public class EventsAdapter
      * Coloca la hora en un encabezado de bloque de eventos
      */
     public void onBindScheduleEventWithSepVH(ScheduleEventWithSepVH holder){
-        final ScheduleEvent event = events.get(holder.getAdapterPosition());
-        holder.scheduleSeparator.setText(getDatesAsString(event));
+        int position = holder.getAdapterPosition();
+        final ScheduleEvent event = events.get(position);
+        holder.scheduleSeparator.setText(getDateAsString(event.getStart()));
         onBindScheduleEventVH(holder);
     }
 
@@ -172,6 +178,7 @@ public class EventsAdapter
             @Override
             public void unLiked(LikeButton likeButton) {
                 favoriteList.removeEvent(event);
+                Log.i("FavoriteRemoved::", event.getTitle());
             }
 
         });
@@ -179,25 +186,31 @@ public class EventsAdapter
     }
 
     /**
-     * Toma la fecha inicio y fin del evento y las concatena y retorna como strings
-     * @param event: Evento o bloque donde se toman las fechas
+     * Toma la fecha inicio y crea un string para identificar el inicio
+     * de un bloque de eventos
+     * @param start: Inicio del evento que abre el bloque
      * @return Fechas como un string que se debe mostrar en la UI
      */
-    protected String getDatesAsString(ScheduleEvent event){
+    protected String getDateAsString(long start){
+        Activity activity = fragment.activity;
+        return  activity.getResources().getString(R.string.text_block) + " " +
+                DateConverter.extractTime(start);
+    }
+
+    protected String getDateAsString(ScheduleEvent event){
         Activity activity = fragment.activity;
         return  activity.getResources().getString(R.string.text_from) + " " +
                 DateConverter.extractTime(event.getStart()) + " " +
                 activity.getResources().getString(R.string.text_to) + " " +
                 DateConverter.extractTime(event.getEnd());
     }
-
     /**
      * Coloca la información de evento en la vista
      */
     private void bindInformation(ScheduleEventVH holder, ScheduleEvent event){
         holder.header.setText(event.getTitle());
         holder.eventype.setText(event.getEventype().toString());
-        holder.time_description.setText(getDatesAsString(event));
+        holder.time_description.setText(this.getDateAsString(event));
     }
 
     /**

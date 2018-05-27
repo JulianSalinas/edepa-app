@@ -30,6 +30,9 @@ public class ScheduleDetailBrief extends ExhibitorsFragment {
     @BindView(R.id.exhibitor_recycler_view)
     RecyclerView exhibitorsRecyclerView;
 
+    public ScheduleEvent getEvent() {
+        return event;
+    }
 
     /**
      * No se pueden crear constructores con parámetros, por tanto,
@@ -87,7 +90,7 @@ public class ScheduleDetailBrief extends ExhibitorsFragment {
     }
 
     /**
-     * Se configura el exhibitorsRecyclerView que contiene los expositores
+     * Se configura el exhibitorsRV que contiene los expositores
      */
     public void setupExhibitorsView(){
 

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
 import imagisoft.edepa.ScheduleEvent;
 import imagisoft.miscellaneous.DateConverter;
@@ -90,6 +91,7 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
         if (!dates.contains(date)){
             dates.add(index, date);
             notifyDataSetChanged();
+            Log.i("PagerAdapter::", "PageAdded::" + DateConverter.extractDate(event.getStart()));
         }
 
         // Actualiza la cantidad de eventos en una pagina
@@ -107,11 +109,12 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
     protected void removePageIfLast(ScheduleEvent event) {
 
         long date = DateConverter.atStartOfDay(event.getStart());
-        if (dates.contains(date) && eventsForDay.get(date) == 1){
+        if (dates.contains(date) && eventsForDay.get(date) <= 1){
 
             int index = dates.indexOf(date);
             dates.remove(index);
             notifyDataSetChanged();
+            Log.i("PagerAdapter::", "PageRemoved::" + DateConverter.extractDate(event.getStart()));
         }
 
         eventsForDay.put(date, eventsForDay.get(date) - 1);

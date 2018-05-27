@@ -50,7 +50,6 @@ public class SplashScreen extends AppCompatActivity {
             prefs.setPreference(this, Preferences.FIRST_USE_KEY_VALUE, false);
             startLoginActivity();
         }
-
         else if(isFirstUse && !isOnline()){
             new AlertDialog.Builder(this)
                     .setTitle(R.string.text_no_connection)
@@ -61,8 +60,7 @@ public class SplashScreen extends AppCompatActivity {
                         System.exit(0);
                     }).show();
         }
-
-        else startApplication();
+        else startLoginActivity();
 
     }
 

@@ -1,5 +1,6 @@
 package imagisoft.rommie;
 
+import android.app.Activity;
 import android.util.Log;
 
 import com.google.firebase.database.ChildEventListener;
@@ -17,7 +18,7 @@ class EventsAdapterExhibitor
 
     public EventsAdapterExhibitor(EventsFragment view) {
         super(view);
-//        setupReference();
+        setupReference();
         this.exhibitor = ((ExhibitorDetail) view).getExhibitor();
         this.events = ((ExhibitorDetail) view).getEvents();
     }
@@ -47,36 +48,33 @@ class EventsAdapterExhibitor
     }
 
     @Override
-    protected String getDatesAsString(ScheduleEvent event){
-        return DateConverter.extractDate(event.getStart());
+    protected String getDateAsString(long start){
+        return DateConverter.extractDate(start);
     }
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
-        if(event != null && event.getExhibitors() != null){
-            if(event.getExhibitors().contains(exhibitor)){
-                int index = events.size();
-                events.add(index, event);
-                notifyItemInserted(index);
-            }
-        }
+        // Los eventos son pasado por parámetro
     }
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
         int index = events.indexOf(event);
-        events.set(index, event);
-        notifyItemChanged(index);
+        if(index != -1) {
+            events.set(index, event);
+            notifyItemChanged(index);
+        }
     }
 
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
         int index = events.indexOf(event);
-        events.remove(index);
-        notifyItemRemoved(index);
+        if(index != -1) {
+            events.remove(index);
+            notifyItemRemoved(index);
+        }
     }
 
     @Override

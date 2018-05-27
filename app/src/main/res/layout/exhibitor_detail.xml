@@ -104,7 +104,7 @@
         android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/schedule_detail_exhibitors"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -112,6 +112,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/related_events_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/space_default"
@@ -148,9 +149,10 @@
                 android:id="@+id/events_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/schedule_item" />
+                tools:listitem="@layout/schedule_item"
+                android:layout_below="@+id/related_events_layout"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </android.support.v4.widget.NestedScrollView>
 

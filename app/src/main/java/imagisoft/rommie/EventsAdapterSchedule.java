@@ -7,6 +7,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ChildEventListener;
 
+import java.util.Collections;
+
 
 public class EventsAdapterSchedule
         extends EventsAdapter implements ChildEventListener {
@@ -27,9 +29,19 @@ public class EventsAdapterSchedule
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
         if (event != null) {
-            int index = events.size();
-            events.add(index, event);
-            notifyItemInserted(index);
+
+            int index = Collections.binarySearch(events, event);
+
+            if (index >= 0){
+                events.add(index, event);
+                notifyItemInserted(index);
+            }
+
+            else {
+                events.add(-index - 1, event);
+                notifyItemInserted(-index - 1);
+            }
+
         }
     }
 

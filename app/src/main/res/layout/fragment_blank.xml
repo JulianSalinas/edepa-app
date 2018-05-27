@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,8 +9,7 @@
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@color/app_white" />
+        android:layout_height="match_parent"/>
 
     <TextView
         android:id="@+id/description_text_view"
@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:layout_margin="@dimen/space_default"
-        android:text="@string/text_without_favorites"
+        android:text="@string/text_without_events"
         android:textSize="@dimen/font_black_fragment"
         android:textStyle="bold"
         android:fontFamily="sans-serif-smallcaps"

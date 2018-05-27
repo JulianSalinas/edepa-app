@@ -12,7 +12,7 @@ public abstract class EventsFragment extends ActivityFragment {
      * Se colocan los eventos de manera visual
      */
     @BindView(R.id.events_view)
-    CustomRecyclerView eventsRV;
+    RecyclerView eventsRV;
 
     /**
      * Adaptador para eventsRV
@@ -35,7 +35,6 @@ public abstract class EventsFragment extends ActivityFragment {
         eventsRV.setAdapter(eventsVA);
         eventsRV.setItemAnimator(new DefaultItemAnimator());
         eventsRV.setLayoutManager(new SmoothLayout(activity));
-        eventsRV.setEmptyView(View.inflate(activity, R.layout.fragment_blank, null));
     }
 
     protected abstract void setupAdapter();

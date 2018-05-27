@@ -1,6 +1,7 @@
 package imagisoft.rommie;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -45,12 +46,12 @@ public class ExhibitorsAdapter extends RecyclerView.Adapter
     /**
      * Es un fragmento permite obtener los eventos de un expositor
      */
-    private ActivityFragment exhibitorsView;
+    private ExhibitorsFragment exhibitorsView;
 
     /**
      * Se colocan los expositores
      */
-    public ExhibitorsAdapter(ActivityFragment exhibitorsView){
+    public ExhibitorsAdapter(ExhibitorsFragment exhibitorsView){
         this.exhibitorsView = exhibitorsView;
         this.exhibitors = new ArrayList<>();
         this.eventsByExhibitor = new LinkedMultiValueMap<>();
@@ -175,6 +176,7 @@ public class ExhibitorsAdapter extends RecyclerView.Adapter
                     notifyItemInserted(-index-1);
                 }
                 eventsByExhibitor.add(exhibitor, event);
+                Log.i("Agreg::", exhibitor.getCompleteName() + " " + event.getTitle());
             }
         }
     }

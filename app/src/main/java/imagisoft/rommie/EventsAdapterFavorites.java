@@ -6,6 +6,8 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
+import java.util.Collections;
+
 import imagisoft.edepa.FavoriteList;
 import imagisoft.edepa.FavoriteListener;
 import imagisoft.edepa.ScheduleEvent;
@@ -19,26 +21,28 @@ public class EventsAdapterFavorites
     private FavoriteList favoriteList;
 
     public EventsAdapterFavorites(EventsFragment view) {
+
         super(view);
-        this.date = ((EventsFragmentWithDate) view).getDate();
+        this.date = ((EventsFragmentFavorites) view).getDate();
         this.favoriteList = FavoriteList.getInstance();
 
-        this.events.addAll(favoriteList.getSortedEvents());
+//        view.activity
+//                .getScheduleReference()
+//                .orderByChild("start")
+//                .startAt(date)
+//                .endAt(DateConverter.atEndOFDay(date))
+//                .addChildEventListener(this);
 
-        favoriteList.addListener(this);
-        view.activity.getScheduleReference().addChildEventListener(this);
     }
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        // Si se agrega un evento al cronograma, en favoritos no pasa nada
+
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
-        if (event != null && favoriteList.contains(event)) {
-            int index = events.size();
-            events.add(index, event);
-            notifyItemInserted(index);
-            Log.i(fragment.getTag(), "eventAdded");
-            fragment.showStatusMessage("Un evento ha sido agregado");
+        if (event != null && events.contains(event)) {
+            int index = events.indexOf(event);
+            events.set(index, event);
+            notifyItemChanged(index);
         }
 
     }
@@ -47,11 +51,10 @@ public class EventsAdapterFavorites
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
         if (event != null && favoriteList.contains(event)) {
-                int index = events.indexOf(event);
-                events.set(index, event);
-                notifyItemChanged(index);
-                Log.i(fragment.getTag(), "eventChanged");
-                fragment.showStatusMessage("Un evento en tus favoritos ha sido actualizado");
+            int index = events.indexOf(event);
+            events.set(index, event);
+            notifyItemChanged(index);
+            fragment.showStatusMessage("Un evento en tus favoritos ha sido actualizado");
         }
     }
 
@@ -59,11 +62,10 @@ public class EventsAdapterFavorites
     public void onChildRemoved(DataSnapshot dataSnapshot) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
         if (event != null && favoriteList.contains(event)) {
-                int index = events.indexOf(event);
-                events.remove(index);
-                notifyItemRemoved(index);
-                Log.i(fragment.getTag(), "eventRemoved");
-                fragment.showStatusMessage("Un evento en tus favoritos ya no está disponible");
+            int index = events.indexOf(event);
+            events.remove(index);
+            notifyItemRemoved(index);
+            fragment.showStatusMessage("Un evento en tus favoritos ya no está disponible");
         }
     }
 
@@ -80,11 +82,35 @@ public class EventsAdapterFavorites
     @Override
     public void onFavoriteAdded(ScheduleEvent event) {
 
+        long eventDate = DateConverter.atStartOfDay(event.getStart());
+
+        if(!events.contains(event) && eventDate == date) {
+
+//            int index = Collections.binarySearch(events, event);
+//
+//            if (index >= 0) {
+//                events.add(index, event);
+//                notifyItemInserted(index);
+//            }
+//            else {
+//                events.add(-index - 1, event);
+//                notifyItemInserted(-index - 1);
+//            }
+            events.add(0, event);
+            notifyItemInserted(0);
+            Log.i("EventsAdapterFav::", "onFavoriteAdded::" + event.getId());
+
+        }
+
     }
 
     @Override
     public void onFavoriteRemoved(ScheduleEvent event) {
-
+        if(events.contains(event)) {
+            int index = events.indexOf(event);
+            events.remove(index);
+            notifyItemRemoved(index);
+        }
     }
 
 }

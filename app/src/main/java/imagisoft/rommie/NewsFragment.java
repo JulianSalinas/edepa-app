@@ -3,7 +3,7 @@ package imagisoft.rommie;
 import android.view.View;
 
 
-public class NewsView extends MessagesFragment {
+public class NewsFragment extends MessagesFragment {
 
     /**
      * Se define cúal es el layout que va a utilizar
@@ -32,7 +32,7 @@ public class NewsView extends MessagesFragment {
     public void setupAdapter(){
 
         if(messagesVA == null) {
-            messagesVA = new NewsViewAdapter(this);
+            messagesVA = new NewsAdapter(this);
             registerAdapterDataObserver();
         }
 

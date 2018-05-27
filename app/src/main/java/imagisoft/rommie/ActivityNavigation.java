@@ -32,7 +32,7 @@ public class ActivityNavigation extends ActivityFirebase
      * Vistas en el encanbezado del menú principal
      */
     TextView currentSection;
-//    private FloatingActionButton favoriteButton;
+    private FloatingActionButton favoriteButton;
 
     /**
      * Colección de fragmentos o secciones de la aplicación
@@ -68,10 +68,10 @@ public class ActivityNavigation extends ActivityFirebase
             onCreateWithNoArgs();
 
         View header = navigation.getHeaderView(0);
-//        favoriteButton = header.findViewById(R.id.favorite_button);
+        favoriteButton = header.findViewById(R.id.favorite_button);
         currentSection = header.findViewById(R.id.current_section_view);
 
-//        favoriteButton.setOnClickListener(this);
+        favoriteButton.setOnClickListener(this);
         navigation.setNavigationItemSelectedListener(this);
 
     }
@@ -232,7 +232,7 @@ public class ActivityNavigation extends ActivityFirebase
         case R.id.nav_chat:
             return new ChatFragment();
         case R.id.nav_news:
-            return new NewsView();
+            return new NewsFragment();
         case R.id.nav_about:
             return new AboutFragment();
         case R.id.nav_manage:

@@ -43,23 +43,14 @@
 
     </LinearLayout>
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/favorite_button"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="@dimen/space_medium"-->
-        <!--android:layout_marginBottom="@dimen/space_medium"-->
-        <!--android:layout_gravity="bottom"-->
-        <!--app:elevation="8dp">-->
-
-        <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:tint="@color/app_white"-->
-            <!--android:src="@drawable/ic_star"-->
-            <!--android:contentDescription="@null"/>-->
-
-    <!--</android.support.design.widget.FloatingActionButton>-->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/favorite_button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="@dimen/space_medium"
+        android:layout_marginBottom="@dimen/space_medium"
+        android:clickable="true"
+        android:layout_gravity="bottom"
+        app:srcCompat="@drawable/ic_star_white_24dp" />
 
 </FrameLayout>

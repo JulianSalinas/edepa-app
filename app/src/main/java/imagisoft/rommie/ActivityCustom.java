@@ -17,6 +17,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.afollestad.aesthetic.Aesthetic;
 import com.firebase.jobdispatcher.Constraint;
@@ -166,9 +167,10 @@ public abstract class ActivityCustom extends ActivityClassic
      */
     @Override
     protected void onDestroy() {
+        favoriteList.removeAllListeners();
         favoriteList.saveFavorites(this);
-        favoriteList.removeListener(this);
         super.onDestroy();
+        Log.i("ActivityCustom::", "onDestroy");
     }
 
     /**
@@ -199,7 +201,7 @@ public abstract class ActivityCustom extends ActivityClassic
     @Override
     public void onFavoriteAdded(ScheduleEvent event) {
         // startAlarmAtParticularTime(event);
-        showStatusMessage(R.string.text_marked_as_favorite);
+        // showStatusMessage(R.string.text_marked_as_favorite);
     }
 
     /**
@@ -259,6 +261,11 @@ public abstract class ActivityCustom extends ActivityClassic
                 .setRetryStrategy(RetryStrategy.DEFAULT_LINEAR)
                 .build();
         dispatcher.mustSchedule(myJob);
+    }
+
+    @Override
+    public String toString() {
+        return "ActivityCustom{" + super.toString() + "}";
     }
 
 }

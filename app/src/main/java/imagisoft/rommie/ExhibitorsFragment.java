@@ -20,7 +20,7 @@ public class ExhibitorsFragment extends ActivityFragment
      * Es la capa donde se coloca cada uno de los expositores
      */
     @BindView(R.id.exhibitor_recycler_view)
-    RecyclerView exhibitorsRecyclerView;
+    RecyclerView exhibitorsRV;
 
     /**
      * Tomada de la toolbar de la actividad
@@ -109,17 +109,17 @@ public class ExhibitorsFragment extends ActivityFragment
     }
 
     /**
-     * Se configura el exhibitorsRecyclerView que contiene los expositores
+     * Se configura el exhibitorsRV que contiene los expositores
      */
     public void setupExhibitorsView(){
 
-        exhibitorsRecyclerView.setHasFixedSize(true);
-        exhibitorsRecyclerView.setLayoutManager(new SmoothLayout(getActivity()));
-        exhibitorsRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        exhibitorsRecyclerView.setAdapter(exhibitorsAdapter);
+        exhibitorsRV.setHasFixedSize(true);
+        exhibitorsRV.setLayoutManager(new SmoothLayout(getActivity()));
+        exhibitorsRV.setItemAnimator(new DefaultItemAnimator());
+        exhibitorsRV.setAdapter(exhibitorsAdapter);
 
         // Efecto visual para dividir a los expositores
-        exhibitorsRecyclerView.addItemDecoration(
+        exhibitorsRV.addItemDecoration(
                 new DividerItemDecoration(activity,
                 DividerItemDecoration.VERTICAL));
 

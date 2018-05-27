@@ -301,7 +301,7 @@ public class ScheduleTabs extends ActivityFragment implements TabLayout.OnTabSel
 
                 if(favoriteList.isEmpty()) {
                     String description = activity.getString(R.string.text_without_favorites);
-                    // switchFragment(BlankFragment.newInstance(description));
+                    switchFragment(BlankFragment.newInstance(description));
                 }
 
                 else {

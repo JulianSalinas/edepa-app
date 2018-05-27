@@ -16,7 +16,8 @@ import imagisoft.miscellaneous.DateConverter;
  * Es necesario colocar los resumenes después de haber creado el evento
  * De igual forma es necesario agregar los expositores después de crearlo
  */
-public class ScheduleEvent extends ScheduleBlock {
+public class ScheduleEvent extends ScheduleBlock
+        implements Comparable<ScheduleEvent> {
 
     /**
      * Atributos fundamentales
@@ -61,6 +62,21 @@ public class ScheduleEvent extends ScheduleBlock {
 
     }
 
+    public ScheduleEvent(String id, String start, String end,
+                         String location, String title, ScheduleEventType eventype,
+                         String briefSpanish, String briefEnglish){
+
+        super(start, end);
+        this.id = id;
+        this.title = title;
+        this.location = location;
+        this.eventype = eventype;
+        this.briefSpanish = briefSpanish;
+        this.briefEnglish = briefEnglish;
+        this.exhibitors = new ArrayList<>();
+
+    }
+
     /**
      * Getters de los atributos del evento
      */
@@ -82,6 +98,14 @@ public class ScheduleEvent extends ScheduleBlock {
 
     public List<Exhibitor> getExhibitors() {
         return exhibitors;
+    }
+
+    public void setBriefEnglish(String briefEnglish) {
+        this.briefEnglish = briefEnglish;
+    }
+
+    public void setBriefSpanish(String briefSpanish) {
+        this.briefSpanish = briefSpanish;
     }
 
     /**
@@ -145,6 +169,9 @@ public class ScheduleEvent extends ScheduleBlock {
         return gson.fromJson(event, ScheduleEvent.class);
     }
 
+    /**
+     * Un evento es el mismo si tiene el mismo id y el mismo título
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -159,10 +186,11 @@ public class ScheduleEvent extends ScheduleBlock {
         return Objects.hash(super.hashCode(), id);
     }
 
-    /**
-     * Un evento es el mismo si tiene el mismo id y el mismo título
-     */
 
+    @Override
+    public int compareTo(ScheduleEvent event) {
+        return getStart().compareTo(event.getStart());
+    }
 
     @Override
     public int describeContents() {
@@ -179,6 +207,8 @@ public class ScheduleEvent extends ScheduleBlock {
         dest.writeString(this.briefEnglish);
         dest.writeString(this.briefSpanish);
         dest.writeTypedList(this.exhibitors);
+        dest.writeValue(this.end);
+        dest.writeValue(this.start);
     }
 
     protected ScheduleEvent(Parcel in) {
@@ -191,10 +221,11 @@ public class ScheduleEvent extends ScheduleBlock {
         this.briefEnglish = in.readString();
         this.briefSpanish = in.readString();
         this.exhibitors = in.createTypedArrayList(Exhibitor.CREATOR);
+        this.end = (Long) in.readValue(Long.class.getClassLoader());
+        this.start = (Long) in.readValue(Long.class.getClassLoader());
     }
 
     public static final Creator<ScheduleEvent> CREATOR = new Creator<ScheduleEvent>() {
-
         @Override
         public ScheduleEvent createFromParcel(Parcel source) {
             return new ScheduleEvent(source);
@@ -204,7 +235,5 @@ public class ScheduleEvent extends ScheduleBlock {
         public ScheduleEvent[] newArray(int size) {
             return new ScheduleEvent[size];
         }
-
     };
-
 }

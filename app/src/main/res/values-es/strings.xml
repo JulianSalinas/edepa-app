@@ -132,7 +132,9 @@
     <string name="text_today">Hoy</string>
     <string name="search_title">Search</string>
     <string name="text_retry">RETRY</string>
-    <string name="text_alarm">Alarm will vibrate at time specified</string>
+    <string name="text_alarm">La alarma vibrará a la hora especificada</string>
     <string name="text_remainder">Recordatorio</string>
+    <string name="text_block">Bloque de </string>
+    <string name="text_without_events">No hay eventos</string>
 
 </resources>

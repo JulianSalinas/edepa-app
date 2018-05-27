@@ -132,6 +132,8 @@
     <string name="search_title">Search</string>
     <string name="text_retry">RETRY</string>
     <string name="text_alarm">Alarm will vibrate at </string>
-    <string name="text_remainder">Recordatorio</string>
+    <string name="text_remainder">Remainder</string>
+    <string name="text_block">Block</string>
+    <string name="text_without_events">No events available</string>
 
 </resources>

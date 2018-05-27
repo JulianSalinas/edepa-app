@@ -8,7 +8,7 @@ import imagisoft.edepa.FavoriteListener;
 import imagisoft.edepa.ScheduleEvent;
 
 
-public class PagerFragmentFavorites extends PagerFragment implements FavoriteListener{
+public class PagerFragmentFavorites extends PagerFragment {
 
 
     private FavoriteList favoriteList;
@@ -20,13 +20,20 @@ public class PagerFragmentFavorites extends PagerFragment implements FavoriteLis
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        this.favoriteList = FavoriteList.getInstance();
+        favoriteList = FavoriteList.getInstance();
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onActivityCreated(Bundle bundle) {
+        super.onActivityCreated(bundle);
+        favoriteList.addListener((FavoriteListener) adapter);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
         favoriteList.saveFavorites(activity);
+        favoriteList.removeListener((FavoriteListener) adapter);
     }
 
     /**
@@ -41,18 +48,7 @@ public class PagerFragmentFavorites extends PagerFragment implements FavoriteLis
             adapter = new PagerAdapterFavorites(this);
 
         pager.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 
-    }
-
-    @Override
-    public void onFavoriteAdded(ScheduleEvent event) {
-        Log.i("PagerFragmentFavorites", "Favorite added");
-    }
-
-    @Override
-    public void onFavoriteRemoved(ScheduleEvent event) {
-        Log.i("PagerFragmentFavorites", "favorite removed");
     }
 
 }

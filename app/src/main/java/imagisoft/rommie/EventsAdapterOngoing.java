@@ -2,6 +2,8 @@ package imagisoft.rommie;
 
 import android.util.Log;
 import imagisoft.edepa.ScheduleEvent;
+import imagisoft.miscellaneous.DateConverter;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ChildEventListener;
@@ -16,7 +18,16 @@ public class EventsAdapterOngoing
     }
 
     public void setupReference(){
-        fragment.activity.getOngoingReference().addChildEventListener(this);
+        fragment.activity
+                .getOngoingReference()
+                .addChildEventListener(this);
+    }
+
+    @Override
+    protected String getDateAsString(long start){
+        return fragment.activity
+                .getResources()
+                .getString(R.string.text_ongoing);
     }
 
     @Override
