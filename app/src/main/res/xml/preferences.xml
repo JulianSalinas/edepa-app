@@ -2,22 +2,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <imagisoft.rommie.ColorPicker
+    <imagisoft.modelview.ColorPicker
         android:defaultValue="@color/app_primary"
         android:key="app_primary"
         android:title="Color primario"/>
 
-    <imagisoft.rommie.ColorPicker
+    <imagisoft.modelview.ColorPicker
         android:defaultValue="@color/app_primary_dark"
         android:key="app_primary_dark"
         android:title="Color primario oscuro"/>
 
-    <imagisoft.rommie.ColorPicker
+    <imagisoft.modelview.ColorPicker
         android:defaultValue="@color/app_accent"
         android:key="app_accent"
         android:title="Color de acento"/>
 
-    <imagisoft.rommie.ColorPicker
+    <imagisoft.modelview.ColorPicker
         android:defaultValue="@color/app_accent_dark"
         android:key="app_accent_dark"
         android:title="Color de acento oscuro"/>
