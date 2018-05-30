@@ -2,6 +2,7 @@ package imagisoft.modelview;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.GridLayout;
 import android.widget.TextView;
 import android.text.util.Linkify;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +12,7 @@ import butterknife.BindView;
 import imagisoft.model.ScheduleEvent;
 
 
-public class ScheduleDetailBrief extends ExhibitorsFragment {
+public class ScheduleDetailBrief extends ActivityFragment {
 
     /**
      * Referencia al evento del que se muestran los detalles
@@ -29,6 +30,9 @@ public class ScheduleDetailBrief extends ExhibitorsFragment {
 
     @BindView(R.id.exhibitor_recycler_view)
     RecyclerView exhibitorsRecyclerView;
+
+    @BindView(R.id.grid_layout)
+    GridLayout grid;
 
     public ScheduleEvent getEvent() {
         return event;
@@ -65,6 +69,11 @@ public class ScheduleDetailBrief extends ExhibitorsFragment {
 
     }
 
+    @Override
+    public void setupResource() {
+        this.resource = R.layout.schedule_detail_focus;
+    }
+
     /**
      * Se configura la vista después de que la actividad se reinicia
      * ya sea por cambio de idioma o al girar la pantalla
@@ -77,6 +86,14 @@ public class ScheduleDetailBrief extends ExhibitorsFragment {
         setupExhibitorsView();
     }
 
+    @Override
+    public void setupActivityView() {
+        setTabLayoutVisibility(View.GONE);
+        setToolbarVisibility(View.GONE);
+//        setupAdapter();
+        setupExhibitorsView();
+//        grid.addView();
+    }
 
     /**
      * Coloca la información del evento en cada uno de los componentes
@@ -94,13 +111,13 @@ public class ScheduleDetailBrief extends ExhibitorsFragment {
      */
     public void setupExhibitorsView(){
 
-        if (exhibitorsAdapter == null)
-            exhibitorsAdapter = new ExhibitorsAdapter(this);
+//        if (exhibitorsAdapter == null)
+//            exhibitorsAdapter = new ExhibitorsAdapter(this);
 
         exhibitorsRecyclerView.setHasFixedSize(true);
         exhibitorsRecyclerView.setLayoutManager(new SmoothLayout(getActivity()));
         exhibitorsRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        exhibitorsRecyclerView.setAdapter(exhibitorsAdapter);
+//        exhibitorsRecyclerView.setAdapter(exhibitorsAdapter);
 
     }
 

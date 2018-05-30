@@ -31,8 +31,9 @@ import imagisoft.model.FavoriteList;
 import imagisoft.model.FavoriteListener;
 import imagisoft.model.Preferences;
 import imagisoft.model.ScheduleEvent;
+import imagisoft.services.AlarmReceiver;
+import imagisoft.services.AlarmService;
 
-import static imagisoft.modelview.DefaultColor.APP_ACCENT;
 import static imagisoft.modelview.DefaultColor.APP_PRIMARY;
 import static imagisoft.modelview.DefaultColor.APP_PRIMARY_DARK;
 

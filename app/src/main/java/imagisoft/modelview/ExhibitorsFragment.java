@@ -74,6 +74,7 @@ public class ExhibitorsFragment extends ActivityFragment
     private void setupSearchView(){
         searchView = getSearchView();
         searchView.setHint(getResources().getString(R.string.text_search));
+        searchView.setOnSearchViewListener(null);
         searchView.setOnQueryTextListener(this);
         searchView.setVoiceSearch(true);
         searchView.setVoiceIcon(getResources().getDrawable(R.drawable.ic_voice));
@@ -88,13 +89,15 @@ public class ExhibitorsFragment extends ActivityFragment
     @Override
     public void onPause() {
         super.onPause();
-        searchView.closeSearch();
+        if(searchView != null)
+            searchView.closeSearch();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        searchView.closeSearch();
+        if(searchView != null)
+            searchView.closeSearch();
     }
 
     /**

@@ -133,13 +133,32 @@ public abstract class ActivityClassic extends AppCompatActivity {
      * Crear y ejecuta la transacción para cambiar el fragmento
      * @param fragment: Fragmento a colocat en pantalla
      */
-    private void replaceFragment(Fragment fragment){
+    public void replaceFragment(Fragment fragment){
 
         getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null)
                 .replace(R.id.main_container, fragment)
                 .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
+                .commit();
+
+    }
+
+    public void overlapFragment(Fragment fragment){
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.main_container, fragment)
+                .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
+                .commit();
+
+    }
+
+    public void removeFragment(Fragment fragment){
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .remove(fragment)
                 .commit();
 
     }

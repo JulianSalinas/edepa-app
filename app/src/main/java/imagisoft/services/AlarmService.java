@@ -1,4 +1,4 @@
-package imagisoft.modelview;
+package imagisoft.services;
 
 import android.util.Log;
 

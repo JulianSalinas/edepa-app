@@ -53,14 +53,14 @@
 
         <service
             android:exported="false"
-            android:name=".AlarmService">
+            android:name="imagisoft.services.AlarmService">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
             </intent-filter>
         </service>
 
         <receiver
-            android:name=".AlarmReceiver"
+            android:name="imagisoft.services.AlarmReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name=".AlarmBroadcastReceiver"/>

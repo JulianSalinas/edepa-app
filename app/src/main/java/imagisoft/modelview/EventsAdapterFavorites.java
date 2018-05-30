@@ -6,6 +6,8 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
+import java.util.Collections;
+
 import imagisoft.model.FavoriteList;
 import imagisoft.model.FavoriteListener;
 import imagisoft.model.ScheduleEvent;
@@ -49,17 +51,33 @@ public class EventsAdapterFavorites
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
         if (event != null && favoriteList.contains(event)) {
+
             int index = events.indexOf(event);
 
-            if(DateConverter.atStartOfDay(events.get(index).getStart())
-                    .equals(DateConverter.atStartOfDay(event.getStart()))){
+            if(index == -1){
 
-                events.remove(index);
-                notifyItemRemoved(index);
+                index = Collections.binarySearch(events, event);
+
+                if (index >= 0){
+                    events.add(index, event);
+                    notifyItemInserted(index);
+                }
+
+                else {
+                    events.add(-index - 1, event);
+                    notifyItemInserted(-index - 1);
+                }
+
             }
-            else {
+
+            else if(DateConverter.atStartOfDay(events.get(index).getStart())
+                    .equals(DateConverter.atStartOfDay(event.getStart()))){
                 events.set(index, event);
                 notifyItemChanged(index);
+            }
+            else {
+                events.remove(index);
+                notifyItemRemoved(index);
             }
 
             fragment.showStatusMessage("Un evento en tus favoritos ha sido actualizado");

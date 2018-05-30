@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -41,7 +40,8 @@
                             android:id="@+id/exhibitor_avatar_view"
                             android:layout_width="@dimen/avatar_small_width"
                             android:layout_height="@dimen/avatar_small_height"
-                            android:layout_margin="@dimen/space_medium"/>
+                            android:layout_margin="@dimen/space_medium"
+                            android:backgroundTint="@color/material_grey"/>
 
                         <RelativeLayout
                             android:layout_width="match_parent"

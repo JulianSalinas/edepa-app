@@ -1,0 +1,19 @@
+<RelativeLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="@color/app_overlay"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/events_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:paddingStart="@dimen/space_smallest"
+        android:paddingEnd="@dimen/space_smallest"
+        tools:listitem="@layout/schedule_item"
+        android:scrollbarStyle="outsideInset"
+        android:tag=":aesthetic_ignore"/>
+
+</RelativeLayout>

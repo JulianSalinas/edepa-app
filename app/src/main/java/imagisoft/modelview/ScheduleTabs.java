@@ -48,6 +48,7 @@ public class ScheduleTabs extends ActivityFragment implements TabLayout.OnTabSel
     private EventsFragment ongoingFragment;
     private PagerFragmentSchedule scheduleFragment;
     private PagerFragmentFavorites favoritesFragment;
+    private EventsFragmentSearch searchFragment;
 
     private FavoriteList favoriteList;
 
@@ -114,10 +115,50 @@ public class ScheduleTabs extends ActivityFragment implements TabLayout.OnTabSel
         favoriteList = FavoriteList.getInstance();
         getTabLayout().addOnTabSelectedListener(this);
 
-//        tabLayout = getTabLayout();
         searchView = getSearchView();
         searchView.setHint(getResources().getString(R.string.text_search));
-//        searchView.setOnQueryTextListener(this);
+
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+
+            @Override
+            public void onSearchViewShown() {
+
+                if(searchFragment == null)
+                    searchFragment = new EventsFragmentSearch();
+
+                getChildFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.tabs_container, searchFragment)
+                        .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
+                        .commit();
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+
+                getChildFragmentManager()
+                        .beginTransaction()
+                        .remove(searchFragment)
+                        .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
+                        .commit();
+            }
+
+        });
+
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return searchFragment.onQueryTextSubmit(query);
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return searchFragment != null && searchFragment.onQueryTextChange(newText);
+            }
+
+        });
+
         searchView.setVoiceSearch(true);
         searchView.setVoiceIcon(getResources().getDrawable(R.drawable.ic_voice));
         searchView.setCursorDrawable(R.drawable.custom_cursor);

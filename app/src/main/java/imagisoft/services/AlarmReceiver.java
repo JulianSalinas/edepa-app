@@ -1,4 +1,4 @@
-package imagisoft.modelview;
+package imagisoft.services;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -14,6 +14,8 @@ import android.support.v4.app.NotificationCompat;
 
 import imagisoft.model.Preferences;
 import imagisoft.model.ScheduleEvent;
+import imagisoft.modelview.ActivityNavigation;
+import imagisoft.modelview.R;
 
 public class AlarmReceiver extends BroadcastReceiver {
 

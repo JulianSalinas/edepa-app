@@ -1,7 +1,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/app_white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,8 +8,12 @@
         android:id="@+id/messages_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingStart="@dimen/space_smallest"
+        android:paddingEnd="@dimen/space_smallest"
         android:scrollbars="vertical"
-        tools:listitem="@layout/news_item">
+        android:scrollbarStyle="outsideInset"
+        tools:listitem="@layout/news_item"
+        android:tag=":aesthetic_ignore">
     </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

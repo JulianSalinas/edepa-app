@@ -1,5 +1,6 @@
 package imagisoft.modelview;
 
+import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
 
 
@@ -33,9 +34,16 @@ public class NewsFragment extends MessagesFragment {
 
         if(messagesVA == null) {
             messagesVA = new NewsAdapter(this);
+            setupSeparator();
             registerAdapterDataObserver();
         }
 
+    }
+
+    public void setupSeparator(){
+        messagesRV.addItemDecoration(
+                new DividerItemDecoration(activity,
+                DividerItemDecoration.VERTICAL));
     }
 
 }
