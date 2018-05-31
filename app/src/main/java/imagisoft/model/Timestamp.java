@@ -62,18 +62,4 @@ public class Timestamp implements Parcelable {
         this.time = (Long) in.readValue(Long.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Timestamp> CREATOR = new Parcelable.Creator<Timestamp>() {
-
-        @Override
-        public Timestamp createFromParcel(Parcel source) {
-            return new Timestamp(source);
-        }
-
-        @Override
-        public Timestamp[] newArray(int size) {
-            return new Timestamp[size];
-        }
-
-    };
-
 }

@@ -121,10 +121,10 @@ public class ExhibitorsFragment extends ActivityFragment
         exhibitorsRV.setItemAnimator(new DefaultItemAnimator());
         exhibitorsRV.setAdapter(exhibitorsAdapter);
 
-        // Efecto visual para dividir a los expositores
-        exhibitorsRV.addItemDecoration(
-                new DividerItemDecoration(activity,
-                DividerItemDecoration.VERTICAL));
+//        // Efecto visual para dividir a los expositores
+//        exhibitorsRV.addItemDecoration(
+//                new DividerItemDecoration(activity,
+//                DividerItemDecoration.VERTICAL));
 
     }
 

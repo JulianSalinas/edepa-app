@@ -137,4 +137,31 @@
     <string name="text_block">Bloque de </string>
     <string name="text_without_events">No hay eventos</string>
 
+    <!-- Date Util -->
+    <string name="date_util_term_less">justo</string>
+    <string name="date_util_term_a">un</string>
+    <string name="date_util_term_an">un</string>
+
+    <string name="date_util_unit_second">segundo</string>
+    <string name="date_util_unit_seconds">segundos</string>
+    <string name="date_util_unit_minute">minuto</string>
+    <string name="date_util_unit_minutes">minutos</string>
+    <string name="date_util_unit_hour">hora</string>
+    <string name="date_util_unit_hours">horas</string>
+    <string name="date_util_unit_day">día</string>
+    <string name="date_util_unit_days">días</string>
+    <string name="date_util_unit_month">mes</string>
+    <string name="date_util_unit_months">meses</string>
+    <string name="date_util_unit_year">año</string>
+    <string name="date_util_unit_years">años</string>
+
+    <string name="date_util_prefix_lt">menos de</string>
+    <string name="date_util_prefix_about">hace</string>
+    <string name="date_util_prefix_over">sobre</string>
+    <string name="date_util_prefix_almost">casi</string>
+
+    <string name="date_util_suffix">atrás</string>
+    <string name="date_util_just_now">justo ahora</string>
+    <string name="text_seen">vistos</string>
+
 </resources>

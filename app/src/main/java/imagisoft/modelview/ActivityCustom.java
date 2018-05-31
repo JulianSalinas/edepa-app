@@ -31,6 +31,7 @@ import imagisoft.model.FavoriteList;
 import imagisoft.model.FavoriteListener;
 import imagisoft.model.Preferences;
 import imagisoft.model.ScheduleEvent;
+import imagisoft.model.ViewedList;
 import imagisoft.services.AlarmReceiver;
 import imagisoft.services.AlarmService;
 
@@ -90,18 +91,10 @@ public abstract class ActivityCustom extends ActivityClassic
         setLanguage();
         setupDispatcher();
         setupFavoriteList();
+        ViewedList.getInstance().load(this);
         super.onCreate(bundle);
 
     }
-
-    /**
-     * Se da color a las partes de la aplicación que no pueden ser cambiadas
-     * por la librería aesthetics de forma automática.
-     */
-//    private void setTheme(){
-//        getWindow().setStatusBarColor(getDefaultColor(APP_PRIMARY));
-//        getWindow().setNavigationBarColor(getDefaultColor(APP_ACCENT));
-//    }
 
     private void setTheme() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -110,11 +103,12 @@ public abstract class ActivityCustom extends ActivityClassic
         getWindow().setStatusBarColor(primaryDark);
         getWindow().setNavigationBarColor(primaryColor);
     }
-        /**
-         * Usada por settheme para obtener los colores por defecto
-         * @param defaultColor: DefaultColor  de la aplicación
-         * @return color por defecto en DefaultColor
-         */
+
+    /**
+     * Usada por settheme para obtener los colores por defecto
+     * @param defaultColor: DefaultColor  de la aplicación
+     * @return color por defecto en DefaultColor
+     */
     private int getDefaultColor(DefaultColor defaultColor){
         return PreferenceManager
                 .getDefaultSharedPreferences(this)
@@ -171,6 +165,7 @@ public abstract class ActivityCustom extends ActivityClassic
     protected void onDestroy() {
         favoriteList.removeAllListeners();
         favoriteList.saveFavorites(this);
+        ViewedList.getInstance().save(this);
         super.onDestroy();
         Log.i("ActivityCustom::", "onDestroy");
     }

@@ -193,7 +193,7 @@ public class ActivityNavigation extends ActivityFirebase
             tabs.setCurrentTab(1);
             switchFragment(independentFragments.get(R.id.nav_schedule));
         }
-        onBackPressed();
+//        onBackPressed();
 //        long currentTime = System.currentTimeMillis();
 ////        long nowPlus5Minutes = currentTime + TimeUnit.MINUTES.toMillis(5);
 //        long eventStart = new Date(currentTime + 5 * 60 * 1000).getTime();

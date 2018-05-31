@@ -7,6 +7,7 @@ import android.text.util.Linkify;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -108,10 +109,14 @@ public abstract class MessagesAdapter
         holder.msgUsername.setText(msg.getUsername());
         holder.msgContent.setText(msg.getContent());
 
-        String timedescription = DateConverter.extractTime(msg.getTime());
+        String timedescription = setTimeDescription(msg);
         holder.msgTimeDescription.setText(timedescription);
-        Linkify.addLinks(holder.msgContent, Linkify.WEB_URLS);
+        Linkify.addLinks(holder.msgContent, Linkify.ALL);
 
+    }
+
+    protected String setTimeDescription(Message msg){
+        return DateConverter.extractTime(msg.getTime());
     }
 
     /**

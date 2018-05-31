@@ -46,5 +46,12 @@
         <item name="android:layout_height">match_parent</item>
     </style>
 
+    <style name="YaheiLightTextAppearance">
+        <item name="android:fontFamily">@font/yahei_light</item>
+    </style>
+
+    <style name="YaheiBoldTextAppearance">
+        <item name="android:fontFamily">@font/yahei_bold</item>
+    </style>
 
 </resources>

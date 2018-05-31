@@ -44,34 +44,39 @@ public abstract class MessagesAdapterOnline
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
         Message receivedMessage = dataSnapshot.getValue(Message.class);
         if (receivedMessage != null){
+            receivedMessage.setKey(dataSnapshot.getKey());
             msgs.add(receivedMessage);
             notifyItemInserted(msgs.size()-1);
         }
-
     }
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
         Message receivedMessage = dataSnapshot.getValue(Message.class);
-        int index = msgs.indexOf(receivedMessage);
-        msgs.set(index, receivedMessage);
-        notifyItemChanged(index);
+        if (receivedMessage != null){
+            receivedMessage.setKey(dataSnapshot.getKey());
+            int index = msgs.indexOf(receivedMessage);
+            msgs.set(index, receivedMessage);
+            notifyItemChanged(index);
+        }
     }
 
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
         Message receivedMessage = dataSnapshot.getValue(Message.class);
-        int index = msgs.indexOf(receivedMessage);
-        msgs.remove(receivedMessage);
-        notifyItemRemoved(index);
+        if (receivedMessage != null){
+            receivedMessage.setKey(dataSnapshot.getKey());
+            int index = msgs.indexOf(receivedMessage);
+            msgs.remove(receivedMessage);
+            notifyItemRemoved(index);
+        }
     }
 
     @Override
     public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-        // No requerido
+        Log.i(view.getTag(), s);
     }
 
     @Override
