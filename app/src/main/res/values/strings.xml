@@ -161,6 +161,9 @@
 
     <string name="date_util_suffix">ago</string>
     <string name="date_util_just_now">just now</string>
-    <string name="text_seen">seen</string>
+
+    <string name="text_single_viewed">viewed</string>
+    <string name="text_viewed">viewed</string>
+    <string name="text_not_viewed">no viewed</string>
 
 </resources>

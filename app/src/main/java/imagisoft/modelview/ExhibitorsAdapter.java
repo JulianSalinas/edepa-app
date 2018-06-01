@@ -169,6 +169,7 @@ public class ExhibitorsAdapter extends RecyclerView.Adapter
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
         if(event != null && event.getExhibitors() != null){
+            event.setId(dataSnapshot.getKey());
             for(Exhibitor exhibitor: event.getExhibitors()){
                 if(!exhibitors.contains(exhibitor)){
                     int index = Collections.binarySearch(exhibitors, exhibitor);
@@ -185,6 +186,7 @@ public class ExhibitorsAdapter extends RecyclerView.Adapter
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
         if(event != null && event.getExhibitors() != null){
+            event.setId(dataSnapshot.getKey());
             for(Exhibitor exhibitor: event.getExhibitors()){
                 if(exhibitors.contains(exhibitor)){
                     int index = exhibitors.indexOf(exhibitor);
@@ -204,6 +206,7 @@ public class ExhibitorsAdapter extends RecyclerView.Adapter
     public void onChildRemoved(DataSnapshot dataSnapshot) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
         if(event != null && event.getExhibitors() != null){
+            event.setId(dataSnapshot.getKey());
             for(Exhibitor exhibitor: event.getExhibitors()){
                 if(exhibitors.contains(exhibitor)){
                     int index = exhibitors.indexOf(exhibitor);

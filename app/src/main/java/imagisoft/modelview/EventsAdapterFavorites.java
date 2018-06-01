@@ -40,6 +40,7 @@ public class EventsAdapterFavorites
 
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
         if (event != null && events.contains(event)) {
+            event.setId(dataSnapshot.getKey());
             int index = events.indexOf(event);
             events.set(index, event);
             notifyItemChanged(index);
@@ -52,6 +53,7 @@ public class EventsAdapterFavorites
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
         if (event != null && favoriteList.contains(event)) {
 
+            event.setId(dataSnapshot.getKey());
             int index = events.indexOf(event);
 
             if(index == -1){
@@ -88,6 +90,7 @@ public class EventsAdapterFavorites
     public void onChildRemoved(DataSnapshot dataSnapshot) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
         if (event != null && favoriteList.contains(event)) {
+            event.setId(dataSnapshot.getKey());
             int index = events.indexOf(event);
             events.remove(index);
             notifyItemRemoved(index);

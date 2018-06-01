@@ -15,12 +15,34 @@
         android:padding="@dimen/space_small"
         android:columnCount="2">
 
-        <ImageView
+        <RelativeLayout
             android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="2dp"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_edepa" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/msg_read_check"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="2dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_check"
+                android:tag=":aesthetic_ignore"/>
+
+            <TextView
+                android:id="@+id/msg_read_check_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/msg_read_check"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/font_smallest"
+                android:textAlignment="center"
+                android:textColor="@color/app_special_font"
+                android:fontFamily="sans-serif-light"
+                tools:ignore="RelativeOverlap"
+                tools:text="no visto"
+                android:tag=":aesthetic_ignore"/>
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

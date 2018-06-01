@@ -6,7 +6,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 
 
-public abstract class ActivityFirebase extends ActivityCustom {
+public abstract class ActivityFirebase extends ActivityClassic {
 
     /**
      * Conexión con Firebase

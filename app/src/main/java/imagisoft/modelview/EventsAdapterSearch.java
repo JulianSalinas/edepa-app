@@ -120,22 +120,31 @@ class EventsAdapterSearch extends EventsAdapterOngoing implements MaterialSearch
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
-        int index = eventsHolder.size();
-        eventsHolder.add(index, event);
+        if(event != null) {
+            event.setId(dataSnapshot.getKey());
+            int index = eventsHolder.size();
+            eventsHolder.add(index, event);
+        }
     }
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
-        int index = eventsHolder.indexOf(event);
-        eventsHolder.set(index, event);
+        if (event != null){
+            event.setId(dataSnapshot.getKey());
+            int index = eventsHolder.indexOf(event);
+            eventsHolder.set(index, event);
+        }
     }
 
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
-        int index = eventsHolder.indexOf(event);
-        eventsHolder.remove(index);
+        if(event != null) {
+            event.setId(dataSnapshot.getKey());
+            int index = eventsHolder.indexOf(event);
+            eventsHolder.remove(index);
+        }
     }
 
     @Override

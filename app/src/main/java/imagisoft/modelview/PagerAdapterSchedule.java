@@ -34,7 +34,10 @@ public class PagerAdapterSchedule
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
-        if (event != null) addPageIfNotExists(event);
+        if (event != null) {
+            event.setId(dataSnapshot.getKey());
+            addPageIfNotExists(event);
+        }
     }
 
     @Override
@@ -42,6 +45,7 @@ public class PagerAdapterSchedule
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
         if (event != null){
 
+            event.setId(dataSnapshot.getKey());
             int index = alreadyPagedEvents.indexOf(event);
             ScheduleEvent original = alreadyPagedEvents.get(index);
 
@@ -58,7 +62,10 @@ public class PagerAdapterSchedule
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
-        if (event != null) removePageIfLast(event);
+        if (event != null) {
+            event.setId(dataSnapshot.getKey());
+            removePageIfLast(event);
+        }
     }
 
     @Override

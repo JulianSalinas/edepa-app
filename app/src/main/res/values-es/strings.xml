@@ -162,6 +162,9 @@
 
     <string name="date_util_suffix">atrás</string>
     <string name="date_util_just_now">justo ahora</string>
-    <string name="text_seen">vistos</string>
+
+    <string name="text_single_viewed">visto</string>
+    <string name="text_viewed">vistos</string>
+    <string name="text_not_viewed">no visto</string>
 
 </resources>

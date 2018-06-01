@@ -152,7 +152,8 @@ public class EventsAdapter
         * Función ejecutada al presionar el botón "readmore" de una actividad
         */
         holder.readmore.setOnClickListener(v ->
-             fragment.switchFragment(ScheduleDetailPager.newInstance(event))
+//             fragment.switchFragment(ScheduleDetailPager.newInstance(event))
+                fragment.switchFragment(ScheduleDetail.newInstance(event))
         );
 
         /*

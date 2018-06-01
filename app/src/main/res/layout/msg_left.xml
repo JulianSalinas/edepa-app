@@ -34,6 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_small"
                     android:textStyle="bold"
+                    android:textColor="@color/material_blue_grey"
                     android:text="@string/app_name" />
 
                 <TextView

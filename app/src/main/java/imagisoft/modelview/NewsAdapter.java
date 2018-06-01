@@ -1,9 +1,12 @@
 package imagisoft.modelview;
 
+import android.content.res.ColorStateList;
+import android.support.v4.widget.ImageViewCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -78,38 +81,89 @@ public class NewsAdapter extends MessagesAdapterOnline {
         ViewedList viewedList = ViewedList.getInstance();
         Message msg = msgs.get(holder.getAdapterPosition());
 
-        String textReadAmount = String.valueOf(msg.getSeenAmount()) + " " + view.getString(R.string.text_seen);
+        String textReadAmount = String.valueOf(msg.getSeenAmount()) + " " + view.getString(R.string.text_viewed);
         ((NewVH) holder).msgReadAmount.setText(textReadAmount);
 
+        ((NewVH) holder).msgReadCheck.setOnClickListener(v -> {
+
+            if(!viewedList.isRead(msg)){
+                viewedList.markAsRead(msg);
+
+                int color = view.getResources().getColor(R.color.material_light_blue);
+                ImageViewCompat.setImageTintList(((NewVH) holder).msgReadCheck, ColorStateList.valueOf(color));
+                ((NewVH) holder).msgReadCheckText.setText(view.getResources().getString(R.string.text_single_viewed));
+
+                view.activity.
+                        getNewsReference()
+                        .child(msg.getKey())
+                        .runTransaction(new Transaction.Handler() {
+
+                            @Override
+                            public Transaction.Result doTransaction(MutableData mutableData) {
+                                Message msg1 = mutableData.getValue(Message.class);
+
+                                if (msg1 == null)
+                                    return Transaction.success(mutableData);
+                                else {
+                                    msg1.setSeenAmount(msg1.getSeenAmount() + 1);
+                                }
+
+                                mutableData.setValue(msg1);
+                                Log.i("NewsAdapter::", "seenAmountUpdated::" + String.valueOf(msg1.getSeenAmount()));
+                                return Transaction.success(mutableData);
+                            }
+
+                            @Override
+                            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                                Log.d("NewsAdapter", "postTransaction:onComplete:" + databaseError);
+                            }
+                        });
+
+            }
+            else {
+                viewedList.unmarkAsRead(msg);
+
+                int color = view.getResources().getColor(R.color.material_grey);
+                ImageViewCompat.setImageTintList(((NewVH) holder).msgReadCheck, ColorStateList.valueOf(color));
+                ((NewVH) holder).msgReadCheckText.setText(view.getResources().getString(R.string.text_not_viewed));
+
+                view.activity.
+                        getNewsReference()
+                        .child(msg.getKey())
+                        .runTransaction(new Transaction.Handler() {
+
+                            @Override
+                            public Transaction.Result doTransaction(MutableData mutableData) {
+                                Message msg1 = mutableData.getValue(Message.class);
+
+                                if (msg1 == null)
+                                    return Transaction.success(mutableData);
+                                else {
+                                    msg1.setSeenAmount(msg1.getSeenAmount() - 1);
+                                }
+
+                                mutableData.setValue(msg1);
+                                Log.i("NewsAdapter::", "seenAmountUpdated::" + String.valueOf(msg1.getSeenAmount()));
+                                return Transaction.success(mutableData);
+                            }
+
+                            @Override
+                            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                                Log.d("NewsAdapter", "postTransaction:onComplete:" + databaseError);
+                            }
+                        });
+            }
+        });
+
         if(!viewedList.isRead(msg)){
-            viewedList.markAsRead(msg);
-
-            view.activity.
-                    getNewsReference()
-                    .child(msg.getKey())
-                    .runTransaction(new Transaction.Handler() {
-
-                @Override
-                public Transaction.Result doTransaction(MutableData mutableData) {
-                    Message msg = mutableData.getValue(Message.class);
-
-                    if (msg == null)
-                        return Transaction.success(mutableData);
-                    else {
-                        msg.setSeenAmount(msg.getSeenAmount() + 1);
-                    }
-
-                    mutableData.setValue(msg);
-                    Log.i("NewsAdapter::", "seenAmountUpdated::" + String.valueOf(msg.getSeenAmount()));
-                    return Transaction.success(mutableData);
-                }
-
-                @Override
-                public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
-                    Log.d("NewsAdapter", "postTransaction:onComplete:" + databaseError);
-                }
-            });
-
+            int color = view.getResources().getColor(R.color.material_grey);
+            ImageViewCompat.setImageTintList(((NewVH) holder).msgReadCheck, ColorStateList.valueOf(color));
+            ((NewVH) holder).msgReadCheckText.setText(view.getResources().getString(R.string.text_not_viewed));
+        }
+        else {
+            int color = view.getResources().getColor(R.color.material_light_blue);
+            ImageViewCompat.setImageTintList(((NewVH) holder).msgReadCheck, ColorStateList.valueOf(color));
+            ((NewVH) holder).msgReadCheckText.setText(view.getResources().getString(R.string.text_single_viewed));
         }
 
     }
@@ -118,6 +172,12 @@ public class NewsAdapter extends MessagesAdapterOnline {
 
         @BindView(R.id.msg_read_amount)
         TextView msgReadAmount;
+
+        @BindView(R.id.msg_read_check)
+        ImageView msgReadCheck;
+
+        @BindView(R.id.msg_read_check_text)
+        TextView msgReadCheckText;
 
         NewVH(View view) {
             super(view);

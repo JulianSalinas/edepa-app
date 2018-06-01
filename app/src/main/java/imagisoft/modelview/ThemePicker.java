@@ -77,7 +77,7 @@ public class ThemePicker extends PreferenceFragmentCompat
      */
     @Override
     public void onCreatePreferences(Bundle bundle, String rootKey) {
-        setPreferencesFromResource(R.xml.preferences, rootKey);
+        setPreferencesFromResource(R.xml.color_preferences, rootKey);
         for(DefaultColor color: DefaultColor.values())
             findPreference(color.toString()).setOnPreferenceClickListener(this);
     }

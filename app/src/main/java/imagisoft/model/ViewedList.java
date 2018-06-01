@@ -67,6 +67,14 @@ public class ViewedList extends Preferences {
         }
     }
 
+    public void unmarkAsRead(Message newMsg){
+        String key = newMsg.getKey();
+        if(keys.contains(key)) {
+            keys.remove(key);
+            Log.i("ViewedList::", "removeNew::" + key);
+        }
+    }
+
     /**
      * Carga la lista de favoritos en la variable 'events' de éste objeto
      * a partir delarchivo de preferencias.

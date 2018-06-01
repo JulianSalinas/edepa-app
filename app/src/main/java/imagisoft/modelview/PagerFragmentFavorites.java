@@ -26,18 +26,6 @@ public class PagerFragmentFavorites extends PagerFragment {
         super.onActivityCreated(bundle);
         favoriteList.addListener((FavoriteListener) adapter);
     }
-//
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//        favoriteList.removeListener((FavoriteListener) adapter);
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        favoriteList.saveFavorites(activity);
-//    }
 
     /**
      * Obtiene los eventos, extrae todos los días que componen los eventos

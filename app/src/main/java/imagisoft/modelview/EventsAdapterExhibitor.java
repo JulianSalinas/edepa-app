@@ -59,6 +59,7 @@ class EventsAdapterExhibitor
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
+        event.setId(dataSnapshot.getKey());
         int index = events.indexOf(event);
         if(index != -1) {
             events.set(index, event);
@@ -69,6 +70,7 @@ class EventsAdapterExhibitor
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
+        event.setId(dataSnapshot.getKey());
         int index = events.indexOf(event);
         if(index != -1) {
             events.remove(index);

@@ -1,10 +1,18 @@
 package imagisoft.modelview;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
+
+import imagisoft.misc.ColorGenerator;
 import imagisoft.model.Message;
+import imagisoft.model.ViewedList;
 
 
 public class ChatAdapter extends MessagesAdapterOnline {
@@ -79,5 +87,19 @@ public class ChatAdapter extends MessagesAdapterOnline {
                 new MessageVH(view): new MessageVHWS(view);
 
     }
+
+    @Override
+    public void onBindViewHolder(MessageVH holder, int position) {
+
+        super.onBindViewHolder(holder, position);
+        Message msg = msgs.get(holder.getAdapterPosition());
+
+        int color = ColorGenerator.MATERIAL.getColor(msg.getUsername());
+        holder.msgUsername.setTextColor(color);
+
+        Log.i("ChatAdapter::", "Cambiando color del nombre");
+
+    }
+
 
 }

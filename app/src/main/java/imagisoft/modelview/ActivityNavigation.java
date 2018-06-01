@@ -18,7 +18,7 @@ import com.firebase.ui.auth.AuthUI;
 import java.util.HashMap;
 
 
-public class ActivityNavigation extends ActivityFirebase
+public class ActivityNavigation extends ActivityCustom
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener{
 
     /**

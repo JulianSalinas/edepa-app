@@ -1,13 +1,10 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-
         <item name="colorPrimary">@color/app_white</item>
         <item name="colorPrimaryDark">@color/app_primary_dark</item>
         <item name="colorAccent">@color/app_accent</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
-
     </style>
 
     <style name="AppTheme.SplashTheme">
@@ -25,33 +22,6 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-    </style>
-
-    <!-- Dividers themes. Its used by lists in the app -->
-
-    <style name="divider">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">15dp</item>
-        <item name="android:background">@color/app_detail_light</item>
-    </style>
-
-    <style name="table_divider">
-        <item name="android:layout_width">@dimen/space_smallest</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@color/app_white</item>
-    </style>
-
-    <style name="table_divider_invisible">
-        <item name="android:layout_width">1dip</item>
-        <item name="android:layout_height">match_parent</item>
-    </style>
-
-    <style name="YaheiLightTextAppearance">
-        <item name="android:fontFamily">@font/yahei_light</item>
-    </style>
-
-    <style name="YaheiBoldTextAppearance">
-        <item name="android:fontFamily">@font/yahei_bold</item>
     </style>
 
 </resources>

@@ -34,6 +34,8 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>,Parcelable {
     protected Long end;
     protected Long start;
 
+    protected int favoritesAmount;
+
     /**
      * Getters y Setters de las fechas
      */
@@ -85,6 +87,14 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>,Parcelable {
         this.start = start;
     }
 
+    public int getFavoritesAmount() {
+        return favoritesAmount;
+    }
+
+    public void setFavoritesAmount(int favoritesAmount) {
+        this.favoritesAmount = favoritesAmount;
+    }
+
     public String getBriefEnglish() {
         return briefEnglish;
     }
@@ -130,7 +140,7 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>,Parcelable {
 
     public ScheduleEvent(String id, String title, String location,
                          ScheduleEventType eventype, Long end, Long start,
-                         String briefEnglish, String briefSpanish) {
+                         String briefEnglish, String briefSpanish, int favoritesAmount) {
         this.id = id;
         this.title = title;
         this.location = location;
@@ -139,6 +149,7 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>,Parcelable {
         this.start = start;
         this.briefEnglish = briefEnglish;
         this.briefSpanish = briefSpanish;
+        this.favoritesAmount = favoritesAmount;
     }
 
     /**
@@ -223,6 +234,7 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>,Parcelable {
         return getStart().compareTo(event.getStart());
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -236,6 +248,7 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>,Parcelable {
         dest.writeInt(this.eventype == null ? -1 : this.eventype.ordinal());
         dest.writeValue(this.end);
         dest.writeValue(this.start);
+        dest.writeInt(this.favoritesAmount);
         dest.writeString(this.briefEnglish);
         dest.writeString(this.briefSpanish);
         dest.writeTypedList(this.exhibitors);
@@ -249,12 +262,13 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>,Parcelable {
         this.eventype = tmpEventype == -1 ? null : ScheduleEventType.values()[tmpEventype];
         this.end = (Long) in.readValue(Long.class.getClassLoader());
         this.start = (Long) in.readValue(Long.class.getClassLoader());
+        this.favoritesAmount = in.readInt();
         this.briefEnglish = in.readString();
         this.briefSpanish = in.readString();
         this.exhibitors = in.createTypedArrayList(Exhibitor.CREATOR);
     }
 
-    public static final Parcelable.Creator<ScheduleEvent> CREATOR = new Parcelable.Creator<ScheduleEvent>() {
+    public static final Creator<ScheduleEvent> CREATOR = new Creator<ScheduleEvent>() {
         @Override
         public ScheduleEvent createFromParcel(Parcel source) {
             return new ScheduleEvent(source);

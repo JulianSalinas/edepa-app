@@ -15,8 +15,7 @@ public class EventsFragmentSchedule extends EventsFragmentWithDate {
 
     @Override
     protected void setupAdapter() {
-        if(eventsVA == null)
-            eventsVA = new EventsAdapterSchedule(this);
+        eventsVA = new EventsAdapterSchedule(this);
     }
 
 }

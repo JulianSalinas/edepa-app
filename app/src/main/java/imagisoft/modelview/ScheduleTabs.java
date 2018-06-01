@@ -160,8 +160,6 @@ public class ScheduleTabs extends ActivityFragment implements TabLayout.OnTabSel
         });
 
         searchView.setVoiceSearch(true);
-        searchView.setVoiceIcon(getResources().getDrawable(R.drawable.ic_voice));
-        searchView.setCursorDrawable(R.drawable.custom_cursor);
         searchView.setEllipsize(true);
 
         if(bundle != null)

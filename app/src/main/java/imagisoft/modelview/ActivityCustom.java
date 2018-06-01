@@ -1,5 +1,6 @@
 package imagisoft.modelview;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -21,6 +22,11 @@ import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.Lifetime;
 import com.firebase.jobdispatcher.RetryStrategy;
 import com.firebase.jobdispatcher.Trigger;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.Locale;
@@ -41,7 +47,7 @@ import static imagisoft.modelview.DefaultColor.APP_PRIMARY_DARK;
 /**
  * Clase análoga al masterpage de un página web
  */
-public abstract class ActivityCustom extends ActivityClassic
+public abstract class ActivityCustom extends ActivityFirebase
         implements NavigationView.OnNavigationItemSelectedListener, FavoriteListener {
 
     /**
@@ -91,7 +97,6 @@ public abstract class ActivityCustom extends ActivityClassic
         setLanguage();
         setupDispatcher();
         setupFavoriteList();
-        ViewedList.getInstance().load(this);
         super.onCreate(bundle);
 
     }
@@ -154,20 +159,7 @@ public abstract class ActivityCustom extends ActivityClassic
      */
     private void setupFavoriteList(){
         favoriteList = FavoriteList.getInstance();
-        favoriteList.loadFavorites(this);
         favoriteList.addListener(this);
-    }
-
-    /**
-     * Al cerrar la aplicación se guarda la lista de favoritos
-     */
-    @Override
-    protected void onDestroy() {
-        favoriteList.removeAllListeners();
-        favoriteList.saveFavorites(this);
-        ViewedList.getInstance().save(this);
-        super.onDestroy();
-        Log.i("ActivityCustom::", "onDestroy");
     }
 
     /**
@@ -197,8 +189,33 @@ public abstract class ActivityCustom extends ActivityClassic
      */
     @Override
     public void onFavoriteAdded(ScheduleEvent event) {
-        // startAlarmAtParticularTime(event);
-        // showStatusMessage(R.string.text_marked_as_favorite);
+
+        DatabaseReference eventReference = getScheduleReference().child(event.getId());
+
+        eventReference.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                ScheduleEvent event = mutableData.getValue(ScheduleEvent.class);
+
+                if (event == null)
+                    return Transaction.success(mutableData);
+                else {
+                    event.setFavoritesAmount(event.getFavoritesAmount() + 1);
+                }
+
+                mutableData.setValue(event);
+                Log.i("ActivityCustom::", "favoritesAmountUpdated::" +
+                        String.valueOf(event.getFavoritesAmount()));
+
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+            }
+        });
+
     }
 
     /**
@@ -207,7 +224,33 @@ public abstract class ActivityCustom extends ActivityClassic
      */
     @Override
     public void onFavoriteRemoved(ScheduleEvent event) {
-        showStatusMessage(R.string.text_unmarked_as_favorite);
+
+        DatabaseReference eventReference = getScheduleReference().child(event.getId());
+
+        eventReference.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                ScheduleEvent event = mutableData.getValue(ScheduleEvent.class);
+
+                if (event == null)
+                    return Transaction.success(mutableData);
+                else {
+                    event.setFavoritesAmount(event.getFavoritesAmount() - 1);
+                }
+
+                mutableData.setValue(event);
+                Log.i("ActivityCustom::", "favoritesAmountUpdated::" +
+                        String.valueOf(event.getFavoritesAmount()));
+
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+            }
+        });
+
     }
 
     /**

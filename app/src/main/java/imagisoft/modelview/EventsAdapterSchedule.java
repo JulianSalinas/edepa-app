@@ -30,6 +30,7 @@ public class EventsAdapterSchedule
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
         if (event != null) {
 
+            event.setId(dataSnapshot.getKey());
             int index = Collections.binarySearch(events, event);
 
             if (index >= 0){
@@ -50,9 +51,10 @@ public class EventsAdapterSchedule
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
         if (event != null) {
 
+            event.setId(dataSnapshot.getKey());
             int index = events.indexOf(event);
 
-            if(index == -1){
+            if(index == -1 ){
 
                 index = Collections.binarySearch(events, event);
 
@@ -84,6 +86,7 @@ public class EventsAdapterSchedule
     public void onChildRemoved(DataSnapshot dataSnapshot) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
         if (event != null) {
+            event.setId(dataSnapshot.getKey());
             int index = events.indexOf(event);
             events.remove(index);
             notifyItemRemoved(index);

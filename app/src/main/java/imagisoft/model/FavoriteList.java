@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.lang.reflect.Type;
 import java.util.Collections;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Semaphore;
 
 
@@ -234,13 +233,13 @@ public class FavoriteList extends Preferences implements FavoriteListener{
      * a partir delarchivo de preferencias.
      * @param context: Actividad desde donde se llama la aplicación
      */
-    public void loadFavorites(Context context) {
+    public void load(Context context) {
 
         // Si es el primer uso de la aplicación, se debe crear el archivo
         // aunque la cantidad de favoritos este vacía en memoria
         Type type = new TypeToken<List<ScheduleEvent>>(){}.getType();
         SharedPreferences prefs = getSharedPreferences(context);
-        if(!prefs.contains(key)) saveFavorites(context);
+        if(!prefs.contains(key)) save(context);
 
         // Se guarda toda la lista de favoritos como un json dentro de las
         // preferencias para obtener un acceso más eficiente.
@@ -255,7 +254,7 @@ public class FavoriteList extends Preferences implements FavoriteListener{
      * preferencias. Si no hay eventos guarda un null
      * @param context: Actividad desde donde se llama la aplicación
      */
-    public void saveFavorites(Context context) {
+    public void save(Context context) {
         Gson gson = new Gson();
         SharedPreferences.Editor editor = getSharedEditor(context);
         editor.putString(key, gson.toJson(events));

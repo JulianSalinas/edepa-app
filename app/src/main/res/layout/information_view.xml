@@ -50,8 +50,7 @@
                         android:layout_gravity="bottom"
                         android:text="@string/test_congress"
                         android:textSize="@dimen/font_big"
-                        android:textColor="@color/material_grey"
-                        android:fontFamily="sans-serif-smallcaps"/>
+                        android:textColor="@color/material_grey" />
 
                 </LinearLayout>
 

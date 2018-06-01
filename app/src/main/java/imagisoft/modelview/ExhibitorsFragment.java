@@ -77,8 +77,6 @@ public class ExhibitorsFragment extends ActivityFragment
         searchView.setOnSearchViewListener(null);
         searchView.setOnQueryTextListener(this);
         searchView.setVoiceSearch(true);
-        searchView.setVoiceIcon(getResources().getDrawable(R.drawable.ic_voice));
-        searchView.setCursorDrawable(R.drawable.custom_cursor);
         searchView.setEllipsize(true);
     }
 
