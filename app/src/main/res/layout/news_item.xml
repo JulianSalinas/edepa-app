@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/msg_read_check"
                 android:layout_centerHorizontal="true"
-                android:textSize="@dimen/font_smallest"
+                android:textSize="@dimen/font_small"
                 android:textAlignment="center"
                 android:textColor="@color/app_special_font"
                 android:fontFamily="sans-serif-light"
@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/app_name"
-                    android:textSize="@dimen/font_normal"
+                    android:textSize="@dimen/font_medium"
                     android:textColor="@color/app_primary_font"
                     android:textStyle="bold" />
 
@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_small"
                     android:text="\@"
-                    android:textSize="@dimen/font_normal"
+                    android:textSize="@dimen/font_medium"
                     android:textColor="@color/app_primary_font" />
 
                 <TextView
@@ -90,7 +90,7 @@
                 android:id="@+id/msg_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/font_normal"
+                android:textSize="@dimen/font_medium"
                 tools:text="@string/text_lorem_ipsum"
                 android:layout_marginBottom="@dimen/space_small"/>
 

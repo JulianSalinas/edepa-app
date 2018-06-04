@@ -18,7 +18,7 @@
         android:gravity="center"
         android:layout_margin="@dimen/space_default"
         android:text="@string/text_without_favorites"
-        android:textSize="@dimen/font_black_fragment"
+        android:textSize="@dimen/font_biggest"
         android:textStyle="bold"
         android:fontFamily="sans-serif-smallcaps"
         android:textColor="@color/app_special_font"

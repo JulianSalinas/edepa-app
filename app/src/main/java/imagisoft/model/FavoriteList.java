@@ -73,7 +73,7 @@ public class FavoriteList extends Preferences implements FavoriteListener{
                 for(ScheduleEvent event: events)
                     listener.onFavoriteAdded(event);
 
-                Log.i("FavoriteList::", "addListener::" + listener.toString());
+                Log.i("FavoriteList::", "setEventListener::" + listener.toString());
 
                 String str = "";
                 for(ScheduleEvent event: events){
@@ -111,7 +111,7 @@ public class FavoriteList extends Preferences implements FavoriteListener{
                 if(!currentListener.equals(listener))
                     newlistenters.add(currentListener);
                 else
-                    Log.i("FavoriteList::", "removeListener::" + listener.toString());
+                    Log.i("FavoriteList::", "removeEventListener::" + listener.toString());
             }
 
             this.listeners = newlistenters;

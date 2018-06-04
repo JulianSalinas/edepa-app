@@ -60,8 +60,8 @@
 
                     <com.mklimek.circleinitialsview.CircleInitialsView
                         android:id="@+id/exhibitor_avatar_view"
-                        android:layout_width="@dimen/avatar_default_width"
-                        android:layout_height="@dimen/avatar_default_height"
+                        android:layout_width="@dimen/avatar_medium_width"
+                        android:layout_height="@dimen/avatar_medium_height"
                         android:layout_margin="@dimen/space_default"/>
 
                     <LinearLayout

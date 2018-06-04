@@ -122,25 +122,14 @@ public class ScheduleTabs extends ActivityFragment implements TabLayout.OnTabSel
 
             @Override
             public void onSearchViewShown() {
-
                 if(searchFragment == null)
                     searchFragment = new EventsFragmentSearch();
-
-                getChildFragmentManager()
-                        .beginTransaction()
-                        .add(R.id.tabs_container, searchFragment)
-                        .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
-                        .commit();
+                activity.overlapFragment(searchFragment);
             }
 
             @Override
             public void onSearchViewClosed() {
-
-                getChildFragmentManager()
-                        .beginTransaction()
-                        .remove(searchFragment)
-                        .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
-                        .commit();
+                activity.removeFragment(searchFragment);
             }
 
         });

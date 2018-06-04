@@ -26,7 +26,7 @@
     <string name="nav_exit_and_signout">Cerrar sesión</string>
 
     <!-- Welcome-->
-    <string name="text_welcome">Bienvenido</string>
+    <string name="text_welcome">Bienvenido!</string>
     <string name="text_getstarted">Ingresar</string>
 
     <!-- Dates -->

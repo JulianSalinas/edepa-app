@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_small"
                     android:gravity="center"
-                    android:textSize="@dimen/font_smallest"
+                    android:textSize="@dimen/font_small"
                     android:text="\@ hace 2 horas" />
 
             </LinearLayout>

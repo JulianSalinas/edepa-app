@@ -6,10 +6,14 @@ import imagisoft.model.ScheduleEvent;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DatabaseReference;
 
 
 public class EventsAdapterOngoing
         extends EventsAdapter implements ChildEventListener {
+
+    protected boolean isListenerSet;
+    protected DatabaseReference reference;
 
     public EventsAdapterOngoing(EventsFragment view) {
         super(view);
@@ -17,9 +21,22 @@ public class EventsAdapterOngoing
     }
 
     public void setupReference(){
-        fragment.activity
-                .getOngoingReference()
-                .addChildEventListener(this);
+        if(reference == null)
+            reference = fragment.activity.getOngoingReference();
+    }
+
+    public void removeEventListener(){
+        if(reference != null && isListenerSet) {
+            reference.removeEventListener(this);
+            isListenerSet = false;
+        }
+    }
+
+    public void setEventListener(){
+        if(reference != null && !isListenerSet) {
+            reference.addChildEventListener(this);
+            isListenerSet = true;
+        }
     }
 
     @Override

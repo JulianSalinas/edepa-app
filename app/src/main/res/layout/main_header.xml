@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/space_header_height"
-    android:gravity="bottom"
-    android:orientation="vertical">
+    android:layout_height="@dimen/space_header_height">
 
     <ImageView
         android:id="@+id/emphasis_image_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_header_img"
-        android:scaleType="centerCrop"
-        android:background="@color/app_detail_light"
+        android:scaleType="fitCenter"
+        android:background="@drawable/img_header_wallpaper"
+        android:contentDescription="@null">
+    </ImageView>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_header_img"
+        android:background="#ecffffff"
         android:contentDescription="@null"
         android:tag=":aesthetic_ignore">
     </ImageView>
@@ -25,21 +31,30 @@
         android:orientation="vertical">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_welcome"
+            android:textStyle="bold"
+            android:textColor="?colorPrimaryDark"
+            android:textSize="@dimen/font_big" />
+
+        <TextView
             android:id="@+id/current_menu_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/nav_menu"
-            android:textColor="@color/material_grey"
-            android:textSize="@dimen/font_header_big" />
+            android:textStyle="bold"
+            android:textColor="?colorAccent"
+            android:textSize="@dimen/font_biggest"
+            tools:text="@string/nav_menu"/>
 
         <TextView
             android:id="@+id/current_section_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/nav_subsection"
+            android:textStyle="bold"
             android:textColor="@color/material_grey"
-            android:textSize="@dimen/font_normal"
-            android:textStyle="bold" />
+            android:textSize="@dimen/font_medium"
+            tools:text="@string/nav_subsection"/>
 
     </LinearLayout>
 

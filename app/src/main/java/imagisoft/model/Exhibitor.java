@@ -97,4 +97,13 @@ public class Exhibitor implements Parcelable, Comparable<Exhibitor> {
     public int compareTo(Exhibitor exhibitor) {
         return completeName.compareTo(exhibitor.getCompleteName());
     }
+
+    @Override
+    public String toString() {
+        return "Exhibitor{" +
+                "completeName='" + completeName + '\'' +
+                ", personalTitle='" + personalTitle + '\'' +
+                '}';
+    }
+
 }

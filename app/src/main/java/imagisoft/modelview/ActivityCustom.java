@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v7.preference.PreferenceManager;
@@ -102,9 +103,8 @@ public abstract class ActivityCustom extends ActivityFirebase
     }
 
     private void setTheme() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        int primaryColor = prefs.getInt(APP_PRIMARY.toString(), APP_PRIMARY.getColor());
-        int primaryDark = prefs.getInt(APP_PRIMARY_DARK.toString(), APP_PRIMARY_DARK.getColor());
+        int primaryColor = getDefaultColor(APP_PRIMARY);
+        int primaryDark = getDefaultColor(APP_PRIMARY_DARK);
         getWindow().setStatusBarColor(primaryDark);
         getWindow().setNavigationBarColor(primaryColor);
     }
@@ -214,6 +214,11 @@ public abstract class ActivityCustom extends ActivityFirebase
             public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
 
             }
+        });
+
+        new Handler().post(() -> {
+            FavoriteList.getInstance().save(this);
+            ViewedList.getInstance().save(this);
         });
 
     }

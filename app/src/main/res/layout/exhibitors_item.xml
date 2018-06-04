@@ -64,14 +64,14 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="@dimen/space_smallest"
                                     android:text="@string/test_exhibitor"
-                                    android:textSize="@dimen/font_normal" />
+                                    android:textSize="@dimen/font_medium" />
 
                                 <TextView
                                     android:id="@+id/title_text_view"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="@string/test_university"
-                                    android:textSize="@dimen/font_smallest" />
+                                    android:textSize="@dimen/font_small" />
 
                             </LinearLayout>
 

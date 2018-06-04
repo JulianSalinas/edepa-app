@@ -148,6 +148,7 @@ public abstract class ActivityClassic extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
+                .addToBackStack(null)
                 .add(R.id.main_container, fragment)
                 .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
                 .commit();

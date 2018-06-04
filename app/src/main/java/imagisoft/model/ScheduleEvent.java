@@ -234,6 +234,21 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>,Parcelable {
         return getStart().compareTo(event.getStart());
     }
 
+    @Override
+    public String toString() {
+        return "ScheduleEvent{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", location='" + location + '\'' +
+                ", eventype=" + eventype +
+                ", end=" + end +
+                ", start=" + start +
+                ", favoritesAmount=" + favoritesAmount +
+                ", briefEnglish='" + briefEnglish + '\'' +
+                ", briefSpanish='" + briefSpanish + '\'' +
+                ", exhibitors=" + exhibitors +
+                '}';
+    }
 
     @Override
     public int describeContents() {

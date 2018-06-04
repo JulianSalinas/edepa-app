@@ -9,13 +9,18 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.HashMap;
+
+import imagisoft.model.Preferences;
 
 
 public class ActivityNavigation extends ActivityCustom
@@ -32,6 +37,8 @@ public class ActivityNavigation extends ActivityCustom
      * Vistas en el encanbezado del menú principal
      */
     TextView currentSection;
+    TextView currentMenu;
+
     private FloatingActionButton favoriteButton;
 
     /**
@@ -70,10 +77,20 @@ public class ActivityNavigation extends ActivityCustom
         View header = navigation.getHeaderView(0);
         favoriteButton = header.findViewById(R.id.favorite_button);
         currentSection = header.findViewById(R.id.current_section_view);
+        currentMenu = header.findViewById(R.id.current_menu_view);
 
+        setUsernameInMenu();
         favoriteButton.setOnClickListener(this);
         navigation.setNavigationItemSelectedListener(this);
 
+    }
+
+    public void setUsernameInMenu(){
+        String key = Preferences.USER_KEY_VALUE;
+        Preferences prefs = Preferences.getInstance();
+        String username = prefs.getStringPreference(this, key);
+        if(username != null) currentMenu.setText(username);
+        Log.i("ActivityNavigation::", "setUsernameInMenu");
     }
 
     /**

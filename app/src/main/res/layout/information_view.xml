@@ -254,7 +254,7 @@
                         android:layout_gravity="center"
                         android:layout_marginEnd="@dimen/space_small"
                         android:text="@string/text_map"
-                        android:textSize="@dimen/font_smallest" />
+                        android:textSize="@dimen/font_small" />
 
                     <ImageView
                         android:layout_width="@dimen/size_icon"

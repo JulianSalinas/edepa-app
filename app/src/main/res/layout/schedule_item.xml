@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:tag=":aesthetic_ignore"
-        app:cardCornerRadius="@dimen/card_radius"
+        app:cardCornerRadius="0dp"
         app:cardElevation="@dimen/card_elevation"
         app:cardUseCompatPadding="true">
 
@@ -23,7 +23,7 @@
 
             <View
                 android:id="@+id/line"
-                android:layout_width="@dimen/space_small"
+                android:layout_width="@dimen/space_medium"
                 android:layout_height="match_parent"
                 android:background="@color/material_deep_orange"
                 android:orientation="horizontal"/>
@@ -45,7 +45,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:text="@string/test_event"
-                        android:textSize="@dimen/font_normal" />
+                        android:textSize="@dimen/font_medium" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/test_type"
-                            android:textSize="@dimen/font_smallest" />
+                            android:textSize="@dimen/font_small" />
 
                         <TextView
                             android:id="@+id/time_descripcion"
@@ -66,7 +66,7 @@
                             android:layout_alignParentTop="true"
                             android:gravity="end"
                             android:text="@string/test_app_range_time"
-                            android:textSize="@dimen/font_smallest" />
+                            android:textSize="@dimen/font_small" />
 
                     </RelativeLayout>
 

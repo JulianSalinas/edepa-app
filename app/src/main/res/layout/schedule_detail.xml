@@ -58,12 +58,12 @@
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/font_biggest"
+                android:layout_marginTop="@dimen/font_big"
                 android:layout_marginStart="@dimen/space_biggest"
-                android:layout_marginEnd="@dimen/font_biggest"
+                android:layout_marginEnd="@dimen/font_big"
                 android:text="@string/test_event"
                 android:textColor="@color/app_white"
-                android:textSize="@dimen/font_biggest"
+                android:textSize="@dimen/font_big"
                 android:textAlignment="center"
                 android:tag=":aesthetic_ignore"/>
 

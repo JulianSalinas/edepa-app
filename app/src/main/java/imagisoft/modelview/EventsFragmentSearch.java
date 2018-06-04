@@ -1,9 +1,8 @@
 package imagisoft.modelview;
 
-
 import android.view.View;
-
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+
 
 public class EventsFragmentSearch extends EventsFragmentOngoing
         implements MaterialSearchView.OnQueryTextListener {
@@ -38,4 +37,5 @@ public class EventsFragmentSearch extends EventsFragmentOngoing
     public boolean onQueryTextChange(String newText) {
         return ((EventsAdapterSearch) eventsVA).onQueryTextChange(newText);
     }
+
 }

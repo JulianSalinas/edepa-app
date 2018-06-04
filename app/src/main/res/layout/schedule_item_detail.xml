@@ -14,7 +14,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="320dp"
+            android:layout_height="260dp"
             android:background="@color/material_grey"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:tag=":aesthetic_ignore">
@@ -42,7 +42,7 @@
                         android:layout_height="wrap_content"
                         android:padding="@dimen/space_default"
                         android:lineSpacingExtra="8dp"
-                        android:textSize="@dimen/font_biggest"
+                        android:textSize="@dimen/font_big"
                         android:text="@string/text_lorem_ipsum"
                         android:textColor="@android:color/white"
                         android:tag=":aesthetic_ignore"/>
@@ -64,7 +64,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/text_conference"
                                 android:textColor="@android:color/white"
-                                android:textSize="@dimen/font_normal"
+                                android:textSize="@dimen/font_medium"
                                 android:fontFamily="sans-serif-light"
                                 android:tag=":aesthetic_ignore"/>
 
@@ -112,7 +112,7 @@
                         android:layout_marginBottom="@dimen/space_small"
                         android:textStyle="bold"
                         android:text="@string/test_location"
-                        android:textSize="@dimen/font_biggest"
+                        android:textSize="@dimen/font_big"
                         android:textColor="@color/material_blue_grey"
                         android:tag=":aesthetic_ignore"
                         tools:ignore="RelativeOverlap" />
@@ -124,15 +124,14 @@
                         android:layout_marginBottom="@dimen/space_small"
                         android:text="@string/test_app_range_time"
                         android:textColor="@color/material_blue_grey"
-                        android:textSize="@dimen/font_big"
+                        android:textSize="@dimen/font_medium"
                         android:fontFamily="sans-serif-light"
                         android:tag=":aesthetic_ignore"
                         tools:ignore="RelativeOverlap" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/space_small">
+                        android:layout_height="wrap_content">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -199,7 +198,7 @@
                         android:layout_marginBottom="@dimen/space_small"
                         android:text="@string/text_abstract"
                         android:textColor="@color/material_blue_grey"
-                        android:textSize="@dimen/font_biggest"
+                        android:textSize="@dimen/font_big"
                         android:textStyle="bold"
                         android:tag=":aesthetic_ignore" />
 
@@ -211,7 +210,7 @@
                         android:text="@string/text_lorem_ipsum"
                         android:fontFamily="sans-serif-light"
                         android:textColor="@color/material_blue_grey"
-                        android:textSize="@dimen/font_big"
+                        android:textSize="@dimen/font_medium"
                         android:tag=":aesthetic_ignore"/>
 
                 </LinearLayout>

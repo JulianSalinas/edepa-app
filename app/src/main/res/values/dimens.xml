@@ -26,8 +26,8 @@
     <!--For avatars -->
     <dimen name="avatar_biggest_width">100dp</dimen>
     <dimen name="avatar_biggest_height">@dimen/avatar_biggest_width</dimen>
-    <dimen name="avatar_default_height">50dp</dimen>
-    <dimen name="avatar_default_width">@dimen/avatar_default_height</dimen>
+    <dimen name="avatar_medium_height">50dp</dimen>
+    <dimen name="avatar_medium_width">@dimen/avatar_medium_height</dimen>
     <dimen name="avatar_small_height">40dp</dimen>
     <dimen name="avatar_small_width">@dimen/avatar_small_height</dimen>
 
@@ -38,21 +38,11 @@
     <dimen name="header_elevation">16dp</dimen>
 
     <!-- Fonts sizes-->
-    <dimen name="font_smallest">12sp</dimen>
-    <dimen name="font_small">14sp</dimen>
-    <dimen name="font_normal">16sp</dimen>
-    <dimen name="font_big">18sp</dimen>
-    <dimen name="font_biggest">20sp</dimen>
+    <dimen name="font_small">12sp</dimen>
+    <dimen name="font_medium">16sp</dimen>
+    <dimen name="font_big">20sp</dimen>
+    <dimen name="font_biggest">24sp</dimen>
 
-    <dimen name="font_header_big">24sp</dimen>
-    <dimen name="font_header_normal">20sp</dimen>
-
-    <!-- For splash screen-->
-    <dimen name="font_splash">28sp</dimen>
-    <dimen name="font_logo">60sp</dimen>
-    <!--<dimen name="font_black_fragment">40</dimen>-->
     <dimen name="expanded_toolbar_title_margin_start">64dp</dimen>
-    <dimen name="app_bar_height">230dp</dimen>
-    <dimen name="font_black_fragment">24sp</dimen>
 
 </resources>
