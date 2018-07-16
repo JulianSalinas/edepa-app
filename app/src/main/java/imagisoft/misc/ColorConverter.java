@@ -9,6 +9,24 @@ import android.graphics.Color;
 public class ColorConverter {
 
     /**
+     * Enclarece un color en 12
+     * @param color: color base
+     * @return color un tono más claro
+     */
+    public static int lighten(int color) {
+        return lighten(color, 12);
+    }
+
+    /**
+     * Oscurece un color en 12
+     * @param color: color base
+     * @return color un tono más oscuro
+     */
+    public static int darken(int color) {
+        return darken(color, 12);
+    }
+
+    /**
      * Oscurece un color dado
      * @param base: Color base
      * @param amount: Cantidad que se debe oscurecer.
@@ -42,64 +60,44 @@ public class ColorConverter {
         return Color.HSVToColor(hsv);
     }
 
-
     /**
-     * Converts HSV (Hue, Saturation, Value) color to HSL (Hue, Saturation, Lightness)
-     * Credit goes to xpansive
+     * Convierte un color de HSV (Hue, Saturation, Value)
+     * a HSL (Hue, Saturation, Lightness)
      * https://gist.github.com/xpansive/1337890
      * @param hsv HSV color array
-     * @return hsl
+     * @return hsl color array
      */
     private static float[] hsv2hsl(float[] hsv) {
+
         float hue = hsv[0];
         float sat = hsv[1];
         float val = hsv[2];
 
-        //Saturation is very different between the two color spaces
-        //If (2-sat)*val < 1 set it to sat*val/((2-sat)*val)
-        //Otherwise sat*val/(2-(2-sat)*val)
-        //Conditional is not operating with hue, it is reassigned!
-        // sat*val/((hue=(2-sat)*val)<1?hue:2-hue)
         float nhue = (2f - sat) * val;
         float nsat = sat * val / (nhue < 1f ? nhue : 2f - nhue);
+
         if (nsat > 1f)
             nsat = 1f;
 
-        return new float[]{
-                //[hue, saturation, lightness]
-                //Range should be between 0 - 1
-                hue, //Hue stays the same
+        return new float[] { hue, nsat, nhue / 2f };
 
-                // check nhue and nsat logic
-                nsat,
-
-                nhue / 2f //Lightness is (2-sat)*val/2
-                //See reassignment of hue above
-        };
     }
 
     /**
-     * Reverses hsv2hsl
-     * Credit goes to xpansive
+     * Reversa hsv2hsl
      * https://gist.github.com/xpansive/1337890
      * @param hsl HSL color array
      * @return hsv color array
      */
     private static float[] hsl2hsv(float[] hsl) {
+
         float hue = hsl[0];
         float sat = hsl[1];
         float light = hsl[2];
 
         sat *= light < .5 ? light : 1 - light;
+        return new float[]{ hue, 2f * sat / (light + sat), light + sat };
 
-        return new float[]{
-                //[hue, saturation, value]
-                //Range should be between 0 - 1
-
-                hue, //Hue stays the same
-                2f * sat / (light + sat), //Saturation
-                light + sat //Value
-        };
     }
 
 }

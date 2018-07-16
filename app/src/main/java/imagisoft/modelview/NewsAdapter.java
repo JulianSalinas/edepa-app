@@ -16,6 +16,7 @@ import com.google.firebase.database.Transaction;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import imagisoft.misc.DateCalculator;
 import imagisoft.misc.DateConverter;
 import imagisoft.model.Message;
 import imagisoft.model.ViewedList;
@@ -42,7 +43,8 @@ public class NewsAdapter extends MessagesAdapterOnline {
 
     @Override
     protected String setTimeDescription(Message msg){
-        return DateConverter.getTimeAgo(view.activity, msg.getTime());
+        DateCalculator dateCalculator = new DateCalculator(view.activity);
+        return dateCalculator.getTimeAgo(msg.getTime());
     }
 
     /**

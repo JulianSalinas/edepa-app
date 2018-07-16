@@ -22,14 +22,16 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import imagisoft.misc.MaterialGenerator;
 import imagisoft.model.Exhibitor;
 import imagisoft.model.ScheduleEvent;
-import imagisoft.misc.ColorGenerator;
 import imagisoft.misc.SearchNormalizer;
 
 
 public class ExhibitorsAdapter extends RecyclerView.Adapter
-        <ExhibitorsAdapter.ExhibitorViewHolder> implements ChildEventListener{
+        <ExhibitorsAdapter.ExhibitorViewHolder> implements ChildEventListener {
+
+    private MaterialGenerator materialGenerator;
 
     /**
      * Objetos del modelo que serán adaptados visualmente
@@ -56,6 +58,7 @@ public class ExhibitorsAdapter extends RecyclerView.Adapter
         this.exhibitors = new ArrayList<>();
         this.eventsByExhibitor = new LinkedMultiValueMap<>();
         this.filteredExhibitors = this.exhibitors;
+        materialGenerator = new MaterialGenerator(exhibitorsView.activity);
         setupListener();
     }
 
@@ -98,7 +101,7 @@ public class ExhibitorsAdapter extends RecyclerView.Adapter
         holder.exhibitorAvatarView.setTextColor(Color.WHITE);
 
         holder.exhibitorAvatarView
-                .setBackgroundColor(ColorGenerator.MATERIAL.getColor(name));
+                .setBackgroundColor(materialGenerator.getColor(name));
 
         holder.exhibitorCardView.setOnClickListener(v -> exhibitorsView.switchFragment(
                 ExhibitorDetail.newInstance(item, eventsByExhibitor.get(item))));

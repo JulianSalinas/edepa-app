@@ -58,8 +58,13 @@ public class ScheduleBlock implements Parcelable {
      * el formato dd/mm/yyyy hh:mm <am|pm>
      */
     public ScheduleBlock(String start, String end) {
-        this.end = DateConverter.stringToLong(end);
-        this.start = DateConverter.stringToLong(start);
+        try {
+            this.end = DateConverter.stringToLong(end);
+            this.start = DateConverter.stringToLong(start);
+        }
+        catch (Exception e) {
+
+        }
     }
 
     @Override

@@ -1,8 +1,11 @@
 package imagisoft.modelview;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 
 
@@ -26,6 +29,7 @@ public abstract class ActivityFirebase extends ActivityClassic {
     final DatabaseReference ongoingReference;
     final DatabaseReference scheduleReference;
     final DatabaseReference congressReference;
+    final DatabaseReference favoritesReference;
 
     /**
      * Funciones que sirven para obtener las referencias desde
@@ -60,6 +64,10 @@ public abstract class ActivityFirebase extends ActivityClassic {
         return congressReference;
     }
 
+    public DatabaseReference getFavoritesReference() {
+        return favoritesReference;
+    }
+
     /**
      * En el constructor se crean las referencias a la BD
      */
@@ -84,6 +92,7 @@ public abstract class ActivityFirebase extends ActivityClassic {
         this.ongoingReference = root.child("ongoing");
         this.scheduleReference = root.child("schedule");
         this.congressReference = root.child("congress");
+        this.favoritesReference = root.child("favorites");
 
     }
 

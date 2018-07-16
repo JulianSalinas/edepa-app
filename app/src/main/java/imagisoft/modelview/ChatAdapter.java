@@ -5,14 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Transaction;
-
-import imagisoft.misc.ColorGenerator;
+import imagisoft.misc.MaterialGenerator;
 import imagisoft.model.Message;
-import imagisoft.model.ViewedList;
 
 
 public class ChatAdapter extends MessagesAdapterOnline {
@@ -25,12 +19,15 @@ public class ChatAdapter extends MessagesAdapterOnline {
     private final int LEFT_WITH_SEP = 2;
     private final int RIGHT_WITH_SEP = 3;
 
+    private MaterialGenerator materialGenerator;
+
     /**
      * Se asocia con firebase para recibir los mensajes
      * @param chatFragment: Vista que hace uso de este adaptador
      */
     public ChatAdapter(ChatFragment chatFragment){
         super(chatFragment);
+        materialGenerator = new MaterialGenerator(chatFragment.activity);
     }
 
     /**
@@ -94,7 +91,7 @@ public class ChatAdapter extends MessagesAdapterOnline {
         super.onBindViewHolder(holder, position);
         Message msg = msgs.get(holder.getAdapterPosition());
 
-        int color = ColorGenerator.MATERIAL.getColor(msg.getUsername());
+        int color = materialGenerator.getColor(msg.getUsername());
         holder.msgUsername.setTextColor(color);
 
         Log.i("ChatAdapter::", "Cambiando color del nombre");

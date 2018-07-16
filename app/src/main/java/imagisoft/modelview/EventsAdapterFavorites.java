@@ -1,11 +1,16 @@
 package imagisoft.modelview;
 
+import android.provider.ContactsContract;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 import imagisoft.model.FavoriteList;
@@ -20,6 +25,16 @@ public class EventsAdapterFavorites
     private long date;
     private FavoriteList favoriteList;
 
+    private DatabaseReference favoritesReference;
+    private ArrayList<ScheduleEvent> favorites;
+
+    /**
+     * Se obtiene el usuario actual o que envía
+     */
+    protected FirebaseAuth auth = FirebaseAuth.getInstance();
+    protected FirebaseUser user = auth.getCurrentUser();
+
+
     public EventsAdapterFavorites(EventsFragment view) {
 
         super(view);
@@ -27,7 +42,8 @@ public class EventsAdapterFavorites
         this.favoriteList = FavoriteList.getInstance();
 
         view.activity
-                .getScheduleReference()
+                .getFavoritesReference()
+                .child(user.getUid())
                 .orderByChild("start")
                 .startAt(date)
                 .endAt(DateConverter.atEndOFDay(date))

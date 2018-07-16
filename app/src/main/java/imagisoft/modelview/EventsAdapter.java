@@ -10,6 +10,9 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.List;
 import java.util.ArrayList;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
@@ -173,12 +176,21 @@ public class EventsAdapter
 
             @Override
             public void liked(LikeButton likeButton) {
-                favoriteList.addEvent(event);
+//                favoriteList.addEvent(event);
+
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                FirebaseUser user = auth.getCurrentUser();
+
+                fragment.activity
+                        .getFavoritesReference()
+                        .child(user.getUid())
+                        .push().setValue(event.getId());
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
-                favoriteList.removeEvent(event);
+
+//                favoriteList.removeEvent(event);
                 Log.i("FavoriteRemoved::", event.getTitle());
             }
 

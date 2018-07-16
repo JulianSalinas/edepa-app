@@ -11,9 +11,10 @@ import java.util.List;
 import java.util.ArrayList;
 import butterknife.BindView;
 import com.mklimek.circleinitialsview.CircleInitialsView;
+
+import imagisoft.misc.MaterialGenerator;
 import imagisoft.model.Exhibitor;
 import imagisoft.model.ScheduleEvent;
-import imagisoft.misc.ColorGenerator;
 
 
 public class ExhibitorDetail extends EventsFragment {
@@ -35,6 +36,8 @@ public class ExhibitorDetail extends EventsFragment {
 
     @BindView(R.id.exhibitor_avatar_view)
     CircleInitialsView exhibitorAvatarView;
+
+    private MaterialGenerator materialGenerator;
 
     /**
      * Expositor que se muestra junto con los eventos
@@ -81,6 +84,8 @@ public class ExhibitorDetail extends EventsFragment {
             events = args.getParcelableArrayList("events");
         }
 
+        materialGenerator = new MaterialGenerator(activity);
+
     }
 
     @Override
@@ -112,7 +117,7 @@ public class ExhibitorDetail extends EventsFragment {
         exhibitorAvatarView.setTextColor(Color.WHITE);
 
         exhibitorAvatarView
-                .setBackgroundColor(ColorGenerator.MATERIAL.getColor(name));
+                .setBackgroundColor(materialGenerator.getColor(name));
 
         buttonBack.setOnClickListener(v -> activity.onBackPressed());
     }
