@@ -13,15 +13,12 @@ import android.widget.TextView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 import butterknife.BindView;
 import imagisoft.misc.ColorConverter;
 import imagisoft.misc.DateConverter;
 import imagisoft.model.FavoriteList;
-import imagisoft.model.Message;
 import imagisoft.model.ScheduleEvent;
 
 public class ScheduleDetail extends ActivityFragment

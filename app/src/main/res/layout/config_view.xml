@@ -45,10 +45,10 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/space_line"
-            android:layout_marginTop="@dimen/space_medium"
-            android:layout_marginBottom="@dimen/space_medium"
-            android:background="@color/app_detail_light" />
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/space_default"
+            android:layout_marginBottom="@dimen/space_default"
+            android:background="@color/app_primary" />
 
         <LinearLayout
             android:id="@+id/username_view"
@@ -73,10 +73,10 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/space_line"
-            android:layout_marginTop="@dimen/space_medium"
-            android:layout_marginBottom="@dimen/space_medium"
-            android:background="@color/app_detail_light" />
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/space_default"
+            android:layout_marginBottom="@dimen/space_default"
+            android:background="@color/app_primary" />
 
         <LinearLayout
             android:id="@+id/language_view"
@@ -101,10 +101,10 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/space_line"
-            android:layout_marginTop="@dimen/space_medium"
-            android:layout_marginBottom="@dimen/space_medium"
-            android:background="@color/app_detail_light" />
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/space_default"
+            android:layout_marginBottom="@dimen/space_default"
+            android:background="@color/app_primary" />
 
         <LinearLayout
             android:id="@+id/about_view"
@@ -134,10 +134,10 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/space_line"
-            android:layout_marginTop="@dimen/space_medium"
-            android:layout_marginBottom="@dimen/space_medium"
-            android:background="@color/app_detail_light" />
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/space_default"
+            android:layout_marginBottom="@dimen/space_default"
+            android:background="@color/app_primary" />
 
     </LinearLayout>
 

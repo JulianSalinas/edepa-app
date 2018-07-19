@@ -1,7 +1,6 @@
 package imagisoft.modelview;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -18,25 +17,18 @@ import java.util.Stack;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Clase análoga al masterpage de un página web
- */
+
 public abstract class ActivityClassic extends AppCompatActivity {
 
-    /**
-     * Atributos en común para todas las aplicaciones.
-     */
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    @BindView(R.id.drawer)
-    DrawerLayout drawer;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
 
-    @BindView(R.id.navigation)
+    @BindView(R.id.navigation_view)
     NavigationView navigation;
 
-    @BindView(R.id.toolbar_container)
-    View toolbarContainer;
 
     protected ActionBarDrawerToggle toggle;
     protected Stack<Fragment> profilePendingList = new Stack<>();
@@ -46,10 +38,6 @@ public abstract class ActivityClassic extends AppCompatActivity {
      */
     public Toolbar getToolbar() {
         return toolbar;
-    }
-
-    public View getToolbarContainer() {
-        return toolbarContainer;
     }
 
     /**
@@ -67,7 +55,7 @@ public abstract class ActivityClassic extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar,
+                this, drawerLayout, toolbar,
                 R.string.drawer_open,
                 R.string.drawer_close);
 
@@ -102,8 +90,8 @@ public abstract class ActivityClassic extends AppCompatActivity {
 
         FragmentManager fm = getSupportFragmentManager();
 
-        if (drawer.isDrawerOpen(GravityCompat.START))
-            drawer.closeDrawer(GravityCompat.START);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
+            drawerLayout.closeDrawer(GravityCompat.START);
 
         if (fm.getBackStackEntryCount() > 0)
             super.onBackPressed();
@@ -138,7 +126,7 @@ public abstract class ActivityClassic extends AppCompatActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null)
-                .replace(R.id.main_container, fragment)
+                .replace(R.id.main_content, fragment)
                 .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
                 .commit();
 
@@ -149,7 +137,7 @@ public abstract class ActivityClassic extends AppCompatActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null)
-                .add(R.id.main_container, fragment)
+                .add(R.id.main_content, fragment)
                 .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
                 .commit();
 

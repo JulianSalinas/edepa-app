@@ -15,6 +15,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import java.util.Locale;
 import butterknife.ButterKnife;
 import imagisoft.model.Preferences;
+
 import static imagisoft.model.Preferences.LANG_KEY_VALUE;
 import static imagisoft.model.Preferences.USER_KEY_VALUE;
 import static imagisoft.model.Preferences.ALARM_STATE_KEY_VALUE;
@@ -87,7 +88,7 @@ public abstract class ActivityFragment extends Fragment {
      */
     public void setToolbarText(int resource){
         activity.getToolbar().setTitle(resource);
-        activity.currentSection.setText(resource);
+//        activity.currentSection.setText(resource);
     }
 
     /**
@@ -148,7 +149,7 @@ public abstract class ActivityFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        activity.currentSection.setText(lastUsedToolbarText);
+//        activity.currentSection.setText(lastUsedToolbarText);
         getToolbar().setTitle(lastUsedToolbarText);
         getTabLayout().setVisibility(lastTabLayoutVisibility);
     }
@@ -266,7 +267,7 @@ public abstract class ActivityFragment extends Fragment {
      * @param visibility View.GONE o View.VISIBLE
      */
     public void setToolbarVisibility(int visibility){
-        activity.getToolbarContainer().setVisibility(visibility);
+//        activity.getToolbarContainer().setVisibility(visibility);
         getToolbar().setVisibility(visibility);
         getSearchView().setVisibility(visibility);
     }

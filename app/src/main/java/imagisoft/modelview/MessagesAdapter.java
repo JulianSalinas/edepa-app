@@ -7,7 +7,6 @@ import android.text.util.Linkify;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

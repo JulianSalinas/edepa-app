@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/space_small"
-    android:background="@color/app_detail_light"
+    android:background="@color/app_accent"
     android:tag=":aesthetic_ignore">
 
     <TextView

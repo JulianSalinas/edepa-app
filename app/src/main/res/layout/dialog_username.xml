@@ -38,7 +38,7 @@
         android:layout_marginBottom="@dimen/space_default"
         android:text="@string/text_confirm"
         android:textStyle="bold"
-        android:textColor="@color/app_secondary_font"
+        android:textColor="@color/app_accent_font"
         android:background="@color/app_accent" />
 
 </LinearLayout>

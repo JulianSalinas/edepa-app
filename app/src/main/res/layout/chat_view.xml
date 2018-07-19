@@ -6,15 +6,29 @@
     android:layout_height="match_parent"
     android:background="@color/app_white">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/messages_recycler_view"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/chat_view_writing_layout"
-        android:scrollbars="vertical"
-        tools:listitem="@layout/msg_right"
-        android:background="@drawable/img_chat_wallpaper">
-    </android.support.v7.widget.RecyclerView>
+        android:clipToPadding="true">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/img_default_wallpaper"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop">
+        </ImageView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/messages_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/msg_right">
+        </android.support.v7.widget.RecyclerView>
+
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/chat_view_writing_layout"
@@ -22,63 +36,49 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
+        android:padding="@dimen/space_small"
         android:baselineAligned="true"
         android:orientation="horizontal"
         android:background="#00ffffff">
 
-        <RelativeLayout
+        <android.support.v7.widget.CardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="85">
+            android:layout_weight="85"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="1dp">
 
-            <android.support.v7.widget.CardView
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/text_input_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="3dp"
-                app:cardElevation="1dp"
-                app:cardUseCompatPadding="true">
+                android:backgroundTint="#00FFFFFF"
+                android:hint="@string/text_input"
+                android:paddingLeft="@dimen/space_default"
+                android:paddingRight="@dimen/space_default"
+                android:tag=":aesthetic_ignore"/>
 
+        </android.support.v7.widget.CardView>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/text_input_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="#00FFFFFF"
-                    android:hint="@string/text_input"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:tag=":aesthetic_ignore"/>
+        <android.support.v7.widget.CardView
+            android:id="@+id/send_card_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="@dimen/space_small"
+            app:cardBackgroundColor="?colorAccent"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="@dimen/card_elevation_chat">
 
-            </android.support.v7.widget.CardView>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_send"
+                android:tint="?android:textColorPrimaryInverse" />
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="15">
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/send_card_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:cardBackgroundColor="?colorAccent"
-                app:cardCornerRadius="3dp"
-                app:cardElevation="@dimen/card_elevation"
-                app:cardUseCompatPadding="true">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_send"
-                    android:tint="?android:textColorPrimaryInverse" />
-
-            </android.support.v7.widget.CardView>
-
-        </RelativeLayout>
+        </android.support.v7.widget.CardView>
 
     </LinearLayout>
 

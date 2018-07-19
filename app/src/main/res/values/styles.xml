@@ -1,27 +1,36 @@
 <resources>
 
+    <!-- Main theme -->
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/app_white</item>
-        <item name="colorPrimaryDark">@color/app_primary_dark</item>
+
         <item name="colorAccent">@color/app_accent</item>
+        <item name="colorPrimary">@color/app_primary</item>
+        <item name="colorPrimaryDark">@color/app_primary_dark</item>
+        <item name="colorControlNormal">@color/app_primary_font</item>
+
+        <item name="android:textColor">@color/app_primary_font</item>
+        <!--<item name="android:windowBackground">@color/app_primary</item>-->
+
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+
     </style>
+
+    <!-- Splash Screen -->
 
     <style name="AppTheme.SplashTheme">
+
         <item name="android:windowBackground">@drawable/ic_edepa_splash</item>
+
     </style>
 
-    <style
-        name="AppTheme.PopupOverlay"
-        parent="ThemeOverlay.AppCompat.Light" />
-
-    <style
-        name="AppTheme.AppBarOverlay"
-        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <!-- Custom ActionBar -->
 
     <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
+
         <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+
     </style>
 
 </resources>

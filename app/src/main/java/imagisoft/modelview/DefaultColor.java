@@ -4,8 +4,8 @@ public enum DefaultColor {
 
     APP_PRIMARY (R.color.app_primary),
     APP_PRIMARY_DARK (R.color.app_accent),
-    APP_ACCENT (R.color.app_accent),
-    APP_ACCENT_DARK (R.color.app_accent_dark);
+    APP_ACCENT (R.color.app_accent);
+//    APP_ACCENT_DARK (R.color.app_accent_dark);
 
     /**
      * Color predeterminado

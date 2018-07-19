@@ -21,7 +21,7 @@ import imagisoft.model.Preferences;
  * setPersistenceEnable debe ser llamado antes que cualquier otra
  * función de Firebase, de lo contrario la app se cierra inesperadamente
  */
-public class SplashScreen extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity {
 
     /**
      * Conexión con Firebase
@@ -105,7 +105,6 @@ public class SplashScreen extends AppCompatActivity {
                 .setLogo(R.drawable.ic_edepa)
                 .setAvailableProviders(Arrays.asList(
                         new AuthUI.IdpConfig.EmailBuilder().build(),
-                        new AuthUI.IdpConfig.PhoneBuilder().build(),
                         new AuthUI.IdpConfig.GoogleBuilder().build()))
                 .build(), RC_SIGN_IN
         );
@@ -141,7 +140,7 @@ public class SplashScreen extends AppCompatActivity {
      * Después de haber cargado los datos de la aplicación, se utiliza está función para abrirla
      */
     private void startApplication(){
-        Intent intent = new Intent(getApplicationContext(), ActivityNavigation.class);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         finish();
     }

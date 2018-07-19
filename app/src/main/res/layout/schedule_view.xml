@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        android:paddingStart="@dimen/space_smallest"
-        android:paddingEnd="@dimen/space_smallest"
+        android:paddingStart="@dimen/space_small"
+        android:paddingEnd="@dimen/space_small"
         tools:listitem="@layout/schedule_item"
         android:scrollbarStyle="outsideInset"
         android:tag=":aesthetic_ignore"/>

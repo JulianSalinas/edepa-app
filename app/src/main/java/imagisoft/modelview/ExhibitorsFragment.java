@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import android.view.MenuInflater;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
+
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import butterknife.BindView;

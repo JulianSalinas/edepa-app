@@ -36,7 +36,7 @@
                 android:layout_centerHorizontal="true"
                 android:textSize="@dimen/font_small"
                 android:textAlignment="center"
-                android:textColor="@color/app_special_font"
+                android:textColor="@color/app_primary_font"
                 android:fontFamily="sans-serif-light"
                 tools:ignore="RelativeOverlap"
                 tools:text="no visto"
@@ -79,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_small"
                     android:textSize="@dimen/font_small"
-                    android:textColor="@color/app_special_font"
+                    android:textColor="@color/app_primary_font"
                     android:fontFamily="sans-serif-light"
                     tools:ignore="RelativeOverlap"
                     tools:text="@tools:sample/date/hhmmss" />
@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:textSize="@dimen/font_small"
-                    android:textColor="@color/app_special_font"
+                    android:textColor="@color/app_primary_font"
                     android:fontFamily="sans-serif-light"
                     tools:ignore="RelativeOverlap"
                     tools:text="@tools:sample/date/hhmmss" />

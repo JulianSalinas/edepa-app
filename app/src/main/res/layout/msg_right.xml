@@ -5,7 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/space_biggest">
+    android:layout_marginStart="@dimen/space_default">
 
     <android.support.v7.widget.CardView
         android:id="@+id/schedule_item"
@@ -14,7 +14,7 @@
         android:layout_alignParentEnd="true"
         app:cardBackgroundColor="@color/app_chat_right"
         app:cardElevation="1dp"
-        app:cardCornerRadius="@dimen/card_radius_chat"
+        app:cardCornerRadius="@dimen/card_radius_chat_input"
         app:cardUseCompatPadding="true"
         android:tag=":aesthetic_ignore">
 

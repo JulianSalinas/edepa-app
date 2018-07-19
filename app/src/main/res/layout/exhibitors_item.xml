@@ -41,7 +41,7 @@
                             android:id="@+id/exhibitor_avatar_view"
                             android:layout_width="@dimen/avatar_small_width"
                             android:layout_height="@dimen/avatar_small_height"
-                            android:layout_margin="@dimen/space_medium"
+                            android:layout_margin="@dimen/space_default"
                             custom:circleInitialsView_text="Adam Smith"
                             custom:circleInitialsView_textColor="#FFF"
                             custom:circleInitialsView_backgroundColor="#229bae" />
@@ -62,7 +62,7 @@
                                     android:id="@+id/name_text_view"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginBottom="@dimen/space_smallest"
+                                    android:layout_marginBottom="@dimen/space_small"
                                     android:text="@string/test_exhibitor"
                                     android:textSize="@dimen/font_medium" />
 

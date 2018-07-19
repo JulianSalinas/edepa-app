@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/font_big"
-                android:layout_marginStart="@dimen/space_biggest"
+                android:layout_marginStart="@dimen/space_default"
                 android:layout_marginEnd="@dimen/font_big"
                 android:text="@string/test_event"
                 android:textColor="@color/app_white"

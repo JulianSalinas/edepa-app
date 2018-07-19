@@ -1,6 +1,8 @@
 package imagisoft.modelview;
 
 import android.util.Log;
+
+import imagisoft.misc.DateConverter;
 import imagisoft.model.ScheduleEvent;
 
 import com.google.firebase.database.DataSnapshot;
@@ -18,11 +20,19 @@ public class EventsAdapterOngoing
     public EventsAdapterOngoing(EventsFragment view) {
         super(view);
         setupReference();
+        setEventListener();
     }
 
     public void setupReference(){
+
+        long currentTime = System.currentTimeMillis();
+
         if(reference == null)
-            reference = fragment.activity.getOngoingReference();
+            reference = fragment.activity.getScheduleReference()
+                    .orderByChild("start")
+                    .startAt(DateConverter.atStartOfDay(currentTime))
+                    .endAt(DateConverter.atEndOFDay(currentTime))
+                    .getRef();
     }
 
     public void removeEventListener(){
@@ -50,21 +60,32 @@ public class EventsAdapterOngoing
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
         if(event != null){
-            event.setId(dataSnapshot.getKey());
-            int index = events.size();
-            events.add(index, event);
-            notifyItemInserted(index);
+
+            long currentTime = System.currentTimeMillis();
+
+            if (event.getStart() <= currentTime && currentTime < event.getEnd()){
+                event.setId(dataSnapshot.getKey());
+                int index = events.size();
+                events.add(index, event);
+                notifyItemInserted(index);
+            }
         }
     }
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
         ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
+
         if(event != null) {
-            event.setId(dataSnapshot.getKey());
-            int index = events.indexOf(event);
-            events.set(index, event);
-            notifyItemChanged(index);
+
+            long currentTime = System.currentTimeMillis();
+
+            if (event.getStart() <= currentTime && currentTime < event.getEnd()) {
+                event.setId(dataSnapshot.getKey());
+                int index = events.indexOf(event);
+                events.set(index, event);
+                notifyItemChanged(index);
+            }
         }
     }
 

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:tag=":aesthetic_ignore"
         app:cardCornerRadius="0dp"
-        app:cardElevation="@dimen/card_elevation"
+        app:cardElevation="@dimen/card_elevation_schedule"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -23,7 +23,7 @@
 
             <View
                 android:id="@+id/line"
-                android:layout_width="@dimen/space_medium"
+                android:layout_width="@dimen/space_default"
                 android:layout_height="match_parent"
                 android:background="@color/material_deep_orange"
                 android:orientation="horizontal"/>
@@ -37,7 +37,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/space_medium">
+                    android:padding="@dimen/space_default">
 
                     <TextView
                         android:id="@+id/header"
@@ -74,8 +74,8 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/space_line"
-                    android:background="@color/app_detail_light" />
+                    android:layout_height="1dp"
+                    android:background="@color/app_accent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -94,11 +94,11 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginBottom="@dimen/space_medium"
-                            android:padding="@dimen/space_medium"
+                            android:layout_marginBottom="@dimen/space_default"
+                            android:padding="@dimen/space_default"
                             android:tag=":aesthetic_ignore"
                             android:text="@string/text_readmore"
-                            android:textColor="@color/app_detail" />
+                            android:textColor="@color/app_accent" />
 
                     </RelativeLayout>
 

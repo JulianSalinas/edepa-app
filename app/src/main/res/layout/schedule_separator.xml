@@ -11,15 +11,15 @@
             android:id="@+id/schedule_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardElevation="@dimen/card_elevation"
-            app:cardCornerRadius="@dimen/card_radius"
+            app:cardElevation="@dimen/card_elevation_schedule"
+            app:cardCornerRadius="@dimen/card_radius_chat_input"
             app:cardUseCompatPadding="true"
             android:tag=":aesthetic_ignore">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/space_smallest"
+                android:padding="@dimen/space_small"
                 android:background="@color/material_grey"
                 android:baselineAligned="true"
                 android:orientation="horizontal">

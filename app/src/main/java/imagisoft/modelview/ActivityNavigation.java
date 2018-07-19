@@ -12,11 +12,8 @@ import android.support.v4.view.GravityCompat;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.HashMap;
 
@@ -32,12 +29,6 @@ public class ActivityNavigation extends ActivityCustom
      */
     private Handler handler;
     private Runnable pendingRunnable;
-
-    /**
-     * Vistas en el encanbezado del menú principal
-     */
-    TextView currentSection;
-    TextView currentMenu;
 
     private FloatingActionButton favoriteButton;
 
@@ -76,8 +67,6 @@ public class ActivityNavigation extends ActivityCustom
 
         View header = navigation.getHeaderView(0);
         favoriteButton = header.findViewById(R.id.favorite_button);
-        currentSection = header.findViewById(R.id.current_section_view);
-        currentMenu = header.findViewById(R.id.current_menu_view);
 
         setUsernameInMenu();
         favoriteButton.setOnClickListener(this);
@@ -89,7 +78,6 @@ public class ActivityNavigation extends ActivityCustom
         String key = Preferences.USER_KEY_VALUE;
         Preferences prefs = Preferences.getInstance();
         String username = prefs.getStringPreference(this, key);
-        if(username != null) currentMenu.setText(username);
         Log.i("ActivityNavigation::", "setUsernameInMenu");
     }
 
@@ -111,7 +99,7 @@ public class ActivityNavigation extends ActivityCustom
             getSupportFragmentManager()
                     .beginTransaction()
                     .addToBackStack(null)
-                    .replace(R.id.main_container, independentFragments.get(currentResource))
+                    .replace(R.id.main_content, independentFragments.get(currentResource))
                     .commitAllowingStateLoss();
         }
 
@@ -132,7 +120,7 @@ public class ActivityNavigation extends ActivityCustom
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_container, independentFragments.get(currentResource))
+                .replace(R.id.main_content, independentFragments.get(currentResource))
                 .commitAllowingStateLoss();
 
     }
@@ -242,7 +230,7 @@ public class ActivityNavigation extends ActivityCustom
 
         };
 
-        drawer.closeDrawer(GravityCompat.START);
+        drawerLayout.closeDrawer(GravityCompat.START);
 
     }
 
@@ -253,7 +241,7 @@ public class ActivityNavigation extends ActivityCustom
             return new NewsFragment();
         case R.id.nav_about:
             return new AboutFragment();
-        case R.id.nav_manage:
+        case R.id.nav_settings:
             return new ConfigFragment();
         case R.id.nav_pallete:
             return new ThemePicker();

@@ -1,10 +1,8 @@
 package imagisoft.modelview;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -14,6 +12,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.afollestad.aesthetic.Aesthetic;
 import com.firebase.jobdispatcher.Constraint;
@@ -23,6 +23,8 @@ import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.Lifetime;
 import com.firebase.jobdispatcher.RetryStrategy;
 import com.firebase.jobdispatcher.Trigger;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +36,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import imagisoft.misc.RegexUtil;
 import imagisoft.model.FavoriteList;
 import imagisoft.model.FavoriteListener;
 import imagisoft.model.Preferences;
@@ -92,13 +95,30 @@ public abstract class ActivityCustom extends ActivityFirebase
     @Override
     protected void onCreate(Bundle bundle) {
 
-        Aesthetic.attach(this);
+//        Aesthetic.attach(this);
 
         setTheme();
         setLanguage();
         setupDispatcher();
         setupFavoriteList();
         super.onCreate(bundle);
+        setWelcomeMessage();
+
+    }
+
+    private void setWelcomeMessage(){
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        String welcomeMsg = getResources().getString(R.string.text_welcome);
+
+        if (user != null && user.getDisplayName() != null)
+            welcomeMsg += " " + RegexUtil.findFirstName(user.getDisplayName());
+
+        ((TextView) navigation
+                .getHeaderView(0)
+                .findViewById(R.id.welcome_text_view))
+                .setText((welcomeMsg + "!"));
 
     }
 

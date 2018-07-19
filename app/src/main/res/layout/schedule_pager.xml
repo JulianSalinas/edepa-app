@@ -15,8 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:background="@color/app_detail_light"
-            android:textColor="@color/app_special_font" />
+            android:background="@color/app_accent"
+            android:textColor="@color/app_primary_font" />
 
     </android.support.v4.view.ViewPager>
 

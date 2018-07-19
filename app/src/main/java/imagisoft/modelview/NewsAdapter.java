@@ -17,7 +17,6 @@ import com.google.firebase.database.Transaction;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import imagisoft.misc.DateCalculator;
-import imagisoft.misc.DateConverter;
 import imagisoft.model.Message;
 import imagisoft.model.ViewedList;
 

@@ -1,60 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout
+
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:layout_width="match_parent"
     android:layout_height="@dimen/space_header_height">
 
     <ImageView
-        android:id="@+id/emphasis_image_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_header_img"
-        android:scaleType="fitCenter"
-        android:background="@drawable/img_header_wallpaper"
-        android:contentDescription="@null">
-    </ImageView>
 
-    <ImageView
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_default_wallpaper"
+
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_header_img"
-        android:background="#ecffffff"
-        android:contentDescription="@null"
-        android:tag=":aesthetic_ignore">
-    </ImageView>
+        android:contentDescription="@null"/>
 
     <LinearLayout
+        android:orientation="vertical"
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="@dimen/space_header"
-        android:orientation="vertical">
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:src="@drawable/ic_edepa"
+            android:layout_width="@dimen/avatar_biggest_width"
+            android:layout_height="@dimen/avatar_biggest_height"
+            android:contentDescription="@null" />
 
         <TextView
+            android:id="@+id/welcome_text_view"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/text_welcome"
-            android:textStyle="bold"
-            android:textColor="?colorPrimaryDark"
-            android:textSize="@dimen/font_big" />
+            android:layout_marginTop="@dimen/space_small"
 
-        <TextView
-            android:id="@+id/current_menu_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="?colorAccent"
-            android:textSize="@dimen/font_biggest"
-            tools:text="@string/nav_menu"/>
-
-        <TextView
-            android:id="@+id/current_section_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@color/material_grey"
-            android:textSize="@dimen/font_medium"
-            tools:text="@string/nav_subsection"/>
+            android:textStyle="italic"
+            android:textSize="@dimen/font_small"
+            android:textColor="@color/app_primary_font"
+            tools:text="@string/text_welcome"/>
 
     </LinearLayout>
 
@@ -62,10 +49,11 @@
         android:id="@+id/favorite_button"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginStart="@dimen/space_medium"
-        android:layout_marginBottom="@dimen/space_medium"
-        android:clickable="true"
         android:layout_gravity="bottom"
+        android:layout_marginStart="@dimen/space_favorite_button"
+        android:layout_marginBottom="@dimen/space_favorite_button"
+        android:clickable="true"
+        android:focusable="true"
         app:srcCompat="@drawable/ic_star_white_24dp" />
 
 </FrameLayout>

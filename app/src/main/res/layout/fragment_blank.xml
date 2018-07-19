@@ -21,7 +21,7 @@
         android:textSize="@dimen/font_biggest"
         android:textStyle="bold"
         android:fontFamily="sans-serif-smallcaps"
-        android:textColor="@color/app_special_font"
+        android:textColor="@color/app_primary_font"
         android:textAlignment="center"/>
 
 </RelativeLayout>

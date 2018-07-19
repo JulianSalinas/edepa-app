@@ -96,8 +96,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                app:cardCornerRadius="@dimen/card_radius"
-                app:cardElevation="@dimen/card_elevation"
+                app:cardCornerRadius="@dimen/card_radius_schedule"
+                app:cardElevation="@dimen/card_elevation_schedule"
                 app:contentPadding="16dp">
 
                 <LinearLayout
@@ -183,8 +183,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                app:cardCornerRadius="@dimen/card_radius"
-                app:cardElevation="@dimen/card_elevation"
+                app:cardCornerRadius="@dimen/card_radius_chat_input"
+                app:cardElevation="@dimen/card_elevation_schedule"
                 app:contentPadding="16dp">
 
                 <LinearLayout
@@ -250,8 +250,8 @@
         android:layout_height="56dp"
         android:layout_margin="16dp"
         android:layout_gravity="bottom|right"
-        android:layout_marginStart="@dimen/space_medium"
-        android:layout_marginBottom="@dimen/space_medium"
+        android:layout_marginStart="@dimen/space_default"
+        android:layout_marginBottom="@dimen/space_default"
         android:src="@drawable/star_on"
         app:backgroundTint="@color/app_white"
         android:tag=":aesthetic_ignore"/>

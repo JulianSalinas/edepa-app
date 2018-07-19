@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Main app -->
+    <dimen name="toolbar_elevation">4dp</dimen>
+
     <!--For padding and margins-->
-    <dimen name="space_line">1dp</dimen>
-    <dimen name="space_smallest">2dp</dimen>
-    <dimen name="space_small">5dp</dimen>
-    <dimen name="space_medium">10dp</dimen>
+    <dimen name="space_smallest">4dp</dimen>
+    <dimen name="space_small">8dp</dimen>
     <dimen name="space_default">16dp</dimen>
-    <dimen name="space_big">20dp</dimen>
-    <dimen name="space_biggest">25dp</dimen>
-    <dimen name="space_header">34dp</dimen>
+
+    <!-- For special components -->
+    <dimen name="space_favorite_button">10dp</dimen>
 
     <!--For navigation sidemenu-->
     <dimen name="space_header_items">8dp</dimen>
@@ -24,24 +25,35 @@
     <dimen name="size_container_img">150dp</dimen>
 
     <!--For avatars -->
-    <dimen name="avatar_biggest_width">100dp</dimen>
-    <dimen name="avatar_biggest_height">@dimen/avatar_biggest_width</dimen>
-    <dimen name="avatar_medium_height">50dp</dimen>
-    <dimen name="avatar_medium_width">@dimen/avatar_medium_height</dimen>
     <dimen name="avatar_small_height">40dp</dimen>
+    <dimen name="avatar_medium_height">50dp</dimen>
+    <dimen name="avatar_biggest_width">100dp</dimen>
     <dimen name="avatar_small_width">@dimen/avatar_small_height</dimen>
+    <dimen name="avatar_medium_width">@dimen/avatar_medium_height</dimen>
+    <dimen name="avatar_biggest_height">@dimen/avatar_biggest_width</dimen>
 
-    <!-- For cardvmsgstems -->
-    <dimen name="card_radius">2dp</dimen>
-    <dimen name="card_radius_chat">5dp</dimen>
-    <dimen name="card_elevation">2dp</dimen>
-    <dimen name="header_elevation">16dp</dimen>
+    <!-- For card items -->
+    <dimen name="card_radius_schedule">2dp</dimen>
+    <dimen name="card_radius_chat_send">25dp</dimen>
+    <dimen name="card_radius_chat_input">20dp</dimen>
+
+    <dimen name="card_elevation_chat">2dp</dimen>
+    <dimen name="card_elevation_schedule">2dp</dimen>
 
     <!-- Fonts sizes-->
+    <dimen name="font_button">14sp</dimen>
     <dimen name="font_small">12sp</dimen>
     <dimen name="font_medium">16sp</dimen>
     <dimen name="font_big">20sp</dimen>
     <dimen name="font_biggest">24sp</dimen>
+
+    <!-- Special font sizes -->
+    <dimen name="font_page_title">20sp</dimen>
+    <dimen name="font_list_title">14sp</dimen>
+    <dimen name="font_text_input">16sp</dimen>
+    <dimen name="font_text_captions">16sp</dimen>
+    <dimen name="font_paragraph_text">14sp</dimen>
+    <dimen name="font_list_item_title">16sp</dimen>
 
     <dimen name="expanded_toolbar_title_margin_start">64dp</dimen>
 

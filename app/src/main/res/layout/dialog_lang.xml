@@ -16,8 +16,8 @@
         android:layout_height="wrap_content"
         android:text="Español"
         android:textStyle="bold"
-        android:textColor="@color/app_secondary_font"
-        android:background="@color/app_detail"
+        android:textColor="@color/app_accent_font"
+        android:background="@color/app_accent"
         android:tag=":aesthetic_ignore"/>
 
     <Button
@@ -28,7 +28,7 @@
         android:layout_marginBottom="@dimen/space_default"
         android:text="English"
         android:textStyle="bold"
-        android:textColor="@color/app_secondary_font"
+        android:textColor="@color/app_accent_font"
         android:background="@color/app_accent"
         android:tag=":aesthetic_ignore"/>
 

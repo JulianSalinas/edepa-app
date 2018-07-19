@@ -16,10 +16,9 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.afollestad.aesthetic.Aesthetic;
 import com.madrapps.pikolo.HSLColorPicker;
-import imagisoft.misc.ColorConverter;
+
 import com.kizitonwose.colorpreferencecompat.ColorPreferenceCompat;
 import com.madrapps.pikolo.listeners.SimpleColorSelectionListener;
-import static imagisoft.modelview.DefaultColor.APP_ACCENT_DARK;
 
 
 public class ThemePicker extends PreferenceFragmentCompat
@@ -159,11 +158,11 @@ public class ThemePicker extends PreferenceFragmentCompat
                 theme.colorAccent(color);
                 break;
 
-            case APP_ACCENT_DARK:
-                theme.colorNavigationBar(color);
-                activity.getWindow()
-                        .setNavigationBarColor(color);
-                break;
+//            case APP_ACCENT_DARK:
+//                theme.colorNavigationBar(color);
+//                activity.getWindow()
+//                        .setNavigationBarColor(color);
+//                break;
 
         }
 
