@@ -6,14 +6,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 
 
-public abstract class MessagesFragment extends ActivityFragment {
+public abstract class MessagesFragment extends MainActivityFragment {
 
     /**
      * Donde se coloca cada uno de los mensajes
      */
     protected MessagesAdapter messagesVA;
 
-    @BindView(R.id.messages_recycler_view)
+    @BindView(R.id.chat_rv)
     RecyclerView messagesRV;
 
     /**
@@ -47,7 +47,7 @@ public abstract class MessagesFragment extends ActivityFragment {
     }
 
     /**
-     * Se configura el contenedor de mensajes, messagesRV
+     * Se configura el contenedor de mensajes, chatRV
      */
     public void setupRecyclerView(){
         messagesRV.setAdapter(messagesVA);

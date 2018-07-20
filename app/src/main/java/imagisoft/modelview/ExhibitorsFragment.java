@@ -13,7 +13,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import butterknife.BindView;
 
 
-public class ExhibitorsFragment extends ActivityFragment
+public class ExhibitorsFragment extends MainActivityFragment
         implements MaterialSearchView.OnQueryTextListener {
 
     /**
@@ -60,7 +60,6 @@ public class ExhibitorsFragment extends ActivityFragment
     @Override
     public void setupActivityView() {
         setToolbarText(R.string.nav_people);
-        setTabLayoutVisibility(View.GONE);
         setToolbarVisibility(View.VISIBLE);
         setupSearchView();
         setupAdapter();

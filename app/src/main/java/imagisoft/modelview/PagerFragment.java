@@ -10,7 +10,7 @@ import android.support.v4.view.ViewPager;
  * Cada subclase tiene que encargarse de colocar el páginador
  * y su respectivo adaptador
  */
-public abstract class PagerFragment extends ActivityFragment {
+public abstract class PagerFragment extends MainActivityFragment {
 
     /**
      * Barra debajo de los tabs para colocar los días
@@ -38,18 +38,17 @@ public abstract class PagerFragment extends ActivityFragment {
     /**
      * Se configura la vista después de que la actividad se reinicia
      * ya sea por cambio de idioma o al girar la pantalla
-     * @param bundle: No se utiliza
+     * @param savedInstanceState: No se utiliza
      */
     @Override
-    public void onActivityCreated(Bundle bundle) {
-        super.onActivityCreated(bundle);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         setupViewPager();
     }
 
     @Override
     public void setupActivityView() {
         setToolbarText(R.string.app_name);
-        setTabLayoutVisibility(View.VISIBLE);
     }
 
     /**

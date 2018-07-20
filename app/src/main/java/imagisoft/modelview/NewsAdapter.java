@@ -31,7 +31,7 @@ public class NewsAdapter extends MessagesAdapterOnline {
     /**
      * Constructor del adaptador usado para recibir mensajes online
      */
-    public NewsAdapter(ActivityFragment view) {
+    public NewsAdapter(MainActivityFragment view) {
         super(view);
     }
 

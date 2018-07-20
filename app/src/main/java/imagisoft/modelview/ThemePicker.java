@@ -53,10 +53,10 @@ public class ThemePicker extends PreferenceFragmentCompat
     @Override
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
-        toolbarText = activity.getToolbar().getTitle();
-        tabLayoutVisibility = activity.getTabLayout().getVisibility();
-        toolbarVisibility = activity.getToolbar().getVisibility();
-        activity.getToolbar().setTitle(getResources().getString(R.string.nav_palette));
+//        toolbarText = activity.getToolbar().getTitle();
+//        tabLayoutVisibility = activity.getTabLayout().getVisibility();
+//        toolbarVisibility = activity.getToolbar().getVisibility();
+//        activity.getToolbar().setTitle(getResources().getString(R.string.nav_palette));
         activity.getTabLayout().setVisibility(View.GONE);
     }
 
@@ -66,9 +66,9 @@ public class ThemePicker extends PreferenceFragmentCompat
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        activity.getToolbar().setVisibility(toolbarVisibility);
+//        activity.getToolbar().setVisibility(toolbarVisibility);
         activity.getTabLayout().setVisibility(tabLayoutVisibility);
-        activity.getToolbar().setTitle(toolbarText);
+//        activity.getToolbar().setTitle(toolbarText);
     }
 
     /**

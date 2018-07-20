@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -65,17 +64,17 @@ public class ActivityNavigation extends ActivityCustom
         else if (bundle == null)
             onCreateWithNoArgs();
 
-        View header = navigation.getHeaderView(0);
-        favoriteButton = header.findViewById(R.id.favorite_button);
-
-        setUsernameInMenu();
-        favoriteButton.setOnClickListener(this);
-        navigation.setNavigationItemSelectedListener(this);
+//        View header = navigation.getHeaderView(0);
+//        favoriteButton = header.findViewById(R.id.favorite_button);
+//
+//        setUsernameInMenu();
+//        favoriteButton.setOnClickListener(this);
+//        navigation.setNavigationItemSelectedListener(this);
 
     }
 
     public void setUsernameInMenu(){
-        String key = Preferences.USER_KEY_VALUE;
+        String key = Preferences.USER_KEY;
         Preferences prefs = Preferences.getInstance();
         String username = prefs.getStringPreference(this, key);
         Log.i("ActivityNavigation::", "setUsernameInMenu");
@@ -114,7 +113,7 @@ public class ActivityNavigation extends ActivityCustom
     protected void onCreateWithNoArgs(){
 
         currentResource = R.id.events_view;
-        toolbar.setTitle(R.string.app_name);
+//        toolbar.setTitle(R.string.app_name);
         tabLayout.setVisibility(View.GONE);
         independentFragments.put(currentResource, createFragmentById(currentResource));
 
@@ -191,12 +190,12 @@ public class ActivityNavigation extends ActivityCustom
     public void onClick(View v) {
         if(!independentFragments.containsKey(R.id.nav_schedule)) {
             independentFragments.put(R.id.nav_schedule, ScheduleTabs.newInstance(1));
-            switchFragment(independentFragments.get(R.id.nav_schedule));
+//            setFragmentOnScreen(independentFragments.get(R.id.nav_schedule));
         }
         else{
             ScheduleTabs tabs = (ScheduleTabs) independentFragments.get(R.id.nav_schedule);
             tabs.setCurrentTab(1);
-            switchFragment(independentFragments.get(R.id.nav_schedule));
+//            setFragmentOnScreen(independentFragments.get(R.id.nav_schedule));
         }
 //        onBackPressed();
 //        long currentTime = System.currentTimeMillis();
@@ -226,17 +225,17 @@ public class ActivityNavigation extends ActivityCustom
                 independentFragments.put(idResource, createFragmentById(idResource));
 
             currentResource = idResource;
-            switchFragment(independentFragments.get(idResource));
+//            setFragmentOnScreen(independentFragments.get(idResource));
 
         };
 
-        drawerLayout.closeDrawer(GravityCompat.START);
+//        drawerLayout.closeDrawer(GravityCompat.START);
 
     }
 
     public Fragment createFragmentById(int fragmentId){ switch (fragmentId){
         case R.id.nav_chat:
-            return new ChatFragment();
+//            return new ChatFragment();
         case R.id.nav_news:
             return new NewsFragment();
         case R.id.nav_about:

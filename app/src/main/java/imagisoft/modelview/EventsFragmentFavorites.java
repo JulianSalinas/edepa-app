@@ -16,8 +16,8 @@ public class EventsFragmentFavorites extends EventsFragmentWithDate {
     }
 
     @Override
-    public void onActivityCreated(Bundle bundle) {
-        super.onActivityCreated(bundle);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         FavoriteList.getInstance()
                 .addListener((FavoriteListener) eventsVA);
     }

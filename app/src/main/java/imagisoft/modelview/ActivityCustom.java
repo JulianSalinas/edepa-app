@@ -12,10 +12,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
-import com.afollestad.aesthetic.Aesthetic;
 import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
@@ -51,7 +48,7 @@ import static imagisoft.modelview.DefaultColor.APP_PRIMARY_DARK;
 /**
  * Clase análoga al masterpage de un página web
  */
-public abstract class ActivityCustom extends ActivityFirebase
+public abstract class ActivityCustom extends MainActivityFirebase
         implements NavigationView.OnNavigationItemSelectedListener, FavoriteListener {
 
     /**
@@ -115,10 +112,10 @@ public abstract class ActivityCustom extends ActivityFirebase
         if (user != null && user.getDisplayName() != null)
             welcomeMsg += " " + RegexUtil.findFirstName(user.getDisplayName());
 
-        ((TextView) navigation
-                .getHeaderView(0)
-                .findViewById(R.id.welcome_text_view))
-                .setText((welcomeMsg + "!"));
+//        ((TextView) navigation
+//                .getHeaderView(0)
+//                .findViewById(R.id.welcome_text_view))
+//                .setText((welcomeMsg + "!"));
 
     }
 
@@ -147,11 +144,11 @@ public abstract class ActivityCustom extends ActivityFirebase
     public void setLanguage(){
 
         Preferences prefs = Preferences.getInstance();
-        String lang = prefs.getStringPreference(this, Preferences.LANG_KEY_VALUE);
+        String lang = prefs.getStringPreference(this, Preferences.LANG_KEY);
 
         if(lang == null) {
             lang = Locale.getDefault().getLanguage();
-            prefs.setPreference(this, Preferences.LANG_KEY_VALUE, lang);
+            prefs.setPreference(this, Preferences.LANG_KEY, lang);
         }
 
         updateLanguage(lang);

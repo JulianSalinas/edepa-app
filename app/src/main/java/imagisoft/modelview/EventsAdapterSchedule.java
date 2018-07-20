@@ -16,13 +16,13 @@ public class EventsAdapterSchedule
     public EventsAdapterSchedule(EventsFragment view) {
         super(view);
         long date = ((EventsFragmentSchedule) view).getDate();
-
-        view.activity
-                .getScheduleReference()
-                .orderByChild("start")
-                .startAt(date)
-                .endAt(DateConverter.atEndOFDay(date))
-                .addChildEventListener(this);
+//
+//        view.activity
+//                .getScheduleReference()
+//                .orderByChild("start")
+//                .startAt(date)
+//                .endAt(DateConverter.atEndOFDay(date))
+//                .addChildEventListener(this);
     }
 
     @Override

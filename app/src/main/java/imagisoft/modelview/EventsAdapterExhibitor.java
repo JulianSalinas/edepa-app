@@ -23,7 +23,7 @@ class EventsAdapterExhibitor
     }
 
     public void setupReference(){
-        fragment.activity.getScheduleReference().addChildEventListener(this);
+//        fragment.activity.getScheduleReference().addChildEventListener(this);
     }
 
     /**

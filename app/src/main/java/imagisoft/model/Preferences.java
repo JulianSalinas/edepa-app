@@ -9,10 +9,11 @@ public class Preferences {
     /**
      * Constantes para poder guardar y cargar preferencias
      */
-    public static final String LANG_KEY_VALUE = "LANG_KEY_VALUE";
-    public static final String USER_KEY_VALUE = "USER_KEY_VALUE";
-    public static final String USER_ID_KEY_VALUE = "USER_ID_KEY_VALUE";
-    public static final String ALARM_STATE_KEY_VALUE = "ALARM_STATE_KEY_VALUE";
+    public static final String LANG_KEY = "LANG_KEY";
+    public static final String USER_KEY = "USER_KEY";
+    public static final String USER_ID_KEY = "USER_ID_KEY";
+    public static final String FIRST_USE_KEY = "FIRST_USE_KEY";
+    public static final String ALARM_STATE_KEY = "ALARM_STATE_KEY";
 
     /**
      * Solo permite acceder a una instancia de preferencias

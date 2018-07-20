@@ -26,7 +26,7 @@ import imagisoft.model.FavoriteList;
 /**
  * Contiene los tabs de cronograma, agenda y en curso
  */
-public class ScheduleTabs extends ActivityFragment implements TabLayout.OnTabSelectedListener{
+public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTabSelectedListener{
 
     /*
      * Usadas para saber cual tab se debe colocar al crearse la vista
@@ -109,11 +109,11 @@ public class ScheduleTabs extends ActivityFragment implements TabLayout.OnTabSel
      * hacia el última tab seleccionado
      */
     @Override
-    public void onActivityCreated(Bundle bundle) {
+    public void onActivityCreated(Bundle savedInstanceState) {
 
-        super.onActivityCreated(bundle);
+        super.onActivityCreated(savedInstanceState);
         favoriteList = FavoriteList.getInstance();
-        getTabLayout().addOnTabSelectedListener(this);
+//        getTabLayout().addOnTabSelectedListener(this);
 
         searchView = getSearchView();
         searchView.setHint(getResources().getString(R.string.text_search));
@@ -124,12 +124,12 @@ public class ScheduleTabs extends ActivityFragment implements TabLayout.OnTabSel
             public void onSearchViewShown() {
                 if(searchFragment == null)
                     searchFragment = new EventsFragmentSearch();
-                activity.overlapFragment(searchFragment);
+//                activity.overlapFragment(searchFragment);
             }
 
             @Override
             public void onSearchViewClosed() {
-                activity.removeFragment(searchFragment);
+//                activity.removeFragment(searchFragment);
             }
 
         });
@@ -151,8 +151,8 @@ public class ScheduleTabs extends ActivityFragment implements TabLayout.OnTabSel
         searchView.setVoiceSearch(true);
         searchView.setEllipsize(true);
 
-        if(bundle != null)
-            currentTab = bundle.getInt("currentTab");
+        if(savedInstanceState != null)
+            currentTab = savedInstanceState.getInt("currentTab");
 
         navigateToPosition(currentTab);
         handlePendingRunnable();
@@ -162,7 +162,7 @@ public class ScheduleTabs extends ActivityFragment implements TabLayout.OnTabSel
     @Override
     public void setupActivityView() {
         setToolbarVisibility(View.VISIBLE);
-        setTabLayoutVisibility(View.VISIBLE);
+//        setTabLayoutVisibility(View.VISIBLE);
     }
 
     @Override
@@ -222,7 +222,7 @@ public class ScheduleTabs extends ActivityFragment implements TabLayout.OnTabSel
      * Coloca en la pantalla un fragmento previamente creado
      * @param fragment Asociado a la opción elegida por el usuario
      */
-    public void switchFragment(Fragment fragment){
+    public void setFragmentOnScreen(Fragment fragment){
 
         Lifecycle.State state = getLifecycle().getCurrentState();
 
@@ -235,7 +235,7 @@ public class ScheduleTabs extends ActivityFragment implements TabLayout.OnTabSel
     }
 
     /**
-     * Usada por la función switchFragment
+     * Usada por la función setFragmentOnScreen
      * Crear y ejecuta la transacción para cambiar el fragmento
      * @param fragment: Fragmento a colocat en pantalla
      */
@@ -251,7 +251,7 @@ public class ScheduleTabs extends ActivityFragment implements TabLayout.OnTabSel
 
 
     /**
-     * Usada por la función switchFragment
+     * Usada por la función setFragmentOnScreen
      * Si la aplicación está pausada, todas los fragmentos que se
      * deban colorcar en pantalla hacen fila en profilePendigList
      * @param fragment: Fragmento que se iba a colocar pero la aplicación
@@ -302,9 +302,9 @@ public class ScheduleTabs extends ActivityFragment implements TabLayout.OnTabSel
      * @param position: Número de tab de izq a der
      */
     public void paintTab(int position){
-        TabLayout.Tab tab = getTabLayout().getTabAt(position);
-        assert tab != null;
-        tab.select();
+//        TabLayout.Tab tab = getTabLayout().getTabAt(position);
+//        assert tab != null;
+//        tab.select();
     }
 
     /**
@@ -322,20 +322,20 @@ public class ScheduleTabs extends ActivityFragment implements TabLayout.OnTabSel
             if(position == SCHEDULE_TAB){
                 if(scheduleFragment == null)
                     scheduleFragment = new PagerFragmentSchedule();
-                switchFragment(scheduleFragment);
+                setFragmentOnScreen(scheduleFragment);
             }
 
             else if (position == FAVORITES_TAB){
 
                 if(favoriteList.isEmpty()) {
                     String description = activity.getString(R.string.text_without_favorites);
-                    switchFragment(BlankFragment.newInstance(description));
+                    setFragmentOnScreen(BlankFragment.newInstance(description));
                 }
 
                 else {
                     if(favoritesFragment == null)
                         favoritesFragment = new PagerFragmentFavorites();
-                    switchFragment(favoritesFragment);
+                    setFragmentOnScreen(favoritesFragment);
                 }
 
             }
@@ -344,7 +344,7 @@ public class ScheduleTabs extends ActivityFragment implements TabLayout.OnTabSel
 
                 if (ongoingFragment == null)
                     ongoingFragment = EventsFragmentOngoing.newInstance();
-                switchFragment(ongoingFragment);
+                setFragmentOnScreen(ongoingFragment);
 
             }
 

@@ -22,8 +22,8 @@ public class PagerFragmentFavorites extends PagerFragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle bundle) {
-        super.onActivityCreated(bundle);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         favoriteList.addListener((FavoriteListener) adapter);
     }
 

@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 
 
-public abstract class EventsFragment extends ActivityFragment {
+public abstract class EventsFragment extends MainActivityFragment {
 
     /**
      * Se colocan los eventos de manera visual

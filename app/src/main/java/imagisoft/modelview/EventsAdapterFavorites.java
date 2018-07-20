@@ -41,13 +41,13 @@ public class EventsAdapterFavorites
         this.date = ((EventsFragmentFavorites) view).getDate();
         this.favoriteList = FavoriteList.getInstance();
 
-        view.activity
-                .getFavoritesReference()
-                .child(user.getUid())
-                .orderByChild("start")
-                .startAt(date)
-                .endAt(DateConverter.atEndOFDay(date))
-                .addChildEventListener(this);
+//        view.activity
+//                .getFavoritesReference()
+//                .child(user.getUid())
+//                .orderByChild("start")
+//                .startAt(date)
+//                .endAt(DateConverter.atEndOFDay(date))
+//                .addChildEventListener(this);
 
     }
 

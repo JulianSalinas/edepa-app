@@ -13,7 +13,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 
-public class AboutFragment extends ActivityFragment {
+public class AboutFragment extends MainActivityFragment {
 
     /**
      * No usa un recurso como layout, pues usa una librería.
@@ -32,7 +32,6 @@ public class AboutFragment extends ActivityFragment {
     public void setupActivityView() {
         setToolbarText(R.string.nav_about);
         setToolbarVisibility(VISIBLE);
-        setTabLayoutVisibility(GONE);
     }
 
     /**
@@ -40,7 +39,7 @@ public class AboutFragment extends ActivityFragment {
      * super.onCreateView. Solo se retorna la vista que crea la librería.
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Resources resources = getResources();
         Element versionElement = new Element();

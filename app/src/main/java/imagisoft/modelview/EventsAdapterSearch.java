@@ -47,9 +47,9 @@ class EventsAdapterSearch extends EventsAdapterOngoing
      */
     @Override
     public void setupReference(){
-        reference = fragment.activity
-                .getScheduleReference()
-                .orderByChild("start").getRef();
+//        reference = fragment.activity
+//                .getScheduleReference()
+//                .orderByChild("start").getRef();
     }
 
     /**

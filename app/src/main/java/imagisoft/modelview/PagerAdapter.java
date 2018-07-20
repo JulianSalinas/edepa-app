@@ -134,7 +134,7 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
 
                 ScheduleTabs tabs = (ScheduleTabs) fragment.getParentFragment();
 
-                if (tabs != null) tabs.switchFragment(BlankFragment
+                if (tabs != null) tabs.setFragmentOnScreen(BlankFragment
                         .newInstance(fragment.getResources()
                                 .getString(R.string.text_without_events)));
             }

@@ -21,7 +21,7 @@ import imagisoft.misc.DateConverter;
 import imagisoft.model.FavoriteList;
 import imagisoft.model.ScheduleEvent;
 
-public class ScheduleDetail extends ActivityFragment
+public class ScheduleDetail extends MainActivityFragment
         implements AppBarLayout.OnOffsetChangedListener, ValueEventListener{
 
     /**
@@ -117,7 +117,6 @@ public class ScheduleDetail extends ActivityFragment
     @Override
     public void setupActivityView() {
         setToolbarVisibility(View.GONE);
-        setTabLayoutVisibility(View.GONE);
         statusBarColor = getStatusBarColor();
     }
 
@@ -131,8 +130,8 @@ public class ScheduleDetail extends ActivityFragment
 
 
     @Override
-    public void onActivityCreated(Bundle bundle) {
-        super.onActivityCreated(bundle);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         bindActivity();
 
         eventReference = activity.getScheduleReference().child(event.getId());
@@ -255,7 +254,7 @@ public class ScheduleDetail extends ActivityFragment
             favoritesAmountTV.setText(String.valueOf(event.getFavoritesAmount()));
             locationTV.setText(event.getLocation());
             timeDescriptionTV.setText(getDateAsString(event));
-            briefTV.setText(event.getBrief(getCurrentLang()));
+//            briefTV.setText(event.getBrief(getCurrentLang()));
 
             int color = getResources().getColor(event.getEventype().getColor());
             setStatusBarColor(ColorConverter.darken(color, 12));

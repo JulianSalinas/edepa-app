@@ -169,4 +169,6 @@
     <string name="text_viewed">vistos</string>
     <string name="text_not_viewed">no visto</string>
 
+    <string name="text_bye">Hasta luego!</string>
+
 </resources>

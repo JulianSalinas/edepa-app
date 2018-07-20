@@ -5,9 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
 
+    android:id="@+id/toolbar_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:elevation="@dimen/toolbar_elevation">
+ >
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -20,7 +21,8 @@
             android:layout_height="?android:attr/actionBarSize"
 
             app:title="@string/app_name"
-            app:titleTextColor="@color/app_primary_font"/>
+            app:titleTextColor="@color/app_primary_font"
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
         <com.miguelcatalan.materialsearchview.MaterialSearchView
             android:id="@+id/search_view"

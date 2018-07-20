@@ -22,7 +22,7 @@ import imagisoft.model.Congress;
 import imagisoft.misc.DateConverter;
 
 
-public class InformationFragment extends ActivityFragment implements OnMapReadyCallback {
+public class InformationFragment extends MainActivityFragment implements OnMapReadyCallback {
 
     /**
      * Soporte para colocar el mapa
@@ -94,7 +94,7 @@ public class InformationFragment extends ActivityFragment implements OnMapReadyC
         endTextView.setText(DateConverter.extractDate(congress.getEnd()));
         startTextView.setText(DateConverter.extractDate(congress.getStart()));
 
-        iconMap.setOnClickListener(v -> switchFragment(miniMap));
+        iconMap.setOnClickListener(v -> setFragmentOnScreen(miniMap));
         buttonBack.setOnClickListener(v -> activity.onBackPressed());
 
     }
@@ -102,7 +102,6 @@ public class InformationFragment extends ActivityFragment implements OnMapReadyC
     @Override
     public void setupActivityView() {
         setToolbarVisibility(View.GONE);
-        setTabLayoutVisibility(View.GONE);
 
         // Para que la información se actualice en tiempo real y no cada vez que
         // se abre la aplicación

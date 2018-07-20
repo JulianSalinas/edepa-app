@@ -14,7 +14,6 @@ public class EventsFragmentSearch extends EventsFragmentOngoing
     @Override
     public void setupActivityView() {
         super.setupActivityView();
-        setTabLayoutVisibility(View.GONE);
     }
 
     @Override

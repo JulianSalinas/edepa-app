@@ -125,10 +125,10 @@ public class SignInActivity extends AppCompatActivity {
             if(user != null) {
 
                 prefs.setPreference(this,
-                        Preferences.USER_KEY_VALUE, user.getDisplayName());
+                        Preferences.USER_KEY, user.getDisplayName());
 
                 prefs.setPreference(this,
-                        Preferences.USER_ID_KEY_VALUE, user.getUid());
+                        Preferences.USER_ID_KEY, user.getUid());
             }
 
             startApplication();
@@ -140,7 +140,9 @@ public class SignInActivity extends AppCompatActivity {
      * Después de haber cargado los datos de la aplicación, se utiliza está función para abrirla
      */
     private void startApplication(){
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(
+                getApplicationContext(),
+                MainActivityNavigation.class);
         startActivity(intent);
         finish();
     }

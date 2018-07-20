@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/space_default">
 
     <android.support.v7.widget.CardView
+
         android:id="@+id/schedule_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/app_chat_left"
+
         app:cardElevation="1dp"
-        app:cardCornerRadius="@dimen/card_radius_chat_input"
         app:cardUseCompatPadding="true"
+        app:cardBackgroundColor="@color/app_chat_left"
+        app:cardCornerRadius="@dimen/card_radius_chat_msg"
         android:tag=":aesthetic_ignore">
 
         <LinearLayout

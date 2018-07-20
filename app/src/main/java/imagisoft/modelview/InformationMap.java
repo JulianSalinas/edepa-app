@@ -12,7 +12,7 @@ import com.google.firebase.database.ValueEventListener;
 import butterknife.BindView;
 
 
-public class InformationMap extends ActivityFragment {
+public class InformationMap extends MainActivityFragment {
 
     private String imgKey;
     private String imgRef;
@@ -42,7 +42,6 @@ public class InformationMap extends ActivityFragment {
     @Override
     public void setupActivityView() {
         setToolbarText(R.string.text_map);
-        setTabLayoutVisibility(View.GONE);
 
         activity.getConfigReference().child(imgKey)
                 .addValueEventListener(new ValueEventListener() {

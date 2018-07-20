@@ -71,7 +71,7 @@ public abstract class ActivityClassic extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if(!profilePendingList.isEmpty())
-            switchFragment(profilePendingList.pop());
+            setFragmentOnScreen(profilePendingList.pop());
     }
 
     /**
@@ -104,7 +104,7 @@ public abstract class ActivityClassic extends AppCompatActivity {
      * Coloca en la pantalla un fragmento previamente creado
      * @param fragment Asociado a la opción elegida por el usuario
      */
-    public void switchFragment(Fragment fragment){
+    public void setFragmentOnScreen(Fragment fragment){
 
         Lifecycle.State state = getLifecycle().getCurrentState();
 
@@ -117,7 +117,7 @@ public abstract class ActivityClassic extends AppCompatActivity {
     }
 
     /**
-     * Usada por la función switchFragment
+     * Usada por la función setFragmentOnScreen
      * Crear y ejecuta la transacción para cambiar el fragmento
      * @param fragment: Fragmento a colocat en pantalla
      */
@@ -153,7 +153,7 @@ public abstract class ActivityClassic extends AppCompatActivity {
     }
 
     /**
-     * Usada por la función switchFragment
+     * Usada por la función setFragmentOnScreen
      * Si la aplicación está pausada, todas los fragmentos que se
      * deban colorcar en pantalla hacen fila en profilePendigList
      * @param fragment: Fragmento que se iba a colocar pero la aplicación

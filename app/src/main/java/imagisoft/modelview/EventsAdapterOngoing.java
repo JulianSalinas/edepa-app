@@ -27,12 +27,12 @@ public class EventsAdapterOngoing
 
         long currentTime = System.currentTimeMillis();
 
-        if(reference == null)
-            reference = fragment.activity.getScheduleReference()
-                    .orderByChild("start")
-                    .startAt(DateConverter.atStartOfDay(currentTime))
-                    .endAt(DateConverter.atEndOFDay(currentTime))
-                    .getRef();
+//        if(reference == null)
+//            reference = fragment.activity.getScheduleReference()
+//                    .orderByChild("start")
+//                    .startAt(DateConverter.atStartOfDay(currentTime))
+//                    .endAt(DateConverter.atEndOFDay(currentTime))
+//                    .getRef();
     }
 
     public void removeEventListener(){

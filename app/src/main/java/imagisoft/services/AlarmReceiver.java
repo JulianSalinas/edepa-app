@@ -28,7 +28,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Bundle args = intent.getExtras();
 
         boolean receive = Preferences.getInstance()
-                .getBooleanPreference(context, Preferences.ALARM_STATE_KEY_VALUE);
+                .getBooleanPreference(context, Preferences.ALARM_STATE_KEY);
 
         if(args != null && receive) {
 

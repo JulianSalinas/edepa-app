@@ -168,4 +168,6 @@
     <string name="text_viewed">viewed</string>
     <string name="text_not_viewed">no viewed</string>
 
+    <string name="text_bye">Bye bye!</string>
+
 </resources>

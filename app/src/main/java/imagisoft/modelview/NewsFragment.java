@@ -23,7 +23,6 @@ public class NewsFragment extends MessagesFragment {
     public void setupActivityView() {
         setToolbarText(R.string.nav_news);
         setToolbarVisibility(View.VISIBLE);
-        setTabLayoutVisibility(View.GONE);
         super.setupActivityView();
     }
 

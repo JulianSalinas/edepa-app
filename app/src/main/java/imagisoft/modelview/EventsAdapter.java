@@ -37,7 +37,7 @@ public class EventsAdapter
     /**
      * PagerFragment al que se debe colocar este adaptador
      */
-    protected ActivityFragment fragment;
+    protected MainActivityFragment fragment;
 
     /**
      * Necesaria para saber a cúal poner la estrella
@@ -52,7 +52,7 @@ public class EventsAdapter
     /**
      * Con este constructor se deben poner los eventos posteriormente
      */
-    public EventsAdapter(ActivityFragment fragment) {
+    public EventsAdapter(MainActivityFragment fragment) {
         super();
         this.fragment = fragment;
         this.events = new ArrayList<>();
@@ -155,8 +155,8 @@ public class EventsAdapter
         * Función ejecutada al presionar el botón "readmore" de una actividad
         */
         holder.readmore.setOnClickListener(v ->
-//             fragment.switchFragment(ScheduleDetailPager.newInstance(event))
-                fragment.switchFragment(ScheduleDetail.newInstance(event))
+//             fragment.setFragmentOnScreen(ScheduleDetailPager.newInstance(event))
+                fragment.setFragmentOnScreen(ScheduleDetail.newInstance(event))
         );
 
         /*
@@ -181,10 +181,10 @@ public class EventsAdapter
                 FirebaseAuth auth = FirebaseAuth.getInstance();
                 FirebaseUser user = auth.getCurrentUser();
 
-                fragment.activity
-                        .getFavoritesReference()
-                        .child(user.getUid())
-                        .push().setValue(event.getId());
+//                fragment.activity
+//                        .getFavoritesReference()
+//                        .child(user.getUid())
+//                        .push().setValue(event.getId());
             }
 
             @Override

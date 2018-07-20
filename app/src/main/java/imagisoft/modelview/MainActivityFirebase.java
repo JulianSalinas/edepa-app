@@ -1,12 +1,14 @@
 package imagisoft.modelview;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DatabaseReference;
 
 
-public abstract class ActivityFirebase extends ActivityClassic {
+public abstract class MainActivityFirebase extends AppCompatActivity {
 
     /**
      * Conexión con Firebase
@@ -15,60 +17,51 @@ public abstract class ActivityFirebase extends ActivityClassic {
     final FirebaseStorage storage;
     final FirebaseDatabase database;
 
-
     /**
      * Referencia a cada una de las secciones de la BD
      */
     final DatabaseReference root;
-    final DatabaseReference newsReference;
-    final DatabaseReference chatReference;
-    final DatabaseReference configReference;
-    final DatabaseReference ongoingReference;
-    final DatabaseReference scheduleReference;
-    final DatabaseReference congressReference;
-    final DatabaseReference favoritesReference;
 
     /**
      * Funciones que sirven para obtener las referencias desde
      * los fragmentos y así colocar los listeners
      */
-
     public FirebaseStorage getStorage() {
         return storage;
     }
 
     public DatabaseReference getNewsReference() {
-        return newsReference;
+        return root.child("news");
     }
 
     public DatabaseReference getChatReference() {
-        return chatReference;
+        return root.child("chat");
     }
 
     public DatabaseReference getConfigReference() {
-        return configReference;
+        return root.child("config");
     }
 
     public DatabaseReference getOngoingReference() {
-        return ongoingReference;
+        return root.child("ongoing");
     }
 
     public DatabaseReference getScheduleReference() {
-        return scheduleReference;
+        return root.child("schedule");
     }
 
     public DatabaseReference getCongressReference() {
-        return congressReference;
+        return root.child("congress");
     }
 
     public DatabaseReference getFavoritesReference() {
-        return favoritesReference;
+        return root.child("favorites");
     }
 
     /**
      * En el constructor se crean las referencias a la BD
      */
-    public ActivityFirebase(){
+    public MainActivityFirebase(){
 
         // Guarda en persistencia para volver a descargar
         // Ayuda si la aplicación queda offline
@@ -82,14 +75,6 @@ public abstract class ActivityFirebase extends ActivityClassic {
 
         // Creando referencias a la base da datos
         this.root = database.getReference("edepa5");
-
-        this.chatReference = root.child("chat");
-        this.newsReference = root.child("news");
-        this.configReference = root.child("config");
-        this.ongoingReference = root.child("ongoing");
-        this.scheduleReference = root.child("schedule");
-        this.congressReference = root.child("congress");
-        this.favoritesReference = root.child("favorites");
 
     }
 

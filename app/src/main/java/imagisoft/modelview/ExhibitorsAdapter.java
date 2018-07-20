@@ -103,7 +103,7 @@ public class ExhibitorsAdapter extends RecyclerView.Adapter
         holder.exhibitorAvatarView
                 .setBackgroundColor(materialGenerator.getColor(name));
 
-        holder.exhibitorCardView.setOnClickListener(v -> exhibitorsView.switchFragment(
+        holder.exhibitorCardView.setOnClickListener(v -> exhibitorsView.setFragmentOnScreen(
                 ExhibitorDetail.newInstance(item, eventsByExhibitor.get(item))));
 
     }

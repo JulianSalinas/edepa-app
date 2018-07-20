@@ -102,7 +102,6 @@ public class ExhibitorDetail extends EventsFragment {
     public void setupActivityView() {
         super.setupActivityView();
         setToolbarVisibility(View.GONE);
-        setTabLayoutVisibility(View.GONE);
         bindInformation();
     }
 

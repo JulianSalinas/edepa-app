@@ -6,7 +6,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 
 
-public class BlankFragment extends ActivityFragment {
+public class BlankFragment extends MainActivityFragment {
 
     /**
      * El texto en el centro que muestra en fragmento
@@ -39,15 +39,15 @@ public class BlankFragment extends ActivityFragment {
 
     /**
      * Se coloca el mensaje en la vista
-     * @param bundle: No es necesario
+     * @param savedInstanceState: No es necesario
      */
     @Override
-    public void onActivityCreated(Bundle bundle) {
+    public void onActivityCreated(Bundle savedInstanceState) {
 
-        super.onActivityCreated(bundle);
+        super.onActivityCreated(savedInstanceState);
 
-        if(bundle != null)
-            descriptionTextView.setText(bundle.getString("description"));
+        if(savedInstanceState != null)
+            descriptionTextView.setText(savedInstanceState.getString("description"));
 
     }
 
