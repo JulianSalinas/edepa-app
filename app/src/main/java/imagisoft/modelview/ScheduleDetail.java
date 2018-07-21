@@ -20,6 +20,7 @@ import imagisoft.misc.ColorConverter;
 import imagisoft.misc.DateConverter;
 import imagisoft.model.FavoriteList;
 import imagisoft.model.ScheduleEvent;
+import imagisoft.modelview.activity.MainActivityFragment;
 
 public class ScheduleDetail extends MainActivityFragment
         implements AppBarLayout.OnOffsetChangedListener, ValueEventListener{
@@ -86,11 +87,11 @@ public class ScheduleDetail extends MainActivityFragment
 
     /**
      * Se define cúal es el layout que va a utilizar
-     * @param bundle: No se utiliza
+     * @param savedInstanceState: No se utiliza
      */
     @Override
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         Bundle args = getArguments();
         if(args != null)

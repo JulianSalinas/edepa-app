@@ -70,12 +70,12 @@ public class ExhibitorDetail extends EventsFragment {
 
     /**
      * Se define cúal es el layout que va a utilizar
-     * @param bundle: No se utiliza
+     * @param savedInstanceState: No se utiliza
      */
     @Override
-    public void onCreate(Bundle bundle) {
+    public void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(bundle);
+        super.onCreate(savedInstanceState);
 
         Bundle args = getArguments();
 

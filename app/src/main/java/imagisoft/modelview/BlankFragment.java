@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import butterknife.BindView;
+import imagisoft.modelview.activity.MainActivityFragment;
 
 
 public class BlankFragment extends MainActivityFragment {

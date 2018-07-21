@@ -1,4 +1,4 @@
-package imagisoft.modelview;
+package imagisoft.modelview.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,10 +24,13 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBarDrawerToggle;
 
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Stack;
 import butterknife.*;
 import imagisoft.misc.*;
 import imagisoft.model.Preferences;
+import imagisoft.modelview.R;
 
 import static android.support.v4.view.GravityCompat.START;
 
@@ -44,6 +47,27 @@ public abstract class MainActivity extends MainActivityFirebase
         implements LifecycleObserver,
         MaterialSearchView.SearchViewListener,
         NavigationView.OnNavigationItemSelectedListener{
+
+    /**
+     * Usado para despedirse al salir de la aplicación
+     * @see #exit()
+     */
+    @BindString(R.string.text_bye)
+    String textBye;
+
+    /**
+     * Usado para saludar al iniciar la aplicación
+     * @see #showWelcomeMessage()
+     */
+    @BindString(R.string.text_welcome)
+    String textWelcome;
+
+    /**
+     * Texto "Búsqueda" que contiene searchView
+     * @see #searchView
+     */
+    @BindString(R.string.text_search)
+    String textSearch;
 
     /**
      * Toolbar o barra superior de la aplicación
@@ -84,27 +108,6 @@ public abstract class MainActivity extends MainActivityFirebase
     MaterialSearchView searchView;
 
     /**
-     * Texto "Búsqueda" que contiene searchView
-     * @see #searchView
-     */
-    @BindString(R.string.text_search)
-    String textSearch;
-
-    /**
-     * Usado para saludar al iniciar la aplicación
-     * @see #showWelcomeMessage()
-     */
-    @BindString(R.string.text_welcome)
-    String textWelcome;
-
-    /**
-     * Usado para despedirse al salir de la aplicación
-     * @see #exit()
-     */
-    @BindString(R.string.text_bye)
-    String textBye;
-
-    /**
      * Menú que se extrae de navigationView para colocar
      * los eventos a cada una de las opciones del menú
      */
@@ -117,7 +120,7 @@ public abstract class MainActivity extends MainActivityFirebase
      * el draweLayout. Se instancia en connectDrawerListener()
      * @see #runPendingRunnable()
      */
-    private Handler handler;
+    protected Handler handler;
 
     /**
      * Runneable que el handler debe correr, este contiene
@@ -129,16 +132,17 @@ public abstract class MainActivity extends MainActivityFirebase
     /**
      * Si el fragmento ya está en pantalla no es
      * necesario colocarlo otra vez
-     * @see #switchFragment(Fragment)
+     * @see #switchFragment(Fragment, String)
      */
     protected Fragment currentFragment;
 
     /**
      * Sirve para restaurar el último fragmento utilizado después
      * de que la aplicación se puso en pausa repentinamente
+     * Se utiliza los tags de los fragmentos no los fragmentos en si mismos
      * @see #restoreFromPendindgList()
      */
-    protected Stack<Fragment> pendingFragments = new Stack<>();
+    protected Stack<String> pendingFragments = new Stack<>();
 
     /**
      * Necesaria para que los fragmentos la puedan personalizar
@@ -202,7 +206,7 @@ public abstract class MainActivity extends MainActivityFirebase
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getLifecycle().addObserver(this);
-        setContentView(R.layout.main_drawer);
+        setContentView(imagisoft.modelview.R.layout.main_drawer);
         ButterKnife.bind(this);
         onCreateActivity(savedInstanceState);
         Log.i(toString(), "onCreate()");
@@ -267,8 +271,8 @@ public abstract class MainActivity extends MainActivityFirebase
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     public void setupToggle(){
-        int open = R.string.drawer_open;
-        int close = R.string.drawer_close;
+        int open = imagisoft.modelview.R.string.drawer_open;
+        int close = imagisoft.modelview.R.string.drawer_close;
         new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, open, close).syncState();
         Log.i(toString(), "setupToggle()");
@@ -284,19 +288,6 @@ public abstract class MainActivity extends MainActivityFirebase
     }
 
     /**
-     * Se remueve el listener del botón fav del menú lateral
-     * @see #connectFavoriteButtonListener()
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    public void disconnectFavoriteButtonListener(){
-        navigationView
-                .getHeaderView(0)
-                .findViewById(R.id.favorite_button)
-                .setOnClickListener(null);
-        Log.i(toString(), "disconnectFavoriteButtonListener()");
-    }
-
-    /**
      * Se configura el listener del botón fav del menú lateral
      * @see #disconnectFavoriteButtonListener()
      */
@@ -304,10 +295,23 @@ public abstract class MainActivity extends MainActivityFirebase
     public void connectFavoriteButtonListener(){
         navigationView
                 .getHeaderView(0)
-                .findViewById(R.id.favorite_button)
+                .findViewById(imagisoft.modelview.R.id.favorite_button)
                 .setOnClickListener(v ->
-                showMessage("favoriteButtonPressed"));
+                        showMessage("favoriteButtonPressed"));
         Log.i(toString(), "connectFavoriteButtonListener()");
+    }
+
+    /**
+     * Se remueve el listener del botón fav del menú lateral
+     * @see #connectFavoriteButtonListener()
+     */
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    public void disconnectFavoriteButtonListener(){
+        navigationView
+                .getHeaderView(0)
+                .findViewById(imagisoft.modelview.R.id.favorite_button)
+                .setOnClickListener(null);
+        Log.i(toString(), "disconnectFavoriteButtonListener()");
     }
 
     /**
@@ -362,7 +366,9 @@ public abstract class MainActivity extends MainActivityFirebase
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void restoreFromPendindgList(){
         if(!pendingFragments.isEmpty()) {
-            switchFragment(pendingFragments.pop());
+            String tag = pendingFragments.pop();
+            Fragment frag = getSupportFragmentManager().findFragmentByTag(tag);
+            switchFragment(frag, tag);
             Log.i(toString(), "restoreFromPendindgList()");
         }
     }
@@ -372,7 +378,8 @@ public abstract class MainActivity extends MainActivityFirebase
      */
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        // Code here
+        for(Fragment fragment : getSupportFragmentManager().getFragments())
+            getSupportFragmentManager().saveFragmentInstanceState(fragment);
         super.onSaveInstanceState(savedInstanceState);
         Log.i(toString(), "onSaveInstanceState()");
     }
@@ -382,7 +389,6 @@ public abstract class MainActivity extends MainActivityFirebase
      */
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        // Code here
         Log.i(toString(), "onRestoreInstanceState()");
     }
 
@@ -395,12 +401,13 @@ public abstract class MainActivity extends MainActivityFirebase
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private void showWelcomeMessage(){
 
-        String username = getDefaultUsername();
+        Preferences prefs = Preferences.getInstance();
+        String username = prefs.getStringPreference(this, Preferences.USER_KEY);
         if(!username.equals("")) textWelcome += " " + username;
 
         ((TextView) navigationView
                 .getHeaderView(0)
-                .findViewById(R.id.welcome_text_view))
+                .findViewById(imagisoft.modelview.R.id.welcome_text_view))
                 .setText((textWelcome + "!"));
     }
 
@@ -438,8 +445,9 @@ public abstract class MainActivity extends MainActivityFirebase
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.toolbar_menu, menu);
-        searchView.setMenuItem(menu.findItem(R.id.search_item));
+        inflater.inflate(imagisoft.modelview.R.menu.toolbar_menu, menu);
+        MenuItem item = menu.findItem(imagisoft.modelview.R.id.search_item);
+        searchView.setMenuItem(item);
         Log.i(toString(), "onCreateOptionsMenu()");
         return true;
     }
@@ -454,8 +462,8 @@ public abstract class MainActivity extends MainActivityFirebase
         int id = item.getItemId();
 
         switch (id){
-            case R.id.about_item: openAbout();
-            case R.id.settings_item: openSettings();
+            case imagisoft.modelview.R.id.about_item: openAbout();
+            case imagisoft.modelview.R.id.settings_item: openSettings();
         }
 
         Log.i(toString(), "onOptionsItemSelected()");
@@ -495,16 +503,17 @@ public abstract class MainActivity extends MainActivityFirebase
     /**
      * Coloca en la pantalla un fragmento previamente creado
      * @param fragment Fragmento previamente creado
+     * @param tag Tag que pertenece al fragmento
      */
-    public void setFragmentOnScreen(Fragment fragment){
+    public void setFragmentOnScreen(Fragment fragment, String tag){
 
         Lifecycle.State state = getLifecycle().getCurrentState();
 
         // Si la app está en pausa no se remplaza el fragmento
         if(state.isAtLeast(Lifecycle.State.RESUMED))
-            switchFragment(fragment);
+            switchFragment(fragment, tag);
 
-        else updatePendingFragments(fragment);
+        else updatePendingFragments(tag);
 
         Log.i(toString(), "setFragmentOnScreen()");
 
@@ -526,13 +535,14 @@ public abstract class MainActivity extends MainActivityFirebase
      * Usada por la función setFragmentOnScreen
      * Crear y ejecuta la transacción para cambiar el fragmento
      * @param fragment: Fragmento a colocat en pantalla
+     * @param tag: Tag del fragmento
      */
-    private void switchFragment(Fragment fragment){
+    private void switchFragment(Fragment fragment, String tag){
         if(fragment != currentFragment) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .addToBackStack(null)
-                    .replace(R.id.main_content, fragment)
+                    .replace(R.id.main_content, fragment, tag)
                     .setCustomAnimations(
                             R.animator.fade_in,
                             R.animator.fade_out)
@@ -542,15 +552,16 @@ public abstract class MainActivity extends MainActivityFirebase
     }
 
     /**
-     * Usada por la función #{@link #setFragmentOnScreen(Fragment)}
+     * Usada por la función #{@link #setFragmentOnScreen(Fragment, String)}
      * Si la aplicación está pausada, todas los fragmentos que se
      * deban colocar en pantalla quedan en la lista y se coloca solo el último
-     * @param fragment: Fragmento que se iba a colocar pero la aplicación
+     * @param tag: Tag del fragmento que se iba a colocar pero la aplicación
      *                  estaba en pausa
+     * @see #restoreFromPendindgList()
      */
-    private void updatePendingFragments(Fragment fragment){
+    private void updatePendingFragments(String tag){
         pendingFragments.clear();
-        pendingFragments.add(fragment);
+        pendingFragments.add(tag);
         Log.i(toString(), "updatePendingFragments()");
     }
 
@@ -608,6 +619,8 @@ public abstract class MainActivity extends MainActivityFirebase
      */
     public boolean exitAndSignOut(){
         AuthUI.getInstance().signOut(this);
+        Preferences prefs = Preferences.getInstance();
+        prefs.setPreference(this, Preferences.FIRST_USE_KEY, true);
         return exit();
     }
 

@@ -13,11 +13,11 @@ public class PagerFragmentFavorites extends PagerFragment {
 
     /**
      * Se define cúal es el layout que va a utilizar
-     * @param bundle: No se utiliza
+     * @param savedInstanceState: No se utiliza
      */
     @Override
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         favoriteList = FavoriteList.getInstance();
     }
 

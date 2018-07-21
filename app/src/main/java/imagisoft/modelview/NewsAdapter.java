@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import imagisoft.misc.DateCalculator;
 import imagisoft.model.Message;
 import imagisoft.model.ViewedList;
+import imagisoft.modelview.activity.MainActivityFragment;
 
 /**
  * Sirve para enlazar las funciones a una actividad en específico
@@ -37,12 +38,12 @@ public class NewsAdapter extends MessagesAdapterOnline {
 
     @Override
     protected void setupReference() {
-        this.reference = view.activity.getNewsReference();
+        this.reference = view.getMainActivity().getNewsReference();
     }
 
     @Override
     protected String setTimeDescription(Message msg){
-        DateCalculator dateCalculator = new DateCalculator(view.activity);
+        DateCalculator dateCalculator = new DateCalculator(view.getMainActivity());
         return dateCalculator.getTimeAgo(msg.getTime());
     }
 
@@ -94,7 +95,7 @@ public class NewsAdapter extends MessagesAdapterOnline {
                 ImageViewCompat.setImageTintList(((NewVH) holder).msgReadCheck, ColorStateList.valueOf(color));
                 ((NewVH) holder).msgReadCheckText.setText(view.getResources().getString(R.string.text_single_viewed));
 
-                view.activity.
+                view.getMainActivity().
                         getNewsReference()
                         .child(msg.getKey())
                         .runTransaction(new Transaction.Handler() {
@@ -128,7 +129,7 @@ public class NewsAdapter extends MessagesAdapterOnline {
                 ImageViewCompat.setImageTintList(((NewVH) holder).msgReadCheck, ColorStateList.valueOf(color));
                 ((NewVH) holder).msgReadCheckText.setText(view.getResources().getString(R.string.text_not_viewed));
 
-                view.activity.
+                view.getMainActivity().
                         getNewsReference()
                         .child(msg.getKey())
                         .runTransaction(new Transaction.Handler() {

@@ -13,8 +13,8 @@ public abstract class EventsFragmentWithDate extends EventsFragment {
     }
 
     @Override
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         if (args != null && args.containsKey("date"))
             date = args.getLong("date");

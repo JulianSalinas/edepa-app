@@ -1,8 +1,9 @@
 package imagisoft.modelview;
 
 import android.os.Bundle;
-import android.view.View;
+
 import butterknife.BindView;
+import imagisoft.modelview.activity.MainActivityFragment;
 
 import android.support.v4.view.ViewPager;
 

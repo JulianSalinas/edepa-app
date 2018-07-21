@@ -6,18 +6,16 @@ import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.content.res.Resources;
 
+import imagisoft.modelview.activity.MainActivityFragment;
 import mehdi.sakout.aboutpage.Element;
 import mehdi.sakout.aboutpage.AboutPage;
-
-import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 
 public class AboutFragment extends MainActivityFragment {
 
     /**
-     * No usa un recurso como layout, pues usa una librería.
-     * Por eso se colocar solo la descripción que se muestra
+     * {@inheritDoc}
      */
     @Override
     public void setupResource() {
@@ -25,8 +23,7 @@ public class AboutFragment extends MainActivityFragment {
     }
 
     /**
-     * Coloca el título
-     * Oculta las vistas que no necesita
+     * {@inheritDoc}
      */
     @Override
     public void setupActivityView() {
@@ -36,10 +33,12 @@ public class AboutFragment extends MainActivityFragment {
 
     /**
      * Usa una librería, por lo que no se debe llamar a la función
-     * super.onCreateView. Solo se retorna la vista que crea la librería.
+     * super.onCreateView. Solo se retorna la vista que crea la librería
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
 
         Resources resources = getResources();
         Element versionElement = new Element();

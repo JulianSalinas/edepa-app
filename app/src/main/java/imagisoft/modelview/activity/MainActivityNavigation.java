@@ -1,8 +1,14 @@
-package imagisoft.modelview;
+package imagisoft.modelview.activity;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+
+import imagisoft.modelview.AboutFragment;
+import imagisoft.modelview.R;
+import imagisoft.modelview.chat.ChatFragment;
 
 public class MainActivityNavigation extends MainActivity {
 
@@ -66,7 +72,6 @@ public class MainActivityNavigation extends MainActivity {
                 .setOnMenuItemClickListener(item -> exitAndSignOut());
     }
 
-
     public boolean openInformation(){
         Log.i(toString(), "openInformation()");
         return true;
@@ -93,8 +98,10 @@ public class MainActivityNavigation extends MainActivity {
     }
 
     public boolean openChat(){
-        pendingRunnable = () -> setFragmentOnScreen(new ChatFragment());
-        Log.i(toString(), "openChat()");
+        String tag = "CHAT_FRAGMENT";
+        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
+        Fragment frag = temp != null ? temp : new ChatFragment();
+        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
         return false;
     }
 
@@ -104,8 +111,11 @@ public class MainActivityNavigation extends MainActivity {
     }
 
     public boolean openAbout(){
-        Log.i(toString(), "openAbout()");
-        return true;
+        String tag = "ABOUT_FRAGMENT";
+        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
+        Fragment frag = temp != null ? temp : new AboutFragment();
+        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+        return false;
     }
 
     public boolean openPallete(){

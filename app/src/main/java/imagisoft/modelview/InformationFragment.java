@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import butterknife.BindView;
 import imagisoft.model.Congress;
 import imagisoft.misc.DateConverter;
+import imagisoft.modelview.activity.MainActivityFragment;
 
 
 public class InformationFragment extends MainActivityFragment implements OnMapReadyCallback {
@@ -68,8 +69,8 @@ public class InformationFragment extends MainActivityFragment implements OnMapRe
     private Congress congress;
 
     @Override
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override

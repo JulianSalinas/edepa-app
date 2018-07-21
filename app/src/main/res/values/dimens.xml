@@ -36,7 +36,7 @@
     <dimen name="card_radius_schedule">2dp</dimen>
     <dimen name="card_radius_chat_send">25dp</dimen>
     <dimen name="card_radius_chat_input">20dp</dimen>
-    <dimen name="card_radius_chat_msg">15dp</dimen>
+    <dimen name="card_radius_chat_msg">10dp</dimen>
 
     <dimen name="card_elevation_chat">2dp</dimen>
     <dimen name="card_elevation_schedule">2dp</dimen>
@@ -57,5 +57,7 @@
     <dimen name="font_list_item_title">16sp</dimen>
 
     <dimen name="expanded_toolbar_title_margin_start">64dp</dimen>
+    <dimen name="space_chat_item_margin">50dp</dimen>
+    <dimen name="space_chat_item_padding">12dp</dimen>
 
 </resources>

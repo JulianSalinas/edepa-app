@@ -51,7 +51,7 @@ public class EventsAdapterOngoing
 
     @Override
     protected String getDateAsString(long start){
-        return fragment.activity
+        return fragment.getMainActivity()
                 .getResources()
                 .getString(R.string.text_ongoing);
     }

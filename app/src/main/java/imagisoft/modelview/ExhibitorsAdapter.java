@@ -58,12 +58,12 @@ public class ExhibitorsAdapter extends RecyclerView.Adapter
         this.exhibitors = new ArrayList<>();
         this.eventsByExhibitor = new LinkedMultiValueMap<>();
         this.filteredExhibitors = this.exhibitors;
-        materialGenerator = new MaterialGenerator(exhibitorsView.activity);
+        materialGenerator = new MaterialGenerator(exhibitorsView.getMainActivity());
         setupListener();
     }
 
     protected void setupListener(){
-        exhibitorsView.activity
+        exhibitorsView.getMainActivity()
                 .getScheduleReference()
                 .addChildEventListener(this);
     }

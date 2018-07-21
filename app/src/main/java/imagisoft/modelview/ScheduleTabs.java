@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import imagisoft.model.FavoriteList;
+import imagisoft.modelview.activity.MainActivityFragment;
 
 /**
  * Contiene los tabs de cronograma, agenda y en curso
@@ -87,9 +88,9 @@ public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTa
      * Se inicializan las variables no gráficas
      */
     @Override
-    public void onCreate(Bundle bundle) {
+    public void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(bundle);
+        super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         handler = new Handler();
 

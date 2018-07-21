@@ -20,7 +20,7 @@ public class PagerAdapterSchedule
     public PagerAdapterSchedule(PagerFragment fragment) {
         super(fragment);
 
-        fragment.activity
+        fragment.getMainActivity()
                 .getScheduleReference()
                 .orderByChild("start")
                 .addChildEventListener(this);

@@ -1,7 +1,6 @@
 package imagisoft.modelview;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.PhotoView;
@@ -10,6 +9,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import butterknife.BindView;
+import imagisoft.modelview.activity.MainActivityFragment;
 
 
 public class InformationMap extends MainActivityFragment {
@@ -22,11 +22,11 @@ public class InformationMap extends MainActivityFragment {
 
     /**
      * Se define cúal es el layout que va a utilizar
-     * @param bundle: No se utiliza
+     * @param savedInstanceState: No se utiliza
      */
     @Override
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         this.imgKey = "minimap";
     }
 

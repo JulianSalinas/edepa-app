@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 import imagisoft.model.FavoriteList;
 import imagisoft.model.ScheduleEvent;
 import imagisoft.misc.DateConverter;
+import imagisoft.modelview.activity.MainActivityFragment;
 
 /**
  * Sirve para enlazar las funciones a una actividad en específico
@@ -205,13 +206,13 @@ public class EventsAdapter
      * @return Fechas como un string que se debe mostrar en la UI
      */
     protected String getDateAsString(long start){
-        Activity activity = fragment.activity;
+        Activity activity = fragment.getMainActivity();
         return  activity.getResources().getString(R.string.text_block) + " " +
                 DateConverter.extractTime(start);
     }
 
     protected String getDateAsString(ScheduleEvent event){
-        Activity activity = fragment.activity;
+        Activity activity = fragment.getMainActivity();
         return  activity.getResources().getString(R.string.text_from) + " " +
                 DateConverter.extractTime(event.getStart()) + " " +
                 activity.getResources().getString(R.string.text_to) + " " +
@@ -231,7 +232,7 @@ public class EventsAdapter
      * Coloca el color acorde con el tipo de actividad
      */
     private void bindEmphasisColor(ScheduleEventVH holder, ScheduleEvent event) {
-        Activity activity = fragment.activity;
+        Activity activity = fragment.getMainActivity();
         int colorResource = event.getEventype().getColor();
         int color = activity.getResources().getColor(colorResource);
         holder.line.setBackgroundColor(color);

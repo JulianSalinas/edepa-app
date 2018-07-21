@@ -169,5 +169,6 @@
     <string name="text_not_viewed">no viewed</string>
 
     <string name="text_bye">Bye bye!</string>
+    <string name="text_msg_sent">Mensaje enviado</string>
 
 </resources>

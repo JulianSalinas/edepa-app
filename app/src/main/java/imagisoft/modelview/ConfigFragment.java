@@ -1,24 +1,8 @@
 package imagisoft.modelview;
 
-import android.os.Bundle;
-import android.view.View;
-import android.app.Dialog;
-import android.view.Window;
-import android.view.Gravity;
 import android.widget.*;
-import android.util.DisplayMetrics;
-import android.content.res.Resources;
-import android.annotation.SuppressLint;
-import android.content.res.Configuration;
-import com.afollestad.aesthetic.Aesthetic;
 
-import java.util.Locale;
-import butterknife.BindView;
-import butterknife.OnClick;
-import imagisoft.misc.ColorConverter;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
+import imagisoft.modelview.activity.MainActivityFragment;
 
 
 public class ConfigFragment extends MainActivityFragment

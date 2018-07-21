@@ -5,11 +5,13 @@ import android.os.Parcelable;
 
 import java.util.Objects;
 
+import imagisoft.modelview.chat.IChatItem;
+
 /**
  * Clase usada para enviar y recibir mensajes del chat
  * Tambien se usa para la sección de noticias porque tiene los mismos datos
  */
-public class Message extends Timestamp implements Parcelable {
+public class Message extends Timestamp implements Parcelable, IChatItem {
 
     /**
      * Identificador con el que Firebase hizo la inserción

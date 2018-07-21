@@ -30,7 +30,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatVH> {
     /**
      * Objetos del modelo que serán adaptados visualmente
      */
-    protected ArrayList<Message> msgs;
+    protected ArrayList<IChatItem> items;
 
     /**
      * Fragmento que hace uso de este adaptador
@@ -39,15 +39,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatVH> {
 
     /**
      * Sirve para colorear el nombre de la persona según sus iniciales
+     * @see MaterialGenerator
      */
     private MaterialGenerator materialGenerator;
 
     /**
-     * @return Cantidad de vistas por crear
+     * @return Cantidad de mensajes
      */
     @Override
     public int getItemCount() {
-        return msgs.size();
+        return items.size();
     }
 
     /**
@@ -55,41 +56,74 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatVH> {
      * @param chatFragment: Vista que hace uso de este adaptador
      */
     public ChatAdapter(ChatFragment chatFragment){
-        this.msgs = new ArrayList<>();
+        this.items = new ArrayList<>();
         this.chatFragment = chatFragment;
-        this.materialGenerator = new MaterialGenerator(chatFragment.activity);
+        this.materialGenerator = new MaterialGenerator(chatFragment.getActivity());
     }
 
     /**
-     *  Obtiene si la noticia tiene un separador o marca de tiempo arriba
+     *  Obtiene si el mensaje marca de tiempo arriba
      *  @return ViewType: Con separador o sin separador
      */
     @Override
     public int getItemViewType(int position) {
 
-        final Message currentMsg = msgs.get(position);
+        final IChatItem currentItem = items.get(position);
 
-        if (position == 0)
-            return getItemWithSeparator(currentMsg);
+        if (currentItem instanceof Timestamp)
+            return TIMESTAMP;
 
         else {
-            Message upMsg = msgs.get(position - 1);
-            return getItemViewType(currentMsg, upMsg);
+
+            Message currentMsg = (Message) currentItem;
+            String userUid = chatFragment.user.getUid();
+
+            if (currentMsg.getUserid().equals(userUid))
+                return RIGHT;
+
+            else {
+
+                final IChatItem upItem = items.get(position - 1);
+
+                if (upItem instanceof Timestamp)
+                    return LEFT_WITH_NAME;
+
+                else{
+
+                    Message upMsg = (Message) upItem;
+
+                    if (upMsg.getUserid().equals(currentMsg.getUserid()))
+                        return LEFT
+
+                }
+
+            }
+
+        }
+
+
+        if (position == 0)
+            return getItemWithSeparator(currentItem);
+
+        else {
+            Message upMsg = items.get(position - 1);
+            return getItemViewType(currentItem, upMsg);
         }
 
     }
 
     /**
-     * Auxiliar para la función anterior.
-     * Extrae la fecha del mensaje de arriba, si es la misma no es
-     * necesario colocar un separador de fechas.
+     * Auxiliar para la función anterior
+     * Extrae la fecha del mensaje del msg anterios, si es la
+     * misma no es necesario colocar un separador de fechas
      * @param currentMsg: Mensaje actual
      * @param upMsg: Mensaje anterior
+     * @see #getItemViewType(int)
      */
     private int getItemViewType(Message currentMsg, Message upMsg){
 
-        String currentDate = DateConverter.extractDate(currentMsg.getTime());
         String upDate = DateConverter.extractDate(upMsg.getTime());
+        String currentDate = DateConverter.extractDate(currentMsg.getTime());
 
         return currentDate.equals(upDate) ?
                 getItemWithoutSeparator(currentMsg) :
@@ -97,9 +131,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatVH> {
     }
 
     /**
-     * Regresa un item donde sin fecha porque el item de arriba
+     * Regresa un item sin fecha porque el item de arriba
      * que es del mismo día ya tiene uno
      * @param msg: Message
+     * @see #getItemViewType(Message, Message)
      */
     protected int getItemWithoutSeparator(Message msg){
         String userUid = chatFragment.user.getUid();
@@ -110,11 +145,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatVH> {
     /**
      * El item necesita indicar el dia usando un separador
      * @param msg: Message
+     @see #getItemViewType(Message, Message)
      */
     protected int getItemWithSeparator(Message msg){
         String userUid = chatFragment.user.getUid();
         boolean isFromCurrentUser = msg.getUserid().equals(userUid);
-        return  isFromCurrentUser ? RIGHT_WITH_SEP: LEFT_WITH_SEP;
+        return  isFromCurrentUser ? RIGHT_WITH_SEP: LEFT_WITH_NAME;
     }
 
     /**
@@ -130,7 +166,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatVH> {
                 viewType == LEFT ? R.layout.chat_left :
                 viewType == RIGHT ? R.layout.chat_right :
 
-                viewType == LEFT_WITH_SEP ?
+                viewType == LEFT_WITH_NAME ?
                         R.layout.chat_left_with_sep :
                         R.layout.chat_right_with_sep;
 
@@ -139,7 +175,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatVH> {
                 .inflate(layout, parent, false);
 
         return  viewType == LEFT || viewType == RIGHT ?
-                new ChatVH(view): new ChatVHWS(view);
+                new ChatVH(view): new ChatVHWN(view);
 
     }
 
@@ -151,9 +187,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatVH> {
     @Override
     public void onBindViewHolder(ChatVH holder, int position) {
 
-        Message msg = msgs.get(holder.getAdapterPosition());
+        Message msg = items.get(holder.getAdapterPosition());
 
-        if(holder instanceof ChatVHWS)
+        if(holder instanceof ChatVHWN)
             setTimeSeparator(holder, msg.getTime());
 
         int color = materialGenerator.getColor(msg.getUsername());
@@ -174,15 +210,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatVH> {
      * @param time: Fecha que se pone el separador
      */
     private void setTimeSeparator(ChatVH viewHolder, long time){
-        ChatVHWS holder = (ChatVHWS) viewHolder;
+        ChatVHWN holder = (ChatVHWN) viewHolder;
         holder.timeSeparator.setText(DateUtils.isToday(time) ?
                 chatFragment.getResources().getString(R.string.text_today) :
                 DateConverter.extractDate(time));
     }
 
-    /**
-     * Clase para enlazar los mensajes a sus resptivas vistas
-     */
     protected class ChatVH extends RecyclerView.ViewHolder {
 
         @BindView(R.id.msg_username)
@@ -201,16 +234,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatVH> {
 
     }
 
-    /**
-     * Clase para dividir los mensajes por hora.
-     * Además, contiene un separador por fecha
-     */
-    protected class ChatVHWS extends ChatVH {
+    protected class ChatVHWN extends ChatVH {
 
         @BindView(R.id.chat_separator_time)
         TextView timeSeparator;
 
-        ChatVHWS(View view) {
+        ChatVHWN(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }

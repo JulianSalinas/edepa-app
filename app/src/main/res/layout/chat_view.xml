@@ -63,6 +63,7 @@
                 android:backgroundTint="#00FFFFFF"
                 android:paddingLeft="@dimen/space_default"
                 android:paddingRight="@dimen/space_default"
+                android:freezesText="true"
                 android:tag=":aesthetic_ignore"/>
 
         </android.support.v7.widget.CardView>

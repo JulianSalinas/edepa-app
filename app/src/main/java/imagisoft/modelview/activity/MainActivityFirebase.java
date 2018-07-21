@@ -1,4 +1,4 @@
-package imagisoft.modelview;
+package imagisoft.modelview.activity;
 
 import android.support.v7.app.AppCompatActivity;
 

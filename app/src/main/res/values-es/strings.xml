@@ -170,5 +170,6 @@
     <string name="text_not_viewed">no visto</string>
 
     <string name="text_bye">Hasta luego!</string>
+    <string name="text_msg_sent">Mensaje enviado</string>
 
 </resources>

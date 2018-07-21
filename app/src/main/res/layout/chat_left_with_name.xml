@@ -8,7 +8,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/space_chat_item_margin">
+    android:layout_marginEnd="@dimen/space_chat_item_margin">
 
     <android.support.v7.widget.CardView
 
@@ -18,8 +18,8 @@
 
         app:cardElevation="1dp"
         app:cardUseCompatPadding="true"
+        app:cardBackgroundColor="@color/app_chat_left"
         app:cardCornerRadius="@dimen/card_radius_chat_msg"
-        app:cardBackgroundColor="@color/app_chat_right"
         android:tag=":aesthetic_ignore">
 
         <LinearLayout
@@ -27,6 +27,13 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/space_chat_item_padding"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/msg_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="@string/app_name" />
 
             <TextView
                 android:id="@+id/msg_content"

@@ -1,10 +1,16 @@
-package imagisoft.modelview;
+package imagisoft.modelview.chat;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.OnLifecycleEvent;
+import android.arch.lifecycle.LifecycleObserver;
+
+import android.util.Log;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.design.widget.TextInputEditText;
 
 import java.util.Calendar;
@@ -12,8 +18,11 @@ import butterknife.BindView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import imagisoft.modelview.R;
 import imagisoft.model.Message;
 import imagisoft.model.Preferences;
+import imagisoft.modelview.SmoothLayout;
+import imagisoft.modelview.activity.MainActivityFragment;
 
 
 public class ChatFragment extends MainActivityFragment {
@@ -42,7 +51,8 @@ public class ChatFragment extends MainActivityFragment {
     protected ChatAdapter chatVA;
 
     /**
-     * Key utilizado con la función onSaveInstanceState(Bundle)
+     * Key utilizado con la función
+     * {@link #onSaveInstanceState(Bundle)}
      */
     private final String INPUT_TEXT_KEY = "input_text";
 
@@ -54,15 +64,7 @@ public class ChatFragment extends MainActivityFragment {
     protected FirebaseUser user = auth.getCurrentUser();
 
     /**
-     * Contructor del fragmento
-     * @return ChatFragment
-     */
-    public static ChatFragment newInstance() {
-        return new ChatFragment();
-    }
-
-    /**
-     * Se define cúal es el layout por utilizar
+     * {@inheritDoc}
      */
     @Override
     public void setupResource() {
@@ -70,29 +72,42 @@ public class ChatFragment extends MainActivityFragment {
     }
 
     /**
-     * Se configura la vista después de que la actividad se reinicia
-     * ya sea por cambio de idioma o al girar la pantalla
-     * @param savedInstanceState: No se utiliza
+     * {@inheritDoc}
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setupSendCardView();
-        setupAdapter();
-        setupRecyclerView();
+        if(savedInstanceState != null){
+            String text = savedInstanceState.getString(INPUT_TEXT_KEY);
+            textInputView.setText(text);
+        }
+        Log.i(toString(), "onActivityCreated(Bundle)");
     }
 
     /**
-     * Se personaliza el contenido base de la aplicación
+     * {@inheritDoc}
      */
     @Override
     public void setupActivityView() {
-        setToolbarVisibility(View.VISIBLE);
         setToolbarText(R.string.nav_chat);
+        setToolbarVisibility(View.VISIBLE);
         setStatusBarColor(R.color.app_primary_dark);
+        Log.i(toString(), "setupActivityView(Bundle)");
     }
 
     /**
+     * Al insertar un item el scroll se mueve al final
+     * @see #setupAdapter()
+     */
+    protected RecyclerView.AdapterDataObserver observer = new RecyclerView.AdapterDataObserver() {
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            super.onItemRangeInserted(positionStart, itemCount);
+            chatRV.smoothScrollToPosition(chatVA.getItemCount()-1);
+        }
+    };
+
+    /**
+     * {@inheritDoc}
      * Guarda lo que el usuario ha escrito en el chat para cuando regrese
      * al mismo fragmento o se gire la pantalla
      * @param outState: Bundle con el contenido del chat
@@ -102,11 +117,12 @@ public class ChatFragment extends MainActivityFragment {
         super.onSaveInstanceState(outState);
         String text = textInputView.getEditableText().toString();
         outState.putString(INPUT_TEXT_KEY, text);
+        Log.i(toString(), "onSaveInstanceState()");
     }
 
     /**
      * Restaura en lo que el usuario habia escrito en el chat después
-     * de salirse de la panralla o al girarla
+     * de salirse de la pantalla o al girarla
      * @param savedInstanceState: Bundle con el contenido del chat
      */
     @Override
@@ -115,26 +131,60 @@ public class ChatFragment extends MainActivityFragment {
         if(savedInstanceState != null){
             String text = savedInstanceState.getString(INPUT_TEXT_KEY);
             textInputView.setText(text);
-            chatRV.scrollToPosition(chatVA.getItemCount() - 1);
+            Log.i(toString(), "onViewStateRestored()");
         }
     }
 
     /**
-     * Se prepara el adaptador para poder recibir nuevas vistas de mensajes. Si
-     * el adaptador ya había sido colocado no es necesario crearlo otra vez
+     * Se prepara el adaptador para poder recibir nuevas vistas de mensajes.
+     * Si el adaptador ya había sido colocado no es necesario crearlo otra vez
      */
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     public void setupAdapter(){
         if(chatVA == null) {
             chatVA = new ChatFirebase(this);
-            registerAdapterDataObserver();
+            chatVA.registerAdapterDataObserver(observer);
+            Log.i(toString(), "setupAdapter()");
+        }
+    }
+
+    /**
+     * Se configura el contenedor de mensajes, chatRV
+     */
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void setupRecyclerView(){
+        if (chatRV.getAdapter() == null){
+
+            LinearLayoutManager layoutManager = new SmoothLayout(getActivity());
+            layoutManager.setStackFromEnd(true);
+
+            chatRV.setAdapter(chatVA);
+            chatRV.setHasFixedSize(true);
+            chatRV.setItemAnimator(new DefaultItemAnimator());
+            chatRV.setLayoutManager(layoutManager);
+
+            Log.i(toString(), "setupRecyclerView()");
         }
     }
 
     /**
      * Al presionar el botón se reunen los datos del msg y luego se envía
+     * @see #disconnectSendListener()
      */
-    private void setupSendCardView() {
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    private void connectSendListener() {
         sendCardView.setOnClickListener(v -> sendMessage());
+        Log.i(toString(), "connectSendListener()");
+    }
+
+    /**
+     * Desconecta el listener al no usarse
+     * @see #connectSendListener()
+     */
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    private void disconnectSendListener() {
+        sendCardView.setOnClickListener(null);
+        Log.i(toString(), "disconnectSendListener()");
     }
 
     /**
@@ -155,6 +205,7 @@ public class ChatFragment extends MainActivityFragment {
         Message msg = createMessage(content);
         activity.getChatReference().push().setValue(msg);
         textInputView.setText("");
+        Log.i(toString(), "sendNotEmptyMessage(content)");
     }
 
     /**
@@ -170,6 +221,7 @@ public class ChatFragment extends MainActivityFragment {
 
     /**
      * Obtiene el nombre de usuario desde las preferencias
+     * Usada para crear los mensajes {@link #createMessage(String)}
      * @return String: nombre de usuario
      */
     public String getUsername(){
@@ -178,35 +230,11 @@ public class ChatFragment extends MainActivityFragment {
     }
 
     /**
-     * Al insertar un item el scroll se mueve al final
+     * {@inheritDoc}
      */
-    protected Object observer = new RecyclerView.AdapterDataObserver() {
-
-        @Override
-        public void onItemRangeInserted(int positionStart, int itemCount) {
-            super.onItemRangeInserted(positionStart, itemCount);
-            chatRV.scrollToPosition(chatVA.getItemCount()-1);
-        }
-
-    };
-
-    /**
-     * Coloca la vista hasta el último elemento
-     */
-    public void registerAdapterDataObserver(){
-        chatVA.registerAdapterDataObserver(
-                (RecyclerView.AdapterDataObserver) observer);
-    }
-
-    /**
-     * Se configura el contenedor de mensajes, chatRV
-     */
-    public void setupRecyclerView(){
-        chatRV.setAdapter(chatVA);
-        chatRV.setHasFixedSize(true);
-        chatRV.setItemAnimator(new DefaultItemAnimator());
-        chatRV.setLayoutManager(new SmoothLayout(this.getActivity()));
-        chatRV.scrollToPosition(chatVA.getItemCount()-1);
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
     }
 
 }

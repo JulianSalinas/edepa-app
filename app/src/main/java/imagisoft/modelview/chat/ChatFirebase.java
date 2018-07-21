@@ -1,37 +1,43 @@
-package imagisoft.modelview;
+package imagisoft.modelview.chat;
+
+import android.util.Log;
+import imagisoft.model.Message;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
-import android.util.Log;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ChildEventListener;
 
-import imagisoft.model.Message;
 
 public class ChatFirebase extends ChatAdapter
         implements ChildEventListener, LifecycleObserver {
+
 
     public ChatFirebase(ChatFragment chatFragment) {
         super(chatFragment);
         chatFragment.getLifecycle().addObserver(this);
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     public void connectListener() {
-        chatFragment.activity
+        chatFragment
+                .getMainActivity()
                 .getChatReference()
                 .orderByChild("time")
                 .addChildEventListener(this);
+        Log.i(toString(), "connectListener()");
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void disconnectListener() {
-        chatFragment.activity
+        chatFragment
+                .getMainActivity()
                 .getChatReference()
                 .removeEventListener(this);
+        Log.i(toString(), "disconnectListener()");
     }
 
     @Override
@@ -39,8 +45,8 @@ public class ChatFirebase extends ChatAdapter
         Message receivedMessage = dataSnapshot.getValue(Message.class);
         if (receivedMessage != null){
             receivedMessage.setKey(dataSnapshot.getKey());
-            msgs.add(receivedMessage);
-            notifyItemInserted(msgs.size()-1);
+            items.add(receivedMessage);
+            notifyItemInserted(items.size()-1);
         }
     }
 
@@ -49,8 +55,8 @@ public class ChatFirebase extends ChatAdapter
         Message receivedMessage = dataSnapshot.getValue(Message.class);
         if (receivedMessage != null){
             receivedMessage.setKey(dataSnapshot.getKey());
-            int index = msgs.indexOf(receivedMessage);
-            msgs.set(index, receivedMessage);
+            int index = items.indexOf(receivedMessage);
+            items.set(index, receivedMessage);
             notifyItemChanged(index);
         }
     }
@@ -60,15 +66,15 @@ public class ChatFirebase extends ChatAdapter
         Message receivedMessage = dataSnapshot.getValue(Message.class);
         if (receivedMessage != null){
             receivedMessage.setKey(dataSnapshot.getKey());
-            int index = msgs.indexOf(receivedMessage);
-            msgs.remove(receivedMessage);
+            int index = items.indexOf(receivedMessage);
+            items.remove(receivedMessage);
             notifyItemRemoved(index);
         }
     }
 
     @Override
     public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-        Log.i(toString(), s);
+        Log.i(toString(), "onChildMoved()");
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import butterknife.BindView;
+import imagisoft.modelview.activity.MainActivityFragment;
 
 
 public class ExhibitorsFragment extends MainActivityFragment
@@ -41,11 +42,11 @@ public class ExhibitorsFragment extends MainActivityFragment
 
     /**
      * Se define cúal es el layout que va a utilizar
-     * @param bundle: No se utiliza
+     * @param savedInstanceState: No se utiliza
      */
     @Override
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
 

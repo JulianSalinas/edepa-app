@@ -12,6 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import imagisoft.model.Message;
 import imagisoft.misc.DateConverter;
+import imagisoft.modelview.activity.MainActivityFragment;
 
 
 public abstract class MessagesAdapter

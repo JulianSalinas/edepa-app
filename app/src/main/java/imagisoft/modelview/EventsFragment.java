@@ -1,6 +1,7 @@
 package imagisoft.modelview;
 
 import butterknife.BindView;
+import imagisoft.modelview.activity.MainActivityFragment;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;

@@ -45,7 +45,7 @@
         </activity>
 
         <activity
-            android:name=".MainActivityNavigation"
+            android:name=".activity.MainActivityNavigation"
             android:label="@string/app_title"
             android:launchMode="singleTop"
             android:configChanges="locale"

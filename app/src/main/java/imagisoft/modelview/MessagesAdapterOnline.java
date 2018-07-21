@@ -10,6 +10,7 @@ import com.google.firebase.database.ChildEventListener;
 
 import com.google.firebase.database.DatabaseReference;
 import imagisoft.model.Message;
+import imagisoft.modelview.activity.MainActivityFragment;
 
 
 public abstract class MessagesAdapterOnline

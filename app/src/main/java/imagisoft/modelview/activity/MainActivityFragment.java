@@ -1,4 +1,4 @@
-package imagisoft.modelview;
+package imagisoft.modelview.activity;
 
 import android.os.Bundle;
 import android.view.View;
@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.arch.lifecycle.LifecycleObserver;
 
 import butterknife.ButterKnife;
 import imagisoft.model.Preferences;
@@ -14,7 +15,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 
-public abstract class MainActivityFragment extends Fragment {
+public abstract class MainActivityFragment
+        extends Fragment implements LifecycleObserver{
 
     /**
      * Entero que representa el layout que está utilizando el
@@ -58,6 +60,15 @@ public abstract class MainActivityFragment extends Fragment {
      * Proxy para acceder a la base de datos
      */
     protected FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    /**
+     * Función para que los fragmentos puedan agregar los
+     * listeners de firebase
+     * @return MainActivityNavigation
+     */
+    public MainActivityNavigation getMainActivity(){
+        return (MainActivityNavigation) activity;
+    }
 
     /**
      * Permite obtener la toolbar a las subclases, esto para que puedan
@@ -116,13 +127,14 @@ public abstract class MainActivityFragment extends Fragment {
     /**
      * Las subclases deben sobreescribirse y colocar el
      * atributo resource aquí
-     * @param bundle: Contiene los argumentos
+     * @param savedInstanceState: Contiene los argumentos
      */
     @Override
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         activity = (MainActivity) getActivity();
         setupResource();
+        getLifecycle().addObserver(this);
     }
 
     /**
@@ -202,7 +214,7 @@ public abstract class MainActivityFragment extends Fragment {
      * @param fragment Asociado a la opción elegida por el usuario
      */
     public void setFragmentOnScreen(Fragment fragment){
-        activity.setFragmentOnScreen(fragment);
+        activity.setFragmentOnScreen(fragment, "TAG");
     }
 
     /**

@@ -39,6 +39,7 @@ import imagisoft.model.FavoriteListener;
 import imagisoft.model.Preferences;
 import imagisoft.model.ScheduleEvent;
 import imagisoft.model.ViewedList;
+import imagisoft.modelview.activity.MainActivityFirebase;
 import imagisoft.services.AlarmReceiver;
 import imagisoft.services.AlarmService;
 
