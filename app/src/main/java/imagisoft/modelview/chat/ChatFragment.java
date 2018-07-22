@@ -2,7 +2,6 @@ package imagisoft.modelview.chat;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
-import android.arch.lifecycle.LifecycleObserver;
 
 import android.util.Log;
 import android.os.Bundle;
@@ -18,14 +17,15 @@ import butterknife.BindView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import imagisoft.modelview.ChatAdapter;
 import imagisoft.modelview.R;
 import imagisoft.model.Message;
 import imagisoft.model.Preferences;
 import imagisoft.modelview.SmoothLayout;
-import imagisoft.modelview.activity.MainActivityFragment;
+import imagisoft.modelview.activity.ActivityFragment;
 
 
-public class ChatFragment extends MainActivityFragment {
+public class ChatFragment extends ActivityFragment {
 
     /**
      * Es donde se colocan cada uno de los mensajes
@@ -62,6 +62,10 @@ public class ChatFragment extends MainActivityFragment {
      */
     protected FirebaseAuth auth = FirebaseAuth.getInstance();
     protected FirebaseUser user = auth.getCurrentUser();
+
+    public String getUserid(){
+        return user.getUid();
+    }
 
     /**
      * {@inheritDoc}

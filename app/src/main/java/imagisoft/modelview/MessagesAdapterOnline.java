@@ -10,7 +10,7 @@ import com.google.firebase.database.ChildEventListener;
 
 import com.google.firebase.database.DatabaseReference;
 import imagisoft.model.Message;
-import imagisoft.modelview.activity.MainActivityFragment;
+import imagisoft.modelview.activity.ActivityFragment;
 
 
 public abstract class MessagesAdapterOnline
@@ -30,7 +30,7 @@ public abstract class MessagesAdapterOnline
     /**
      * Constructor del adaptador usado para recibir mensajes online
      */
-    public MessagesAdapterOnline(MainActivityFragment view) {
+    public MessagesAdapterOnline(ActivityFragment view) {
         super(view);
         setupReference();
         reference.addChildEventListener(this);

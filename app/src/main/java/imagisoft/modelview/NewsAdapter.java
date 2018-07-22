@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import imagisoft.misc.DateCalculator;
 import imagisoft.model.Message;
 import imagisoft.model.ViewedList;
-import imagisoft.modelview.activity.MainActivityFragment;
+import imagisoft.modelview.activity.ActivityFragment;
 
 /**
  * Sirve para enlazar las funciones a una actividad en específico
@@ -32,18 +32,18 @@ public class NewsAdapter extends MessagesAdapterOnline {
     /**
      * Constructor del adaptador usado para recibir mensajes online
      */
-    public NewsAdapter(MainActivityFragment view) {
+    public NewsAdapter(ActivityFragment view) {
         super(view);
     }
 
     @Override
     protected void setupReference() {
-        this.reference = view.getMainActivity().getNewsReference();
+        this.reference = view.getActivityCustom().getNewsReference();
     }
 
     @Override
     protected String setTimeDescription(Message msg){
-        DateCalculator dateCalculator = new DateCalculator(view.getMainActivity());
+        DateCalculator dateCalculator = new DateCalculator(view.getActivityCustom());
         return dateCalculator.getTimeAgo(msg.getTime());
     }
 
@@ -95,7 +95,7 @@ public class NewsAdapter extends MessagesAdapterOnline {
                 ImageViewCompat.setImageTintList(((NewVH) holder).msgReadCheck, ColorStateList.valueOf(color));
                 ((NewVH) holder).msgReadCheckText.setText(view.getResources().getString(R.string.text_single_viewed));
 
-                view.getMainActivity().
+                view.getActivityCustom().
                         getNewsReference()
                         .child(msg.getKey())
                         .runTransaction(new Transaction.Handler() {
@@ -129,7 +129,7 @@ public class NewsAdapter extends MessagesAdapterOnline {
                 ImageViewCompat.setImageTintList(((NewVH) holder).msgReadCheck, ColorStateList.valueOf(color));
                 ((NewVH) holder).msgReadCheckText.setText(view.getResources().getString(R.string.text_not_viewed));
 
-                view.getMainActivity().
+                view.getActivityCustom().
                         getNewsReference()
                         .child(msg.getKey())
                         .runTransaction(new Transaction.Handler() {

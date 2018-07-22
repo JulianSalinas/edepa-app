@@ -3,7 +3,7 @@ package imagisoft.modelview;
 import android.os.Bundle;
 
 import butterknife.BindView;
-import imagisoft.modelview.activity.MainActivityFragment;
+import imagisoft.modelview.activity.ActivityFragment;
 
 import android.support.v4.view.ViewPager;
 
@@ -11,7 +11,7 @@ import android.support.v4.view.ViewPager;
  * Cada subclase tiene que encargarse de colocar el páginador
  * y su respectivo adaptador
  */
-public abstract class PagerFragment extends MainActivityFragment {
+public abstract class PagerFragment extends ActivityFragment {
 
     /**
      * Barra debajo de los tabs para colocar los días

@@ -2,6 +2,7 @@ package imagisoft.modelview.chat;
 
 import android.util.Log;
 import imagisoft.model.Message;
+import imagisoft.modelview.ChatAdapter;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
@@ -15,7 +16,6 @@ import com.google.firebase.database.ChildEventListener;
 public class ChatFirebase extends ChatAdapter
         implements ChildEventListener, LifecycleObserver {
 
-
     public ChatFirebase(ChatFragment chatFragment) {
         super(chatFragment);
         chatFragment.getLifecycle().addObserver(this);
@@ -24,7 +24,7 @@ public class ChatFirebase extends ChatAdapter
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     public void connectListener() {
         chatFragment
-                .getMainActivity()
+                .getActivityCustom()
                 .getChatReference()
                 .orderByChild("time")
                 .addChildEventListener(this);
@@ -34,7 +34,7 @@ public class ChatFirebase extends ChatAdapter
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void disconnectListener() {
         chatFragment
-                .getMainActivity()
+                .getActivityCustom()
                 .getChatReference()
                 .removeEventListener(this);
         Log.i(toString(), "disconnectListener()");
@@ -45,8 +45,8 @@ public class ChatFirebase extends ChatAdapter
         Message receivedMessage = dataSnapshot.getValue(Message.class);
         if (receivedMessage != null){
             receivedMessage.setKey(dataSnapshot.getKey());
-            items.add(receivedMessage);
-            notifyItemInserted(items.size()-1);
+            msgs.add(receivedMessage);
+            notifyItemInserted(msgs.size()-1);
         }
     }
 
@@ -55,8 +55,8 @@ public class ChatFirebase extends ChatAdapter
         Message receivedMessage = dataSnapshot.getValue(Message.class);
         if (receivedMessage != null){
             receivedMessage.setKey(dataSnapshot.getKey());
-            int index = items.indexOf(receivedMessage);
-            items.set(index, receivedMessage);
+            int index = msgs.indexOf(receivedMessage);
+            msgs.set(index, receivedMessage);
             notifyItemChanged(index);
         }
     }
@@ -66,8 +66,8 @@ public class ChatFirebase extends ChatAdapter
         Message receivedMessage = dataSnapshot.getValue(Message.class);
         if (receivedMessage != null){
             receivedMessage.setKey(dataSnapshot.getKey());
-            int index = items.indexOf(receivedMessage);
-            items.remove(receivedMessage);
+            int index = msgs.indexOf(receivedMessage);
+            msgs.remove(receivedMessage);
             notifyItemRemoved(index);
         }
     }

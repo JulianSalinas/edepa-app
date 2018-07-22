@@ -10,7 +10,7 @@
     android:tag=":aesthetic_ignore">
 
     <TextView
-        android:id="@+id/chat_separator_time"
+        android:id="@+id/chat_separator_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

@@ -6,14 +6,12 @@ import android.os.Parcelable;
 import java.util.Calendar;
 import java.util.Objects;
 
-import imagisoft.modelview.chat.IChatItem;
-
 /**
  * Únicamente sirve para poner marcas de tiempo en distintas
  * partes de la aplicación. Clases que necesitan registrar el tiempo
  * en que fueron creadas heredan de esta .
  */
-public class Timestamp implements Parcelable, IChatItem {
+public class Timestamp implements Parcelable {
 
     protected Long time;
 

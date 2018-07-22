@@ -9,10 +9,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import butterknife.BindView;
-import imagisoft.modelview.activity.MainActivityFragment;
+import imagisoft.modelview.activity.ActivityFragment;
 
 
-public class InformationMap extends MainActivityFragment {
+public class InformationMap extends ActivityFragment {
 
     private String imgKey;
     private String imgRef;

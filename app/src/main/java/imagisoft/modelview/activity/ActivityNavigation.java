@@ -2,7 +2,6 @@ package imagisoft.modelview.activity;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
@@ -10,7 +9,7 @@ import imagisoft.modelview.AboutFragment;
 import imagisoft.modelview.R;
 import imagisoft.modelview.chat.ChatFragment;
 
-public class MainActivityNavigation extends MainActivity {
+public class ActivityNavigation extends ActivityCustom {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private void setupNavigationExit(){

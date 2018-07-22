@@ -2,7 +2,6 @@ package imagisoft.modelview;
 
 import android.util.Log;
 
-import imagisoft.misc.DateConverter;
 import imagisoft.model.ScheduleEvent;
 
 import com.google.firebase.database.DataSnapshot;
@@ -51,7 +50,7 @@ public class EventsAdapterOngoing
 
     @Override
     protected String getDateAsString(long start){
-        return fragment.getMainActivity()
+        return fragment.getActivityCustom()
                 .getResources()
                 .getString(R.string.text_ongoing);
     }

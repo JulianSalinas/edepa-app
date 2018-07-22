@@ -8,7 +8,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 
 
-public abstract class MainActivityFirebase extends AppCompatActivity {
+public abstract class ActivityFirebase extends AppCompatActivity {
 
     /**
      * Conexión con Firebase
@@ -61,7 +61,7 @@ public abstract class MainActivityFirebase extends AppCompatActivity {
     /**
      * En el constructor se crean las referencias a la BD
      */
-    public MainActivityFirebase(){
+    public ActivityFirebase(){
 
         // Guarda en persistencia para volver a descargar
         // Ayuda si la aplicación queda offline

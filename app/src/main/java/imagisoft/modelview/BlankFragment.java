@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import butterknife.BindView;
-import imagisoft.modelview.activity.MainActivityFragment;
+import imagisoft.modelview.activity.ActivityFragment;
 
 
-public class BlankFragment extends MainActivityFragment {
+public class BlankFragment extends ActivityFragment {
 
     /**
      * El texto en el centro que muestra en fragmento

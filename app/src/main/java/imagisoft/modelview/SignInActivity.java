@@ -15,7 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 import imagisoft.model.Preferences;
-import imagisoft.modelview.activity.MainActivityNavigation;
+import imagisoft.modelview.activity.ActivityNavigation;
 
 /**
  * Solo se usa la autenticación, sin embargo el método
@@ -143,7 +143,7 @@ public class SignInActivity extends AppCompatActivity {
     private void startApplication(){
         Intent intent = new Intent(
                 getApplicationContext(),
-                MainActivityNavigation.class);
+                ActivityNavigation.class);
         startActivity(intent);
         finish();
     }

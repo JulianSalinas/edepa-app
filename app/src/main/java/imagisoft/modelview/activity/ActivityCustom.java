@@ -24,8 +24,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBarDrawerToggle;
 
-import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.Stack;
 import butterknife.*;
 import imagisoft.misc.*;
@@ -40,10 +38,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 /**
- * Deriva de {@link MainActivityFirebase} para manejar lo relacionado
+ * Deriva de {@link ActivityFirebase} para manejar lo relacionado
  * con la conexión a la base de datos
  */
-public abstract class MainActivity extends MainActivityFirebase
+public abstract class ActivityCustom extends ActivityFirebase
         implements LifecycleObserver,
         MaterialSearchView.SearchViewListener,
         NavigationView.OnNavigationItemSelectedListener{
@@ -162,7 +160,7 @@ public abstract class MainActivity extends MainActivityFirebase
     }
 
     /**
-     * Únicamente necesaria para que MainActivityFragment pueda
+     * Únicamente necesaria para que ActivityFragment pueda
      * ocultar la Toolbar
      * @return AppBarLayout
      */

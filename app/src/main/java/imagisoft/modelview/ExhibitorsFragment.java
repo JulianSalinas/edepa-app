@@ -11,10 +11,10 @@ import android.support.v7.widget.DefaultItemAnimator;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import butterknife.BindView;
-import imagisoft.modelview.activity.MainActivityFragment;
+import imagisoft.modelview.activity.ActivityFragment;
 
 
-public class ExhibitorsFragment extends MainActivityFragment
+public class ExhibitorsFragment extends ActivityFragment
         implements MaterialSearchView.OnQueryTextListener {
 
     /**

@@ -20,10 +20,10 @@ import com.google.firebase.database.ValueEventListener;
 import butterknife.BindView;
 import imagisoft.model.Congress;
 import imagisoft.misc.DateConverter;
-import imagisoft.modelview.activity.MainActivityFragment;
+import imagisoft.modelview.activity.ActivityFragment;
 
 
-public class InformationFragment extends MainActivityFragment implements OnMapReadyCallback {
+public class InformationFragment extends ActivityFragment implements OnMapReadyCallback {
 
     /**
      * Soporte para colocar el mapa

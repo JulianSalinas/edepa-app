@@ -6,13 +6,13 @@ import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.content.res.Resources;
 
-import imagisoft.modelview.activity.MainActivityFragment;
+import imagisoft.modelview.activity.ActivityFragment;
 import mehdi.sakout.aboutpage.Element;
 import mehdi.sakout.aboutpage.AboutPage;
 import static android.view.View.VISIBLE;
 
 
-public class AboutFragment extends MainActivityFragment {
+public class AboutFragment extends ActivityFragment {
 
     /**
      * {@inheritDoc}

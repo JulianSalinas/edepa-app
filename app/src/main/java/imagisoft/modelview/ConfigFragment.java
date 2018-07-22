@@ -2,10 +2,10 @@ package imagisoft.modelview;
 
 import android.widget.*;
 
-import imagisoft.modelview.activity.MainActivityFragment;
+import imagisoft.modelview.activity.ActivityFragment;
 
 
-public class ConfigFragment extends MainActivityFragment
+public class ConfigFragment extends ActivityFragment
         implements CompoundButton.OnCheckedChangeListener{
 
     @Override

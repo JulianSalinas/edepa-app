@@ -1,13 +1,13 @@
 package imagisoft.modelview;
 
 import butterknife.BindView;
-import imagisoft.modelview.activity.MainActivityFragment;
+import imagisoft.modelview.activity.ActivityFragment;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 
 
-public abstract class MessagesFragment extends MainActivityFragment {
+public abstract class MessagesFragment extends ActivityFragment {
 
     /**
      * Donde se coloca cada uno de los mensajes

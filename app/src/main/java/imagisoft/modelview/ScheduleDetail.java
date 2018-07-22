@@ -20,9 +20,9 @@ import imagisoft.misc.ColorConverter;
 import imagisoft.misc.DateConverter;
 import imagisoft.model.FavoriteList;
 import imagisoft.model.ScheduleEvent;
-import imagisoft.modelview.activity.MainActivityFragment;
+import imagisoft.modelview.activity.ActivityFragment;
 
-public class ScheduleDetail extends MainActivityFragment
+public class ScheduleDetail extends ActivityFragment
         implements AppBarLayout.OnOffsetChangedListener, ValueEventListener{
 
     /**

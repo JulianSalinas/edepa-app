@@ -39,7 +39,7 @@ import imagisoft.model.FavoriteListener;
 import imagisoft.model.Preferences;
 import imagisoft.model.ScheduleEvent;
 import imagisoft.model.ViewedList;
-import imagisoft.modelview.activity.MainActivityFirebase;
+import imagisoft.modelview.activity.ActivityFirebase;
 import imagisoft.services.AlarmReceiver;
 import imagisoft.services.AlarmService;
 
@@ -49,7 +49,7 @@ import static imagisoft.modelview.DefaultColor.APP_PRIMARY_DARK;
 /**
  * Clase análoga al masterpage de un página web
  */
-public abstract class ActivityCustom extends MainActivityFirebase
+public abstract class ActivityCustom extends ActivityFirebase
         implements NavigationView.OnNavigationItemSelectedListener, FavoriteListener {
 
     /**

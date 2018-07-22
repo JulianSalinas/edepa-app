@@ -19,7 +19,7 @@
     <color name="app_primary_dark_font">#212121</color>
 
     <color name="app_chat_left">#FFFFFF</color>
-    <color name="app_chat_right">#e96058</color>
+    <color name="app_chat_right">#fff3e0</color>
 
     <color name="app_fair">@color/material_green</color>
     <color name="app_atelier">@color/material_red</color>

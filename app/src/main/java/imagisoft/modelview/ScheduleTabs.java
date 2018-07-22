@@ -22,12 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import imagisoft.model.FavoriteList;
-import imagisoft.modelview.activity.MainActivityFragment;
+import imagisoft.modelview.activity.ActivityFragment;
 
 /**
  * Contiene los tabs de cronograma, agenda y en curso
  */
-public class ScheduleTabs extends MainActivityFragment implements TabLayout.OnTabSelectedListener{
+public class ScheduleTabs extends ActivityFragment implements TabLayout.OnTabSelectedListener{
 
     /*
      * Usadas para saber cual tab se debe colocar al crearse la vista

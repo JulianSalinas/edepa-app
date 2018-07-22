@@ -15,7 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 
-public abstract class MainActivityFragment
+public abstract class ActivityFragment
         extends Fragment implements LifecycleObserver{
 
     /**
@@ -28,7 +28,7 @@ public abstract class MainActivityFragment
      * Para obtener un referencia a la actividad y no hacer
      * cast en cada momento que se requiera
      */
-    protected MainActivity activity;
+    protected ActivityCustom activity;
 
     /**
      * Cuando se cambian los fragmentos es necesario conservar
@@ -64,10 +64,10 @@ public abstract class MainActivityFragment
     /**
      * Función para que los fragmentos puedan agregar los
      * listeners de firebase
-     * @return MainActivityNavigation
+     * @return ActivityNavigation
      */
-    public MainActivityNavigation getMainActivity(){
-        return (MainActivityNavigation) activity;
+    public ActivityNavigation getActivityCustom(){
+        return (ActivityNavigation) activity;
     }
 
     /**
@@ -132,7 +132,7 @@ public abstract class MainActivityFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = (MainActivity) getActivity();
+        activity = (ActivityCustom) getActivity();
         setupResource();
         getLifecycle().addObserver(this);
     }

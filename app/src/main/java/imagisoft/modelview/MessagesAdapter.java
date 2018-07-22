@@ -12,7 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import imagisoft.model.Message;
 import imagisoft.misc.DateConverter;
-import imagisoft.modelview.activity.MainActivityFragment;
+import imagisoft.modelview.activity.ActivityFragment;
 
 
 public abstract class MessagesAdapter
@@ -21,7 +21,7 @@ public abstract class MessagesAdapter
     /**
      * Referencia al objeto por el que es utilizado
      */
-    protected MainActivityFragment view;
+    protected ActivityFragment view;
 
     /**
      * Objetos del modelo que serán adaptados visualmente
@@ -31,7 +31,7 @@ public abstract class MessagesAdapter
     /**
      * Constructor del adaptador
      */
-    public MessagesAdapter(MainActivityFragment view){
+    public MessagesAdapter(ActivityFragment view){
         this.view = view;
         this.msgs = new ArrayList<>();
     }
@@ -158,7 +158,7 @@ public abstract class MessagesAdapter
      */
     protected class MessageVHWS extends MessageVH {
 
-        @BindView(R.id.chat_separator_time)
+        @BindView(R.id.chat_separator_text)
         TextView timeSeparator;
 
         MessageVHWS(View view) {
