@@ -1,28 +1,38 @@
-package imagisoft.modelview;
+package imagisoft.modelview.chat;
 
-import android.graphics.Color;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.bignerdranch.android.multiselector.ModalMultiSelectorCallback;
+import com.bignerdranch.android.multiselector.MultiSelector;
+import com.bignerdranch.android.multiselector.SelectableHolder;
+import com.bignerdranch.android.multiselector.SwappingHolder;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import imagisoft.misc.ColorConverter;
 import imagisoft.misc.DateConverter;
 import imagisoft.misc.MaterialGenerator;
 import imagisoft.model.Message;
-import imagisoft.modelview.chat.ChatFragment;
+import imagisoft.modelview.R;
+import imagisoft.modelview.activity.ActivityNavigation;
 
 
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
+public abstract class ChatAdapter
+        extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 
     /**
      * Constantes paras escoger el tipo de vista que se colocará
@@ -45,42 +55,53 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
      */
     private MaterialGenerator materialGenerator;
 
-    private boolean multiSelect = false;
-    private ArrayList<Message> selectedItems = new ArrayList<>();
 
-    private ActionMode.Callback actionModeCallbacks = new ActionMode.Callback() {
+    private MultiSelector multiSelector = new MultiSelector();
+
+    private ActionMode removeMode;
+
+    private ActionMode.Callback removeModeCallback =
+            new ModalMultiSelectorCallback(multiSelector) {
+
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            multiSelect = true;
-            menu.add("Delete").setIcon(android.R.drawable.ic_menu_delete);
+            super.onCreateActionMode(mode, menu);
+            menu.add("Delete").setIcon(R.drawable.ic_delete);
             return true;
         }
 
         @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-        @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            for (Message msg : selectedItems) {
-                msgs.remove(msg);
-            }
+            for(Integer index : multiSelector.getSelectedPositions())
+                removeMessage(msgs.get(index));
+            multiSelector.clearSelections();
             mode.finish();
             return true;
         }
 
         @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            multiSelect = false;
-            selectedItems.clear();
-            notifyDataSetChanged();
+        public void onDestroyActionMode(ActionMode actionMode) {
+            super.onDestroyActionMode(actionMode);
+            multiSelector.clearSelections();
         }
+
     };
 
+    public void setSelectedItemsText(){
+        if(removeMode != null) {
+            Integer nSelected = multiSelector.getSelectedPositions().size();
+            String selectedText = chatFragment.getString(nSelected == 1 ?
+                    R.string.text_selected_single : R.string.text_selected);
+            removeMode.setTitle(nSelected.toString() + " " + selectedText);
+        }
+    }
+
+    public abstract void removeMessage(Message msg);
+
+//    public abstract void addMessage(Message msg);
 
     /**
-     * @return Cantidad de vistas por crear
+     * {@inheritDoc}
      */
     @Override
     public int getItemCount() {
@@ -103,9 +124,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     @Override
     public int getItemViewType(int position) {
         Message msg = msgs.get(position);
+        return isFromCurrentUser(msg) ? RIGHT : LEFT;
+    }
+
+    /**
+     * @param msg Mensaje
+     * @return True si el mensaje fue enviado por el usuario actual
+     */
+    private boolean isFromCurrentUser(Message msg){
         String userUid = chatFragment.getUserid();
-        boolean isFromCurrentUser = msg.getUserid().equals(userUid);
-        return isFromCurrentUser ? RIGHT : LEFT;
+        return msg.getUserid().equals(userUid);
     }
 
     /**
@@ -135,18 +163,30 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
      */
     @Override
     public void onBindViewHolder(ChatViewHolder holder, int position) {
-        int pos = holder.getAdapterPosition();
-        Message msg = msgs.get(pos);
-        holder.bindProperties(msg, pos);
+        holder.bind();
+    }
+
+    /**
+     * Coloca botón de borrar en la toolbar mediante
+     * {@link #removeModeCallback}
+     */
+    public void startRemoveMode(){
+        ActivityNavigation activity = chatFragment.getActivityCustom();
+        activity.hideKeyboard();
+        removeMode = activity.startSupportActionMode(removeModeCallback);
+        int color = activity.getResources().getColor(R.color.app_accent);
+        color = ColorConverter.darken(color);
+        activity.getWindow().setStatusBarColor(color);
     }
 
     /**
      * Clase para enlazar los mensajes a sus resptivas vistas
      */
-    protected class ChatViewHolder extends RecyclerView.ViewHolder {
+    protected class ChatViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, View.OnLongClickListener, SelectableHolder {
 
         @BindView(R.id.msg_item)
-        View msgItem;
+        FrameLayout msgItem;
 
         @BindView(R.id.msg_username)
         TextView msgUsername;
@@ -163,12 +203,29 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         @BindView(R.id.chat_separator_item)
         View timeSeparatorItem;
 
-        ChatViewHolder(View view) {
+        /**
+         * Posición del mensaje
+         * Se asigna su valor en {@link #bind()}
+         */
+        int pos = -1;
+
+        /**
+         * Se asigna su valor en {@link #bind()}
+         */
+        Message msg = null;
+
+        boolean isSelectable = false;
+
+        public ChatViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
 
-        void bindProperties(Message msg, int pos){
+        public void bind() {
+
+            this.pos = getAdapterPosition();
+            this.msg = msgs.get(pos);
+            multiSelector.bindHolder(this, pos, getItemId());
 
             if (msg.getUserid().equals(chatFragment.getUserid()))
                 msgUsername.setVisibility(View.GONE);
@@ -179,10 +236,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             else {
                 Message upMsg = msgs.get(pos - 1);
                 boolean isEqual = upMsg.getUserid().equals(msg.getUserid());
-                msgUsername.setVisibility(isEqual ? View.GONE: View.VISIBLE);
+                msgUsername.setVisibility(isEqual ? View.GONE : View.VISIBLE);
             }
 
-            if(msgUsername.getVisibility() == View.VISIBLE){
+            if (msgUsername.getVisibility() == View.VISIBLE) {
                 int color = materialGenerator.getColor(msg.getUsername());
                 msgUsername.setTextColor(color);
                 msgUsername.setText(msg.getUsername());
@@ -202,51 +259,65 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
                 String upDate = DateConverter.extractDate(upMsg.getTime());
                 String currentDate = DateConverter.extractDate(msg.getTime());
                 boolean equals = upDate.equals(currentDate);
-                timeSeparatorItem.setVisibility(equals ? View.GONE: View.VISIBLE);
+                timeSeparatorItem.setVisibility(equals ? View.GONE : View.VISIBLE);
             }
 
-            if (timeSeparatorItem.getVisibility() == View.VISIBLE){
+            if (timeSeparatorItem.getVisibility() == View.VISIBLE) {
                 long date = msg.getTime();
                 boolean isToday = DateUtils.isToday(date);
-                if(isToday) timeSeparatorText.setText(R.string.text_today);
+                if (isToday) timeSeparatorText.setText(R.string.text_today);
                 else timeSeparatorText.setText(DateConverter.extractDate(date));
             }
 
-            if (selectedItems.contains(msg)) {
-//                frameLayout.setBackgroundColor(Color.LTGRAY);
-                msgItem.setBackgroundColor(Color.BLUE);
-            } else {
-//                frameLayout.setBackgroundColor(Color.WHITE);
-                msgItem.setBackgroundColor(Color.TRANSPARENT);
-            }
-
-            itemView.setOnLongClickListener(view -> {
-                chatFragment
-                        .getActivityCustom()
-                        .startSupportActionMode(actionModeCallbacks);
-                selectItem(msg);
-                return true;
-            });
-
-            itemView.setOnClickListener(view -> selectItem(msg));
-
-
+            itemView.setOnClickListener(this);
+            itemView.setLongClickable(true);
+            itemView.setOnLongClickListener(this);
         }
 
-        void selectItem(Message item) {
-            if (multiSelect) {
-                if (selectedItems.contains(item)) {
-                    selectedItems.remove(item);
-//                    frameLayout.setBackgroundColor(Color.WHITE);
-                    msgItem.setBackgroundColor(Color.TRANSPARENT);
-                } else {
-                    selectedItems.add(item);
-//                    frameLayout.setBackgroundColor(Color.LTGRAY);
-                    msgItem.setBackgroundColor(Color.BLUE);
-                }
+        @Override
+        public void onClick(View v) {
+            if (msg != null && multiSelector.tapSelection(this)){
+                List<Integer> selected = multiSelector.getSelectedPositions();
+                if(removeMode != null && selected.isEmpty())
+                    removeMode.finish();
+                else setSelectedItemsText();
+                Log.i(toString(), "onClick()");
             }
         }
 
+        @Override
+        public boolean onLongClick(View v) {
+            startRemoveMode();
+            multiSelector.setSelected(this, true);
+            setSelectedItemsText();
+            Log.i(toString(), "onLongClick()");
+            return true;
+        }
+
+        @Override
+        public void setSelectable(boolean selectable) {
+            // Requerido
+        }
+
+        @Override
+        public boolean isSelectable() {
+            return isSelectable;
+        }
+
+        @Override
+        public void setActivated(boolean isActivated) {
+            itemView.setActivated(isActivated);
+        }
+
+        @Override
+        public boolean isActivated() {
+            return itemView.isActivated();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
     }
 
 }

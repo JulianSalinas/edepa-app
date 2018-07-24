@@ -111,8 +111,12 @@ public abstract class ActivityFragment
      * Permiten colocar el color de la barra superior
      * donde se muestran las notificaciones
      */
-    public void setStatusBarColor(int resource){
+    public void setStatusBarColorRes(int resource){
         int color = activity.getResources().getColor(resource);
+        activity.getWindow().setStatusBarColor(color);
+    }
+
+    public void setStatusBarColor(int color){
         activity.getWindow().setStatusBarColor(color);
     }
 

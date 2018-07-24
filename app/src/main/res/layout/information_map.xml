@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:gravity="center"
-        android:src="@drawable/img_edepa_map"
+        android:src="@drawable/img_map"
         android:contentDescription="@null"/>
 
 </LinearLayout>

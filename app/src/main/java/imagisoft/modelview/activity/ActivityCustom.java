@@ -3,6 +3,7 @@ package imagisoft.modelview.activity;
 import android.os.Bundle;
 import android.os.Handler;
 
+import android.support.v7.view.ActionMode;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -143,6 +145,12 @@ public abstract class ActivityCustom extends ActivityFirebase
     protected Stack<String> pendingFragments = new Stack<>();
 
     /**
+     * Sirve para restablecer el color después de abrir un CAB
+     * Se usa en las funciones
+     */
+    protected int lastStatusBarColor;
+
+    /**
      * Necesaria para que los fragmentos la puedan personalizar
      * @return Toolbar
      */
@@ -169,13 +177,22 @@ public abstract class ActivityCustom extends ActivityFirebase
     }
 
     /**
-     * Cuando el menú lateral se cierra se corre pendingRunnable(), el cual,
-     * se hará cargo de colocar el fragmento correpondiente a la ópcion
-     * seleccionada. Esto para dar fluidez al cierre del menú
-     * @see #runPendingRunnable()
+     * En ocasiones el teclado queda abierto después de abrir el menú, para
+     * solucionar esto se utiliza {@link #hideKeyboard()} al abrir dicho menú
+     *
+     * Cuando el menú lateral se cierra se corre {@link #runPendingRunnable()}
+     * para dar fluidez a las transiciones
      */
     private DrawerLayout.SimpleDrawerListener drawerListener =
         new DrawerLayout.SimpleDrawerListener(){
+
+        @Override
+        public void onDrawerOpened(View drawerView) {
+            super.onDrawerOpened(drawerView);
+            hideKeyboard();
+            Log.i(toString(), "onDrawerOpened()");
+        }
+
         public void onDrawerClosed(View drawerView) {
             super.onDrawerClosed(drawerView);
             runPendingRunnable();
@@ -230,7 +247,7 @@ public abstract class ActivityCustom extends ActivityFirebase
      * Se coloca el fragmento por defecto si es la primera vez
      * @see #onCreateActivity(Bundle)
      */
-    private void onCreateFirstCreation(){
+    protected void onCreateFirstCreation(){
 
         Preferences prefs = Preferences.getInstance();
 
@@ -401,12 +418,14 @@ public abstract class ActivityCustom extends ActivityFirebase
 
         Preferences prefs = Preferences.getInstance();
         String username = prefs.getStringPreference(this, Preferences.USER_KEY);
-        if(!username.equals("")) textWelcome += " " + username;
+        String message = textWelcome;
+
+        if(!username.equals("")) message += " " + username;
 
         ((TextView) navigationView
                 .getHeaderView(0)
                 .findViewById(imagisoft.modelview.R.id.welcome_text_view))
-                .setText((textWelcome + "!"));
+                .setText((message + "!"));
     }
 
     /**
@@ -466,6 +485,26 @@ public abstract class ActivityCustom extends ActivityFirebase
 
         Log.i(toString(), "onOptionsItemSelected()");
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * {@inheritDoc}
+     * Se cambia el color de la statusBar
+     */
+    @Override
+    public void onSupportActionModeStarted(@NonNull ActionMode mode) {
+        super.onSupportActionModeStarted(mode);
+        lastStatusBarColor = getWindow().getStatusBarColor();
+    }
+
+    /**
+     * {@inheritDoc}
+     * Se restablece el color de la statusBar
+     */
+    @Override
+    public void onSupportActionModeFinished(@NonNull ActionMode mode) {
+        super.onSupportActionModeFinished(mode);
+        getWindow().setStatusBarColor(lastStatusBarColor);
     }
 
     /**
@@ -570,6 +609,8 @@ public abstract class ActivityCustom extends ActivityFirebase
     @Override
     public void onBackPressed() {
 
+        hideKeyboard();
+
         if (searchView.isSearchOpen())
             searchView.closeSearch();
 
@@ -577,6 +618,17 @@ public abstract class ActivityCustom extends ActivityFirebase
             drawerLayout.closeDrawer(START);
 
         else super.onBackPressed();
+    }
+
+    /**
+     * Oculta el teclado
+     */
+    public void hideKeyboard() {
+        View focus = getCurrentFocus();
+        Object service = getSystemService(INPUT_METHOD_SERVICE);
+        InputMethodManager inputM = (InputMethodManager) service;
+        if(inputM != null && focus != null)
+            inputM.hideSoftInputFromWindow(focus.getWindowToken(), 0);
     }
 
     /**

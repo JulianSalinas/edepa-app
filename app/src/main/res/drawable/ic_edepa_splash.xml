@@ -11,7 +11,7 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/ninepatch" />
+            android:src="@drawable/img_splashscreen" />
     </item>
 
 </layer-list>

@@ -2,7 +2,6 @@ package imagisoft.modelview.chat;
 
 import android.util.Log;
 import imagisoft.model.Message;
-import imagisoft.modelview.ChatAdapter;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
@@ -38,6 +37,15 @@ public class ChatFirebase extends ChatAdapter
                 .getChatReference()
                 .removeEventListener(this);
         Log.i(toString(), "disconnectListener()");
+    }
+
+    @Override
+    public void removeMessage(Message msg){
+        chatFragment
+                .getActivityCustom()
+                .getChatReference()
+                .child(msg.getKey())
+                .removeValue();
     }
 
     @Override

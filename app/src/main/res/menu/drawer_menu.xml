@@ -59,7 +59,7 @@
 
                 <item
                     android:id="@+id/nav_exit_and_signout"
-                    android:icon="@drawable/ic_shutdown"
+                    android:icon="@android:drawable/ic_lock_power_off"
                     android:title="@string/nav_exit_and_signout" />
 
             </group>

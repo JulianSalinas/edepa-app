@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
+<FrameLayout
 
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,14 +10,16 @@
     android:minWidth="@dimen/space_chat_item_min_width"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/space_chat_item_margin">
+    android:foreground="@drawable/img_selector"
+    android:descendantFocusability="blocksDescendants">
 
     <android.support.v7.widget.CardView
 
         android:id="@+id/schedule_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_gravity="end"
+        android:layout_marginStart="@dimen/space_chat_item_margin"
 
         app:cardElevation="1dp"
         app:cardUseCompatPadding="true"
@@ -42,7 +44,7 @@
                 android:id="@+id/msg_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/text_lorem_ipsum" />
+                android:text="@string/test_dummy" />
 
             <TextView
                 android:id="@+id/msg_time_description"
@@ -56,6 +58,6 @@
 
     </android.support.v7.widget.CardView>
 
-</RelativeLayout>
+</FrameLayout>
 
 

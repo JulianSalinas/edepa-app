@@ -17,7 +17,6 @@ import butterknife.BindView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import imagisoft.modelview.ChatAdapter;
 import imagisoft.modelview.R;
 import imagisoft.model.Message;
 import imagisoft.model.Preferences;
@@ -95,7 +94,7 @@ public class ChatFragment extends ActivityFragment {
     public void setupActivityView() {
         setToolbarText(R.string.nav_chat);
         setToolbarVisibility(View.VISIBLE);
-        setStatusBarColor(R.color.app_primary_dark);
+        setStatusBarColorRes(R.color.app_primary_dark);
         Log.i(toString(), "setupActivityView(Bundle)");
     }
 
@@ -169,6 +168,14 @@ public class ChatFragment extends ActivityFragment {
 
             Log.i(toString(), "setupRecyclerView()");
         }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void setupTextInput(){
+        textInputView.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) activity.hideKeyboard();
+        });
+        Log.i(toString(), "setupTextInput()");
     }
 
     /**

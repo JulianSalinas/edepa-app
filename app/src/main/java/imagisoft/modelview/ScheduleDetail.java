@@ -106,7 +106,7 @@ public class ScheduleDetail extends ActivityFragment
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        setStatusBarColor(statusBarColor);
+        setStatusBarColorRes(statusBarColor);
         setToolbarVisibility(View.GONE);
     }
 
@@ -258,7 +258,7 @@ public class ScheduleDetail extends ActivityFragment
 //            briefTV.setText(event.getBrief(getCurrentLang()));
 
             int color = getResources().getColor(event.getEventype().getColor());
-            setStatusBarColor(ColorConverter.darken(color, 12));
+            setStatusBarColorRes(ColorConverter.darken(color, 12));
 
             mToolbar.setBackgroundColor(color);
             collapsingToolbarLayout.setBackgroundColor(color);

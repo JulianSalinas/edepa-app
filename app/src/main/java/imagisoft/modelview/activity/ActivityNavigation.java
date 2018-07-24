@@ -2,14 +2,29 @@ package imagisoft.modelview.activity;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import imagisoft.model.Preferences;
 import imagisoft.modelview.AboutFragment;
 import imagisoft.modelview.R;
 import imagisoft.modelview.chat.ChatFragment;
 
 public class ActivityNavigation extends ActivityCustom {
+
+    /**
+     * {@inheritDoc}
+     */
+    protected void onCreateFirstCreation(){
+        super.onCreateFirstCreation();
+        String tag = "CHAT_FRAGMENT";
+        Fragment frag = new ChatFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_content, frag, tag)
+                .commitAllowingStateLoss();
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private void setupNavigationExit(){

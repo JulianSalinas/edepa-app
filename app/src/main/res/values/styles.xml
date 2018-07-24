@@ -9,11 +9,29 @@
         <item name="colorPrimaryDark">@color/app_primary_dark</item>
         <item name="colorControlNormal">@color/app_primary_font</item>
 
-        <item name="android:textColor">@color/app_primary_font</item>
-        <!--<item name="android:windowBackground">@color/app_primary</item>-->
+        <item name="windowActionModeOverlay">true</item>
+        <!--<item name="actionMenuTextColor">@color/app_white</item>-->
+        <!--<item name="actionModeBackground">@color/app_accent</item>-->
+        <item name="actionModeCloseDrawable">@drawable/ic_action_navigation_arrow_back_inverted</item>
 
+        <item name="android:textColor">@color/app_primary_font</item>
+        <!--<item name="android:actionMenuTextColor">@color/app_white</item>-->
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
 
+        <item name="actionModeStyle">@style/ActionModeStyle</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+
+    </style>
+
+    <!-- Action Mode Theme -->
+
+    <style name="ActionModeStyle" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="background">@color/app_accent</item>
+        <item name="titleTextStyle">@style/ActionModeTitleTextStyle</item>
+    </style>
+
+    <style name="ActionModeTitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionMode.Title">
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <!-- Splash Screen -->
@@ -33,8 +51,12 @@
 
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style
+        name="AppTheme.AppBarOverlay"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style
+        name="AppTheme.PopupOverlay"
+        parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

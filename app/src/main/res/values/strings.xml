@@ -170,5 +170,8 @@
 
     <string name="text_bye">Bye bye!</string>
     <string name="text_msg_sent">Mensaje enviado</string>
+    <string name="text_delete">borrar</string>
+    <string name="text_selected">seleccionados</string>
+    <string name="text_selected_single">seleccionado</string>
 
 </resources>

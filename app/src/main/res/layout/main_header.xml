@@ -12,7 +12,7 @@
     <ImageView
 
         android:scaleType="centerCrop"
-        android:src="@drawable/img_default_wallpaper"
+        android:src="@drawable/img_wallpaper"
 
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_header_img"

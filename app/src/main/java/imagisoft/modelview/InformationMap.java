@@ -54,7 +54,7 @@ public class InformationMap extends ActivityFragment {
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        miniMap.setImageResource(R.drawable.img_edepa_map);
+                        miniMap.setImageResource(R.drawable.img_map);
                     }
 
                 });
