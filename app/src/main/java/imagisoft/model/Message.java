@@ -7,34 +7,15 @@ import java.util.Objects;
 
 /**
  * Clase usada para enviar y recibir mensajes del chat
- * Tambien se usa para la sección de noticias porque tiene los mismos datos
  */
 public class Message extends Timestamp implements Parcelable {
 
-    /**
-     * Identificador con el que Firebase hizo la inserción
-     * del objeto
-     */
     private String key;
-
-    /**
-     * El id es para identificar si el mensaje corresponde al
-     * usuario que esta usando el app, y así, posteriomente acomodar
-     * los mensajes a la izq o der
-     */
     private String userid;
-
-    /**
-     * Atributos fundamentales en un mensaje
-     */
     private String content;
     private String username;
+    private boolean delivered;
 
-    private int seenAmount;
-
-    /**
-     * Getters y Setters de los atributos del mensaje
-     */
     public void setKey(String key) {
         this.key = key;
     }
@@ -55,12 +36,8 @@ public class Message extends Timestamp implements Parcelable {
         return username;
     }
 
-    public int getSeenAmount() {
-        return seenAmount;
-    }
-
-    public void setSeenAmount(int seenAmount) {
-        this.seenAmount = seenAmount;
+    public boolean isDelivered() {
+        return delivered;
     }
 
     /**
@@ -79,7 +56,7 @@ public class Message extends Timestamp implements Parcelable {
         this.userid = userid;
         this.content = content;
         this.username = username;
-        this.seenAmount = 0;
+        this.delivered = false;
     }
 
     @Override
@@ -96,6 +73,7 @@ public class Message extends Timestamp implements Parcelable {
         return Objects.hash(super.hashCode(), key);
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -108,7 +86,7 @@ public class Message extends Timestamp implements Parcelable {
         dest.writeString(this.userid);
         dest.writeString(this.content);
         dest.writeString(this.username);
-        dest.writeInt(this.seenAmount);
+        dest.writeByte(this.delivered ? (byte) 1 : (byte) 0);
         dest.writeValue(this.time);
     }
 
@@ -118,7 +96,7 @@ public class Message extends Timestamp implements Parcelable {
         this.userid = in.readString();
         this.content = in.readString();
         this.username = in.readString();
-        this.seenAmount = in.readInt();
+        this.delivered = in.readByte() != 0;
         this.time = (Long) in.readValue(Long.class.getClassLoader());
     }
 

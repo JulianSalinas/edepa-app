@@ -83,8 +83,8 @@ public class NewsAdapter extends MessagesAdapterOnline {
         ViewedList viewedList = ViewedList.getInstance();
         Message msg = msgs.get(holder.getAdapterPosition());
 
-        String textReadAmount = String.valueOf(msg.getSeenAmount()) + " " + view.getString(R.string.text_viewed);
-        ((NewVH) holder).msgReadAmount.setText(textReadAmount);
+//        String textReadAmount = String.valueOf(msg.getSeenAmount()) + " " + view.getString(R.string.text_viewed);
+//        ((NewVH) holder).msgReadAmount.setText(textReadAmount);
 
         ((NewVH) holder).msgReadCheck.setOnClickListener(v -> {
 
@@ -107,11 +107,11 @@ public class NewsAdapter extends MessagesAdapterOnline {
                                 if (msg1 == null)
                                     return Transaction.success(mutableData);
                                 else {
-                                    msg1.setSeenAmount(msg1.getSeenAmount() + 1);
+//                                    msg1.setSeenAmount(msg1.getSeenAmount() + 1);
                                 }
 
                                 mutableData.setValue(msg1);
-                                Log.i("NewsAdapter::", "seenAmountUpdated::" + String.valueOf(msg1.getSeenAmount()));
+//                                Log.i("NewsAdapter::", "seenAmountUpdated::" + String.valueOf(msg1.getSeenAmount()));
                                 return Transaction.success(mutableData);
                             }
 
@@ -141,11 +141,11 @@ public class NewsAdapter extends MessagesAdapterOnline {
                                 if (msg1 == null)
                                     return Transaction.success(mutableData);
                                 else {
-                                    msg1.setSeenAmount(msg1.getSeenAmount() - 1);
+//                                    msg1.setSeenAmount(msg1.getSeenAmount() - 1);
                                 }
 
                                 mutableData.setValue(msg1);
-                                Log.i("NewsAdapter::", "seenAmountUpdated::" + String.valueOf(msg1.getSeenAmount()));
+//                                Log.i("NewsAdapter::", "seenAmountUpdated::" + String.valueOf(msg1.getSeenAmount()));
                                 return Transaction.success(mutableData);
                             }
 

@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.text.util.Linkify;
 import android.text.format.DateUtils;
@@ -348,7 +349,7 @@ public abstract class ChatAdapter
             msgUsername.setVisibility(View.VISIBLE);
 
             String time = DateConverter.extractTime(msg.getTime());
-            msgTimeDescription.setText(time);
+            msgTimeDescription.setText(time.toUpperCase());
 
             msgContent.setText(msg.getContent());
             Linkify.addLinks(msgContent, Linkify.ALL);
@@ -360,6 +361,9 @@ public abstract class ChatAdapter
      */
     protected class ChatRight extends ChatLeft
             implements View.OnClickListener, View.OnLongClickListener, SelectableHolder {
+
+        @BindView(R.id.chat_msg_delivered)
+        ImageView msgDelivered;
 
         boolean isSelectable = false;
 
@@ -394,11 +398,23 @@ public abstract class ChatAdapter
          */
         public void bind() {
             super.bind();
+            setDeliveredIcon();
             msgUsername.setVisibility(View.GONE);
             multiSelector.bindHolder(this, pos, getItemId());
             itemView.setOnClickListener(this);
             itemView.setLongClickable(true);
             itemView.setOnLongClickListener(this);
+        }
+
+        /**
+         * Si se envía un mensaje en modo offline, el mensaje
+         * queda almacenado localmente y se muestra el icono de espera
+         */
+        private void setDeliveredIcon() {
+            int res = msg.isDelivered() ?
+                    R.drawable.ic_check_circle :
+                    R.drawable.ic_waiting;
+            msgDelivered.setImageResource(res);
         }
 
         /**

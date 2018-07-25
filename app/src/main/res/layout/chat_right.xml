@@ -51,15 +51,34 @@
                     android:id="@+id/chat_msg_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/test_dummy" />
+                    android:text="@string/text_lorem_ipsum" />
 
-                <TextView
-                    android:id="@+id/chat_msg_time_description"
+                <LinearLayout
                     android:gravity="end"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/font_small"
-                    tools:text="hace 2 horas" />
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <TextView
+                        android:id="@+id/chat_msg_time_description"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/font_small"
+                        tools:text="hace 2 horas" />
+
+                    <ImageView
+                        android:id="@+id/chat_msg_delivered"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/space_smallest"
+                        android:layout_width="@dimen/space_chat_item_icon"
+                        android:layout_height="@dimen/space_chat_item_icon"
+                        android:src="@drawable/ic_waiting"
+                        android:tint="@color/app_primary_font"
+                        android:contentDescription="@null"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 

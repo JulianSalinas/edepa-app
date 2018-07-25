@@ -59,6 +59,7 @@
     <dimen name="expanded_toolbar_title_margin_start">64dp</dimen>
     <dimen name="space_chat_item_margin">50dp</dimen>
     <dimen name="space_chat_item_padding">12dp</dimen>
-    <dimen name="space_chat_item_min_width">100dp</dimen>
+    <dimen name="space_chat_item_min_width">110dp</dimen>
+    <dimen name="space_chat_item_icon">14dp</dimen>
 
 </resources>
