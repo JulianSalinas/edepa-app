@@ -1,33 +1,37 @@
 package imagisoft.modelview.chat;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.OnLifecycleEvent;
+import java.util.Calendar;
+import butterknife.BindView;
+
+import imagisoft.model.Message;
+import imagisoft.model.Preferences;
+
+import imagisoft.modelview.R;
+import imagisoft.modelview.SmoothLayout;
+import imagisoft.modelview.activity.ActivityFragment;
 
 import android.util.Log;
 import android.os.Bundle;
 import android.view.View;
+
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.OnLifecycleEvent;
+
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.design.widget.TextInputEditText;
 
-import java.util.Calendar;
-import butterknife.BindView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import imagisoft.modelview.R;
-import imagisoft.model.Message;
-import imagisoft.model.Preferences;
-import imagisoft.modelview.SmoothLayout;
-import imagisoft.modelview.activity.ActivityFragment;
 
 
 public class ChatFragment extends ActivityFragment {
 
     /**
      * Es donde se colocan cada uno de los mensajes
+     * de forma VISUAL
      */
     @BindView(R.id.chat_rv)
     RecyclerView chatRV;
@@ -45,7 +49,8 @@ public class ChatFragment extends ActivityFragment {
     TextInputEditText textInputView;
 
     /**
-     * Contiene todos los mensajes del chat
+     * Contiene todos los mensajes del chat y ejecuta
+     * los evento de inserción, deleción y modificación
      */
     protected ChatAdapter chatVA;
 
@@ -62,8 +67,13 @@ public class ChatFragment extends ActivityFragment {
     protected FirebaseAuth auth = FirebaseAuth.getInstance();
     protected FirebaseUser user = auth.getCurrentUser();
 
-    public String getUserid(){
-        return user.getUid();
+    /**
+     * @param msg Mensaje
+     * @return True si el mensaje fue enviado por el usuario actual
+     */
+    public boolean isFromCurrentUser(Message msg){
+        String userUid = user.getUid();
+        return msg.getUserid().equals(userUid);
     }
 
     /**
@@ -83,8 +93,8 @@ public class ChatFragment extends ActivityFragment {
         if(savedInstanceState != null){
             String text = savedInstanceState.getString(INPUT_TEXT_KEY);
             textInputView.setText(text);
+            Log.i(toString(), "onActivityCreated(Bundle)");
         }
-        Log.i(toString(), "onActivityCreated(Bundle)");
     }
 
     /**
@@ -99,10 +109,11 @@ public class ChatFragment extends ActivityFragment {
     }
 
     /**
-     * Al insertar un item el scroll se mueve al final
+     * Al insertar un msg el scroll se mueve al final
      * @see #setupAdapter()
      */
-    protected RecyclerView.AdapterDataObserver observer = new RecyclerView.AdapterDataObserver() {
+    protected RecyclerView.AdapterDataObserver observer =
+        new RecyclerView.AdapterDataObserver() {
         public void onItemRangeInserted(int positionStart, int itemCount) {
             super.onItemRangeInserted(positionStart, itemCount);
             chatRV.smoothScrollToPosition(chatVA.getItemCount()-1);
@@ -152,7 +163,7 @@ public class ChatFragment extends ActivityFragment {
     }
 
     /**
-     * Se configura el contenedor de mensajes, chatRV
+     * Se configura el contenedor de mensajes {@link #chatRV}
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void setupRecyclerView(){
@@ -170,6 +181,9 @@ public class ChatFragment extends ActivityFragment {
         }
     }
 
+    /**
+     * Cuando el input pierde el foco el teclado se debe cerrar
+     */
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void setupTextInput(){
         textInputView.setOnFocusChangeListener((v, hasFocus) -> {

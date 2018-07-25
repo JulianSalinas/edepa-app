@@ -53,8 +53,7 @@ public class ChatFirebase extends ChatAdapter
         Message receivedMessage = dataSnapshot.getValue(Message.class);
         if (receivedMessage != null){
             receivedMessage.setKey(dataSnapshot.getKey());
-            msgs.add(receivedMessage);
-            notifyItemInserted(msgs.size()-1);
+            super.addMessage(receivedMessage);
         }
     }
 
@@ -63,9 +62,7 @@ public class ChatFirebase extends ChatAdapter
         Message receivedMessage = dataSnapshot.getValue(Message.class);
         if (receivedMessage != null){
             receivedMessage.setKey(dataSnapshot.getKey());
-            int index = msgs.indexOf(receivedMessage);
-            msgs.set(index, receivedMessage);
-            notifyItemChanged(index);
+            super.changeMessage(receivedMessage);
         }
     }
 
@@ -74,9 +71,7 @@ public class ChatFirebase extends ChatAdapter
         Message receivedMessage = dataSnapshot.getValue(Message.class);
         if (receivedMessage != null){
             receivedMessage.setKey(dataSnapshot.getKey());
-            int index = msgs.indexOf(receivedMessage);
-            msgs.remove(receivedMessage);
-            notifyItemRemoved(index);
+            super.removeMessage(receivedMessage);
         }
     }
 

@@ -1,63 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
+<LinearLayout
 
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
 
-    android:id="@+id/msg_item"
-    android:minWidth="@dimen/space_chat_item_min_width"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="@drawable/img_selector"
-    android:descendantFocusability="blocksDescendants">
+    android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <include layout="@layout/chat_timestamp"/>
 
-        android:id="@+id/schedule_item"
-        android:layout_width="wrap_content"
+    <FrameLayout
+
+        android:minWidth="@dimen/space_chat_item_min_width"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginStart="@dimen/space_chat_item_margin"
+        android:foreground="@drawable/img_selector"
+        android:descendantFocusability="blocksDescendants">
 
-        app:cardElevation="1dp"
-        app:cardUseCompatPadding="true"
-        app:cardCornerRadius="@dimen/card_radius_chat_msg"
-        app:cardBackgroundColor="@color/app_chat_right"
-        android:tag=":aesthetic_ignore">
+        <android.support.v7.widget.CardView
 
-        <LinearLayout
-            android:minWidth="@dimen/space_chat_item_min_width"
+            android:id="@+id/schedule_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/space_chat_item_padding"
-            android:orientation="vertical">
+            android:layout_gravity="end"
+            android:layout_marginStart="@dimen/space_chat_item_margin"
 
-            <TextView
-                android:id="@+id/msg_username"
-                android:layout_height="wrap_content"
+            app:cardElevation="1dp"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="@dimen/card_radius_chat_msg"
+            app:cardBackgroundColor="@color/app_chat_right"
+            android:tag=":aesthetic_ignore">
+
+            <LinearLayout
+                android:minWidth="@dimen/space_chat_item_min_width"
                 android:layout_width="wrap_content"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/msg_content"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/test_dummy" />
+                android:padding="@dimen/space_chat_item_padding"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/msg_time_description"
-                android:gravity="end"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/font_small"
-                tools:text="hace 2 horas" />
+                <TextView
+                    android:id="@+id/chat_msg_username"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:visibility="gone" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/chat_msg_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test_dummy" />
 
-    </android.support.v7.widget.CardView>
+                <TextView
+                    android:id="@+id/chat_msg_time_description"
+                    android:gravity="end"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_small"
+                    tools:text="hace 2 horas" />
 
-</FrameLayout>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </FrameLayout>
+
+</LinearLayout>
+
 
 

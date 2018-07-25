@@ -1,104 +1,75 @@
 package imagisoft.modelview.chat;
 
-import android.support.v7.view.ActionMode;
-import android.support.v7.widget.RecyclerView;
-import android.text.format.DateUtils;
-import android.text.util.Linkify;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.LayoutInflater;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-
-import com.bignerdranch.android.multiselector.ModalMultiSelectorCallback;
-import com.bignerdranch.android.multiselector.MultiSelector;
-import com.bignerdranch.android.multiselector.SelectableHolder;
-import com.bignerdranch.android.multiselector.SwappingHolder;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import imagisoft.misc.ColorConverter;
-import imagisoft.misc.DateConverter;
-import imagisoft.misc.MaterialGenerator;
+
 import imagisoft.model.Message;
+import imagisoft.misc.DateConverter;
+import imagisoft.misc.ColorConverter;
+import imagisoft.misc.MaterialGenerator;
+
 import imagisoft.modelview.R;
 import imagisoft.modelview.activity.ActivityNavigation;
 
+import android.util.Log;
+import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.view.LayoutInflater;
+
+import android.widget.TextView;
+import android.text.util.Linkify;
+import android.text.format.DateUtils;
+import android.support.v7.view.ActionMode;
+import android.support.v7.widget.RecyclerView;
+
+import com.bignerdranch.android.multiselector.MultiSelector;
+import com.bignerdranch.android.multiselector.SelectableHolder;
+import com.bignerdranch.android.multiselector.ModalMultiSelectorCallback;
+
 
 public abstract class ChatAdapter
-        extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
+        extends RecyclerView.Adapter<ChatAdapter.ChatItem> {
 
     /**
-     * Constantes paras escoger el tipo de vista que se colocará
+     * Constantes paras escoger el tipo de vista
      */
-    private final int LEFT = 0;
-    private final int RIGHT = 1;
+    private static final int LEFT = 0;
+    private static final int RIGHT = 1;
 
     /**
-     * Objetos del modelo que serán adaptados visualmente
+     * El modo de borrado es activado en
+     * {@link #startRemoveMode()}
      */
-    protected ArrayList<Message> msgs;
+    private ActionMode removeMode;
 
     /**
      * Fragmento que hace uso de este adaptador
+     * @see ChatFragment
      */
     protected ChatFragment chatFragment;
 
     /**
-     * Sirve para colorear el nombre de la persona según sus iniciales
+     * Objetos del modelo que serán adaptados visualmente
+     * Puede ser un mensaje del usuario activo o de otro usuario
+     */
+    protected ArrayList<Message> msgs;
+
+    /**
+     * Sirve para colorear el nombre de una persona según sus
+     * iniciales
      */
     private MaterialGenerator materialGenerator;
 
-
+    /**
+     * Usado para borrar mensajes en
+     * {@link #removeModeCallback}
+     */
     private MultiSelector multiSelector = new MultiSelector();
-
-    private ActionMode removeMode;
-
-    private ActionMode.Callback removeModeCallback =
-            new ModalMultiSelectorCallback(multiSelector) {
-
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            super.onCreateActionMode(mode, menu);
-            menu.add("Delete").setIcon(R.drawable.ic_delete);
-            return true;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            for(Integer index : multiSelector.getSelectedPositions())
-                removeMessage(msgs.get(index));
-            multiSelector.clearSelections();
-            mode.finish();
-            return true;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode actionMode) {
-            super.onDestroyActionMode(actionMode);
-            multiSelector.clearSelections();
-        }
-
-    };
-
-    public void setSelectedItemsText(){
-        if(removeMode != null) {
-            Integer nSelected = multiSelector.getSelectedPositions().size();
-            String selectedText = chatFragment.getString(nSelected == 1 ?
-                    R.string.text_selected_single : R.string.text_selected);
-            removeMode.setTitle(nSelected.toString() + " " + selectedText);
-        }
-    }
-
-    public abstract void removeMessage(Message msg);
-
-//    public abstract void addMessage(Message msg);
 
     /**
      * {@inheritDoc}
@@ -119,6 +90,48 @@ public abstract class ChatAdapter
     }
 
     /**
+     * Se añade un nuevo mensaje en la lista, además de un separador
+     * de fechas si es necesario
+     * @param msg Mensaje por añadir
+     */
+    public void addMessage(imagisoft.model.Message msg){
+        msgs.add(msg);
+        notifyItemInserted(msgs.size()-1);
+    }
+
+    /**
+     * Se utiliza cuando la propiedad de algún mensaje ha
+     * cambiado de forma externa del adaptador
+     * @param msg Mensaje por cambiar
+     */
+    public void changeMessage(Message msg){
+        int index = msgs.indexOf(msg);
+        msgs.set(index, msg);
+        notifyItemChanged(index);
+    }
+
+    /**
+     * Se remueve un mensaje del adaptador
+     * Al removerse se debe actualizar el mensaje siguiente, en caso
+     * de que sea necesario agregar una marca de tiempo
+     * @param msg Mensaje a eliminar
+     */
+    public void removeMessage(Message msg){
+        int index = msgs.indexOf(msg);
+        msgs.remove(index);
+        notifyItemRemoved(index);
+        notifyItemRangeChanged(index, 2);
+    }
+
+    /**
+     * @param msg Mensaje
+     * @return True si el mensaje fue enviado por el usuario actual
+     */
+    private boolean isFromCurrentUser(imagisoft.model.Message msg){
+        return chatFragment.isFromCurrentUser(msg);
+    }
+
+    /**
      *  {@inheritDoc}
      */
     @Override
@@ -128,31 +141,24 @@ public abstract class ChatAdapter
     }
 
     /**
-     * @param msg Mensaje
-     * @return True si el mensaje fue enviado por el usuario actual
-     */
-    private boolean isFromCurrentUser(Message msg){
-        String userUid = chatFragment.getUserid();
-        return msg.getUserid().equals(userUid);
-    }
-
-    /**
      * Crear la vista del mensaje, ajustando a izq o der según corresponda
      * @param parent: Vista padre
      * @param viewType: Alguna de las constantes definidas en ésta clase
      */
     @Override
-    public ChatViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ChatItem onCreateViewHolder(ViewGroup parent, int viewType) {
 
         int layout = viewType == LEFT ?
-                R.layout.chat_left_with_sep :
-                R.layout.chat_right_with_sep;
+                R.layout.chat_left :
+                R.layout.chat_right;
 
         View view = LayoutInflater
                 .from(parent.getContext())
                 .inflate(layout, parent, false);
 
-        return new ChatViewHolder(view);
+        return viewType == LEFT ?
+                new ChatLeft(view) :
+                new ChatRight(view);
 
     }
 
@@ -162,8 +168,63 @@ public abstract class ChatAdapter
      *                 Usar holder.getAdapterPosition()
      */
     @Override
-    public void onBindViewHolder(ChatViewHolder holder, int position) {
+    public void onBindViewHolder(ChatItem holder, int position) {
         holder.bind();
+    }
+
+    /**
+     * Atiende los eventos generados en el modo
+     * {@link #removeMode}
+     */
+    private ActionMode.Callback removeModeCallback =
+    new ModalMultiSelectorCallback(multiSelector) {
+
+        /**
+         * {@inheritDoc}
+         * Agrega el icono de borrar
+         */
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            super.onCreateActionMode(mode, menu);
+            menu.add("Delete").setIcon(R.drawable.ic_delete);
+            return true;
+        }
+
+        /**
+         * {@inheritDoc}
+         * Se eliminan todos los mensajes seleccionados
+         */
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            for(Integer index : multiSelector.getSelectedPositions())
+                removeMessage(msgs.get(index));
+            multiSelector.clearSelections();
+            mode.finish();
+            return true;
+        }
+
+        /**
+         * {@inheritDoc}
+         * Se de-seleccionan todos los mensajes
+         */
+        @Override
+        public void onDestroyActionMode(ActionMode actionMode) {
+            super.onDestroyActionMode(actionMode);
+            multiSelector.clearSelections();
+        }
+
+    };
+
+    /**
+     * Coloca el mensaje "n seleccionados" en la toolbar
+     */
+    public void setSelectedItemsText(){
+        if(removeMode != null) {
+            Integer nSelected = multiSelector.getSelectedPositions().size();
+            String selectedText = chatFragment.getString(nSelected == 1 ?
+                    R.string.text_selected_single : R.string.text_selected);
+            removeMode.setTitle(nSelected.toString() + " " + selectedText);
+        }
     }
 
     /**
@@ -180,28 +241,9 @@ public abstract class ChatAdapter
     }
 
     /**
-     * Clase para enlazar los mensajes a sus resptivas vistas
+     * Unidad que representa un elemento en el recyclerView
      */
-    protected class ChatViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener, View.OnLongClickListener, SelectableHolder {
-
-        @BindView(R.id.msg_item)
-        FrameLayout msgItem;
-
-        @BindView(R.id.msg_username)
-        TextView msgUsername;
-
-        @BindView(R.id.msg_content)
-        TextView msgContent;
-
-        @BindView(R.id.msg_time_description)
-        TextView msgTimeDescription;
-
-        @BindView(R.id.chat_separator_text)
-        TextView timeSeparatorText;
-
-        @BindView(R.id.chat_separator_item)
-        View timeSeparatorItem;
+    protected abstract class ChatItem extends RecyclerView.ViewHolder {
 
         /**
          * Posición del mensaje
@@ -214,90 +256,112 @@ public abstract class ChatAdapter
          */
         Message msg = null;
 
-        boolean isSelectable = false;
-
-        public ChatViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+        public ChatItem(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
         }
 
+        /**
+         * Asigna los valores pos y msg
+         * Enlanza todos los componentes visuales
+         */
+        public void bind(){
+            pos = getAdapterPosition();
+            msg = msgs.get(pos);
+        }
+
+    }
+
+    /**
+     * Contiene el item que separa los mensajes por fechas
+     */
+    protected class ChatTimestamp extends ChatItem {
+
+        @BindView(R.id.chat_timestamp)
+        View chatTimestamp;
+
+        @BindView(R.id.chat_timestamp_text)
+        TextView chatTimestampText;
+
+        public ChatTimestamp(View itemView) {
+            super(itemView);
+        }
+
+        /**
+         * Si el mensaje anterior ya tiene la fecha no es
+         * necesario colocarla en el siguiente mensaje si tiene la misma
+         */
+        @Override
         public void bind() {
 
-            this.pos = getAdapterPosition();
-            this.msg = msgs.get(pos);
-            multiSelector.bindHolder(this, pos, getItemId());
-
-            if (msg.getUserid().equals(chatFragment.getUserid()))
-                msgUsername.setVisibility(View.GONE);
-
-            else if (pos == 0)
-                msgUsername.setVisibility(View.VISIBLE);
+            super.bind();
+            if (pos == 0) chatTimestamp.setVisibility(View.VISIBLE);
 
             else {
-                Message upMsg = msgs.get(pos - 1);
-                boolean isEqual = upMsg.getUserid().equals(msg.getUserid());
-                msgUsername.setVisibility(isEqual ? View.GONE : View.VISIBLE);
+                Message lastMsg = msgs.get(pos - 1);
+                String msgDate = DateConverter.extractDate(msg.getTime());
+                String lastMsgDate = DateConverter.extractDate(lastMsg.getTime());
+                chatTimestamp.setVisibility(msgDate.equals(lastMsgDate) ? View.GONE : View.VISIBLE);
             }
 
-            if (msgUsername.getVisibility() == View.VISIBLE) {
-                int color = materialGenerator.getColor(msg.getUsername());
-                msgUsername.setTextColor(color);
-                msgUsername.setText(msg.getUsername());
+            if (chatTimestamp.getVisibility() == View.VISIBLE){
+                long date = msg.getTime();
+                boolean isToday = DateUtils.isToday(date);
+                if (isToday) chatTimestampText.setText(R.string.text_today);
+                else chatTimestampText.setText(DateConverter.extractDate(date));
             }
+
+        }
+
+    }
+
+    /**
+     * Representa los mensajes de otros usuarios
+     */
+    protected class ChatLeft extends ChatTimestamp {
+
+        @BindView(R.id.chat_msg_content)
+        TextView msgContent;
+
+        @BindView(R.id.chat_msg_username)
+        TextView msgUsername;
+
+        @BindView(R.id.chat_msg_time_description)
+        TextView msgTimeDescription;
+
+        public ChatLeft(View itemView) {
+            super(itemView);
+        }
+
+        /**
+         * {@inheritDoc}
+         * Se colocan los elementos del mensaje
+         */
+        @Override
+        public void bind() {
+
+            super.bind();
+            int color = materialGenerator.getColor(msg.getUsername());
+
+            msgUsername.setTextColor(color);
+            msgUsername.setText(msg.getUsername());
+            msgUsername.setVisibility(View.VISIBLE);
 
             String time = DateConverter.extractTime(msg.getTime());
             msgTimeDescription.setText(time);
 
             msgContent.setText(msg.getContent());
             Linkify.addLinks(msgContent, Linkify.ALL);
-
-            if (pos == 0)
-                timeSeparatorItem.setVisibility(View.VISIBLE);
-
-            else {
-                Message upMsg = msgs.get(pos - 1);
-                String upDate = DateConverter.extractDate(upMsg.getTime());
-                String currentDate = DateConverter.extractDate(msg.getTime());
-                boolean equals = upDate.equals(currentDate);
-                timeSeparatorItem.setVisibility(equals ? View.GONE : View.VISIBLE);
-            }
-
-            if (timeSeparatorItem.getVisibility() == View.VISIBLE) {
-                long date = msg.getTime();
-                boolean isToday = DateUtils.isToday(date);
-                if (isToday) timeSeparatorText.setText(R.string.text_today);
-                else timeSeparatorText.setText(DateConverter.extractDate(date));
-            }
-
-            itemView.setOnClickListener(this);
-            itemView.setLongClickable(true);
-            itemView.setOnLongClickListener(this);
         }
+    }
 
-        @Override
-        public void onClick(View v) {
-            if (msg != null && multiSelector.tapSelection(this)){
-                List<Integer> selected = multiSelector.getSelectedPositions();
-                if(removeMode != null && selected.isEmpty())
-                    removeMode.finish();
-                else setSelectedItemsText();
-                Log.i(toString(), "onClick()");
-            }
-        }
+    /**
+     * Clase para enlazar los mensajes a sus resptivas vistas
+     */
+    protected class ChatRight extends ChatLeft
+            implements View.OnClickListener, View.OnLongClickListener, SelectableHolder {
 
-        @Override
-        public boolean onLongClick(View v) {
-            startRemoveMode();
-            multiSelector.setSelected(this, true);
-            setSelectedItemsText();
-            Log.i(toString(), "onLongClick()");
-            return true;
-        }
-
-        @Override
-        public void setSelectable(boolean selectable) {
-            // Requerido
-        }
+        boolean isSelectable = false;
 
         @Override
         public boolean isSelectable() {
@@ -305,16 +369,72 @@ public abstract class ChatAdapter
         }
 
         @Override
-        public void setActivated(boolean isActivated) {
-            itemView.setActivated(isActivated);
+        public void setSelectable(boolean isSelectable) {
+             this.isSelectable = isSelectable;
         }
 
         @Override
         public boolean isActivated() {
             return itemView.isActivated();
         }
+
+        @Override
+        public void setActivated(boolean isActivated) {
+            itemView.setActivated(isActivated);
+        }
+
+        public ChatRight(View view) {
+            super(view);
+        }
+
+        /**
+         * {@inheritDoc}
+         * Los mensajes de la derecha son del usuario actual, por tanto,
+         * el usuario los puede eliminar y se deben colocar los listeners
+         */
+        public void bind() {
+            super.bind();
+            msgUsername.setVisibility(View.GONE);
+            multiSelector.bindHolder(this, pos, getItemId());
+            itemView.setOnClickListener(this);
+            itemView.setLongClickable(true);
+            itemView.setOnLongClickListener(this);
+        }
+
+        /**
+         * {@inheritDoc}
+         * Al entrar en el modo de selección, al hacer click, el mensaje
+         * se agrega a la selección
+         */
+        @Override
+        public void onClick(View v) {
+            if (msg != null && multiSelector.tapSelection(this)){
+                List<Integer> selected = multiSelector.getSelectedPositions();
+                if(removeMode != null && selected.isEmpty())
+                    removeMode.finish();
+                else setSelectedItemsText();
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         * Se entra en modo selección y se marca el mensaje
+         */
+        @Override
+        public boolean onLongClick(View v) {
+            if (!multiSelector.isSelectable()) {
+                startRemoveMode();
+                multiSelector.setSelectable(true);
+                multiSelector.setSelected(this, true);
+                setSelectedItemsText();
+                return true;
+            }   return false;
+        }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return getClass().getSimpleName();

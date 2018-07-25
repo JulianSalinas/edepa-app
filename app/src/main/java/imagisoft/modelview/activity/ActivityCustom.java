@@ -3,36 +3,35 @@ package imagisoft.modelview.activity;
 import android.os.Bundle;
 import android.os.Handler;
 
-import android.support.v7.view.ActionMode;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
+import android.view.inputmethod.InputMethodManager;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.support.annotation.NonNull;
+import android.support.v7.view.ActionMode;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBarDrawerToggle;
+import static android.support.v4.view.GravityCompat.START;
 
 import java.util.Stack;
 import butterknife.*;
 import imagisoft.misc.*;
 import imagisoft.model.Preferences;
 import imagisoft.modelview.R;
-
-import static android.support.v4.view.GravityCompat.START;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;

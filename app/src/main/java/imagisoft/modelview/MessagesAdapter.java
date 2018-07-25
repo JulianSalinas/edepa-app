@@ -136,13 +136,13 @@ public abstract class MessagesAdapter
      */
     protected class MessageVH extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.msg_username)
+        @BindView(R.id.chat_msg_username)
         TextView msgUsername;
 
-        @BindView(R.id.msg_content)
+        @BindView(R.id.chat_msg_content)
         TextView msgContent;
 
-        @BindView(R.id.msg_time_description)
+        @BindView(R.id.chat_msg_time_description)
         TextView msgTimeDescription;
 
         MessageVH(View view) {
@@ -158,7 +158,7 @@ public abstract class MessagesAdapter
      */
     protected class MessageVHWS extends MessageVH {
 
-        @BindView(R.id.chat_separator_text)
+        @BindView(R.id.chat_timestamp_text)
         TextView timeSeparator;
 
         MessageVHWS(View view) {
