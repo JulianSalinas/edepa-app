@@ -1,4 +1,7 @@
-package imagisoft.modelview;
+package imagisoft.modelview.about;
+
+import imagisoft.modelview.R;
+import imagisoft.modelview.activity.ActivityFragment;
 
 import android.os.Bundle;
 import android.view.View;
@@ -6,10 +9,8 @@ import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.content.res.Resources;
 
-import imagisoft.modelview.activity.ActivityFragment;
 import mehdi.sakout.aboutpage.Element;
 import mehdi.sakout.aboutpage.AboutPage;
-import static android.view.View.VISIBLE;
 
 
 public class AboutFragment extends ActivityFragment {
@@ -28,7 +29,7 @@ public class AboutFragment extends ActivityFragment {
     @Override
     public void setupActivityView() {
         setToolbarText(R.string.nav_about);
-        setToolbarVisibility(VISIBLE);
+        setToolbarVisibility(View.VISIBLE);
     }
 
     /**

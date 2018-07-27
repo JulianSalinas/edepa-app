@@ -2,14 +2,15 @@ package imagisoft.modelview.activity;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
-import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
-import imagisoft.model.Preferences;
-import imagisoft.modelview.AboutFragment;
+import imagisoft.modelview.about.AboutFragment;
+import imagisoft.modelview.schedule.EventsOngoing;
 import imagisoft.modelview.R;
 import imagisoft.modelview.chat.ChatFragment;
+import imagisoft.modelview.schedule.PagerFragment;
 
 public class ActivityNavigation extends ActivityCustom {
 
@@ -18,12 +19,13 @@ public class ActivityNavigation extends ActivityCustom {
      */
     protected void onCreateFirstCreation(){
         super.onCreateFirstCreation();
-        String tag = "CHAT_FRAGMENT";
-        Fragment frag = new ChatFragment();
+        activeTabbedMode();
+        String tag = "PAGER_SCHEDULE";
+        Fragment frag = new PagerFragment.Schedule();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_content, frag, tag)
-                .commitAllowingStateLoss();
+                .commitNow();
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -135,6 +137,30 @@ public class ActivityNavigation extends ActivityCustom {
     public boolean openPallete(){
         Log.i(toString(), "openPallete()");
         return true;
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        int pos = tab.getPosition();
+
+        if (pos == 2){
+            String tag = "ONGOING_FRAGMENT";
+            Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
+            Fragment frag = temp != null ? temp : new EventsOngoing();
+            pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+        }
+
+        Log.i(toString(), "onTabSelected("+ String.valueOf(pos) +")");
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
     }
 
 }

@@ -1,7 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
+
+    if (project.hasProperty('devBuild')){
+        splits.abi.enable = false
+        splits.density.enable = false
+    }
+
+    if (project.hasProperty('devBuild')){
+        aaptOptions.cruncherEnabled = false
+    }
+
     compileSdkVersion 27
+
     defaultConfig {
         applicationId "imagisoft.rommie"
         minSdkVersion 21
@@ -11,16 +22,25 @@ android {
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
+
+        debug {
+            ext.alwaysUpdateBuildId = false
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
     }
+
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+
 }
 
 dependencies {
@@ -30,12 +50,12 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation "com.android.support:support-core-utils:27.1.1"
 
-    implementation 'com.google.firebase:firebase-core:15.0.2'
-    implementation 'com.google.firebase:firebase-auth:15.1.0'
-    implementation 'com.google.firebase:firebase-storage:15.0.2'
-    implementation 'com.google.firebase:firebase-invites:15.0.1'
-    implementation 'com.google.firebase:firebase-database:15.0.1'
-    implementation 'com.google.firebase:firebase-messaging:15.0.2'
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.firebase:firebase-auth:16.0.2'
+    implementation 'com.google.firebase:firebase-storage:16.0.1'
+    implementation 'com.google.firebase:firebase-invites:16.0.1'
+    implementation 'com.google.firebase:firebase-database:16.0.1'
+    implementation 'com.google.firebase:firebase-messaging:17.1.0'
 
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
     implementation 'com.google.android.gms:play-services-auth:15.0.1'
@@ -48,11 +68,9 @@ dependencies {
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
     implementation 'com.github.bumptech.glide:glide:4.6.1'
     implementation 'com.github.mklimek:circle-initials-view:1.0.9'
-    implementation 'com.astuetz:pagerslidingtabstrip:1.0.1'
     implementation 'com.github.medyo:android-about-page:1.2.4'
     implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.4'
     implementation 'com.github.kizitonwose.colorpreference:support:1.0.6'
-    implementation 'com.github.ksoichiro:Android-ObservableScrollView:v1.6.0'
 
     implementation 'com.firebaseui:firebase-ui-auth:3.2.2'
     implementation 'com.firebaseui:firebase-ui-storage:0.6.0'

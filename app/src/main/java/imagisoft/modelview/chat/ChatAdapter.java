@@ -95,7 +95,7 @@ public abstract class ChatAdapter
      * de fechas si es necesario
      * @param msg Mensaje por añadir
      */
-    public void addMessage(imagisoft.model.Message msg){
+    public void addMessage(Message msg){
         msgs.add(msg);
         notifyItemInserted(msgs.size()-1);
     }
@@ -107,8 +107,10 @@ public abstract class ChatAdapter
      */
     public void changeMessage(Message msg){
         int index = msgs.indexOf(msg);
-        msgs.set(index, msg);
-        notifyItemChanged(index);
+        if (index != -1) {
+            msgs.set(index, msg);
+            notifyItemChanged(index);
+        }
     }
 
     /**
@@ -119,9 +121,11 @@ public abstract class ChatAdapter
      */
     public void removeMessage(Message msg){
         int index = msgs.indexOf(msg);
-        msgs.remove(index);
-        notifyItemRemoved(index);
-        notifyItemRangeChanged(index, 2);
+        if (index != -1) {
+            msgs.remove(index);
+            notifyItemRemoved(index);
+            notifyItemRangeChanged(index, 2);
+        }
     }
 
     /**

@@ -37,7 +37,7 @@
                 android:paddingEnd="@dimen/space_small"
                 android:paddingStart="@dimen/space_small"
                 android:textSize="@dimen/font_small"
-                android:textColor="@color/app_primary_font"
+                android:textColor="@color/app_secondary_font"
                 tools:text="@string/test_app_range_time"/>
 
         </LinearLayout>

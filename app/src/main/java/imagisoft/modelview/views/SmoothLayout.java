@@ -1,4 +1,4 @@
-package imagisoft.modelview;
+package imagisoft.modelview.views;
 
 import android.content.Context;
 import android.graphics.PointF;

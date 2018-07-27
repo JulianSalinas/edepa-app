@@ -3,6 +3,7 @@ package imagisoft.modelview.activity;
 import android.os.Bundle;
 import android.os.Handler;
 
+import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -45,7 +47,8 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 public abstract class ActivityCustom extends ActivityFirebase
         implements LifecycleObserver,
         MaterialSearchView.SearchViewListener,
-        NavigationView.OnNavigationItemSelectedListener{
+        NavigationView.OnNavigationItemSelectedListener,
+        TabLayout.OnTabSelectedListener {
 
     /**
      * Usado para despedirse al salir de la aplicación
@@ -75,12 +78,22 @@ public abstract class ActivityCustom extends ActivityFirebase
     Toolbar toolbar;
 
     /**
+     * Contiene la pestaña de cronograma, favoritos y en curso
+     * @see #activeTabbedMode()
+     */
+    @BindView(R.id.toolbar_tabs)
+    LinearLayout toolbarTabs;
+
+    @BindView(R.id.toolbar_tabs_layout)
+    TabLayout toolbarTabsLayout;
+
+    /**
      * Contiene la toolbar, sirve para que se pueda ocultar
      * la toobar en fragmentos que no la necesitan
      * @see #toolbar
      */
     @BindView(R.id.toolbar_container)
-    AppBarLayout toolbar_container;
+    AppBarLayout toolbarContainer;
 
     /**
      * Menú lateral de la aplicación, contiene las opciones
@@ -172,7 +185,7 @@ public abstract class ActivityCustom extends ActivityFirebase
      * @return AppBarLayout
      */
     public AppBarLayout getToolbarContainer(){
-        return toolbar_container;
+        return toolbarContainer;
     }
 
     /**
@@ -209,6 +222,24 @@ public abstract class ActivityCustom extends ActivityFirebase
             pendingRunnable = null;
             Log.i(toString(), "runPendingRunnable()");
         }
+    }
+
+    /**
+     * @see #toolbarTabs
+     */
+    public void activeTabbedMode(){
+        toolbarContainer.setElevation(0);
+        toolbarTabs.setVisibility(View.VISIBLE);
+        toolbarTabsLayout.setOnTabSelectedListener(this);
+    }
+
+    /**
+     * @see #toolbarTabs
+     */
+    public void deactiveTabbedMode(){
+        toolbarContainer.setElevation(4);
+        toolbarTabs.setVisibility(View.GONE);
+        toolbarTabsLayout.setOnTabSelectedListener(null);
     }
 
     /**

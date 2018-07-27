@@ -1,4 +1,4 @@
-package imagisoft.modelview;
+package imagisoft.modelview.signin;
 
 import android.os.Bundle;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 import imagisoft.model.Preferences;
+import imagisoft.modelview.R;
 import imagisoft.modelview.activity.ActivityNavigation;
 
 /**

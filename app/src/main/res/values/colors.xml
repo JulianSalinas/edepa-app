@@ -17,6 +17,7 @@
     <color name="app_accent_font">#FFFFFF</color>
     <color name="app_primary_font">#676567</color>
     <color name="app_primary_dark_font">#212121</color>
+    <color name="app_secondary_font">#9e9e9e</color>
 
     <color name="app_chat_left">#FFFFFF</color>
     <color name="app_chat_right">#fff3e0</color>

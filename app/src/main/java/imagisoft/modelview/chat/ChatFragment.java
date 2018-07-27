@@ -7,7 +7,7 @@ import imagisoft.model.Message;
 import imagisoft.model.Preferences;
 
 import imagisoft.modelview.R;
-import imagisoft.modelview.SmoothLayout;
+import imagisoft.modelview.views.SmoothLayout;
 import imagisoft.modelview.activity.ActivityFragment;
 
 import android.util.Log;

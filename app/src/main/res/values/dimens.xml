@@ -61,5 +61,6 @@
     <dimen name="space_chat_item_padding">12dp</dimen>
     <dimen name="space_chat_item_min_width">110dp</dimen>
     <dimen name="space_chat_item_icon">14dp</dimen>
+    <dimen name="space_medium">10dp</dimen>
 
 </resources>

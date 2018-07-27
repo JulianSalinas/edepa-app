@@ -7,7 +7,7 @@
     android:background="#FFFF"
     android:scrollbars="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="imagisoft.modelview.InformationFragment">
+    tools:context="imagisoft.modelview.zothers.InformationFragment">
 
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/img_map"
