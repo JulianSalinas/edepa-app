@@ -13,7 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 
 
-public abstract class EventsFragment extends ActivityFragment {
+public abstract class EventsFragment extends ActivityFragment implements IEventsSubject {
 
     /**
      * Se colocan los eventos de manera visual
@@ -27,6 +27,13 @@ public abstract class EventsFragment extends ActivityFragment {
     private EventsAdapter eventsVA;
 
     public abstract long getDate();
+
+    protected IEventsListener pagerListener;
+
+    @Override
+    public void setListener(IEventsListener pagerListener){
+        this.pagerListener = pagerListener;
+    }
 
     /**
      * {@inheritDoc}

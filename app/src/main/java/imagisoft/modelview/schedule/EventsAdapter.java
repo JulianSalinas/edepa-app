@@ -259,22 +259,14 @@ public abstract class EventsAdapter
 
         @Override
         public void liked(LikeButton likeButton) {
-            //                favoriteList.addEvent(event);
-
-            FirebaseAuth auth = FirebaseAuth.getInstance();
-            FirebaseUser user = auth.getCurrentUser();
-
-//                fragment.activity
-//                        .getFavoritesReference()
-//                        .child(user.getUid())
-//                        .push().setValue(event.getId());
+            favoriteList.addEvent(event.getId());
+            Log.i("liked: ", event.getTitle());
         }
 
         @Override
         public void unLiked(LikeButton likeButton) {
-
-//                favoriteList.removeEvent(event);
-            Log.i("FavoriteRemoved::", event.getTitle());
+            favoriteList.removeEvent(event.getId());
+            Log.i("unLiked", event.getTitle());
         }
 
     }

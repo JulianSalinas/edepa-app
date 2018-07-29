@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import imagisoft.misc.DateConverter;
 import imagisoft.model.ScheduleEvent;
 import imagisoft.modelview.activity.ActivityFragment;
+import imagisoft.modelview.views.DateFragment;
 
-import android.os.Bundle;
 import android.util.Log;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 
-import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 
 
 /**
@@ -23,7 +23,7 @@ import com.google.firebase.database.DatabaseError;
  * fragmentos en memoria mientras que el otros solo conserva
  * la variable savedStateInstance
  */
-public abstract class PagerAdapter extends FragmentPagerAdapter {
+public abstract class PagerAdapter extends PagerFirebase implements IEventsListener {
 
     /**
      * Para dividir los eventos por día
@@ -67,7 +67,7 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public Fragment getItem(int position) {
-        return getEventsFragment(dates.get(position));
+        return (Fragment) getEventsFragment(dates.get(position));
     }
 
     /**
@@ -90,7 +90,7 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public int getItemPosition(Object object) {
-        EventsFragment fragment = (EventsFragment) object;
+        IEventsSubject fragment = (IEventsSubject) object;
         int index = dates.indexOf(fragment.getDate());
         return index > 0 ? index : POSITION_NONE;
     }
@@ -111,18 +111,19 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
      * @param date Fecha de la página por remover
      * @see #addPage(long)
      */
-    public void removePage(long date){
+    @Override
+    public void removeDate(long date){
         dates.remove(date);
         notifyDataSetChanged();
         String dateStr = DateConverter.extractDate(date);
-        Log.i(toString(), "removePage(" + dateStr + ")");
+        Log.i(toString(), "removeDate(" + dateStr + ")");
     }
 
     /**
      * Agrega una página
      * Es utilizada por {@link #addPageIfNotExists(ScheduleEvent)}
      * @param date Fecha de los eventos en la página
-     * @see #removePage(long)
+     * @see #removeDate(long)
      */
     private void addPage(long date){
         int index = findIndexToAddPage(date);
@@ -162,23 +163,15 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
      * Función usada por {@link #getItem(int)} para obtener
      * una nueva instancia de un fragmento EventsFragment
      * @param date: Fecha de la página
-     * @return EventsFragment Página con eventos
+     * @return IEventsSubject Fragment que implemena la interfaz
      */
-    protected abstract EventsFragment getEventsFragment(long date);
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return getClass().getSimpleName();
-    }
+    protected abstract IEventsSubject getEventsFragment(long date);
 
     /**
      * Subclase de #PagerAdapter, esta obtiene los eventos
      * por medio de Firebase y agrega las páginas necesarias
      */
-    public static  class Schedule extends PagerAdapter implements ChildEventListener {
+    public static class Schedule extends PagerAdapter{
 
         /**
          * Constructor
@@ -200,12 +193,13 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
          * EventsFragment Página con eventos
          */
         @Override
-        protected EventsFragment getEventsFragment(long date) {
+        protected IEventsSubject getEventsFragment(long date) {
             Bundle args = new Bundle();
             Fragment fragment = new EventsSchedule();
             args.putLong("date", date);
             fragment.setArguments(args);
-            return (EventsFragment) fragment;
+            ((IEventsSubject) fragment).setListener(this);
+            return (IEventsSubject) fragment;
         }
 
         /**
@@ -215,6 +209,7 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
          */
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            super.onChildAdded(dataSnapshot, s);
             ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
             if (event != null && event.getStart() != 0L) {
                 event.setId(dataSnapshot.getKey());
@@ -229,25 +224,69 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
          */
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            super.onChildChanged(dataSnapshot, s);
             ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
             if (event != null && event.getStart() != 0L){
                 Log.i(toString(), "onChildChanged(DataSnapshot, String)");
             }
         }
 
+    }
+
+    /**
+     * Subclase de #PagerAdapter, esta obtiene los eventos
+     * por medio de Firebase y agrega las páginas necesarias
+     */
+    public static class Favorites extends PagerAdapter {
+
+        /**
+         * Para realizar la consulta de los favortos
+         */
+        protected FirebaseAuth auth = FirebaseAuth.getInstance();
+        protected FirebaseUser user = auth.getCurrentUser();
+
+        /**
+         * Constructor
+         * @param fragment Del cual obtener el ChildFragmentManager
+         */
+        public Favorites(ActivityFragment fragment) {
+            super(fragment);
+            fragment.getActivityCustom()
+                    .getScheduleReference()
+                    .orderByChild("start")
+                    .addChildEventListener(this);
+        }
+
+        /**
+         * {@inheritDoc}
+         * Antes de retornar el fragmento es necesario
+         * pasarle como parámetro la fecha del mismo
+         * @param date: Fecha de la página
+         * EventsFragment Página con eventos
+         */
         @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-            Log.i(toString(), "onChildRemoved(DataSnapshot)");
+        protected IEventsSubject getEventsFragment(long date) {
+            Bundle args = new Bundle();
+            Fragment fragment = new DateFragment();
+            args.putLong("date", date);
+            fragment.setArguments(args);
+            ((IEventsSubject) fragment).setListener(this);
+            return (IEventsSubject) fragment;
         }
 
         @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            Log.i(toString(), "onChildMoved(DataSnapshot, String)");
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            super.onChildAdded(dataSnapshot, s);
+            ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
+            if (event != null && event.getStart() != 0L) {
+                event.setId(dataSnapshot.getKey());
+                addPageIfNotExists(event);
+            }
         }
 
         @Override
-        public void onCancelled(DatabaseError databaseError) {
-            Log.i(toString(), "onCancelled(DatabaseError, String)");
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            super.onChildChanged(dataSnapshot, s);
         }
 
     }

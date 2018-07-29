@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+
 public class Preferences {
 
     /**
@@ -14,6 +15,17 @@ public class Preferences {
     public static final String USER_ID_KEY = "USER_ID_KEY";
     public static final String FIRST_USE_KEY = "FIRST_USE_KEY";
     public static final String ALARM_STATE_KEY = "ALARM_STATE_KEY";
+
+    /**
+     * Preferencias para activar o desactivar partes de la app
+     * NOTA: Las key tienen que coincidir con el nombre en la BD
+     */
+    public static final String INFO_AVAILABLE_KEY = "INFO";
+    public static final String NEWS_AVAILABLE_KEY = "NEWS";
+    public static final String CHAT_AVAILABLE_KEY = "CHAT";
+    public static final String PALETTE_AVAILABLE_KEY = "PALETTE";
+    public static final String PEOPLE_AVAILABLE_KEY = "PEOPLE";
+
 
     /**
      * Solo permite acceder a una instancia de preferencias

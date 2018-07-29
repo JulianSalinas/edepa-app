@@ -50,7 +50,7 @@ public abstract class PagerFragment extends ActivityFragment {
      * los eventos y ajusta la interfaz para solo mostrar dichos
      * días por medio de un adaptador
      */
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     private void setupAdapter(){
         if (adapter == null) {
             adapter = getAdapter();
@@ -81,6 +81,15 @@ public abstract class PagerFragment extends ActivityFragment {
         @Override
         protected PagerAdapter getAdapter() {
             return new PagerAdapter.Schedule(this);
+        }
+
+    }
+
+    public static class Favorites extends PagerFragment {
+
+        @Override
+        protected PagerAdapter getAdapter() {
+            return new PagerAdapter.Favorites(this);
         }
 
     }

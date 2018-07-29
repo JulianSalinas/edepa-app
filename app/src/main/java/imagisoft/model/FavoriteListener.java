@@ -2,7 +2,7 @@ package imagisoft.model;
 
 public interface FavoriteListener {
 
-    void onFavoriteAdded(ScheduleEvent event);
-    void onFavoriteRemoved(ScheduleEvent event);
+    void onFavoriteAdded(String eventId);
+    void onFavoriteRemoved(String eventId);
 
 }

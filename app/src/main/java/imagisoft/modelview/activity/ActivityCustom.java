@@ -32,6 +32,7 @@ import static android.support.v4.view.GravityCompat.START;
 import java.util.Stack;
 import butterknife.*;
 import imagisoft.misc.*;
+import imagisoft.model.FavoriteList;
 import imagisoft.model.Preferences;
 import imagisoft.modelview.R;
 
@@ -122,6 +123,7 @@ public abstract class ActivityCustom extends ActivityFirebase
     /**
      * Menú que se extrae de navigationView para colocar
      * los eventos a cada una de las opciones del menú
+     * Se instancia en {@link #onCreateActivity(Bundle)}i
      */
     protected Menu menu;
 
@@ -129,7 +131,7 @@ public abstract class ActivityCustom extends ActivityFirebase
      * Se usa para cambiar los fragmentos usando un hilo
      * diferente para que la animación se vea mas fluida.
      * Lo que hace es correr pendingRunnable cuando se cierra
-     * el draweLayout. Se instancia en connectDrawerListener()
+     * el draweLayout.
      * @see #runPendingRunnable()
      */
     protected Handler handler;
@@ -216,7 +218,7 @@ public abstract class ActivityCustom extends ActivityFirebase
      * Ejecuta en un segunda plano el cambio de fragmento. Es llamada
      * después de cerrar completamente el menú lateral
      */
-    private void runPendingRunnable(){
+    protected void runPendingRunnable(){
         if(pendingRunnable != null) {
             handler.post(pendingRunnable);
             pendingRunnable = null;
@@ -267,6 +269,8 @@ public abstract class ActivityCustom extends ActivityFirebase
      */
     private void onCreateActivity(Bundle savedInstanceState) {
         setSupportActionBar(toolbar);
+        handler = new Handler();
+        menu = navigationView.getMenu();
         if(savedInstanceState == null)
             onCreateFirstCreation();
         else onCreateAlreadyOpen(savedInstanceState);
@@ -278,21 +282,21 @@ public abstract class ActivityCustom extends ActivityFirebase
      * @see #onCreateActivity(Bundle)
      */
     protected void onCreateFirstCreation(){
-
         Preferences prefs = Preferences.getInstance();
-
         if(prefs.getBooleanPreference(this, Preferences.FIRST_USE_KEY))
             writeDefaultPreferences();
-
         Log.i(toString(), "onCreateFirstCreation()");
     }
 
     /**
      * Se escriben las preferencias por defecto de la aplicación
+     * La segunda línea sincroniza las preferencias que están
+     * disponibles en la BD
      * @see #onCreateFirstCreation()
      */
     private void writeDefaultPreferences(){
         Preferences prefs = Preferences.getInstance();
+        getConfigReference().addListenerForSingleValueEvent(this);
         prefs.setPreference(this, Preferences.FIRST_USE_KEY, false);
         prefs.setPreference(this, Preferences.USER_KEY, getDefaultUsername());
         Log.i(toString(), "writeDefaultPreferences()");
@@ -310,6 +314,11 @@ public abstract class ActivityCustom extends ActivityFirebase
         Log.i(toString(), "onCreateAlreadyOpen()");
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    private void loadLocalFavorites(){
+        FavoriteList.getInstance().load(this);
+    }
+
     /**
      * Se configura el botón que esta en Toolbar que sirve para
      * abrir el {@link #drawerLayout}
@@ -321,15 +330,6 @@ public abstract class ActivityCustom extends ActivityFirebase
         new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, open, close).syncState();
         Log.i(toString(), "setupToggle()");
-    }
-
-    /**
-     * Se enlaza el {@link menu] con la actividad
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    private void setupNavigationMenu() {
-        menu = navigationView.getMenu();
-        Log.i(toString(), "setupNavigationMenu()");
     }
 
     /**
@@ -399,7 +399,6 @@ public abstract class ActivityCustom extends ActivityFirebase
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void connectDrawerListener(){
-        handler = new Handler();
         drawerLayout.addDrawerListener(drawerListener);
         Log.i(toString(), "connectDrawerListener()");
     }
@@ -492,8 +491,8 @@ public abstract class ActivityCustom extends ActivityFirebase
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(imagisoft.modelview.R.menu.toolbar_menu, menu);
-        MenuItem item = menu.findItem(imagisoft.modelview.R.id.search_item);
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        MenuItem item = menu.findItem(R.id.search_item);
         searchView.setMenuItem(item);
         Log.i(toString(), "onCreateOptionsMenu()");
         return true;

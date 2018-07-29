@@ -1,16 +1,12 @@
 package imagisoft.modelview.schedule;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.OnLifecycleEvent;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 
-import java.sql.Date;
 import java.util.Collections;
 
 import imagisoft.misc.DateConverter;
@@ -116,6 +112,11 @@ public class EventsSchedule extends EventsFragment {
                 int index = events.indexOf(event);
                 events.remove(index);
                 notifyItemRemoved(index);
+
+                if (pagerListener != null){
+                    pagerListener.removeDate(getDate());
+                }
+
             }
         }
 
