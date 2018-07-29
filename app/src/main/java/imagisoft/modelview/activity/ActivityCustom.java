@@ -226,6 +226,10 @@ public abstract class ActivityCustom extends ActivityFirebase
         }
     }
 
+    public boolean isActiveTabbedMode(){
+        return View.VISIBLE == toolbarTabsLayout.getVisibility();
+    }
+
     /**
      * @see #toolbarTabs
      */
@@ -330,33 +334,6 @@ public abstract class ActivityCustom extends ActivityFirebase
         new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, open, close).syncState();
         Log.i(toString(), "setupToggle()");
-    }
-
-    /**
-     * Se configura el listener del botón fav del menú lateral
-     * @see #disconnectFavoriteButtonListener()
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    public void connectFavoriteButtonListener(){
-        navigationView
-                .getHeaderView(0)
-                .findViewById(imagisoft.modelview.R.id.favorite_button)
-                .setOnClickListener(v ->
-                        showMessage("favoriteButtonPressed"));
-        Log.i(toString(), "connectFavoriteButtonListener()");
-    }
-
-    /**
-     * Se remueve el listener del botón fav del menú lateral
-     * @see #connectFavoriteButtonListener()
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    public void disconnectFavoriteButtonListener(){
-        navigationView
-                .getHeaderView(0)
-                .findViewById(imagisoft.modelview.R.id.favorite_button)
-                .setOnClickListener(null);
-        Log.i(toString(), "disconnectFavoriteButtonListener()");
     }
 
     /**

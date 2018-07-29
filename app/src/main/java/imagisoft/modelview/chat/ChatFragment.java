@@ -7,6 +7,8 @@ import imagisoft.model.Message;
 import imagisoft.model.Preferences;
 
 import imagisoft.modelview.R;
+import imagisoft.modelview.views.RecyclerAdapter;
+import imagisoft.modelview.views.RecyclerFragment;
 import imagisoft.modelview.views.SmoothLayout;
 import imagisoft.modelview.activity.ActivityFragment;
 
@@ -27,7 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-public class ChatFragment extends ActivityFragment {
+public class ChatFragment extends RecyclerFragment {
 
     /**
      * Es donde se colocan cada uno de los mensajes
@@ -54,6 +56,16 @@ public class ChatFragment extends ActivityFragment {
      */
     protected ChatAdapter chatVA;
 
+    protected boolean waitingResponse;
+
+    public boolean isWaitingResponse() {
+        return waitingResponse;
+    }
+
+    public void setWaitingResponse(boolean waitingResponse) {
+        this.waitingResponse = waitingResponse;
+    }
+
     /**
      * Key utilizado con la función
      * {@link #onSaveInstanceState(Bundle)}
@@ -66,6 +78,16 @@ public class ChatFragment extends ActivityFragment {
      */
     protected FirebaseAuth auth = FirebaseAuth.getInstance();
     protected FirebaseUser user = auth.getCurrentUser();
+
+    @Override
+    protected RecyclerView getRecyclerView() {
+        return chatRV;
+    }
+
+    @Override
+    protected RecyclerAdapter getViewAdapter() {
+        return chatVA;
+    }
 
     /**
      * @param msg Mensaje
@@ -109,16 +131,24 @@ public class ChatFragment extends ActivityFragment {
     }
 
     /**
-     * Al insertar un msg el scroll se mueve al final
-     * @see #setupAdapter()
+     * Mueve el scroll hasta apuntar al último elemento
+     * insertado
      */
-    protected RecyclerView.AdapterDataObserver observer =
-        new RecyclerView.AdapterDataObserver() {
-        public void onItemRangeInserted(int positionStart, int itemCount) {
-            super.onItemRangeInserted(positionStart, itemCount);
-            chatRV.smoothScrollToPosition(chatVA.getItemCount()-1);
+    public void scrollToLastPosition(){
+        chatRV.smoothScrollToPosition(chatVA.getItemCount()-1);
+    }
+
+    /**
+     * Hace scroll hasta la última posición en el momento
+     * de agregar un nuevo mensaje
+     * @see ChatAdapter#addMessage(Message)
+     */
+    public void scrollIfWaitingResponse(){
+        if(waitingResponse){
+            waitingResponse = false;
+            scrollToLastPosition();
         }
-    };
+    }
 
     /**
      * {@inheritDoc}
@@ -157,7 +187,6 @@ public class ChatFragment extends ActivityFragment {
     public void setupAdapter(){
         if(chatVA == null) {
             chatVA = new ChatFirebase(this);
-            chatVA.registerAdapterDataObserver(observer);
             Log.i(toString(), "setupAdapter()");
         }
     }
@@ -228,6 +257,7 @@ public class ChatFragment extends ActivityFragment {
      */
     private void sendNotEmptyMessage(String content){
         Message msg = createMessage(content);
+        setWaitingResponse(true);
         activity.getChatReference().push().setValue(msg);
         textInputView.setText("");
         Log.i(toString(), "sendNotEmptyMessage(content)");

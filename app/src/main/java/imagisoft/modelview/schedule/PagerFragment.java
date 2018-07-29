@@ -42,6 +42,7 @@ public abstract class PagerFragment extends ActivityFragment {
      */
     @Override
     public void setupActivityView() {
+        setActiveTabbedMode(true);
         setToolbarText(R.string.app_name);
     }
 
@@ -68,30 +69,19 @@ public abstract class PagerFragment extends ActivityFragment {
      */
     protected abstract PagerAdapter getAdapter();
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return getClass().getSimpleName();
-    }
 
     public static class Schedule extends PagerFragment {
-
         @Override
         protected PagerAdapter getAdapter() {
             return new PagerAdapter.Schedule(this);
         }
-
     }
 
     public static class Favorites extends PagerFragment {
-
         @Override
         protected PagerAdapter getAdapter() {
             return new PagerAdapter.Favorites(this);
         }
-
     }
 
 }

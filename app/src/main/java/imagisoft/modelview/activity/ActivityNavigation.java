@@ -1,13 +1,16 @@
 package imagisoft.modelview.activity;
 
+import imagisoft.misc.DateConverter;
 import imagisoft.modelview.R;
 import imagisoft.listeners.ChildListener;
 import imagisoft.modelview.chat.ChatFragment;
 import imagisoft.modelview.about.AboutFragment;
+import imagisoft.modelview.schedule.EventsFragment;
 import imagisoft.modelview.schedule.PagerFragment;
-import imagisoft.modelview.schedule.EventsOngoing;
+
 import static imagisoft.model.Preferences.*;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.arch.lifecycle.Lifecycle;
@@ -21,6 +24,20 @@ import com.google.firebase.database.ChildEventListener;
 
 
 public class ActivityNavigation extends ActivityCustom  {
+
+    /**
+     * {@inheritDoc}
+     */
+    protected void onCreateFirstCreation(){
+        super.onCreateFirstCreation();
+        activeTabbedMode();
+        String tag = "SCHEDULE_FRAGMENT_TAB";
+        Fragment frag = new PagerFragment.Schedule();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_content, frag, tag)
+                .commitNowAllowingStateLoss();
+    }
 
     /**
      * Conecta la configuración online con las preferencias
@@ -43,12 +60,29 @@ public class ActivityNavigation extends ActivityCustom  {
     }
 
     /**
-     * {@inheritDoc}
+     * Se configura el listener del botón fav del menú lateral
+     * @see #disconnectFavoriteButtonListener()
      */
-    protected void onCreateFirstCreation(){
-        super.onCreateFirstCreation();
-        openChat();
-        handler.post(pendingRunnable);
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    public void connectFavoriteButtonListener(){
+        navigationView
+                .getHeaderView(0)
+                .findViewById(imagisoft.modelview.R.id.favorite_button)
+                .setOnClickListener(v -> openOngoingTab());
+        Log.i(toString(), "connectFavoriteButtonListener()");
+    }
+
+    /**
+     * Se remueve el listener del botón fav del menú lateral
+     * @see #connectFavoriteButtonListener()
+     */
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    public void disconnectFavoriteButtonListener(){
+        navigationView
+                .getHeaderView(0)
+                .findViewById(imagisoft.modelview.R.id.favorite_button)
+                .setOnClickListener(null);
+        Log.i(toString(), "disconnectFavoriteButtonListener()");
     }
 
     /**
@@ -172,16 +206,6 @@ public class ActivityNavigation extends ActivityCustom  {
     }
 
     /**
-     * Coloca el fragmento de Favoritos en {@link #pendingRunnable}
-     * para que al momento de cerrar el menú lateral el fragmento
-     * sea colocado en pantalla
-     */
-    public boolean openFavorites(){
-        Log.i(toString(), "openFavorites()");
-        return false;
-    }
-
-    /**
      * Coloca el fragmento de Personas en {@link #pendingRunnable}
      * para que al momento de cerrar el menú lateral el fragmento
      * sea colocado en pantalla
@@ -247,32 +271,60 @@ public class ActivityNavigation extends ActivityCustom  {
         return false;
     }
 
+    /**
+     * Coloca el tab de Ongoing en {@link #pendingRunnable}
+     * para que al momento de cerrar el menú lateral el fragmento
+     * sea colocado en pantalla
+     */
+    public void openOngoingTab(){
+        String tag = "ONGOING_FRAGMENT";
+        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
+        Fragment frag = temp != null ? temp : new EventsFragment.Ongoing();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("tag", tag);
+        bundle.putLong("date", DateConverter.stringToLong("12/2/2019 10:30 pm"));
+        frag.setArguments(bundle);
+
+        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+    }
+
+    /**
+     * Coloca el tab de Schedule en {@link #pendingRunnable}
+     * para que al momento de cerrar el menú lateral el fragmento
+     * sea colocado en pantalla
+     */
+    public void openScheduleTab(){
+        String tag = "SCHEDULE_FRAGMENT_TAB";
+        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
+        Fragment frag = temp != null ? temp : new PagerFragment.Schedule();
+        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+    }
+
+    /**
+     * Coloca el tab de Favoritos en {@link #pendingRunnable}
+     * para que al momento de cerrar el menú lateral el fragmento
+     * sea colocado en pantalla
+     */
+    public void openFavoritesTab(){
+        String tag = "FAVORITES_FRAGMENT_TAB";
+        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
+        Fragment frag = temp != null ? temp : new PagerFragment.Favorites();
+        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+    }
+
+    /**
+     * Colca el fragmento según el tab elegido
+     * @param tab: Tab que contiene la posición
+     */
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         int pos = tab.getPosition();
-
-        if (pos == 0){
-            String tag = "SCHEDULE_FRAGMENT";
-            Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
-            Fragment frag = temp != null ? temp : new PagerFragment.Schedule();
-            pendingRunnable = () -> setFragmentOnScreen(frag, tag);
-        }
-
-        else if (pos == 1){
-            String tag = "FAVORITES_FRAGMENT";
-            Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
-            Fragment frag = temp != null ? temp : new PagerFragment.Favorites();
-            pendingRunnable = () -> setFragmentOnScreen(frag, tag);
-        }
-
-        else if (pos == 2){
-            String tag = "ONGOING_FRAGMENT";
-            Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
-            Fragment frag = temp != null ? temp : new EventsOngoing();
-            pendingRunnable = () -> setFragmentOnScreen(frag, tag);
-        }
-
-        runPendingRunnable();
+        switch (pos){
+            case 0: openScheduleTab(); break;
+            case 1: openFavoritesTab(); break;
+            case 2: openOngoingTab(); break;
+        }   runPendingRunnable();
         Log.i(toString(), "onTabSelected("+ String.valueOf(pos) +")");
     }
 

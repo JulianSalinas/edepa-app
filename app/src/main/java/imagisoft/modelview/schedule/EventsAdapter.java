@@ -10,6 +10,7 @@ import imagisoft.modelview.R;
 import imagisoft.model.FavoriteList;
 import imagisoft.model.ScheduleEvent;
 import imagisoft.misc.DateConverter;
+import imagisoft.modelview.views.RecyclerAdapter;
 
 import android.util.Log;
 import android.view.View;
@@ -19,17 +20,13 @@ import android.widget.TextView;
 import android.view.LayoutInflater;
 import android.support.v7.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
 /**
  * Sirve para enlazar las funciones a una actividad en específico
  */
-public abstract class EventsAdapter
-        extends RecyclerView.Adapter<EventsAdapter.EventItem> {
+public abstract class EventsAdapter extends RecyclerAdapter {
 
     /**
      * Variables par escoger el tipo de vista que se colocará
@@ -153,8 +150,8 @@ public abstract class EventsAdapter
      *                 Usar holder.getAdapterPosition()
      */
     @Override
-    public void onBindViewHolder(EventItem holder, int position) {
-        holder.bind();
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ((EventItem) holder).bind();
     }
 
     /**

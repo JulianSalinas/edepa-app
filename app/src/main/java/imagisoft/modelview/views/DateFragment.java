@@ -15,6 +15,11 @@ public class DateFragment extends BlankFragment implements IEventsSubject {
         return date;
     }
 
+    @Override
+    public IEventsListener getListener() {
+        return null;
+    }
+
     private IEventsListener listener;
 
     @Override

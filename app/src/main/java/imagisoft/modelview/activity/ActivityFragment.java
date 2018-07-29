@@ -1,6 +1,7 @@
 package imagisoft.modelview.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
@@ -35,6 +36,10 @@ public abstract class ActivityFragment
      * el color que tenía la barra de notificaciones
      */
     private int lastStatusBarColor;
+
+    private boolean activeTabbedMode;
+
+    private boolean lastActiveTabbedMode;
 
     /**
      * Cuando se cambian los fragmentos es necesario conservar
@@ -107,6 +112,14 @@ public abstract class ActivityFragment
         activity.getToolbarContainer().setVisibility(visibility);
     }
 
+    public boolean isActiveTabbedMode(){
+        return activeTabbedMode;
+    }
+
+    public void setActiveTabbedMode(boolean active){
+        activeTabbedMode = active;
+    }
+
     /**
      * Permiten colocar el color de la barra superior
      * donde se muestran las notificaciones
@@ -173,6 +186,7 @@ public abstract class ActivityFragment
         super.onActivityCreated(savedInstanceState);
         saveState();
         setupActivityView();
+        setupTabbedMode();
     }
 
     /**
@@ -180,6 +194,7 @@ public abstract class ActivityFragment
      * al presionar el botón de atrás
      */
     private void saveState(){
+        lastActiveTabbedMode = isActiveTabbedMode();
         lastUsedToolbarText = getToolbar().getTitle();
         lastToolbarVisibility = getToolbar().getVisibility();
         lastStatusBarColor = getStatusBarColor();
@@ -191,6 +206,16 @@ public abstract class ActivityFragment
      * setToolbarVisibility...
      */
     public abstract void setupActivityView();
+
+    public void setupTabbedMode(){
+        Log.i("active: ", String.valueOf(activeTabbedMode));
+        Log.i("last_active: ", String.valueOf(lastActiveTabbedMode));
+
+        if(activeTabbedMode && !lastActiveTabbedMode)
+            activity.activeTabbedMode();
+        if (!activeTabbedMode)
+            activity.deactiveTabbedMode();
+    }
 
     /**
      * Al quitarse este fragmento la barra de tareas
@@ -207,10 +232,20 @@ public abstract class ActivityFragment
      * cambiar el fragmento
      */
     public void restoreState(){
+
         getToolbar().setTitle(lastUsedToolbarText);
         getToolbar().setVisibility(lastToolbarVisibility);
+
         getSearchView().setVisibility(lastToolbarVisibility);
         activity.getWindow().setStatusBarColor(lastStatusBarColor);
+
+        if(activeTabbedMode && !lastActiveTabbedMode)
+            activity.deactiveTabbedMode();
+
+        else if (!activeTabbedMode && lastActiveTabbedMode)
+            activity.activeTabbedMode();
+
+        activeTabbedMode = lastActiveTabbedMode;
     }
 
     /**
@@ -243,6 +278,14 @@ public abstract class ActivityFragment
      */
     public void showStatusMessage(int resource){
         activity.showMessage(getResources().getString(resource));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
     }
 
 }

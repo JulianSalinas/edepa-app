@@ -13,8 +13,8 @@ import imagisoft.misc.MaterialGenerator;
 
 import imagisoft.modelview.R;
 import imagisoft.modelview.activity.ActivityNavigation;
+import imagisoft.modelview.views.RecyclerAdapter;
 
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,8 +33,7 @@ import com.bignerdranch.android.multiselector.SelectableHolder;
 import com.bignerdranch.android.multiselector.ModalMultiSelectorCallback;
 
 
-public abstract class ChatAdapter
-        extends RecyclerView.Adapter<ChatAdapter.ChatItem> {
+public abstract class ChatAdapter extends RecyclerAdapter {
 
     /**
      * Constantes paras escoger el tipo de vista
@@ -98,6 +97,7 @@ public abstract class ChatAdapter
     public void addMessage(Message msg){
         msgs.add(msg);
         notifyItemInserted(msgs.size()-1);
+        chatFragment.scrollIfWaitingResponse();
     }
 
     /**
@@ -173,8 +173,8 @@ public abstract class ChatAdapter
      *                 Usar holder.getAdapterPosition()
      */
     @Override
-    public void onBindViewHolder(ChatItem holder, int position) {
-        holder.bind();
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ((ChatItem) holder).bind();
     }
 
     /**

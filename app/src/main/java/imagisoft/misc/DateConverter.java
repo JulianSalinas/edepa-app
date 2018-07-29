@@ -1,5 +1,7 @@
 package imagisoft.misc;
 
+import android.util.Log;
+
 import java.util.Locale;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
@@ -48,11 +50,18 @@ public class DateConverter {
      * @param datetime Fecha como el siguiente ejemplo "12/12/18 2:30 pm"
      * @return Long de la fecha especificada. Si hay error retorna 0L.
      */
-    public static Long stringToLong(String datetime) throws Exception{
-        Locale locale = Locale.ENGLISH;
-        String pattern = "dd/M/yy h:mm a";
-        SimpleDateFormat format = new SimpleDateFormat(pattern, locale);
-        return format.parse(datetime).getTime();
+    public static Long stringToLong(String datetime) {
+        try {
+            Locale locale = Locale.ENGLISH;
+            String pattern = "dd/M/yy h:mm a";
+            SimpleDateFormat format = new SimpleDateFormat(pattern, locale);
+            return format.parse(datetime).getTime();
+        }
+        catch (Exception e){
+            Log.i("DateConverter", e.getMessage());
+            return System.currentTimeMillis();
+        }
+
     }
 
     /**

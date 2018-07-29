@@ -67,7 +67,14 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
      */
     @Override
     public Fragment getItem(int position) {
-        return (Fragment) getEventsFragment(dates.get(position));
+        long date = dates.get(position);
+        String tag = fragment.getTag();
+        Bundle args = new Bundle();
+        args.putLong("date", date);
+        args.putString("tag", tag);
+        Fragment frag = getEventsFragment();
+        frag.setArguments(args);
+        return frag;
     }
 
     /**
@@ -162,10 +169,10 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
     /**
      * Función usada por {@link #getItem(int)} para obtener
      * una nueva instancia de un fragmento EventsFragment
-     * @param date: Fecha de la página
+     * Los argumentos son colocados en {@link #getItem(int)}
      * @return IEventsSubject Fragment que implemena la interfaz
      */
-    protected abstract IEventsSubject getEventsFragment(long date);
+    protected abstract Fragment getEventsFragment();
 
     /**
      * Subclase de #PagerAdapter, esta obtiene los eventos
@@ -187,19 +194,10 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
 
         /**
          * {@inheritDoc}
-         * Antes de retornar el fragmento es necesario
-         * pasarle como parámetro la fecha del mismo
-         * @param date: Fecha de la página
-         * EventsFragment Página con eventos
          */
         @Override
-        protected IEventsSubject getEventsFragment(long date) {
-            Bundle args = new Bundle();
-            Fragment fragment = new EventsSchedule();
-            args.putLong("date", date);
-            fragment.setArguments(args);
-            ((IEventsSubject) fragment).setListener(this);
-            return (IEventsSubject) fragment;
+        protected Fragment getEventsFragment() {
+            return new EventsFragment.Schedule();
         }
 
         /**
@@ -259,19 +257,10 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
 
         /**
          * {@inheritDoc}
-         * Antes de retornar el fragmento es necesario
-         * pasarle como parámetro la fecha del mismo
-         * @param date: Fecha de la página
-         * EventsFragment Página con eventos
          */
         @Override
-        protected IEventsSubject getEventsFragment(long date) {
-            Bundle args = new Bundle();
-            Fragment fragment = new DateFragment();
-            args.putLong("date", date);
-            fragment.setArguments(args);
-            ((IEventsSubject) fragment).setListener(this);
-            return (IEventsSubject) fragment;
+        protected Fragment getEventsFragment() {
+            return new EventsFragment.Favorites();
         }
 
         @Override
