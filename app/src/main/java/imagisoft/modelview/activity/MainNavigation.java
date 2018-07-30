@@ -5,10 +5,7 @@ import imagisoft.modelview.R;
 import imagisoft.listeners.ChildListener;
 import imagisoft.modelview.chat.ChatFragment;
 import imagisoft.modelview.about.AboutFragment;
-import imagisoft.modelview.schedule.EventsFragment;
-import imagisoft.modelview.schedule.PagerFragment;
-
-import static imagisoft.model.Preferences.*;
+import imagisoft.modelview.news.NewsFragment;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -22,21 +19,31 @@ import android.support.design.widget.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.ChildEventListener;
 
+import static imagisoft.model.Preferences.CHAT_AVAILABLE_KEY;
+import static imagisoft.model.Preferences.INFO_AVAILABLE_KEY;
+import static imagisoft.model.Preferences.NEWS_AVAILABLE_KEY;
+import static imagisoft.model.Preferences.PALETTE_AVAILABLE_KEY;
+import static imagisoft.model.Preferences.PEOPLE_AVAILABLE_KEY;
 
-public class ActivityNavigation extends ActivityCustom  {
+/**
+ * Clase encargada de manejar toda la navegabilidad
+ * de la aplicación
+ */
+public class MainNavigation extends MainActivity
+        implements TabLayout.OnTabSelectedListener{
 
     /**
      * {@inheritDoc}
      */
     protected void onCreateFirstCreation(){
         super.onCreateFirstCreation();
-        activeTabbedMode();
-        String tag = "SCHEDULE_FRAGMENT_TAB";
-        Fragment frag = new PagerFragment.Schedule();
+        deactiveTabbedMode();
+        String tag = "NEWS_FRAGMENT";
+        Fragment frag = new NewsFragment();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_content, frag, tag)
-                .commitNowAllowingStateLoss();
+                .commitNow();
     }
 
     /**
@@ -60,25 +67,25 @@ public class ActivityNavigation extends ActivityCustom  {
     }
 
     /**
-     * Se configura el listener del botón fav del menú lateral
+     * Se configura el fragment del botón fav del menú lateral
      * @see #disconnectFavoriteButtonListener()
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void connectFavoriteButtonListener(){
-        navigationView
+        getNavigationView()
                 .getHeaderView(0)
                 .findViewById(imagisoft.modelview.R.id.favorite_button)
-                .setOnClickListener(v -> openOngoingTab());
+                .setOnClickListener(v -> activeTabbedMode());
         Log.i(toString(), "connectFavoriteButtonListener()");
     }
 
     /**
-     * Se remueve el listener del botón fav del menú lateral
+     * Se remueve el fragment del botón fav del menú lateral
      * @see #connectFavoriteButtonListener()
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     public void disconnectFavoriteButtonListener(){
-        navigationView
+        getNavigationView()
                 .getHeaderView(0)
                 .findViewById(imagisoft.modelview.R.id.favorite_button)
                 .setOnClickListener(null);
@@ -91,9 +98,9 @@ public class ActivityNavigation extends ActivityCustom  {
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private void setupNavigationInformation(){
         MenuItem menuItem = menu.findItem(R.id.nav_infomation);
-        Boolean isAvailable = isAvailable(INFO_AVAILABLE_KEY);
+        boolean isAvailable = isAvailable(INFO_AVAILABLE_KEY);
         menuItem.setVisible(isAvailable);
-        menuItem.setOnMenuItemClickListener(item -> isAvailable ? openInformation(): null);
+        menuItem.setOnMenuItemClickListener(item -> openInformation());
     }
 
     /**
@@ -102,9 +109,9 @@ public class ActivityNavigation extends ActivityCustom  {
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private void setupNavigationNews(){
         MenuItem menuItem = menu.findItem(R.id.nav_news);
-        Boolean isAvailable = isAvailable(NEWS_AVAILABLE_KEY);
+        boolean isAvailable = isAvailable(NEWS_AVAILABLE_KEY);
         menuItem.setVisible(isAvailable);
-        menuItem.setOnMenuItemClickListener(item -> isAvailable ? openNews(): null);
+        menuItem.setOnMenuItemClickListener(item -> openNews());
     }
 
     /**
@@ -113,9 +120,9 @@ public class ActivityNavigation extends ActivityCustom  {
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private void setupNavigationChat(){
         MenuItem menuItem = menu.findItem(R.id.nav_chat);
-        Boolean isAvailable = isAvailable(CHAT_AVAILABLE_KEY);
+        boolean isAvailable = isAvailable(CHAT_AVAILABLE_KEY);
         menuItem.setVisible(isAvailable);
-        menuItem.setOnMenuItemClickListener(item -> isAvailable ? openChat(): null);
+        menuItem.setOnMenuItemClickListener(item -> openChat());
     }
 
     /**
@@ -124,9 +131,9 @@ public class ActivityNavigation extends ActivityCustom  {
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private void setupNavigationPeople(){
         MenuItem menuItem = menu.findItem(R.id.nav_people);
-        Boolean isAvailable = isAvailable(PEOPLE_AVAILABLE_KEY);
+        boolean isAvailable = isAvailable(PEOPLE_AVAILABLE_KEY);
         menuItem.setVisible(isAvailable);
-        menuItem.setOnMenuItemClickListener(item -> isAvailable ? openPeople(): null);
+        menuItem.setOnMenuItemClickListener(item -> openPeople());
     }
 
     /**
@@ -135,9 +142,9 @@ public class ActivityNavigation extends ActivityCustom  {
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private void setupNavigationPalette(){
         MenuItem menuItem = menu.findItem(R.id.nav_palette);
-        Boolean isAvailable = isAvailable(PALETTE_AVAILABLE_KEY);
+        boolean isAvailable = isAvailable(PALETTE_AVAILABLE_KEY);
         menuItem.setVisible(isAvailable);
-        menuItem.setOnMenuItemClickListener(item -> isAvailable ? openPalette(): null);
+        menuItem.setOnMenuItemClickListener(item -> openPalette());
     }
 
     /**
@@ -221,7 +228,10 @@ public class ActivityNavigation extends ActivityCustom  {
      * sea colocado en pantalla
      */
     public boolean openNews(){
-        Log.i(toString(), "openNews()");
+        String tag = "NEWS_FRAGMENT";
+        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
+        Fragment frag = temp != null ? temp : new NewsFragment();
+        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
         return false;
     }
 
@@ -279,14 +289,14 @@ public class ActivityNavigation extends ActivityCustom  {
     public void openOngoingTab(){
         String tag = "ONGOING_FRAGMENT";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
-        Fragment frag = temp != null ? temp : new EventsFragment.Ongoing();
+//        Fragment frag = temp != null ? temp : new EventsFragment.Ongoing();
 
         Bundle bundle = new Bundle();
         bundle.putString("tag", tag);
         bundle.putLong("date", DateConverter.stringToLong("12/2/2019 10:30 pm"));
-        frag.setArguments(bundle);
-
-        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+//        frag.setArguments(bundle);
+//
+//        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
     }
 
     /**
@@ -297,8 +307,8 @@ public class ActivityNavigation extends ActivityCustom  {
     public void openScheduleTab(){
         String tag = "SCHEDULE_FRAGMENT_TAB";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
-        Fragment frag = temp != null ? temp : new PagerFragment.Schedule();
-        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+//        Fragment frag = temp != null ? temp : new PagerFragment.Schedule();
+//        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
     }
 
     /**
@@ -309,8 +319,8 @@ public class ActivityNavigation extends ActivityCustom  {
     public void openFavoritesTab(){
         String tag = "FAVORITES_FRAGMENT_TAB";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
-        Fragment frag = temp != null ? temp : new PagerFragment.Favorites();
-        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+//        Fragment frag = temp != null ? temp : new PagerFragment.Favorites();
+//        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
     }
 
     /**
@@ -348,9 +358,10 @@ public class ActivityNavigation extends ActivityCustom  {
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
             String key = dataSnapshot.getKey();
             Boolean value = dataSnapshot.getValue(Boolean.class);
-            Log.i(toString(), "onChildChanged("+ key +", " + value.toString() + ")");
-            setAvailable(key, value);
-            updateMenu(key);
+            if (value != null && key != null) {
+                setAvailable(key, value);
+                updateMenu(key);
+            }
         }
     };
 

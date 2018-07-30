@@ -10,7 +10,6 @@ import imagisoft.modelview.R;
 import imagisoft.modelview.views.RecyclerAdapter;
 import imagisoft.modelview.views.RecyclerFragment;
 import imagisoft.modelview.views.SmoothLayout;
-import imagisoft.modelview.activity.ActivityFragment;
 
 import android.util.Log;
 import android.os.Bundle;
@@ -32,13 +31,6 @@ import com.google.firebase.auth.FirebaseUser;
 public class ChatFragment extends RecyclerFragment {
 
     /**
-     * Es donde se colocan cada uno de los mensajes
-     * de forma VISUAL
-     */
-    @BindView(R.id.chat_rv)
-    RecyclerView chatRV;
-
-    /**
      * Es el botón para enviar el mensaje
      */
     @BindView(R.id.send_card_view)
@@ -51,19 +43,26 @@ public class ChatFragment extends RecyclerFragment {
     TextInputEditText textInputView;
 
     /**
+     * Es donde se colocan cada uno de los mensajes
+     * de forma VISUAL
+     */
+    @BindView(R.id.chat_rv)
+    RecyclerView chatRV;
+
+    @Override
+    protected RecyclerView getRecyclerView() {
+        return chatRV;
+    }
+
+    /**
      * Contiene todos los mensajes del chat y ejecuta
      * los evento de inserción, deleción y modificación
      */
     protected ChatAdapter chatVA;
 
-    protected boolean waitingResponse;
-
-    public boolean isWaitingResponse() {
-        return waitingResponse;
-    }
-
-    public void setWaitingResponse(boolean waitingResponse) {
-        this.waitingResponse = waitingResponse;
+    @Override
+    protected RecyclerAdapter getViewAdapter() {
+        return chatVA;
     }
 
     /**
@@ -79,14 +78,16 @@ public class ChatFragment extends RecyclerFragment {
     protected FirebaseAuth auth = FirebaseAuth.getInstance();
     protected FirebaseUser user = auth.getCurrentUser();
 
-    @Override
-    protected RecyclerView getRecyclerView() {
-        return chatRV;
-    }
+    /**
+     * Propiedad para saber si se está esperando
+     * un respuesta del servidor después de enviar
+     * un mensaje, es decir, se espera recibir el mismo
+     * mensaje que se envió
+     */
+    protected boolean waitingResponse;
 
-    @Override
-    protected RecyclerAdapter getViewAdapter() {
-        return chatVA;
+    public void setWaitingResponse(boolean waitingResponse) {
+        this.waitingResponse = waitingResponse;
     }
 
     /**
@@ -198,7 +199,8 @@ public class ChatFragment extends RecyclerFragment {
     public void setupRecyclerView(){
         if (chatRV.getAdapter() == null){
 
-            LinearLayoutManager layoutManager = new SmoothLayout(getActivity());
+            LinearLayoutManager layoutManager =
+                    new SmoothLayout(getActivity());
             layoutManager.setStackFromEnd(true);
 
             chatRV.setAdapter(chatVA);
@@ -232,7 +234,7 @@ public class ChatFragment extends RecyclerFragment {
     }
 
     /**
-     * Desconecta el listener al no usarse
+     * Desconecta el fragment al no usarse
      * @see #connectSendListener()
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
@@ -282,14 +284,6 @@ public class ChatFragment extends RecyclerFragment {
     public String getUsername(){
         String key = Preferences.USER_KEY;
         return prefs.getStringPreference(activity, key);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return getClass().getSimpleName();
     }
 
 }

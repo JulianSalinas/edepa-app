@@ -1,7 +1,7 @@
 package imagisoft.modelview.about;
 
 import imagisoft.modelview.R;
-import imagisoft.modelview.activity.ActivityFragment;
+import imagisoft.modelview.activity.MainFragment;
 
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +13,7 @@ import mehdi.sakout.aboutpage.Element;
 import mehdi.sakout.aboutpage.AboutPage;
 
 
-public class AboutFragment extends ActivityFragment {
+public class AboutFragment extends MainFragment {
 
     /**
      * {@inheritDoc}

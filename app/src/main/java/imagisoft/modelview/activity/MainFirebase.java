@@ -1,7 +1,5 @@
 package imagisoft.modelview.activity;
 
-import imagisoft.model.Preferences;
-
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 
@@ -13,8 +11,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 
+import imagisoft.model.Preferences;
 
-public abstract class ActivityFirebase
+
+public abstract class MainFirebase
         extends AppCompatActivity implements ValueEventListener{
 
     /**
@@ -68,7 +68,7 @@ public abstract class ActivityFirebase
     /**
      * En el constructor se crean las referencias a la BD
      */
-    public ActivityFirebase(){
+    public MainFirebase(){
 
         // Guarda en persistencia para volver a descargar
         // Ayuda si la aplicación queda offline
@@ -140,7 +140,7 @@ public abstract class ActivityFirebase
      * @param key: Key de la clase Preferences
      * @return True si la sección debe estar disponible
      */
-    public Boolean isAvailable(String key){
+    public boolean isAvailable(String key){
         key = key.toLowerCase();
         return Preferences
                 .getInstance()

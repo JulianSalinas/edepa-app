@@ -23,7 +23,7 @@ public class ChatFirebase extends ChatAdapter
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     public void connectListener() {
         chatFragment
-                .getActivityCustom()
+                .getMainActivity()
                 .getChatReference()
                 .orderByChild("time")
                 .addChildEventListener(this);
@@ -33,7 +33,7 @@ public class ChatFirebase extends ChatAdapter
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void disconnectListener() {
         chatFragment
-                .getActivityCustom()
+                .getMainActivity()
                 .getChatReference()
                 .removeEventListener(this);
         Log.i(toString(), "disconnectListener()");
@@ -42,7 +42,7 @@ public class ChatFirebase extends ChatAdapter
     @Override
     public void removeMessage(Message msg){
         chatFragment
-                .getActivityCustom()
+                .getMainActivity()
                 .getChatReference()
                 .child(msg.getKey())
                 .removeValue();

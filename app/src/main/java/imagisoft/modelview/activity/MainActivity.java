@@ -16,6 +16,7 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -32,7 +33,6 @@ import static android.support.v4.view.GravityCompat.START;
 import java.util.Stack;
 import butterknife.*;
 import imagisoft.misc.*;
-import imagisoft.model.FavoriteList;
 import imagisoft.model.Preferences;
 import imagisoft.modelview.R;
 
@@ -42,59 +42,78 @@ import com.google.firebase.auth.FirebaseUser;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 /**
- * Deriva de {@link ActivityFirebase} para manejar lo relacionado
+ * Deriva de {@link MainFirebase} para manejar lo relacionado
  * con la conexión a la base de datos
  */
-public abstract class ActivityCustom extends ActivityFirebase
+public abstract class MainActivity extends MainFirebase
         implements LifecycleObserver,
         MaterialSearchView.SearchViewListener,
         NavigationView.OnNavigationItemSelectedListener,
         TabLayout.OnTabSelectedListener {
 
     /**
-     * Usado para despedirse al salir de la aplicación
-     * @see #exit()
+     * Menú que se extrae de navigationView para colocar
+     * los eventos a cada una de las opciones del menú
+     * Se instancia en {@link #onCreateActivity(Bundle)}i
      */
-    @BindString(R.string.text_bye)
-    String textBye;
+    protected Menu menu;
 
     /**
-     * Usado para saludar al iniciar la aplicación
-     * @see #showWelcomeMessage()
-     */
-    @BindString(R.string.text_welcome)
-    String textWelcome;
-
-    /**
-     * Texto "Búsqueda" que contiene searchView
-     * @see #searchView
-     */
-    @BindString(R.string.text_search)
-    String textSearch;
-
-    /**
-     * Toolbar o barra superior de la aplicación
+     * Necesaria para que los fragmentos la puedan personalizar
+     * la barra de tareas en ciertos contextos
      */
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
+
     /**
-     * Contiene la pestaña de cronograma, favoritos y en curso
-     * @see #activeTabbedMode()
+     * Únicamente necesaria para que se pueda ocultar
+     * la toolbar. Es usada en {@link #activeTabbedMode()}
      */
-    @BindView(R.id.toolbar_tabs)
+    @BindView(R.id.toolbar_container)
+    AppBarLayout appBarLayout;
+
+    public AppBarLayout getToolbarContainer(){
+        return appBarLayout;
+    }
+
+    /**
+     * Es el contenedor de los tabs que se encuentran
+     * en la toolbar. Es usada para ocultar los tabs en
+     * {@link #activeTabbedMode()}
+     */
+    @BindView(R.id.toolbar_tabs_container)
     LinearLayout toolbarTabs;
 
+    public LinearLayout getToolbarTabs() {
+        return toolbarTabs;
+    }
+
+    /**
+     * Es para colocar el fragment para los eventos que
+     * suceden la presionar un tab
+     */
     @BindView(R.id.toolbar_tabs_layout)
     TabLayout toolbarTabsLayout;
 
+    public TabLayout getToolbarTabsLayout() {
+        return toolbarTabsLayout;
+    }
+
     /**
-     * Contiene la toolbar, sirve para que se pueda ocultar
-     * la toobar en fragmentos que no la necesitan
-     * @see #toolbar
+     * Es un conjunto que contiene el menú lateral, el
+     * encabezado y las opciones de dicho menú. Se utiliza
+     * para obtener la instancia de {@link #menu}
      */
-    @BindView(R.id.toolbar_container)
-    AppBarLayout toolbarContainer;
+    @BindView(R.id.navigation_view)
+    NavigationView navigationView;
+
+    public NavigationView getNavigationView(){
+        return navigationView;
+    }
 
     /**
      * Menú lateral de la aplicación, contiene las opciones
@@ -104,28 +123,20 @@ public abstract class ActivityCustom extends ActivityFirebase
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
-    /**
-     * Es un conjunto que contiene el menú lateral, el
-     * encabezado y las opciones de dicho menú
-     * @see #drawerLayout
-     */
-    @BindView(R.id.navigation_view)
-    NavigationView navigationView;
+    public DrawerLayout getDrawerLayout() {
+        return drawerLayout;
+    }
 
     /**
      * Barra de búsqueda que por defecto está oculta debajo de
      * la toolbar hasta que el icono de búsquedad sea presionado
-     * @see #toolbar
      */
     @BindView(R.id.search_view)
     MaterialSearchView searchView;
 
-    /**
-     * Menú que se extrae de navigationView para colocar
-     * los eventos a cada una de las opciones del menú
-     * Se instancia en {@link #onCreateActivity(Bundle)}i
-     */
-    protected Menu menu;
+    public MaterialSearchView getSearchView(){
+        return searchView;
+    }
 
     /**
      * Se usa para cambiar los fragmentos usando un hilo
@@ -160,46 +171,23 @@ public abstract class ActivityCustom extends ActivityFirebase
 
     /**
      * Sirve para restablecer el color después de abrir un CAB
-     * Se usa en las funciones
+     * -> Context Action Bar
      */
     protected int lastStatusBarColor;
 
     /**
-     * Necesaria para que los fragmentos la puedan personalizar
-     * @return Toolbar
-     */
-    public Toolbar getToolbar() {
-        return toolbar;
-    }
-
-    /**
-     * Necesaria para que el fragmento de búsqueda pueda agregar
-     * sus eventos
-     * @return MaterialSearchView
-     */
-    public MaterialSearchView getSearchView(){
-        return searchView;
-    }
-
-    /**
-     * Únicamente necesaria para que ActivityFragment pueda
-     * ocultar la Toolbar
-     * @return AppBarLayout
-     */
-    public AppBarLayout getToolbarContainer(){
-        return toolbarContainer;
-    }
-
-    /**
-     * En ocasiones el teclado queda abierto después de abrir el menú, para
-     * solucionar esto se utiliza {@link #hideKeyboard()} al abrir dicho menú
-     *
-     * Cuando el menú lateral se cierra se corre {@link #runPendingRunnable()}
-     * para dar fluidez a las transiciones
+     * Listener para el menú lateral
+     * Ejecuta {@link #hideKeyboard()} al abrirse y
+     * {@link #runPendingRunnable()} al cerrarse
      */
     private DrawerLayout.SimpleDrawerListener drawerListener =
         new DrawerLayout.SimpleDrawerListener(){
 
+        /**
+         * En ocasiones el teclado queda abierto después de
+         * abrir el menú, para solucionar esto se utiliza
+         * {@link MainActivity#hideKeyboard()} al abrir dicho menú
+         */
         @Override
         public void onDrawerOpened(View drawerView) {
             super.onDrawerOpened(drawerView);
@@ -207,6 +195,11 @@ public abstract class ActivityCustom extends ActivityFirebase
             Log.i(toString(), "onDrawerOpened()");
         }
 
+        /**
+         * Cuando el menú lateral se cierra se corre
+         * {@link MainActivity#runPendingRunnable()} para dar
+         * fluidez al las transiciones al presionar una opción
+         */
         public void onDrawerClosed(View drawerView) {
             super.onDrawerClosed(drawerView);
             runPendingRunnable();
@@ -215,8 +208,9 @@ public abstract class ActivityCustom extends ActivityFirebase
     };
 
     /**
-     * Ejecuta en un segunda plano el cambio de fragmento. Es llamada
-     * después de cerrar completamente el menú lateral
+     * Ejecuta en un segunda plano el cambio de fragmento.
+     * Es llamada después de cerrar completamente el menú lateral
+     * @see #drawerListener
      */
     protected void runPendingRunnable(){
         if(pendingRunnable != null) {
@@ -226,26 +220,33 @@ public abstract class ActivityCustom extends ActivityFirebase
         }
     }
 
+    /**
+     * Es true cuando el cronograma, los favoritos o
+     * el fragmento de Ongoing están activos
+     * @return True si los tabs son visibles
+     */
     public boolean isActiveTabbedMode(){
-        return View.VISIBLE == toolbarTabsLayout.getVisibility();
+        return View.VISIBLE == getToolbarTabsLayout().getVisibility();
     }
 
     /**
-     * @see #toolbarTabs
+     * Coloca los tabs y remueve la elevación de la toolbar
+     * @see #deactiveTabbedMode()
      */
     public void activeTabbedMode(){
-        toolbarContainer.setElevation(0);
-        toolbarTabs.setVisibility(View.VISIBLE);
-        toolbarTabsLayout.setOnTabSelectedListener(this);
+        getToolbarContainer().setElevation(0);
+        getToolbarTabs().setVisibility(View.VISIBLE);
+        getToolbarTabsLayout().setOnTabSelectedListener(this);
     }
 
     /**
-     * @see #toolbarTabs
+     * Pone invisibles los tabs y coloca la elevación
+     * @see #activeTabbedMode()
      */
-    public void deactiveTabbedMode(){
-        toolbarContainer.setElevation(4);
-        toolbarTabs.setVisibility(View.GONE);
-        toolbarTabsLayout.setOnTabSelectedListener(null);
+    public void deactiveTabbedMode() {
+        getToolbarContainer().setElevation(4);
+        getToolbarTabs().setVisibility(View.GONE);
+        getToolbarTabsLayout().setOnTabSelectedListener(null);
     }
 
     /**
@@ -257,7 +258,7 @@ public abstract class ActivityCustom extends ActivityFirebase
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getLifecycle().addObserver(this);
-        setContentView(imagisoft.modelview.R.layout.main_drawer);
+        setContentView(R.layout.main_activity);
         ButterKnife.bind(this);
         onCreateActivity(savedInstanceState);
         Log.i(toString(), "onCreate()");
@@ -272,9 +273,9 @@ public abstract class ActivityCustom extends ActivityFirebase
      * @see #onCreate(Bundle)
      */
     private void onCreateActivity(Bundle savedInstanceState) {
-        setSupportActionBar(toolbar);
+        setSupportActionBar(getToolbar());
         handler = new Handler();
-        menu = navigationView.getMenu();
+        menu = getNavigationView().getMenu();
         if(savedInstanceState == null)
             onCreateFirstCreation();
         else onCreateAlreadyOpen(savedInstanceState);
@@ -318,33 +319,38 @@ public abstract class ActivityCustom extends ActivityFirebase
         Log.i(toString(), "onCreateAlreadyOpen()");
     }
 
+    /**
+     * Carga los datos en memoria de los favoritos
+     */
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     private void loadLocalFavorites(){
-        FavoriteList.getInstance().load(this);
+        Log.i(toString(), "loadLocalFavorites()");
     }
 
     /**
-     * Se configura el botón que esta en Toolbar que sirve para
-     * abrir el {@link #drawerLayout}
+     * Se configura el botón que esta en Toolbar que sirve
+     * para abrir el menú lateral
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     public void setupToggle(){
-        int open = imagisoft.modelview.R.string.drawer_open;
-        int close = imagisoft.modelview.R.string.drawer_close;
-        new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, open, close).syncState();
+        int open = R.string.drawer_open;
+        int close = R.string.drawer_close;
+        new ActionBarDrawerToggle(this,
+                getDrawerLayout(),
+                getToolbar(), open, close)
+                .syncState();
         Log.i(toString(), "setupToggle()");
     }
 
     /**
-     * Este listener se utiliza para que, cuando se presiona
-     * una opción del menú lateral, este se cierre. Este cierre dispará
-     * el evento dentro de {@link #drawerListener}
+     * Este fragment se utiliza para que, cuando se presiona
+     * una opción del menú lateral, este se cierre. Este cierre
+     * dispará el evento dentro de {@link #drawerListener}
      * @see #disconnectOnNavigationItemListener()
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     private void connectOnNavigationItemListener() {
-        navigationView.setNavigationItemSelectedListener(this);
+        getNavigationView().setNavigationItemSelectedListener(this);
         Log.i(toString(), "connectOnNavigationItemListener()");
     }
 
@@ -355,7 +361,7 @@ public abstract class ActivityCustom extends ActivityFirebase
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     private void disconnectOnNavigationItemListener() {
-        navigationView.setNavigationItemSelectedListener(null);
+        getNavigationView().setNavigationItemSelectedListener(null);
         Log.i(toString(), "disconnectOnNavigationItemListener()");
     }
 
@@ -365,7 +371,7 @@ public abstract class ActivityCustom extends ActivityFirebase
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     public void disconnectDrawerListener(){
-        drawerLayout.removeDrawerListener(drawerListener);
+        getDrawerLayout().removeDrawerListener(drawerListener);
         Log.i(toString(), "disconnectDrawerListener()");
     }
 
@@ -376,7 +382,7 @@ public abstract class ActivityCustom extends ActivityFirebase
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void connectDrawerListener(){
-        drawerLayout.addDrawerListener(drawerListener);
+        getDrawerLayout().addDrawerListener(drawerListener);
         Log.i(toString(), "connectDrawerListener()");
     }
 
@@ -388,29 +394,12 @@ public abstract class ActivityCustom extends ActivityFirebase
     public void restoreFromPendindgList(){
         if(!pendingFragments.isEmpty()) {
             String tag = pendingFragments.pop();
-            Fragment frag = getSupportFragmentManager().findFragmentByTag(tag);
+            Fragment frag =
+                    getSupportFragmentManager()
+                    .findFragmentByTag(tag);
             switchFragment(frag, tag);
             Log.i(toString(), "restoreFromPendindgList()");
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        for(Fragment fragment : getSupportFragmentManager().getFragments())
-            getSupportFragmentManager().saveFragmentInstanceState(fragment);
-        super.onSaveInstanceState(savedInstanceState);
-        Log.i(toString(), "onSaveInstanceState()");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        Log.i(toString(), "onRestoreInstanceState()");
     }
 
     /**
@@ -423,14 +412,15 @@ public abstract class ActivityCustom extends ActivityFirebase
     private void showWelcomeMessage(){
 
         Preferences prefs = Preferences.getInstance();
-        String username = prefs.getStringPreference(this, Preferences.USER_KEY);
-        String message = textWelcome;
+        String username = prefs
+                .getStringPreference(this, Preferences.USER_KEY);
 
+        String message = getResources().getString(R.string.text_welcome);
         if(!username.equals("")) message += " " + username;
 
-        ((TextView) navigationView
+        ((TextView) getNavigationView()
                 .getHeaderView(0)
-                .findViewById(imagisoft.modelview.R.id.welcome_text_view))
+                .findViewById(R.id.welcome_text_view))
                 .setText((message + "!"));
     }
 
@@ -448,36 +438,42 @@ public abstract class ActivityCustom extends ActivityFirebase
     }
 
     /**
-     * Se configura la {@link #searchView}
+     * Se configura la barra de búsqueda
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private void setupSearchView(){
-        searchView.showVoice(true);
-        searchView.setHint(textSearch);
-        searchView.setOnSearchViewListener(this);
-        searchView.setVoiceSearch(true);
-        searchView.setEllipsize(true);
+
+        String text = getResources()
+                .getString(R.string.text_search);
+
+        getSearchView().showVoice(true);
+        getSearchView().setHint(text);
+        getSearchView().setOnSearchViewListener(this);
+        getSearchView().setVoiceSearch(true);
+        getSearchView().setEllipsize(true);
+
         Log.i(toString(), "setupSearchView()");
     }
 
     /**
      * {@inheritDoc}
-     * Se aprovecha para enlazar la barra de búsqueda con
-     * el botón que la abre
+     * A la vez se aprovecha para enlazar la barra de
+     * búsqueda con el botón que la abre
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_menu, menu);
         MenuItem item = menu.findItem(R.id.search_item);
-        searchView.setMenuItem(item);
+        getSearchView().setMenuItem(item);
         Log.i(toString(), "onCreateOptionsMenu()");
         return true;
     }
 
     /**
      * {@inheritDoc}
-     * Solo se utiliza para las opciones de {@link #toolbar}
+     * Solo se utiliza para las opciones que están
+     * en la barra superior
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -485,8 +481,8 @@ public abstract class ActivityCustom extends ActivityFirebase
         int id = item.getItemId();
 
         switch (id){
-            case imagisoft.modelview.R.id.about_item: openAbout();
-            case imagisoft.modelview.R.id.settings_item: openSettings();
+            case R.id.about_item: openAbout();
+            case R.id.settings_item: openSettings();
         }
 
         Log.i(toString(), "onOptionsItemSelected()");
@@ -498,7 +494,7 @@ public abstract class ActivityCustom extends ActivityFirebase
      * Se cambia el color de la statusBar
      */
     @Override
-    public void onSupportActionModeStarted(@NonNull ActionMode mode) {
+    public void onSupportActionModeStarted(ActionMode mode) {
         super.onSupportActionModeStarted(mode);
         lastStatusBarColor = getWindow().getStatusBarColor();
     }
@@ -508,23 +504,25 @@ public abstract class ActivityCustom extends ActivityFirebase
      * Se restablece el color de la statusBar
      */
     @Override
-    public void onSupportActionModeFinished(@NonNull ActionMode mode) {
+    public void onSupportActionModeFinished(ActionMode mode) {
         super.onSupportActionModeFinished(mode);
         getWindow().setStatusBarColor(lastStatusBarColor);
     }
 
     /**
      * Abre el "Acerca de"
+     * Es implementado en #MainNavigation
      */
     public abstract boolean openAbout();
 
     /**
      * Abre el fragmento de configuración
+     * Es implementado en #MainNavigation
      */
     public abstract boolean openSettings();
 
     /**
-     * Se ejecuta cuando se abre la {@link #searchView}
+     * Se ejecuta cuando se abre la barra de búsqueda
      * Se coloca un fragmento para realizar las búsquedas
      * @see #onSearchViewClosed()
      */
@@ -534,7 +532,7 @@ public abstract class ActivityCustom extends ActivityFirebase
     }
 
     /**
-     * Se ejecuta cuando se cierra la {@link #searchView}
+     * Se ejecuta cuando se cierra la barra de búsqueda
      * Se remueve el fragmento para realizar las búsquedas
      * @see #onSearchViewShown()
      */
@@ -555,9 +553,7 @@ public abstract class ActivityCustom extends ActivityFirebase
         // Si la app está en pausa no se remplaza el fragmento
         if(state.isAtLeast(Lifecycle.State.RESUMED))
             switchFragment(fragment, tag);
-
         else updatePendingFragments(tag);
-
         Log.i(toString(), "setFragmentOnScreen()");
 
     }
@@ -569,7 +565,7 @@ public abstract class ActivityCustom extends ActivityFirebase
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        drawerLayout.closeDrawer(START);
+        getDrawerLayout().closeDrawer(START);
         Log.i(toString(), "onNavigationItemSelected()");
         return true;
     }
@@ -617,17 +613,19 @@ public abstract class ActivityCustom extends ActivityFirebase
 
         hideKeyboard();
 
-        if (searchView.isSearchOpen())
-            searchView.closeSearch();
+        if (getSearchView().isSearchOpen())
+            getSearchView().closeSearch();
 
-        else if (drawerLayout.isDrawerOpen(START))
-            drawerLayout.closeDrawer(START);
+        else if (getDrawerLayout().isDrawerOpen(START))
+            getDrawerLayout().closeDrawer(START);
 
         else super.onBackPressed();
     }
 
     /**
      * Oculta el teclado
+     * se usa cuando el usuario termina de escribir
+     * y presiona otro elemento de la vista
      */
     public void hideKeyboard() {
         View focus = getCurrentFocus();
@@ -661,7 +659,6 @@ public abstract class ActivityCustom extends ActivityFirebase
      * @return true si la aplicación cerró correctamente
      */
     public boolean exit(){
-        showMessage(textBye);
         finishAndRemoveTask();
         System.exit(0);
         Log.i(toString(), "exit()");
@@ -677,6 +674,7 @@ public abstract class ActivityCustom extends ActivityFirebase
         AuthUI.getInstance().signOut(this);
         Preferences prefs = Preferences.getInstance();
         prefs.setPreference(this, Preferences.FIRST_USE_KEY, true);
+        Log.i(toString(), "exitAndSignOut()");
         return exit();
     }
 

@@ -79,7 +79,7 @@ public class Exhibitor implements Parcelable, Comparable<Exhibitor> {
         this.personalTitle = in.readString();
     }
 
-    public static final Parcelable.Creator<Exhibitor> CREATOR = new Parcelable.Creator<Exhibitor>() {
+    public static final Creator<Exhibitor> CREATOR = new Creator<Exhibitor>() {
 
         @Override
         public Exhibitor createFromParcel(Parcel source) {

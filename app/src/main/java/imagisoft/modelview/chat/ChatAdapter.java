@@ -6,15 +6,17 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import imagisoft.model.Message;
 import imagisoft.misc.DateConverter;
+import imagisoft.model.Message;
 import imagisoft.misc.ColorConverter;
 import imagisoft.misc.MaterialGenerator;
 
 import imagisoft.modelview.R;
-import imagisoft.modelview.activity.ActivityNavigation;
+import imagisoft.modelview.activity.MainNavigation;
 import imagisoft.modelview.views.RecyclerAdapter;
 
+import android.text.format.DateUtils;
+import android.text.util.Linkify;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,8 +25,6 @@ import android.view.LayoutInflater;
 
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.text.util.Linkify;
-import android.text.format.DateUtils;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
 
@@ -237,7 +237,7 @@ public abstract class ChatAdapter extends RecyclerAdapter {
      * {@link #removeModeCallback}
      */
     public void startRemoveMode(){
-        ActivityNavigation activity = chatFragment.getActivityCustom();
+        MainNavigation activity = chatFragment.getMainActivity();
         activity.hideKeyboard();
         removeMode = activity.startSupportActionMode(removeModeCallback);
         int color = activity.getResources().getColor(R.color.app_accent);

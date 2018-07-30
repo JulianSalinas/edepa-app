@@ -83,7 +83,7 @@ public class Congress extends ScheduleBlock implements Parcelable {
         this.locationTag = in.readString();
     }
 
-    public static final Parcelable.Creator<Congress> CREATOR = new Parcelable.Creator<Congress>() {
+    public static final Creator<Congress> CREATOR = new Creator<Congress>() {
 
         @Override
         public Congress createFromParcel(Parcel source) {

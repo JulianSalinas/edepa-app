@@ -173,5 +173,6 @@
     <string name="text_delete">borrar</string>
     <string name="text_selected">seleccionados</string>
     <string name="text_selected_single">seleccionado</string>
+    <string name="arroba">\@</string>
 
 </resources>

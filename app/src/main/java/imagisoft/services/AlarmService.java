@@ -5,8 +5,6 @@ import android.util.Log;
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
 
-import imagisoft.model.ScheduleEvent;
-
 public class AlarmService extends JobService {
 
     @Override
@@ -14,7 +12,7 @@ public class AlarmService extends JobService {
 
         assert job.getExtras() != null;
         String json = job.getExtras().getString("ScheduleEvent");
-        ScheduleEvent event = ScheduleEvent.fromJson(json);
+//        ScheduleEvent event = ScheduleEvent.fromJson(json);
 
 
         return false;

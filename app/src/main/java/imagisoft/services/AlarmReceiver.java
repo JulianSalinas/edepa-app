@@ -13,9 +13,8 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
 import imagisoft.model.Preferences;
-import imagisoft.model.ScheduleEvent;
 import imagisoft.modelview.R;
-import imagisoft.modelview.activity.ActivityNavigation;
+import imagisoft.modelview.activity.MainNavigation;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -32,11 +31,11 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         if(args != null && receive) {
 
-            ScheduleEvent event = args.getParcelable("event");
-            String title = context.getResources().getString(R.string.text_remainder);
-            String content = event.getTitle();
-            Notification notification = createNotification(title, content);
-            showNotification(notification);
+//            ScheduleEvent event = args.getParcelable("event");
+//            String title = context.getResources().getString(R.string.text_remainder);
+//            String content = event.getTitle();
+//            Notification notification = createNotification(title, content);
+//            showNotification(notification);
 
         }
 
@@ -52,7 +51,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Bundle args = new Bundle();
         args.putInt("currentResource", R.id.nav_schedule);
 
-        Intent intent = new Intent(context, ActivityNavigation.class);
+        Intent intent = new Intent(context, MainNavigation.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.setAction(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);

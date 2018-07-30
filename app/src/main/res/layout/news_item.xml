@@ -1,119 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v7.widget.CardView
+
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardUseCompatPadding="true"
-    app:cardElevation="0dp">
+    android:layout_marginTop="@dimen/space_small"
+    app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/space_small"
-        android:columnCount="2">
+        android:orientation="vertical"
+        android:padding="@dimen/space_default">
+
+        <TextView
+            android:id="@+id/news_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_small"
+            android:textSize="@dimen/font_list_item_title"
+            android:textStyle="bold"
+            tools:text="Título de la noticia" />
+
+        <TextView
+            android:id="@+id/news_item_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_small"
+            tools:text="@string/text_lorem_ipsum" />
+
+        <ImageView
+            android:id="@+id/news_item_thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_gmap"
+            android:layout_marginBottom="@dimen/space_small"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/img_map" />
 
         <RelativeLayout
-            android:layout_width="35dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/msg_read_check"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="2dp"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_check"
-                android:tag=":aesthetic_ignore"/>
-
             <TextView
-                android:id="@+id/msg_read_check_text"
+                android:id="@+id/news_item_read_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/msg_read_check"
-                android:layout_centerHorizontal="true"
-                android:textSize="@dimen/font_small"
-                android:textAlignment="center"
-                android:textColor="@color/app_primary_font"
+                android:layout_alignParentStart="true"
                 android:fontFamily="sans-serif-light"
                 tools:ignore="RelativeOverlap"
-                tools:text="no visto"
-                android:tag=":aesthetic_ignore"/>
+                tools:text="523 vistos" />
+
+            <TextView
+                android:id="@+id/news_item_time_ago"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:fontFamily="sans-serif-light"
+                tools:ignore="RelativeOverlap"
+                tools:text="hace 4 horas" />
 
         </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_default"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="@dimen/space_small">
-
-                <TextView
-                    android:id="@+id/chat_msg_username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/app_name"
-                    android:textSize="@dimen/font_medium"
-                    android:textColor="@color/app_primary_font"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_small"
-                    android:text="\@"
-                    android:textSize="@dimen/font_medium"
-                    android:textColor="@color/app_primary_font" />
-
-                <TextView
-                    android:id="@+id/chat_msg_time_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_small"
-                    android:textSize="@dimen/font_small"
-                    android:textColor="@color/app_primary_font"
-                    android:fontFamily="sans-serif-light"
-                    tools:ignore="RelativeOverlap"
-                    tools:text="@tools:sample/date/hhmmss" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/chat_msg_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/font_medium"
-                tools:text="@string/text_lorem_ipsum"
-                android:layout_marginBottom="@dimen/space_small"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/msg_read_amount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:textSize="@dimen/font_small"
-                    android:textColor="@color/app_primary_font"
-                    android:fontFamily="sans-serif-light"
-                    tools:ignore="RelativeOverlap"
-                    tools:text="@tools:sample/date/hhmmss" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
     </LinearLayout>
-
 
 </android.support.v7.widget.CardView>

@@ -15,14 +15,11 @@
         android:layout_height="?android:attr/actionBarSize">
 
         <android.support.v7.widget.Toolbar
-
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
-
             app:title="@string/app_name"
             app:titleTextColor="@color/app_primary_font" />
-            <!--app:popupTheme="@style/AppTheme.PopupOverlay"-->
 
         <com.miguelcatalan.materialsearchview.MaterialSearchView
             android:id="@+id/search_view"
@@ -31,8 +28,47 @@
 
     </FrameLayout>
 
-    <include
-        android:visibility="gone"
-        layout="@layout/main_toolbar_tabs"/>
+    <LinearLayout
+
+        android:id="@+id/toolbar_tabs_container"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/toolbar_tabs_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            app:tabIndicatorHeight="4dp"
+            app:tabIndicatorColor="@color/app_accent"
+            app:tabTextColor="@color/app_secondary_font"
+            app:tabSelectedTextColor="@color/app_accent">
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/tab_item_schedule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_schedule" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/tab_item_favorites"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/nav_favorites" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/tab_item_ongoing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_ongoing" />
+
+        </android.support.design.widget.TabLayout>
+
+    </LinearLayout>
 
 </android.support.design.widget.AppBarLayout>

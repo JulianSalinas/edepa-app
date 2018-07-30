@@ -9,14 +9,16 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.arch.lifecycle.LifecycleObserver;
 
-import butterknife.ButterKnife;
-import imagisoft.model.Preferences;
+//import butterknife.ButterKnife;
 
 import com.google.firebase.database.FirebaseDatabase;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
+import butterknife.ButterKnife;
+import imagisoft.model.Preferences;
 
-public abstract class ActivityFragment
+
+public abstract class MainFragment
         extends Fragment implements LifecycleObserver{
 
     /**
@@ -29,7 +31,7 @@ public abstract class ActivityFragment
      * Para obtener un referencia a la actividad y no hacer
      * cast en cada momento que se requiera
      */
-    protected ActivityCustom activity;
+    protected MainActivity activity;
 
     /**
      * Cuando se cambian los fragmentos es necesario conservar
@@ -69,10 +71,10 @@ public abstract class ActivityFragment
     /**
      * Función para que los fragmentos puedan agregar los
      * listeners de firebase
-     * @return ActivityNavigation
+     * @return MainNavigation
      */
-    public ActivityNavigation getActivityCustom(){
-        return (ActivityNavigation) activity;
+    public MainNavigation getMainActivity(){
+        return (MainNavigation) activity;
     }
 
     /**
@@ -149,7 +151,7 @@ public abstract class ActivityFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = (ActivityCustom) getActivity();
+        activity = (MainActivity) getActivity();
         setupResource();
         getLifecycle().addObserver(this);
     }

@@ -12,9 +12,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
-import imagisoft.modelview.R;
+
 import imagisoft.model.Preferences;
-import imagisoft.modelview.activity.ActivityNavigation;
+import imagisoft.modelview.R;
+import imagisoft.modelview.activity.MainNavigation;
 import static imagisoft.model.Preferences.USER_ID_KEY;
 
 /**
@@ -120,7 +121,7 @@ public class SignInActivity extends AppCompatActivity {
     private void startApplication(){
         Intent intent = new Intent(
                 getApplicationContext(),
-                ActivityNavigation.class);
+                MainNavigation.class);
         startActivity(intent);
         finish();
     }
