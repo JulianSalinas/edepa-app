@@ -19,17 +19,19 @@ public class AboutFragment extends MainFragment {
      * {@inheritDoc}
      */
     @Override
-    public void setupResource() {
-        this.resource = R.string.text_about_description;
+    public int getResource() {
+        return R.string.text_about_description;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setupActivityView() {
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         setToolbarText(R.string.nav_about);
         setToolbarVisibility(View.VISIBLE);
+        setStatusBarColorRes(R.color.app_primary_dark);
     }
 
     /**
@@ -52,7 +54,7 @@ public class AboutFragment extends MainFragment {
                 .addGroup(resources.getString(R.string.text_connect_with_us))
                 .addEmail("july12sali@gmail.com", "Julian Salinas")
                 .addEmail("bdinarte1996@gmail.com", "Brandon Dinarte")
-                .setDescription(resources.getString(resource))
+                .setDescription(resources.getString(getResource()))
                 .create();
     }
 

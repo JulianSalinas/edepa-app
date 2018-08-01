@@ -1,16 +1,20 @@
 package imagisoft.modelview.schedule;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 import imagisoft.misc.DateConverter;
+import imagisoft.model.Cloud;
 import imagisoft.model.ScheduleEvent;
-import imagisoft.modelview.activity.ActivityFragment;
-import imagisoft.modelview.views.DateFragment;
+import imagisoft.modelview.activity.MainFragment;
 
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ViewGroup;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,7 +40,11 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
      * Es necesario para obtener las referencias
      * utilizadas de Firebase
      */
-    protected ActivityFragment fragment;
+    protected MainFragment fragment;
+
+    protected FragmentManager manager;
+
+    private Map<Integer, String> fragmentTags;
 
     /**
      * Constructor
@@ -44,10 +52,11 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
      * se debe usar la función #getChildFragmentManager
      * @param fragment Del cual obtener el ChildFragmentManager
      */
-    public PagerAdapter(ActivityFragment fragment) {
+    public PagerAdapter(MainFragment fragment) {
         super(fragment.getChildFragmentManager());
         this.fragment = fragment;
         this.dates = new ArrayList<>();
+        this.fragmentTags = new HashMap<>();
     }
 
     /**
@@ -67,13 +76,11 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
      */
     @Override
     public Fragment getItem(int position) {
-        long date = dates.get(position);
-        String tag = fragment.getTag();
         Bundle args = new Bundle();
-        args.putLong("date", date);
-        args.putString("tag", tag);
-        Fragment frag = getEventsFragment();
+        EventsFragment frag = (EventsFragment) getEventsFragment();
+        args.putLong("date", dates.get(position));
         frag.setArguments(args);
+        frag.setListener(this);
         return frag;
     }
 
@@ -184,11 +191,11 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
          * Constructor
          * @param fragment Del cual obtener el FragmentManager
          */
-        public Schedule(ActivityFragment fragment) {
+        public Schedule(MainFragment fragment) {
             super(fragment);
-            fragment.getActivityCustom()
-                    .getScheduleReference()
-                    .orderByChild("start")
+            Cloud.getInstance()
+                    .getReference(Cloud.SCHEDULE)
+                    .orderByChild("startRunnable")
                     .addChildEventListener(this);
         }
 
@@ -238,20 +245,14 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
     public static class Favorites extends PagerAdapter {
 
         /**
-         * Para realizar la consulta de los favortos
-         */
-        protected FirebaseAuth auth = FirebaseAuth.getInstance();
-        protected FirebaseUser user = auth.getCurrentUser();
-
-        /**
          * Constructor
          * @param fragment Del cual obtener el ChildFragmentManager
          */
-        public Favorites(ActivityFragment fragment) {
+        public Favorites(MainFragment fragment) {
             super(fragment);
-            fragment.getActivityCustom()
-                    .getScheduleReference()
-                    .orderByChild("start")
+            Cloud.getInstance()
+                    .getReference(Cloud.SCHEDULE)
+                    .orderByChild("startRunnable")
                     .addChildEventListener(this);
         }
 

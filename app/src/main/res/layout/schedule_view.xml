@@ -7,7 +7,7 @@
     android:layout_width="match_parent">
 
     <android.support.v7.widget.RecyclerView
-
+        android:visibility="gone"
         android:id="@+id/events_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,5 +19,14 @@
 
         android:tag=":aesthetic_ignore"
         tools:listitem="@layout/schedule_item"/>
+
+    <TextView
+        android:id="@+id/events_empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/space_default"
+        android:textSize="@dimen/font_biggest"
+        tools:text="@string/text_without_events"/>
 
 </RelativeLayout>

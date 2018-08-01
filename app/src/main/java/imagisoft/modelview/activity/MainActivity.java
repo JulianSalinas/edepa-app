@@ -3,7 +3,6 @@ package imagisoft.modelview.activity;
 import android.os.Bundle;
 import android.os.Handler;
 
-import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -16,7 +15,6 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -24,16 +22,20 @@ import android.support.annotation.NonNull;
 import android.support.v7.view.ActionMode;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBarDrawerToggle;
 import static android.support.v4.view.GravityCompat.START;
+import static imagisoft.model.Preferences.FIRST_USE_KEY;
+import static imagisoft.model.Preferences.USER_KEY;
 
 import java.util.Stack;
 import butterknife.*;
-import imagisoft.misc.*;
+import imagisoft.model.Cloud;
 import imagisoft.model.Preferences;
+import imagisoft.model.Searcher;
 import imagisoft.modelview.R;
 
 import com.firebase.ui.auth.AuthUI;
@@ -41,15 +43,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-/**
- * Deriva de {@link MainFirebase} para manejar lo relacionado
- * con la conexión a la base de datos
- */
-public abstract class MainActivity extends MainFirebase
+
+public abstract class MainActivity extends AppCompatActivity
         implements LifecycleObserver,
         MaterialSearchView.SearchViewListener,
-        NavigationView.OnNavigationItemSelectedListener,
-        TabLayout.OnTabSelectedListener {
+        NavigationView.OnNavigationItemSelectedListener {
 
     /**
      * Menú que se extrae de navigationView para colocar
@@ -59,7 +57,7 @@ public abstract class MainActivity extends MainFirebase
     protected Menu menu;
 
     /**
-     * Necesaria para que los fragmentos la puedan personalizar
+     * Necesaria para que los fragmentos puedan personalizar
      * la barra de tareas en ciertos contextos
      */
     @BindView(R.id.toolbar)
@@ -70,8 +68,8 @@ public abstract class MainActivity extends MainFirebase
     }
 
     /**
-     * Únicamente necesaria para que se pueda ocultar
-     * la toolbar. Es usada en {@link #activeTabbedMode()}
+     * Únicamente necesaria para que se pueda
+     * ocultar la toolbar.
      */
     @BindView(R.id.toolbar_container)
     AppBarLayout appBarLayout;
@@ -82,8 +80,7 @@ public abstract class MainActivity extends MainFirebase
 
     /**
      * Es el contenedor de los tabs que se encuentran
-     * en la toolbar. Es usada para ocultar los tabs en
-     * {@link #activeTabbedMode()}
+     * en la toolbar
      */
     @BindView(R.id.toolbar_tabs_container)
     LinearLayout toolbarTabs;
@@ -94,7 +91,7 @@ public abstract class MainActivity extends MainFirebase
 
     /**
      * Es para colocar el fragment para los eventos que
-     * suceden la presionar un tab
+     * suceden al presionar un tab
      */
     @BindView(R.id.toolbar_tabs_layout)
     TabLayout toolbarTabsLayout;
@@ -148,7 +145,7 @@ public abstract class MainActivity extends MainFirebase
     protected Handler handler;
 
     /**
-     * Runneable que el handler debe correr, este contiene
+     * Runnable que el handler debe correr, este contiene
      * la función para cambiar el fragmento
      * @see #runPendingRunnable()
      */
@@ -192,7 +189,6 @@ public abstract class MainActivity extends MainFirebase
         public void onDrawerOpened(View drawerView) {
             super.onDrawerOpened(drawerView);
             hideKeyboard();
-            Log.i(toString(), "onDrawerOpened()");
         }
 
         /**
@@ -203,7 +199,6 @@ public abstract class MainActivity extends MainFirebase
         public void onDrawerClosed(View drawerView) {
             super.onDrawerClosed(drawerView);
             runPendingRunnable();
-            Log.i(toString(), "onDrawerClosed()");
         }
     };
 
@@ -214,39 +209,10 @@ public abstract class MainActivity extends MainFirebase
      */
     protected void runPendingRunnable(){
         if(pendingRunnable != null) {
+            Log.i(toString(), "runPendingRunnable()");
             handler.post(pendingRunnable);
             pendingRunnable = null;
-            Log.i(toString(), "runPendingRunnable()");
         }
-    }
-
-    /**
-     * Es true cuando el cronograma, los favoritos o
-     * el fragmento de Ongoing están activos
-     * @return True si los tabs son visibles
-     */
-    public boolean isActiveTabbedMode(){
-        return View.VISIBLE == getToolbarTabsLayout().getVisibility();
-    }
-
-    /**
-     * Coloca los tabs y remueve la elevación de la toolbar
-     * @see #deactiveTabbedMode()
-     */
-    public void activeTabbedMode(){
-        getToolbarContainer().setElevation(0);
-        getToolbarTabs().setVisibility(View.VISIBLE);
-        getToolbarTabsLayout().setOnTabSelectedListener(this);
-    }
-
-    /**
-     * Pone invisibles los tabs y coloca la elevación
-     * @see #activeTabbedMode()
-     */
-    public void deactiveTabbedMode() {
-        getToolbarContainer().setElevation(4);
-        getToolbarTabs().setVisibility(View.GONE);
-        getToolbarTabsLayout().setOnTabSelectedListener(null);
     }
 
     /**
@@ -256,12 +222,12 @@ public abstract class MainActivity extends MainFirebase
      */
     @Override
     protected void onCreate (Bundle savedInstanceState) {
+        Log.i(toString(), "onCreate()");
         super.onCreate(savedInstanceState);
         getLifecycle().addObserver(this);
         setContentView(R.layout.main_activity);
         ButterKnife.bind(this);
         onCreateActivity(savedInstanceState);
-        Log.i(toString(), "onCreate()");
     }
 
     /**
@@ -273,13 +239,13 @@ public abstract class MainActivity extends MainFirebase
      * @see #onCreate(Bundle)
      */
     private void onCreateActivity(Bundle savedInstanceState) {
+        Log.i(toString(), "onCreateActivity()");
         setSupportActionBar(getToolbar());
         handler = new Handler();
         menu = getNavigationView().getMenu();
         if(savedInstanceState == null)
             onCreateFirstCreation();
         else onCreateAlreadyOpen(savedInstanceState);
-        Log.i(toString(), "onCreateActivity()");
     }
 
     /**
@@ -287,10 +253,10 @@ public abstract class MainActivity extends MainFirebase
      * @see #onCreateActivity(Bundle)
      */
     protected void onCreateFirstCreation(){
-        Preferences prefs = Preferences.getInstance();
-        if(prefs.getBooleanPreference(this, Preferences.FIRST_USE_KEY))
-            writeDefaultPreferences();
         Log.i(toString(), "onCreateFirstCreation()");
+        Preferences prefs = Preferences.getInstance();
+        if(prefs.getBooleanPreference(this, FIRST_USE_KEY))
+            writeDefaultPreferences();
     }
 
     /**
@@ -299,12 +265,11 @@ public abstract class MainActivity extends MainFirebase
      * disponibles en la BD
      * @see #onCreateFirstCreation()
      */
-    private void writeDefaultPreferences(){
-        Preferences prefs = Preferences.getInstance();
-        getConfigReference().addListenerForSingleValueEvent(this);
-        prefs.setPreference(this, Preferences.FIRST_USE_KEY, false);
-        prefs.setPreference(this, Preferences.USER_KEY, getDefaultUsername());
+    protected void writeDefaultPreferences(){
         Log.i(toString(), "writeDefaultPreferences()");
+        Preferences prefs = Preferences.getInstance();
+        prefs.setPreference(this, FIRST_USE_KEY, false);
+        prefs.setPreference(this, USER_KEY, getDefaultUsername());
     }
 
     /**
@@ -315,7 +280,6 @@ public abstract class MainActivity extends MainFirebase
      * @see #onCreateActivity(Bundle)
      */
     private void onCreateAlreadyOpen(Bundle savedInstanceState){
-        assert savedInstanceState != null;
         Log.i(toString(), "onCreateAlreadyOpen()");
     }
 
@@ -333,91 +297,28 @@ public abstract class MainActivity extends MainFirebase
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     public void setupToggle(){
+        Log.i(toString(), "setupToggle()");
         int open = R.string.drawer_open;
         int close = R.string.drawer_close;
         new ActionBarDrawerToggle(this,
                 getDrawerLayout(),
-                getToolbar(), open, close)
-                .syncState();
-        Log.i(toString(), "setupToggle()");
-    }
-
-    /**
-     * Este fragment se utiliza para que, cuando se presiona
-     * una opción del menú lateral, este se cierre. Este cierre
-     * dispará el evento dentro de {@link #drawerListener}
-     * @see #disconnectOnNavigationItemListener()
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    private void connectOnNavigationItemListener() {
-        getNavigationView().setNavigationItemSelectedListener(this);
-        Log.i(toString(), "connectOnNavigationItemListener()");
-    }
-
-    /**
-     * Se desconecta el evento de presionar opciones
-     * del menú lateral
-     * @see #connectDrawerListener()
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    private void disconnectOnNavigationItemListener() {
-        getNavigationView().setNavigationItemSelectedListener(null);
-        Log.i(toString(), "disconnectOnNavigationItemListener()");
-    }
-
-    /**
-     * Se desconecta el evento de cerrar el menú lateral
-     * @see #connectDrawerListener()
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    public void disconnectDrawerListener(){
-        getDrawerLayout().removeDrawerListener(drawerListener);
-        Log.i(toString(), "disconnectDrawerListener()");
-    }
-
-    /**
-     * Se conecta el evento de que al cerrar el menú se
-     * coloque el fragmento según la opción seleccionada
-     * @see #disconnectDrawerListener()
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    public void connectDrawerListener(){
-        getDrawerLayout().addDrawerListener(drawerListener);
-        Log.i(toString(), "connectDrawerListener()");
-    }
-
-    /**
-     * Al volver de una pausa se coloca el último fragmento
-     * que quedo pendiente
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    public void restoreFromPendindgList(){
-        if(!pendingFragments.isEmpty()) {
-            String tag = pendingFragments.pop();
-            Fragment frag =
-                    getSupportFragmentManager()
-                    .findFragmentByTag(tag);
-            switchFragment(frag, tag);
-            Log.i(toString(), "restoreFromPendindgList()");
-        }
+                getToolbar(), open, close).syncState();
     }
 
     /**
      * Debajo del icono de EDEPA en el menú lateral se
      * da un mensaje de bienvenida, para ello se toma el nombre
      * de pila del usuario.
-     * @see RegexUtil#findFirstName(String)
+     * @see Searcher#findFirstName(String)
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private void showWelcomeMessage(){
 
         Preferences prefs = Preferences.getInstance();
-        String username = prefs
-                .getStringPreference(this, Preferences.USER_KEY);
-
+        String username = prefs.getStringPreference(this, USER_KEY);
         String message = getResources().getString(R.string.text_welcome);
-        if(!username.equals("")) message += " " + username;
 
+        if(!username.equals("")) message += " " + username;
         ((TextView) getNavigationView()
                 .getHeaderView(0)
                 .findViewById(R.id.welcome_text_view))
@@ -434,7 +335,7 @@ public abstract class MainActivity extends MainFirebase
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         return (user != null && user.getDisplayName() != null) ?
-                RegexUtil.findFirstName(user.getDisplayName()) : "";
+                Searcher.findFirstName(user.getDisplayName()) : "";
     }
 
     /**
@@ -442,17 +343,71 @@ public abstract class MainActivity extends MainFirebase
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private void setupSearchView(){
-
-        String text = getResources()
-                .getString(R.string.text_search);
-
-        getSearchView().showVoice(true);
-        getSearchView().setHint(text);
-        getSearchView().setOnSearchViewListener(this);
-        getSearchView().setVoiceSearch(true);
-        getSearchView().setEllipsize(true);
-
         Log.i(toString(), "setupSearchView()");
+        String text = getResources().getString(R.string.text_search);
+        searchView.showVoice(true);
+        searchView.setHint(text);
+        searchView.setOnSearchViewListener(this);
+        searchView.setVoiceSearch(true);
+        searchView.setEllipsize(true);
+    }
+
+    /**
+     * Este fragment se utiliza para que, cuando se presiona
+     * una opción del menú lateral, este se cierre. Este cierre
+     * dispará el evento dentro de {@link #drawerListener}
+     * @see #disconnectOnNavigationItemListener()
+     */
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    private void connectOnNavigationItemListener() {
+        Log.i(toString(), "connectOnNavigationItemListener()");
+        getNavigationView().setNavigationItemSelectedListener(this);
+    }
+
+    /**
+     * Se desconecta el evento de presionar opciones
+     * del menú lateral
+     * @see #connectDrawerListener()
+     */
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    private void disconnectOnNavigationItemListener() {
+        Log.i(toString(), "disconnectOnNavigationItemListener()");
+        getNavigationView().setNavigationItemSelectedListener(null);
+    }
+
+    /**
+     * Se desconecta el evento de cerrar el menú lateral
+     * @see #connectDrawerListener()
+     */
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    public void disconnectDrawerListener(){
+        Log.i(toString(), "disconnectDrawerListener()");
+        getDrawerLayout().removeDrawerListener(drawerListener);
+    }
+
+    /**
+     * Se conecta el evento de que al cerrar el menú se
+     * coloque el fragmento según la opción seleccionada
+     * @see #disconnectDrawerListener()
+     */
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    public void connectDrawerListener(){
+        Log.i(toString(), "connectDrawerListener()");
+        getDrawerLayout().addDrawerListener(drawerListener);
+    }
+
+    /**
+     * Al volver de una pausa se coloca el último fragmento
+     * que quedo pendiente
+     */
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    public void restoreFromPendindgList(){
+        if(!pendingFragments.isEmpty()) {
+            Log.i(toString(), "restoreFromPendindgList()");
+            String tag = pendingFragments.pop();
+            Fragment frag = getSupportFragmentManager().findFragmentByTag(tag);
+            switchFragment(frag, tag);
+        }
     }
 
     /**
@@ -462,11 +417,11 @@ public abstract class MainActivity extends MainFirebase
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.i(toString(), "onCreateOptionsMenu()");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_menu, menu);
         MenuItem item = menu.findItem(R.id.search_item);
-        getSearchView().setMenuItem(item);
-        Log.i(toString(), "onCreateOptionsMenu()");
+        searchView.setMenuItem(item);
         return true;
     }
 
@@ -477,15 +432,13 @@ public abstract class MainActivity extends MainFirebase
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        Log.i(toString(), "onOptionsItemSelected()");
         int id = item.getItemId();
-
         switch (id){
             case R.id.about_item: openAbout();
             case R.id.settings_item: openSettings();
         }
-
-        Log.i(toString(), "onOptionsItemSelected()");
+        runPendingRunnable();
         return super.onOptionsItemSelected(item);
     }
 
@@ -522,26 +475,6 @@ public abstract class MainActivity extends MainFirebase
     public abstract boolean openSettings();
 
     /**
-     * Se ejecuta cuando se abre la barra de búsqueda
-     * Se coloca un fragmento para realizar las búsquedas
-     * @see #onSearchViewClosed()
-     */
-    @Override
-    public void onSearchViewShown() {
-        Log.i(toString(), "onSearchViewShown()");
-    }
-
-    /**
-     * Se ejecuta cuando se cierra la barra de búsqueda
-     * Se remueve el fragmento para realizar las búsquedas
-     * @see #onSearchViewShown()
-     */
-    @Override
-    public void onSearchViewClosed() {
-        Log.i(toString(), "onSearchViewClosed()");
-    }
-
-    /**
      * Coloca en la pantalla un fragmento previamente creado
      * @param fragment Fragmento previamente creado
      * @param tag Tag que pertenece al fragmento
@@ -565,8 +498,8 @@ public abstract class MainActivity extends MainFirebase
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        getDrawerLayout().closeDrawer(START);
         Log.i(toString(), "onNavigationItemSelected()");
+        getDrawerLayout().closeDrawer(START);
         return true;
     }
 
@@ -578,6 +511,7 @@ public abstract class MainActivity extends MainFirebase
      */
     private void switchFragment(Fragment fragment, String tag){
         if(fragment != currentFragment) {
+            Log.i(toString(), "switchFragment("+ tag +")");
             getSupportFragmentManager()
                     .beginTransaction()
                     .addToBackStack(null)
@@ -586,7 +520,6 @@ public abstract class MainActivity extends MainFirebase
                             R.animator.fade_in,
                             R.animator.fade_out)
                     .commit();
-            Log.i(toString(), "switchFragment()");
         }
     }
 
@@ -599,9 +532,9 @@ public abstract class MainActivity extends MainFirebase
      * @see #restoreFromPendindgList()
      */
     private void updatePendingFragments(String tag){
+        Log.i(toString(), "updatePendingFragments()");
         pendingFragments.clear();
         pendingFragments.add(tag);
-        Log.i(toString(), "updatePendingFragments()");
     }
 
     /**
@@ -613,11 +546,11 @@ public abstract class MainActivity extends MainFirebase
 
         hideKeyboard();
 
-        if (getSearchView().isSearchOpen())
-            getSearchView().closeSearch();
+        if (searchView.isSearchOpen())
+            searchView.closeSearch();
 
-        else if (getDrawerLayout().isDrawerOpen(START))
-            getDrawerLayout().closeDrawer(START);
+        else if (drawerLayout.isDrawerOpen(START))
+            drawerLayout.closeDrawer(START);
 
         else super.onBackPressed();
     }
@@ -673,7 +606,7 @@ public abstract class MainActivity extends MainFirebase
     public boolean exitAndSignOut(){
         AuthUI.getInstance().signOut(this);
         Preferences prefs = Preferences.getInstance();
-        prefs.setPreference(this, Preferences.FIRST_USE_KEY, true);
+        prefs.setPreference(this, FIRST_USE_KEY, true);
         Log.i(toString(), "exitAndSignOut()");
         return exit();
     }

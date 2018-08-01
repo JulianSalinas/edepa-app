@@ -4,14 +4,15 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
+import imagisoft.model.Cloud;
 import imagisoft.model.NewsItem;
 
 public class NewsFirebase extends NewsAdapter implements ChildEventListener {
 
     public NewsFirebase(NewsFragment fragment) {
         super(fragment);
-        fragment.getMainActivity()
-                .getNewsReference()
+        Cloud.getInstance()
+                .getReference(Cloud.NEWS)
                 .orderByChild("time")
                 .addChildEventListener(this);
     }

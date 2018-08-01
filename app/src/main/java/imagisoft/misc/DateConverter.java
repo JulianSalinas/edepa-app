@@ -45,6 +45,17 @@ public class DateConverter {
     }
 
     /**
+     * Convierte un fecha en Long a String
+     * @param datetime Fecha en milisegundos
+     * @return String con el formato formato dd/mm/yy hh:mm <am|pm>
+     */
+    public static String longToString(Long datetime){
+        String date = extractDate(datetime);
+        String time = extractTime(datetime);
+        return String.format("%s %s", date, time);
+    }
+
+    /**
      * Convierte un fecha en string a un Long
      * SIEMPRE debe tener el siguiente formato dd/mm/yy hh:mm <am|pm>
      * @param datetime Fecha como el siguiente ejemplo "12/12/18 2:30 pm"

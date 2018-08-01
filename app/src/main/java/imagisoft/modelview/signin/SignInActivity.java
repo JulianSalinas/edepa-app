@@ -76,7 +76,7 @@ public class SignInActivity extends AppCompatActivity {
     private boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        NetworkInfo activeNetwork = cm == null ? null : cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 

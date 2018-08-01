@@ -34,6 +34,8 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>,Parcelable {
     protected Long end;
     protected Long start;
 
+    protected Long date;
+
     protected int favoritesAmount;
 
     /**
@@ -69,6 +71,14 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>,Parcelable {
 
     public void setEventype(ScheduleEventType eventype) {
         this.eventype = eventype;
+    }
+
+    public Long getDate() {
+        return date;
+    }
+
+    public void setDate(Long date) {
+        this.date = date;
     }
 
     public Long getEnd() {
@@ -242,7 +252,7 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>,Parcelable {
                 ", location='" + location + '\'' +
                 ", eventype=" + eventype +
                 ", end=" + end +
-                ", start=" + start +
+                ", startRunnable=" + start +
                 ", favoritesAmount=" + favoritesAmount +
                 ", briefEnglish='" + briefEnglish + '\'' +
                 ", briefSpanish='" + briefSpanish + '\'' +

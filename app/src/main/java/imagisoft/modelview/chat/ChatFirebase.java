@@ -1,6 +1,8 @@
 package imagisoft.modelview.chat;
 
 import android.util.Log;
+
+import imagisoft.model.Cloud;
 import imagisoft.model.Message;
 
 import android.arch.lifecycle.Lifecycle;
@@ -22,9 +24,8 @@ public class ChatFirebase extends ChatAdapter
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     public void connectListener() {
-        chatFragment
-                .getMainActivity()
-                .getChatReference()
+        Cloud.getInstance()
+                .getReference(Cloud.CHAT)
                 .orderByChild("time")
                 .addChildEventListener(this);
         Log.i(toString(), "connectListener()");
@@ -32,18 +33,16 @@ public class ChatFirebase extends ChatAdapter
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void disconnectListener() {
-        chatFragment
-                .getMainActivity()
-                .getChatReference()
+        Cloud.getInstance()
+                .getReference(Cloud.CHAT)
                 .removeEventListener(this);
         Log.i(toString(), "disconnectListener()");
     }
 
     @Override
     public void removeMessage(Message msg){
-        chatFragment
-                .getMainActivity()
-                .getChatReference()
+        Cloud.getInstance()
+                .getReference(Cloud.CHAT)
                 .child(msg.getKey())
                 .removeValue();
     }

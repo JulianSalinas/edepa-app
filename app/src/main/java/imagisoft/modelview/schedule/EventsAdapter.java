@@ -91,6 +91,7 @@ public abstract class EventsAdapter extends RecyclerAdapter {
         notifyItemRemoved(index);
     }
 
+
     /**
      * Constructor
      */
@@ -161,13 +162,13 @@ public abstract class EventsAdapter extends RecyclerAdapter {
      * @return Fechas como un string que se debe mostrar en la UI
      */
     protected String getDateAsString(long start){
-        Activity activity = fragment.getActivityCustom();
+        Activity activity = fragment.getMainActivity();
         return  activity.getResources().getString(R.string.text_block) + " " +
                 DateConverter.extractTime(start);
     }
 
     protected String getDateAsString(ScheduleEvent event){
-        Activity activity = fragment.getActivityCustom();
+        Activity activity = fragment.getMainActivity();
         return  activity.getResources().getString(R.string.text_from) + " " +
                 DateConverter.extractTime(event.getStart()) + " " +
                 activity.getResources().getString(R.string.text_to) + " " +

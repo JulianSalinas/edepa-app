@@ -20,16 +20,8 @@ public class BlankFragment extends MainFragment {
      * {@inheritDoc}
      */
     @Override
-    public void setupResource() {
-        this.resource = R.layout.fragment_blank;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setupActivityView() {
-        // No es necesario
+    public int getResource() {
+        return R.layout.fragment_blank;
     }
 
     /**

@@ -1,0 +1,30 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="NOTIFICATIONS_KEY"
+        android:summary="Recibir notificaciones acerca de noticias, mensajes u otros"
+        android:title="Notificaciones" />
+
+    <EditTextPreference
+        android:key="USER_KEY"
+        android:summary="Nombre con el que los demás te pueden ver en el chat"
+        android:title="Nombre de usuario" />
+
+    <ListPreference
+        android:defaultValue="es"
+        android:entries="@array/pref_language_titles"
+        android:entryValues="@array/pref_language_values"
+        android:key="LANG_KEY"
+        android:summary="Idioma principal de la aplicación. No aplica para información que se muestra en tiempo real"
+        android:title="Idioma base" />
+
+    <ListPreference
+        android:defaultValue="5000"
+        android:entries="@array/pref_update_titles"
+        android:entryValues="@array/pref_update_values"
+        android:key="UPDATE_DELAY"
+        android:summary="Frecuencia con la que se deben actualizar los eventos en curso"
+        android:title="Actualización de eventos" />
+
+</PreferenceScreen>

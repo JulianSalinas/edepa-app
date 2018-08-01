@@ -1,13 +1,16 @@
 package imagisoft.modelview.activity;
 
-import imagisoft.misc.DateConverter;
 import imagisoft.modelview.R;
-import imagisoft.listeners.ChildListener;
+import imagisoft.model.Cloud;
+import imagisoft.model.Preferences;
+import imagisoft.modelview.about.InfoFragment;
 import imagisoft.modelview.chat.ChatFragment;
 import imagisoft.modelview.about.AboutFragment;
 import imagisoft.modelview.news.NewsFragment;
+import imagisoft.modelview.schedule.EventsOngoing;
+import imagisoft.modelview.schedule.PagerFragment;
+import imagisoft.modelview.settings.SettingsFragment;
 
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.arch.lifecycle.Lifecycle;
@@ -15,9 +18,12 @@ import android.arch.lifecycle.OnLifecycleEvent;
 
 import android.support.v4.app.Fragment;
 import android.support.design.widget.TabLayout;
+import android.view.View;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import static imagisoft.model.Preferences.CHAT_AVAILABLE_KEY;
 import static imagisoft.model.Preferences.INFO_AVAILABLE_KEY;
@@ -30,20 +36,31 @@ import static imagisoft.model.Preferences.PEOPLE_AVAILABLE_KEY;
  * de la aplicación
  */
 public class MainNavigation extends MainActivity
-        implements TabLayout.OnTabSelectedListener{
+        implements TabLayout.OnTabSelectedListener,
+        ValueEventListener, ChildEventListener {
 
     /**
      * {@inheritDoc}
      */
     protected void onCreateFirstCreation(){
         super.onCreateFirstCreation();
-        deactiveTabbedMode();
-        String tag = "NEWS_FRAGMENT";
-        Fragment frag = new NewsFragment();
+        String tag = "SETTINGS_FRAGMENT";
+        Fragment frag = new SettingsFragment();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_content, frag, tag)
                 .commitNow();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void writeDefaultPreferences() {
+        super.writeDefaultPreferences();
+        Cloud.getInstance()
+                .getReference(Cloud.CONFIG)
+                .addListenerForSingleValueEvent(this);
     }
 
     /**
@@ -53,7 +70,9 @@ public class MainNavigation extends MainActivity
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void connectPreferencesListener(){
-        getConfigReference().addChildEventListener(prefsListener);
+        Cloud.getInstance()
+                .getReference(Cloud.CONFIG)
+                .addChildEventListener(this);
     }
 
     /**
@@ -63,7 +82,9 @@ public class MainNavigation extends MainActivity
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     public void disconnectPreferencesListener(){
-        getConfigReference().removeEventListener(prefsListener);
+        Cloud.getInstance()
+                .getReference(Cloud.CONFIG)
+                .removeEventListener((ChildEventListener) this);
     }
 
     /**
@@ -198,7 +219,10 @@ public class MainNavigation extends MainActivity
      * sea colocado en pantalla
      */
     public boolean openInformation(){
-        Log.i(toString(), "openInformation()");
+        String tag = "INFO_FRAGMENT";
+        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
+        Fragment frag = temp != null ? temp : new InfoFragment();
+        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
         return false;
     }
 
@@ -208,7 +232,10 @@ public class MainNavigation extends MainActivity
      * sea colocado en pantalla
      */
     public boolean openSchedule(){
-        Log.i(toString(), "openSchedule()");
+        String tag = "SCHEDULE_FRAGMENT";
+        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
+        Fragment frag = temp != null ? temp : new EventsOngoing();
+        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
         return false;
     }
 
@@ -254,7 +281,10 @@ public class MainNavigation extends MainActivity
      * sea colocado en pantalla
      */
     public boolean openSettings(){
-        Log.i(toString(), "openSettings()");
+        String tag = "SETTINGS_FRAGMENT";
+        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
+        Fragment frag = temp != null ? temp : new SettingsFragment();
+        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
         return false;
     }
 
@@ -289,14 +319,8 @@ public class MainNavigation extends MainActivity
     public void openOngoingTab(){
         String tag = "ONGOING_FRAGMENT";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
-//        Fragment frag = temp != null ? temp : new EventsFragment.Ongoing();
-
-        Bundle bundle = new Bundle();
-        bundle.putString("tag", tag);
-        bundle.putLong("date", DateConverter.stringToLong("12/2/2019 10:30 pm"));
-//        frag.setArguments(bundle);
-//
-//        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+        Fragment frag = temp != null ? temp : new EventsOngoing();
+        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
     }
 
     /**
@@ -307,8 +331,8 @@ public class MainNavigation extends MainActivity
     public void openScheduleTab(){
         String tag = "SCHEDULE_FRAGMENT_TAB";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
-//        Fragment frag = temp != null ? temp : new PagerFragment.Schedule();
-//        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+        Fragment frag = temp != null ? temp : new PagerFragment.Schedule();
+        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
     }
 
     /**
@@ -319,8 +343,8 @@ public class MainNavigation extends MainActivity
     public void openFavoritesTab(){
         String tag = "FAVORITES_FRAGMENT_TAB";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
-//        Fragment frag = temp != null ? temp : new PagerFragment.Favorites();
-//        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+        Fragment frag = temp != null ? temp : new PagerFragment.Favorites();
+        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
     }
 
     /**
@@ -329,41 +353,70 @@ public class MainNavigation extends MainActivity
      */
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        int pos = tab.getPosition();
-        switch (pos){
-            case 0: openScheduleTab(); break;
-            case 1: openFavoritesTab(); break;
-            case 2: openOngoingTab(); break;
-        }   runPendingRunnable();
-        Log.i(toString(), "onTabSelected("+ String.valueOf(pos) +")");
+//        int pos = tab.getPosition();
+//        switch (pos){
+//            case 0: openScheduleTab(); break;
+//            case 1: openFavoritesTab(); break;
+//            case 2: openOngoingTab(); break;
+//        }   runPendingRunnable();
+//        Log.i(toString(), "onTabSelected("+ String.valueOf(pos) +")");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
         // Requerido
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
         // Requerido
     }
 
     /**
-     * Es activada cuando cambia alguna de las preferencias
-     * disponibles en Firebase
-     * @see #connectPreferencesListener()
+     * Se ejecuta cuando se abre la barra de búsqueda
+     * Se coloca un fragmento para realizar las búsquedas
+     * @see #onSearchViewClosed()
      */
-    private ChildEventListener prefsListener = new ChildListener(){
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            String key = dataSnapshot.getKey();
-            Boolean value = dataSnapshot.getValue(Boolean.class);
-            if (value != null && key != null) {
-                setAvailable(key, value);
-                updateMenu(key);
-            }
-        }
-    };
+    @Override
+    public void onSearchViewShown() {
+        Log.i(toString(), "onSearchViewShown()");
+    }
+
+    /**
+     * Se ejecuta cuando se cierra la barra de búsqueda
+     * Se remueve el fragmento para realizar las búsquedas
+     * @see #onSearchViewShown()
+     */
+    @Override
+    public void onSearchViewClosed() {
+        Log.i(toString(), "onSearchViewClosed()");
+    }
+
+    /**
+     * Coloca los tabs y remueve la elevación de la toolbar
+     * @see #deactiveTabbedMode()
+     */
+    public void activeTabbedMode(){
+        getToolbarContainer().setElevation(0);
+        getToolbarTabs().setVisibility(View.VISIBLE);
+//        getToolbarTabsLayout().setOnTabSelectedListener(this);
+    }
+
+    /**
+     * Pone invisibles los tabs y coloca la elevación
+     * @see #activeTabbedMode()
+     */
+    public void deactiveTabbedMode() {
+        getToolbarContainer().setElevation(4);
+        getToolbarTabs().setVisibility(View.GONE);
+//        getToolbarTabsLayout().setOnTabSelectedListener(null);
+    }
 
     /**
      * Actualiza la interfaz una vez que las
@@ -371,7 +424,6 @@ public class MainNavigation extends MainActivity
      * han sido cargadas localmente
      * @see #onDataChange(DataSnapshot)
      */
-    @Override
     public void update(){
         updateMenu(NEWS_AVAILABLE_KEY);
         updateMenu(INFO_AVAILABLE_KEY);
@@ -383,7 +435,6 @@ public class MainNavigation extends MainActivity
 
     /**
      * Actualiza alguna opción del menú lateral
-     * Es usada por {@link #prefsListener}
      * @param key: Key de la clase Preferences
      */
     private void updateMenu(String key){
@@ -394,6 +445,106 @@ public class MainNavigation extends MainActivity
             case PEOPLE_AVAILABLE_KEY: setupNavigationPeople(); break;
             case PALETTE_AVAILABLE_KEY: setupNavigationPalette(); break;
         }
+    }
+
+    /**
+     * Escribe en las preferencias si una sección de la
+     * aplicación debe estar disponible
+     * @param key: Key de la clase Preferences
+     * @param value: La sección debe o no estar disponible
+     */
+    public void setAvailable(String key, Boolean value){
+        key = key.toLowerCase();
+        Preferences.getInstance().setPreference(this, key, value);
+    }
+
+    /**
+     * Utilizada por la funcion {@link #onDataChange(DataSnapshot)}
+     * @param key: Key de la clase Preferences
+     * @param dataSnapshot: Donde se extrae en valor que se debe colocar
+     *                      en las preferencias
+     */
+    public void setAvailable(String key, DataSnapshot dataSnapshot){
+        key = key.toLowerCase();
+        Boolean value = dataSnapshot.child(key).getValue(Boolean.class);
+        Preferences.getInstance().setPreference(this, key, value);
+    }
+
+    /**
+     * Determina con base a las preferencias si una sección de
+     * la aplicación debe estar disponible
+     * @param key: Key de la clase Preferences
+     * @return True si la sección debe estar disponible
+     */
+    public boolean isAvailable(String key){
+        key = key.toLowerCase();
+        return Preferences
+                .getInstance()
+                .getBooleanPreference(this, key);
+    }
+
+    /**
+     * Obtienen todas las preferencias desde el dataSnapshot
+     * y las escribe con {@link #setAvailable(String, DataSnapshot)}
+     * @param dataSnapshot: Contiene las preferencias según la BD
+     */
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        Log.i(toString(), "onDataChange(DataSnapshot)");
+        setAvailable(Preferences.INFO_AVAILABLE_KEY, dataSnapshot);
+        setAvailable(Preferences.NEWS_AVAILABLE_KEY, dataSnapshot);
+        setAvailable(Preferences.CHAT_AVAILABLE_KEY, dataSnapshot);
+        setAvailable(Preferences.PALETTE_AVAILABLE_KEY, dataSnapshot);
+        setAvailable(Preferences.PEOPLE_AVAILABLE_KEY, dataSnapshot);
+        update();
+    }
+
+    /**
+     * Es activada cuando cambia alguna de las preferencias
+     * disponibles en Firebase
+     * @see #connectPreferencesListener()
+     */
+    @Override
+    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+        String key = dataSnapshot.getKey();
+        Boolean value = dataSnapshot.getValue(Boolean.class);
+        if (value != null && key != null) {
+            setAvailable(key, value);
+            updateMenu(key);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        // Requerido
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onChildRemoved(DataSnapshot dataSnapshot) {
+        // Requerido
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+        // Requerido
+    }
+
+    /**
+     * Ha ocurrido un error al leer las preferencias desde Firebase
+     * @param databaseError: Contiene el mensaje con el error
+     */
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
+        Log.i(toString(), databaseError.getMessage());
     }
 
 }

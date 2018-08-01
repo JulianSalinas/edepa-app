@@ -3,25 +3,22 @@ package imagisoft.modelview.schedule;
 import butterknife.BindView;
 
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 
 import imagisoft.misc.DateConverter;
 import imagisoft.modelview.R;
-import imagisoft.modelview.views.RecyclerAdapter;
+import imagisoft.modelview.activity.MainFragment;
 import imagisoft.modelview.views.SmoothLayout;
-import imagisoft.modelview.views.RecyclerFragment;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.view.View;
+import android.widget.TextView;
 
 
 public abstract class EventsFragment
-        extends RecyclerFragment implements IEventsSubject {
+        extends MainFragment implements IEventsSubject {
 
     /**
      * Se colocan los eventos de manera visual
@@ -29,80 +26,65 @@ public abstract class EventsFragment
     @BindView(R.id.events_view)
     RecyclerView eventsRV;
 
+    @BindView(R.id.events_empty_view)
+    TextView eventsEmpty;
+
     /**
      * Adaptador para {@link #eventsRV}
      */
     private EventsAdapter eventsVA;
 
+    /**
+     * Solo eventos de esta fecha deben estar en
+     * este fragmento
+     */
     protected long date;
 
     public long getDate(){
         return date;
     }
 
-    protected String tagF;
-
-    public String getTagF(){
-        return tagF;
-    }
-
-    private Bundle pausedState;
-
-    protected IEventsListener pagerListener;
+    /**
+     * El listener se da cuanta de los cambios que son hechos
+     * en el fragmento
+     */
+    protected IEventsListener listener;
 
     @Override
-    protected RecyclerView getRecyclerView() {
-        return eventsRV;
-    }
-
-    @Override
-    protected RecyclerAdapter getViewAdapter() {
-        return eventsVA;
-    }
-
-    @Override
-    public void setListener(IEventsListener pagerListener){
-        this.pagerListener = pagerListener;
-    }
-
     public IEventsListener getListener(){
-        return this.pagerListener;
+        return this.listener;
     }
 
+    @Override
+    public void setListener(IEventsListener listener){
+        this.listener = listener;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getResource() {
+        return R.layout.schedule_view;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-
-        if (args != null) {
-
-            if (args.containsKey("date"))
-                date = args.getLong("date");
-
-            if (args.containsKey("tag"))
-                tagF = args.getString("tag");
-
+        if (args != null && args.containsKey("date")) {
+            date = args.getLong("date");
             Log.i(toString(), "date: " + DateConverter.extractDate(date));
-            Log.i(toString(), "tag: " + tagF);
-
         }
-
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void setupResource() {
-        this.resource = R.layout.schedule_view;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setupActivityView() {
-        setToolbarText(R.string.app_name);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     /**
@@ -112,7 +94,7 @@ public abstract class EventsFragment
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     private void setupAdapter(){
         if(eventsVA == null){
-            eventsVA = getAdapter();
+            eventsVA = instantiateAdapter();
             Log.i(toString(), "setupAdapter()");
         }
     }
@@ -132,13 +114,13 @@ public abstract class EventsFragment
         }
     }
 
-    protected abstract EventsAdapter getAdapter();
+    protected abstract EventsAdapter instantiateAdapter();
 
 
     public static class Schedule extends EventsFragment{
 
         @Override
-        protected EventsAdapter getAdapter() {
+        protected EventsAdapter instantiateAdapter() {
             return new AdapterSchedule(this);
         }
 
@@ -147,23 +129,8 @@ public abstract class EventsFragment
     public static class Favorites extends EventsFragment{
 
         @Override
-        protected EventsAdapter getAdapter() {
+        protected EventsAdapter instantiateAdapter() {
             return new AdapterFavorites(this);
-        }
-
-    }
-
-    public static class Ongoing extends EventsFragment{
-
-        @Override
-        public void setupActivityView() {
-            super.setupActivityView();
-            setActiveTabbedMode(true);
-        }
-
-        @Override
-        protected EventsAdapter getAdapter() {
-            return new AdapterOngoing(this);
         }
 
     }

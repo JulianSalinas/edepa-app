@@ -3,6 +3,7 @@ package imagisoft.modelview.chat;
 import java.util.Calendar;
 import butterknife.BindView;
 
+import imagisoft.model.Cloud;
 import imagisoft.model.Message;
 import imagisoft.model.Preferences;
 
@@ -72,11 +73,12 @@ public class ChatFragment extends RecyclerFragment {
     private final String INPUT_TEXT_KEY = "input_text";
 
     /**
-     * Se obtiene el usuario que está usando la aplicación
-     * para saber de que lado colocar los mensajes
+     * {@inheritDoc}
      */
-    protected FirebaseAuth auth = FirebaseAuth.getInstance();
-    protected FirebaseUser user = auth.getCurrentUser();
+    @Override
+    public int getResource() {
+        return R.layout.chat_view;
+    }
 
     /**
      * Propiedad para saber si se está esperando
@@ -95,16 +97,8 @@ public class ChatFragment extends RecyclerFragment {
      * @return True si el mensaje fue enviado por el usuario actual
      */
     public boolean isFromCurrentUser(Message msg){
-        String userUid = user.getUid();
+        String userUid = Cloud.getInstance().getAuth().getUid();
         return msg.getUserid().equals(userUid);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setupResource() {
-        this.resource = R.layout.chat_view;
     }
 
     /**
@@ -113,22 +107,17 @@ public class ChatFragment extends RecyclerFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        setToolbarText(R.string.nav_chat);
+        setToolbarVisibility(View.VISIBLE);
+        setStatusBarColorRes(R.color.app_primary_dark);
+
         if(savedInstanceState != null){
             String text = savedInstanceState.getString(INPUT_TEXT_KEY);
             textInputView.setText(text);
             Log.i(toString(), "onActivityCreated(Bundle)");
         }
-    }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setupActivityView() {
-        setToolbarText(R.string.nav_chat);
-        setToolbarVisibility(View.VISIBLE);
-        setStatusBarColorRes(R.color.app_primary_dark);
-        Log.i(toString(), "setupActivityView(Bundle)");
     }
 
     /**
@@ -260,7 +249,9 @@ public class ChatFragment extends RecyclerFragment {
     private void sendNotEmptyMessage(String content){
         Message msg = createMessage(content);
         setWaitingResponse(true);
-        activity.getChatReference().push().setValue(msg);
+        Cloud.getInstance()
+                .getReference(Cloud.CHAT)
+                .push().setValue(msg);
         textInputView.setText("");
         Log.i(toString(), "sendNotEmptyMessage(content)");
     }
@@ -273,7 +264,8 @@ public class ChatFragment extends RecyclerFragment {
     public Message createMessage(String content){
         String username = getUsername();
         Long datetime = Calendar.getInstance().getTimeInMillis();
-        return new Message(user.getUid(), username, content, datetime);
+        String userid = Cloud.getInstance().getAuth().getUid();
+        return new Message(userid, username, content, datetime);
     }
 
     /**
@@ -283,7 +275,7 @@ public class ChatFragment extends RecyclerFragment {
      */
     public String getUsername(){
         String key = Preferences.USER_KEY;
-        return prefs.getStringPreference(activity, key);
+        return Preferences.getInstance().getStringPreference(activity, key);
     }
 
 }

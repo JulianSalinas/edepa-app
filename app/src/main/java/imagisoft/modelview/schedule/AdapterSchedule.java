@@ -4,6 +4,7 @@ import android.util.Log;
 import java.util.Collections;
 
 import imagisoft.misc.DateConverter;
+import imagisoft.model.Cloud;
 import imagisoft.model.ScheduleEvent;
 
 import com.google.firebase.database.ChildEventListener;
@@ -15,9 +16,9 @@ public class AdapterSchedule extends EventsAdapter implements ChildEventListener
 
     public AdapterSchedule(IEventsSubject subject) {
         super((EventsFragment) subject);
-        fragment.getActivityCustom()
-                .getScheduleReference()
-                .orderByChild("start")
+        Cloud.getInstance()
+                .getReference(Cloud.SCHEDULE)
+                .orderByChild("startRunnable")
                 .startAt(subject.getDate())
                 .endAt(DateConverter.atEndOFDay(subject.getDate()))
                 .addChildEventListener(this);

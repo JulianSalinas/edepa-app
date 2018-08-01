@@ -2,10 +2,12 @@ package imagisoft.modelview.news;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
+import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import butterknife.BindView;
 import imagisoft.modelview.R;
@@ -43,8 +45,19 @@ public class NewsFragment extends RecyclerFragment {
      * {@inheritDoc}
      */
     @Override
-    public void setupResource() {
-        this.resource = R.layout.news_view;
+    public int getResource() {
+        return R.layout.news_view;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setToolbarText(R.string.nav_news);
+        setToolbarVisibility(View.VISIBLE);
+        setStatusBarColorRes(R.color.app_primary_dark);
     }
 
     /**
@@ -71,11 +84,6 @@ public class NewsFragment extends RecyclerFragment {
             newsRV.setLayoutManager(new SmoothLayout(getActivity()));
             Log.i(toString(), "setupRecyclerView()");
         }
-    }
-
-    @Override
-    public void setupActivityView() {
-        setToolbarText(R.string.nav_news);
     }
 
 }

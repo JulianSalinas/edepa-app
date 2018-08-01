@@ -2,18 +2,21 @@ package imagisoft.modelview.schedule;
 
 import butterknife.BindView;
 import imagisoft.modelview.R;
-import imagisoft.modelview.activity.ActivityFragment;
+import imagisoft.modelview.activity.MainFragment;
 
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.util.Log;
 
-import com.google.firebase.database.DatabaseReference;
 
-
-public abstract class PagerFragment extends ActivityFragment {
+public abstract class PagerFragment extends MainFragment {
 
     /**
      * Espacio donde las páginas se cambian
@@ -29,39 +32,41 @@ public abstract class PagerFragment extends ActivityFragment {
      */
     private PagerAdapter adapter;
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setupResource() {
-        this.resource = R.layout.schedule_pager;
-    }
+    Bundle pausedState;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setupActivityView() {
-        setActiveTabbedMode(true);
-        setToolbarText(R.string.app_name);
+    public int getResource() {
+        return R.layout.schedule_pager;
     }
 
     /**
      * Obtiene los eventos, extrae todos los días que componen
      * los eventos y ajusta la interfaz para solo mostrar dichos
-     * días por medio de un adaptador
+     * días por medio de un adaptador.
      */
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    private void setupAdapter(){
-        if (adapter == null) {
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    public void setupAdapter(){
+        Log.i(toString(), "setupAdapter()");
+        if (adapter == null)
             adapter = getAdapter();
-            pager.setAdapter(adapter);
-            Log.i(toString(), "setupAdapter()");
-        }
     }
 
     /**
-     * Es utilizada por la función {@link #setupAdapter()}
+     * Usualmente adapter es conservado pero pager no conserva
+     * el adapter y hay que colocarlo otra vez
+     */
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void setupPager(){
+        Log.i(toString(), "setupAdapter()");
+        if (pager.getAdapter() == null)
+            pager.setAdapter(adapter);
+    }
+
+    /**
+     * Es utilizada por la función {@link #onActivityCreated(Bundle)}
      * Cada uno de los fragmentos, el de cronograma y el de
      * favoritos son iguales pero necesitan manejar distintos
      * eventos por los que cada uno implementa este método

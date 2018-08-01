@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.CircularProgressDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.style.URLSpan;
@@ -146,10 +147,8 @@ public class NewsAdapter extends RecyclerAdapter {
             }
             else{
                 itemThumbnail.setOnClickListener(v -> {
-                    Bundle args = new Bundle();
-                    args.putString("imageUrl", imageUrl);
-                    ImageFragment imageFragment = new ImageFragment();
-                    imageFragment.setArguments(args);
+                    Fragment imageFragment = ImageFragment
+                            .newInstance(newsItem.getTitle(), imageUrl);
                     fragment.setFragmentOnScreen(imageFragment);
                 });
             }

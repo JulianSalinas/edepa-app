@@ -14,7 +14,7 @@ public class Preferences {
     public static final String USER_KEY = "USER_KEY";
     public static final String USER_ID_KEY = "USER_ID_KEY";
     public static final String FIRST_USE_KEY = "FIRST_USE_KEY";
-    public static final String ALARM_STATE_KEY = "ALARM_STATE_KEY";
+    public static final String NOTIFICATIONS_KEY = "NOTIFICATIONS_KEY";
 
     /**
      * Preferencias para activar o desactivar partes de la app
@@ -26,6 +26,10 @@ public class Preferences {
     public static final String PALETTE_AVAILABLE_KEY = "PALETTE";
     public static final String PEOPLE_AVAILABLE_KEY = "PEOPLE";
 
+    /**
+     * Preferencias que afectan la ejecución de la aplicación
+     */
+    public static final String UPDATE_DELAY = "UPDATE_DELAY";
 
     /**
      * Solo permite acceder a una instancia de preferencias
@@ -76,6 +80,16 @@ public class Preferences {
     }
 
     /**
+     * Lee un entero de las preferencias locales
+     * @param context: Actividad desde donde se llama la aplicación
+     * @param key: Asociado al valor que se debe obtener
+     */
+    public Integer getIntegerPreference(Context context, String key){
+        SharedPreferences prefs = getSharedPreferences(context);
+        return prefs.getInt(key, 0);
+    }
+
+    /**
      * Guarda un valor en el archivo de preferencias
      * @param context: Actividad desde donde se llama la aplicación
      * @param key: Asociado al valor que se debe obtener
@@ -84,7 +98,8 @@ public class Preferences {
     public void setPreference(Context context, String key, Object value) {
         SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         if(value instanceof String) editor.putString(key, (String) value);
-        else editor.putBoolean(key, (Boolean) value);
+        else if (value instanceof Boolean) editor.putBoolean(key, (Boolean) value);
+        else editor.putInt(key, (Integer) value);
         editor.apply();
     }
 
