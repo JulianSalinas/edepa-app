@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,12 +16,12 @@ import imagisoft.misc.DateConverter;
  * Es necesario colocar los resumenes después de haber creado el evento
  * De igual forma es necesario agregar los expositores después de crearlo
  */
-public class ScheduleEvent implements Comparable<ScheduleEvent>,Parcelable {
+public class ScheduleEvent implements Comparable<ScheduleEvent>, Parcelable {
 
     /**
      * Atributos fundamentales
      */
-    private String id;
+    private String key;
     private String title;
     private String location;
     private ScheduleEventType eventype;
@@ -38,15 +37,17 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>,Parcelable {
 
     protected int favoritesAmount;
 
+    protected boolean isFavorite;
+
     /**
      * Getters y Setters de las fechas
      */
-    public String getId() {
-        return id;
+    public String getKey() {
+        return key;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getTitle() {
@@ -105,6 +106,14 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>,Parcelable {
         this.favoritesAmount = favoritesAmount;
     }
 
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
     public String getBriefEnglish() {
         return briefEnglish;
     }
@@ -148,18 +157,23 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>,Parcelable {
 
     }
 
-    public ScheduleEvent(String id, String title, String location,
-                         ScheduleEventType eventype, Long end, Long start,
+    public ScheduleEvent(String key, String title, String location,
+                         ScheduleEventType eventype, Long end, Long start, Long date,
                          String briefEnglish, String briefSpanish, int favoritesAmount) {
-        this.id = id;
+        this.key = key;
         this.title = title;
         this.location = location;
         this.eventype = eventype;
         this.end = end;
         this.start = start;
+        this.date = date;
         this.briefEnglish = briefEnglish;
         this.briefSpanish = briefSpanish;
         this.favoritesAmount = favoritesAmount;
+    }
+
+    public boolean hasSameDate(ScheduleEvent event){
+        return this.getDate().equals(event.getDate());
     }
 
     /**
@@ -224,30 +238,30 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>,Parcelable {
     }
 
     /**
-     * Un evento es el mismo si tiene el mismo id y el mismo título
+     * Un evento es el mismo si tiene el mismo key y el mismo título
      */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ScheduleEvent that = (ScheduleEvent) o;
-        return Objects.equals(id, that.id);
+        return Objects.equals(key, that.key);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(key);
     }
 
     @Override
     public int compareTo(ScheduleEvent event) {
-        return getStart().compareTo(event.getStart());
+        return event.getStart().compareTo(getStart());
     }
 
     @Override
     public String toString() {
         return "ScheduleEvent{" +
-                "id='" + id + '\'' +
+                "key='" + key + '\'' +
                 ", title='" + title + '\'' +
                 ", location='" + location + '\'' +
                 ", eventype=" + eventype +
@@ -267,7 +281,7 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>,Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
+        dest.writeString(this.key);
         dest.writeString(this.title);
         dest.writeString(this.location);
         dest.writeInt(this.eventype == null ? -1 : this.eventype.ordinal());
@@ -280,7 +294,7 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>,Parcelable {
     }
 
     protected ScheduleEvent(Parcel in) {
-        this.id = in.readString();
+        this.key = in.readString();
         this.title = in.readString();
         this.location = in.readString();
         int tmpEventype = in.readInt();

@@ -1,4 +1,4 @@
-package imagisoft.modelview.schedule;
+package imagisoft.modelview.schedule.paged;
 
 import android.util.Log;
 import android.support.v4.app.FragmentManager;
@@ -12,7 +12,7 @@ import com.google.firebase.database.ChildEventListener;
 /**
  * Esta clase es implementada con el único propósito de no
  * tener que reescribir los métodos onChildMoved y onChildCancelled
- * aún cuando esto no tengan código
+ * aún cuando estos no tengan código
  */
 public abstract class PagerFirebase
         extends FragmentPagerAdapter implements ChildEventListener {

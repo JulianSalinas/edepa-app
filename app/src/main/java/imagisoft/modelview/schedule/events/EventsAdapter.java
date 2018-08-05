@@ -1,4 +1,4 @@
-package imagisoft.modelview.schedule;
+package imagisoft.modelview.schedule.events;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -6,15 +6,17 @@ import butterknife.ButterKnife;
 import java.util.List;
 import java.util.ArrayList;
 
-import imagisoft.modelview.R;
-import imagisoft.model.FavoriteList;
-import imagisoft.model.ScheduleEvent;
 import imagisoft.misc.DateConverter;
+import imagisoft.model.Cloud;
+import imagisoft.modelview.R;
+import imagisoft.model.ScheduleEvent;
+import imagisoft.modelview.activity.MainNavigation;
+import imagisoft.modelview.interfaces.IEventsSubject;
 import imagisoft.modelview.views.RecyclerAdapter;
 
-import android.util.Log;
+import android.content.Context;
+import android.content.res.Resources;
 import android.view.View;
-import android.app.Activity;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.view.LayoutInflater;
@@ -26,7 +28,8 @@ import com.like.OnLikeListener;
 /**
  * Sirve para enlazar las funciones a una actividad en específico
  */
-public abstract class EventsAdapter extends RecyclerAdapter {
+public abstract class EventsAdapter
+        extends RecyclerAdapter implements IEventsSubject {
 
     /**
      * Variables par escoger el tipo de vista que se colocará
@@ -35,19 +38,10 @@ public abstract class EventsAdapter extends RecyclerAdapter {
     protected int SINGLE = 0;
     protected int WITH_SEPARATOR = 1;
 
-    /**
-     * Fragment al que se debe colocar este adaptador
-     */
-    protected EventsFragment fragment;
+    private Context context;
 
-    /**
-     * Necesaria para saber donde poner la estrella
-     */
-    protected FavoriteList favoriteList;
+    protected List<String> favorites;
 
-    /**
-     * Objetos del modelo que serán adaptados visualmente
-     */
     protected List<ScheduleEvent> events;
 
     /**
@@ -63,9 +57,24 @@ public abstract class EventsAdapter extends RecyclerAdapter {
      * de fechas si es necesario
      * @param event Mensaje por añadir
      */
+    @Override
     public void addEvent(ScheduleEvent event){
-        events.add(event);
-        notifyItemInserted(events.size()-1);
+        int index = events.indexOf(event);
+        if(index == -1){
+            String key = event.getKey();
+            index = findIndexToAddEvent(event);
+            events.add(index, event);
+            setFavoriteEvent(key, favorites.contains(key));
+            notifyItemInserted(index);
+        }
+    }
+
+    private int findIndexToAddEvent(ScheduleEvent event){
+        int index = 0;
+        for (int i = 0; i < events.size(); i++) {
+            if (events.get(i).getStart() <= event.getStart() ) index += 1;
+            else break;
+        }   return index;
     }
 
     /**
@@ -73,33 +82,66 @@ public abstract class EventsAdapter extends RecyclerAdapter {
      * cambiado de forma externa del adaptador
      * @param event Mensaje por cambiar
      */
+    @Override
     public void changeEvent(ScheduleEvent event){
         int index = events.indexOf(event);
-        events.set(index, event);
-        notifyItemChanged(index);
+        if (index != -1) {
+            String key = event.getKey();
+            events.set(index, event);
+            setFavoriteEvent(key, favorites.contains(key));
+            notifyItemChanged(index);
+        }
     }
 
     /**
      * Se remueve un mensaje del adaptador
      * Al removerse se debe actualizar el mensaje siguiente, en caso
      * de que sea necesario agregar una marca de tiempo
-     * @param event Mensaje a eliminar
      */
+    @Override
     public void removeEvent(ScheduleEvent event){
         int index = events.indexOf(event);
-        events.remove(index);
-        notifyItemRemoved(index);
+        if (index != -1) {
+            events.remove(index);
+            notifyItemRemoved(index);
+        }
     }
 
+    @Override
+    public void addFavorite(String eventKey) {
+        if(!favorites.contains(eventKey)) {
+            favorites.add(eventKey);
+            setFavoriteEvent(eventKey, true);
+        }
+    }
+
+    @Override
+    public void removeFavorite(String eventKey) {
+        if(favorites.contains(eventKey)) {
+            favorites.remove(eventKey);
+            setFavoriteEvent(eventKey, false);
+        }
+    }
+
+    private void setFavoriteEvent(String eventKey, boolean isFavorite){
+        int index = getFavoriteIndex(eventKey);
+        if(index != -1) events.get(index).setFavorite(isFavorite);
+    }
+
+    private int getFavoriteIndex(String eventKey){
+        ScheduleEvent temp = new ScheduleEvent();
+        temp.setKey(eventKey);
+        return events.indexOf(temp);
+    }
 
     /**
      * Constructor
      */
-    public EventsAdapter(EventsFragment fragment) {
+    public EventsAdapter(Context context) {
         super();
-        this.fragment = fragment;
+        this.context = context;
         this.events = new ArrayList<>();
-        this.favoriteList = FavoriteList.getInstance();
+        this.favorites = new ArrayList<>();
     }
 
     /**
@@ -155,33 +197,13 @@ public abstract class EventsAdapter extends RecyclerAdapter {
         ((EventItem) holder).bind();
     }
 
-    /**
-     * Toma la fecha inicio y crea un string para identificar el inicio
-     * de un bloque de eventos
-     * @param start: Inicio del evento que abre el bloque
-     * @return Fechas como un string que se debe mostrar en la UI
-     */
-    protected String getDateAsString(long start){
-        Activity activity = fragment.getMainActivity();
-        return  activity.getResources().getString(R.string.text_block) + " " +
-                DateConverter.extractTime(start);
-    }
-
-    protected String getDateAsString(ScheduleEvent event){
-        Activity activity = fragment.getMainActivity();
-        return  activity.getResources().getString(R.string.text_from) + " " +
-                DateConverter.extractTime(event.getStart()) + " " +
-                activity.getResources().getString(R.string.text_to) + " " +
-                DateConverter.extractTime(event.getEnd());
-    }
-
     class EventItem extends RecyclerView.ViewHolder {
 
         /**
          * Posición del mensaje
          * Se asigna su valor en {@link #bind()}
          */
-        int pos = -1;
+        int position = -1;
 
         /**
          * Se asigna su valor en {@link #bind()}
@@ -194,12 +216,12 @@ public abstract class EventsAdapter extends RecyclerAdapter {
         }
 
         /**
-         * Asigna los valores pos y msg
+         * Asigna los valores position y msg
          * Enlanza todos los componentes visuales
          */
         public void bind(){
-            pos = getAdapterPosition();
-            event = events.get(pos);
+            position = getAdapterPosition();
+            event = events.get(position);
         }
 
     }
@@ -227,44 +249,57 @@ public abstract class EventsAdapter extends RecyclerAdapter {
         @BindView(R.id.time_descripcion)
         TextView time_description;
 
-        public SingleEventItem(View view) {
-            super(view);
+        public SingleEventItem(View itemView) {
+            super(itemView);
         }
 
         public void bind(){
             super.bind();
+
             header.setText(event.getTitle());
             eventype.setText(event.getEventype().toString());
-            time_description.setText(getDateAsString(event));
 
-            int colorResource = event.getEventype().getColor();
-            int color = fragment.getResources().getColor(colorResource);
-            line.setBackgroundColor(color);
-            readmore.setTextColor(color);
+            String description = DateConverter.getBlockString(
+                    context, event.getStart(), event.getEnd());
 
-            /*
-             * Función ejecutada al presionar el botón "readmore" de una actividad
-             */
-            readmore.setOnClickListener(v ->{}
-//             fragment.setFragmentOnScreen(ScheduleDetailPager.newInstance(event))
-//                fragment.setFragmentOnScreen(ScheduleDetail.newInstance(event))
-            );
+            time_description.setText(description);
 
-            favoriteButton.setLiked(favoriteList.contains(event));
+            readmore.setOnClickListener(v ->
+                    ((MainNavigation) context)
+                    .openDetails(event.getKey()));
+
+            favoriteButton.setLiked(event.isFavorite());
             favoriteButton.setOnLikeListener(this);
 
+            setEmphasis();
+        }
+
+        /**
+         * TODO Colocar aquí con base a preferencias
+         */
+        public void setEmphasis(){
+            Resources res = context.getResources();
+            int color = res.getColor(event.getEventype().getColor());
+            line.setBackgroundColor(color);
+            readmore.setTextColor(color);
         }
 
         @Override
         public void liked(LikeButton likeButton) {
-            favoriteList.addEvent(event.getId());
-            Log.i("liked: ", event.getTitle());
+            String uid = Cloud.getInstance().getAuth().getUid();
+            if (uid != null) Cloud.getInstance()
+                    .getReference(Cloud.FAVORITES)
+                    .child(uid).child(event.getKey())
+                    .setValue(event.getDate());
         }
 
         @Override
         public void unLiked(LikeButton likeButton) {
-            favoriteList.removeEvent(event.getId());
-            Log.i("unLiked", event.getTitle());
+            String uid = Cloud.getInstance().getAuth().getUid();
+            if (uid != null) Cloud.getInstance()
+                    .getReference(Cloud.FAVORITES)
+                    .child(uid).child(event.getKey())
+                    .removeValue();
         }
 
     }
@@ -281,7 +316,8 @@ public abstract class EventsAdapter extends RecyclerAdapter {
         @Override
         public void bind(){
             super.bind();
-            String date = getDateAsString(event.getStart());
+            String date = DateConverter
+                    .getBlockString(context, event.getStart());
             scheduleSeparator.setText(date);
         }
 

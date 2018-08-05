@@ -1,9 +1,9 @@
 package imagisoft.model;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
 
 
 /**
@@ -76,7 +76,7 @@ public class Cloud {
 
     /**
      * Obtiene una referencia de la base de datos para colocar
-     * un listener en dicha referencia
+     * un eventsSubject en dicha referencia
      * @param section: Alguna de las constantes declaradas en #Cloud
      * @return Referencia hacia una sección de la base de datos 
      */

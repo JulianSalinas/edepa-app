@@ -47,7 +47,7 @@
             android:configChanges="locale"
             android:label="@string/app_title"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"/>
 
         <service
             android:name="imagisoft.services.AlarmService"

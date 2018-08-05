@@ -7,8 +7,7 @@
     android:layout_width="match_parent">
 
     <android.support.v7.widget.RecyclerView
-        android:visibility="gone"
-        android:id="@+id/events_view"
+        android:id="@+id/events_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
@@ -21,6 +20,7 @@
         tools:listitem="@layout/schedule_item"/>
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/events_empty_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,14 +1,14 @@
-package imagisoft.modelview.schedule;
+package imagisoft.modelview.schedule.paged;
 
 import butterknife.BindView;
 import imagisoft.modelview.R;
 import imagisoft.modelview.activity.MainFragment;
 
+import android.database.DataSetObserver;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import android.arch.lifecycle.Lifecycle;
@@ -16,7 +16,7 @@ import android.arch.lifecycle.OnLifecycleEvent;
 import android.util.Log;
 
 
-public abstract class PagerFragment extends MainFragment {
+public abstract class PaggedFragment extends MainFragment {
 
     /**
      * Espacio donde las páginas se cambian
@@ -30,9 +30,7 @@ public abstract class PagerFragment extends MainFragment {
      * Contiene los fragmentos del páginador
      * @see #setupAdapter()
      */
-    private PagerAdapter adapter;
-
-    Bundle pausedState;
+    private PaggedAdapter adapter;
 
     /**
      * {@inheritDoc}
@@ -55,14 +53,18 @@ public abstract class PagerFragment extends MainFragment {
     }
 
     /**
-     * Usualmente adapter es conservado pero pager no conserva
-     * el adapter y hay que colocarlo otra vez
+     * Usualmente container es conservado pero pager no conserva
+     * el container y hay que colocarlo otra vez
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void setupPager(){
         Log.i(toString(), "setupAdapter()");
         if (pager.getAdapter() == null)
             pager.setAdapter(adapter);
+    }
+
+    public void setCurrentPage(int pageIndex){
+        pager.setCurrentItem(pageIndex);
     }
 
     /**
@@ -72,20 +74,20 @@ public abstract class PagerFragment extends MainFragment {
      * eventos por los que cada uno implementa este método
      * @return PagerAdaptador adaptor para el fragmento
      */
-    protected abstract PagerAdapter getAdapter();
+    protected abstract PaggedAdapter getAdapter();
 
 
-    public static class Schedule extends PagerFragment {
+    public static class Schedule extends PaggedFragment {
         @Override
-        protected PagerAdapter getAdapter() {
-            return new PagerAdapter.Schedule(this);
+        protected PaggedAdapter getAdapter() {
+            return new PaggedAdapter.Schedule(this);
         }
     }
 
-    public static class Favorites extends PagerFragment {
+    public static class Favorites extends PaggedFragment {
         @Override
-        protected PagerAdapter getAdapter() {
-            return new PagerAdapter.Favorites(this);
+        protected PaggedAdapter getAdapter() {
+            return new PaggedAdapter.Favorites(this);
         }
     }
 

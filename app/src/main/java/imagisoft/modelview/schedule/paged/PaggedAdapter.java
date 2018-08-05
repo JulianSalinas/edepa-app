@@ -1,4 +1,4 @@
-package imagisoft.modelview.schedule;
+package imagisoft.modelview.schedule.paged;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +9,11 @@ import imagisoft.misc.DateConverter;
 import imagisoft.model.Cloud;
 import imagisoft.model.ScheduleEvent;
 import imagisoft.modelview.activity.MainFragment;
+import imagisoft.modelview.interfaces.IPageListener;
+import imagisoft.modelview.interfaces.IPageSubject;
+import imagisoft.modelview.schedule.events.EventsAdapter;
+import imagisoft.modelview.schedule.events.EventsFragment;
+import imagisoft.modelview.schedule.events.EventsSchedule;
 
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -16,8 +21,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 
 
@@ -27,7 +30,7 @@ import com.google.firebase.database.DataSnapshot;
  * fragmentos en memoria mientras que el otros solo conserva
  * la variable savedStateInstance
  */
-public abstract class PagerAdapter extends PagerFirebase implements IEventsListener {
+public abstract class PaggedAdapter extends PagerFirebase implements IPageListener {
 
     /**
      * Para dividir los eventos por día
@@ -40,11 +43,7 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
      * Es necesario para obtener las referencias
      * utilizadas de Firebase
      */
-    protected MainFragment fragment;
-
-    protected FragmentManager manager;
-
-    private Map<Integer, String> fragmentTags;
+    protected PaggedFragment fragment;
 
     /**
      * Constructor
@@ -52,11 +51,10 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
      * se debe usar la función #getChildFragmentManager
      * @param fragment Del cual obtener el ChildFragmentManager
      */
-    public PagerAdapter(MainFragment fragment) {
+    public PaggedAdapter(PaggedFragment fragment) {
         super(fragment.getChildFragmentManager());
         this.fragment = fragment;
         this.dates = new ArrayList<>();
-        this.fragmentTags = new HashMap<>();
     }
 
     /**
@@ -76,12 +74,18 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
      */
     @Override
     public Fragment getItem(int position) {
+        return getEventsFragment();
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
         Bundle args = new Bundle();
-        EventsFragment frag = (EventsFragment) getEventsFragment();
+        Object object = super.instantiateItem(container, position);
+        EventsFragment fragment = (EventsFragment) object;
         args.putLong("date", dates.get(position));
-        frag.setArguments(args);
-        frag.setListener(this);
-        return frag;
+        fragment.setArguments(args);
+        fragment.setPageListener(this);
+        return fragment;
     }
 
     /**
@@ -104,7 +108,7 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
      */
     @Override
     public int getItemPosition(Object object) {
-        IEventsSubject fragment = (IEventsSubject) object;
+        IPageSubject fragment = (IPageSubject) object;
         int index = dates.indexOf(fragment.getDate());
         return index > 0 ? index : POSITION_NONE;
     }
@@ -126,18 +130,24 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
      * @see #addPage(long)
      */
     @Override
-    public void removeDate(long date){
+    public void onPageRemoved(long date){
         dates.remove(date);
         notifyDataSetChanged();
         String dateStr = DateConverter.extractDate(date);
-        Log.i(toString(), "removeDate(" + dateStr + ")");
+        Log.i(toString(), "onPageRemoved(" + dateStr + ")");
+    }
+
+    @Override
+    public void onPageChanged(long pageDate) {
+        int index = dates.indexOf(pageDate);
+        if (index != -1) fragment.setCurrentPage(index);
     }
 
     /**
      * Agrega una página
      * Es utilizada por {@link #addPageIfNotExists(ScheduleEvent)}
      * @param date Fecha de los eventos en la página
-     * @see #removeDate(long)
+     * @see #onPageRemoved(long)
      */
     private void addPage(long date){
         int index = findIndexToAddPage(date);
@@ -160,7 +170,7 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
 
     /**
      * Encuentra en que posición debe insertarse una fecha
-     * @param date Fecha de la página
+     * @param date Fecha de la páginaw
      * @return índice donde se debe insertar la página
      * @see #addPage(long)
      */
@@ -182,16 +192,16 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
     protected abstract Fragment getEventsFragment();
 
     /**
-     * Subclase de #PagerAdapter, esta obtiene los eventos
+     * Subclase de #PaggedAdapter, esta obtiene los eventos
      * por medio de Firebase y agrega las páginas necesarias
      */
-    public static class Schedule extends PagerAdapter{
+    public static class Schedule extends PaggedAdapter {
 
         /**
          * Constructor
          * @param fragment Del cual obtener el FragmentManager
          */
-        public Schedule(MainFragment fragment) {
+        public Schedule(PaggedFragment fragment) {
             super(fragment);
             Cloud.getInstance()
                     .getReference(Cloud.SCHEDULE)
@@ -204,7 +214,7 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
          */
         @Override
         protected Fragment getEventsFragment() {
-            return new EventsFragment.Schedule();
+            return new EventsSchedule();
         }
 
         /**
@@ -217,7 +227,7 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
             super.onChildAdded(dataSnapshot, s);
             ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
             if (event != null && event.getStart() != 0L) {
-                event.setId(dataSnapshot.getKey());
+                event.setKey(dataSnapshot.getKey());
                 addPageIfNotExists(event);
             }
         }
@@ -232,23 +242,23 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
             super.onChildChanged(dataSnapshot, s);
             ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
             if (event != null && event.getStart() != 0L){
-                Log.i(toString(), "onChildChanged(DataSnapshot, String)");
+                event.setKey(dataSnapshot.getKey());
+                addPageIfNotExists(event);
             }
         }
-
     }
 
     /**
-     * Subclase de #PagerAdapter, esta obtiene los eventos
+     * Subclase de #PaggedAdapter, esta obtiene los eventos
      * por medio de Firebase y agrega las páginas necesarias
      */
-    public static class Favorites extends PagerAdapter {
+    public static class Favorites extends PaggedAdapter {
 
         /**
          * Constructor
          * @param fragment Del cual obtener el ChildFragmentManager
          */
-        public Favorites(MainFragment fragment) {
+        public Favorites(PaggedFragment fragment) {
             super(fragment);
             Cloud.getInstance()
                     .getReference(Cloud.SCHEDULE)
@@ -261,7 +271,7 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
          */
         @Override
         protected Fragment getEventsFragment() {
-            return new EventsFragment.Favorites();
+            return new EventsSchedule();
         }
 
         @Override
@@ -269,7 +279,7 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
             super.onChildAdded(dataSnapshot, s);
             ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
             if (event != null && event.getStart() != 0L) {
-                event.setId(dataSnapshot.getKey());
+                event.setKey(dataSnapshot.getKey());
                 addPageIfNotExists(event);
             }
         }
@@ -277,6 +287,11 @@ public abstract class PagerAdapter extends PagerFirebase implements IEventsListe
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
             super.onChildChanged(dataSnapshot, s);
+            ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
+            if (event != null && event.getStart() != 0L){
+                event.setKey(dataSnapshot.getKey());
+                addPageIfNotExists(event);
+            }
         }
 
     }

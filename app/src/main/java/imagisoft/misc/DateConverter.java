@@ -1,10 +1,24 @@
 package imagisoft.misc;
 
 import android.util.Log;
+import android.content.Context;
+
+import org.threeten.bp.Instant;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZoneOffset;
+import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+import org.threeten.bp.temporal.TemporalAccessor;
 
 import java.util.Locale;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
+import java.util.TimeZone;
+
+import imagisoft.modelview.R;
+
 
 public class DateConverter {
 
@@ -14,15 +28,10 @@ public class DateConverter {
      * @return String con el formato dd/mm/yyyy
      */
     public static String extractDate(Long datetime) {
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(datetime);
-
-        String year = String.valueOf(calendar.get(Calendar.YEAR));
-        String month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
-        String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
-
-        return day + "/" + month + "/" + year;
+        Instant instant = Instant.ofEpochMilli(datetime);
+        ZonedDateTime date = ZonedDateTime.ofInstant(instant, ZoneId.of("UTC-06:00"));
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d/M/yyyy");
+        return date.format(dtf).toLowerCase();
     }
 
     /**
@@ -31,17 +40,10 @@ public class DateConverter {
      * @return String con el formato hh:mm <pm|am>
      */
     public static String extractTime(Long datetime){
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(datetime);
-
-        String hour = String.valueOf(calendar.get(Calendar.HOUR));
-        String minute = String.valueOf(calendar.get(Calendar.MINUTE));
-        String ampm = calendar.get(Calendar.AM_PM) == Calendar.AM ? "am" : "pm";
-
-        return (hour.equals("0")  ? "12": hour)
-                + ":" + (minute.length() == 2
-                ? minute : "0" + minute) + " " + ampm;
+        Instant instant = Instant.ofEpochMilli(datetime);
+        ZonedDateTime date = ZonedDateTime.ofInstant(instant, ZoneId.of("UTC-06:00"));
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("h:mm a");
+        return date.format(dtf).toLowerCase();
     }
 
     /**
@@ -82,16 +84,11 @@ public class DateConverter {
      * @return Fecha redondeada
      */
     public static Long atStartOfDay(Long datetime) {
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(datetime);
-
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-
-        return calendar.getTimeInMillis();
+        Instant instant = Instant.ofEpochMilli(datetime);
+        ZonedDateTime zdt = ZonedDateTime.ofInstant(instant, ZoneId.of("UTC"));
+        LocalDate start = zdt.toLocalDate();
+        ZonedDateTime zdtStart = start.atStartOfDay(ZoneId.of("UTC"));
+        return zdtStart.toInstant().toEpochMilli();
     }
 
     /**
@@ -111,6 +108,36 @@ public class DateConverter {
         calendar.set(Calendar.MILLISECOND, 999);
 
         return calendar.getTimeInMillis();
+    }
+
+    /**
+     * Toma la hora de inicio y crea un string para identificar
+     * el inicio de un bloque de eventos
+     * @param context: Del que se puede tomar R.string.text_block
+     * @param start: Inicio del evento que abre el bloque
+     * @return String con el formato "Bloque 12:30 PM"
+     * @see #getBlockString(Context, long, long)
+     */
+    public static String getBlockString(Context context, long start){
+        return String.format("%s %s",
+                context.getString(R.string.text_block),
+                DateConverter.extractTime(start));
+    }
+
+    /**
+     * Toma la hora de inicio y la hora fin  y crea un string para
+     * identificar un evento
+     * @param context: Del que se puede tomar R.string.text_from
+     * @param start: Inicio y fin del evento
+     * @return String con el formato "Desde 12:30 pm hasta 1:30 pm"
+     * @see #getBlockString(Context, long)
+     */
+    public static String getBlockString(Context context, long start, long end){
+        return String.format("%s %s %s %s",
+                context.getString(R.string.text_from),
+                DateConverter.extractTime(start),
+                context.getString(R.string.text_to),
+                DateConverter.extractTime(end));
     }
 
 }

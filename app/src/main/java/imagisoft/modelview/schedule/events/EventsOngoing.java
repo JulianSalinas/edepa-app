@@ -1,5 +1,6 @@
-package imagisoft.modelview.schedule;
+package imagisoft.modelview.schedule.events;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import imagisoft.model.Cloud;
 import imagisoft.model.Preferences;
 import imagisoft.misc.DateConverter;
 import imagisoft.model.ScheduleEvent;
+import imagisoft.modelview.loaders.BaseLoader;
+import imagisoft.modelview.loaders.FavoritesLoader;
 
 import static imagisoft.model.Preferences.UPDATE_DELAY;
 
@@ -48,11 +51,20 @@ public class EventsOngoing extends EventsFragment {
      */
     private Integer updateDelay;
 
+
+    private BaseLoader favoritesLoader;
+
     /**
      * Adaptador que contiene los eventos que
      * están en curso
      */
-    private OngoingAdapter adapter;
+    protected OngoingAdapter eventsAdapter;
+
+    @Override
+    public long getDate() {
+        long time = System.currentTimeMillis();
+        return DateConverter.atStartOfDay(time);
+    }
 
     /**
      * {@inheritDoc}
@@ -61,9 +73,8 @@ public class EventsOngoing extends EventsFragment {
      */
     @Override
     protected EventsAdapter instantiateAdapter() {
-        if(adapter == null)
-            adapter = new OngoingAdapter(this);
-        return adapter;
+        eventsAdapter = new OngoingAdapter(getContext());
+        return eventsAdapter;
     }
 
     /**
@@ -98,7 +109,8 @@ public class EventsOngoing extends EventsFragment {
         // Pero los desarrolladores podría ncambiar algo a futuro
         try {
             updateDelay = Integer.valueOf(delay);
-            Log.i(toString(), String.format("setUpdateDelay -> updateDelay %d", updateDelay));
+            Log.i(toString(), String.format(
+            "setUpdateDelay -> updateDelay %d", updateDelay));
         }
         catch (NumberFormatException e){
             Log.e(toString(), "setUpdateDelay -> " + e.getMessage());
@@ -115,7 +127,7 @@ public class EventsOngoing extends EventsFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        eventsEmpty.setText(getString(R.string.text_without_events));
+        eventsEmptyView.setText(getString(R.string.text_without_events));
         setUpdateDelay();
         startRunnable();
     }
@@ -137,11 +149,14 @@ public class EventsOngoing extends EventsFragment {
      * una vez cada minuto
      */
     public void loop(){
-        Query query = Cloud.getInstance()
-                .getReference(Cloud.SCHEDULE)
-                .orderByChild("start");
-        query.keepSynced(true);
-        query.addListenerForSingleValueEvent(adapter);
+
+        if (favoritesLoader == null)
+            favoritesLoader = new FavoritesLoader(eventsAdapter);
+        getFavoritesQuery().addChildEventListener(favoritesLoader);
+
+        getScheduleQuery().keepSynced(true);
+        getScheduleQuery().addListenerForSingleValueEvent(eventsAdapter);
+
     }
 
     /**
@@ -157,7 +172,7 @@ public class EventsOngoing extends EventsFragment {
     /**
      * Es ejecutada al terminar una actualización
      * para que tiempo después se realice otra vez
-     * Esta actualización se realiza en el {@link #adapter}
+     * Esta actualización se realiza en el {@link #eventsAdapter}
      */
     private void startDelayed(){
         started = true;
@@ -182,6 +197,11 @@ public class EventsOngoing extends EventsFragment {
     public boolean getTimeFilter(ScheduleEvent event){
         long currentTime = System.currentTimeMillis();
         boolean filter = event.getStart() <= currentTime;
+        Log.i("ongoing",
+                String.format("Filter applied %s <= %s <= %s",
+                DateConverter.longToString(event.getStart()),
+                DateConverter.longToString(currentTime),
+                DateConverter.longToString(event.getEnd())));
         return filter && currentTime <= event.getEnd();
     }
 
@@ -192,11 +212,37 @@ public class EventsOngoing extends EventsFragment {
      * @param isEmpty: True si no hay eventos en curso
      */
     public void updateInterface(boolean isEmpty){
-        eventsRV.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
-        eventsEmpty.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        eventsRecyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+        eventsEmptyView.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
         String s = DateConverter.longToString(System.currentTimeMillis());
         Log.i(toString(), String.format("Update complete at %s", s));
         showStatusMessage("Events updated");
+    }
+
+    /**
+     * Query realizado a la base de datos para
+     * obtener toda la lista de eventos
+     * @return Query
+     */
+    @Override
+    public Query getScheduleQuery(){
+        return Cloud.getInstance()
+                .getReference(Cloud.SCHEDULE)
+                .orderByChild("start")
+                .equalTo(getDate());
+    }
+
+    /**
+     * Query realizado a la base de datos para
+     * obtener toda la lista de favoritos del usuario
+     * @return Query
+     */
+    @Override
+    public Query getFavoritesQuery(){
+        Cloud cloud = Cloud.getInstance();
+        String uid = cloud.getAuth().getUid();
+        assert uid != null;
+        return cloud.getReference(Cloud.FAVORITES).child(uid);
     }
 
     /**
@@ -211,8 +257,8 @@ public class EventsOngoing extends EventsFragment {
         /**
          * {@inheritDoc}
          */
-        public OngoingAdapter(EventsFragment fragment) {
-            super(fragment);
+        public OngoingAdapter(Context context) {
+            super(context);
         }
 
         /**
@@ -224,19 +270,10 @@ public class EventsOngoing extends EventsFragment {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             clearEvents();
-            retrieveEvents(dataSnapshot);
-            notifyUpdate();
-            if(started) startDelayed();
-        }
-
-        /**
-         * Recorre cada uno de los eventos usando
-         * {@link #retrieveEvent(DataSnapshot)}
-         * @param dataSnapshot: Obtenido de la base de datos
-         */
-        private void retrieveEvents(DataSnapshot dataSnapshot){
             for(DataSnapshot snapshot: dataSnapshot.getChildren())
                 retrieveEvent(snapshot);
+            notifyUpdate();
+            if(started) startDelayed();
         }
 
         /**
@@ -244,14 +281,24 @@ public class EventsOngoing extends EventsFragment {
          * si el evento se encuentra en curso. si lo esta procede
          * a agregarlo a la lista de eventos
          * @param dataSnapshot: Obtenido del dataSnapshot
-         * de {@link #retrieveEvents(DataSnapshot)}
+         * de {@link #onDataChange(DataSnapshot)}
          */
         private void retrieveEvent(DataSnapshot dataSnapshot){
             ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
             if (event != null ){
-                event.setId(dataSnapshot.getKey());
+                event.setKey(dataSnapshot.getKey());
+                Log.i("ongoing -> Retriving ", event.getKey());
                 if(getTimeFilter(event)) addEvent(event);
             }
+        }
+
+        /**
+         * Borra todos los eventos actualmente existentes
+         * Es utilizada antes de realizar una actualización
+         */
+        private void clearEvents(){
+            int size = events.size();
+            if(size > 0) events.clear();
         }
 
         /**
@@ -266,15 +313,6 @@ public class EventsOngoing extends EventsFragment {
         }
 
         /**
-         * Borra todos los eventos actualmente existentes
-         * Es utilizada antes de realizar una actualización
-         */
-        private void clearEvents(){
-            int size = events.size();
-            if(size > 0) events.clear();
-        }
-
-        /**
          * {@inheritDoc}
          * Ha habido un error en la actualización por
          * los que se procede a mostrar el error en pantalla
@@ -285,7 +323,7 @@ public class EventsOngoing extends EventsFragment {
         public void onCancelled(DatabaseError databaseError) {
             events.clear();
             notifyUpdate();
-            eventsEmpty.setText(R.string.text_error);
+            eventsEmptyView.setText(R.string.text_error);
             Log.e("OngoingAdapter", databaseError.getMessage());
         }
 

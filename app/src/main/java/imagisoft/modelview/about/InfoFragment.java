@@ -23,10 +23,10 @@ import imagisoft.model.Congress;
 import imagisoft.misc.DateConverter;
 import imagisoft.modelview.R;
 import imagisoft.modelview.activity.MainFragment;
-import imagisoft.modelview.views.ImageFragment;
 
 
-public class InfoFragment extends MainFragment implements OnMapReadyCallback {
+public class InfoFragment
+        extends MainFragment implements OnMapReadyCallback, ValueEventListener {
 
     /**
      * Soporte para colocar el mapa
@@ -72,23 +72,20 @@ public class InfoFragment extends MainFragment implements OnMapReadyCallback {
     }
 
     /**
-     * Coloca toda la información obtenida de la bd en los componentes visuales
+     * Coloca toda la información obtenida de la BD en los
+     * componentes visuales
      * @param congress: Clase con la información del congreso
      */
-    private void bindInformation(Congress congress){
-
+    private void loadInformation(Congress congress){
         this.congress = congress;
         nameTextView.setText(congress.getName());
         locationTextView.setText(congress.getLocation());
         descriptionTextView.setText(congress.getDescription());
         endTextView.setText(DateConverter.extractDate(congress.getEnd()));
         startTextView.setText(DateConverter.extractDate(congress.getStart()));
-
         iconMap.setOnClickListener(v -> setFragmentOnScreen(new MapFragment()));
         buttonBack.setOnClickListener(v -> activity.onBackPressed());
-
         setupMap();
-
     }
 
     @Override
@@ -99,7 +96,7 @@ public class InfoFragment extends MainFragment implements OnMapReadyCallback {
         // Para que la información se actualice en tiempo real
         // y no cada vez que se abre la aplicación
         Cloud.getInstance().getReference(Cloud.CONGRESS)
-                .addValueEventListener(new InfoListener());
+                .addValueEventListener(this);
 
     }
 
@@ -157,19 +154,15 @@ public class InfoFragment extends MainFragment implements OnMapReadyCallback {
 
     }
 
-    class InfoListener implements ValueEventListener {
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        Congress congress = dataSnapshot.getValue(Congress.class);
+        if (congress != null) loadInformation(congress);
+    }
 
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            Congress congress = dataSnapshot.getValue(Congress.class);
-            if (congress != null) bindInformation(congress);
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-            Log.i(getTag(), databaseError.toString());
-        }
-
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
+        Log.i(getTag(), databaseError.toString());
     }
 
 }

@@ -28,7 +28,7 @@ public class ChatFirebase extends ChatAdapter
                 .getReference(Cloud.CHAT)
                 .orderByChild("time")
                 .addChildEventListener(this);
-        Log.i(toString(), "connectListener()");
+        Log.i(toString(), "connectListeners()");
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)

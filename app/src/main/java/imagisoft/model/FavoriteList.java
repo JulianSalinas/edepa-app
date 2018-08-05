@@ -157,7 +157,7 @@ public class FavoriteList extends Preferences implements FavoriteListener{
      * @return True si la lista de favoritos contiene el evento
      */
     public boolean contains(ScheduleEvent event){
-        return eventsIds.contains(event.getId());
+        return eventsIds.contains(event.getKey());
     }
 
     /**

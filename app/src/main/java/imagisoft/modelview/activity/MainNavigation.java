@@ -1,5 +1,6 @@
 package imagisoft.modelview.activity;
 
+import imagisoft.misc.DateConverter;
 import imagisoft.modelview.R;
 import imagisoft.model.Cloud;
 import imagisoft.model.Preferences;
@@ -7,10 +8,13 @@ import imagisoft.modelview.about.InfoFragment;
 import imagisoft.modelview.chat.ChatFragment;
 import imagisoft.modelview.about.AboutFragment;
 import imagisoft.modelview.news.NewsFragment;
-import imagisoft.modelview.schedule.EventsOngoing;
-import imagisoft.modelview.schedule.PagerFragment;
+import imagisoft.modelview.schedule.details.EventPager;
+import imagisoft.modelview.schedule.paged.PaggedFragment;
+import imagisoft.modelview.schedule.events.EventsOngoing;
+import imagisoft.modelview.schedule.events.EventsSchedule;
 import imagisoft.modelview.settings.SettingsFragment;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.arch.lifecycle.Lifecycle;
@@ -44,8 +48,11 @@ public class MainNavigation extends MainActivity
      */
     protected void onCreateFirstCreation(){
         super.onCreateFirstCreation();
-        String tag = "SETTINGS_FRAGMENT";
-        Fragment frag = new SettingsFragment();
+        String tag = "SCHEDULE_FRAGMENT";
+        Fragment frag = new PaggedFragment.Schedule();
+        Bundle args = new Bundle();
+        args.putLong("date", DateConverter.atStartOfDay(System.currentTimeMillis()));
+        frag.setArguments(args);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_content, frag, tag)
@@ -234,9 +241,20 @@ public class MainNavigation extends MainActivity
     public boolean openSchedule(){
         String tag = "SCHEDULE_FRAGMENT";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
-        Fragment frag = temp != null ? temp : new EventsOngoing();
+        Fragment frag = temp != null ? temp : new EventsSchedule();
         pendingRunnable = () -> setFragmentOnScreen(frag, tag);
         return false;
+    }
+
+    public void openDetails(String eventKey){
+        String tag = "DETAILS_FRAGMENT";
+        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
+        Fragment frag = temp != null ? temp : new EventPager();
+        Bundle args = new Bundle();
+        args.putString("eventKey", eventKey);
+        frag.setArguments(args);
+        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+        runPendingRunnable();
     }
 
     /**
@@ -331,7 +349,7 @@ public class MainNavigation extends MainActivity
     public void openScheduleTab(){
         String tag = "SCHEDULE_FRAGMENT_TAB";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
-        Fragment frag = temp != null ? temp : new PagerFragment.Schedule();
+        Fragment frag = temp != null ? temp : new PaggedFragment.Schedule();
         pendingRunnable = () -> setFragmentOnScreen(frag, tag);
     }
 
@@ -343,7 +361,7 @@ public class MainNavigation extends MainActivity
     public void openFavoritesTab(){
         String tag = "FAVORITES_FRAGMENT_TAB";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
-        Fragment frag = temp != null ? temp : new PagerFragment.Favorites();
+        Fragment frag = temp != null ? temp : new PaggedFragment.Favorites();
         pendingRunnable = () -> setFragmentOnScreen(frag, tag);
     }
 

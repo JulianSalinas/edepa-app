@@ -238,7 +238,7 @@ public abstract class MainActivity extends AppCompatActivity
      *        o se reinicia (ej. por girar la pantalla)
      * @see #onCreate(Bundle)
      */
-    private void onCreateActivity(Bundle savedInstanceState) {
+    protected void onCreateActivity(Bundle savedInstanceState) {
         Log.i(toString(), "onCreateActivity()");
         setSupportActionBar(getToolbar());
         handler = new Handler();
@@ -433,10 +433,10 @@ public abstract class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.i(toString(), "onOptionsItemSelected()");
-        int id = item.getItemId();
-        switch (id){
-            case R.id.about_item: openAbout();
-            case R.id.settings_item: openSettings();
+        switch (item.getItemId()){
+            case android.R.id.home: onBackPressed();return true;
+            case R.id.about_item: openAbout(); break;
+            case R.id.settings_item: openSettings(); break;
         }
         runPendingRunnable();
         return super.onOptionsItemSelected(item);
@@ -497,7 +497,7 @@ public abstract class MainActivity extends AppCompatActivity
      * @see #connectOnNavigationItemListener()
      */
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(MenuItem item) {
         Log.i(toString(), "onNavigationItemSelected()");
         getDrawerLayout().closeDrawer(START);
         return true;

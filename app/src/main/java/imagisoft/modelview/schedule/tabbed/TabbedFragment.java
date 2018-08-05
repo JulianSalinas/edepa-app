@@ -1,19 +1,19 @@
-package imagisoft.modelview.schedule;
+package imagisoft.modelview.schedule.tabbed;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import butterknife.BindView;
 import imagisoft.modelview.R;
 import imagisoft.modelview.activity.MainFragment;
+import imagisoft.modelview.schedule.events.EventsOngoing;
+import imagisoft.modelview.schedule.paged.PaggedFragment;
 
-public class ScheduleFragment extends MainFragment{
+public class TabbedFragment extends MainFragment{
 
 
     @BindView(R.id.tabs_pager)
@@ -67,9 +67,9 @@ public class ScheduleFragment extends MainFragment{
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new PagerFragment.Schedule();
+                    return new PaggedFragment.Schedule();
                 case 1:
-                    return new PagerFragment.Favorites();
+                    return new PaggedFragment.Favorites();
                 default:
                     return new EventsOngoing();
             }
