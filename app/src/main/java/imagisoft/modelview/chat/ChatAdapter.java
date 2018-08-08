@@ -13,7 +13,7 @@ import imagisoft.misc.MaterialGenerator;
 
 import imagisoft.modelview.R;
 import imagisoft.modelview.activity.MainNavigation;
-import imagisoft.modelview.views.RecyclerAdapter;
+import imagisoft.modelview.custom.RecyclerAdapter;
 
 import android.text.format.DateUtils;
 import android.text.util.Linkify;

@@ -3,6 +3,8 @@ package imagisoft.modelview.activity;
 import android.os.Bundle;
 import android.os.Handler;
 
+import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -14,17 +16,16 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.support.annotation.NonNull;
 import android.support.v7.view.ActionMode;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBarDrawerToggle;
 import static android.support.v4.view.GravityCompat.START;
@@ -33,7 +34,6 @@ import static imagisoft.model.Preferences.USER_KEY;
 
 import java.util.Stack;
 import butterknife.*;
-import imagisoft.model.Cloud;
 import imagisoft.model.Preferences;
 import imagisoft.model.Searcher;
 import imagisoft.modelview.R;
@@ -67,15 +67,18 @@ public abstract class MainActivity extends AppCompatActivity
         return toolbar;
     }
 
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout appBarLayout;
+
     /**
      * Únicamente necesaria para que se pueda
      * ocultar la toolbar.
      */
     @BindView(R.id.toolbar_container)
-    AppBarLayout appBarLayout;
+    FrameLayout toolbarContainer;
 
-    public AppBarLayout getToolbarContainer(){
-        return appBarLayout;
+    public FrameLayout getToolbarContainer(){
+        return toolbarContainer;
     }
 
     /**
@@ -123,6 +126,8 @@ public abstract class MainActivity extends AppCompatActivity
     public DrawerLayout getDrawerLayout() {
         return drawerLayout;
     }
+
+    private ActionBarDrawerToggle toogle;
 
     /**
      * Barra de búsqueda que por defecto está oculta debajo de
@@ -284,25 +289,63 @@ public abstract class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Carga los datos en memoria de los favoritos
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    private void loadLocalFavorites(){
-        Log.i(toString(), "loadLocalFavorites()");
-    }
-
-    /**
      * Se configura el botón que esta en Toolbar que sirve
      * para abrir el menú lateral
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     public void setupToggle(){
-        Log.i(toString(), "setupToggle()");
+
         int open = R.string.drawer_open;
         int close = R.string.drawer_close;
-        new ActionBarDrawerToggle(this,
+
+        if (toogle == null) toogle =
+                new ActionBarDrawerToggle(this,
                 getDrawerLayout(),
-                getToolbar(), open, close).syncState();
+                getToolbar(), open, close);
+
+        showHamburger();
+        FragmentManager manager = getSupportFragmentManager();
+
+        manager.addOnBackStackChangedListener(() -> {
+            if (manager.getBackStackEntryCount() > 0)
+                 showBackButton();
+            else showHamburger();
+        });
+
+        Log.i(toString(), "setupToggle()");
+
+    }
+
+    /**
+     * Muestra el bóton de atrás en la toolbar
+     */
+    public void showBackButton(){
+
+        toogle.setDrawerIndicatorEnabled(false);
+
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+        getDrawerLayout()
+                .setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    /**
+     * Muestra el menú principal en la toolbar
+     */
+    public void showHamburger() {
+
+        toogle.setDrawerIndicatorEnabled(true);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+        toogle.syncState();
+        toolbar.setNavigationOnClickListener(v ->
+                getDrawerLayout().openDrawer(START));
+
+        getDrawerLayout()
+                .setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
     /**

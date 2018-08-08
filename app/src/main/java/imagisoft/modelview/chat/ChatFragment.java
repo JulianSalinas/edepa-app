@@ -8,9 +8,9 @@ import imagisoft.model.Message;
 import imagisoft.model.Preferences;
 
 import imagisoft.modelview.R;
-import imagisoft.modelview.views.RecyclerAdapter;
-import imagisoft.modelview.views.RecyclerFragment;
-import imagisoft.modelview.views.SmoothLayout;
+import imagisoft.modelview.custom.RecyclerAdapter;
+import imagisoft.modelview.custom.RecyclerFragment;
+import imagisoft.modelview.custom.SmoothLayout;
 
 import android.util.Log;
 import android.os.Bundle;
@@ -24,9 +24,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.design.widget.TextInputEditText;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 
 public class ChatFragment extends RecyclerFragment {

@@ -1,10 +1,9 @@
-package imagisoft.modelview.views;
+package imagisoft.modelview.custom;
 
 import android.os.Bundle;
 import android.widget.TextView;
 
 import butterknife.BindView;
-import imagisoft.misc.ColorConverter;
 import imagisoft.misc.MaterialGenerator;
 import imagisoft.modelview.R;
 import imagisoft.modelview.activity.MainFragment;

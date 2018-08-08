@@ -1,4 +1,4 @@
-package imagisoft.modelview.schedule.details;
+package imagisoft.modelview.schedule.events;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -22,7 +22,7 @@ import imagisoft.model.ScheduleEvent;
 import imagisoft.modelview.R;
 import imagisoft.modelview.activity.MainFragment;
 
-public class EventDetail extends MainFragment
+public class EventsDetails extends MainFragment
         implements AppBarLayout.OnOffsetChangedListener, ValueEventListener{
 
     /**
@@ -63,29 +63,32 @@ public class EventDetail extends MainFragment
     /**
      * Referencia al evento del que se muestran los detalles
      */
+    private String eventKey;
+
     private ScheduleEvent event;
 
     public ScheduleEvent getEvent(){
         return event;
     }
 
-    private String eventKey;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getResource() {
+        return R.layout.schedule_item_detail;
+    }
 
     /**
      * No se pueden crear constructores con parámetros, por tanto,
      * se pasan los parámetros de esta forma
      */
-    public static EventDetail newInstance(String eventKey) {
-        EventDetail fragment = new EventDetail();
+    public static EventsDetails newInstance(String eventKey) {
+        EventsDetails fragment = new EventsDetails();
         Bundle args = new Bundle();
         args.putString("eventKey", eventKey);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public int getResource() {
-        return R.layout.schedule_item_detail;
     }
 
     /**
@@ -99,7 +102,6 @@ public class EventDetail extends MainFragment
         Bundle args = getArguments();
         if(args != null)
             eventKey = args.getString("eventKey");
-
 
     }
 
@@ -251,7 +253,7 @@ public class EventDetail extends MainFragment
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
-        Log.i("EventDetail::", databaseError.getMessage());
+        Log.i("EventsDetails::", databaseError.getMessage());
     }
 
 }

@@ -1,11 +1,8 @@
 package imagisoft.modelview.news;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.CircularProgressDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
@@ -18,17 +15,24 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import imagisoft.misc.DateCalculator;
+import imagisoft.model.Cloud;
 import imagisoft.model.NewsItem;
 import imagisoft.modelview.R;
-import imagisoft.modelview.views.ImageFragment;
-import imagisoft.modelview.views.RecyclerAdapter;
+import imagisoft.modelview.custom.ImageFragment;
+import imagisoft.modelview.custom.RecyclerAdapter;
+import me.saket.bettermovementmethod.BetterLinkMovementMethod;
 
 import static com.bumptech.glide.request.RequestOptions.centerCropTransform;
 
@@ -114,44 +118,124 @@ public class NewsAdapter extends RecyclerAdapter {
 
             itemTitle.setText(newsItem.getTitle());
             itemContent.setText(newsItem.getContent());
-            Linkify.addLinks(itemContent, Linkify.ALL);
+            linkifyContent();
 
             DateCalculator calc = new DateCalculator(itemView.getContext());
             itemTimeAgp.setText(calc.getTimeAgo(newsItem.getTime()));
 
-            itemReadAmount.setText(String.format("%s %s",
-                    newsItem.getViewedAmount().toString(),
-                    itemView.getContext().getResources()
-                            .getString(R.string.text_viewed)));
+            int viewed = newsItem.getViewedAmount();
+            itemReadAmount.setVisibility(viewed > 0 ? View.VISIBLE : View.GONE);
+            if (itemReadAmount.getVisibility() == View.VISIBLE) setViewedAmout();
 
             String imageUrl = newsItem.getImageUrl();
-            itemThumbnail.setVisibility(
-                    imageUrl == null ? View.GONE: View.VISIBLE);
+            itemThumbnail.setVisibility(imageUrl == null ? View.GONE: View.VISIBLE);
+            if (itemThumbnail.getVisibility() == View.VISIBLE) loadThumbnail(imageUrl);
+            setThumbnailOnClickListener();
 
-            if (itemThumbnail.getVisibility() == View.VISIBLE){
-                Glide.with(itemView.getContext()).load(imageUrl)
-                        .apply(centerCropTransform()
-                                .placeholder(R.drawable.img_not_available)
-                                .error(R.drawable.img_not_available)
-                                .priority(Priority.HIGH)).into(itemThumbnail);
-            }
+        }
 
+        /**
+         * Agrega los link presentes en el texto
+         */
+        public void linkifyContent(){
+            BetterLinkMovementMethod
+            .linkify(Linkify.ALL, itemContent)
+            .setOnLinkClickListener((textView, url) ->
+                    openUrlAndIncreaseViewed(url));
+        }
+
+        /**
+         * Coloca la cantidad de vistos para una noticia
+         */
+        public void setViewedAmout(){
+            itemReadAmount.setText(String.format(
+            Locale.getDefault(), "%d %s",
+            newsItem.getViewedAmount(),
+            itemView.getContext().getResources()
+                    .getString(R.string.text_viewed)));
+        }
+
+        /**
+         * Carga la imagen en su vista
+         * @param imageUrl: Url de la imagen
+         */
+        public void loadThumbnail(String imageUrl){
+            Glide.with(itemView.getContext())
+                .load(imageUrl)
+                .apply(centerCropTransform()
+                .placeholder(R.drawable.img_not_available)
+                .error(R.drawable.img_not_available)
+                .priority(Priority.HIGH)).into(itemThumbnail);
+        }
+
+        /**
+         * Coloca los eventos correspondientes al tocar
+         * la imagen
+         */
+        public void setThumbnailOnClickListener(){
+            String imageUrl = newsItem.getImageUrl();
             URLSpan spans[] = itemContent.getUrls();
+            if(spans.length > 0) itemThumbnail.setOnClickListener(v ->
+                    openUrlAndIncreaseViewed(spans[0].getURL()));
+            else itemThumbnail.setOnClickListener(v -> openImage(imageUrl));
+        }
 
-            if(spans.length > 0){
-                itemThumbnail.setOnClickListener(v -> {
-                    String url = spans[0].getURL();
-                    fragment.getMainActivity()
-                            .startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-                });
+        /**
+         * Abre una imagen en un fragmento aparte
+         * @param imageUrl: Url de la imagen
+         */
+        public void openImage(String imageUrl){
+            Fragment imageFragment = ImageFragment
+                    .newInstance(newsItem.getTitle(), imageUrl);
+            fragment.setFragmentOnScreen(imageFragment);
+        }
+
+        /**
+         * Abre en el explorador una URL
+         * @param url: Url que el navegador debe abrir
+         */
+        public void openUrl(String url){
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            fragment.getMainActivity().startActivity(intent);
+        }
+
+        /**
+         * Abre la url y aumenta la cantidad de vistos
+         * de la noticia
+         * @param url: Url que el navegador debe abrir
+         * @return True
+         */
+        public boolean openUrlAndIncreaseViewed(String url){
+            openUrl(url);
+            increaseViewed();
+            return true;
+        }
+
+        /**
+         * Aumenta la cantidad de visto de la publicación
+         * o noticias
+         */
+        public void increaseViewed(){
+
+            Cloud.getInstance()
+            .getReference(Cloud.NEWS)
+            .child(newsItem.getKey())
+            .runTransaction(new Transaction.Handler() {
+
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                NewsItem retrievedNew = mutableData.getValue(NewsItem.class);
+                if (retrievedNew == null) return Transaction.success(mutableData);
+                else retrievedNew.setViewedAmount(retrievedNew.getViewedAmount() + 1);
+                mutableData.setValue(retrievedNew);
+                return Transaction.success(mutableData);
             }
-            else{
-                itemThumbnail.setOnClickListener(v -> {
-                    Fragment imageFragment = ImageFragment
-                            .newInstance(newsItem.getTitle(), imageUrl);
-                    fragment.setFragmentOnScreen(imageFragment);
-                });
-            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError,
+                                   boolean b, DataSnapshot dataSnapshot) {
+                Log.i("NewsAdapter", "increaseViewedComplete");
+            }});
 
         }
 

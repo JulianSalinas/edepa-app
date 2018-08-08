@@ -1,62 +1,53 @@
 package imagisoft.modelview.schedule.events;
 
-import android.content.Context;
 
-import com.google.firebase.database.Query;
+import android.os.Bundle;
 
-import imagisoft.model.Cloud;
+import java.util.ArrayList;
+import java.util.List;
+
 import imagisoft.model.ScheduleEvent;
-import imagisoft.modelview.loaders.FavoritesLoader;
 
-public class EventsFavorites extends EventsFragment {
+public class EventsFavorites extends EventsSchedule {
 
-    private FavoritesLoader favoritesLoader;
+    private List<ScheduleEvent> allEvents;
 
     @Override
-    protected Query getFavoritesQuery() {
-        Cloud cloud = Cloud.getInstance();
-        String uid = cloud.getAuth().getUid();
-        assert uid != null;
-        return cloud.getReference(Cloud.FAVORITES).child(uid);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        allEvents = new ArrayList<>();
     }
 
     @Override
-    public Query getScheduleQuery(){
-        return Cloud.getInstance()
-                .getReference(Cloud.SCHEDULE)
-                .orderByChild("start")
-                .equalTo(getDate());
-    }
-
-    @Override
-    protected EventsAdapter instantiateAdapter() {
-        return new AdapterFavorites(getContext());
-    }
-
-    public class AdapterFavorites extends EventsAdapter {
-
-        /**
-         * Constructor
-         */
-        public AdapterFavorites(Context context) {
-            super(context);
-        }
-
-        @Override
-        public void addEvent(ScheduleEvent event) {
+    public void addEvent(ScheduleEvent event) {
+         if (favorites.contains(event.getKey()))
             super.addEvent(event);
+         if(!allEvents.contains(event))
+             allEvents.add(event);
+    }
+
+    @Override
+    public void addFavorite(String eventKey) {
+        super.addFavorite(eventKey);
+        ScheduleEvent temp = new ScheduleEvent();
+        temp.setKey(eventKey);
+        int index = allEvents.indexOf(temp);
+        if(index != -1) {
+            ScheduleEvent event = allEvents.get(index);
+            event.setFavorite(true);
+            super.addEvent(event);
+            eventsAdapter.notifyItemChanged(index);
         }
+    }
 
-        @Override
-        public void addFavorite(String eventKey) {
-
+    @Override
+    public void removeFavorite(String eventKey) {
+        super.removeFavorite(eventKey);
+        int index = getFavoriteIndex(eventKey);
+        if(index != -1) {
+            ScheduleEvent event = events.get(index);
+            if (event != null) removeEvent(event);
         }
-
-        @Override
-        public void removeFavorite(String eventKey) {
-
-        }
-
     }
 
 }

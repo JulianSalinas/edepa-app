@@ -1,14 +1,21 @@
 package imagisoft.modelview.schedule.events;
 
 import android.os.Bundle;
-import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import imagisoft.model.Cloud;
 import imagisoft.modelview.loaders.BaseLoader;
 import imagisoft.modelview.loaders.EventsLoader;
 import imagisoft.modelview.loaders.FavoritesLoader;
+import imagisoft.modelview.interfaces.IPageListener;
 
 /**
  * Contiene todos los eventos del cronograma, incluidos
@@ -16,47 +23,84 @@ import imagisoft.modelview.loaders.FavoritesLoader;
  */
 public class EventsSchedule extends EventsFragment {
 
+    private int eventsAmount = 0;
+
     /**
      * Carga todos los eventos del cronograma de
      * manera asincrónica. Ésta carga se debe realizar
      * depués de obtener la lista de favoritos
-     * Se instancia en {@link AdapterSchedule(Context)}
      */
     private BaseLoader eventsLoader;
 
     /**
-     * Carga todos los key de los eventos favoritos
-     * que el usuario ha marcado
-     * Se instancia en {@link AdapterSchedule(Context)}
+     * Carga todos los key de todos los eventos que
+     * el usuario ha marcado como favoritos
      */
-    private BaseLoader favoritesLoader;
+    protected BaseLoader favoritesLoader;
 
     /**
-     * {@inheritDoc}
+     * Es donde se cargan los eventos y se colocan
+     * como favoritos. Además avisa al páginador (si lo hay)
+     * cuando alguno de los eventos es ingresado o
+     * si el último evento ha sido eliminado
+     * @see AdapterSchedule
      */
-    private AdapterSchedule eventsAdapter;
+    protected AdapterSchedule eventsAdapter;
 
     /**
-     * {@inheritDoc}
+     * Instancia el adaptador necesario por la superclase
+     * {@link EventsFragment}. Deja una referencia en
+     * este fragmento para evitar realizar el cast
+     * @return AdapterSchedule
      */
     @Override
     protected AdapterSchedule instantiateAdapter() {
-        eventsAdapter = new AdapterSchedule(getContext());
+        eventsAdapter = new AdapterSchedule();
         return eventsAdapter;
     }
 
     /**
      * {@inheritDoc}
+     * Al crearse el fragmeno, se conecta el listener
+     * para comenzar a recibir los eventos de la BD
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        eventsAdapter.connectListeners();
-        setRetainInstance(true);
+
+        // Se obtiene el listener que en este caso
+        // es un PagerFragment que implementa IPageListener
+        Fragment fragment = getParentFragment();
+        if (fragment != null && fragment instanceof IPageListener)
+            pageListener = (IPageListener) fragment;
+
+        // Deben instanciarse antes de conectar
+        eventsLoader = new EventsLoader(this);
+        favoritesLoader = new FavoritesLoader(this);
+
+        // Se obtiene la cantidad de eventos para
+        // saber cuando termina la carga de datos inicial
+        getEventsQuery()
+        .addListenerForSingleValueEvent(new ValueEventListener() {
+
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            eventsAmount = (int) dataSnapshot.getChildrenCount();
+            eventsAdapter.connectListeners();
+            Log.i(toString(), "Retriving events amount");
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            Log.i(toString(), databaseError.getMessage());
+        }});
+
     }
 
     /**
      * {@inheritDoc}
+     * Al destruirse el fragmento se borra el listener
+     * para evitar tener un duplicado
      */
     @Override
     public void onDestroy() {
@@ -66,11 +110,11 @@ public class EventsSchedule extends EventsFragment {
 
     /**
      * Query realizado a la base de datos para
-     * obtener toda la lista de eventos
+     * obtener toda la lista de eventos para un fecha
+     * en específico (que es pasada al fragmento como arg)
      * @return Query
      */
-    @Override
-    public Query getScheduleQuery(){
+    public Query getEventsQuery(){
         return Cloud.getInstance()
                 .getReference(Cloud.SCHEDULE)
                 .orderByChild("date")
@@ -82,7 +126,6 @@ public class EventsSchedule extends EventsFragment {
      * obtener toda la lista de favoritos del usuario
      * @return Query
      */
-    @Override
     public Query getFavoritesQuery(){
         Cloud cloud = Cloud.getInstance();
         String uid = cloud.getAuth().getUid();
@@ -90,41 +133,65 @@ public class EventsSchedule extends EventsFragment {
         return cloud.getReference(Cloud.FAVORITES).child(uid);
     }
 
+    /**
+     * Clase que modifica la lista de eventos y de favoritos
+     * del fragmento {@link EventsSchedule}
+     */
     public class AdapterSchedule extends EventsAdapter {
 
-        private Query scheduleQuery;
-
-        private Query favoritesQuery;
-
-        public AdapterSchedule(Context context) {
-            super(context);
-            scheduleQuery = getScheduleQuery();
-            favoritesQuery = getFavoritesQuery();
-            eventsLoader = new EventsLoader(this);
-            favoritesLoader = new FavoritesLoader(this);
+        /**
+         * Contructor de {@link AdapterSchedule}
+         */
+        public AdapterSchedule() {
+            super(EventsSchedule.this);
+            this.events = EventsSchedule.this.events;
             registerAdapterDataObserver(addObserver);
             registerAdapterDataObserver(removeObserver);
         }
 
+        /**
+         * Pone a la escucha los listener encargados de
+         * agregar eventos y colocar los favoritos. Es
+         * invocada en {@link #onCreate(Bundle)}
+         * @see #disconnectListeners()
+         */
         public void connectListeners(){
-            scheduleQuery.addChildEventListener(eventsLoader);
-            favoritesQuery.addChildEventListener(favoritesLoader);
+            getFavoritesQuery().addChildEventListener(favoritesLoader);
+            getEventsQuery().addChildEventListener(eventsLoader);
         }
 
+        /**
+         * Remueve los listeners encargados de agregar
+         * los eventos y de colocar los favoritos. Es
+         * invocada en {@link #onDestroy()}
+         */
         public void disconnectListeners(){
-            favoritesQuery.removeEventListener(favoritesLoader);
-            scheduleQuery.removeEventListener(eventsLoader);
+            getFavoritesQuery().removeEventListener(favoritesLoader);
+            getEventsQuery().removeEventListener(eventsLoader);
         }
 
+        /**
+         * Cada vez que se remueve un evento se revisa si quedan
+         * más eventos, de lo contrario se avisa al fragmento
+         * padre {@link imagisoft.modelview.schedule.pagers.PagerFragment}
+         * que debe remover este fragmento
+         */
         class DataObserver extends RecyclerView.AdapterDataObserver{}
         DataObserver removeObserver = new DataObserver() {
         public void onItemRangeRemoved(int positionStart, int itemCount) {
-            if(events.size() <= 0) getPageListener().onPageRemoved(getDate());
+            if(events.size() <= 0 && pageListener != null)
+                pageListener.onPageRemoved(getDate());
         }};
 
+        /**
+         * Cada vez que se agrega un evento se avisa al fragmento
+         * padre {@link imagisoft.modelview.schedule.pagers.PagerFragment}
+         * para que coloque la página que ha sido modificada
+         */
         DataObserver addObserver = new DataObserver() {
         public void onItemRangeInserted(int positionStart, int itemCount) {
-            getPageListener().onPageChanged(getDate());
+            if(pageListener != null && eventsAmount-- <= 0)
+                pageListener.onPageChanged(getDate());
         }};
 
     }

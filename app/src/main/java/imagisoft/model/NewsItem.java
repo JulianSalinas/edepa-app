@@ -13,7 +13,7 @@ public class NewsItem {
     private String title;
     private String content;
     private String imageUrl;
-    private Integer viewedAmount;
+    private int viewedAmount;
 
     public Long getTime() {
         return time;
@@ -55,11 +55,11 @@ public class NewsItem {
         this.imageUrl = imageUrl;
     }
 
-    public Integer getViewedAmount() {
+    public int getViewedAmount() {
         return viewedAmount;
     }
 
-    public void setViewedAmount(Integer viewedAmount) {
+    public void setViewedAmount(int viewedAmount) {
         this.viewedAmount = viewedAmount;
     }
 

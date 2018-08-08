@@ -1,6 +1,5 @@
-package imagisoft.modelview.views;
+package imagisoft.modelview.custom;
 
-import android.util.Log;
 import android.view.View;
 import android.os.Bundle;
 import android.os.Parcelable;

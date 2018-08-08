@@ -7,13 +7,10 @@ import imagisoft.model.ScheduleEvent;
  * de eventos obtenida de Firebase debe implementar
  * esta interfaz
  */
-public interface IEventsSubject {
+public interface IEventsSubject extends IFavoritesSubject {
 
     void addEvent(ScheduleEvent event);
     void changeEvent(ScheduleEvent event);
     void removeEvent(ScheduleEvent event);
-
-    void addFavorite(String eventKey);
-    void removeFavorite(String eventKey);
 
 }

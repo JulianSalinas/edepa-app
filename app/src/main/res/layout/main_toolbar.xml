@@ -5,12 +5,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
 
-    app:elevation="4dp"
-    android:id="@+id/toolbar_container"
+    android:id="@+id/app_bar_layout"
+    app:elevation="@dimen/toolbar_elevation"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <FrameLayout
+        android:id="@+id/toolbar_container"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize">
 
@@ -29,11 +30,7 @@
     </FrameLayout>
 
     <LinearLayout
-
         android:id="@+id/toolbar_tabs_container"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -54,19 +51,22 @@
                 android:id="@+id/tab_item_schedule"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/nav_schedule" />
+                android:text="@string/nav_schedule"
+                android:saveEnabled="true" />
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tab_item_favorites"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/nav_favorites" />
+                android:text="@string/nav_favorites"
+                android:saveEnabled="true"/>
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tab_item_ongoing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/text_ongoing" />
+                android:text="@string/text_ongoing"
+                android:saveEnabled="true"/>
 
         </android.support.design.widget.TabLayout>
 

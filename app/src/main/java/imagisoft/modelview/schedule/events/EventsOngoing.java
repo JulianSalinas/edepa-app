@@ -1,6 +1,5 @@
 package imagisoft.modelview.schedule.events;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.os.Bundle;
@@ -16,13 +15,14 @@ import imagisoft.model.Cloud;
 import imagisoft.model.Preferences;
 import imagisoft.misc.DateConverter;
 import imagisoft.model.ScheduleEvent;
-import imagisoft.modelview.loaders.BaseLoader;
+import imagisoft.modelview.interfaces.IFavoritesSubject;
 import imagisoft.modelview.loaders.FavoritesLoader;
 
 import static imagisoft.model.Preferences.UPDATE_DELAY;
 
 
-public class EventsOngoing extends EventsFragment {
+public class EventsOngoing
+        extends EventsFragment implements IFavoritesSubject {
 
     /**
      * Indica si {@link #runnable} debe seguir
@@ -51,14 +51,13 @@ public class EventsOngoing extends EventsFragment {
      */
     private Integer updateDelay;
 
-
-    private BaseLoader favoritesLoader;
-
     /**
      * Adaptador que contiene los eventos que
      * están en curso
      */
     protected OngoingAdapter eventsAdapter;
+
+    private FavoritesLoader favoritesLoader;
 
     @Override
     public long getDate() {
@@ -72,8 +71,8 @@ public class EventsOngoing extends EventsFragment {
      * usando este fragmento
      */
     @Override
-    protected EventsAdapter instantiateAdapter() {
-        eventsAdapter = new OngoingAdapter(getContext());
+    protected OngoingAdapter instantiateAdapter() {
+        eventsAdapter = new OngoingAdapter();
         return eventsAdapter;
     }
 
@@ -84,9 +83,34 @@ public class EventsOngoing extends EventsFragment {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         handler = new Handler();
         runnable = this::loop;
+        super.onCreate(savedInstanceState);
+    }
+
+    /**
+     * {@inheritDoc}
+     * Inicia por primera vez la ejecución de {@link #runnable}
+     * y configura el texto que se debe mostrar en caso
+     * de que no haya ningún evento en curso
+     */
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        setUpdateDelay();
+        startRunnable();
+        eventsEmptyView.setText(getString(R.string.text_without_events));
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    /**
+     * Al destruir la vista no es necesario que el fragmento
+     * se siga actualizando porque el usuario no estará
+     * viendo la pantalla
+     */
+    @Override
+    public void onDestroyView() {
+        stopRunnable();
+        super.onDestroyView();
     }
 
     /**
@@ -110,37 +134,12 @@ public class EventsOngoing extends EventsFragment {
         try {
             updateDelay = Integer.valueOf(delay);
             Log.i(toString(), String.format(
-            "setUpdateDelay -> updateDelay %d", updateDelay));
+                    "setUpdateDelay -> updateDelay %d", updateDelay));
         }
         catch (NumberFormatException e){
             Log.e(toString(), "setUpdateDelay -> " + e.getMessage());
         }
 
-    }
-
-    /**
-     * {@inheritDoc}
-     * Inicia por primera vez la ejecución de {@link #runnable}
-     * y configura el texto que se debe mostrar en caso
-     * de que no haya ningún evento en curso
-     */
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        eventsEmptyView.setText(getString(R.string.text_without_events));
-        setUpdateDelay();
-        startRunnable();
-    }
-
-    /**
-     * Al destruir la vista no es necesario que el fragmento
-     * se siga actualizando porque el usuario no estará
-     * viendo la pantalla
-     */
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        stopRunnable();
     }
 
     /**
@@ -150,9 +149,12 @@ public class EventsOngoing extends EventsFragment {
      */
     public void loop(){
 
-        if (favoritesLoader == null)
-            favoritesLoader = new FavoritesLoader(eventsAdapter);
-        getFavoritesQuery().addChildEventListener(favoritesLoader);
+        if (favoritesLoader == null) {
+            favoritesLoader = new FavoritesLoader(this);
+            getFavoritesQuery().addChildEventListener(favoritesLoader);
+        }
+
+        Log.i(toString(), String.format("favorites : %d", favorites.size()));
 
         getScheduleQuery().keepSynced(true);
         getScheduleQuery().addListenerForSingleValueEvent(eventsAdapter);
@@ -212,7 +214,7 @@ public class EventsOngoing extends EventsFragment {
      * @param isEmpty: True si no hay eventos en curso
      */
     public void updateInterface(boolean isEmpty){
-        eventsRecyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+        eventsRV.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
         eventsEmptyView.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
         String s = DateConverter.longToString(System.currentTimeMillis());
         Log.i(toString(), String.format("Update complete at %s", s));
@@ -224,11 +226,10 @@ public class EventsOngoing extends EventsFragment {
      * obtener toda la lista de eventos
      * @return Query
      */
-    @Override
     public Query getScheduleQuery(){
         return Cloud.getInstance()
                 .getReference(Cloud.SCHEDULE)
-                .orderByChild("start")
+                .orderByChild("date")
                 .equalTo(getDate());
     }
 
@@ -237,7 +238,6 @@ public class EventsOngoing extends EventsFragment {
      * obtener toda la lista de favoritos del usuario
      * @return Query
      */
-    @Override
     public Query getFavoritesQuery(){
         Cloud cloud = Cloud.getInstance();
         String uid = cloud.getAuth().getUid();
@@ -257,8 +257,8 @@ public class EventsOngoing extends EventsFragment {
         /**
          * {@inheritDoc}
          */
-        public OngoingAdapter(Context context) {
-            super(context);
+        public OngoingAdapter() {
+            super(EventsOngoing.this);
         }
 
         /**
@@ -288,7 +288,7 @@ public class EventsOngoing extends EventsFragment {
             if (event != null ){
                 event.setKey(dataSnapshot.getKey());
                 Log.i("ongoing -> Retriving ", event.getKey());
-                if(getTimeFilter(event)) addEvent(event);
+                 if(getTimeFilter(event)) addEvent(event);
             }
         }
 

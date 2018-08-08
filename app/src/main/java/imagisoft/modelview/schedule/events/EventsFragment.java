@@ -1,24 +1,26 @@
 package imagisoft.modelview.schedule.events;
 
 import butterknife.BindView;
-
-import android.os.Bundle;
-
 import imagisoft.modelview.R;
+import imagisoft.model.ScheduleEvent;
+import imagisoft.modelview.custom.SmoothLayout;
 import imagisoft.modelview.activity.MainFragment;
-import imagisoft.modelview.interfaces.IPageListener;
 import imagisoft.modelview.interfaces.IPageSubject;
-import imagisoft.modelview.views.SmoothLayout;
+import imagisoft.modelview.interfaces.IPageListener;
+import imagisoft.modelview.interfaces.IEventsSubject;
+import imagisoft.modelview.loaders.EventsLoader;
+import imagisoft.modelview.loaders.FavoritesLoader;
 
+import java.util.ArrayList;
+import java.util.List;
+import android.os.Bundle;
+import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.widget.TextView;
-
-import com.google.firebase.database.Query;
 
 
 public abstract class EventsFragment
-        extends MainFragment implements IPageSubject {
+        extends MainFragment implements IPageSubject, IEventsSubject {
 
     /**
      * Textview que se coloca cuando no hay eventos
@@ -28,10 +30,10 @@ public abstract class EventsFragment
 
     /**
      * Se colocan los eventos de manera visual
-     * los eventos los obtiene de {@link #eventsAdapter}
+     * Los eventos los obtiene de {@link #eventsAdapter}
      */
     @BindView(R.id.events_recycler_view)
-    RecyclerView eventsRecyclerView;
+    RecyclerView eventsRV;
 
     /**
      * Solo eventos de esta fecha deben estar en
@@ -46,13 +48,18 @@ public abstract class EventsFragment
     }
 
     /**
-     * Adaptador para {@link #eventsRecyclerView}
+     * Lista que contiene los key de todos los
+     * eventos que el usuario ha marcado como favoritos
+     * Es poblada con {@link FavoritesLoader}
      */
-    protected EventsAdapter eventsAdapter;
+    protected List<String> favorites;
 
-    public EventsAdapter getEventsAdapter() {
-        return eventsAdapter;
-    }
+    /**
+     * Lista que contiene todos los eventos
+     * del cronograma
+     * Es poblada con {@link EventsLoader}
+     */
+    protected List<ScheduleEvent> events;
 
     /**
      * El {@link IPageListener} se da cuenta de los
@@ -60,15 +67,11 @@ public abstract class EventsFragment
      */
     protected IPageListener pageListener;
 
-    @Override
-    public IPageListener getPageListener(){
-        return this.pageListener;
-    }
-
-    @Override
-    public void setPageListener(IPageListener pageListener){
-        this.pageListener = pageListener;
-    }
+    /**
+     * Adaptador para {@link #eventsRV}
+     * y así colocar los eventos de forma visual
+     */
+    protected EventsAdapter eventsAdapter;
 
     /**
      * {@inheritDoc}
@@ -93,36 +96,141 @@ public abstract class EventsFragment
         if (args != null && args.containsKey("date"))
             date = args.getLong("date");
 
-        if(eventsAdapter == null) eventsAdapter = instantiateAdapter();
-    }
-
-    /**
-     * {@inheritDoc}
-     * Se configura el {@link #eventsRecyclerView}
-     */
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if(eventsRecyclerView.getAdapter() == null) {
-
-            // Se coloca el adaptador
-            eventsRecyclerView.setHasFixedSize(true);
-            eventsRecyclerView.setAdapter(eventsAdapter);
-
-            // Agrega las animaciones para la inserción
-            // deleción y modificación
-            eventsRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-            // Agregar un LinearLayout que contiene una
-            // transición más suave al hacer scroll
-            eventsRecyclerView.setLayoutManager(new SmoothLayout(activity));
+        if(eventsAdapter == null) {
+            events = new ArrayList<>();
+            favorites = new ArrayList<>();
+            eventsAdapter = instantiateAdapter();
         }
 
     }
 
-    protected abstract Query getFavoritesQuery();
+    /**
+     * {@inheritDoc}
+     * Se configura el {@link #eventsRV}
+     */
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        eventsRV.setHasFixedSize(true);
+        eventsRV.setAdapter(eventsAdapter);
+        eventsRV.setItemAnimator(new DefaultItemAnimator());
+        eventsRV.setLayoutManager(new SmoothLayout(activity));
+    }
 
-    protected abstract Query getScheduleQuery();
+    /**
+     * Se añade un nuevo mensaje en la lista
+     * @param event Evento por agregar
+     */
+    @Override
+    public void addEvent(ScheduleEvent event){
+        int index = events.indexOf(event);
+        if(index == -1){
+            String key = event.getKey();
+            index = findIndexToAddEvent(event);
+            events.add(index, event);
+            setFavoriteEvent(key, favorites.contains(key));
+            eventsAdapter.notifyItemInserted(index);
+        }
+    }
+
+    /**
+     * Busca en que posición debe agregarse un nuevo
+     * evento. Invocada por {@link #addEvent(ScheduleEvent)}
+     * @param event Evento por agregar
+     * @return Posición donde se debe agregar el evento
+     * TODO: Usar algoritmo más eficiente
+     */
+    private int findIndexToAddEvent(ScheduleEvent event){
+        int index = 0;
+        for (int i = 0; i < events.size(); i++) {
+            if (events.get(i).getStart() <= event.getStart()) index += 1;
+            else break;
+        }   return index;
+    }
+
+    /**
+     * Se utiliza cuando la propiedad de algún evento
+     * ha sido cambiada
+     * @param event Mensaje por cambiar
+     */
+    @Override
+    public void changeEvent(ScheduleEvent event){
+        int index = events.indexOf(event);
+        if (index != -1) {
+            String key = event.getKey();
+            events.set(index, event);
+            setFavoriteEvent(key, favorites.contains(key));
+            eventsAdapter.notifyItemChanged(index);
+        }
+    }
+
+    /**
+     * Se remueve un evento. Es utilizada cuando el
+     * evento es borrado de la BD o cuando el evento
+     * cambia de fecha
+     */
+    @Override
+    public void removeEvent(ScheduleEvent event){
+        int index = events.indexOf(event);
+        if (index != -1) {
+            events.remove(index);
+            eventsAdapter.notifyItemRemoved(index);
+        }
+    }
+
+    /**
+     * Agrega el key del evento que usuario ha marcado
+     * como favorito. Además busca el evento real y lo
+     * modifica como favorito
+     * @param eventKey Key del evento marcado como fav
+     */
+    @Override
+    public void addFavorite(String eventKey) {
+        if(!favorites.contains(eventKey)) {
+            favorites.add(eventKey);
+            setFavoriteEvent(eventKey, true);
+        }
+    }
+
+    /**
+     * Remueve el key del evento que usuario ha desmarcado
+     * como favorito. Además busca el evento real y lo actualiza
+     * @param eventKey Key del evento marcado como fav
+     */
+    @Override
+    public void removeFavorite(String eventKey) {
+        if(favorites.contains(eventKey)) {
+            favorites.remove(eventKey);
+            setFavoriteEvent(eventKey, false);
+            eventsAdapter.notifyItemChanged(getFavoriteIndex(eventKey));
+        }
+    }
+
+    /**
+     * Usada internamente por los métodos {@link #addFavorite(String)}
+     * y {@link #removeFavorite(String)} para setear el nuevo
+     * valor del evento que ha sido marcado o desmarcado
+     * @param eventKey: Key del evento marcado o desmarcado como fav
+     * @param isFavorite: True si el evento se encuentra entre
+     *                    los favoritos del usuario
+     */
+    private void setFavoriteEvent(String eventKey, boolean isFavorite){
+        int index = getFavoriteIndex(eventKey);
+        if(index != -1) events.get(index).setFavorite(isFavorite);
+    }
+
+    /**
+     * A partir del key de un evento encuentra la posición del
+     * evento como tal. Es invocada internamente
+     * por el metodo {@link #setFavoriteEvent(String, boolean)}
+     * @param eventKey: Key del evento buscado
+     * @return Posición del evento en {@link #events}
+     */
+    protected int getFavoriteIndex(String eventKey){
+        ScheduleEvent temp = new ScheduleEvent();
+        temp.setKey(eventKey);
+        return events.indexOf(temp);
+    }
 
     /**
      * Evita a las subclases tener que hacer la revisión

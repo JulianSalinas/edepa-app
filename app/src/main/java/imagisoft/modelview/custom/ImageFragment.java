@@ -1,4 +1,4 @@
-package imagisoft.modelview.views;
+package imagisoft.modelview.custom;
 
 import android.os.Bundle;
 import android.view.View;

@@ -1,6 +1,5 @@
 package imagisoft.modelview.activity;
 
-import imagisoft.misc.DateConverter;
 import imagisoft.modelview.R;
 import imagisoft.model.Cloud;
 import imagisoft.model.Preferences;
@@ -8,10 +7,9 @@ import imagisoft.modelview.about.InfoFragment;
 import imagisoft.modelview.chat.ChatFragment;
 import imagisoft.modelview.about.AboutFragment;
 import imagisoft.modelview.news.NewsFragment;
-import imagisoft.modelview.schedule.details.EventPager;
-import imagisoft.modelview.schedule.paged.PaggedFragment;
-import imagisoft.modelview.schedule.events.EventsOngoing;
+import imagisoft.modelview.schedule.pagers.PagerDetails;
 import imagisoft.modelview.schedule.events.EventsSchedule;
+import imagisoft.modelview.schedule.tabbed.TabbedFragment;
 import imagisoft.modelview.settings.SettingsFragment;
 
 import android.os.Bundle;
@@ -21,7 +19,6 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
 
 import android.support.v4.app.Fragment;
-import android.support.design.widget.TabLayout;
 import android.view.View;
 
 import com.google.firebase.database.DataSnapshot;
@@ -40,8 +37,7 @@ import static imagisoft.model.Preferences.PEOPLE_AVAILABLE_KEY;
  * de la aplicación
  */
 public class MainNavigation extends MainActivity
-        implements TabLayout.OnTabSelectedListener,
-        ValueEventListener, ChildEventListener {
+        implements ValueEventListener, ChildEventListener {
 
     /**
      * {@inheritDoc}
@@ -49,13 +45,11 @@ public class MainNavigation extends MainActivity
     protected void onCreateFirstCreation(){
         super.onCreateFirstCreation();
         String tag = "SCHEDULE_FRAGMENT";
-        Fragment frag = new PaggedFragment.Schedule();
-        Bundle args = new Bundle();
-        args.putLong("date", DateConverter.atStartOfDay(System.currentTimeMillis()));
-        frag.setArguments(args);
+        currentFragment = new TabbedFragment();
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_content, frag, tag)
+                .replace(R.id.main_content,
+                        currentFragment, tag)
                 .commitNow();
     }
 
@@ -249,7 +243,7 @@ public class MainNavigation extends MainActivity
     public void openDetails(String eventKey){
         String tag = "DETAILS_FRAGMENT";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
-        Fragment frag = temp != null ? temp : new EventPager();
+        Fragment frag = temp != null ? temp : new PagerDetails();
         Bundle args = new Bundle();
         args.putString("eventKey", eventKey);
         frag.setArguments(args);
@@ -321,79 +315,12 @@ public class MainNavigation extends MainActivity
      * para que al momento de cerrar el menú lateral el fragmento
      * sea colocado en pantalla
      */
-    public boolean openAbout(){
+    public boolean openAbout() {
         String tag = "ABOUT_FRAGMENT";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
         Fragment frag = temp != null ? temp : new AboutFragment();
         pendingRunnable = () -> setFragmentOnScreen(frag, tag);
         return false;
-    }
-
-    /**
-     * Coloca el tab de Ongoing en {@link #pendingRunnable}
-     * para que al momento de cerrar el menú lateral el fragmento
-     * sea colocado en pantalla
-     */
-    public void openOngoingTab(){
-        String tag = "ONGOING_FRAGMENT";
-        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
-        Fragment frag = temp != null ? temp : new EventsOngoing();
-        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
-    }
-
-    /**
-     * Coloca el tab de Schedule en {@link #pendingRunnable}
-     * para que al momento de cerrar el menú lateral el fragmento
-     * sea colocado en pantalla
-     */
-    public void openScheduleTab(){
-        String tag = "SCHEDULE_FRAGMENT_TAB";
-        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
-        Fragment frag = temp != null ? temp : new PaggedFragment.Schedule();
-        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
-    }
-
-    /**
-     * Coloca el tab de Favoritos en {@link #pendingRunnable}
-     * para que al momento de cerrar el menú lateral el fragmento
-     * sea colocado en pantalla
-     */
-    public void openFavoritesTab(){
-        String tag = "FAVORITES_FRAGMENT_TAB";
-        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
-        Fragment frag = temp != null ? temp : new PaggedFragment.Favorites();
-        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
-    }
-
-    /**
-     * Colca el fragmento según el tab elegido
-     * @param tab: Tab que contiene la posición
-     */
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-//        int pos = tab.getPosition();
-//        switch (pos){
-//            case 0: openScheduleTab(); break;
-//            case 1: openFavoritesTab(); break;
-//            case 2: openOngoingTab(); break;
-//        }   runPendingRunnable();
-//        Log.i(toString(), "onTabSelected("+ String.valueOf(pos) +")");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-        // Requerido
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-        // Requerido
     }
 
     /**
@@ -421,9 +348,9 @@ public class MainNavigation extends MainActivity
      * @see #deactiveTabbedMode()
      */
     public void activeTabbedMode(){
+        appBarLayout.setElevation(0);
         getToolbarContainer().setElevation(0);
         getToolbarTabs().setVisibility(View.VISIBLE);
-//        getToolbarTabsLayout().setOnTabSelectedListener(this);
     }
 
     /**
@@ -431,9 +358,9 @@ public class MainNavigation extends MainActivity
      * @see #activeTabbedMode()
      */
     public void deactiveTabbedMode() {
+        appBarLayout.setElevation(4);
         getToolbarContainer().setElevation(4);
         getToolbarTabs().setVisibility(View.GONE);
-//        getToolbarTabsLayout().setOnTabSelectedListener(null);
     }
 
     /**

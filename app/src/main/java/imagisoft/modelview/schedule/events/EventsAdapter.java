@@ -4,15 +4,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import java.util.List;
-import java.util.ArrayList;
 
 import imagisoft.misc.DateConverter;
 import imagisoft.model.Cloud;
 import imagisoft.modelview.R;
 import imagisoft.model.ScheduleEvent;
 import imagisoft.modelview.activity.MainNavigation;
-import imagisoft.modelview.interfaces.IEventsSubject;
-import imagisoft.modelview.views.RecyclerAdapter;
+import imagisoft.modelview.custom.RecyclerAdapter;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -28,8 +26,7 @@ import com.like.OnLikeListener;
 /**
  * Sirve para enlazar las funciones a una actividad en específico
  */
-public abstract class EventsAdapter
-        extends RecyclerAdapter implements IEventsSubject {
+public abstract class EventsAdapter extends RecyclerAdapter {
 
     /**
      * Variables par escoger el tipo de vista que se colocará
@@ -39,8 +36,6 @@ public abstract class EventsAdapter
     protected int WITH_SEPARATOR = 1;
 
     private Context context;
-
-    protected List<String> favorites;
 
     protected List<ScheduleEvent> events;
 
@@ -53,95 +48,14 @@ public abstract class EventsAdapter
     }
 
     /**
-     * Se añade un nuevo mensaje en la lista, además de un separador
-     * de fechas si es necesario
-     * @param event Mensaje por añadir
+     * Constructor de {@link EventsAdapter}
+     * Las subclases deben colocar aquí
+     * la lista de eventos y la de favoritos
      */
-    @Override
-    public void addEvent(ScheduleEvent event){
-        int index = events.indexOf(event);
-        if(index == -1){
-            String key = event.getKey();
-            index = findIndexToAddEvent(event);
-            events.add(index, event);
-            setFavoriteEvent(key, favorites.contains(key));
-            notifyItemInserted(index);
-        }
-    }
-
-    private int findIndexToAddEvent(ScheduleEvent event){
-        int index = 0;
-        for (int i = 0; i < events.size(); i++) {
-            if (events.get(i).getStart() <= event.getStart() ) index += 1;
-            else break;
-        }   return index;
-    }
-
-    /**
-     * Se utiliza cuando la propiedad de algún mensaje ha
-     * cambiado de forma externa del adaptador
-     * @param event Mensaje por cambiar
-     */
-    @Override
-    public void changeEvent(ScheduleEvent event){
-        int index = events.indexOf(event);
-        if (index != -1) {
-            String key = event.getKey();
-            events.set(index, event);
-            setFavoriteEvent(key, favorites.contains(key));
-            notifyItemChanged(index);
-        }
-    }
-
-    /**
-     * Se remueve un mensaje del adaptador
-     * Al removerse se debe actualizar el mensaje siguiente, en caso
-     * de que sea necesario agregar una marca de tiempo
-     */
-    @Override
-    public void removeEvent(ScheduleEvent event){
-        int index = events.indexOf(event);
-        if (index != -1) {
-            events.remove(index);
-            notifyItemRemoved(index);
-        }
-    }
-
-    @Override
-    public void addFavorite(String eventKey) {
-        if(!favorites.contains(eventKey)) {
-            favorites.add(eventKey);
-            setFavoriteEvent(eventKey, true);
-        }
-    }
-
-    @Override
-    public void removeFavorite(String eventKey) {
-        if(favorites.contains(eventKey)) {
-            favorites.remove(eventKey);
-            setFavoriteEvent(eventKey, false);
-        }
-    }
-
-    private void setFavoriteEvent(String eventKey, boolean isFavorite){
-        int index = getFavoriteIndex(eventKey);
-        if(index != -1) events.get(index).setFavorite(isFavorite);
-    }
-
-    private int getFavoriteIndex(String eventKey){
-        ScheduleEvent temp = new ScheduleEvent();
-        temp.setKey(eventKey);
-        return events.indexOf(temp);
-    }
-
-    /**
-     * Constructor
-     */
-    public EventsAdapter(Context context) {
+    public EventsAdapter(EventsFragment fragment) {
         super();
-        this.context = context;
-        this.events = new ArrayList<>();
-        this.favorites = new ArrayList<>();
+        this.events = fragment.events;
+        this.context = fragment.getContext();
     }
 
     /**

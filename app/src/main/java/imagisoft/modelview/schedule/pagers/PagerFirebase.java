@@ -1,12 +1,10 @@
-package imagisoft.modelview.schedule.paged;
+package imagisoft.modelview.schedule.pagers;
 
 import android.util.Log;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ChildEventListener;
+import imagisoft.modelview.activity.MainFragment;
 
 
 /**
@@ -15,15 +13,7 @@ import com.google.firebase.database.ChildEventListener;
  * aún cuando estos no tengan código
  */
 public abstract class PagerFirebase
-        extends FragmentPagerAdapter implements ChildEventListener {
-
-    /**
-     * Constructor
-     * @param fm FragmentManager
-     */
-    public PagerFirebase(FragmentManager fm) {
-        super(fm);
-    }
+        extends MainFragment implements ChildEventListener {
 
     /**
      * {@inheritDoc}

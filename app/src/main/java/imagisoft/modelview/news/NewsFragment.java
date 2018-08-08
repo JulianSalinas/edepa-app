@@ -1,19 +1,15 @@
 package imagisoft.modelview.news;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.OnLifecycleEvent;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.DefaultItemAnimator;
 
 import butterknife.BindView;
 import imagisoft.modelview.R;
-import imagisoft.modelview.views.RecyclerAdapter;
-import imagisoft.modelview.views.RecyclerFragment;
-import imagisoft.modelview.views.SmoothLayout;
+import imagisoft.modelview.custom.RecyclerAdapter;
+import imagisoft.modelview.custom.RecyclerFragment;
+import imagisoft.modelview.custom.SmoothLayout;
 
 
 public class NewsFragment extends RecyclerFragment {
@@ -51,39 +47,32 @@ public class NewsFragment extends RecyclerFragment {
 
     /**
      * {@inheritDoc}
+     * Se configura el contenedor de mensajes {@link #newsRV}
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        newsVA = new NewsFirebase(this);
+    }
+
+    /**
+     * {@inheritDoc}
+     * Se prepara el adaptador para poder recibir nuevas vistas de noticias.
+     * Si el adaptador ya había sido colocado no es necesario crearlo otra vez
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         setToolbarText(R.string.nav_news);
         setToolbarVisibility(View.VISIBLE);
         setStatusBarColorRes(R.color.app_primary_dark);
-    }
 
-    /**
-     * Se prepara el adaptador para poder recibir nuevas vistas de noticias.
-     * Si el adaptador ya había sido colocado no es necesario crearlo otra vez
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    public void setupAdapter(){
-        if(newsVA == null) {
-            newsVA = new NewsFirebase(this);
-            Log.i(toString(), "setupAdapter()");
-        }
-    }
+        newsRV.setAdapter(newsVA);
+        newsRV.setHasFixedSize(true);
+        newsRV.setItemAnimator(new DefaultItemAnimator());
+        newsRV.setLayoutManager(new SmoothLayout(getActivity()));
 
-    /**
-     * Se configura el contenedor de mensajes {@link #newsRV}
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public void setupRecyclerView(){
-        if (newsRV.getAdapter() == null){
-            newsRV.setAdapter(newsVA);
-            newsRV.setHasFixedSize(true);
-            newsRV.setItemAnimator(new DefaultItemAnimator());
-            newsRV.setLayoutManager(new SmoothLayout(getActivity()));
-            Log.i(toString(), "setupRecyclerView()");
-        }
     }
 
 }

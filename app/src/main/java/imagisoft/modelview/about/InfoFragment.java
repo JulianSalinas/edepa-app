@@ -1,42 +1,24 @@
 package imagisoft.modelview.about;
 
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.widget.ImageView;
+import android.support.v4.app.Fragment;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.CameraUpdateFactory;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 import butterknife.BindView;
-import imagisoft.model.Cloud;
+import imagisoft.modelview.R;
 import imagisoft.model.Congress;
 import imagisoft.misc.DateConverter;
-import imagisoft.modelview.R;
-import imagisoft.modelview.activity.MainFragment;
 
+/**
+ * Fragmento utilizado para mostrar la información
+ * del congreso. Herede de {@link MapFragment} para
+ * poder colocar una versión previa del mapa completo
+ */
+public class InfoFragment extends MapFragment {
 
-public class InfoFragment
-        extends MainFragment implements OnMapReadyCallback, ValueEventListener {
-
-    /**
-     * Soporte para colocar el mapa
-     */
-    private GoogleMap googleMap;
-    private SupportMapFragment mapFragment;
-
-    /**
-     * Componentes gráficos de la pantalla de información
-     */
     @BindView(R.id.icon_map)
     View iconMap;
 
@@ -55,17 +37,25 @@ public class InfoFragment
     @BindView(R.id.description_text_view)
     TextView descriptionTextView;
 
-    /**
-     * Botón para retornar a la pantalla anterior
-     */
     @BindView(R.id.button_back)
     ImageView buttonBack;
 
     /**
-     * Referencia hacia la información del congreso que se muestra
+     * Referencia a la versión completa del
+     * mapa con la ubicación de la sede
      */
-    private Congress congress;
+    private Fragment expandedMap;
 
+    /**
+     * A diferencia del mapa de Google, este es
+     * uno que se provee desde Firebase para mostrar
+     * el croquis de la sedew
+     */
+    private Fragment miniMap;
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getResource() {
         return R.layout.information_view;
@@ -76,93 +66,46 @@ public class InfoFragment
      * componentes visuales
      * @param congress: Clase con la información del congreso
      */
-    private void loadInformation(Congress congress){
-        this.congress = congress;
+    protected void loadInformation(Congress congress){
+        super.loadInformation(congress);
         nameTextView.setText(congress.getName());
         locationTextView.setText(congress.getLocation());
         descriptionTextView.setText(congress.getDescription());
         endTextView.setText(DateConverter.extractDate(congress.getEnd()));
         startTextView.setText(DateConverter.extractDate(congress.getStart()));
-        iconMap.setOnClickListener(v -> setFragmentOnScreen(new MapFragment()));
+        iconMap.setOnClickListener(v -> expandMiniMap());
         buttonBack.setOnClickListener(v -> activity.onBackPressed());
-        setupMap();
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setToolbarVisibility(View.GONE);
-
-        // Para que la información se actualice en tiempo real
-        // y no cada vez que se abre la aplicación
-        Cloud.getInstance().getReference(Cloud.CONGRESS)
-                .addValueEventListener(this);
-
-    }
-
-
-    private void setupMap(){
-
-        // Se revisa si el mapa ya está en la cache para no instanciarlo de nuevo.
-        // Permite mostrar el mapa aunque no haya conexión
-        if (mapFragment == null) {
-            mapFragment = SupportMapFragment.newInstance();
-            getChildFragmentManager().beginTransaction()
-                    .replace(R.id.map, mapFragment).commit();
-        }
-
-        mapFragment.getMapAsync(this);
-        // Coloca el gmap en la posición destinada para tal fin
-
     }
 
     /**
-     * Se utiliza el API de google para mostrar el mapa y un marcador donde se indique.
+     * Cuando el mapa está listo se agregan los eventos para
+     * que cuando lo toque se abra la versión más grande del mapa
+     * @param map Mapa ya descargado
      */
     @Override
     public void onMapReady(GoogleMap map) {
-
-        // Coordenadas del lugar del congreso
-        Log.i("mapY", String.valueOf(congress.getyCoord()));
-        Log.i("mapX", String.valueOf(congress.getxCoord()));
-
-        LatLng coordinates = new LatLng(
-                congress.getyCoord(),
-                congress.getxCoord());
-
-        googleMap = map;
-        map.addMarker(new MarkerOptions()
-                .position(coordinates)
-                .title(congress.getLocationTag()));
-
-        moveMapLocation(coordinates);
-
+        super.onMapReady(map);
+        googleMap.setOnMapClickListener(latLng -> expandGoogleMap());
+        googleMap.setOnMarkerClickListener(marker -> expandGoogleMap());
     }
 
-    private void moveMapLocation(LatLng currentLocation) {
-
-        googleMap.moveCamera(CameraUpdateFactory
-                .newLatLngZoom(currentLocation,15));
-
-        // Zoom in, animating the camera.
-        googleMap.animateCamera(CameraUpdateFactory.zoomIn());
-
-        // Zoom out to zoom level 10, animating with a duration of 2 seconds.
-        googleMap.animateCamera(CameraUpdateFactory
-                .zoomTo(15), 2000, null);
-
-
+    /**
+     * Abre en un fragmento aparte el croquis de la sede
+     */
+    public void expandMiniMap(){
+        if(miniMap == null) miniMap = new MinimapFragment();
+        setFragmentOnScreen(miniMap, "MINIMAP");
     }
 
-    @Override
-    public void onDataChange(DataSnapshot dataSnapshot) {
-        Congress congress = dataSnapshot.getValue(Congress.class);
-        if (congress != null) loadInformation(congress);
-    }
-
-    @Override
-    public void onCancelled(DatabaseError databaseError) {
-        Log.i(getTag(), databaseError.toString());
+    /**
+     * Abre en un fragmento aparte la versión completa
+     * del mapa de google con el marcador en la sede
+     * @return True
+     */
+    public boolean expandGoogleMap(){
+        if(expandedMap == null) expandedMap = new MapFragment();
+        setFragmentOnScreen(expandedMap, "MAP");
+        return true;
     }
 
 }

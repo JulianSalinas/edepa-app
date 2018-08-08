@@ -3,6 +3,7 @@ package imagisoft.modelview.loaders;
 import java.util.List;
 import com.google.firebase.database.DataSnapshot;
 import imagisoft.modelview.interfaces.IEventsSubject;
+import imagisoft.modelview.interfaces.IFavoritesSubject;
 
 /**
  * Clase que se encarga de leer la lista del favoritos
@@ -16,15 +17,15 @@ public class FavoritesLoader extends BaseLoader {
      * Es la instancia que contiene los eventos,
      * y por tanto, cuales son favoritos
      */
-    private IEventsSubject eventsSubject;
+    private IFavoritesSubject eventsSubject;
 
     /**
      * Constructor
      * Al pasar el adaptador como párametros se obtienen
      * los eventos que hay en el mismo
-     * @param eventsSubject Objeto que implementa {@link IEventsSubject}
+     * @param eventsSubject Objeto que implementa {@link IFavoritesSubject}
      */
-    public FavoritesLoader(IEventsSubject eventsSubject) {
+    public FavoritesLoader(IFavoritesSubject eventsSubject) {
         this.eventsSubject = eventsSubject;
     }
 
