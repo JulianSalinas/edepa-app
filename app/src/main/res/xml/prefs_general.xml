@@ -12,18 +12,18 @@
         android:title="Nombre de usuario" />
 
     <ListPreference
+        android:key="LANG_KEY"
         android:defaultValue="es"
         android:entries="@array/pref_language_titles"
         android:entryValues="@array/pref_language_values"
-        android:key="LANG_KEY"
         android:summary="Idioma principal de la aplicación. No aplica para información que se muestra en tiempo real"
         android:title="Idioma base" />
 
     <ListPreference
+        android:key="UPDATE_DELAY"
         android:defaultValue="5000"
         android:entries="@array/pref_update_titles"
         android:entryValues="@array/pref_update_values"
-        android:key="UPDATE_DELAY"
         android:summary="Frecuencia con la que se deben actualizar los eventos en curso"
         android:title="Actualización de eventos" />
 

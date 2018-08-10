@@ -46,7 +46,7 @@
 
     <!-- Schedule View  -->
     <string name="text_people">People</string>
-    <string name="text_ongoing">Ongoing</string>
+    <string name="nav_ongoing">Ongoing</string>
     <string name="text_abstract">Abstract</string>
     <string name="text_readmore">READ MORE</string>
     <string name="text_location">Location</string>

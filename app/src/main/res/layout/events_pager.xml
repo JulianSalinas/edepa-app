@@ -1,0 +1,48 @@
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/img_wallpaper"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop">
+        </ImageView>
+
+    </FrameLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.PagerTabStrip
+            android:id="@+id/pager_tab_strip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="@color/app_accent_light"
+            android:textColor="@color/app_secondary_font" />
+
+    </android.support.v4.view.ViewPager>
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/events_empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/space_default"
+        android:textAlignment="center"
+        android:textSize="@dimen/font_biggest"
+        tools:text="@string/text_without_events"/>
+
+</RelativeLayout>

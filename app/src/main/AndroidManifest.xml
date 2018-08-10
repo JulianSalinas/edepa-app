@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="imagisoft.modelview">
+    package="edepa.modelview">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
-        android:name="imagisoft.app.EdepaApplication"
+        android:name="edepa.app.EdepaApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -23,56 +23,54 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:vmSafeMode="true">
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAm_majKb0cW1f13-AaA9yGpxBS6e3tAnU" />
 
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/img_notification"/>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/edepa_primary"/>
+
         <activity
-            android:name=".signin.SignInActivity"
+            android:name="edepa.signin.SignInActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".activity.MainNavigation"
+            android:name="edepa.activity.MainNavigation"
             android:configChanges="locale"
             android:label="@string/app_title"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme"/>
 
-        <service
-            android:name="imagisoft.services.AlarmService"
-            android:exported="false">
+        <service android:name="edepa.services.AlarmService">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
 
-        <receiver
-            android:name="imagisoft.services.AlarmReceiver"
-            android:enabled="true">
+        <service android:name="edepa.services.NotificationService">
             <intent-filter>
-                <action android:name=".AlarmBroadcastReceiver" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
-        </receiver>
+        </service>
 
-        <activity
-            android:name=".settings.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".activity.MainNavigation">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="imagisoft.modelview.activity.MainNavigation" />
-        </activity>
     </application>
 
 </manifest>

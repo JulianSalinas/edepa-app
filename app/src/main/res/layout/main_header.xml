@@ -27,6 +27,7 @@
 
         <ImageView
             android:src="@drawable/ic_edepa"
+            android:layout_gravity="center_horizontal"
             android:layout_width="@dimen/avatar_biggest_width"
             android:layout_height="@dimen/avatar_biggest_height"
             android:contentDescription="@null" />

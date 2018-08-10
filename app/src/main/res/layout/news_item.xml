@@ -40,7 +40,7 @@
             android:layout_marginBottom="@dimen/space_small"
             android:contentDescription="@null"
             android:scaleType="centerCrop"
-            tools:src="@drawable/img_map" />
+            tools:src="@drawable/img_minimap" />
 
         <RelativeLayout
             android:layout_width="match_parent"

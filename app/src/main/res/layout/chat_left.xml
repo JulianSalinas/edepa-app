@@ -10,14 +10,14 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <include layout="@layout/chat_timestamp"/>
+    <include layout="@layout/chat_time"/>
 
     <FrameLayout
 
         android:minWidth="@dimen/space_chat_item_min_width"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foreground="@drawable/selector_bar"
+        android:foreground="@drawable/util_selector_bar"
         android:descendantFocusability="blocksDescendants">
 
         <android.support.v7.widget.CardView
