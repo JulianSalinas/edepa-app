@@ -22,6 +22,18 @@
     <color name="app_chat_left">#FFFFFF</color>
     <color name="app_chat_right">#fff3e0</color>
 
+    <color name="cool_orange">#E96E00</color>
+    <color name="cool_orange_dark">#C24200</color>
+    <color name="cool_orange_light">#FF8B00</color>
+
+    <color name="cool_red">#E90C1D</color>
+    <color name="cool_red_dark">#C20013</color>
+    <color name="cool_red_light">#FF2323</color>
+
+    <color name="cool_purple">#9E52F7</color>
+    <color name="cool_purple_dark">#8430DF</color>
+    <color name="cool_purple_light">#B068FF</color>
+
     <color name="app_fair">@color/material_green</color>
     <color name="app_atelier">@color/material_red</color>
     <color name="app_conference">@color/material_purple</color>

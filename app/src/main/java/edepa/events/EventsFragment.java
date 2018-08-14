@@ -157,10 +157,20 @@ public abstract class EventsFragment
     public void changeEvent(ScheduleEvent event){
         int index = events.indexOf(event);
         if (index != -1) {
+
+            // Solo se actualiza la vista si el cambio
+            // fue cualquier cosa excepto la cantidad de favoritos
+            ScheduleEvent before = events.get(index);
+            boolean favoriteAmoutChanged
+                    = event.getFavoritesAmount()
+                    != before.getFavoritesAmount();
+
             String key = event.getKey();
             events.set(index, event);
             setFavoriteEvent(key, favorites.contains(key));
-            eventsAdapter.notifyItemChanged(index);
+
+            if(!favoriteAmoutChanged)
+                eventsAdapter.notifyItemChanged(index);
         }
     }
 

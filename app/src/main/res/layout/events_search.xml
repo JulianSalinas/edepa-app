@@ -11,7 +11,7 @@
         android:scrollbars="vertical"
         android:paddingStart="@dimen/space_small"
         android:paddingEnd="@dimen/space_small"
-        tools:listitem="@layout/events_item"
+        tools:listitem="@layout/event_item"
         android:scrollbarStyle="outsideInset"
         android:tag=":aesthetic_ignore"/>
 

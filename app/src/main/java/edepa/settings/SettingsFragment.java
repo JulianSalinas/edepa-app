@@ -2,17 +2,24 @@ package edepa.settings;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+import android.content.SharedPreferences;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
 import edepa.modelview.R;
+import edepa.model.Cloud;
+import edepa.model.Preferences;
 import edepa.activity.MainNavigation;
+import static edepa.model.Preferences.LANG_KEY;
+import static edepa.model.Preferences.USER_KEY;
 
 /**
  * Las preferencias que se cambian en el fragmento son
  * automáticamente aplicadas y reflejadas en la instancia
  * de {@link edepa.model.Preferences}
  */
-public class SettingsFragment extends PreferenceFragmentCompat {
+public class SettingsFragment extends PreferenceFragmentCompat
+        implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     /**
      * {@inheritDoc}
@@ -43,6 +50,58 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         view.setBackgroundColor(getResources().getColor(R.color.app_white));
+    }
+
+    /**
+     * Se coloca la escucha para cuando suceden cambios
+     * en las preferecias
+     * @see #onPause()
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPreferenceManager().getSharedPreferences()
+        .registerOnSharedPreferenceChangeListener(this);
+    }
+
+    /**
+     * Se dejan de escuchar los cambios en las
+     * preferencias
+     * @see #onResume()
+     */
+    @Override
+    public void onPause() {
+        super.onPause();
+        getPreferenceManager().getSharedPreferences()
+        .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    /**
+     * {@inheritDoc}
+     * Al cambiar la preferencia del idioma la aplicación se reinicia
+     */
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+        Preferences prefs = Preferences.getInstance();
+        MainNavigation activity = (MainNavigation) getActivity();
+
+        // Se ha cambiado el lenguage
+        if (key.equals(LANG_KEY)){
+            String lang = prefs.getStringPreference(getContext(), LANG_KEY);
+            SettingsLanguage.setLanguage(getContext(), lang);
+            String msg = getString(R.string.text_language_changed);
+            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+            if (activity != null) activity.restartApplication(Cloud.CONFIG);
+        }
+
+        // Se ha cambiado el nombre de usuario
+        else if (key.equals(USER_KEY)){
+            String msg = getString(R.string.text_username_changed);
+            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+            if (activity != null) activity.showWelcomeMessage();
+        }
+
     }
 
 }

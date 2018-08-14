@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:id="@+id/schedule_item"
@@ -77,49 +78,69 @@
                     android:layout_height="1dp"
                     android:background="@color/app_accent_light" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="45dp"
-                    android:baselineAligned="true"
-                    android:orientation="horizontal">
+                    android:baselineAligned="true">
 
                     <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="85">
+                        android:id="@+id/readmore_container"
+                        android:layout_width="100dp"
+                        android:layout_height="45dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true">
 
                         <TextView
                             android:id="@+id/readmore"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginBottom="@dimen/space_medium"
-                            android:padding="@dimen/space_medium"
+                            android:layout_centerInParent="true"
                             android:tag=":aesthetic_ignore"
                             android:text="@string/text_readmore"
                             android:textColor="@color/app_accent" />
 
                     </RelativeLayout>
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="15">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_alignParentEnd="true"
+                        android:orientation="horizontal">
 
-                        <com.like.LikeButton
-                            app:liked="false"
-                            android:id="@+id/favorite_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentTop="true"
-                            app:icon_size="22dp"
-                            app:icon_type="star" />
+                        <!--<RelativeLayout-->
+                            <!--android:id="@+id/flipper_button"-->
+                            <!--android:layout_width="45dp"-->
+                            <!--android:layout_height="match_parent">-->
 
-                    </RelativeLayout>
+                            <!--<ImageView-->
+                                <!--android:src="@drawable/ic_flip"-->
+                                <!--android:tint="@color/app_primary_font"-->
+                                <!--android:layout_width="@dimen/size_icon"-->
+                                <!--android:layout_height="@dimen/size_icon"-->
+                                <!--android:layout_centerInParent="true"-->
+                                <!--android:contentDescription="@null"/>-->
 
-                </LinearLayout>
+                        <!--</RelativeLayout>-->
+
+                        <RelativeLayout
+                            android:layout_width="45dp"
+                            android:layout_height="match_parent">
+
+                            <com.like.LikeButton
+                                app:liked="false"
+                                android:id="@+id/favorite_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentTop="true"
+                                app:icon_size="22dp"
+                                app:icon_type="star" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
 
             </LinearLayout>
 

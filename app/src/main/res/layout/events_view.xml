@@ -31,7 +31,7 @@
         android:scrollbarStyle="outsideInset"
 
         android:tag=":aesthetic_ignore"
-        tools:listitem="@layout/events_item"/>
+        tools:listitem="@layout/event_item"/>
 
     <TextView
         android:visibility="gone"

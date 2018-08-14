@@ -4,14 +4,15 @@ import android.graphics.Color;
 import android.content.Context;
 import android.content.res.Resources;
 
-import java.util.ArrayList;
 import edepa.modelview.R;
+import java.util.List;
+import java.util.ArrayList;
 
 
 public class MaterialGenerator {
 
     private Context context;
-    private ArrayList<Integer> colors;
+    private List<Integer> colors;
 
     public MaterialGenerator(Context context){
         this.context = context;

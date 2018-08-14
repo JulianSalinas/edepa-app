@@ -149,7 +149,7 @@
                 android:id="@+id/events_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/events_item"
+                tools:listitem="@layout/event_item"
                 android:layout_below="@+id/related_events_layout"/>
 
         </RelativeLayout>

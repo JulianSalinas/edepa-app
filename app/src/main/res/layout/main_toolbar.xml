@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:title="@string/app_name"
-            app:titleTextColor="@color/app_primary_font" />
+            app:titleTextColor="@color/app_primary_font"
+            app:layout_scrollFlags="scroll|enterAlways"/>
         <!--app:popupTheme="@style/AppTheme.PopupOverlay"-->
 
         <com.miguelcatalan.materialsearchview.MaterialSearchView

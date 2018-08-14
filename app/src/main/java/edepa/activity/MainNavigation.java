@@ -12,6 +12,9 @@ import edepa.pagers.PagerDetails;
 import edepa.pagers.TabbedFragment;
 import edepa.settings.SettingsFragment;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,28 +48,36 @@ public class MainNavigation extends MainActivity
     @Override
     protected void onCreateFirstCreation(){
         super.onCreateFirstCreation();
-        String tag = "SCHEDULE_FRAGMENT";
-        Fragment frag = new TabbedFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_content, frag, tag)
-                .commitNow();
-        handleIntent(getIntent());
+
+        if(!handleIntent(getIntent())){
+            String tag = "SCHEDULE_FRAGMENT";
+            Fragment frag = new TabbedFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main_content, frag, tag)
+                    .commitNow();
+        }
+
     }
 
-    private void handleIntent(Intent intent){
+    private boolean handleIntent(Intent intent){
+
         Bundle args = intent.getExtras();
-        if(args != null){
-            if(args.containsKey(Cloud.NEWS)) {
-                args.remove(Cloud.NEWS);
-                openNews();
-                runPendingRunnable();
-            }
-            else if (args.containsKey(Cloud.CONFIG)){
-                args.remove(Cloud.CONFIG);
-                openSettings();
-                runPendingRunnable();
-            }
+        if(args != null && args.containsKey(Cloud.NEWS)) {
+            args.remove(Cloud.NEWS);
+            openNews();
+            runPendingRunnable();
+            return true;
         }
+
+        else if (args != null && args.containsKey(Cloud.CONFIG)){
+            args.remove(Cloud.CONFIG);
+            openSettings();
+            runPendingRunnable();
+            return true;
+        }
+
+        return false;
+
     }
 
     /**
@@ -84,12 +95,26 @@ public class MainNavigation extends MainActivity
      * Se reinicia la aplicación, conservado el estado actual
      */
     public void restartApplication(String currentSection){
-        Bundle args = new Bundle();
-        args.putBoolean(currentSection, true);
+
         Intent refresh = new Intent(this, MainNavigation.class);
-        refresh.putExtras(args);
+        refresh.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        refresh.putExtra(currentSection, true);
+
+        int code = 123456;
+        PendingIntent intent = PendingIntent.getActivity(
+                this, code, refresh, PendingIntent.FLAG_CANCEL_CURRENT);
+
         startActivity(refresh);
-        finish();
+
+
+        AlarmManager mgr = (AlarmManager)
+                getSystemService(Context.ALARM_SERVICE);
+
+        if (mgr != null) {
+            mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 10, intent);
+            exit();
+        }
+
     }
 
     /**
@@ -279,7 +304,7 @@ public class MainNavigation extends MainActivity
         return false;
     }
 
-//    Fragment details = new EventsDetails();
+//    Fragment details = new EventDetail();
 
     public void openDetails(String eventKey){
         String tag = "DETAILS_FRAGMENT";

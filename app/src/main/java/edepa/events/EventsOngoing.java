@@ -218,7 +218,7 @@ public class EventsOngoing
         eventsEmptyView.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
         String s = DateConverter.longToString(System.currentTimeMillis());
         Log.i(toString(), String.format("Update complete at %s", s));
-        showStatusMessage("Events updated");
+        // showStatusMessage("Events updated");
     }
 
     /**

@@ -12,13 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import edepa.events.DetailFragment;
 import edepa.model.Cloud;
 import edepa.model.ScheduleEvent;
 import edepa.modelview.R;
 import edepa.activity.MainFragment;
 import edepa.loaders.EventsLoader;
 import edepa.interfaces.IEventsSubject;
-import edepa.events.EventsDetails;
 
 
 public class PagerDetails extends MainFragment implements IEventsSubject{
@@ -135,7 +135,9 @@ public class PagerDetails extends MainFragment implements IEventsSubject{
 
         @Override
         public Fragment getItem(int position) {
-            return EventsDetails.newInstance(eventsKeys.get(position));
+            ScheduleEvent event  = new ScheduleEvent();
+            event.setKey(eventsKeys.get(position));
+            return DetailFragment.newInstance(event);
         }
 
     }

@@ -88,7 +88,7 @@ public class Searcher {
     }
 
     /**
-     * A partir de una consulta se crear una expresión regular
+     * A partir de una consulta se crea una expresión regular
      * utilizado {@link #createPatternFromQuery(String)}.
      * A partir de esto se realiza una búsqueda sobre el texto
      * a consultar. Retorna una lista de MatchResults de los que
@@ -100,7 +100,7 @@ public class Searcher {
      * @return Lista de resultados donde se pueden extraer los indices
      * de cada una de las concidencias
      */
-    public static ArrayList<MatchResult> findAll(String query, String text){
+    public static ArrayList<MatchResult> autoSearch(String query, String text){
         ArrayList<MatchResult> results = new ArrayList<>();
         Pattern p = Searcher.createPatternFromQuery(query);
         Matcher m = p.matcher(text);
@@ -108,5 +108,23 @@ public class Searcher {
         return results;
     }
 
+    /**
+     * A partir de una regex se realiza una búsqueda sobre el texto
+     * a consultar. Retorna una lista de MatchResults de los que
+     * se puede extraer los indices del texto donde se encontraron
+     * las concidencias
+     *
+     * @param regex: Expresión regular
+     * @param text: Texto donde realizar la consulta
+     * @return Lista de resultados donde se pueden extraer los indices
+     * de cada una de las concidencias
+     */
+    public static ArrayList<MatchResult> customSearch(String regex, String text){
+        ArrayList<MatchResult> results = new ArrayList<>();
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(text);
+        while(m.find()) results.add(m.toMatchResult());
+        return results;
+    }
 
 }

@@ -1,27 +1,25 @@
 package edepa.events;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-import java.util.List;
-
-import edepa.misc.DateConverter;
-import edepa.model.Cloud;
-import edepa.modelview.R;
-import edepa.model.ScheduleEvent;
-import edepa.activity.MainNavigation;
-import edepa.custom.RecyclerAdapter;
-
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.view.LayoutInflater;
-import android.support.v7.widget.RecyclerView;
 
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import edepa.activity.MainNavigation;
+import edepa.custom.RecyclerAdapter;
+import edepa.misc.DateConverter;
+import edepa.model.ScheduleEvent;
+import edepa.modelview.R;
 
 /**
  * Sirve para enlazar las funciones a una actividad en específico
@@ -30,6 +28,7 @@ public abstract class EventsAdapter extends RecyclerAdapter {
 
     /**
      * Variables par escoger el tipo de vista que se colocará
+     *
      * @see #getItemViewType(int)
      */
     protected int SINGLE = 0;
@@ -65,27 +64,27 @@ public abstract class EventsAdapter extends RecyclerAdapter {
     public EventItem onCreateViewHolder(ViewGroup parent, int viewType) {
 
         int layout = viewType == SINGLE ?
-                R.layout.events_item :
-                R.layout.events_item_timed;
+                R.layout.event_item:
+                R.layout.event_item_time;
 
         View view = LayoutInflater
                 .from(parent.getContext())
                 .inflate(layout, parent, false);
 
         return viewType == SINGLE ?
-                new SingleEventItem(view):
-                new TitledEventItem(view);
+                new SingleEventItem(view) :
+                new TimedEventItem(view);
 
     }
 
     /**
-     *  Obtiene si la vista es un bloque de hora o una actividad
+     * Obtiene si la vista es un bloque de hora o una actividad
      */
     @Override
     public int getItemViewType(int position) {
 
         ScheduleEvent item = events.get(position);
-        if(position == 0) return WITH_SEPARATOR;
+        if (position == 0) return WITH_SEPARATOR;
 
         else {
             ScheduleEvent upItem = events.get(position - 1);
@@ -93,7 +92,7 @@ public abstract class EventsAdapter extends RecyclerAdapter {
             long upItemStart = upItem.getStart();
             long upItemEnd = upItem.getEnd();
 
-            return  Math.abs(upItemEnd - itemStart) < 20 * 60 * 1000 ||
+            return Math.abs(upItemEnd - itemStart) < 20 * 60 * 1000 ||
                     upItemStart <= itemStart && itemStart < upItemEnd ?
                     SINGLE : WITH_SEPARATOR;
         }
@@ -103,6 +102,7 @@ public abstract class EventsAdapter extends RecyclerAdapter {
     /**
      * {@inheritDoc}
      * Se enlazan los componentes y se agregan funciones a cada uno
+     *
      * @param position NO USAR, esta variable no tiene valor fijo.
      *                 Usar holder.getAdapterPosition()
      */
@@ -133,7 +133,7 @@ public abstract class EventsAdapter extends RecyclerAdapter {
          * Asigna los valores position y msg
          * Enlanza todos los componentes visuales
          */
-        public void bind(){
+        public void bind() {
             position = getAdapterPosition();
             event = events.get(position);
         }
@@ -157,6 +157,9 @@ public abstract class EventsAdapter extends RecyclerAdapter {
         @BindView(R.id.readmore)
         TextView readmore;
 
+        @BindView(R.id.readmore_container)
+        View readmore_container;
+
         @BindView(R.id.favorite_button)
         LikeButton favoriteButton;
 
@@ -167,7 +170,7 @@ public abstract class EventsAdapter extends RecyclerAdapter {
             super(itemView);
         }
 
-        public void bind(){
+        public void bind() {
             super.bind();
 
             header.setText(event.getTitle());
@@ -178,20 +181,21 @@ public abstract class EventsAdapter extends RecyclerAdapter {
 
             time_description.setText(description);
 
-            readmore.setOnClickListener(v ->
+            readmore_container.setOnClickListener(v ->
                     ((MainNavigation) context)
-                    .openDetails(event.getKey()));
+                            .setFragmentOnScreen(DetailFragment.newInstance(event), event.getKey()));
 
             favoriteButton.setLiked(event.isFavorite());
             favoriteButton.setOnLikeListener(this);
 
             setEmphasis();
+
         }
 
         /**
          * TODO Colocar aquí con base a preferencias
          */
-        public void setEmphasis(){
+        public void setEmphasis() {
             Resources res = context.getResources();
             int color = res.getColor(event.getEventype().getColor());
             line.setBackgroundColor(color);
@@ -200,35 +204,27 @@ public abstract class EventsAdapter extends RecyclerAdapter {
 
         @Override
         public void liked(LikeButton likeButton) {
-            String uid = Cloud.getInstance().getAuth().getUid();
-            if (uid != null) Cloud.getInstance()
-                    .getReference(Cloud.FAVORITES)
-                    .child(uid).child(event.getKey())
-                    .setValue(event.getDate());
+            FavoriteHandler.markAsFavorite(event);
         }
 
         @Override
         public void unLiked(LikeButton likeButton) {
-            String uid = Cloud.getInstance().getAuth().getUid();
-            if (uid != null) Cloud.getInstance()
-                    .getReference(Cloud.FAVORITES)
-                    .child(uid).child(event.getKey())
-                    .removeValue();
+            FavoriteHandler.unmarkAsFavorite(event);
         }
 
     }
 
-    class TitledEventItem extends SingleEventItem {
+    class TimedEventItem extends SingleEventItem {
 
         @BindView(R.id.schedule_item_time)
         TextView scheduleSeparator;
 
-        public TitledEventItem(View view) {
+        public TimedEventItem(View view) {
             super(view);
         }
 
         @Override
-        public void bind(){
+        public void bind() {
             super.bind();
             String date = DateConverter
                     .getBlockString(context, event.getStart());

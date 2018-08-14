@@ -8,7 +8,7 @@
 
     <include layout="@layout/events_time"/>
 
-    <include layout="@layout/events_item"/>
+    <include layout="@layout/event_item"/>
 
 </LinearLayout>
 

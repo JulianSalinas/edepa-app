@@ -261,18 +261,7 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>, Parcelable {
 
     @Override
     public String toString() {
-        return "ScheduleEvent{" +
-                "key='" + key + '\'' +
-                ", title='" + title + '\'' +
-                ", location='" + location + '\'' +
-                ", eventype=" + eventype +
-                ", end=" + end +
-                ", startRunnable=" + start +
-                ", favoritesAmount=" + favoritesAmount +
-                ", briefEnglish='" + briefEnglish + '\'' +
-                ", briefSpanish='" + briefSpanish + '\'' +
-                ", people=" + people +
-                '}';
+        return getTitle();
     }
 
 

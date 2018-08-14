@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:id="@+id/event_agenda_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="@dimen/size_icon_container"
+        android:layout_height="@dimen/size_icon_container">
+
+        <ImageView
+            android:src="@drawable/ic_schedule"
+            android:tint="@color/app_primary_font"
+            android:layout_width="@dimen/size_icon"
+            android:layout_height="@dimen/size_icon"
+            android:layout_centerInParent="true"
+            android:contentDescription="@null"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/app_accent_light"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/space_small"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="@dimen/font_medium"
+            android:text="@string/add_to_calendar"/>
+
+        <TextView
+            android:id="@+id/event_agenda_date_rage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/test_app_range_time"/>
+
+    </LinearLayout>
+
+</LinearLayout>

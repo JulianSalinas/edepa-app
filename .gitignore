@@ -16,3 +16,11 @@
 \.idea/inspectionProfiles/
 
 \.idea
+
+/cloud/node_modules
+
+/cloud/functions/node_modules
+
+/cloud\.idea
+
+/cloud\.vscode

@@ -17,10 +17,11 @@
     <dimen name="space_header_height">260dp</dimen>
 
     <!-- For icons and images-->
-    <dimen name="size_icon">25dp</dimen>
+    <dimen name="size_icon">24dp</dimen>
     <dimen name="size_gmap">250dp</dimen>
     <dimen name="size_dialog">250dp</dimen>
     <dimen name="size_header_img">230dp</dimen>
+    <dimen name="size_header_detail_img">285dp</dimen>
     <dimen name="size_detail_img">200dp</dimen>
     <dimen name="size_container_img">150dp</dimen>
 
@@ -64,5 +65,7 @@
     <dimen name="space_medium">10dp</dimen>
     <dimen name="infinix_indicator_height">22dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="detail_backdrop">256dp</dimen>
+    <dimen name="size_icon_container">56dp</dimen>
 
 </resources>

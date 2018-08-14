@@ -38,6 +38,7 @@ import edepa.model.Cloud;
 import edepa.model.Preferences;
 import edepa.model.Searcher;
 import edepa.modelview.R;
+import edepa.settings.SettingsLanguage;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -352,7 +353,7 @@ public abstract class MainActivity extends AppCompatActivity
      * @see Searcher#findFirstName(String)
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    private void showWelcomeMessage(){
+    public void showWelcomeMessage(){
 
         Preferences prefs = Preferences.getInstance();
         String username = prefs.getStringPreference(this, USER_KEY);
