@@ -26,11 +26,14 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import edepa.app.EdepaAdmin;
+import edepa.custom.DialogCustom;
 import edepa.misc.DateCalculator;
 import edepa.model.Cloud;
 import edepa.model.NewsItem;
 import edepa.modelview.R;
-import edepa.custom.ImageFragment;
+import edepa.custom.FragmentImage;
 import edepa.custom.RecyclerAdapter;
 import me.saket.bettermovementmethod.BetterLinkMovementMethod;
 
@@ -106,6 +109,9 @@ public class NewsAdapter extends RecyclerAdapter {
         @BindView(R.id.news_item_thumbnail)
         ImageView itemThumbnail;
 
+        @BindView(R.id.news_item_delete)
+        View itemDelete;
+
         public NewsItemHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -132,6 +138,37 @@ public class NewsAdapter extends RecyclerAdapter {
             if (itemThumbnail.getVisibility() == View.VISIBLE) loadThumbnail(imageUrl);
             setThumbnailOnClickListener();
 
+            itemDelete.setVisibility(View.GONE);
+            EdepaAdmin admin = new EdepaAdmin();
+            admin.setAdminPermissionListener(new EdepaAdmin.AdminPermissionListener() {
+
+                @Override
+                public void onPermissionGranted() {
+                    itemDelete.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onPermissionDenied() {
+                    itemDelete.setVisibility(View.GONE);
+                }
+            });
+            admin.requestAdminPermission();
+
+        }
+
+        @OnClick(R.id.news_item_delete)
+        public void deleteItem(){
+            DialogCustom.Builder builder = new DialogCustom.Builder();
+            builder .setInflater(fragment.getLayoutInflater())
+                    .setStatus(DialogCustom.WARNING)
+                    .setTitle(R.string.text_warning)
+                    .setContent(R.string.text_warning_delete_new)
+                    .setExistsCancel(true)
+                    .setOnAcceptClick(v -> Cloud.getInstance()
+                            .getReference(Cloud.NEWS)
+                            .child(newsItem.getKey())
+                            .removeValue());
+            builder.build().show();
         }
 
         /**
@@ -185,7 +222,7 @@ public class NewsAdapter extends RecyclerAdapter {
          * @param imageUrl: Url de la imagen
          */
         public void openImage(String imageUrl){
-            Fragment imageFragment = ImageFragment
+            Fragment imageFragment = FragmentImage
                     .newInstance(newsItem.getTitle(), imageUrl);
             fragment.setFragmentOnScreen(imageFragment);
         }

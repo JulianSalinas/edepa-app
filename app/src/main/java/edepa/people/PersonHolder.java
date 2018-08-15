@@ -14,7 +14,7 @@ import edepa.misc.MaterialGenerator;
 import edepa.model.Person;
 import edepa.modelview.R;
 
-public class PersonViewHolder extends RecyclerView.ViewHolder {
+public class PersonHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.exhibitor_avatar_view)
     CircleInitialsView avatarView;
@@ -22,12 +22,12 @@ public class PersonViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.name_text_view)
     TextView personNameView;
 
-    @BindView(R.id.title_text_view)
+    @BindView(R.id.text_title)
     TextView personTitleView;
 
     protected Person person;
 
-    public PersonViewHolder(View itemView) {
+    public PersonHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }

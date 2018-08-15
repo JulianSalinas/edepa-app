@@ -8,13 +8,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import edepa.model.Cloud;
-import edepa.custom.ImageFragment;
+import edepa.custom.FragmentImage;
 
 /**
  * Muestra el croquis o mapa (imagen) según una posición
  * ya fijada en firebase /config/minimap
  */
-public class MinimapFragment extends ImageFragment implements ValueEventListener{
+public class MinimapFragment extends FragmentImage implements ValueEventListener{
 
     /**
      * Nombre de la clave donde se encuentra la imagen

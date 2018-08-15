@@ -9,12 +9,12 @@ import java.util.List;
 import edepa.model.Searcher;
 import edepa.modelview.R;
 
-public class WallpaperGenerator {
+public class WallGenerator {
 
     private Context context;
     private List<Drawable> drawables;
 
-    public WallpaperGenerator(Context context) {
+    public WallGenerator(Context context) {
         this.context = context;
         this.drawables = new ArrayList<>();
     }

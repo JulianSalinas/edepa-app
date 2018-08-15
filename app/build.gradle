@@ -99,7 +99,7 @@ dependencies {
     implementation 'com.wajahatkarim3.EasyFlipView:EasyFlipView:2.1.0'
 
     // Descargar archivos
-    implementation 'com.mindorks.android:prdownloader:0.4.0'
+    implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.24.0'
 
     implementation 'com.github.bumptech.glide:glide:4.7.1'
 

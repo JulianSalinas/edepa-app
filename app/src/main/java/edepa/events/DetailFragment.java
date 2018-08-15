@@ -1,9 +1,11 @@
 package edepa.events;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -26,20 +28,24 @@ import java.util.List;
 import butterknife.BindView;
 import edepa.activity.MainFragment;
 import edepa.misc.DateConverter;
-import edepa.misc.WallpaperGenerator;
+import edepa.misc.WallGenerator;
 import edepa.model.Cloud;
 import edepa.model.Person;
 import edepa.model.Preferences;
 import edepa.model.ScheduleEvent;
 import edepa.modelview.R;
-import edepa.people.PersonViewHolder;
+import edepa.people.PersonHolder;
+import edepa.services.DownloadService;
 import edepa.settings.SettingsLanguage;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static edepa.settings.SettingsLanguage.ENGLISH;
 import static edepa.settings.SettingsLanguage.SPANISH;
 
 
-public class DetailFragment extends MainFragment implements ValueEventListener {
+public class DetailFragment extends MainFragment
+        implements ValueEventListener, DownloadService.DownloadListener{
 
     private static final String SAVED_EVENT_KEY = "event_state";
 
@@ -102,6 +108,8 @@ public class DetailFragment extends MainFragment implements ValueEventListener {
 
     @BindView(R.id.event_agenda_date_rage)
     TextView eventAgendaDateRange;
+
+    private DownloadHolder downloadHolder;
 
     /**
      * Evento que se coloca en pantalla
@@ -183,7 +191,7 @@ public class DetailFragment extends MainFragment implements ValueEventListener {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setToolbarVisibility(View.GONE);
+        setToolbarVisibility(GONE);
         updateEvent();
         updateFavoriteIcon();
     }
@@ -274,12 +282,33 @@ public class DetailFragment extends MainFragment implements ValueEventListener {
         bindLocation();
         bindDateRange();
         bindFavorites();
+        bindDownload();
+
+        eventAgendaView.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_INSERT)
+                    .setData(CalendarContract.Events.CONTENT_URI)
+                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.getStart())
+                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.getEnd())
+                    .putExtra(CalendarContract.Events.TITLE, event.getTitle())
+                    .putExtra(CalendarContract.Events.EVENT_LOCATION, event.getLocation())
+                    .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+            startActivity(intent);
+        });
 
         buttonBackView.setOnClickListener(v -> getMainActivity().onBackPressed());
     }
 
+    private void bindDownload() {
+        boolean visible = event.getFileUrl() != null;
+        eventDownloadView.setVisibility(visible ? VISIBLE : GONE);
+        if (visible && downloadHolder == null) {
+            downloadHolder = new DownloadHolder(eventDownloadView)
+            .setFileUrl(event.getFileUrl()).setListener(this);
+        }
+    }
+
     private void bindToolbarImage() {
-        WallpaperGenerator gen = new WallpaperGenerator(getMainActivity());
+        WallGenerator gen = new WallGenerator(getMainActivity());
         Drawable wallpaper = gen.getWallpaper(event.getLocation());
         toolbarImage.setImageDrawable(wallpaper);
     }
@@ -331,7 +360,7 @@ public class DetailFragment extends MainFragment implements ValueEventListener {
     private void updateFavoriteIcon(){
         favoriteButton.setColorFilter(
         getResources().getColor(event.isFavorite() ?
-                R.color.material_yellow: R.color.app_primary_font));
+                R.color.material_amber: R.color.app_primary_font));
     }
 
     /**
@@ -351,8 +380,8 @@ public class DetailFragment extends MainFragment implements ValueEventListener {
         String lang = SettingsLanguage.getCurrentLanguage(getContext());
 
         if (event.getBriefSpanish() == null && event.getBriefEnglish() == null) {
-            eventDetailAbstract.setVisibility(View.GONE);
-            eventAbstractContainer.setVisibility(View.GONE);
+            eventDetailAbstract.setVisibility(GONE);
+            eventAbstractContainer.setVisibility(GONE);
         }
 
         if (lang.equals(SPANISH) && event.getBriefSpanish() != null)
@@ -397,9 +426,9 @@ public class DetailFragment extends MainFragment implements ValueEventListener {
                 event.getPeople().size() > 0;
 
         if(!available) {
-            peopleFlipView.setVisibility(View.GONE);
-            peopleContainer.setVisibility(View.GONE);
-            peopleFront.setVisibility(View.GONE);
+            peopleFlipView.setVisibility(GONE);
+            peopleContainer.setVisibility(GONE);
+            peopleFront.setVisibility(GONE);
         }
 
         else for (String personKey : event.getPeople()) {
@@ -418,7 +447,7 @@ public class DetailFragment extends MainFragment implements ValueEventListener {
         @SuppressLint("InflateParams")
         View view = getLayoutInflater().inflate(R.layout.people_item, null);
         View line = getLayoutInflater().inflate(R.layout.custom_line, null);
-        new PersonViewHolder(view).bind(person);
+        new PersonHolder(view).bind(person);
         peopleContainer.addView(view, getPersonLayoutParams());
         peopleContainer.addView(line, getLineLayoutParams());
     }
@@ -436,6 +465,21 @@ public class DetailFragment extends MainFragment implements ValueEventListener {
         params.setMarginStart((int) res.getDimension(R.dimen.space_default));
         params.setMarginEnd((int) res.getDimension(R.dimen.space_default));
         return params;
+    }
+
+    @Override
+    public void onDownloadOffline() {
+        showStatusMessage(R.string.text_download_error);
+    }
+
+    @Override
+    public void onDownloadStarted() {
+        showStatusMessage(R.string.text_download_started);
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
     }
 
 }

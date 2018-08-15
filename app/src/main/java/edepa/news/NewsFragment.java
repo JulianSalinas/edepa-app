@@ -1,18 +1,28 @@
 package edepa.news;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+import edepa.app.EdepaAdmin;
 import edepa.modelview.R;
 import edepa.custom.RecyclerAdapter;
 import edepa.custom.RecyclerFragment;
 import edepa.custom.SmoothLayout;
 
 
-public class NewsFragment extends RecyclerFragment {
+public class NewsFragment extends RecyclerFragment
+        implements EdepaAdmin.AdminPermissionListener {
+
+    private EdepaAdmin admin;
+
+    public boolean isAdmin() {
+        return admin != null && admin.isAdmin();
+    }
 
     /**
      * Es donde se colocan cada uno de los mensajes
@@ -25,6 +35,9 @@ public class NewsFragment extends RecyclerFragment {
     protected RecyclerView getRecyclerView() {
         return newsRV;
     }
+
+    @BindView(R.id.publish_button)
+    FloatingActionButton publishButton;
 
     /**
      * Contiene todos los posts de las noticias y ejecuta
@@ -53,6 +66,8 @@ public class NewsFragment extends RecyclerFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         newsVA = new NewsFirebase(this);
+        admin = new EdepaAdmin();
+        admin.setAdminPermissionListener(this);
     }
 
     /**
@@ -64,6 +79,7 @@ public class NewsFragment extends RecyclerFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        admin.requestAdminPermission();
         setToolbarText(R.string.nav_news);
         setToolbarVisibility(View.VISIBLE);
         setStatusBarColorRes(R.color.app_primary_dark);
@@ -73,6 +89,22 @@ public class NewsFragment extends RecyclerFragment {
         newsRV.setItemAnimator(new DefaultItemAnimator());
         newsRV.setLayoutManager(new SmoothLayout(getActivity()));
 
+    }
+
+    @OnClick(R.id.publish_button)
+    public void openNewsEditor(){
+        String tag = "NEWS_EDITOR";
+        setFragmentOnScreen(new NewsEditor(), tag);
+    }
+
+    @Override
+    public void onPermissionGranted() {
+        publishButton.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onPermissionDenied() {
+        publishButton.setVisibility(View.GONE);
     }
 
 }

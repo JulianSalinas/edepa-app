@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:background="@color/app_white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/material_orange">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_default"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            tools:ignore="UseCompoundDrawables, UselessParent">
+
+            <ImageView
+                android:tint="@color/app_white"
+                android:src="@drawable/dialog_warning"
+                android:layout_gravity="center"
+                android:layout_width="@dimen/size_icon_container"
+                android:layout_height="@dimen/size_icon_container"
+                android:contentDescription="@null"/>
+
+            <TextView
+                android:id="@+id/text_title"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="@dimen/font_big"
+                android:textColor="@color/app_accent_font"
+                tools:text="@string/text_warning"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_content"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/space_default"
+            tools:text="@string/text_lorem_ipsum"/>
+
+        <View
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/app_accent_light"/>
+
+        <LinearLayout
+            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/text_accept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/space_default"
+                android:text="@string/text_accept"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textColor="@color/material_deep_orange"/>
+
+            <TextView
+                android:id="@+id/text_cancel"
+                android:layout_gravity="end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/space_default"
+                android:text="@string/text_cancel"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textColor="@color/material_deep_orange"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

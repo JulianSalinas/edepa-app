@@ -18,7 +18,7 @@ import static com.bumptech.glide.request.RequestOptions.fitCenterTransform;
  * Es importante para abrir imagenes dentro de la
  * aplicación
  */
-public class ImageFragment extends MainFragment {
+public class FragmentImage extends MainFragment {
 
     /**
      * Se muestra en MainNavigation{@link #getToolbar()}
@@ -53,28 +53,28 @@ public class ImageFragment extends MainFragment {
      * a que {@link #imageUrl} no se null y así Glide
      * no deje la imagen en blanco
      * @param imageUrl: Dirección web de la imagen
-     * @return ImageFragment
+     * @return FragmentImage
      */
     public static Fragment newInstance(String imageUrl){
         Bundle args = new Bundle();
         args.putString("imageUrl", imageUrl);
-        Fragment fragment = new ImageFragment();
+        Fragment fragment = new FragmentImage();
         fragment.setArguments(args);
         return fragment;
     }
 
     /**
-     * Hace lo mismo que {@link ImageFragment#newInstance(String)}
+     * Hace lo mismo que {@link FragmentImage#newInstance(String)}
      * pero además se coloca un título personalizado a la imagen
      * @param title: Título de la imagen
      * @param imageUrl: Dirección web de la imagen
-     * @return ImageFragment
+     * @return FragmentImage
      */
     public static Fragment newInstance(String title, String imageUrl){
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putString("imageUrl", imageUrl);
-        Fragment fragment = new ImageFragment();
+        Fragment fragment = new FragmentImage();
         fragment.setArguments(args);
         return fragment;
     }
@@ -82,7 +82,7 @@ public class ImageFragment extends MainFragment {
     /**
      * {@inheritDoc}
      * Se recuperan los argumentos pasados en
-     * {@link ImageFragment#newInstance(String)}
+     * {@link FragmentImage#newInstance(String)}
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {

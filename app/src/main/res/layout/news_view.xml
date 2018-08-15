@@ -6,21 +6,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/img_wallpaper"
-            android:contentDescription="@null"
-            android:scaleType="centerCrop">
-        </ImageView>
-
-    </FrameLayout>
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/news_rv"
@@ -37,5 +24,18 @@
         android:tag=":aesthetic_ignore">
 
     </android.support.v7.widget.RecyclerView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/publish_button"
+        android:visibility="gone"
+        android:layout_width="@dimen/size_icon_container"
+        android:layout_height="@dimen/size_icon_container"
+        android:layout_margin="@dimen/space_default"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:tint="@color/app_white"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 </RelativeLayout>

@@ -35,12 +35,19 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>, Parcelable {
      */
     protected Long end;
     protected Long start;
-
     protected Long date;
-
     protected int favoritesAmount;
-
     protected boolean isFavorite;
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+    }
+
+    protected String fileUrl;
 
     /**
      * Getters y Setters de las fechas
@@ -264,7 +271,6 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>, Parcelable {
         return getTitle();
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -281,6 +287,7 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>, Parcelable {
         dest.writeValue(this.date);
         dest.writeInt(this.favoritesAmount);
         dest.writeByte(this.isFavorite ? (byte) 1 : (byte) 0);
+        dest.writeString(this.fileUrl);
         dest.writeString(this.briefEnglish);
         dest.writeString(this.briefSpanish);
         dest.writeSerializable(this.people);
@@ -297,6 +304,7 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>, Parcelable {
         this.date = (Long) in.readValue(Long.class.getClassLoader());
         this.favoritesAmount = in.readInt();
         this.isFavorite = in.readByte() != 0;
+        this.fileUrl = in.readString();
         this.briefEnglish = in.readString();
         this.briefSpanish = in.readString();
         this.people = (HashMap<String, Boolean>) in.readSerializable();
@@ -313,5 +321,4 @@ public class ScheduleEvent implements Comparable<ScheduleEvent>, Parcelable {
             return new ScheduleEvent[size];
         }
     };
-
 }

@@ -257,5 +257,26 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="press_to_preview">Presiona para visualizar</string>
     <string name="add_to_calendar">Agregar al calendario</string>
+    <string name="text_download_file">Presione para descargar el archivo</string>
+    <string name="text_download_complete">Descarga completa</string>
+    <string name="text_download_error">Error al descargar</string>
+    <string name="text_download_started">La descarga ha iniciado</string>
+    <string name="text_information">Información</string>
+    <string name="text_close">Cerrar</string>
+    <string name="text_accept">Aceptar</string>
+    <string name="text_success">Éxito</string>
+    <string name="text_warning">Advertencia</string>
+
+    <string name="text_success_publication">Noticia publicada</string>
+    <string name="text_error_publication">Error al realizar la publicación</string>
+
+    <string name="text_warning_publication">Advertencia</string>
+    <string name="text_warning_publication_content">La noticia ha sido guardada. Se publicará
+        cuando se retome la conexión a internet</string>
+    <string name="text_title">Título</string>
+    <string name="text_content">contenido</string>
+    <string name="post_new">Publicar noticia</string>
+    <string name="upload_image">Subir imagen (opcional)</string>
+    <string name="text_warning_delete_new">Si borrar la noticia los demás usuario ya no podrán accederla</string>
 
 </resources>

@@ -33,6 +33,13 @@ public class Searcher {
     Pattern FIRST_NAME_PATTERN = Pattern.compile("([\\w\\.@]+)");
 
     /**
+     * Patrón para obtener el nombre del archivo
+     * proveniente de una Url
+     */
+    private final static
+    Pattern FILE_FROM_URL_PATTERN = Pattern.compile("[^\\/]+$");
+
+    /**
      * Remueven tildes y cambia todos a minúsculas
      * @param str: String sin normalizar
      * @return String sin tildes y en minúsculas
@@ -71,6 +78,17 @@ public class Searcher {
      */
     public static String findFirstName(String completeName){
         Matcher m = FIRST_NAME_PATTERN.matcher(completeName);
+        return m.find() ? m.group(0) : null;
+    }
+
+    /**
+     * Utiliza el patrón {@link #FILE_FROM_URL_PATTERN} para
+     * encontrar el nombre de archivo desde una url
+     * @param fileUrl: Url del archivo a descargar
+     * @return Nombre del archivo
+     */
+    public static String findFilenameFromUrl(String fileUrl){
+        Matcher m = FILE_FROM_URL_PATTERN.matcher(fileUrl);
         return m.find() ? m.group(0) : null;
     }
 

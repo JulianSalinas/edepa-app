@@ -13,6 +13,8 @@ import com.google.firebase.database.FirebaseDatabase;
 public class Cloud {
 
     public static final String PEOPLE = "people";
+    public static final String ADMINS = "admins";
+
     /**
      * Principales caracteristicas de Firebase
      */

@@ -1,5 +1,6 @@
 <android.support.design.widget.CoordinatorLayout
 
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
 
@@ -59,9 +60,9 @@
                         android:id="@+id/event_detail_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Centro de las artes"
                         android:textColor="@color/app_white"
-                        android:textAppearance="@style/TextAppearance.Title.Expanded" />
+                        android:textAppearance="@style/TextAppearance.Title.Expanded"
+                        tools:text="Centro de las artes"/>
 
                     <TextView
                         android:id="@+id/event_detail_date_range"
@@ -88,11 +89,10 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/space_default"
                         android:layout_marginEnd="@dimen/space_small"
-
-                        android:text="156"
                         android:textStyle="bold"
                         android:textColor="@color/app_accent_font"
-                        android:textAppearance="@style/TextAppearance.Subtitle.Expanded"/>
+                        android:textAppearance="@style/TextAppearance.Subtitle.Expanded"
+                        tools:text="156"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -131,7 +131,7 @@
                 android:layout_marginTop="@dimen/space_default"
                 android:layout_marginStart="@dimen/space_default"
                 android:layout_marginEnd="@dimen/space_default"
-                android:text="Title"
+                android:text="@string/text_title"
                 android:fontFamily="sans-serif-light"/>
 
             <TextView
@@ -164,7 +164,7 @@
                     android:layout_marginBottom="@dimen/space_small"
                     android:layout_marginStart="@dimen/space_default"
                     android:layout_marginEnd="@dimen/space_default"
-                    android:text="Abstract"
+                    android:text="@string/text_abstract"
                     android:textStyle="italic"
                     android:fontFamily="sans-serif-light"/>
 

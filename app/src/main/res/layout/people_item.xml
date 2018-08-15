@@ -32,7 +32,7 @@
             android:textSize="@dimen/font_medium" />
 
         <TextView
-            android:id="@+id/title_text_view"
+            android:id="@+id/text_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/test_university"/>

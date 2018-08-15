@@ -11,7 +11,7 @@ import edepa.activity.MainFragment;
 /**
  * Fragmento utilizado con el próposito de realizar pruebas
  */
-public class BlankFragment extends MainFragment {
+public class FragmentBlanck extends MainFragment {
 
     /**
      * El texto en el centro que muestra en fragmento
@@ -29,21 +29,21 @@ public class BlankFragment extends MainFragment {
 
     /**
      * Crea una nueva instancia del fragmento
-     * @return BlankFragment
+     * @return FragmentBlanck
      */
-    public static BlankFragment newInstance(){
-        return new BlankFragment();
+    public static FragmentBlanck newInstance(){
+        return new FragmentBlanck();
     }
 
     /**
      * Crea una nueva instancia del fragmento y además
      * añade una descripción
      * @param description: Texto para mostrar
-     * @return BlankFragment
+     * @return FragmentBlanck
      */
-    public static BlankFragment newInstance(String description){
+    public static FragmentBlanck newInstance(String description){
         Bundle args = new Bundle();
-        BlankFragment frag = new BlankFragment();
+        FragmentBlanck frag = new FragmentBlanck();
         args.putString("description", description);
         frag.setArguments(args);
         return frag;
