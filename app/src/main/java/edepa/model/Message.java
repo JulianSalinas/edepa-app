@@ -1,64 +1,88 @@
 package edepa.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Objects;
 
-/**
- * Clase usada para enviar y recibir mensajes del chat
- */
-public class Message {
+public class Message implements Parcelable {
 
-    private String key;
-    private Long time;
+    protected String key;
+
+    private long time;
+    private boolean delivered;
+    private boolean fromCurrentUser;
+
     private String userid;
     private String content;
     private String username;
-    private boolean delivered;
 
-    public void setKey(String key) {
-        this.key = key;
+    public Message() {}
+
+    private Message(Builder builder) {
+        setKey(builder.key);
+        setTime(builder.time);
+        setDelivered(builder.delivered);
+        setFromCurrentUser(builder.fromCurrentUser);
+        setUserid(builder.userid);
+        setContent(builder.content);
+        setUsername(builder.username);
     }
 
     public String getKey() {
         return key;
     }
 
-    public Long getTime() {
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public long getTime() {
         return time;
     }
 
-    public String getUserid() {
-        return userid;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public String getUsername() {
-        return username;
+    public void setTime(long time) {
+        this.time = time;
     }
 
     public boolean isDelivered() {
         return delivered;
     }
 
-    /**
-     * Contructor vacío requerido por firebase
-     */
-    public Message(){
-
+    public void setDelivered(boolean delivered) {
+        this.delivered = delivered;
     }
 
-    /**
-     * Constructor utilizado desde el chat para enviar mensajes
-     * No utiliza la key porque este lo asigna Firebase
-     */
-    public Message(String userid, String username, String content, Long time) {
-        this.time = time;
+    public boolean isFromCurrentUser() {
+        return fromCurrentUser;
+    }
+
+    public void setFromCurrentUser(boolean fromCurrentUser) {
+        this.fromCurrentUser = fromCurrentUser;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
         this.userid = userid;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
         this.username = username;
-        this.delivered = false;
     }
 
     @Override
@@ -66,13 +90,105 @@ public class Message {
         if (this == o) return true;
         if (!(o instanceof Message)) return false;
         Message message = (Message) o;
-        return Objects.equals(key, message.key);
+        return Objects.equals(getKey(), message.getKey());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(key);
+        return Objects.hash(getKey());
     }
+
+    public static final class Builder {
+
+        private String key;
+        private long time;
+        private boolean delivered;
+        private boolean fromCurrentUser;
+        private String userid;
+        private String content;
+        private String username;
+
+        public Builder() {
+        }
+
+        public Builder key(String key) {
+            this.key = key;
+            return this;
+        }
+
+        public Builder time(long time) {
+            this.time = time;
+            return this;
+        }
+
+        public Builder delivered(boolean delivered) {
+            this.delivered = delivered;
+            return this;
+        }
+
+        public Builder fromCurrentUser(boolean fromCurrentUser) {
+            this.fromCurrentUser = fromCurrentUser;
+            return this;
+        }
+
+        public Builder userid(String userid) {
+            this.userid = userid;
+            return this;
+        }
+
+        public Builder content(String content) {
+            this.content = content;
+            return this;
+        }
+
+        public Builder username(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public Message build() {
+            return new Message(this);
+        }
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.key);
+        dest.writeLong(this.time);
+        dest.writeByte(this.delivered ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.fromCurrentUser ? (byte) 1 : (byte) 0);
+        dest.writeString(this.userid);
+        dest.writeString(this.content);
+        dest.writeString(this.username);
+    }
+
+    protected Message(Parcel in) {
+        this.key = in.readString();
+        this.time = in.readLong();
+        this.delivered = in.readByte() != 0;
+        this.fromCurrentUser = in.readByte() != 0;
+        this.userid = in.readString();
+        this.content = in.readString();
+        this.username = in.readString();
+    }
+
+    public static final Parcelable.Creator<Message> CREATOR = new Parcelable.Creator<Message>() {
+        @Override
+        public Message createFromParcel(Parcel source) {
+            return new Message(source);
+        }
+
+        @Override
+        public Message[] newArray(int size) {
+            return new Message[size];
+        }
+    };
 
 }
 

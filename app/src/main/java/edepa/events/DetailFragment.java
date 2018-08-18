@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -26,13 +27,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import edepa.activity.MainFragment;
-import edepa.misc.DateConverter;
-import edepa.misc.WallGenerator;
-import edepa.model.Cloud;
+import edepa.app.MainFragment;
+import edepa.cloud.CloudEvents;
+import edepa.cloud.CloudFavorites;
+import edepa.minilibs.TimeConverter;
+import edepa.custom.WallpaperGenerator;
+import edepa.cloud.Cloud;
+import edepa.model.Event;
+import edepa.model.EventType;
 import edepa.model.Person;
 import edepa.model.Preferences;
-import edepa.model.ScheduleEvent;
 import edepa.modelview.R;
 import edepa.people.PersonHolder;
 import edepa.services.DownloadService;
@@ -109,14 +113,17 @@ public class DetailFragment extends MainFragment
     @BindView(R.id.event_agenda_date_rage)
     TextView eventAgendaDateRange;
 
+    @BindView(R.id.event_detail_type)
+    TextView eventDetailType;
+
     private DownloadHolder downloadHolder;
 
     /**
      * Evento que se coloca en pantalla
      */
-    private ScheduleEvent event;
+    private Event event;
 
-    public ScheduleEvent getEvent() {
+    public Event getEvent() {
         return event;
     }
 
@@ -134,22 +141,12 @@ public class DetailFragment extends MainFragment
      * Se obtiene una nueva instancia del fragmento
      * @return DetailFragment
      */
-    public static DetailFragment newInstance(ScheduleEvent event) {
+    public static DetailFragment newInstance(Event event) {
         DetailFragment fragment = new DetailFragment();
         Bundle args = new Bundle();
         args.putParcelable(SAVED_EVENT_KEY, event);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    /**
-     * Obtiene la úbicación del evento en la base de datos
-     * @return Query de Firebase
-     */
-    public Query getEventReference() {
-        return Cloud.getInstance()
-                .getReference(Cloud.SCHEDULE)
-                .child(event.getKey());
     }
 
     /**
@@ -214,30 +211,20 @@ public class DetailFragment extends MainFragment
     @Override
     public void onResume() {
         super.onResume();
-
-        getEventReference().addValueEventListener(this);
-
-        String uid = Cloud.getInstance().getAuth().getUid();
-
-        if (uid != null) {
-            Query query = FavoriteHandler.getFavoriteReference(uid, event.getKey());
-            query.addValueEventListener(favoriteListener);
-        }
-
+        CloudEvents.getSingleEventQuery(event.getKey()).addValueEventListener(this);
+        Query query = CloudFavorites.getSingleFavoriteQuery(event.getKey());
+        query.addValueEventListener(favoriteListener);
     }
 
     @Override
     public void onPause() {
         super.onPause();
 
-        getEventReference().removeEventListener(this);
+        CloudEvents.getSingleEventQuery(event.getKey())
+                .removeEventListener(this);
 
-        String uid = Cloud.getInstance().getAuth().getUid();
-
-        if (uid != null) {
-            Query query = FavoriteHandler.getFavoriteReference(uid, event.getKey());
-            query.removeEventListener(favoriteListener);
-        }
+        Query query = CloudFavorites.getSingleFavoriteQuery(event.getKey());
+        query.removeEventListener(favoriteListener);
 
     }
 
@@ -248,7 +235,7 @@ public class DetailFragment extends MainFragment
      */
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-        ScheduleEvent after = dataSnapshot.getValue(ScheduleEvent.class);
+        Event after = dataSnapshot.getValue(Event.class);
         if (after != null) {
             event.setEnd(after.getEnd());
             event.setDate(after.getDate());
@@ -258,7 +245,7 @@ public class DetailFragment extends MainFragment
             event.setEventype(after.getEventype());
             event.setBriefSpanish(after.getBriefSpanish());
             event.setBriefEnglish(after.getBriefEnglish());
-            event.setFavoritesAmount(after.getFavoritesAmount());
+            event.setFavorites(after.getFavorites());
             updateEvent();
         }
     }
@@ -274,6 +261,7 @@ public class DetailFragment extends MainFragment
      */
     private void updateEvent(){
 
+        bindType();
         bindTitle();
         bindAbstract();
         bindToolbarImage();
@@ -287,15 +275,22 @@ public class DetailFragment extends MainFragment
         eventAgendaView.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_INSERT)
                     .setData(CalendarContract.Events.CONTENT_URI)
-                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.getStart())
                     .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.getEnd())
+                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.getStart())
                     .putExtra(CalendarContract.Events.TITLE, event.getTitle())
                     .putExtra(CalendarContract.Events.EVENT_LOCATION, event.getLocation())
+                    .putExtra(CalendarContract.Events.CALENDAR_COLOR, event.getEventype().getColorResource())
                     .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
             startActivity(intent);
         });
 
-        buttonBackView.setOnClickListener(v -> getMainActivity().onBackPressed());
+        buttonBackView.setOnClickListener(v -> getNavigationActivity().onBackPressed());
+    }
+
+    private void bindType(){
+        EventType type = event.getEventype();
+        eventDetailType.setText(type.getStringResource());
+        eventDetailType.setBackgroundResource(type.getColorResource());
     }
 
     private void bindDownload() {
@@ -308,8 +303,8 @@ public class DetailFragment extends MainFragment
     }
 
     private void bindToolbarImage() {
-        WallGenerator gen = new WallGenerator(getMainActivity());
-        Drawable wallpaper = gen.getWallpaper(event.getLocation());
+        WallpaperGenerator gen = new WallpaperGenerator(getNavigationActivity());
+        Drawable wallpaper = gen.getWallpaper(event);
         toolbarImage.setImageDrawable(wallpaper);
     }
 
@@ -328,7 +323,7 @@ public class DetailFragment extends MainFragment
      * "Agregar al calendario"
      */
     private void bindDateRange(){
-        String block = DateConverter.getBlockString(getMainActivity(),
+        String block = TimeConverter.getBlockString(getNavigationActivity(),
                         event.getStart(), event.getEnd());
         eventDetailDateRange.setText(block);
         eventAgendaDateRange.setText(block);
@@ -340,7 +335,7 @@ public class DetailFragment extends MainFragment
      * como favoritos
      */
     private void bindFavorites(){
-        int amount = event.getFavoritesAmount();
+        int amount = event.getFavorites();
         favoritesAmountView.setText(String.valueOf(amount));
         favoriteButton.setOnClickListener(v -> updateFavorite());
     }
@@ -350,7 +345,7 @@ public class DetailFragment extends MainFragment
      * presiona el boton {@link #favoriteButton}
      */
     private void updateFavorite(){
-        FavoriteHandler.updateFavorite(event);
+        CloudFavorites.updateFavorite(event);
     }
 
     /**
@@ -417,21 +412,20 @@ public class DetailFragment extends MainFragment
 
     private void bindPeople(){
 
-        Preferences prefs = Preferences.getInstance();
-        boolean available = prefs.getBooleanPreference(
-                getMainActivity(), Preferences.PEOPLE_AVAILABLE_KEY);
+        boolean available = Preferences.getBooleanPreference(
+                getNavigationActivity(), Preferences.PEOPLE_AVAILABLE_KEY);
 
         available = available &&
                 event.getPeople() != null &&
                 event.getPeople().size() > 0;
 
         if(!available) {
+            peopleFront.setVisibility(GONE);
             peopleFlipView.setVisibility(GONE);
             peopleContainer.setVisibility(GONE);
-            peopleFront.setVisibility(GONE);
         }
 
-        else for (String personKey : event.getPeople()) {
+        else for (String personKey : event.getPeople().keySet()) {
             Cloud.getInstance()
                 .getReference(Cloud.PEOPLE)
                 .child(personKey)

@@ -1,29 +1,32 @@
 package edepa.pagers;
 
 import butterknife.BindView;
-import edepa.model.Cloud;
-import edepa.modelview.R;
-import edepa.misc.DateConverter;
-import edepa.model.ScheduleEvent;
-import edepa.interfaces.IPageListener;
 
-import java.util.ArrayList;
+import edepa.app.MainFragment;
+import edepa.cloud.Cloud;
+import edepa.cloud.CloudEvents;
+import edepa.model.Event;
+import edepa.modelview.R;
+import edepa.events.EventsFragment;
+import edepa.minilibs.TimeConverter;
+
 import java.util.List;
+import java.util.ArrayList;
 
 import android.util.Log;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
+import android.support.v4.view.ViewPager;
 
+import com.google.firebase.database.Query;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 
-public abstract class PagerFragment
-        extends PagerFirebase implements IPageListener {
+public abstract class PagerFragment extends MainFragment
+        implements EventsFragment.IPageListener, CloudEvents.Callbacks {
 
     /**
      * Constante usada para recuperar el último
@@ -71,6 +74,12 @@ public abstract class PagerFragment
     private PagerAdapter adapter;
 
     /**
+     * Utilizado para obtener las fechas de los
+     * eventos y poder crear las páginas
+     */
+    private CloudEvents cloudEvents;
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -87,18 +96,6 @@ public abstract class PagerFragment
     }
 
     /**
-     * Obtiene una referecnia hacia todos los eventos de
-     * la base de datos, para que cuando se agregue uno nuevo
-     * en un fecha todavía no registrada, se agregue la página nueva
-     * @return Query
-     */
-    public Query getEventsQuery(){
-        return Cloud.getInstance()
-                .getReference(Cloud.SCHEDULE)
-                .orderByChild("start");
-    }
-
-    /**
      * {@inheritDoc}
      * En este método se instancia el adaptador
      */
@@ -107,26 +104,28 @@ public abstract class PagerFragment
         super.onCreate(savedInstanceState);
 
         // Se instancia el adaptador para contener los eventos
-        if (adapter == null) {
-            dates = new ArrayList<>();
-            adapter = instantiateAdapter();
-        }
+        dates = new ArrayList<>();
+        adapter = instantiateAdapter();
+        cloudEvents = new CloudEvents();
+        cloudEvents.setCallbacks(this);
 
-        // Se agrega un listener para obtener de antemano la
+        // Se agrega un Listener para obtener de antemano la
         // cantidad de eventos para así poder saber cuando
         // termina la carga inicial
-        getEventsQuery()
-        .addListenerForSingleValueEvent(new ValueEventListener() {
+        CloudEvents.getEventsQuery()
+                .addListenerForSingleValueEvent(new ValueEventListener() {
 
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            eventsAmount = dataSnapshot.getChildrenCount();
-        }
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                eventsAmount = dataSnapshot.getChildrenCount();
+            }
 
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-            Log.i(toString(), databaseError.getMessage());
-        }});
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.i(toString(), databaseError.getMessage());
+            }
+
+        });
 
     }
 
@@ -140,8 +139,14 @@ public abstract class PagerFragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         pager.setAdapter(adapter);
-        // pager.setOffscreenPageLimit(2);
+        cloudEvents.connect();
         updateInterface();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        cloudEvents.disconnect();
     }
 
     public void updateInterface(){
@@ -191,7 +196,7 @@ public abstract class PagerFragment
 
     /**
      * Agrega una página
-     * Es utilizada por {@link #addPageIfNotExists(ScheduleEvent)}
+     * Es utilizada por {@link #addPageIfNotExists(Event)}
      * @param date Fecha de los eventos en la página
      * @see #onPageRemoved(long)
      */
@@ -222,8 +227,8 @@ public abstract class PagerFragment
      * @param event: Donde se extrae la fecha para colocar en la página
      * @see #addPage(long)
      */
-    public void addPageIfNotExists(ScheduleEvent event){
-        long date = DateConverter.atStartOfDay(event.getStart());
+    public void addPageIfNotExists(Event event){
+        long date = TimeConverter.atStartOfDay(event.getStart());
         if (!dates.contains(date)) {
             addPage(date);
             eventsAmount--;

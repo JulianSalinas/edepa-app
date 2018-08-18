@@ -15,10 +15,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import edepa.activity.MainNavigation;
+import edepa.app.NavigationActivity;
+import edepa.cloud.CloudFavorites;
 import edepa.custom.RecyclerAdapter;
-import edepa.misc.DateConverter;
-import edepa.model.ScheduleEvent;
+import edepa.minilibs.TimeConverter;
+import edepa.model.Event;
 import edepa.modelview.R;
 
 /**
@@ -36,7 +37,7 @@ public abstract class EventsAdapter extends RecyclerAdapter {
 
     private Context context;
 
-    protected List<ScheduleEvent> events;
+    protected List<Event> events;
 
     /**
      * {@inheritDoc}
@@ -83,11 +84,11 @@ public abstract class EventsAdapter extends RecyclerAdapter {
     @Override
     public int getItemViewType(int position) {
 
-        ScheduleEvent item = events.get(position);
+        Event item = events.get(position);
         if (position == 0) return WITH_SEPARATOR;
 
         else {
-            ScheduleEvent upItem = events.get(position - 1);
+            Event upItem = events.get(position - 1);
             long itemStart = item.getStart();
             long upItemStart = upItem.getStart();
             long upItemEnd = upItem.getEnd();
@@ -122,7 +123,7 @@ public abstract class EventsAdapter extends RecyclerAdapter {
         /**
          * Se asigna su valor en {@link #bind()}
          */
-        ScheduleEvent event = null;
+        Event event = null;
 
         public EventItem(View itemView) {
             super(itemView);
@@ -176,13 +177,13 @@ public abstract class EventsAdapter extends RecyclerAdapter {
             header.setText(event.getTitle());
             eventype.setText(event.getEventype().toString());
 
-            String description = DateConverter.getBlockString(
+            String description = TimeConverter.getBlockString(
                     context, event.getStart(), event.getEnd());
 
             time_description.setText(description);
 
             readmore_container.setOnClickListener(v ->
-                    ((MainNavigation) context)
+                    ((NavigationActivity) context)
                             .setFragmentOnScreen(DetailFragment.newInstance(event), event.getKey()));
 
             favoriteButton.setLiked(event.isFavorite());
@@ -197,19 +198,21 @@ public abstract class EventsAdapter extends RecyclerAdapter {
          */
         public void setEmphasis() {
             Resources res = context.getResources();
-            int color = res.getColor(event.getEventype().getColor());
+            int color = res.getColor(event.getEventype().getColorResource());
             line.setBackgroundColor(color);
             readmore.setTextColor(color);
         }
 
         @Override
         public void liked(LikeButton likeButton) {
-            FavoriteHandler.markAsFavorite(event);
+            CloudFavorites cloudFavorites = new CloudFavorites();
+            cloudFavorites.markAsFavorite(event);
         }
 
         @Override
         public void unLiked(LikeButton likeButton) {
-            FavoriteHandler.unmarkAsFavorite(event);
+            CloudFavorites cloudFavorites = new CloudFavorites();
+            cloudFavorites.unmarkAsFavorite(event);
         }
 
     }
@@ -226,7 +229,7 @@ public abstract class EventsAdapter extends RecyclerAdapter {
         @Override
         public void bind() {
             super.bind();
-            String date = DateConverter
+            String date = TimeConverter
                     .getBlockString(context, event.getStart());
             scheduleSeparator.setText(date);
         }

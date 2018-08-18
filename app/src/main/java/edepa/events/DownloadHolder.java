@@ -7,9 +7,10 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import edepa.model.Searcher;
+import edepa.minilibs.RegexSearcher;
 import edepa.modelview.R;
 import edepa.services.DownloadService;
+
 
 public class DownloadHolder extends RecyclerView.ViewHolder {
 
@@ -37,7 +38,7 @@ public class DownloadHolder extends RecyclerView.ViewHolder {
 
     public DownloadHolder setFileUrl(String fileUrl){
         this.fileUrl = fileUrl;
-        eventDownloadFilename.setText(Searcher.findFilenameFromUrl(fileUrl));
+        eventDownloadFilename.setText(RegexSearcher.findFilenameFromUrl(fileUrl));
         eventDownloadSize.setText(context.getString(R.string.text_download_file));
         return this;
     }

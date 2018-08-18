@@ -11,8 +11,8 @@ public class AlarmService extends JobService {
     public boolean onStartJob(JobParameters job) {
 
         assert job.getExtras() != null;
-        String json = job.getExtras().getString("ScheduleEvent");
-//        ScheduleEvent event = ScheduleEvent.fromJson(json);
+        String json = job.getExtras().getString("Event");
+//        Event event = Event.fromJson(json);
 
 
         return false;
@@ -35,7 +35,7 @@ public class AlarmService extends JobService {
 //
 //        if(args != null && receive) {
 //
-////            ScheduleEvent event = args.getParcelable("event");
+////            Event event = args.getParcelable("event");
 ////            String title = context.getResources().getString(R.string.text_remainder);
 ////            String content = event.getTitle();
 ////            Notification notification = createNotification(title, content);

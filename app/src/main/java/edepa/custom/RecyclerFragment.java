@@ -7,9 +7,9 @@ import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
 
+import edepa.app.MainFragment;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
-import edepa.activity.MainFragment;
 
 /**
  * Este fragmento soluciona el problema que sufre tanto
@@ -107,8 +107,8 @@ public abstract class RecyclerFragment extends MainFragment {
         if (savedInstanceState != null) {
             int position = savedInstanceState.getInt("position");
             int top = savedInstanceState.getInt("top");
-            getViewAdapter()
-            .registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            getViewAdapter().registerAdapterDataObserver(
+            new RecyclerView.AdapterDataObserver() {
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 ((LinearLayoutManager) getRecyclerView()
                         .getLayoutManager())

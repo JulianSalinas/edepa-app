@@ -55,6 +55,6 @@
         android:layout_marginBottom="@dimen/space_favorite_button"
         android:clickable="true"
         android:focusable="true"
-        app:srcCompat="@drawable/ic_star_white_24dp" />
+        app:srcCompat="@drawable/ic_star" />
 
 </FrameLayout>

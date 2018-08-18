@@ -7,55 +7,90 @@ import com.google.firebase.database.Query;
 import java.util.List;
 import java.util.ArrayList;
 
-import edepa.model.Cloud;
-import edepa.model.ScheduleEvent;
+import edepa.cloud.Cloud;
+import edepa.model.Event;
 import edepa.modelview.R;
-import edepa.loaders.BaseLoader;
-import edepa.loaders.EventsLoader;
-import edepa.loaders.FavoritesLoader;
-import edepa.interfaces.IEventsSubject;
+import edepa.cloud.CloudChild;
+import edepa.cloud.CloudEvents;
+import edepa.cloud.CloudFavorites;
 import edepa.events.EventsFavorites;
 
 
-public class PagerFavorites extends PagerFragment implements IEventsSubject {
+public class PagerFavorites extends PagerFragment implements CloudEvents.Callbacks {
 
     /**
      * Lista que contiene los key de todos los
      * eventos que el usuario ha marcado como favoritos
-     * Es poblada con {@link FavoritesLoader}
+     * Es poblada con {@link CloudFavorites}
      */
     private List<String> favorites;
 
     /**
      * Lista que contiene todos los eventos
      * del cronograma
-     * Es poblada con {@link EventsLoader}
+     * Es poblada con {@link CloudEvents}
      */
-    protected List<ScheduleEvent> events;
+    protected List<Event> events;
 
     /**
      * Carga todos los eventos del cronograma de
      * manera asincrónica. Ésta carga se debe realizar
      * depués de obtener la lista de favoritos
      */
-    private BaseLoader eventsLoader;
+    private CloudEvents cloudEvents;
 
     /**
      * Carga todos los key de todos los eventos que
      * el usuario ha marcado como favoritos
      */
-    private BaseLoader favoritesLoader;
+    private CloudFavorites cloudFavorites;
 
     /**
-     * Query realizado a la base de datos para
-     * obtener toda la lista de favoritos del usuario
-     * @return Query
+     * {@inheritDoc}
+     * Es invocado el método {@link #onCreate(Bundle)}
+     * @return PagerAdapter
      */
-    public Query getFavoritesQuery(){
-        Cloud cloud = Cloud.getInstance();
-        String uid = cloud.getAuth().getUid();
-        assert uid != null;
-        return cloud.getReference(Cloud.FAVORITES).child(uid);
+    @Override
+    protected PagerAdapter instantiateAdapter() {
+        return new PagerAdapter(this) {
+            protected Fragment instantiateEventsFragment() {
+                return new EventsFavorites();
+            }};
+    }
+
+    /**
+     * {@inheritDoc}
+     * Se conecta la base de datos para comenzar a
+     * obtener los eventos y poder agregar la páginas
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        events = new ArrayList<>();
+        favorites = new ArrayList<>();
+        cloudEvents = new CloudEvents();
+        cloudEvents.setCallbacks(this);
+        cloudFavorites = new CloudFavorites();
+        cloudFavorites.setCallbacks(this);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        eventsEmptyView.setText(getString(R.string.text_without_favorites));
+        cloudFavorites.connect();
+        cloudEvents.connect();
+    }
+
+    /**
+     * {@inheritDoc}
+     * Se desconecta de la base de datos
+     */
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        cloudEvents.disconnect();
+        cloudFavorites.disconnect();
     }
 
     /**
@@ -64,8 +99,8 @@ public class PagerFavorites extends PagerFragment implements IEventsSubject {
      * agrega una nueva
      */
     @Override
-    public void addEvent(ScheduleEvent event) {
-        if (event.getDate() != null) {
+    public void addEvent(Event event) {
+        if (event.getDate() != 0) {
             if (favorites.contains(event.getKey()))
                 addPageIfNotExists(event);
             if (!events.contains(event)) events.add(event);
@@ -78,8 +113,8 @@ public class PagerFavorites extends PagerFragment implements IEventsSubject {
      * las páginas actuales
      */
     @Override
-    public void changeEvent(ScheduleEvent event) {
-        if (event.getDate() != null) {
+    public void changeEvent(Event event) {
+        if (event.getDate() != 0) {
             if (favorites.contains(event.getKey()))
                 addPageIfNotExists(event);
             int index = events.indexOf(event);
@@ -92,7 +127,7 @@ public class PagerFavorites extends PagerFragment implements IEventsSubject {
      * @param event
      */
     @Override
-    public void removeEvent(ScheduleEvent event) {
+    public void removeEvent(Event event) {
         // No interesa
     }
 
@@ -105,8 +140,7 @@ public class PagerFavorites extends PagerFragment implements IEventsSubject {
     public void addFavorite(String eventKey) {
         if(!favorites.contains(eventKey)){
             favorites.add(eventKey);
-            ScheduleEvent tmp = new ScheduleEvent();
-            tmp.setKey(eventKey);
+            Event tmp = new Event.Builder().key(eventKey).build();
             int index = events.indexOf(tmp);
             if(index != -1) addPageIfNotExists(events.get(index));
         }
@@ -122,52 +156,6 @@ public class PagerFavorites extends PagerFragment implements IEventsSubject {
         if(favorites.contains(eventKey)){
             favorites.remove(eventKey);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     * Es invocado el método {@link #onCreate(Bundle)}
-     * @return PagerAdapter
-     */
-    @Override
-    protected PagerAdapter instantiateAdapter() {
-        return new PagerAdapter(this) {
-        protected Fragment instantiateEventsFragment() {
-            return new EventsFavorites();
-        }};
-    }
-
-    /**
-     * {@inheritDoc}
-     * Se conecta la base de datos para comenzar a
-     * obtener los eventos y poder agregar la páginas
-     */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        events = new ArrayList<>();
-        favorites = new ArrayList<>();
-        eventsLoader = new EventsLoader(this);
-        favoritesLoader = new FavoritesLoader(this);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        eventsEmptyView.setText(getString(R.string.text_without_favorites));
-        getFavoritesQuery().addChildEventListener(favoritesLoader);
-        getEventsQuery().addChildEventListener(eventsLoader);
-    }
-
-    /**
-     * {@inheritDoc}
-     * Se desconecta de la base de datos
-     */
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        getEventsQuery().removeEventListener(eventsLoader);
-        getFavoritesQuery().removeEventListener(favoritesLoader);
     }
 
 }

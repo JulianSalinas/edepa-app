@@ -31,7 +31,7 @@
                 app:layout_collapseParallaxMultiplier="0.5"/>
 
             <ImageView
-                android:id="@+id/button_back"
+                android:id="@+id/back_button"
                 android:layout_width="@dimen/size_icon"
                 android:layout_height="@dimen/size_icon"
                 android:layout_margin="@dimen/space_default"
@@ -46,7 +46,7 @@
                 android:padding="@dimen/space_default">
 
                 <TextView
-                    android:id="@+id/name_text_view"
+                    android:id="@+id/name_text"
                     android:layout_gravity="bottom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/start_text_view"
+                        android:id="@+id/start_text"
                         android:layout_width="0dp"
                         android:layout_weight="50"
                         android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
                         android:text="@string/test_app_date_start" />
 
                     <TextView
-                        android:id="@+id/end_text_view"
+                        android:id="@+id/end_text"
                         android:layout_width="0dp"
                         android:layout_weight="50"
                         android:layout_height="wrap_content"
@@ -198,7 +198,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/description_text_view"
+                android:id="@+id/description_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/text_lorem_ipsum" />
@@ -241,7 +241,7 @@
                     android:textSize="@dimen/font_big" />
 
                 <LinearLayout
-                    android:id="@+id/icon_map"
+                    android:id="@+id/map_icon"
                     android:layout_width="0dp"
                     android:layout_weight="25"
                     android:gravity="end"
@@ -268,7 +268,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/location_text_view"
+                android:id="@+id/location_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/space_default"

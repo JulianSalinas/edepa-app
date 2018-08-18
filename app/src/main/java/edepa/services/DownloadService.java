@@ -1,21 +1,17 @@
 package edepa.services;
 
-
 import android.net.Uri;
 import android.content.Context;
 import android.app.DownloadManager;
 
-import edepa.misc.OnlineHelper;
-
+import edepa.minilibs.OnlineHelper;
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
 
 
 public class DownloadService {
 
     private Context context;
-
     private DownloadManager downloadManager;
-
     private DownloadListener downloadListener;
 
     public interface DownloadListener {
@@ -37,8 +33,8 @@ public class DownloadService {
         Uri uri = Uri.parse(fileUrl);
         DownloadManager.Request request = new DownloadManager.Request(uri);
         request.setNotificationVisibility(VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        if (downloadManager != null &&
-                OnlineHelper.isOnline(context)) startDownload(request);
+        if (downloadManager != null && OnlineHelper.isOnline(context))
+             startDownload(request);
         else catchOfflineError();
     }
 

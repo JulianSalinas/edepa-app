@@ -2,58 +2,50 @@ package edepa.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 
 import java.util.Objects;
 
+public class Person implements Parcelable {
 
-public class Person implements Parcelable, Comparable<Person> {
-
-    /**
-     * Nombre donde se incluyen también apellidos de la persona
-     */
-    private String completeName;
+    protected String key;
 
     /**
      * El título podría ser solo el país y tal vez la institución
      * Ej: Julian Salinas
      *     Instituto Tecnológico de Costa Rica
      */
+    private String completeName;
     private String personalTitle;
 
-    private String personKey;
+    public Person() { }
 
-    /**
-     * Getters y Setters de los atributos del expositor
-     */
+    private Person(Builder builder) {
+        setKey(builder.key);
+        setCompleteName(builder.completeName);
+        setPersonalTitle(builder.personalTitle);
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     public String getCompleteName() {
         return completeName;
+    }
+
+    public void setCompleteName(String completeName) {
+        this.completeName = completeName;
     }
 
     public String getPersonalTitle() {
         return personalTitle;
     }
 
-    public void setKey(String personKey) {
-        this.personKey = personKey;
-    }
-
-    public String getPersonKey() {
-        return personKey;
-    }
-
-    /**
-     * Contructor vacío requerido por firebase
-     */
-    public Person() {
-
-    }
-
-    /**
-     * Constructor usado únicamente para generar pruebas
-     */
-    public Person(String completeName, String personalTitle) {
-        this.completeName = completeName;
+    public void setPersonalTitle(String personalTitle) {
         this.personalTitle = personalTitle;
     }
 
@@ -62,14 +54,41 @@ public class Person implements Parcelable, Comparable<Person> {
         if (this == o) return true;
         if (!(o instanceof Person)) return false;
         Person person = (Person) o;
-        return Objects.equals(completeName, person.completeName);
+        return Objects.equals(getKey(), person.getKey());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(personKey);
+        return Objects.hash(getKey());
     }
 
+    public static final class Builder {
+        private String key;
+        private String completeName;
+        private String personalTitle;
+
+        public Builder() {
+        }
+
+        public Builder key(String key) {
+            this.key = key;
+            return this;
+        }
+
+        public Builder completeName(String completeName) {
+            this.completeName = completeName;
+            return this;
+        }
+
+        public Builder personalTitle(String personalTitle) {
+            this.personalTitle = personalTitle;
+            return this;
+        }
+
+        public Person build() {
+            return new Person(this);
+        }
+    }
 
     @Override
     public int describeContents() {
@@ -78,18 +97,18 @@ public class Person implements Parcelable, Comparable<Person> {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.key);
         dest.writeString(this.completeName);
         dest.writeString(this.personalTitle);
-        dest.writeString(this.personKey);
     }
 
     protected Person(Parcel in) {
+        this.key = in.readString();
         this.completeName = in.readString();
         this.personalTitle = in.readString();
-        this.personKey = in.readString();
     }
 
-    public static final Creator<Person> CREATOR = new Creator<Person>() {
+    public static final Parcelable.Creator<Person> CREATOR = new Parcelable.Creator<Person>() {
         @Override
         public Person createFromParcel(Parcel source) {
             return new Person(source);
@@ -100,11 +119,6 @@ public class Person implements Parcelable, Comparable<Person> {
             return new Person[size];
         }
     };
-
-    @Override
-    public int compareTo(Person person) {
-        return this.getCompleteName().compareTo(person.getCompleteName());
-    }
 
 }
 

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:id="@+id/toolbar_tabs_container"
+    android:background="@color/app_white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/toolbar_tabs_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabMode="fixed"
+        app:tabGravity="fill"
+        app:tabIndicatorHeight="4dp"
+        app:tabIndicatorColor="@color/app_accent"
+        app:tabTextColor="@color/app_secondary_font"
+        app:tabSelectedTextColor="@color/app_accent">
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tab_item_schedule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/nav_schedule"
+            android:saveEnabled="true" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tab_item_favorites"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/nav_favorites"
+            android:saveEnabled="true"/>
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tab_item_ongoing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/nav_ongoing"
+            android:saveEnabled="true"/>
+
+    </android.support.design.widget.TabLayout>
+
+</LinearLayout>

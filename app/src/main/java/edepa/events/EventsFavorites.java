@@ -6,11 +6,11 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.List;
 
-import edepa.model.ScheduleEvent;
+import edepa.model.Event;
 
 public class EventsFavorites extends EventsSchedule {
 
-    private List<ScheduleEvent> allEvents;
+    private List<Event> allEvents;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -19,7 +19,7 @@ public class EventsFavorites extends EventsSchedule {
     }
 
     @Override
-    public void addEvent(ScheduleEvent event) {
+    public void addEvent(Event event) {
          if (favorites.contains(event.getKey()))
             super.addEvent(event);
          if(!allEvents.contains(event))
@@ -29,11 +29,10 @@ public class EventsFavorites extends EventsSchedule {
     @Override
     public void addFavorite(String eventKey) {
         super.addFavorite(eventKey);
-        ScheduleEvent temp = new ScheduleEvent();
-        temp.setKey(eventKey);
+        Event temp = new Event.Builder().key(eventKey).build();
         int index = allEvents.indexOf(temp);
         if(index != -1) {
-            ScheduleEvent event = allEvents.get(index);
+            Event event = allEvents.get(index);
             event.setFavorite(true);
             super.addEvent(event);
             eventsAdapter.notifyItemChanged(index);
@@ -45,7 +44,7 @@ public class EventsFavorites extends EventsSchedule {
         super.removeFavorite(eventKey);
         int index = getFavoriteIndex(eventKey);
         if(index != -1) {
-            ScheduleEvent event = events.get(index);
+            Event event = events.get(index);
             if (event != null) removeEvent(event);
         }
     }

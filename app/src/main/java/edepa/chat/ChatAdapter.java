@@ -1,39 +1,46 @@
 package edepa.chat;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import edepa.misc.DateConverter;
-import edepa.model.Message;
-import edepa.misc.ColorConverter;
-import edepa.misc.MaterialGenerator;
+import edepa.cloud.CloudChat;
+import edepa.app.NavigationActivity;
+import edepa.minilibs.ColorGenerator;
+import edepa.minilibs.TimeConverter;
+import edepa.minilibs.ColorConverter;
 
 import edepa.modelview.R;
-import edepa.activity.MainNavigation;
+import edepa.model.Message;
 import edepa.custom.RecyclerAdapter;
 
-import android.text.format.DateUtils;
-import android.text.util.Linkify;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.content.Context;
 import android.view.LayoutInflater;
 
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ImageView;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
+
+import android.text.util.Linkify;
+import android.text.format.DateUtils;
 
 import com.bignerdranch.android.multiselector.MultiSelector;
 import com.bignerdranch.android.multiselector.SelectableHolder;
 import com.bignerdranch.android.multiselector.ModalMultiSelectorCallback;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
-public abstract class ChatAdapter extends RecyclerAdapter {
+
+public class ChatAdapter
+        extends RecyclerAdapter implements CloudChat.Callbacks {
 
     /**
      * Constantes paras escoger el tipo de vista
@@ -42,62 +49,59 @@ public abstract class ChatAdapter extends RecyclerAdapter {
     private static final int RIGHT = 1;
 
     /**
-     * El modo de borrado es activado en
-     * {@link #startRemoveMode()}
+     * Contexto donde se hace uso de este adaptador
+     * Se pasa por párametro en el constructor
      */
-    private ActionMode removeMode;
+    protected Context context;
 
     /**
-     * Fragmento que hace uso de este adaptador
-     * @see ChatFragment
+     * El modo de borrado es activado en {@link #startRemoveMode()}
      */
-    protected ChatFragment chatFragment;
+    private ActionMode removeMode;
+    private ActionMode.Callback removeModeCallback;
+
+    /**
+     * Usado para borrar mensajes en {@link #removeModeCallback}
+     */
+    private MultiSelector multiSelector;
+
+    /**
+     * Sirve para colorear el nombre de una persona según sus iniciales
+     */
+    private ColorGenerator colorGenerator;
 
     /**
      * Objetos del modelo que serán adaptados visualmente
-     * Puede ser un mensaje del usuario activo o de otro usuario
      */
-    protected ArrayList<Message> msgs;
+    protected ArrayList<Message> messages;
 
     /**
-     * Sirve para colorear el nombre de una persona según sus
-     * iniciales
-     */
-    private MaterialGenerator materialGenerator;
-
-    /**
-     * Usado para borrar mensajes en
-     * {@link #removeModeCallback}
-     */
-    private MultiSelector multiSelector = new MultiSelector();
-
-    /**
-     * {@inheritDoc}
+     * @return Cantidad de mensajes en el adaptador
      */
     @Override
     public int getItemCount() {
-        return msgs.size();
+        return messages.size();
     }
 
     /**
      * Constructor
-     * @param chatFragment: Vista que hace uso de este adaptador
      */
-    public ChatAdapter(ChatFragment chatFragment){
-        this.msgs = new ArrayList<>();
-        this.chatFragment = chatFragment;
-        this.materialGenerator = new MaterialGenerator(chatFragment.getActivity());
+    public ChatAdapter(Context context){
+        this.context = context;
+        this.messages = new ArrayList<>();
+        this.multiSelector = new MultiSelector();
+        this.colorGenerator = new ColorGenerator(context);
+        this.removeModeCallback = getRemoveModeCallback();
     }
 
     /**
-     * Se añade un nuevo mensaje en la lista, además de un separador
-     * de fechas si es necesario
-     * @param msg Mensaje por añadir
+     * Se agrega un nuevo mensaje al final de la lista
+     * @param msg Mensaje por agregar
      */
+    @Override
     public void addMessage(Message msg){
-        msgs.add(msg);
-        notifyItemInserted(msgs.size()-1);
-        chatFragment.scrollIfWaitingResponse();
+        messages.add(msg);
+        notifyItemInserted(messages.size()-1);
     }
 
     /**
@@ -105,10 +109,11 @@ public abstract class ChatAdapter extends RecyclerAdapter {
      * cambiado de forma externa del adaptador
      * @param msg Mensaje por cambiar
      */
+    @Override
     public void changeMessage(Message msg){
-        int index = msgs.indexOf(msg);
+        int index = messages.indexOf(msg);
         if (index != -1) {
-            msgs.set(index, msg);
+            messages.set(index, msg);
             notifyItemChanged(index);
         }
     }
@@ -119,30 +124,23 @@ public abstract class ChatAdapter extends RecyclerAdapter {
      * de que sea necesario agregar una marca de tiempo
      * @param msg Mensaje a eliminar
      */
+    @Override
     public void removeMessage(Message msg){
-        int index = msgs.indexOf(msg);
+        int index = messages.indexOf(msg);
         if (index != -1) {
-            msgs.remove(index);
+            messages.remove(index);
             notifyItemRemoved(index);
             notifyItemRangeChanged(index, 2);
         }
     }
 
     /**
-     * @param msg Mensaje
-     * @return True si el mensaje fue enviado por el usuario actual
-     */
-    private boolean isFromCurrentUser(edepa.model.Message msg){
-        return chatFragment.isFromCurrentUser(msg);
-    }
-
-    /**
-     *  {@inheritDoc}
+     * @return #RIGHT si el mensaje es del usuario
      */
     @Override
     public int getItemViewType(int position) {
-        Message msg = msgs.get(position);
-        return isFromCurrentUser(msg) ? RIGHT : LEFT;
+        Message msg = messages.get(position);
+        return msg.isFromCurrentUser()? RIGHT : LEFT;
     }
 
     /**
@@ -152,25 +150,15 @@ public abstract class ChatAdapter extends RecyclerAdapter {
      */
     @Override
     public ChatItem onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        int layout = viewType == LEFT ?
-                R.layout.chat_left :
-                R.layout.chat_right;
-
-        View view = LayoutInflater
-                .from(parent.getContext())
+        int layout = viewType == LEFT ? R.layout.chat_left : R.layout.chat_right;
+        View view = LayoutInflater.from(parent.getContext())
                 .inflate(layout, parent, false);
-
-        return viewType == LEFT ?
-                new ChatLeft(view) :
-                new ChatRight(view);
-
+        return viewType == LEFT ? new ChatLeft(view) : new ChatRight(view);
     }
 
     /**
-     * {@inheritDoc}
      * @param position NO USAR, esta variable no tiene valor fijo.
-     *                 Usar holder.getAdapterPosition()
+     * Usar holder.getAdapterPosition()
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
@@ -178,47 +166,47 @@ public abstract class ChatAdapter extends RecyclerAdapter {
     }
 
     /**
-     * Atiende los eventos generados en el modo
-     * {@link #removeMode}
+     * Atiende los eventos generados en el modo {@link #removeMode}
      */
-    private ActionMode.Callback removeModeCallback =
-    new ModalMultiSelectorCallback(multiSelector) {
+    private ModalMultiSelectorCallback getRemoveModeCallback() {
+        return new ModalMultiSelectorCallback(multiSelector) {
 
-        /**
-         * {@inheritDoc}
-         * Agrega el icono de borrar
-         */
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            super.onCreateActionMode(mode, menu);
-            menu.add("Delete").setIcon(R.drawable.ic_delete);
-            return true;
-        }
+            /**
+             * Se agrega el icono de borrar
+             */
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                super.onCreateActionMode(mode, menu);
+                String deleteText = context.getString(R.string.text_delete);
+                menu.add(deleteText).setIcon(R.drawable.ic_delete);
+                return true;
+            }
 
-        /**
-         * {@inheritDoc}
-         * Se eliminan todos los mensajes seleccionados
-         */
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            for(Integer index : multiSelector.getSelectedPositions())
-                removeMessage(msgs.get(index));
-            multiSelector.clearSelections();
-            mode.finish();
-            return true;
-        }
+            /**
+             * Se eliminan todos los mensajes seleccionados con #multiSelector
+             */
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                for (Integer index : multiSelector.getSelectedPositions())
+                    CloudChat.removeMessage(messages.get(index));
+                multiSelector.clearSelections();
+                mode.finish();
+                return true;
+            }
 
-        /**
-         * {@inheritDoc}
-         * Se de-seleccionan todos los mensajes
-         */
-        @Override
-        public void onDestroyActionMode(ActionMode actionMode) {
-            super.onDestroyActionMode(actionMode);
-            multiSelector.clearSelections();
-        }
+            /**
+             * Se de-seleccionan todos los mensajes del #multiSelector
+             */
+            @Override
+            public void onDestroyActionMode(ActionMode actionMode) {
+                super.onDestroyActionMode(actionMode);
+                multiSelector.clearSelections();
+            }
 
-    };
+        };
+
+    }
+
 
     /**
      * Coloca el mensaje "n seleccionados" en la toolbar
@@ -226,7 +214,7 @@ public abstract class ChatAdapter extends RecyclerAdapter {
     public void setSelectedItemsText(){
         if(removeMode != null) {
             Integer nSelected = multiSelector.getSelectedPositions().size();
-            String selectedText = chatFragment.getString(nSelected == 1 ?
+            String selectedText = context.getString(nSelected == 1 ?
                     R.string.text_selected_single : R.string.text_selected);
             removeMode.setTitle(nSelected.toString() + " " + selectedText);
         }
@@ -237,12 +225,14 @@ public abstract class ChatAdapter extends RecyclerAdapter {
      * {@link #removeModeCallback}
      */
     public void startRemoveMode(){
-        MainNavigation activity = chatFragment.getMainActivity();
-        activity.hideKeyboard();
-        removeMode = activity.startSupportActionMode(removeModeCallback);
-        int color = activity.getResources().getColor(R.color.app_accent);
-        color = ColorConverter.darken(color);
-        activity.getWindow().setStatusBarColor(color);
+        if (context instanceof NavigationActivity) {
+            NavigationActivity activity = (NavigationActivity) context;
+            activity.hideKeyboard();
+            removeMode = activity.startSupportActionMode(removeModeCallback);
+            int color = activity.getResources().getColor(R.color.app_accent);
+            color = ColorConverter.darken(color);
+            activity.getWindow().setStatusBarColor(color);
+        }
     }
 
     /**
@@ -261,6 +251,10 @@ public abstract class ChatAdapter extends RecyclerAdapter {
          */
         Message msg = null;
 
+        /**
+         * Constructor
+         * @param itemView Vista previamente creada
+         */
         public ChatItem(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -272,7 +266,7 @@ public abstract class ChatAdapter extends RecyclerAdapter {
          */
         public void bind(){
             pos = getAdapterPosition();
-            msg = msgs.get(pos);
+            msg = messages.get(pos);
         }
 
     }
@@ -298,24 +292,32 @@ public abstract class ChatAdapter extends RecyclerAdapter {
          */
         @Override
         public void bind() {
-
             super.bind();
-            if (pos == 0) chatTimestamp.setVisibility(View.VISIBLE);
+            if (pos == 0) chatTimestamp.setVisibility(VISIBLE);
+            else bindTimestampVisibility();
+            boolean visible = chatTimestamp.getVisibility() == VISIBLE;
+            if (visible) bindVisibleTimestamp();
+        }
 
-            else {
-                Message lastMsg = msgs.get(pos - 1);
-                String msgDate = DateConverter.extractDate(msg.getTime());
-                String lastMsgDate = DateConverter.extractDate(lastMsg.getTime());
-                chatTimestamp.setVisibility(msgDate.equals(lastMsgDate) ? View.GONE : View.VISIBLE);
-            }
+        /**
+         * Hace visible marca de tiempo si el mensaje anterior no la tiene
+         */
+        public void bindTimestampVisibility(){
+            Message lastMsg = messages.get(pos - 1);
+            String msgDate = TimeConverter.extractDate(msg.getTime());
+            String lastMsgDate = TimeConverter.extractDate(lastMsg.getTime());
+            int visibility = msgDate.equals(lastMsgDate) ? GONE : VISIBLE;
+            chatTimestamp.setVisibility(visibility);
+        }
 
-            if (chatTimestamp.getVisibility() == View.VISIBLE){
-                long date = msg.getTime();
-                boolean isToday = DateUtils.isToday(date);
-                if (isToday) chatTimestampText.setText(R.string.text_today);
-                else chatTimestampText.setText(DateConverter.extractDate(date));
-            }
-
+        /**
+         * Coloca la fecha de los mensajes
+         */
+        public void bindVisibleTimestamp(){
+            long date = msg.getTime();
+            boolean isToday = DateUtils.isToday(date);
+            if (isToday) chatTimestampText.setText(R.string.text_today);
+            else chatTimestampText.setText(TimeConverter.extractDate(date));
         }
 
     }
@@ -344,24 +346,42 @@ public abstract class ChatAdapter extends RecyclerAdapter {
          */
         @Override
         public void bind() {
-
             super.bind();
-            int color = materialGenerator.getColor(msg.getUsername());
+            bindUsername();
+            bindContent();
+            bindTimeDescription();
+        }
 
+        /**
+         * Coloca el nombre del usuario y lo pone de color
+         */
+        public void bindUsername(){
+            int color = colorGenerator.getColor(msg.getUsername());
             msgUsername.setTextColor(color);
             msgUsername.setText(msg.getUsername());
-            msgUsername.setVisibility(View.VISIBLE);
+            msgUsername.setVisibility(VISIBLE);
+        }
 
-            String time = DateConverter.extractTime(msg.getTime());
-            msgTimeDescription.setText(time.toUpperCase());
-
+        /**
+         * Coloca el contenido del mensaje
+         */
+        public void bindContent(){
             msgContent.setText(msg.getContent());
             Linkify.addLinks(msgContent, Linkify.ALL);
         }
+
+        /**
+         * Coloca la hora a la que se envió el mensaje
+         */
+        public void bindTimeDescription(){
+            String time = TimeConverter.extractTime(msg.getTime());
+            msgTimeDescription.setText(time.toUpperCase());
+        }
+
     }
 
     /**
-     * Clase para enlazar los mensajes a sus resptivas vistas
+     * Clase para enlazar los mensajes que pertenece al usuario
      */
     protected class ChatRight extends ChatLeft
             implements View.OnClickListener, View.OnLongClickListener, SelectableHolder {
@@ -402,9 +422,16 @@ public abstract class ChatAdapter extends RecyclerAdapter {
          */
         public void bind() {
             super.bind();
-            setDeliveredIcon();
-            msgUsername.setVisibility(View.GONE);
+            bindDeliveredIcon();
+            bindClickListeners();
+            msgUsername.setVisibility(GONE);
             multiSelector.bindHolder(this, pos, getItemId());
+        }
+
+        /**
+         * Coloca los eventos de los clicks
+         */
+        public void bindClickListeners(){
             itemView.setOnClickListener(this);
             itemView.setLongClickable(true);
             itemView.setOnLongClickListener(this);
@@ -414,7 +441,7 @@ public abstract class ChatAdapter extends RecyclerAdapter {
          * Si se envía un mensaje en modo offline, el mensaje
          * queda almacenado localmente y se muestra el icono de espera
          */
-        private void setDeliveredIcon() {
+        private void bindDeliveredIcon() {
             int res = msg.isDelivered() ?
                     R.drawable.ic_check :
                     R.drawable.ic_waiting_clock;
@@ -450,14 +477,6 @@ public abstract class ChatAdapter extends RecyclerAdapter {
                 return true;
             }   return false;
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return getClass().getSimpleName();
     }
 
 }

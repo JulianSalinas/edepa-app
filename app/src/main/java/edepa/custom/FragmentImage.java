@@ -9,9 +9,9 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.chrisbanes.photoview.PhotoView;
 
-import butterknife.BindView;
 import edepa.modelview.R;
-import edepa.activity.MainFragment;
+import butterknife.BindView;
+import edepa.app.MainFragment;
 import static com.bumptech.glide.request.RequestOptions.fitCenterTransform;
 
 /**
@@ -21,7 +21,7 @@ import static com.bumptech.glide.request.RequestOptions.fitCenterTransform;
 public class FragmentImage extends MainFragment {
 
     /**
-     * Se muestra en MainNavigation{@link #getToolbar()}
+     * Se muestra en NavigationActivity{@link #getToolbar()}
      * como título de la imagen
      */
     protected String title;
@@ -116,7 +116,7 @@ public class FragmentImage extends MainFragment {
      * mientras se descarga
      */
     protected void loadAsyncImage(){
-        Glide.with(getMainActivity())
+        Glide.with(getNavigationActivity())
                 .load(imageUrl)
                 .apply(getRequestOptions())
                 .into(imageView);

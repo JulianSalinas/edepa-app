@@ -16,10 +16,10 @@ import android.support.v4.app.NotificationCompat;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.firebase.messaging.FirebaseMessagingService;
 
+import edepa.app.NavigationActivity;
 import edepa.modelview.R;
-import edepa.model.Cloud;
+import edepa.cloud.Cloud;
 import edepa.model.Preferences;
-import edepa.activity.MainNavigation;
 
 /**
  * Servicion necesario para recibir notificaciones
@@ -51,8 +51,8 @@ public class NotificationService extends FirebaseMessagingService {
      * @see #showNotification(Notification)
      */
     private void handleNotification(String title, String body){
-        Preferences prefs = Preferences.getInstance();
-        if(prefs.getBooleanPreference(this, Preferences.NOTIFICATIONS_KEY)) {
+        String key = Preferences.NOTIFICATIONS_KEY;
+        if(Preferences.getBooleanPreference(this, key)) {
             Notification notification = createNotification(title, body);
             showNotification(notification);
         }
@@ -82,7 +82,7 @@ public class NotificationService extends FirebaseMessagingService {
     private Intent createIntent(){
         Bundle args = new Bundle();
         args.putBoolean(Cloud.NEWS, true);
-        return new Intent(getApplicationContext(), MainNavigation.class)
+        return new Intent(getApplicationContext(), NavigationActivity.class)
             .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP |
                       Intent.FLAG_ACTIVITY_NO_HISTORY)
             .setAction(Intent.ACTION_MAIN)
@@ -108,7 +108,6 @@ public class NotificationService extends FirebaseMessagingService {
      * @see #createPendingIntent()
      */
     private Notification createNotification(String title, String body){
-
         return new NotificationCompat
                 .Builder(this, Cloud.NEWS)
                 .setContentTitle(title)

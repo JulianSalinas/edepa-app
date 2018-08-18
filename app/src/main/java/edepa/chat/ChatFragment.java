@@ -1,18 +1,22 @@
 package edepa.chat;
 
-import java.util.Calendar;
 import butterknife.BindView;
 
-import edepa.model.Cloud;
+import butterknife.OnClick;
+import butterknife.OnFocusChange;
+
+import edepa.app.MainFragment;
+import edepa.cloud.Cloud;
+import edepa.cloud.CloudChat;
+
+import edepa.custom.RecyclerFragment;
 import edepa.model.Message;
 import edepa.model.Preferences;
 
 import edepa.modelview.R;
 import edepa.custom.RecyclerAdapter;
-import edepa.custom.RecyclerFragment;
-import edepa.custom.SmoothLayout;
+import edepa.minilibs.SmoothLayout;
 
-import android.util.Log;
 import android.os.Bundle;
 import android.view.View;
 
@@ -27,6 +31,12 @@ import android.support.design.widget.TextInputEditText;
 
 
 public class ChatFragment extends RecyclerFragment {
+
+    /**
+     * Key utilizado con la función
+     * {@link #onSaveInstanceState(Bundle)}
+     */
+    private static final String INPUT_TEXT_KEY = "input_text";
 
     /**
      * Es el botón para enviar el mensaje
@@ -44,37 +54,23 @@ public class ChatFragment extends RecyclerFragment {
      * Es donde se colocan cada uno de los mensajes
      * de forma VISUAL
      */
-    @BindView(R.id.chat_rv)
-    RecyclerView chatRV;
+    @BindView(R.id.chat_recycler)
+    RecyclerView chatRecycler;
 
     @Override
     protected RecyclerView getRecyclerView() {
-        return chatRV;
+        return chatRecycler;
     }
 
     /**
      * Contiene todos los mensajes del chat y ejecuta
      * los evento de inserción, deleción y modificación
      */
-    protected ChatAdapter chatVA;
+    protected ChatAdapter chatAdapter;
 
     @Override
     protected RecyclerAdapter getViewAdapter() {
-        return chatVA;
-    }
-
-    /**
-     * Key utilizado con la función
-     * {@link #onSaveInstanceState(Bundle)}
-     */
-    private final String INPUT_TEXT_KEY = "input_text";
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getResource() {
-        return R.layout.chat_view;
+        return chatAdapter;
     }
 
     /**
@@ -90,31 +86,110 @@ public class ChatFragment extends RecyclerFragment {
     }
 
     /**
-     * @param msg Mensaje
-     * @return True si el mensaje fue enviado por el usuario actual
+     * {@inheritDoc}
      */
-    public boolean isFromCurrentUser(Message msg){
-        String userUid = Cloud.getInstance().getAuth().getUid();
-        return msg.getUserid().equals(userUid);
+    @Override
+    public int getResource() {
+        return R.layout.chat_view;
+    }
+
+    /**
+     * Carga los mensajes
+     */
+    protected CloudChat cloudChat;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        chatAdapter = new ChatAdapter(getNavigationActivity());
+        chatAdapter.registerAdapterDataObserver(getDataObserver());
+        cloudChat = new CloudChat();
+        cloudChat.setCallbacks(chatAdapter);
+        cloudChat.connect();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onDestroy() {
+        super.onDestroy();
+        cloudChat.disconnect();
+    }
 
-        setToolbarText(R.string.nav_chat);
-        setToolbarVisibility(View.VISIBLE);
-        setStatusBarColorRes(R.color.app_primary_dark);
+    /**
+     * Se obtiene un data observer para que en el momento que
+     * el usuario ingrese un mensaje, se realice scroll hasta este
+     * @return AdapterDataObserver
+     */
+    private RecyclerView.AdapterDataObserver getDataObserver(){
+        return new RecyclerView.AdapterDataObserver() {
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            super.onItemRangeInserted(positionStart, itemCount);
+            scrollIfWaitingResponse();
+        }};
+    }
 
+    /**
+     * {@inheritDoc}
+     * Guarda lo que el usuario ha escrito en el chat para cuando regrese
+     * al mismo fragmento o se gire la pantalla
+     * @param outState: Bundle con el contenido del chat
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        String text = textInputView.getEditableText().toString();
+        outState.putString(INPUT_TEXT_KEY, text);
+    }
+
+    /**
+     * Restaura en lo que el usuario habia escrito en el chat después
+     * de salirse de la pantalla o al girarla
+     * @param savedInstanceState: Bundle con el contenido del chat
+     */
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
         if(savedInstanceState != null){
             String text = savedInstanceState.getString(INPUT_TEXT_KEY);
             textInputView.setText(text);
-            Log.i(toString(), "onActivityCreated(Bundle)");
         }
+    }
 
+    /**
+     * Personaliza la actividad
+     */
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void customizeActivity(){
+        setToolbarText(R.string.nav_chat);
+        setToolbarVisibility(View.VISIBLE);
+        setStatusBarColorRes(R.color.app_primary_dark);
+    }
+
+    /**
+     * Se configura el contenedor de mensajes {@link #chatRecycler}
+     */
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void setupRecyclerView(){
+        LinearLayoutManager layoutManager =
+                new SmoothLayout(getActivity());
+        layoutManager.setStackFromEnd(true);
+        chatRecycler.setAdapter(chatAdapter);
+        chatRecycler.setHasFixedSize(true);
+        chatRecycler.setItemAnimator(new DefaultItemAnimator());
+        chatRecycler.setLayoutManager(layoutManager);
+    }
+
+    /**
+     * Cuando el input pierde el foco el teclado se debe cerrar
+     */
+    @OnFocusChange(R.id.text_input_view)
+    public void controlInputFocus(boolean hasFocus){
+        if (!hasFocus) activity.hideKeyboard();
     }
 
     /**
@@ -122,7 +197,8 @@ public class ChatFragment extends RecyclerFragment {
      * insertado
      */
     public void scrollToLastPosition(){
-        chatRV.smoothScrollToPosition(chatVA.getItemCount()-1);
+        int index = chatAdapter.getItemCount()-1;
+        chatRecycler.smoothScrollToPosition(index);
     }
 
     /**
@@ -138,101 +214,10 @@ public class ChatFragment extends RecyclerFragment {
     }
 
     /**
-     * {@inheritDoc}
-     * Guarda lo que el usuario ha escrito en el chat para cuando regrese
-     * al mismo fragmento o se gire la pantalla
-     * @param outState: Bundle con el contenido del chat
-     */
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        String text = textInputView.getEditableText().toString();
-        outState.putString(INPUT_TEXT_KEY, text);
-        Log.i(toString(), "onSaveInstanceState()");
-    }
-
-    /**
-     * Restaura en lo que el usuario habia escrito en el chat después
-     * de salirse de la pantalla o al girarla
-     * @param savedInstanceState: Bundle con el contenido del chat
-     */
-    @Override
-    public void onViewStateRestored(Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if(savedInstanceState != null){
-            String text = savedInstanceState.getString(INPUT_TEXT_KEY);
-            textInputView.setText(text);
-            Log.i(toString(), "onViewStateRestored()");
-        }
-    }
-
-    /**
-     * Se prepara el adaptador para poder recibir nuevas vistas de mensajes.
-     * Si el adaptador ya había sido colocado no es necesario crearlo otra vez
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    public void setupAdapter(){
-        if(chatVA == null) {
-            chatVA = new ChatFirebase(this);
-            Log.i(toString(), "setupAdapter()");
-        }
-    }
-
-    /**
-     * Se configura el contenedor de mensajes {@link #chatRV}
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public void setupRecyclerView(){
-        if (chatRV.getAdapter() == null){
-
-            LinearLayoutManager layoutManager =
-                    new SmoothLayout(getActivity());
-            layoutManager.setStackFromEnd(true);
-
-            chatRV.setAdapter(chatVA);
-            chatRV.setHasFixedSize(true);
-            chatRV.setItemAnimator(new DefaultItemAnimator());
-            chatRV.setLayoutManager(layoutManager);
-
-            Log.i(toString(), "setupRecyclerView()");
-        }
-    }
-
-    /**
-     * Cuando el input pierde el foco el teclado se debe cerrar
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public void setupTextInput(){
-        textInputView.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) activity.hideKeyboard();
-        });
-        Log.i(toString(), "setupTextInput()");
-    }
-
-    /**
-     * Al presionar el botón se reunen los datos del msg y luego se envía
-     * @see #disconnectSendListener()
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    private void connectSendListener() {
-        sendCardView.setOnClickListener(v -> sendMessage());
-        Log.i(toString(), "connectSendListener()");
-    }
-
-    /**
-     * Desconecta el fragment al no usarse
-     * @see #connectSendListener()
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    private void disconnectSendListener() {
-        sendCardView.setOnClickListener(null);
-        Log.i(toString(), "disconnectSendListener()");
-    }
-
-    /**
      * Función para enviar un msg. Toma el contenido y si no está vacío
      * procede a enviarlo
      */
+    @OnClick(R.id.send_card_view)
     public void sendMessage(){
         String content = textInputView.getText().toString();
         if (!content.isEmpty()) sendNotEmptyMessage(content);
@@ -244,13 +229,10 @@ public class ChatFragment extends RecyclerFragment {
      * @param content: Contenido del mensaje extraido del input
      */
     private void sendNotEmptyMessage(String content){
-        Message msg = createMessage(content);
+        Message message = createMessage(content);
         setWaitingResponse(true);
-        Cloud.getInstance()
-                .getReference(Cloud.CHAT)
-                .push().setValue(msg);
+        CloudChat.addMessage(message);
         textInputView.setText("");
-        Log.i(toString(), "sendNotEmptyMessage(content)");
     }
 
     /**
@@ -259,10 +241,10 @@ public class ChatFragment extends RecyclerFragment {
      * @param content: Contenido del mensaje extraido del input
      */
     public Message createMessage(String content){
-        String username = getUsername();
-        Long datetime = Calendar.getInstance().getTimeInMillis();
-        String userid = Cloud.getInstance().getAuth().getUid();
-        return new Message(userid, username, content, datetime);
+        return new Message.Builder()
+                .username(getUsername())
+                .userid(Cloud.getInstance().getUserId())
+                .content(content).time(System.currentTimeMillis()).build();
     }
 
     /**
@@ -272,7 +254,7 @@ public class ChatFragment extends RecyclerFragment {
      */
     public String getUsername(){
         String key = Preferences.USER_KEY;
-        return Preferences.getInstance().getStringPreference(activity, key);
+        return Preferences.getStringPreference(activity, key);
     }
 
 }

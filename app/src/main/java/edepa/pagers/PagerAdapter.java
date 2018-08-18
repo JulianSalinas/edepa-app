@@ -1,8 +1,9 @@
 package edepa.pagers;
 
 import java.util.List;
-import edepa.misc.DateConverter;
-import edepa.interfaces.IPageSubject;
+
+import edepa.events.EventsFragment;
+import edepa.minilibs.TimeConverter;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,7 +24,6 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
      * Es importante agregarlas en orden
      */
     protected List<Long> dates;
-
 
     /**
      * Constructor de {@link PagerAdapter}
@@ -80,7 +80,7 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public int getItemPosition(Object object) {
-        IPageSubject fragment = (IPageSubject) object;
+        EventsFragment fragment = (EventsFragment) object;
         int index = dates.indexOf(fragment.getDate());
         return index > 0 ? index : POSITION_NONE;
     }
@@ -92,14 +92,14 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public CharSequence getPageTitle(int position) {
-        return DateConverter.extractDate(dates.get(position));
+        return TimeConverter.extractDate(dates.get(position));
     }
 
     /**
      * Función usada por {@link #getItem(int)} para obtener
      * una nueva instancia de un fragmento EventsFragment
      * Los argumentos son colocados en {@link #getItem(int)}
-     * @return IEventsSubject Fragment que implemena la interfaz
+     * @return Callbacks Fragment que implemena la interfaz
      */
     protected abstract Fragment instantiateEventsFragment();
 

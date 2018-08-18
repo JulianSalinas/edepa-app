@@ -3,9 +3,7 @@ package edepa.pagers;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.google.firebase.database.DataSnapshot;
-
-import edepa.model.ScheduleEvent;
+import edepa.model.Event;
 import edepa.modelview.R;
 import edepa.events.EventsSchedule;
 
@@ -34,17 +32,6 @@ public class PagerSchedule extends PagerFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         eventsEmptyView.setText(getString(R.string.text_without_events));
-        getEventsQuery().addChildEventListener(PagerSchedule.this);
-    }
-
-    /**
-     * {@inheritDoc}
-     * Se desconecta de la base de datos
-     */
-    @Override
-    public void onDestroyView() {
-        super.onDestroy();
-        getEventsQuery().removeEventListener(this);
     }
 
     /**
@@ -53,10 +40,8 @@ public class PagerSchedule extends PagerFragment {
      * agrega una nueva
      */
     @Override
-    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        super.onChildAdded(dataSnapshot, s);
-        ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
-        if (event != null && event.getDate() != null)
+    public void addEvent(Event event) {
+        if (event.getDate() != 0L)
             addPageIfNotExists(event);
     }
 
@@ -66,11 +51,24 @@ public class PagerSchedule extends PagerFragment {
      * las páginas actuales
      */
     @Override
-    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        super.onChildChanged(dataSnapshot, s);
-        ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
-        if (event != null && event.getDate() != null)
+    public void changeEvent(Event event) {
+        if (event.getDate() != 0L)
             addPageIfNotExists(event);
+    }
+
+    @Override
+    public void removeEvent(Event event) {
+        // No se requiere
+    }
+
+    @Override
+    public void addFavorite(String eventKey) {
+        // No se requiere
+    }
+
+    @Override
+    public void removeFavorite(String eventKey) {
+        // No se requiere
     }
 
 }

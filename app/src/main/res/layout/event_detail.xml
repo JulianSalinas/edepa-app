@@ -57,6 +57,18 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/event_detail_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/space_smallest"
+                        android:background="@color/app_accent"
+                        android:padding="@dimen/space_smallest"
+                        android:textSize="@dimen/font_small"
+                        android:textColor="@color/app_accent_font"
+                        android:textAllCaps="true"
+                        tools:text="Taller" />
+
+                    <TextView
                         android:id="@+id/event_detail_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -229,6 +241,6 @@
         app:backgroundTint="@color/app_primary"
         app:layout_anchor="@id/app_bar_layout"
         app:layout_anchorGravity="bottom|right|end"
-        app:srcCompat="@drawable/ic_star_white_24dp" />
+        app:srcCompat="@drawable/ic_star" />
 
 </android.support.design.widget.CoordinatorLayout>

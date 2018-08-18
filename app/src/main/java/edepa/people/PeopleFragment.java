@@ -1,32 +1,38 @@
 package edepa.people;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.view.View;
 
-import com.google.firebase.database.Query;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 import butterknife.BindView;
-import edepa.model.Cloud;
+import butterknife.OnClick;
+import edepa.cloud.CloudAdmin;
 import edepa.model.Person;
 
 import edepa.modelview.R;
-import edepa.custom.SmoothLayout;
-import edepa.loaders.PeopleLoader;
-import edepa.activity.MainFragment;
-import edepa.interfaces.IPeopleSubject;
+import edepa.minilibs.SmoothLayout;
+import edepa.cloud.CloudPeople;
+import edepa.app.MainFragment;
+
 import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 
 
-public class PeopleFragment extends MainFragment implements IPeopleSubject {
+public class PeopleFragment extends MainFragment
+        implements CloudPeople.Callbacks, CloudAdmin.AdminPermissionListener {
 
     @BindView(R.id.people_recycler_view)
-    RecyclerView peopleRV;
+    RecyclerView peopleRecycler;
 
-    private PeopleAdapter adapter;
+    @BindView(R.id.add_person_button)
+    FloatingActionButton addPersonButton;
+
+    private PeopleAdapter peopleAdapter;
 
     private ArrayList<Person> people;
 
@@ -34,32 +40,34 @@ public class PeopleFragment extends MainFragment implements IPeopleSubject {
         return people;
     }
 
-    private PeopleLoader peopleLoader;
+    private CloudAdmin cloudAdmin;
+
+    private CloudPeople cloudPeople;
 
     @Override
     public int getResource() {
         return R.layout.people_view;
     }
 
-    public Query getPeopleQuery(){
-        return Cloud.getInstance()
-                .getReference(Cloud.PEOPLE)
-                .orderByChild("completeName");
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         people = new ArrayList<>();
-        adapter = new PeopleAdapter(this);
-        peopleLoader = new PeopleLoader(this);
-        getPeopleQuery().addChildEventListener(peopleLoader);
+        peopleAdapter = new PeopleAdapter(people);
+
+        cloudPeople = new CloudPeople();
+        cloudPeople.setCallbacks(this);
+        cloudPeople.connect();
+
+        cloudAdmin = new CloudAdmin();
+        cloudAdmin.setAdminPermissionListener(this);
+
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        getPeopleQuery().removeEventListener(peopleLoader);
+    public void onDestroy() {
+        super.onDestroy();
+        cloudPeople.disconnect();
     }
 
     @Override
@@ -70,26 +78,65 @@ public class PeopleFragment extends MainFragment implements IPeopleSubject {
         setToolbarVisibility(View.VISIBLE);
         setStatusBarColorRes(R.color.app_primary_dark);
 
-        peopleRV.setAdapter(adapter);
-        peopleRV.setHasFixedSize(true);
-        peopleRV.setItemAnimator(new DefaultItemAnimator());
-        peopleRV.setLayoutManager(new SmoothLayout(getActivity()));
+        cloudAdmin.requestAdminPermission();
+
+        peopleRecycler.setAdapter(peopleAdapter);
+        peopleRecycler.setHasFixedSize(true);
+        peopleRecycler.setItemAnimator(new DefaultItemAnimator());
+        peopleRecycler.setLayoutManager(new SmoothLayout(getActivity()));
+
+        peopleRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && addPersonButton.getVisibility() == View.VISIBLE)
+                    addPersonButton.hide();
+                else if (dy < 0 && addPersonButton.getVisibility() != View.VISIBLE) {
+                    addPersonButton.show();
+                }
+            }
+        });
 
         DividerItemDecoration decoration =
-                new DividerItemDecoration(getMainActivity(), VERTICAL);
+                new DividerItemDecoration(getNavigationActivity(), VERTICAL);
 
         decoration.setDrawable(
                 getResources().getDrawable(R.drawable.util_decorator));
 
-        peopleRV.addItemDecoration(decoration);
+        peopleRecycler.addItemDecoration(decoration);
 
+        getNavigationActivity().getSearchView().setOnQueryTextListener(
+                new MaterialSearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                peopleAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                peopleAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+
+    }
+
+    @OnClick(R.id.add_person_button)
+    public void openPersonEditor(){
+        String tag = "PERSON_EDITOR";
+        PersonEditor frag = (PersonEditor) getNavigationActivity()
+                .getSupportFragmentManager().findFragmentByTag(tag);
+        setFragmentOnScreen(frag != null ? frag: new PersonEditor(), tag);
     }
 
     @Override
     public void addPerson(Person person) {
         if(!people.contains(person)) {
              people.add(person);
-             adapter.notifyItemInserted(people.size() - 1);
+             peopleAdapter.notifyItemInserted(people.size() - 1);
         }
     }
 
@@ -98,7 +145,7 @@ public class PeopleFragment extends MainFragment implements IPeopleSubject {
         int index = people.indexOf(person);
         if (index != -1) {
             people.set(index, person);
-            adapter.notifyItemChanged(index);
+            peopleAdapter.notifyItemChanged(index);
         }
     }
 
@@ -107,8 +154,18 @@ public class PeopleFragment extends MainFragment implements IPeopleSubject {
         int index = people.indexOf(person);
         if (index != -1) {
             people.remove(person);
-            adapter.notifyItemRemoved(index);
+            peopleAdapter.notifyItemRemoved(index);
         }
+    }
+
+    @Override
+    public void onPermissionGranted() {
+        addPersonButton.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onPermissionDenied() {
+        addPersonButton.setVisibility(View.GONE);
     }
 
 }

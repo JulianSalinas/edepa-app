@@ -10,11 +10,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import edepa.model.Cloud;
-import edepa.loaders.BaseLoader;
-import edepa.loaders.EventsLoader;
-import edepa.loaders.FavoritesLoader;
-import edepa.interfaces.IPageListener;
+import edepa.cloud.Cloud;
+import edepa.cloud.CloudChild;
+import edepa.cloud.CloudEvents;
+import edepa.cloud.CloudFavorites;
 import edepa.pagers.PagerFragment;
 
 /**
@@ -30,13 +29,13 @@ public class EventsSchedule extends EventsFragment {
      * manera asincrónica. Ésta carga se debe realizar
      * depués de obtener la lista de favoritos
      */
-    private BaseLoader eventsLoader;
+    private CloudEvents cloudEvents;
 
     /**
      * Carga todos los key de todos los eventos que
      * el usuario ha marcado como favoritos
      */
-    protected BaseLoader favoritesLoader;
+    protected CloudFavorites cloudFavorites;
 
     /**
      * Es donde se cargan los eventos y se colocan
@@ -61,22 +60,25 @@ public class EventsSchedule extends EventsFragment {
 
     /**
      * {@inheritDoc}
-     * Al crearse el fragmeno, se conecta el listener
+     * Al crearse el fragmeno, se conecta el adminPermissionListener
      * para comenzar a recibir los eventos de la BD
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Se obtiene el listener que en este caso
+        // Se obtiene el adminPermissionListener que en este caso
         // es un PagerFragment que implementa IPageListener
         Fragment fragment = getParentFragment();
         if (fragment != null && fragment instanceof IPageListener)
             pageListener = (IPageListener) fragment;
 
         // Deben instanciarse antes de conectar
-        eventsLoader = new EventsLoader(this);
-        favoritesLoader = new FavoritesLoader(this);
+        cloudEvents = new CloudEvents();
+        cloudFavorites = new CloudFavorites();
+
+        cloudEvents.setCallbacks(this);
+        cloudFavorites.setCallbacks(this);
 
         // Se obtiene la cantidad de eventos para
         // saber cuando termina la carga de datos inicial
@@ -99,7 +101,7 @@ public class EventsSchedule extends EventsFragment {
 
     /**
      * {@inheritDoc}
-     * Al destruirse el fragmento se borra el listener
+     * Al destruirse el fragmento se borra el adminPermissionListener
      * para evitar tener un duplicado
      */
     @Override
@@ -122,18 +124,6 @@ public class EventsSchedule extends EventsFragment {
     }
 
     /**
-     * Query realizado a la base de datos para
-     * obtener toda la lista de favoritos del usuario
-     * @return Query
-     */
-    public Query getFavoritesQuery(){
-        Cloud cloud = Cloud.getInstance();
-        String uid = cloud.getAuth().getUid();
-        assert uid != null;
-        return cloud.getReference(Cloud.FAVORITES).child(uid);
-    }
-
-    /**
      * Clase que modifica la lista de eventos y de favoritos
      * del fragmento {@link EventsSchedule}
      */
@@ -150,14 +140,14 @@ public class EventsSchedule extends EventsFragment {
         }
 
         /**
-         * Pone a la escucha los listener encargados de
+         * Pone a la escucha los adminPermissionListener encargados de
          * agregar eventos y colocar los favoritos. Es
          * invocada en {@link #onCreate(Bundle)}
          * @see #disconnectListeners()
          */
         public void connectListeners(){
-            getFavoritesQuery().addChildEventListener(favoritesLoader);
-            getEventsQuery().addChildEventListener(eventsLoader);
+            cloudFavorites.connect();
+            cloudEvents.connect(getEventsQuery());
         }
 
         /**
@@ -166,8 +156,8 @@ public class EventsSchedule extends EventsFragment {
          * invocada en {@link #onDestroy()}
          */
         public void disconnectListeners(){
-            getFavoritesQuery().removeEventListener(favoritesLoader);
-            getEventsQuery().removeEventListener(eventsLoader);
+            cloudFavorites.disconnect();
+            cloudEvents.disconnect(getEventsQuery());
         }
 
         /**

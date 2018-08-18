@@ -10,19 +10,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import edepa.minilibs.TimeConverter;
 import edepa.modelview.R;
-import edepa.model.Cloud;
+import edepa.cloud.Cloud;
 import edepa.model.Preferences;
-import edepa.misc.DateConverter;
-import edepa.model.ScheduleEvent;
-import edepa.interfaces.IFavoritesSubject;
-import edepa.loaders.FavoritesLoader;
+import edepa.model.Event;
+import edepa.cloud.CloudFavorites;
 
 import static edepa.model.Preferences.UPDATE_DELAY;
 
 
 public class EventsOngoing
-        extends EventsFragment implements IFavoritesSubject {
+        extends EventsFragment implements CloudFavorites.Callbacks {
 
     /**
      * Indica si {@link #runnable} debe seguir
@@ -57,12 +56,12 @@ public class EventsOngoing
      */
     protected OngoingAdapter eventsAdapter;
 
-    private FavoritesLoader favoritesLoader;
+    private CloudFavorites cloudFavorites;
 
     @Override
     public long getDate() {
         long time = System.currentTimeMillis();
-        return DateConverter.atStartOfDay(time);
+        return TimeConverter.atStartOfDay(time);
     }
 
     /**
@@ -122,11 +121,10 @@ public class EventsOngoing
     public void setUpdateDelay(){
 
         updateDelay = 60000;
-        Preferences prefs = Preferences.getInstance();
 
         // La preferencia se guarda como string en el fragmento
         // diseñado para tal fin
-        String delay = prefs.getStringPreference(activity, UPDATE_DELAY);
+        String delay = Preferences.getStringPreference(activity, UPDATE_DELAY);
 
         // Es casi imposible que suceda la excepción puesto que
         // no se le da la posibilidad al usuario de ingresarlo mal
@@ -149,9 +147,10 @@ public class EventsOngoing
      */
     public void loop(){
 
-        if (favoritesLoader == null) {
-            favoritesLoader = new FavoritesLoader(this);
-            getFavoritesQuery().addChildEventListener(favoritesLoader);
+        if (cloudFavorites == null) {
+            cloudFavorites = new CloudFavorites();
+            cloudFavorites.setCallbacks(this);
+            cloudFavorites.connect();
         }
 
         Log.i(toString(), String.format("favorites : %d", favorites.size()));
@@ -196,14 +195,14 @@ public class EventsOngoing
      * @param event Evento del cronograma
      * @return True si el evento está en curso
      */
-    public boolean getTimeFilter(ScheduleEvent event){
+    public boolean getTimeFilter(Event event){
         long currentTime = System.currentTimeMillis();
         boolean filter = event.getStart() <= currentTime;
         Log.i("ongoing",
                 String.format("Filter applied %s <= %s <= %s",
-                DateConverter.longToString(event.getStart()),
-                DateConverter.longToString(currentTime),
-                DateConverter.longToString(event.getEnd())));
+                TimeConverter.longToString(event.getStart()),
+                TimeConverter.longToString(currentTime),
+                TimeConverter.longToString(event.getEnd())));
         return filter && currentTime <= event.getEnd();
     }
 
@@ -216,7 +215,7 @@ public class EventsOngoing
     public void updateInterface(boolean isEmpty){
         eventsRV.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
         eventsEmptyView.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
-        String s = DateConverter.longToString(System.currentTimeMillis());
+        String s = TimeConverter.longToString(System.currentTimeMillis());
         Log.i(toString(), String.format("Update complete at %s", s));
         // showStatusMessage("Events updated");
     }
@@ -240,7 +239,7 @@ public class EventsOngoing
      */
     public Query getFavoritesQuery(){
         Cloud cloud = Cloud.getInstance();
-        String uid = cloud.getAuth().getUid();
+        String uid = cloud.getUserId();
         assert uid != null;
         return cloud.getReference(Cloud.FAVORITES).child(uid);
     }
@@ -249,7 +248,7 @@ public class EventsOngoing
      * Adaptador que contiene los eventos que se
      * encuentran en curso. Recupera todos los eventos
      * de la base de datos y aplica la función
-     * {@link #getTimeFilter(ScheduleEvent)} para tal fin
+     * {@link #getTimeFilter(Event)} para tal fin
      */
     public class OngoingAdapter
             extends EventsAdapter implements ValueEventListener {
@@ -265,7 +264,7 @@ public class EventsOngoing
          * {@inheritDoc}
          * En una actualización se borran todos los eventos
          * y se recuperan de la base de datos aquellos que
-         * cumplen con la función {@link #getTimeFilter(ScheduleEvent)}
+         * cumplen con la función {@link #getTimeFilter(Event)}
          */
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -284,7 +283,7 @@ public class EventsOngoing
          * de {@link #onDataChange(DataSnapshot)}
          */
         private void retrieveEvent(DataSnapshot dataSnapshot){
-            ScheduleEvent event = dataSnapshot.getValue(ScheduleEvent.class);
+            Event event = dataSnapshot.getValue(Event.class);
             if (event != null ){
                 event.setKey(dataSnapshot.getKey());
                 Log.i("ongoing -> Retriving ", event.getKey());

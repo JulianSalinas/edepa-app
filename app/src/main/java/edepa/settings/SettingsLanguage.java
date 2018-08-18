@@ -25,12 +25,11 @@ public class SettingsLanguage {
      */
     public static void setLanguage(Context context, String newLang){
 
-        Preferences prefs = Preferences.getInstance();
-        String currentLang = prefs.getStringPreference(context, LANG_KEY);
+        String currentLang = Preferences.getStringPreference(context, LANG_KEY);
         if (currentLang == null) currentLang = Locale.getDefault().getLanguage();
 
         if(!currentLang.equals(newLang))
-            prefs.setPreference(context, LANG_KEY, currentLang);
+            Preferences.setPreference(context, LANG_KEY, currentLang);
 
         Resources resources = context.getResources();
         Configuration config = resources.getConfiguration();
@@ -45,8 +44,7 @@ public class SettingsLanguage {
      * @param context Actividad de la que se pueden obtener los recursos
      */
     public static void applyLanguage(Context context){
-        Preferences prefs = Preferences.getInstance();
-        String currentLang = prefs.getStringPreference(context, LANG_KEY);
+        String currentLang = Preferences.getStringPreference(context, LANG_KEY);
         if (currentLang == null) currentLang = Locale.getDefault().getLanguage();
         setLanguage(context, currentLang);
     }
@@ -56,8 +54,7 @@ public class SettingsLanguage {
      * @return SettingsLanguage.SPANISH | SettingsLanguaje.ENGLISH
      */
     public static String getCurrentLanguage(Context context){
-        Preferences prefs = Preferences.getInstance();
-        return prefs.getStringPreference(context, LANG_KEY);
+        return Preferences.getStringPreference(context, LANG_KEY);
     }
 
 }

@@ -278,5 +278,11 @@
     <string name="post_new">Publicar noticia</string>
     <string name="upload_image">Subir imagen (opcional)</string>
     <string name="text_warning_delete_new">Si borrar la noticia los demás usuario ya no podrán accederla</string>
+    <string name="text_person">Nombre completo</string>
+    <string name="text_person_description">Descripción</string>
+    <string name="text_person_description_example">Ej. Título, Universidad o País</string>
+    <string name="add_person">Agregar persona</string>
+    <string name="text_success_add_person">Persona agregada</string>
+    <string name="text_error_add_person">Error al agregar</string>
 
 </resources>

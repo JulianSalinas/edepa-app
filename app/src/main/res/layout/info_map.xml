@@ -41,7 +41,7 @@
         </FrameLayout>
 
         <ProgressBar
-            android:id="@+id/progress_map"
+            android:id="@+id/progress_circle"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_centerInParent="true"/>

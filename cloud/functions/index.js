@@ -92,8 +92,10 @@ exports.increaseFavorites = functions.database.ref('/edepa5/favorites/{userId}/{
         console.log('increment', increment);
 
         const scheduleRef = snapshot.after.ref.parent.parent.parent.child('schedule');
-        return scheduleRef.child(eventId).child('favoritesAmount').transaction((current) => {
-            return (current || 0) + increment;
+        return scheduleRef.child(eventId).child('favorites').transaction((current) => {
+            var newValue = (current || 0) + increment;
+            return newValue >= 0 ? newValue: 0;
+        
         }).then(() => {
             return console.log('Counter correctly updated');
         });

@@ -6,10 +6,11 @@ import android.widget.Toast;
 import android.content.SharedPreferences;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
+import edepa.app.NavigationActivity;
 import edepa.modelview.R;
-import edepa.model.Cloud;
+import edepa.cloud.Cloud;
 import edepa.model.Preferences;
-import edepa.activity.MainNavigation;
+
 import static edepa.model.Preferences.LANG_KEY;
 import static edepa.model.Preferences.USER_KEY;
 
@@ -32,7 +33,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     /**
      * {@inheritDoc}
      * Este fragmento solo funciona si es colocado en una actividad
-     * del tipo {@link MainNavigation} de lo contrario el comportamiento
+     * del tipo {@link NavigationActivity} de lo contrario el comportamiento
      * es indeterminado
      */
     @Override
@@ -83,12 +84,11 @@ public class SettingsFragment extends PreferenceFragmentCompat
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-        Preferences prefs = Preferences.getInstance();
-        MainNavigation activity = (MainNavigation) getActivity();
+        NavigationActivity activity = (NavigationActivity) getActivity();
 
         // Se ha cambiado el lenguage
         if (key.equals(LANG_KEY)){
-            String lang = prefs.getStringPreference(getContext(), LANG_KEY);
+            String lang = Preferences.getStringPreference(getContext(), LANG_KEY);
             SettingsLanguage.setLanguage(getContext(), lang);
             String msg = getString(R.string.text_language_changed);
             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();

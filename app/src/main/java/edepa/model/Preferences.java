@@ -12,7 +12,6 @@ public class Preferences {
      */
     public static final String LANG_KEY = "LANG_KEY";
     public static final String USER_KEY = "USER_KEY";
-    public static final String USER_ID_KEY = "USER_ID_KEY";
     public static final String FIRST_USE_KEY = "FIRST_USE_KEY";
     public static final String NOTIFICATIONS_KEY = "NOTIFICATIONS_KEY";
 
@@ -32,31 +31,11 @@ public class Preferences {
     public static final String UPDATE_DELAY = "UPDATE_DELAY";
 
     /**
-     * Solo permite acceder a una instancia de preferencias
-     */
-    private static final Preferences ourInstance = new Preferences();
-
-    /**
-     * Metódo para que todos accedan a la misma configuración
-     */
-    public static Preferences getInstance() {
-        return ourInstance;
-    }
-
-    /**
      * Obtiene un segmento de almacenamiento para guardar archivos local=e
      * @param context: Actividad desde donde se llama la aplicación
      */
-    protected SharedPreferences getSharedPreferences(Context context){
+    protected static SharedPreferences getSharedPreferences(Context context){
         return PreferenceManager.getDefaultSharedPreferences(context);
-    }
-
-    /**
-     * Retorna una instancia en la que se pueden editar las preferencias
-     *  @param context: Actividad desde donde se llama la aplicación
-     */
-    protected SharedPreferences.Editor getSharedEditor(Context context){
-        return getSharedPreferences(context).edit();
     }
 
     /**
@@ -64,7 +43,7 @@ public class Preferences {
      * @param context: Actividad desde donde se llama la aplicación
      * @param key: Asociado al valor que se debe obtener
      */
-    public String getStringPreference(Context context, String key) {
+    public static String getStringPreference(Context context, String key) {
         SharedPreferences prefs = getSharedPreferences(context);
         return prefs.getString(key, null);
     }
@@ -74,7 +53,7 @@ public class Preferences {
      * @param context: Actividad desde donde se llama la aplicación
      * @param key: Asociado al valor que se debe obtener
      */
-    public Boolean getBooleanPreference(Context context, String key) {
+    public static Boolean getBooleanPreference(Context context, String key) {
         SharedPreferences prefs = getSharedPreferences(context);
         return prefs.getBoolean(key, true);
     }
@@ -84,7 +63,7 @@ public class Preferences {
      * @param context: Actividad desde donde se llama la aplicación
      * @param key: Asociado al valor que se debe obtener
      */
-    public Integer getIntegerPreference(Context context, String key){
+    public static Integer getIntegerPreference(Context context, String key){
         SharedPreferences prefs = getSharedPreferences(context);
         return prefs.getInt(key, 0);
     }
@@ -95,7 +74,7 @@ public class Preferences {
      * @param key: Asociado al valor que se debe obtener
      * @param value: Valor de la preferencia a guardar
      */
-    public void setPreference(Context context, String key, Object value) {
+    public static void setPreference(Context context, String key, Object value) {
         SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         if(value instanceof String) editor.putString(key, (String) value);
         else if (value instanceof Boolean) editor.putBoolean(key, (Boolean) value);

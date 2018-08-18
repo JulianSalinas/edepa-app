@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
 
     compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     if (project.hasProperty('devBuild')) {
         splits.abi.enable = false
@@ -27,6 +28,8 @@ android {
 
         debug {
             ext.alwaysUpdateBuildId = false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
         release {
@@ -48,7 +51,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'com.android.support:design:27.1.1'
-    implementation "com.android.support:support-core-utils:27.1.1"
+    implementation 'com.android.support:support-core-utils:27.1.1'
 
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-auth:16.0.2'
@@ -66,21 +69,16 @@ dependencies {
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
     implementation 'com.github.mklimek:circle-initials-view:1.0.9'
     implementation 'com.github.medyo:android-about-page:1.2.4'
-    implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.4'
     implementation 'com.github.kizitonwose.colorpreference:support:1.0.6'
 
     implementation 'com.firebaseui:firebase-ui-auth:3.2.2'
     implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
 
     implementation 'com.afollestad:aesthetic:0.4.7'
-    implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
 
-    implementation 'com.grappes:Infinix-Indicator:1.0.2'
-    implementation 'com.github.devlight:infinitecycleviewpager:1.0.2'
-
-    implementation "com.jakewharton:butterknife:8.8.1"
+    implementation 'com.jakewharton:butterknife:8.8.1'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
 
     // Imagen móvil
@@ -88,9 +86,6 @@ dependencies {
 
     // Mejor manejo de links
     implementation 'me.saket:better-link-movement-method:2.2.0'
-
-    // Collapsing toolbar con subtítulo
-    implementation 'com.hendraanggrian:collapsingtoolbarlayout-subtitle:27.1.0'
 
     // Folding cell
     implementation 'com.ramotion.foldingcell:folding-cell:1.2.2'
@@ -105,7 +100,7 @@ dependencies {
 
     implementation 'com.android.support:support-v4:27.1.1'
     testImplementation 'junit:junit:4.12'
-    annotationProcessor "com.jakewharton:butterknife-compiler:8.8.1"
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 

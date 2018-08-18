@@ -1,15 +1,12 @@
 package edepa.events;
 
 import butterknife.BindView;
+import edepa.model.Event;
 import edepa.modelview.R;
-import edepa.model.ScheduleEvent;
-import edepa.custom.SmoothLayout;
-import edepa.activity.MainFragment;
-import edepa.interfaces.IPageSubject;
-import edepa.interfaces.IPageListener;
-import edepa.interfaces.IEventsSubject;
-import edepa.loaders.EventsLoader;
-import edepa.loaders.FavoritesLoader;
+import edepa.minilibs.SmoothLayout;
+import edepa.app.MainFragment;
+import edepa.cloud.CloudEvents;
+import edepa.cloud.CloudFavorites;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +17,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 
 
 public abstract class EventsFragment
-        extends MainFragment implements IPageSubject, IEventsSubject {
+        extends MainFragment implements CloudEvents.Callbacks {
 
     /**
      * Textview que se coloca cuando no hay eventos
@@ -42,7 +39,6 @@ public abstract class EventsFragment
      */
     protected long date;
 
-    @Override
     public long getDate(){
         return date;
     }
@@ -50,22 +46,28 @@ public abstract class EventsFragment
     /**
      * Lista que contiene los key de todos los
      * eventos que el usuario ha marcado como favoritos
-     * Es poblada con {@link FavoritesLoader}
+     * Es poblada con {@link CloudFavorites}
      */
     protected List<String> favorites;
 
     /**
      * Lista que contiene todos los eventos
      * del cronograma
-     * Es poblada con {@link EventsLoader}
+     * Es poblada con {@link CloudEvents}
      */
-    protected List<ScheduleEvent> events;
+    protected List<Event> events;
 
     /**
      * El {@link IPageListener} se da cuenta de los
      * cambios que son hechos en el fragmento
      */
     protected IPageListener pageListener;
+
+    public interface IPageListener {
+        void onPageChanged(long pageDate);
+        void onPageRemoved(long pageDate);
+    }
+
 
     /**
      * Adaptador para {@link #eventsRV}
@@ -122,7 +124,7 @@ public abstract class EventsFragment
      * @param event Evento por agregar
      */
     @Override
-    public void addEvent(ScheduleEvent event){
+    public void addEvent(Event event){
         int index = events.indexOf(event);
         if(index == -1){
             String key = event.getKey();
@@ -135,12 +137,12 @@ public abstract class EventsFragment
 
     /**
      * Busca en que posición debe agregarse un nuevo
-     * evento. Invocada por {@link #addEvent(ScheduleEvent)}
+     * evento. Invocada por {@link #addEvent(Event)}
      * @param event Evento por agregar
      * @return Posición donde se debe agregar el evento
      * TODO: Usar algoritmo más eficiente
      */
-    private int findIndexToAddEvent(ScheduleEvent event){
+    private int findIndexToAddEvent(Event event){
         int index = 0;
         for (int i = 0; i < events.size(); i++) {
             if (events.get(i).getStart() <= event.getStart()) index += 1;
@@ -154,22 +156,20 @@ public abstract class EventsFragment
      * @param event Mensaje por cambiar
      */
     @Override
-    public void changeEvent(ScheduleEvent event){
+    public void changeEvent(Event event){
         int index = events.indexOf(event);
         if (index != -1) {
 
             // Solo se actualiza la vista si el cambio
             // fue cualquier cosa excepto la cantidad de favoritos
-            ScheduleEvent before = events.get(index);
-            boolean favoriteAmoutChanged
-                    = event.getFavoritesAmount()
-                    != before.getFavoritesAmount();
+            Event before = events.get(index);
+            boolean favoritesChanged = event.getFavorites() != before.getFavorites();
 
             String key = event.getKey();
             events.set(index, event);
             setFavoriteEvent(key, favorites.contains(key));
 
-            if(!favoriteAmoutChanged)
+            if(!favoritesChanged)
                 eventsAdapter.notifyItemChanged(index);
         }
     }
@@ -180,7 +180,7 @@ public abstract class EventsFragment
      * cambia de fecha
      */
     @Override
-    public void removeEvent(ScheduleEvent event){
+    public void removeEvent(Event event){
         int index = events.indexOf(event);
         if (index != -1) {
             events.remove(index);
@@ -237,8 +237,7 @@ public abstract class EventsFragment
      * @return Posición del evento en {@link #events}
      */
     protected int getFavoriteIndex(String eventKey){
-        ScheduleEvent temp = new ScheduleEvent();
-        temp.setKey(eventKey);
+        Event temp = new Event.Builder().key(eventKey).build();
         return events.indexOf(temp);
     }
 
