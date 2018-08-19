@@ -38,7 +38,7 @@ public class AlarmService extends JobService {
 ////            Event event = args.getParcelable("event");
 ////            String title = context.getResources().getString(R.string.text_remainder);
 ////            String content = event.getTitle();
-////            Notification notification = createNotification(title, content);
+////            Notification notification = createNotificationBuilder(title, content);
 ////            showNotification(notification);
 //
 //        }

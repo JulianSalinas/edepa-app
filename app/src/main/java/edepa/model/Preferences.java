@@ -82,4 +82,15 @@ public class Preferences {
         editor.apply();
     }
 
+    /**
+     * Remueve una preferencia existente
+     * @param context: Actividad desde donde se llama la aplicación
+     * @param key: Asociado al valor que se debe eliminar
+     */
+    public static void removePreference(Context context, String key) {
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.remove(key);
+        editor.apply();
+    }
+
 }

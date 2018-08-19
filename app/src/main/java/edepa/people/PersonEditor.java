@@ -31,9 +31,10 @@ public class PersonEditor extends MainFragment {
     @BindView(R.id.avatar_view)
     CircleInitialsView avatarView;
 
-    private ColorGenerator colorGenerator;
+    ColorGenerator colorGenerator;
 
-    @OnTextChanged(R.id.text_input_complete_name)
+    @OnTextChanged(value = R.id.text_input_title,
+            callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     public void changeAvatar(Editable editable){
         String personName = editable.toString();
         avatarView.setText(personName);
@@ -62,7 +63,7 @@ public class PersonEditor extends MainFragment {
 
     public void showSuccess() {
         DialogFancy.Builder builder = new DialogFancy.Builder();
-        builder .setInflater(getLayoutInflater())
+        builder .setContext(getContext())
                 .setStatus(DialogFancy.SUCCESS)
                 .setTitle(R.string.text_success_add_person);
         builder .build().show();
@@ -70,7 +71,7 @@ public class PersonEditor extends MainFragment {
 
     public void showError() {
         DialogFancy.Builder builder = new DialogFancy.Builder();
-        builder .setInflater(getLayoutInflater())
+        builder .setContext(getContext())
                 .setStatus(DialogFancy.ERROR)
                 .setTitle(R.string.text_error_add_person);
         builder .build().show();

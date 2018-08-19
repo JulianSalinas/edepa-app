@@ -71,6 +71,12 @@
             </intent-filter>
         </service>
 
+        <service android:name="edepa.services.UpdateImageService" />
+
+        <meta-data
+            android:name="cloudinaryCallbackService"
+            android:value="edepa.services.UpdateImageService" />
+
     </application>
 
 </manifest>

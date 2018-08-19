@@ -84,6 +84,9 @@ dependencies {
     // Imagen móvil
     implementation 'com.flaviofaria:kenburnsview:1.0.7'
 
+    // Seleccionar imagen
+    implementation  'com.fxn769:pix:1.2.4'
+
     // Mejor manejo de links
     implementation 'me.saket:better-link-movement-method:2.2.0'
 

@@ -72,6 +72,7 @@ public class SignInActivity extends AppCompatActivity {
      */
     private void showOfflineAlert(){
         new DialogFancy.Builder()
+                .setContext(this)
                 .setTitle(R.string.text_no_connection)
                 .setContent(R.string.text_you_need_internet)
                 .setOnAcceptClick(v -> recreate())

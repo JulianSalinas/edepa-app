@@ -286,5 +286,19 @@
     <string name="add_person">Agregar persona</string>
     <string name="text_success_add_person">Persona agregada</string>
     <string name="text_error_add_person">Error al agregar</string>
+    <string name="not_allowed_to_upload_content">La alicación no tiene los permisos necesarios para adjuntar la imagen</string>
+    <string name="not_allowed_to_upload_title">Error de permisos</string>
+    <string name="size_overflow">Excedido tamaño máximo</string>
+    <string name="size_overflow_content">El archivo es muy grande. Por favor intente con una imagen de menor tamaño</string>
+    <string name="image_uploaded">Imagen subida</string>
+    <string name="image_uploaded_content">La imagen ha sido subida al servidor Cloudinary exitosamente</string>
+    <string name="text_warning_upload_image">Sin conexión</string>
+    <string name="text_warning_upload_image_content">No puede subir ninguna imagen sin conexión a internet</string>
+    <string name="text_notices_editor">Redactar notcia</string>
+    <string name="text_touch_to_select">Toca para seleccionar una imagen</string>
+    <string name="text_uploading_image">Subiendo imagen</string>
+    <string name="text_wait_please">Espere porfavor</string>
+    <string name="text_image_uploaded">La imagen se ha subido</string>
+    <string name="text_notice_updated">La noticia ha sido actualizada</string>
 
 </resources>

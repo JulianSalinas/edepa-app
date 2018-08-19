@@ -107,7 +107,7 @@ public class NotificationService extends FirebaseMessagingService {
      * @return Notificación
      * @see #createPendingIntent()
      */
-    private Notification createNotification(String title, String body){
+    public Notification createNotification(String title, String body){
         return new NotificationCompat
                 .Builder(this, Cloud.NEWS)
                 .setContentTitle(title)

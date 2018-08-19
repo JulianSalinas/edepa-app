@@ -1,6 +1,8 @@
 package edepa.custom;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.widget.CircularProgressDrawable;
 import android.view.View;
 import android.support.v4.app.Fragment;
 
@@ -118,7 +120,7 @@ public class FragmentImage extends MainFragment {
     protected void loadAsyncImage(){
         Glide.with(getNavigationActivity())
                 .load(imageUrl)
-                .apply(getRequestOptions())
+                .apply(getRequestOptions(getContext()))
                 .into(imageView);
     }
 
@@ -128,11 +130,24 @@ public class FragmentImage extends MainFragment {
      * @return RequestOptions con el placeholder de la imagen y
      * otro por si ocurre un error
      */
-    private RequestOptions getRequestOptions(){
+    public static RequestOptions getRequestOptions(Context context){
         return fitCenterTransform()
-                .placeholder(R.drawable.img_unavailable)
+                .placeholder(getLoadingDrawable(context))
                 .error(R.drawable.img_unavailable)
                 .priority(Priority.HIGH);
+    }
+
+    /**
+     * Se obtiene un gif para colocar mientras la imagen está cargado
+     * @return CircularProgressDrawable
+     */
+    public static CircularProgressDrawable getLoadingDrawable(Context context){
+        CircularProgressDrawable circularProgressDrawable =
+                new CircularProgressDrawable(context);
+        circularProgressDrawable.setStrokeWidth(5f);
+        circularProgressDrawable.setCenterRadius(30f);
+        circularProgressDrawable.start();
+        return circularProgressDrawable;
     }
 
 }

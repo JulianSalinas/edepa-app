@@ -37,7 +37,7 @@ public class RegexSearcher {
      * proveniente de una Url
      */
     private final static
-    Pattern FILE_FROM_URL_PATTERN = Pattern.compile("[^\\/]+$");
+    Pattern FILE_FROM_URL_PATTERN = Pattern.compile("([^\\/]+)\\.([\\w\\d]*)?$");
 
     /**
      * Remueven tildes y cambia todos a minúsculas
@@ -89,7 +89,7 @@ public class RegexSearcher {
      */
     public static String findFilenameFromUrl(String fileUrl){
         Matcher m = FILE_FROM_URL_PATTERN.matcher(fileUrl);
-        return m.find() ? m.group(0) : null;
+        return m.find() ? m.group(1) : null;
     }
 
     /**

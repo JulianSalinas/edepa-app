@@ -1,8 +1,8 @@
 package edepa.minilibs;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
-import android.view.LayoutInflater;
 
 import edepa.modelview.R;
 import butterknife.BindView;
@@ -34,6 +34,7 @@ public class DialogFancy extends DialogWrapper {
     protected int status;
     protected String title;
     protected String content;
+    protected Context context;
     protected boolean existsCancel;
     protected View.OnClickListener onAcceptClick;
     protected View.OnClickListener onCancelListener;
@@ -49,11 +50,10 @@ public class DialogFancy extends DialogWrapper {
     }
 
     private DialogFancy(Builder builder) {
-        super(builder.inflater);
+        super(builder.context);
         this.title = builder.title;
         this.status = builder.status;
         this.content = builder.content;
-        this.inflater = builder.inflater;
         this.existsCancel = builder.existsCancel;
 
         if(builder.onAcceptClick != null) {
@@ -97,13 +97,13 @@ public class DialogFancy extends DialogWrapper {
         private int status;
         private String title;
         private String content;
+        private Context context;
         private boolean existsCancel;
-        private LayoutInflater inflater;
         private View.OnClickListener onAcceptClick;
         private View.OnClickListener onCancelListener;
 
-        public Builder setInflater(LayoutInflater inflater) {
-            this.inflater = inflater;
+        public Builder setContext(Context context) {
+            this.context = context;
             return this;
         }
 
@@ -118,10 +118,7 @@ public class DialogFancy extends DialogWrapper {
         }
 
         public Builder setTitle(int title) {
-            this.title = inflater
-                    .getContext()
-                    .getResources()
-                    .getString(title);
+            this.title = context.getResources().getString(title);
             return this;
         }
 
@@ -131,10 +128,7 @@ public class DialogFancy extends DialogWrapper {
         }
 
         public Builder setContent(int content) {
-            this.content = inflater
-                    .getContext()
-                    .getResources()
-                    .getString(content);
+            this.content = context.getResources().getString(content);
             return this;
         }
 

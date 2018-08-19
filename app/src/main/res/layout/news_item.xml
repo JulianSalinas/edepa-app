@@ -47,17 +47,38 @@
             android:id="@+id/news_item_thumbnail"
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_gmap"
-            android:layout_marginBottom="@dimen/space_small"
             android:contentDescription="@null"
             android:scaleType="centerCrop"
-            tools:src="@drawable/img_minimap" />
+            tools:src="@drawable/img_statistics" />
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/uploading_view"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/progress_circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_smallest"
+                android:indeterminate="true"
+                android:progressDrawable="@drawable/util_progress_bar" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_uploading_image"/>
+
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/space_default"
-            android:paddingStart="@dimen/space_default"
-            android:paddingEnd="@dimen/space_default">
+            android:layout_margin="@dimen/space_small">
 
             <TextView
                 android:id="@+id/news_item_read_amount"

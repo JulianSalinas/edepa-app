@@ -2,8 +2,10 @@ package edepa.notices;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.CircularProgressDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
@@ -114,6 +116,9 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
         @BindView(R.id.news_item_thumbnail)
         ImageView itemThumbnail;
 
+        @BindView(R.id.uploading_view)
+        View uploading_view;
+
         @BindView(R.id.news_item_delete)
         View itemDelete;
 
@@ -166,8 +171,7 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
         public void deleteItem(){
             DialogFancy.Builder builder = new DialogFancy.Builder();
             if (context instanceof MainActivity){
-                MainActivity activity = (MainActivity) context;
-                builder .setInflater(activity.getLayoutInflater())
+                builder .setContext(context)
                         .setStatus(DialogFancy.WARNING)
                         .setTitle(R.string.text_warning)
                         .setContent(R.string.text_warning_delete_new)
@@ -203,12 +207,14 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
          * @param imageUrl: Url de la imagen
          */
         public void loadThumbnail(String imageUrl){
-            Glide.with(itemView.getContext())
-                .load(imageUrl)
-                .apply(centerCropTransform()
-                .placeholder(R.drawable.img_unavailable)
-                .error(R.drawable.img_unavailable)
-                .priority(Priority.HIGH)).into(itemThumbnail);
+            boolean uploading = imageUrl.equals("uploading");
+            itemThumbnail.setVisibility(uploading ? View.GONE: View.VISIBLE);
+            uploading_view.setVisibility(uploading ? View.VISIBLE: View.GONE);
+            if (itemThumbnail.getVisibility() == View.VISIBLE)
+                Glide.with(itemView.getContext())
+                        .load(imageUrl)
+                        .apply(FragmentImage.getRequestOptions(context))
+                        .into(itemThumbnail);
         }
 
         /**
