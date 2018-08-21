@@ -32,16 +32,6 @@ public abstract class UploadImageService extends ListenerService {
         return null;
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        String uploading = getString(R.string.text_uploading_image);
-        String waiting = getString(R.string.text_wait_please);
-        notificationBuilder = createNotificationBuilder(uploading, waiting);
-        showNotification(notificationBuilder.build());
-        Log.i("Upload", "Service started");
-    }
-
     /**
      * Obtiene del sistema el servicio de notificaciones y
      * muestra la noticación en la parte superior de la pantalla
@@ -106,8 +96,16 @@ public abstract class UploadImageService extends ListenerService {
      */
     @Override
     public void onProgress (String requestId,long bytes, long totalBytes){
+
         Double progress = (double) bytes / totalBytes;
         int readableProgress = (int) Math.round(progress * 100);
+
+        if (notificationBuilder == null) {
+            String waiting = getString(R.string.text_wait_please);
+            String uploading = getString(R.string.text_uploading_image);
+            notificationBuilder = createNotificationBuilder(uploading, waiting);
+        }
+
         notificationBuilder.setProgress(100, readableProgress, false);
         showNotification(notificationBuilder.build());
         Log.i("Upload", String.format("Progress for %s is %d", requestId, readableProgress));
@@ -125,6 +123,7 @@ public abstract class UploadImageService extends ListenerService {
         NotificationManager notificationManager = (NotificationManager)
                 getSystemService(Context.NOTIFICATION_SERVICE);
         if(notificationManager != null) notificationManager.cancelAll();
+        stopSelf();
     }
 
     /**

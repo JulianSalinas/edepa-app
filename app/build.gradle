@@ -51,6 +51,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.android.support:support-core-utils:27.1.1'
 
     implementation 'com.google.firebase:firebase-core:16.0.1'
@@ -63,23 +64,36 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:15.0.1'
     implementation 'com.google.android.gms:play-services-location:15.0.1'
 
+    // Recyclerview y multiselección
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.bignerdranch.android:recyclerview-multiselect:0.2'
 
+    // Visualizar imagenes con zoom
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
+
+    // Mostrar iniciales de las personas
     implementation 'com.github.mklimek:circle-initials-view:1.0.9'
+
+    // Página de about
     implementation 'com.github.medyo:android-about-page:1.2.4'
+
+    // Preferencias para seleccionar colores
     implementation 'com.github.kizitonwose.colorpreference:support:1.0.6'
 
+    // Login UI
     implementation 'com.firebaseui:firebase-ui-auth:3.2.2'
+
+    // Trabajos en segundo plano
     implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
 
+    // Temas en vivo
     implementation 'com.afollestad:aesthetic:0.4.7'
-    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
-    implementation 'com.github.jd-alexander:LikeButton:0.2.3'
 
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
+    // Barra de búsqueda
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
+
+    // Estrella que resalta
+    implementation 'com.github.jd-alexander:LikeButton:0.2.3'
 
     // Imagen móvil
     implementation 'com.flaviofaria:kenburnsview:1.0.7'
@@ -90,20 +104,26 @@ dependencies {
     // Mejor manejo de links
     implementation 'me.saket:better-link-movement-method:2.2.0'
 
+    // Link preview
+    implementation 'org.jsoup:jsoup:1.8.3'
+
     // Folding cell
     implementation 'com.ramotion.foldingcell:folding-cell:1.2.2'
 
     // Flip
     implementation 'com.wajahatkarim3.EasyFlipView:EasyFlipView:2.1.0'
 
-    // Descargar archivos
+    // Descargar archivos de imagenes y colocar imagenes
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
     implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.24.0'
 
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
-
-    implementation 'com.android.support:support-v4:27.1.1'
-    testImplementation 'junit:junit:4.12'
+    // Butterknife kit
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    // Tests
+    testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 

@@ -61,6 +61,7 @@ public class SearchFragment extends MainFragment implements CloudPeople.Callback
         this.people = new ArrayList<>();
         this.cloudPeople = new CloudPeople();
         this.peopleAdapter = new PeopleAdapter(people);
+        cloudPeople.setCallbacks(this);
         cloudPeople.connect();
     }
 

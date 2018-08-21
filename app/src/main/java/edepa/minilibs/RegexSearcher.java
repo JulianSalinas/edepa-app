@@ -40,6 +40,20 @@ public class RegexSearcher {
     Pattern FILE_FROM_URL_PATTERN = Pattern.compile("([^\\/]+)\\.([\\w\\d]*)?$");
 
     /**
+     * Patrón para obtener el Dominio de una Url
+     */
+    private final static
+    Pattern DOMAIN_FROM_URL_PATTERN = Pattern
+            .compile("^(?:https?:\\/\\/)?(?:[^@\\n]+@)?(?:www\\.)?([^:\\/\\n?]+)");
+
+    /**
+     * Patrón para saber si una url hace referencia a
+     * un archivo pdf
+     */
+    private final static
+    Pattern IS_PDF_PATTERN = Pattern.compile("(.*.pdf)");
+
+    /**
      * Remueven tildes y cambia todos a minúsculas
      * @param str: String sin normalizar
      * @return String sin tildes y en minúsculas
@@ -90,6 +104,21 @@ public class RegexSearcher {
     public static String findFilenameFromUrl(String fileUrl){
         Matcher m = FILE_FROM_URL_PATTERN.matcher(fileUrl);
         return m.find() ? m.group(1) : null;
+    }
+
+    public static String findDomainFromUrl(String url){
+        Matcher m = DOMAIN_FROM_URL_PATTERN.matcher(url);
+        return m.find() ? m.group(1) : null;
+    }
+
+    public static boolean isPdfFile(String fileUrl){
+        Matcher m = IS_PDF_PATTERN.matcher(fileUrl);
+        return m.find();
+    }
+
+    public static String truncateText(String text, int amount){
+        return  text.length() <= amount ? text :
+                text.subSequence(0, amount - 1).toString() + "...";
     }
 
     /**

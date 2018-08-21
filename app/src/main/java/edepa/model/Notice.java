@@ -16,15 +16,18 @@ public class Notice implements Parcelable {
     private String content;
     private String imageUrl;
 
+    private Preview preview;
+
     public Notice() { }
 
     private Notice(Builder builder) {
-        key = builder.key;
-        time = builder.time;
-        viewed = builder.viewed;
-        title = builder.title;
-        content = builder.content;
-        imageUrl = builder.imageUrl;
+        setKey(builder.key);
+        setTime(builder.time);
+        setViewed(builder.viewed);
+        setTitle(builder.title);
+        setContent(builder.content);
+        setImageUrl(builder.imageUrl);
+        setPreview(builder.preview);
     }
 
     public String getKey() {
@@ -75,6 +78,14 @@ public class Notice implements Parcelable {
         this.imageUrl = imageUrl;
     }
 
+    public Preview getPreview() {
+        return preview;
+    }
+
+    public void setPreview(Preview preview) {
+        this.preview = preview;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -88,6 +99,7 @@ public class Notice implements Parcelable {
         return Objects.hash(getKey());
     }
 
+
     public static final class Builder {
         private String key;
         private long time;
@@ -95,6 +107,7 @@ public class Notice implements Parcelable {
         private String title;
         private String content;
         private String imageUrl;
+        private Preview preview;
 
         public Builder() {
         }
@@ -129,10 +142,16 @@ public class Notice implements Parcelable {
             return this;
         }
 
+        public Builder preview(Preview preview) {
+            this.preview = preview;
+            return this;
+        }
+
         public Notice build() {
             return new Notice(this);
         }
     }
+
 
     @Override
     public int describeContents() {
@@ -147,6 +166,7 @@ public class Notice implements Parcelable {
         dest.writeString(this.title);
         dest.writeString(this.content);
         dest.writeString(this.imageUrl);
+        dest.writeParcelable(this.preview, flags);
     }
 
     protected Notice(Parcel in) {
@@ -156,9 +176,10 @@ public class Notice implements Parcelable {
         this.title = in.readString();
         this.content = in.readString();
         this.imageUrl = in.readString();
+        this.preview = in.readParcelable(Preview.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Notice> CREATOR = new Parcelable.Creator<Notice>() {
+    public static final Creator<Notice> CREATOR = new Creator<Notice>() {
         @Override
         public Notice createFromParcel(Parcel source) {
             return new Notice(source);

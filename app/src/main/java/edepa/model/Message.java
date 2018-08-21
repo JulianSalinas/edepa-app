@@ -11,11 +11,14 @@ public class Message implements Parcelable {
 
     private long time;
     private boolean delivered;
-    private boolean fromCurrentUser;
+    private Boolean fromCurrentUser;
 
     private String userid;
     private String content;
     private String username;
+    private String imageUrl;
+
+    private Preview preview;
 
     public Message() {}
 
@@ -27,6 +30,8 @@ public class Message implements Parcelable {
         setUserid(builder.userid);
         setContent(builder.content);
         setUsername(builder.username);
+        setImageUrl(builder.imageUrl);
+        setPreview(builder.preview);
     }
 
     public String getKey() {
@@ -53,11 +58,11 @@ public class Message implements Parcelable {
         this.delivered = delivered;
     }
 
-    public boolean isFromCurrentUser() {
-        return fromCurrentUser;
+    public Boolean getFromCurrentUser() {
+        return fromCurrentUser == null ? false : fromCurrentUser;
     }
 
-    public void setFromCurrentUser(boolean fromCurrentUser) {
+    public void setFromCurrentUser(Boolean fromCurrentUser) {
         this.fromCurrentUser = fromCurrentUser;
     }
 
@@ -85,6 +90,22 @@ public class Message implements Parcelable {
         this.username = username;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public Preview getPreview() {
+        return preview;
+    }
+
+    public void setPreview(Preview preview) {
+        this.preview = preview;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -99,14 +120,15 @@ public class Message implements Parcelable {
     }
 
     public static final class Builder {
-
         private String key;
         private long time;
         private boolean delivered;
-        private boolean fromCurrentUser;
+        private Boolean fromCurrentUser;
         private String userid;
         private String content;
         private String username;
+        private String imageUrl;
+        private Preview preview;
 
         public Builder() {
         }
@@ -126,7 +148,7 @@ public class Message implements Parcelable {
             return this;
         }
 
-        public Builder fromCurrentUser(boolean fromCurrentUser) {
+        public Builder fromCurrentUser(Boolean fromCurrentUser) {
             this.fromCurrentUser = fromCurrentUser;
             return this;
         }
@@ -146,11 +168,20 @@ public class Message implements Parcelable {
             return this;
         }
 
+        public Builder imageUrl(String imageUrl) {
+            this.imageUrl = imageUrl;
+            return this;
+        }
+
+        public Builder preview(Preview preview) {
+            this.preview = preview;
+            return this;
+        }
+
         public Message build() {
             return new Message(this);
         }
     }
-
 
     @Override
     public int describeContents() {
@@ -162,23 +193,27 @@ public class Message implements Parcelable {
         dest.writeString(this.key);
         dest.writeLong(this.time);
         dest.writeByte(this.delivered ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.fromCurrentUser ? (byte) 1 : (byte) 0);
+        dest.writeValue(this.fromCurrentUser);
         dest.writeString(this.userid);
         dest.writeString(this.content);
         dest.writeString(this.username);
+        dest.writeString(this.imageUrl);
+        dest.writeParcelable(this.preview, flags);
     }
 
     protected Message(Parcel in) {
         this.key = in.readString();
         this.time = in.readLong();
         this.delivered = in.readByte() != 0;
-        this.fromCurrentUser = in.readByte() != 0;
+        this.fromCurrentUser = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.userid = in.readString();
         this.content = in.readString();
         this.username = in.readString();
+        this.imageUrl = in.readString();
+        this.preview = in.readParcelable(Preview.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Message> CREATOR = new Parcelable.Creator<Message>() {
+    public static final Creator<Message> CREATOR = new Creator<Message>() {
         @Override
         public Message createFromParcel(Parcel source) {
             return new Message(source);

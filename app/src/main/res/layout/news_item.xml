@@ -29,83 +29,65 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/space_small"
-                android:textSize="@dimen/font_big"
                 android:textStyle="bold"
+                android:textSize="@dimen/font_big"
                 tools:text="@string/text_lorem_ipsum" />
 
             <TextView
                 android:id="@+id/news_item_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_small"
+                android:layout_marginBottom="@dimen/space_medium"
                 tools:text="@string/text_lorem_ipsum" />
-
 
         </LinearLayout>
 
         <ImageView
             android:id="@+id/news_item_thumbnail"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_gmap"
-            android:contentDescription="@null"
+            android:layout_height="@dimen/size_image"
             android:scaleType="centerCrop"
-            tools:src="@drawable/img_statistics" />
+            android:contentDescription="@null"
+            tools:src="@drawable/img_minimap" />
 
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/uploading_view"
+        <include
+            layout="@layout/link_preview"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ProgressBar
-                android:id="@+id/progress_circle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_smallest"
-                android:indeterminate="true"
-                android:progressDrawable="@drawable/util_progress_bar" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/text_uploading_image"/>
-
-        </LinearLayout>
+            android:layout_height="wrap_content"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/space_small">
+            android:layout_marginEnd="@dimen/space_default"
+            android:layout_marginStart="@dimen/space_default"
+            android:layout_marginTop="@dimen/space_small"
+            android:layout_marginBottom="@dimen/space_small">
 
             <TextView
                 android:id="@+id/news_item_read_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
                 android:fontFamily="sans-serif-light"
-                tools:ignore="RelativeOverlap"
-                tools:text="523 vistos" />
+                tools:text="@string/test_viewed" />
 
             <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:orientation="horizontal"
                 tools:ignore="RelativeOverlap, UseCompoundDrawables">
 
                 <TextView
                     android:id="@+id/news_item_time_ago"
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:gravity="center"
                     android:fontFamily="sans-serif-light"
                     tools:ignore="RelativeOverlap"
-                    tools:text="hace 4 horas" />
+                    tools:text="@string/test_time_ago" />
 
                 <ImageView
                     android:id="@+id/news_item_delete"

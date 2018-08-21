@@ -1,7 +1,7 @@
 package edepa.chat;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.content.Context;
+import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 
 import android.widget.TextView;
@@ -92,6 +93,7 @@ public class ChatAdapter
         this.multiSelector = new MultiSelector();
         this.colorGenerator = new ColorGenerator(context);
         this.removeModeCallback = getRemoveModeCallback();
+        // setHasStableIds(false);
     }
 
     /**
@@ -140,7 +142,7 @@ public class ChatAdapter
     @Override
     public int getItemViewType(int position) {
         Message msg = messages.get(position);
-        return msg.isFromCurrentUser()? RIGHT : LEFT;
+        return msg.getFromCurrentUser() ? RIGHT : LEFT;
     }
 
     /**
@@ -151,7 +153,7 @@ public class ChatAdapter
     @Override
     public ChatItem onCreateViewHolder(ViewGroup parent, int viewType) {
         int layout = viewType == LEFT ? R.layout.chat_left : R.layout.chat_right;
-        View view = LayoutInflater.from(parent.getContext())
+        View view = LayoutInflater.from(parent.getContext().getApplicationContext())
                 .inflate(layout, parent, false);
         return viewType == LEFT ? new ChatLeft(view) : new ChatRight(view);
     }
@@ -162,7 +164,8 @@ public class ChatAdapter
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ChatItem) holder).bind();
+        Message message = messages.get(holder.getAdapterPosition());
+        ((ChatItem) holder).bind(message);
     }
 
     /**
@@ -238,18 +241,13 @@ public class ChatAdapter
     /**
      * Unidad que representa un elemento en el recyclerView
      */
-    protected abstract class ChatItem extends RecyclerView.ViewHolder {
+    protected abstract class ChatItem extends ChatPreview {
 
         /**
          * Posición del mensaje
-         * Se asigna su valor en {@link #bind()}
+         * Se asigna su valor en {@link #bind(Message)}
          */
-        int pos = -1;
-
-        /**
-         * Se asigna su valor en {@link #bind()}
-         */
-        Message msg = null;
+        int position = -1;
 
         /**
          * Constructor
@@ -261,12 +259,12 @@ public class ChatAdapter
         }
 
         /**
-         * Asigna los valores pos y msg
+         * Asigna los valores position y msg
          * Enlanza todos los componentes visuales
          */
-        public void bind(){
-            pos = getAdapterPosition();
-            msg = messages.get(pos);
+        public void bind(Message message){
+            this.message = message;
+            this.position = getAdapterPosition();
         }
 
     }
@@ -274,7 +272,7 @@ public class ChatAdapter
     /**
      * Contiene el item que separa los mensajes por fechas
      */
-    protected class ChatTimestamp extends ChatItem {
+    protected abstract class ChatTimestamp extends ChatItem {
 
         @BindView(R.id.chat_timestamp)
         View chatTimestamp;
@@ -291,9 +289,9 @@ public class ChatAdapter
          * necesario colocarla en el siguiente mensaje si tiene la misma
          */
         @Override
-        public void bind() {
-            super.bind();
-            if (pos == 0) chatTimestamp.setVisibility(VISIBLE);
+        public void bind(Message message) {
+            super.bind(message);
+            if (position == 0) chatTimestamp.setVisibility(VISIBLE);
             else bindTimestampVisibility();
             boolean visible = chatTimestamp.getVisibility() == VISIBLE;
             if (visible) bindVisibleTimestamp();
@@ -303,8 +301,8 @@ public class ChatAdapter
          * Hace visible marca de tiempo si el mensaje anterior no la tiene
          */
         public void bindTimestampVisibility(){
-            Message lastMsg = messages.get(pos - 1);
-            String msgDate = TimeConverter.extractDate(msg.getTime());
+            Message lastMsg = messages.get(position - 1);
+            String msgDate = TimeConverter.extractDate(message.getTime());
             String lastMsgDate = TimeConverter.extractDate(lastMsg.getTime());
             int visibility = msgDate.equals(lastMsgDate) ? GONE : VISIBLE;
             chatTimestamp.setVisibility(visibility);
@@ -314,7 +312,7 @@ public class ChatAdapter
          * Coloca la fecha de los mensajes
          */
         public void bindVisibleTimestamp(){
-            long date = msg.getTime();
+            long date = message.getTime();
             boolean isToday = DateUtils.isToday(date);
             if (isToday) chatTimestampText.setText(R.string.text_today);
             else chatTimestampText.setText(TimeConverter.extractDate(date));
@@ -336,6 +334,8 @@ public class ChatAdapter
         @BindView(R.id.chat_msg_time_description)
         TextView msgTimeDescription;
 
+        private URLSpan [] urls;
+
         public ChatLeft(View itemView) {
             super(itemView);
         }
@@ -345,20 +345,24 @@ public class ChatAdapter
          * Se colocan los elementos del mensaje
          */
         @Override
-        public void bind() {
-            super.bind();
+        public void bind(Message message) {
+            super.bind(message);
             bindUsername();
             bindContent();
             bindTimeDescription();
+            bindLinkPreview();
+
+            // Arreglo de Bug con wrap_content
+            msgContent.requestLayout();
         }
 
         /**
          * Coloca el nombre del usuario y lo pone de color
          */
         public void bindUsername(){
-            int color = colorGenerator.getColor(msg.getUsername());
+            int color = colorGenerator.getColor(message.getUsername());
             msgUsername.setTextColor(color);
-            msgUsername.setText(msg.getUsername());
+            msgUsername.setText(message.getUsername());
             msgUsername.setVisibility(VISIBLE);
         }
 
@@ -366,16 +370,30 @@ public class ChatAdapter
          * Coloca el contenido del mensaje
          */
         public void bindContent(){
-            msgContent.setText(msg.getContent());
+            msgContent.setText(message.getContent());
             Linkify.addLinks(msgContent, Linkify.ALL);
+            urls = msgContent.getUrls();
         }
 
         /**
          * Coloca la hora a la que se envió el mensaje
          */
         public void bindTimeDescription(){
-            String time = TimeConverter.extractTime(msg.getTime());
+            String time = TimeConverter.extractTime(message.getTime());
             msgTimeDescription.setText(time.toUpperCase());
+        }
+
+        /**
+         * Coloca una preview de la url en caso de que exista url
+         * y la noticia no tenga una imagen definida
+         */
+        public void bindLinkPreview() {
+            if(urls != null) {
+                boolean visible = urls.length > 0 && message.getImageUrl() == null;
+                linkPreview.setVisibility(visible ? VISIBLE : GONE);
+                if (visible) bindUrl(urls[0].getURL());
+            }
+            else linkPreview.setVisibility(GONE);
         }
 
     }
@@ -420,12 +438,12 @@ public class ChatAdapter
          * Los mensajes de la derecha son del usuario actual, por tanto,
          * el usuario los puede eliminar y se deben colocar los listeners
          */
-        public void bind() {
-            super.bind();
+        public void bind(Message message) {
+            super.bind(message);
             bindDeliveredIcon();
             bindClickListeners();
             msgUsername.setVisibility(GONE);
-            multiSelector.bindHolder(this, pos, getItemId());
+            multiSelector.bindHolder(this, position, getItemId());
         }
 
         /**
@@ -442,10 +460,10 @@ public class ChatAdapter
          * queda almacenado localmente y se muestra el icono de espera
          */
         private void bindDeliveredIcon() {
-            int res = msg.isDelivered() ?
+            int resource = message.isDelivered() ?
                     R.drawable.ic_check :
                     R.drawable.ic_waiting_clock;
-            msgDelivered.setImageResource(res);
+            msgDelivered.setImageResource(resource);
         }
 
         /**
@@ -455,7 +473,7 @@ public class ChatAdapter
          */
         @Override
         public void onClick(View v) {
-            if (msg != null && multiSelector.tapSelection(this)){
+            if (message != null && multiSelector.tapSelection(this)){
                 List<Integer> selected = multiSelector.getSelectedPositions();
                 if(removeMode != null && selected.isEmpty())
                     removeMode.finish();

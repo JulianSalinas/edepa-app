@@ -274,9 +274,9 @@
     <string name="text_warning_publication_content">La noticia ha sido guardada. Se publicará
         cuando se retome la conexión a internet</string>
     <string name="text_title">Título</string>
-    <string name="text_content">contenido</string>
+    <string name="text_content">Contenido</string>
     <string name="post_new">Publicar noticia</string>
-    <string name="upload_image">Subir imagen (opcional)</string>
+    <string name="upload_image">Subir imagen</string>
     <string name="text_warning_delete_new">Si borrar la noticia los demás usuario ya no podrán accederla</string>
     <string name="text_person">Nombre completo</string>
     <string name="text_person_description">Descripción</string>
@@ -298,5 +298,20 @@
     <string name="text_wait_please">Espere porfavor</string>
     <string name="text_image_uploaded">La imagen se ha subido</string>
     <string name="text_notice_updated">La noticia ha sido actualizada</string>
+    <string name="test_dropbox_title">Dropbox Business</string>
+    <string name="test_dropbox_domain">www.dropbox.com</string>
+
+    <string name="test_dropdbox_description">Share, sync, and collaborate on files securely with
+        Dropbox Business, a file sharing and cloud storage solution that employees love and IT
+        admins trust.</string>
+
+    <string name="test_time_ago">hace 4 horas</string>
+    <string name="test_viewed">56 vistos</string>
+    <string name="text_write_here_a_title">Escribe aquí un título</string>
+
+    <string name="text_write_here_the_content">Escribe aquí el contenido. Puedes incluir enlaces
+        a documentos o de páginas web </string>
+    <string name="all_fields_are_optional">* Todos los campos son opcionales</string>
+    <string name="test_name">Julian Salinas</string>
 
 </resources>

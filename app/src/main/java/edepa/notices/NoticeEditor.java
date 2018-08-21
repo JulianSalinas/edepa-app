@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -115,9 +116,14 @@ public class NoticeEditor extends MainFragment {
     public Notice buildPublication() {
         return new Notice.Builder()
                 .time(System.currentTimeMillis())
-                .title(textInputTitle.getText().toString())
+                .title(getNullable(textInputTitle.getText()))
                 .imageUrl(imageLocalPath == null ? null : "uploading")
-                .content(textInputContent.getText().toString()).build();
+                .content(getNullable(textInputContent.getText())).build();
+    }
+
+    private String getNullable(Editable editable){
+        String text = editable.toString();
+        return text.isEmpty() ? null : text;
     }
 
     /**
@@ -209,7 +215,6 @@ public class NoticeEditor extends MainFragment {
             ArrayList<String> paths = data.getStringArrayListExtra(Pix.IMAGE_RESULTS);
             if(paths.size() > 0) updatePreviewImage(paths.get(0));
         }
-        else if (requestCode == REQUEST_IMAGE_CODE) showNotAllowedError();
     }
 
     /**

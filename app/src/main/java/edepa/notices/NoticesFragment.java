@@ -103,18 +103,6 @@ public class NoticesFragment extends RecyclerFragment
         noticesRecycler.setItemAnimator(new DefaultItemAnimator());
         noticesRecycler.setLayoutManager(new SmoothLayout(getActivity()));
 
-        noticesRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0 && publishButton.getVisibility() == View.VISIBLE)
-                    publishButton.hide();
-                else if (dy < 0 && publishButton.getVisibility() != View.VISIBLE) {
-                    publishButton.show();
-                }
-            }
-        });
-
     }
 
     public void customizeActivity(){
@@ -133,7 +121,20 @@ public class NoticesFragment extends RecyclerFragment
 
     @Override
     public void onPermissionGranted() {
+
         publishButton.setVisibility(View.VISIBLE);
+        noticesRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && publishButton.getVisibility() == View.VISIBLE)
+                    publishButton.hide();
+                else if (dy < 0 && publishButton.getVisibility() != View.VISIBLE) {
+                    publishButton.show();
+                }
+            }
+        });
+
     }
 
     @Override

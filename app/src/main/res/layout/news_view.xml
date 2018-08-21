@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:paddingStart="@dimen/space_small"
         android:paddingEnd="@dimen/space_small"
+        android:paddingStart="@dimen/space_small"
 
         android:scrollbars="vertical"
         android:scrollbarStyle="outsideInset"
@@ -28,11 +28,14 @@
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/publish_button"
         android:visibility="gone"
+
+        android:layout_margin="@dimen/space_default"
         android:layout_width="@dimen/size_icon_container"
         android:layout_height="@dimen/size_icon_container"
-        android:layout_margin="@dimen/space_default"
-        android:layout_alignParentBottom="true"
+
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+
         android:clickable="true"
         android:focusable="true"
         android:tint="@color/app_white"

@@ -16,6 +16,8 @@
         <item name="actionModeCloseDrawable">@drawable/ic_action_navigation_arrow_back_inverted</item>
 
         <item name="android:textColor">@color/app_primary_font</item>
+        <item name="android:textColorLink">@color/app_accent</item>
+
         <!--<item name="android:actionMenuTextColor">@color/app_white</item>-->
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
 

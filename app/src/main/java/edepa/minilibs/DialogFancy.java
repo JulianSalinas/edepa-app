@@ -1,12 +1,13 @@
 package edepa.minilibs;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
 import edepa.modelview.R;
 import butterknife.BindView;
-import io.reactivex.annotations.Nullable;
+
 
 public class DialogFancy extends DialogWrapper {
 
