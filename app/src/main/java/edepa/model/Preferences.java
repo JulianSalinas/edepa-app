@@ -2,7 +2,10 @@ package edepa.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
+
+import java.util.Set;
 
 
 public class Preferences {
@@ -68,6 +71,11 @@ public class Preferences {
         return prefs.getInt(key, 0);
     }
 
+    public static Set<String> getArrayPreference(Context context, String key){
+        SharedPreferences prefs = getSharedPreferences(context);
+        return prefs.getStringSet(key, null);
+    }
+
     /**
      * Guarda un valor en el archivo de preferencias
      * @param context: Actividad desde donde se llama la aplicación
@@ -80,6 +88,11 @@ public class Preferences {
         else if (value instanceof Boolean) editor.putBoolean(key, (Boolean) value);
         else editor.putInt(key, (Integer) value);
         editor.apply();
+    }
+
+    public static void setArrayPreference(Context context, String key, Set<String> values) {
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putStringSet(key, values).apply();
     }
 
     /**

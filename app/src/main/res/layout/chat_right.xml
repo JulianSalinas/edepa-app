@@ -51,10 +51,11 @@
                     android:text="@string/test_name" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/chat_msg_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/space_smallest"
+                    android:layout_marginBottom="@dimen/space_small"
                     android:layout_marginTop="@dimen/space_chat_item_padding"
                     android:layout_marginEnd="@dimen/space_chat_item_padding"
                     android:layout_marginStart="@dimen/space_chat_item_padding"
@@ -65,7 +66,6 @@
                     layout="@layout/link_preview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_small"
                     android:layout_marginBottom="@dimen/space_small"/>
 
                 <LinearLayout

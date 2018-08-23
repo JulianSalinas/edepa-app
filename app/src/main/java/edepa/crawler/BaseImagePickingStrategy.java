@@ -1,4 +1,4 @@
-package edepa.preview;
+package edepa.crawler;
 
 public abstract class BaseImagePickingStrategy implements ImagePickingStrategy {
     private int imageQuantity = TextCrawler.ALL;

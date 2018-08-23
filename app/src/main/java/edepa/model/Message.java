@@ -26,7 +26,6 @@ public class Message implements Parcelable {
         setKey(builder.key);
         setTime(builder.time);
         setDelivered(builder.delivered);
-        setFromCurrentUser(builder.fromCurrentUser);
         setUserid(builder.userid);
         setContent(builder.content);
         setUsername(builder.username);
@@ -123,7 +122,6 @@ public class Message implements Parcelable {
         private String key;
         private long time;
         private boolean delivered;
-        private Boolean fromCurrentUser;
         private String userid;
         private String content;
         private String username;
@@ -145,11 +143,6 @@ public class Message implements Parcelable {
 
         public Builder delivered(boolean delivered) {
             this.delivered = delivered;
-            return this;
-        }
-
-        public Builder fromCurrentUser(Boolean fromCurrentUser) {
-            this.fromCurrentUser = fromCurrentUser;
             return this;
         }
 

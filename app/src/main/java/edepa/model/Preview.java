@@ -3,44 +3,22 @@ package edepa.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Objects;
+
 public class Preview implements Parcelable {
 
     private String url;
     private String header;
-    private String imageUrl;
+    private String thumbnail;
     private String description;
 
     public Preview() { }
 
     private Preview(Builder builder) {
-        setHeader(builder.header);
-        setImageUrl(builder.imageUrl);
-        setDescription(builder.description);
         setUrl(builder.url);
-    }
-
-    public String getHeader() {
-        return header;
-    }
-
-    public void setHeader(String header) {
-        this.header = header;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+        setHeader(builder.header);
+        setThumbnail(builder.thumbnail);
+        setDescription(builder.description);
     }
 
     public String getUrl() {
@@ -51,13 +29,57 @@ public class Preview implements Parcelable {
         this.url = url;
     }
 
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Preview)) return false;
+        Preview preview = (Preview) o;
+        return Objects.equals(getUrl(), preview.getUrl());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUrl());
+    }
+
+
     public static final class Builder {
-        private String header;
-        private String imageUrl;
-        private String description;
+
         private String url;
+        private String header;
+        private String thumbnail;
+        private String description;
 
         public Builder() {
+        }
+
+        public Builder url(String url) {
+            this.url = url;
+            return this;
         }
 
         public Builder header(String header) {
@@ -65,8 +87,8 @@ public class Preview implements Parcelable {
             return this;
         }
 
-        public Builder imageUrl(String imageUrl) {
-            this.imageUrl = imageUrl;
+        public Builder thumbnail(String thumbnail) {
+            this.thumbnail = thumbnail;
             return this;
         }
 
@@ -75,15 +97,11 @@ public class Preview implements Parcelable {
             return this;
         }
 
-        public Builder url(String url) {
-            this.url = url;
-            return this;
-        }
-
         public Preview build() {
             return new Preview(this);
         }
     }
+
 
     @Override
     public int describeContents() {
@@ -92,17 +110,17 @@ public class Preview implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.header);
-        dest.writeString(this.imageUrl);
-        dest.writeString(this.description);
         dest.writeString(this.url);
+        dest.writeString(this.header);
+        dest.writeString(this.thumbnail);
+        dest.writeString(this.description);
     }
 
     protected Preview(Parcel in) {
-        this.header = in.readString();
-        this.imageUrl = in.readString();
-        this.description = in.readString();
         this.url = in.readString();
+        this.header = in.readString();
+        this.thumbnail = in.readString();
+        this.description = in.readString();
     }
 
     public static final Creator<Preview> CREATOR = new Creator<Preview>() {

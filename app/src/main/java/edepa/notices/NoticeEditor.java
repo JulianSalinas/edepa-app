@@ -12,6 +12,7 @@ import edepa.minilibs.OnlineHelper;
 import edepa.minilibs.RegexSearcher;
 import edepa.model.Notice;
 import edepa.model.Preferences;
+import edepa.model.Preview;
 import edepa.modelview.R;
 import edepa.services.UpdateImageService;
 
@@ -31,7 +32,11 @@ import com.cloudinary.android.UploadRequest;
 import com.cloudinary.android.policy.TimeWindow;
 import com.fxn.pix.Pix;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 
 public class NoticeEditor extends MainFragment {
@@ -114,10 +119,13 @@ public class NoticeEditor extends MainFragment {
      * @return Notice
      */
     public Notice buildPublication() {
+        Preview preview = new Preview();
+        preview.setUrl(imageLocalPath == null ? null : "uploading");
+
         return new Notice.Builder()
                 .time(System.currentTimeMillis())
                 .title(getNullable(textInputTitle.getText()))
-                .imageUrl(imageLocalPath == null ? null : "uploading")
+                .preview(preview)
                 .content(getNullable(textInputContent.getText())).build();
     }
 
@@ -135,12 +143,25 @@ public class NoticeEditor extends MainFragment {
      */
     public void uploadImage(){
         String name = RegexSearcher.findFilenameFromUrl(imageLocalPath);
+
         UploadRequest uploadRequest = MediaManager.get().upload(imageLocalPath)
                 .unsigned("unsigned_preset")
                 .option("public_id", name)
                 .constrain(TimeWindow.immediate());
+
         String requestId = uploadRequest.dispatch();
-        Preferences.setPreference(getNavigationActivity(), requestId, noticeId);
+
+        try {
+            JSONObject args = new JSONObject();
+            args.put(UpdateImageService.REQUEST_ID, requestId);
+            args.put(UpdateImageService.OBJECT_KEY, noticeId);
+            args.put(UpdateImageService.CLOUD_TYPE, Cloud.NEWS);
+            Preferences.setPreference(getNavigationActivity(), requestId, args.toString());
+        }
+        catch (Exception exception){
+            Log.e(toString(), "Cannot pass args: " + exception.getMessage());
+        }
+
     }
 
     /**
@@ -182,7 +203,7 @@ public class NoticeEditor extends MainFragment {
      */
     public void showPublishSuccess() {
         DialogFancy.Builder builder = new DialogFancy.Builder();
-        builder .setContext(getContext())
+        builder .setContext(getNavigationActivity())
                 .setStatus(DialogFancy.SUCCESS)
                 .setTitle(R.string.text_success_publication)
                 .setOnAcceptClick(v -> getNavigationActivity().onBackPressed())
@@ -237,19 +258,6 @@ public class NoticeEditor extends MainFragment {
                 .load(imageLocalPath)
                 .apply(FragmentImage.getRequestOptions(getContext()))
                 .into(publishImage);
-    }
-
-    /**
-     * Muestra un error debido a que el usuario no cedio
-     * los permisos para abrir la imagen
-     */
-    public void showNotAllowedError(){
-        new DialogFancy.Builder()
-                .setContext(getContext())
-                .setStatus(DialogFancy.WARNING)
-                .setTitle(R.string.not_allowed_to_upload_title)
-                .setContent(R.string.not_allowed_to_upload_content)
-                .build().show();
     }
 
 }

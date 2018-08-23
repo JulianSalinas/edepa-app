@@ -9,6 +9,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <ImageView
+        android:id="@+id/preview_image"
+        android:minWidth="@dimen/size_image_small"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_image_small"
+        android:scaleType="centerCrop"
+        android:contentDescription="@null"
+        tools:src="@drawable/img_minimap" />
+
     <LinearLayout
         android:id="@+id/uploading_view"
         android:layout_gravity="center"
@@ -47,7 +56,7 @@
             android:background="@color/edepa_primary_dark"/>
 
         <ImageView
-            android:id="@+id/preview_image"
+            android:id="@+id/preview_thumbnail"
             android:scaleType="centerInside"
             android:layout_width="@dimen/size_icon_container"
             android:layout_height="@dimen/size_icon_container"

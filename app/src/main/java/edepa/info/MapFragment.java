@@ -90,7 +90,7 @@ public class MapFragment extends MainFragment
 
         // Para que la información se actualice en tiempo real
         // y no cada vez que se abre la aplicación
-        if(cloudCongress != null) {
+        if(cloudCongress == null) {
             cloudCongress = new CloudCongress();
             cloudCongress.setCallbacks(this);
         }

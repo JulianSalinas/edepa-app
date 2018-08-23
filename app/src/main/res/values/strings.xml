@@ -313,5 +313,7 @@
         a documentos o de páginas web </string>
     <string name="all_fields_are_optional">* Todos los campos son opcionales</string>
     <string name="test_name">Julian Salinas</string>
+    <string name="invalid_link">Enlace inválido</string>
+    <string name="invalid_link_content">Es posible que enlace que estás intentando acceder tenga un formato incorrecto o ya no este disponible</string>
 
 </resources>

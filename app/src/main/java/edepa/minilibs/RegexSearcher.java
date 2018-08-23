@@ -47,6 +47,13 @@ public class RegexSearcher {
             .compile("^(?:https?:\\/\\/)?(?:[^@\\n]+@)?(?:www\\.)?([^:\\/\\n?]+)");
 
     /**
+     * Patrón para saber si una url hace referecia a
+     * una imagen o a un gif
+     */
+    private final static
+    Pattern IS_IMAGE_PATTERN = Pattern.compile(".*\\.(?:jpg|gif|png)");
+
+    /**
      * Patrón para saber si una url hace referencia a
      * un archivo pdf
      */
@@ -111,8 +118,13 @@ public class RegexSearcher {
         return m.find() ? m.group(1) : null;
     }
 
-    public static boolean isPdfFile(String fileUrl){
+    public static boolean isDocumentFile(String fileUrl){
         Matcher m = IS_PDF_PATTERN.matcher(fileUrl);
+        return m.find();
+    }
+
+    public static boolean isImageFile(String fileUrl){
+        Matcher m = IS_IMAGE_PATTERN.matcher(fileUrl);
         return m.find();
     }
 

@@ -6,16 +6,27 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import butterknife.OnClick;
+import edepa.app.MainActivity;
 import edepa.cloud.CloudChat;
 import edepa.app.NavigationActivity;
+import edepa.crawler.Regex;
+import edepa.custom.FragmentImage;
 import edepa.minilibs.ColorGenerator;
+import edepa.minilibs.DialogFancy;
+import edepa.minilibs.RegexSearcher;
 import edepa.minilibs.TimeConverter;
 import edepa.minilibs.ColorConverter;
 
+import edepa.model.Preview;
 import edepa.modelview.R;
 import edepa.model.Message;
 import edepa.custom.RecyclerAdapter;
+import edepa.previews.ChatPreview;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -93,7 +104,6 @@ public class ChatAdapter
         this.multiSelector = new MultiSelector();
         this.colorGenerator = new ColorGenerator(context);
         this.removeModeCallback = getRemoveModeCallback();
-        // setHasStableIds(false);
     }
 
     /**
@@ -153,7 +163,7 @@ public class ChatAdapter
     @Override
     public ChatItem onCreateViewHolder(ViewGroup parent, int viewType) {
         int layout = viewType == LEFT ? R.layout.chat_left : R.layout.chat_right;
-        View view = LayoutInflater.from(parent.getContext().getApplicationContext())
+        View view = LayoutInflater.from(parent.getContext())
                 .inflate(layout, parent, false);
         return viewType == LEFT ? new ChatLeft(view) : new ChatRight(view);
     }
@@ -166,6 +176,12 @@ public class ChatAdapter
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Message message = messages.get(holder.getAdapterPosition());
         ((ChatItem) holder).bind(message);
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
+        ((ChatItem) holder).unbind();
+        super.onViewDetachedFromWindow(holder);
     }
 
     /**
@@ -243,6 +259,9 @@ public class ChatAdapter
      */
     protected abstract class ChatItem extends ChatPreview {
 
+        @BindView(R.id.link_preview)
+        View linkPreview;
+
         /**
          * Posición del mensaje
          * Se asigna su valor en {@link #bind(Message)}
@@ -265,6 +284,62 @@ public class ChatAdapter
         public void bind(Message message){
             this.message = message;
             this.position = getAdapterPosition();
+        }
+
+        /**
+         * Coloca los eventos correspondientes al tocar
+         * la imagen
+         */
+        @OnClick(R.id.preview_item)
+        public void onPreviewItemClick(){
+            if (message.getPreview() != null){
+                Preview preview = message.getPreview();
+                String url = preview.getUrl();
+                openUrl(url);
+            }
+        }
+
+        @OnClick(R.id.preview_image)
+        public void onPreviewImageClick(){
+            if (message.getPreview() != null){
+                Preview preview = message.getPreview();
+                openImage(preview.getUrl());
+            }
+        }
+
+        /**
+         * Abre una imagen en un fragmento aparte
+         * @param imageUrl: Url de la imagen
+         */
+        public void openImage(String imageUrl){
+            String domain = RegexSearcher.findDomainFromUrl(imageUrl);
+            Fragment imageFragment = FragmentImage.newInstance(domain, imageUrl);
+            if(context instanceof MainActivity) {
+                MainActivity activity = (MainActivity) context;
+                activity.setFragmentOnScreen(imageFragment, message.getKey());
+            }
+        }
+
+        /**
+         * Abre en el explorador una URL
+         * @param url: Url que el navegador debe abrir
+         */
+        public void openUrl(String url){
+            try{
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                if(context instanceof MainActivity) {
+                    MainActivity activity = (MainActivity) context;
+                    activity.startActivity(intent);
+                }
+            }
+            catch (Exception e){
+                new DialogFancy.Builder()
+                        .setContext(context)
+                        .setStatus(DialogFancy.ERROR)
+                        .setTitle(R.string.invalid_link)
+                        .setContent(R.string.invalid_link_content)
+                        .build().show();
+            }
         }
 
     }
@@ -370,9 +445,14 @@ public class ChatAdapter
          * Coloca el contenido del mensaje
          */
         public void bindContent(){
-            msgContent.setText(message.getContent());
-            Linkify.addLinks(msgContent, Linkify.ALL);
-            urls = msgContent.getUrls();
+            String content = message.getContent();
+            boolean visible = content != null && !content.isEmpty();
+            msgContent.setVisibility(visible ? VISIBLE : GONE);
+            if(visible) {
+                msgContent.setText(message.getContent());
+                Linkify.addLinks(msgContent, Linkify.ALL);
+                urls = msgContent.getUrls();
+            }
         }
 
         /**
@@ -388,10 +468,13 @@ public class ChatAdapter
          * y la noticia no tenga una imagen definida
          */
         public void bindLinkPreview() {
-            if(urls != null) {
-                boolean visible = urls.length > 0 && message.getImageUrl() == null;
-                linkPreview.setVisibility(visible ? VISIBLE : GONE);
-                if (visible) bindUrl(urls[0].getURL());
+            if (message.getPreview() != null){
+                linkPreview.setVisibility(VISIBLE);
+                bindPreview(message.getPreview());
+            }
+            else if (urls != null && urls.length > 0){
+                linkPreview.setVisibility(VISIBLE);
+                bindUrl(urls[0].getURL());
             }
             else linkPreview.setVisibility(GONE);
         }

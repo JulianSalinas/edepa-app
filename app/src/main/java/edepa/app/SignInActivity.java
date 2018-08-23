@@ -127,7 +127,7 @@ public class SignInActivity extends AppCompatActivity {
     private void startApplication(){
 
         Intent intent = new Intent(
-                getApplicationContext(),
+                getApplication(),
                 NavigationActivity.class);
 
         if (args != null)

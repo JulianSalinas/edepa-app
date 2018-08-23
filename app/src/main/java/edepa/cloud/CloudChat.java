@@ -1,9 +1,19 @@
 package edepa.cloud;
 
+import edepa.minilibs.RegexSearcher;
 import edepa.model.Message;
+import edepa.model.Notice;
+import edepa.model.Preferences;
+import edepa.services.UpdateImageService;
 
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.UploadRequest;
+import com.cloudinary.android.policy.TimeWindow;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.DataSnapshot;
+
+import java.util.HashMap;
 
 public class CloudChat extends CloudChild {
 
@@ -35,13 +45,42 @@ public class CloudChat extends CloudChild {
     }
 
     /**
+     * Obtiene una referencia a la base de datos de donde se encuentra
+     * la preview de la noticia
+     * @param message: Mensaje de la que se necesita la preview
+     * @return Referencia a la BD donde se encuentra la preview
+     */
+    public static DatabaseReference getPreviewReference(Message message){
+        return Cloud.getInstance()
+                .getReference(Cloud.CHAT)
+                .child(message.getKey())
+                .child("preview");
+    }
+
+    /**
      * Agrega un mensaje nuevo a la BD
      * @param message: Mensaje por agregar
+     * @return Key del mensaje agregado
      */
-    public static void addMessage(Message message){
-        Cloud.getInstance()
-                .getReference(Cloud.CHAT)
-                .push().setValue(message);
+    public static String addMessage(Message message){
+
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("time", message.getTime());
+        payload.put("content", message.getContent());
+        payload.put("userid", message.getUserid());
+        payload.put("username", message.getUsername());
+        payload.put("preview", message.getPreview());
+
+        String messageKey = Cloud.getInstance()
+                .getReference(Cloud.CHAT).push().getKey();
+
+        if(messageKey != null) {
+            Cloud.getInstance().getReference(Cloud.CHAT)
+                    .child(messageKey).setValue(payload);
+        }
+
+        return messageKey;
+
     }
 
     /**

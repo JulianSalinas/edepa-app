@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
 import android.util.Log;
@@ -16,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.MutableData;
@@ -33,12 +30,15 @@ import edepa.cloud.CloudAdmin;
 import edepa.cloud.CloudNotices;
 import edepa.minilibs.ColorGenerator;
 import edepa.minilibs.DialogFancy;
+import edepa.minilibs.RegexSearcher;
 import edepa.minilibs.TimeGenerator;
 import edepa.cloud.Cloud;
 import edepa.model.Notice;
+import edepa.model.Preview;
 import edepa.modelview.R;
 import edepa.custom.FragmentImage;
 import edepa.custom.RecyclerAdapter;
+import edepa.previews.NoticePreview;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -118,8 +118,14 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
         @BindView(R.id.news_item_read_amount)
         TextView itemReadAmount;
 
-        @BindView(R.id.news_item_thumbnail)
+        @BindView(R.id.preview_image)
         ImageView itemThumbnail;
+
+        @BindView(R.id.news_item_text)
+        View itemText;
+
+        @BindView(R.id.link_preview)
+        View linkPreview;
 
         @BindView(R.id.news_item_delete)
         View itemDelete;
@@ -130,23 +136,34 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
             super(itemView);
         }
 
+        /**
+         * {@inheritDoc}
+         * @param notice Noticia con la que se crea la preview
+         */
         public void bind(Notice notice){
 
-            this.urls =  null;
             this.notice = notice;
 
             bindTitle();
             bindContent();
+            bindBothTexts();
             bindViewed();
             bindTimeAgo();
-            bindThumbnail();
             bindLinkPreview();
-            itemDelete.setVisibility(GONE);
 
             CloudAdmin admin = new CloudAdmin();
             admin.setAdminPermissionListener(this);
             admin.requestAdminPermission();
 
+        }
+
+        private void bindBothTexts() {
+            String title = notice.getTitle();
+            String content = notice.getContent();
+            if ((title == null || title.isEmpty()) && content == null || content.isEmpty())
+                itemText.setVisibility(GONE);
+            else
+                itemText.setVisibility(VISIBLE);
         }
 
         /**
@@ -166,9 +183,9 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
          */
         public void bindContent(){
 
-            boolean isNull = notice.getContent() == null;
-            itemContent.setVisibility(isNull ? GONE : VISIBLE);
-            if(itemContent.getVisibility() == VISIBLE) {
+            boolean visible = notice.getContent() != null;
+            itemContent.setVisibility(visible ? VISIBLE : GONE);
+            if(visible) {
 
                 itemContent.setText(notice.getContent());
                 Linkify.addLinks(itemContent, Linkify.ALL);
@@ -182,37 +199,9 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
                     text = text.replaceAll("https?:\\/\\/", "");
                 }
 
-                itemContent.setVisibility(text == null || text.isEmpty() ? GONE : VISIBLE);
-                if(itemContent.getVisibility() == VISIBLE)
-                    itemContent.setText(text);
-            }
-        }
-
-        /**
-         * Coloca la imagen de la noticia. Si no hay imagen
-         * se trata de colocar una previsualizanción de un link en
-         * caso de  que haya alguno en el contenido
-         */
-        public void bindThumbnail() {
-            String imageUrl = notice.getImageUrl();
-            itemThumbnail.setVisibility(imageUrl == null ? GONE: VISIBLE);
-            if (itemThumbnail.getVisibility() == VISIBLE)
-                loadThumbnail(imageUrl);
-        }
-
-        /**
-         * Carga la imagen en su vista
-         * @param imageUrl: Url de la imagen
-         */
-        public void loadThumbnail(String imageUrl){
-            boolean uploading = imageUrl.equals("uploading");
-            itemThumbnail.setVisibility(uploading ? GONE: VISIBLE);
-            uploadingView.setVisibility(uploading ? VISIBLE: GONE);
-            if (itemThumbnail.getVisibility() == VISIBLE) {
-                Glide.with(itemView.getContext())
-                        .load(imageUrl)
-                        .apply(FragmentImage.getRequestOptions(context))
-                        .into(itemThumbnail);
+                visible = text != null && !text.isEmpty();
+                itemContent.setVisibility(visible ? VISIBLE : GONE);
+                if(visible) itemContent.setText(text);
             }
         }
 
@@ -221,25 +210,36 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
          * y la noticia no tenga una imagen definida
          */
         public void bindLinkPreview() {
-            if(urls != null) {
-                boolean visible = urls.length > 0 && notice.getImageUrl() == null;
-                previewItem.setVisibility(visible ? VISIBLE : GONE);
-                if (visible) super.bindUrl(urls[0].getURL());
+            if (notice.getPreview() != null){
+                linkPreview.setVisibility(VISIBLE);
+                bindPreview(notice.getPreview());
             }
-            else previewItem.setVisibility(GONE);
-
+            else if (urls != null && urls.length > 0){
+                linkPreview.setVisibility(VISIBLE);
+                bindUrl(urls[0].getURL());
+            }
+            else linkPreview.setVisibility(GONE);
         }
 
         /**
          * Coloca los eventos correspondientes al tocar
          * la imagen
          */
-        @OnClick({R.id.news_item_thumbnail, R.id.preview_item})
-        public void onThumbnailClickListener(){
-            String imageUrl = notice.getImageUrl();
-            if(urls != null && urls.length > 0)
-                openUrlAndIncreaseViewed(urls[0].getURL());
-            else openImage(imageUrl);
+        @OnClick(R.id.preview_item)
+        public void onPreviewItemClick(){
+            if (notice.getPreview() != null){
+                Preview preview = notice.getPreview();
+                String url = preview.getUrl();
+                openUrlAndIncreaseViewed(url);
+            }
+        }
+
+        @OnClick(R.id.preview_image)
+        public void onPreviewImageClick(){
+            if (notice.getPreview() != null){
+                Preview preview = notice.getPreview();
+                openImage(preview.getUrl());
+            }
         }
 
         private void bindTimeAgo() {
@@ -271,11 +271,10 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
          * Coloca la cantidad de vistos para una noticia
          */
         public void setViewedAmout(){
+            int viewed = notice.getViewed();
+            String text = context.getString(R.string.text_viewed);
             itemReadAmount.setText(String.format(
-            Locale.getDefault(), "%d %s",
-            notice.getViewed(),
-            itemView.getContext().getResources()
-                    .getString(R.string.text_viewed)));
+            Locale.getDefault(), "%d %s", viewed, text));
         }
 
         /**
@@ -296,6 +295,11 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
          * @param url: Url que el navegador debe abrir
          */
         public void openUrl(String url){
+            try{ tryToOpenUrl(url); }
+            catch (Exception exception){ handleOpenUrlException(exception); }
+        }
+
+        private void tryToOpenUrl(String url){
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             if(context instanceof MainActivity) {
                 MainActivity activity = (MainActivity) context;
@@ -303,21 +307,28 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
             }
         }
 
+        private void handleOpenUrlException(Exception exception){
+            new DialogFancy.Builder()
+                    .setContext(context)
+                    .setStatus(DialogFancy.ERROR)
+                    .setTitle(R.string.invalid_link)
+                    .setContent(R.string.invalid_link_content)
+                    .build().show();
+            Log.e(toString(), exception.getMessage());
+        }
+
         /**
          * Abre la url y aumenta la cantidad de vistos
          * de la noticia
          * @param url: Url que el navegador debe abrir
-         * @return True
          */
-        public boolean openUrlAndIncreaseViewed(String url){
+        public void openUrlAndIncreaseViewed(String url){
             openUrl(url);
             increaseViewed();
-            return true;
         }
 
         /**
-         * Aumenta la cantidad de visto de la publicación
-         * o noticias
+         * Aumenta la cantidad de vistos de la noticia publicada
          */
         public void increaseViewed(){
 

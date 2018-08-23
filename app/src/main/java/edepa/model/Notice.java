@@ -14,7 +14,6 @@ public class Notice implements Parcelable {
 
     private String title;
     private String content;
-    private String imageUrl;
 
     private Preview preview;
 
@@ -26,7 +25,6 @@ public class Notice implements Parcelable {
         setViewed(builder.viewed);
         setTitle(builder.title);
         setContent(builder.content);
-        setImageUrl(builder.imageUrl);
         setPreview(builder.preview);
     }
 
@@ -70,14 +68,6 @@ public class Notice implements Parcelable {
         this.content = content;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     public Preview getPreview() {
         return preview;
     }
@@ -106,7 +96,6 @@ public class Notice implements Parcelable {
         private int viewed;
         private String title;
         private String content;
-        private String imageUrl;
         private Preview preview;
 
         public Builder() {
@@ -137,11 +126,6 @@ public class Notice implements Parcelable {
             return this;
         }
 
-        public Builder imageUrl(String imageUrl) {
-            this.imageUrl = imageUrl;
-            return this;
-        }
-
         public Builder preview(Preview preview) {
             this.preview = preview;
             return this;
@@ -165,7 +149,6 @@ public class Notice implements Parcelable {
         dest.writeInt(this.viewed);
         dest.writeString(this.title);
         dest.writeString(this.content);
-        dest.writeString(this.imageUrl);
         dest.writeParcelable(this.preview, flags);
     }
 
@@ -175,7 +158,6 @@ public class Notice implements Parcelable {
         this.viewed = in.readInt();
         this.title = in.readString();
         this.content = in.readString();
-        this.imageUrl = in.readString();
         this.preview = in.readParcelable(Preview.class.getClassLoader());
     }
 

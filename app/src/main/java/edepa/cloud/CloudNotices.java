@@ -2,6 +2,7 @@ package edepa.cloud;
 
 import edepa.model.Notice;
 
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.DataSnapshot;
 
@@ -34,6 +35,19 @@ public class CloudNotices extends CloudChild {
                 .getReference(Cloud.NEWS)
                 .orderByChild("time")
                 .limitToLast(50);
+    }
+
+    /**
+     * Obtiene una referencia a la base de datos de donde se encuentra
+     * la preview de la noticia
+     * @param notice: Noticia de la que se necesita la preview
+     * @return Referencia a la BD donde se encuentra la preview
+     */
+    public static DatabaseReference getPreviewReference(Notice notice){
+        return Cloud.getInstance()
+                .getReference(Cloud.NEWS)
+                .child(notice.getKey())
+                .child("preview");
     }
 
     /**

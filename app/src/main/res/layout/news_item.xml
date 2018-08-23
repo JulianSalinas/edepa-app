@@ -17,6 +17,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/news_item_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="@dimen/space_default"
@@ -42,18 +43,15 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/news_item_thumbnail"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_image"
-            android:scaleType="centerCrop"
-            android:contentDescription="@null"
-            tools:src="@drawable/img_minimap" />
-
         <include
             layout="@layout/link_preview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/app_accent_light"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

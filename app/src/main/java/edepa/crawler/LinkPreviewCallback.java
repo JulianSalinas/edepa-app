@@ -1,4 +1,4 @@
-package edepa.preview;
+package edepa.crawler;
 
 /**
  * Callback that is invoked with before and after the loading of a link preview

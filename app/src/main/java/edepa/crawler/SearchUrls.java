@@ -1,4 +1,4 @@
-package edepa.preview;
+package edepa.crawler;
 
 import java.net.URL;
 import java.util.ArrayList;

@@ -69,6 +69,7 @@
     <dimen name="size_icon_container">56dp</dimen>
     <dimen name="loading_height">100dp</dimen>
     <dimen name="size_image">250dp</dimen>
+    <dimen name="size_image_small">200dp</dimen>
     <dimen name="chat_item_elevation">1dp</dimen>
 
 </resources>

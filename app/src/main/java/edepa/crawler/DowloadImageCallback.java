@@ -1,4 +1,4 @@
-package edepa.preview;
+package edepa.crawler;
 
 import android.graphics.Bitmap;
 import android.widget.ImageView;
