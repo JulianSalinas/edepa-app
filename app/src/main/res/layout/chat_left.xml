@@ -61,7 +61,7 @@
                     android:text="@string/test_dummy" />
 
                 <include
-                    layout="@layout/link_preview"
+                    layout="@layout/link_preview_chat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/space_small"/>

@@ -182,7 +182,7 @@ public abstract class PreviewHolder
                 .generate("Logos/pdf_document.png");
 
         return new Preview.Builder()
-                .url(RegexSearcher.findDomainFromUrl(fileUrl))
+                .url(fileUrl)
                 .header(RegexSearcher.findFilenameFromUrl(fileUrl))
                 .description(null)
                 .thumbnail(imageUrl).build();

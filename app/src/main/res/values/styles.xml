@@ -15,13 +15,11 @@
         <!--<item name="actionModeBackground">@color/app_accent</item>-->
         <item name="actionModeCloseDrawable">@drawable/ic_action_navigation_arrow_back_inverted</item>
 
-        <item name="android:textColor">@color/app_primary_font</item>
-        <item name="android:textColorLink">@color/app_accent</item>
-
-        <!--<item name="android:actionMenuTextColor">@color/app_white</item>-->
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <!--<item name="android:textColorLink">@color/app_accent</item>-->
+        <!--<item name="android:textColor">@color/app_primary_font</item>-->
 
         <item name="actionModeStyle">@style/ActionModeStyle</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
 
     </style>
@@ -54,13 +52,9 @@
 
     </style>
 
-    <style
-        name="AppTheme.AppBarOverlay"
-        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style
-        name="AppTheme.PopupOverlay"
-        parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:elevation">0dp</item>
+    </style>
 
     <style name="Widget.CardContent" parent="android:Widget">
         <item name="android:paddingLeft">16dp</item>

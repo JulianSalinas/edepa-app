@@ -15,7 +15,6 @@
     <include layout="@layout/main_content"/>
 
     <android.support.design.widget.NavigationView
-
         android:id="@+id/navigation_view"
         android:layout_gravity="start"
         android:fitsSystemWindows="false"

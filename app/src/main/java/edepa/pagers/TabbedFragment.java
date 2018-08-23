@@ -1,10 +1,15 @@
 package edepa.pagers;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
+import android.view.MenuItem;
 import android.view.View;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.TabLayout;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import edepa.modelview.R;
@@ -25,8 +30,9 @@ public class TabbedFragment extends MainFragment{
      * Es para colocar el fragment para los eventos que
      * suceden al presionar un tab
      */
-    @BindView(R.id.toolbar_tabs_layout)
-    TabLayout tabLayout;
+//    @Nullable
+//    @BindView(R.id.toolbar_tabs_layout)
+//    TabLayout tabLayout;
 
     /**
      * Páginador para deslizar las tres pantallas cuando
@@ -34,6 +40,17 @@ public class TabbedFragment extends MainFragment{
      */
     @BindView(R.id.tabs_pager)
     ViewPager tabsPager;
+
+    @BindView(R.id.bottom_navigation)
+    BottomNavigationView bottomNavigationView;
+
+    /**
+     * Es parte de {@link edepa.app.MainActivity#appBarLayout}
+     * Sirve para quitar la sobra para cuando se colocan los tabs
+     */
+    private AppBarLayout appBarLayout;
+
+    private MenuItem prevMenuItem;
 
     /**
      * {@inheritDoc}
@@ -53,20 +70,63 @@ public class TabbedFragment extends MainFragment{
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        customizeActivity();
         tabsPager.setAdapter(new TabbedAdapter());
         tabsPager.setOffscreenPageLimit(3);
-        tabLayout.setupWithViewPager(tabsPager, true);
+        appBarLayout = getNavigationActivity().getAppBarLayout();
+        customizeActivity();
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.menu_schedule){
+                tabsPager.setCurrentItem(0);
+            }
+            else if (item.getItemId() == R.id.menu_favorites){
+                tabsPager.setCurrentItem(1);
+            }
+            else {
+                tabsPager.setCurrentItem(2);
+            }
+            return false;
+        });
+
+        tabsPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                if (prevMenuItem == null) {
+                    bottomNavigationView.getMenu().getItem(0).setChecked(false);
+                }
+                else {
+                    prevMenuItem.setChecked(false);
+                }
+                bottomNavigationView.getMenu().getItem(position).setChecked(true);
+                prevMenuItem = bottomNavigationView.getMenu().getItem(position);
+            }
+        });
+
     }
 
     /**
-     * Se personaliza la vista de la actividad que
-     * contiene este fragmento
+     * Se personaliza la vista de la actividad
+     * Nota: La función {@link AppBarLayout#setTargetElevation(float)}
+     * a pesar de esta deprecada fue la única que funcionó para poder
+     * ocultar la sobra que genera
      */
     public void customizeActivity(){
+//        if(tabLayout != null)
+//            tabLayout.setupWithViewPager(tabsPager, true);
+        appBarLayout.setTargetElevation(0);
         setToolbarText(R.string.app_name);
         setToolbarVisibility(View.VISIBLE);
         setStatusBarColorRes(R.color.app_primary_dark);
+    }
+
+    /**
+     * Se da la elevación que tenia {@link #appBarLayout} antes
+     * de que se colocara el fragmento en la pantalla
+     */
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        appBarLayout.setElevation(4L);
     }
 
     /**

@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
@@ -69,6 +71,10 @@ public abstract class MainActivity extends AppCompatActivity
 
     @BindView(R.id.app_bar_layout)
     AppBarLayout appBarLayout;
+
+    public AppBarLayout getAppBarLayout() {
+        return appBarLayout;
+    }
 
     /**
      * Únicamente necesaria para que se pueda
