@@ -5,6 +5,20 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/img_wallpaper"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop">
+        </ImageView>
+
+    </FrameLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/events_recycler_view"
         android:layout_width="match_parent"
@@ -16,15 +30,10 @@
         tools:listitem="@layout/event_item"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-    <TextView
+    <FrameLayout
         android:visibility="gone"
         android:id="@+id/events_empty_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/space_default"
-        android:layout_gravity="center"
-        android:textAlignment="center"
-        android:textSize="@dimen/font_biggest"
-        tools:text="@string/text_without_events"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>

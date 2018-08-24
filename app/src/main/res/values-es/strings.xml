@@ -106,7 +106,7 @@
     <string name="text_choose_color">Selecciona un color</string>
     <string name="text_choose_theme">Seleciona un tema</string>
     <string name="text_without_favorites">No tienes\nfavoritos</string>
-    <string name="text_without_ongoing">Sin eventos\nen curso</string>
+    <string name="text_without_ongoing">Sin eventos en curso</string>
     <string name="text_you_need_internet">You need internet connection to synchronize for the first time</string>
 
 
@@ -313,5 +313,10 @@
     <string name="invalid_link_content">Es posible que enlace que estás intentando acceder tenga un formato incorrecto o ya no este disponible</string>
     <string name="text_language_change">Cambio de idioma</string>
     <string name="text_language_change_content">Es necesario reiniciar la aplicación para aplicar los cambios. ¿Desea reiniciar ahora?</string>
+    <string name="text_resync">Sincronizar</string>
+    <string name="text_refresh">Refrescar</string>
+    <string name="text_complete_update">Actualización completa</string>
+    <string name="text_goto_schedule">Ir al cronograma</string>
+    <string name="text_add_event">Crear evento</string>
 
 </resources>

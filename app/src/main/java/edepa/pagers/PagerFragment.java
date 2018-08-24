@@ -3,7 +3,6 @@ package edepa.pagers;
 import butterknife.BindView;
 
 import edepa.app.MainFragment;
-import edepa.cloud.Cloud;
 import edepa.cloud.CloudEvents;
 import edepa.model.Event;
 import edepa.modelview.R;
@@ -16,10 +15,8 @@ import java.util.ArrayList;
 import android.util.Log;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 import android.support.v4.view.ViewPager;
 
-import com.google.firebase.database.Query;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -45,7 +42,7 @@ public abstract class PagerFragment extends MainFragment
      * Textview que se coloca cuando no hay eventos
      */
     @BindView(R.id.events_empty_view)
-    TextView eventsEmptyView;
+    View eventsEmptyView;
 
     /**
      * Para guardar en que página quedo antes
@@ -96,6 +93,12 @@ public abstract class PagerFragment extends MainFragment
     }
 
     /**
+     * Coloca una vista vacía en {@link #eventsEmptyView}
+     * Esta puede hacerce visible en {@link #updateInterface()}
+     */
+    protected abstract void inflateEmptyView();
+
+    /**
      * {@inheritDoc}
      * En este método se instancia el adaptador
      */
@@ -112,7 +115,7 @@ public abstract class PagerFragment extends MainFragment
         // Se agrega un Listener para obtener de antemano la
         // cantidad de eventos para así poder saber cuando
         // termina la carga inicial
-        CloudEvents.getEventsQuery()
+        CloudEvents.getEventsQueryByStart()
                 .addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -138,15 +141,16 @@ public abstract class PagerFragment extends MainFragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        inflateEmptyView();
         pager.setAdapter(adapter);
-        cloudEvents.connect();
+        cloudEvents.connectByDate();
         updateInterface();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        cloudEvents.disconnect();
+        cloudEvents.disconnectByDate();
     }
 
     public void updateInterface(){
@@ -212,8 +216,7 @@ public abstract class PagerFragment extends MainFragment
             pager.setCurrentItem(curretItem);
         }
 
-        // Se coloca la página donde esta el evento
-        // ingresado
+        // Se coloca la página donde esta el evento ingresado
         else if (eventsAmount <= 0)
             pager.setCurrentItem(index);
 
@@ -242,11 +245,10 @@ public abstract class PagerFragment extends MainFragment
      * @see #addPage(long)
      */
     private int findIndexToAddPage(long date){
-        int index = 0;
-        for (Long aDate : dates) {
-            if (aDate < date) index += 1;
-            else break;
-        }   return index;
+        int index = dates.size() - 1;
+        for (int i = index; i >= 0; i--) {
+            if (dates.get(i) < date) return i;
+        }   return 0;
     }
 
     /**

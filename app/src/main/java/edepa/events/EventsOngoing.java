@@ -4,17 +4,22 @@ import android.util.Log;
 import android.view.View;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 import com.google.firebase.database.Query;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import butterknife.BindView;
+import edepa.cloud.CloudEvents;
+import edepa.custom.EmptyOngoing;
 import edepa.minilibs.TimeConverter;
+
 import edepa.modelview.R;
-import edepa.cloud.Cloud;
-import edepa.model.Preferences;
 import edepa.model.Event;
+import edepa.model.Preferences;
 import edepa.cloud.CloudFavorites;
 
 import static edepa.model.Preferences.UPDATE_DELAY;
@@ -22,6 +27,12 @@ import static edepa.model.Preferences.UPDATE_DELAY;
 
 public class EventsOngoing
         extends EventsFragment implements CloudFavorites.Callbacks {
+
+    /**
+     * View que se coloca cuando no hay eventos
+     */
+    @BindView(R.id.events_empty_view)
+    View eventsEmptyView;
 
     /**
      * Indica si {@link #runnable} debe seguir
@@ -75,6 +86,15 @@ public class EventsOngoing
         return eventsAdapter;
     }
 
+    protected void inflateEmptyView(){
+        String tag = "EMPTY_ONGOING";
+        Fragment frag = new EmptyOngoing();
+        FragmentManager manager = getChildFragmentManager();
+        manager .beginTransaction()
+                .replace(R.id.events_empty_view, frag, tag)
+                .commit();
+    }
+
     /**
      * {@inheritDoc}
      * Inicializa las variables que se necesitan para
@@ -97,8 +117,8 @@ public class EventsOngoing
     public void onActivityCreated(Bundle savedInstanceState) {
         setUpdateDelay();
         startRunnable();
-        eventsEmptyView.setText(getString(R.string.text_without_events));
         super.onActivityCreated(savedInstanceState);
+        inflateEmptyView();
     }
 
     /**
@@ -153,10 +173,9 @@ public class EventsOngoing
             cloudFavorites.connect();
         }
 
-        Log.i(toString(), String.format("favorites : %d", favorites.size()));
-
-        getScheduleQuery().keepSynced(true);
-        getScheduleQuery().addListenerForSingleValueEvent(eventsAdapter);
+        Query query = CloudEvents.getEventsQueryUsingDate(getDate());
+        query.keepSynced(true);
+        query.addListenerForSingleValueEvent(eventsAdapter);
 
     }
 
@@ -218,30 +237,6 @@ public class EventsOngoing
         String s = TimeConverter.longToString(System.currentTimeMillis());
         Log.i(toString(), String.format("Update complete at %s", s));
         // showStatusMessage("Events updated");
-    }
-
-    /**
-     * Query realizado a la base de datos para
-     * obtener toda la lista de eventos
-     * @return Query
-     */
-    public Query getScheduleQuery(){
-        return Cloud.getInstance()
-                .getReference(Cloud.SCHEDULE)
-                .orderByChild("date")
-                .equalTo(getDate());
-    }
-
-    /**
-     * Query realizado a la base de datos para
-     * obtener toda la lista de favoritos del usuario
-     * @return Query
-     */
-    public Query getFavoritesQuery(){
-        Cloud cloud = Cloud.getInstance();
-        String uid = cloud.getUserId();
-        assert uid != null;
-        return cloud.getReference(Cloud.FAVORITES).child(uid);
     }
 
     /**
@@ -322,7 +317,6 @@ public class EventsOngoing
         public void onCancelled(DatabaseError databaseError) {
             events.clear();
             notifyUpdate();
-            eventsEmptyView.setText(R.string.text_error);
             Log.e("OngoingAdapter", databaseError.getMessage());
         }
 

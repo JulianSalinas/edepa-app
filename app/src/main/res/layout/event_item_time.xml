@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/events_time"/>
+    <include layout="@layout/schedule_time"/>
 
     <include layout="@layout/event_item"/>
 

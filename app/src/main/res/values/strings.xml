@@ -106,7 +106,7 @@
     <string name="text_choose_color">Choose a color</string>
     <string name="text_choose_theme">Choose a theme</string>
     <string name="text_without_favorites">You have\nnot favorites</string>
-    <string name="text_without_ongoing">No ongoing\nevents</string>
+    <string name="text_without_ongoing">No ongoing events</string>
     <string name="text_you_need_internet">Necesitas conexión a internet para sincronizar por primera vez</string>
 
     <!--Testing strings - No es necesario traducirlos-->
@@ -114,7 +114,7 @@
     <string name="test_app_time">8:00am</string>
     <string name="test_type">Conferencia</string>
     <string name="text_anonymous">Anonymous</string>
-    <string name="test_location">Auditorio A1</string>
+    <string name="test_location">Centro de las Artes</string>
     <string name="test_app_date_end">18/12/2018</string>
     <string name="test_app_date_start">15/12/2018</string>
     <string name="test_exhibitor">Nombre Apellido</string>
@@ -317,5 +317,10 @@
     <string name="invalid_link_content">Es posible que enlace que estás intentando acceder tenga un formato incorrecto o ya no este disponible</string>
     <string name="text_language_change">Cambio de idioma</string>
     <string name="text_language_change_content">Es necesario reiniciar la aplicación para aplicar los cambios. ¿Desea reiniciar ahora?</string>
+    <string name="text_resync">Sincronizar</string>
+    <string name="text_refresh">Refrescar</string>
+    <string name="text_complete_update">Actualización completa</string>
+    <string name="text_goto_schedule">Ir al cronograma</string>
+    <string name="text_add_event">Crear evento</string>
 
 </resources>

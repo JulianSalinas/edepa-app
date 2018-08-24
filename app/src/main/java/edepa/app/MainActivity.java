@@ -26,6 +26,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.widget.Toast;
+
 import static android.support.v4.view.GravityCompat.START;
 
 import java.util.Stack;
@@ -223,7 +225,6 @@ public abstract class MainActivity extends AppCompatActivity
         handler = new Handler();
         menu = navigationView.getMenu();
         if(savedInstanceState == null) onCreateFirstTime();
-        else onCreateAlreadyOpen(savedInstanceState);
     }
 
     /**
@@ -231,36 +232,14 @@ public abstract class MainActivity extends AppCompatActivity
      * @see #onCreateActivity(Bundle)
      */
     protected void onCreateFirstTime(){
-        Log.i(toString(), "onCreateFirstTime()");
-        if(Preferences.getBooleanPreference(this, FIRST_USE_KEY))
-            writeDefaultPreferences();
+        if(Preferences.getBooleanPreference(this, FIRST_USE_KEY)){
+            Preferences.setPreference(this, FIRST_USE_KEY, false);
+            Preferences.setPreference(this, USER_KEY, getDefaultUsername());
+            // Se susbcribe para recibir notificaciones
+            FirebaseMessaging.getInstance().subscribeToTopic(Cloud.NEWS);
+        }
     }
 
-    /**
-     * Se coloca el último fragmento usado o lo que contenga
-     * el argumento savedInstanceState en sus parámetros
-     * @param savedInstanceState Si la actividad se abre desde una notificación
-     *                           o se reinicia (ej. por girar la pantalla)
-     * @see #onCreateActivity(Bundle)
-     */
-    public void onCreateAlreadyOpen(Bundle savedInstanceState){
-        Log.i(toString(), "onCreateAlreadyOpen()");
-    }
-
-    /**
-     * Se escriben las preferencias por defecto de la aplicación
-     * La segunda línea sincroniza las preferencias que están
-     * disponibles en la BD
-     * @see #onCreateFirstTime()
-     */
-    protected void writeDefaultPreferences(){
-        Log.i(toString(), "writeDefaultPreferences()");
-        Preferences.setPreference(this, FIRST_USE_KEY, false);
-        Preferences.setPreference(this, USER_KEY, getDefaultUsername());
-
-        // Se susbcribe para recibir notificaciones
-        FirebaseMessaging.getInstance().subscribeToTopic(Cloud.NEWS);
-    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     public void connectToggleButton(){
@@ -344,7 +323,7 @@ public abstract class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Usada por {@link #writeDefaultPreferences()}
+     * Usada por {@link #onCreateFirstTime()}
      * Si el usuario no tiene nombre, se debe preguntar
      * en el momento de entrar al chat
      * @return Nombre de pila del usuario
@@ -574,7 +553,8 @@ public abstract class MainActivity extends AppCompatActivity
      */
     public void showMessage(String msg){
         View view = findViewById(android.R.id.content);
-        Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show();
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        // Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show();
     }
 
     /**

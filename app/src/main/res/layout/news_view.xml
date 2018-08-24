@@ -9,6 +9,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/img_wallpaper"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop">
+        </ImageView>
+
+    </FrameLayout>
+    
     <android.support.v7.widget.RecyclerView
         android:id="@+id/news_rv"
         android:layout_width="match_parent"

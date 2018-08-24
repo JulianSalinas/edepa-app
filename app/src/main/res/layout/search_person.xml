@@ -35,8 +35,7 @@
             android:id="@+id/text_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/test_university"
-            android:fontFamily="sans-serif-light"/>
+            android:text="@string/test_university"/>
 
     </LinearLayout>
 

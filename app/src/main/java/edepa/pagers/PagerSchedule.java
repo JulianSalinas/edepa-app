@@ -2,7 +2,10 @@ package edepa.pagers;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
+import edepa.custom.EmptyOngoing;
+import edepa.custom.EmptySchedule;
 import edepa.model.Event;
 import edepa.modelview.R;
 import edepa.events.EventsSchedule;
@@ -25,13 +28,25 @@ public class PagerSchedule extends PagerFragment {
 
     /**
      * {@inheritDoc}
+     */
+    @Override
+    protected void inflateEmptyView() {
+        String tag = "EMPTY_SCHEDULE";
+        Fragment frag = new EmptySchedule();
+        FragmentManager manager = getChildFragmentManager();
+        manager .beginTransaction()
+                .replace(R.id.events_empty_view, frag, tag)
+                .commit();
+    }
+
+    /**
+     * {@inheritDoc}
      * Se conecta la base de datos para comenzar a
      * obtener los eventos y poder agregar la páginas
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        eventsEmptyView.setText(getString(R.string.text_without_events));
     }
 
     /**

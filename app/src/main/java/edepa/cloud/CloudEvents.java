@@ -33,20 +33,32 @@ public class CloudEvents extends CloudChild {
      * todos los eventos ordenados por fecha de inicio
      * @return Query con los eventos ordenados por hora de inicio
      */
-    public static Query getEventsQuery(){
+    public static Query getEventsQueryByStart(){
         return Cloud.getInstance()
                 .getReference(Cloud.SCHEDULE)
                 .orderByChild("start");
     }
 
     /**
-     * Realiza la misma consulta que {@link #getEventsQuery()} con
-     * la diferencia de que este ordena los eventos por día
-     * y no por la hora exacta a la que comienza cada uno
+     * Realiza la misma consulta que {@link #getEventsQueryByStart()}
+     * con la diferencia de que este ordena los eventos por día y no
+     * por la hora exacta a la que comienza cada uno
+     * @return Query con los eventos ordenados por día
+     */
+    public static Query getEventsQueryByDate(){
+        return Cloud.getInstance()
+                .getReference(Cloud.SCHEDULE)
+                .orderByChild("date");
+    }
+
+    /**
+     * Realiza la misma consulta que {@link #getEventsQueryByStart()}
+     * con la diferencia de que este ordena los eventos para uno
+     * día en específico
      * @param date: Fecha de los eventos por recuperar
      * @return Query con los eventos ordenados por día
      */
-    private static Query getEventsQueryUsingDate(long date){
+    public static Query getEventsQueryUsingDate(long date){
         return Cloud.getInstance()
                 .getReference(Cloud.SCHEDULE)
                 .orderByChild("date")
@@ -66,11 +78,15 @@ public class CloudEvents extends CloudChild {
 
     /**
      * Se conecta a la BD para recibir los eventos ordenados
-     * por fecha por medio {@link #getEventsQuery()}
+     * por fecha por medio {@link #getEventsQueryByStart()}
      * @see #disconnect()
      */
     public void connect(){
-        getEventsQuery().addChildEventListener(this);
+        getEventsQueryByStart().addChildEventListener(this);
+    }
+
+    public void connectByDate(){
+        getEventsQueryByDate().addChildEventListener(this);
     }
 
     /**
@@ -78,7 +94,11 @@ public class CloudEvents extends CloudChild {
      * @see #connect()
      */
     public void disconnect(){
-        getEventsQuery().removeEventListener(this);
+        getEventsQueryByStart().removeEventListener(this);
+    }
+
+    public void disconnectByDate(){
+        getEventsQueryByDate().removeEventListener(this);
     }
 
     /**

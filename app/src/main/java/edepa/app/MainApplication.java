@@ -1,13 +1,11 @@
 package edepa.app;
 
 import android.app.Application;
-
 import com.cloudinary.android.MediaManager;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
 import java.util.Map;
-
+import java.util.HashMap;
 import edepa.settings.SettingsLanguage;
 
 

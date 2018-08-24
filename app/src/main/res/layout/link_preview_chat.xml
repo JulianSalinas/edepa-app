@@ -52,14 +52,14 @@
         <View
             android:id="@+id/event_decoration"
             android:layout_height="match_parent"
-            android:layout_width="@dimen/space_smallest"
+            android:layout_width="@dimen/preview_decoration_size"
             android:background="@color/edepa_primary_dark"/>
 
         <ImageView
             android:id="@+id/preview_thumbnail"
             android:scaleType="centerInside"
-            android:layout_width="@dimen/size_icon_container"
-            android:layout_height="@dimen/size_icon_container"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:layout_marginTop="@dimen/space_medium"
             android:layout_marginBottom="@dimen/space_medium"
             android:layout_marginStart="@dimen/space_small"
@@ -80,7 +80,6 @@
                 android:layout_marginEnd="@dimen/space_default"
                 android:layout_marginBottom="@dimen/space_smallest"
                 android:textStyle="bold"
-                android:textSize="@dimen/font_medium"
                 android:textColor="@color/app_primary_font"
                 tools:text="@string/test_dropbox_title" />
 
@@ -90,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/space_default"
                 android:layout_marginBottom="@dimen/space_smallest"
-                android:textSize="@dimen/font_small"
+                android:textSize="12sp"
                 android:fontFamily="sans-serif-light"
                 android:textColor="@color/app_primary_font"
                 tools:text="@string/test_dropbox_domain" />
@@ -102,6 +101,7 @@
                 android:layout_marginEnd="@dimen/space_default"
                 android:layout_marginBottom="@dimen/space_medium"
                 android:textColor="@color/app_primary_font"
+                android:textSize="@dimen/font_small"
                 tools:text="@string/test_dropdbox_description" />
 
         </LinearLayout>

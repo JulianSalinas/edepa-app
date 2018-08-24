@@ -71,5 +71,7 @@
     <dimen name="size_image">250dp</dimen>
     <dimen name="size_image_small">200dp</dimen>
     <dimen name="chat_item_elevation">1dp</dimen>
+    <dimen name="bottom_navigation_height">56dp</dimen>
+    <dimen name="preview_decoration_size">2dp</dimen>
 
 </resources>

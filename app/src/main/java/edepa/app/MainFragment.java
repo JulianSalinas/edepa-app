@@ -10,23 +10,15 @@ import android.support.v7.widget.Toolbar;
 import android.arch.lifecycle.LifecycleObserver;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-import butterknife.ButterKnife;
-
 
 public abstract class MainFragment
-        extends Fragment implements LifecycleObserver{
+        extends SimpleFragment implements LifecycleObserver{
 
     /**
      * Para obtener un referencia a la actividad y no
      * tener que hacer cast en cada momento que se requiera
      */
     protected MainActivity activity;
-
-    /**
-     * Entero que representa el layout que está utilizando el
-     * fragmento
-     */
-    private int resource;
 
     /**
      * Cuando se cambian los fragmentos es necesario conservar
@@ -111,18 +103,12 @@ public abstract class MainFragment
     }
 
     /**
-     * Obliga a las subclases a colocar el atributo resource
-     */
-    public abstract int getResource();
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (MainActivity) getActivity();
-        resource = getResource();
         getLifecycle().addObserver(this);
     }
 
@@ -132,13 +118,9 @@ public abstract class MainFragment
      * @return Vista del fragmento
      */
     @Override public View onCreateView(
-            LayoutInflater inflater,
-            ViewGroup container,
-            Bundle savedInstanceState) {
-
+            LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         setHasOptionsMenu(true);
-        View view = inflater.inflate(resource, container, false);
-        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -173,30 +155,9 @@ public abstract class MainFragment
     /**
      * Coloca en la pantalla un fragmento previamente creado
      * @param fragment Asociado a la opción elegida por el usuario
-     * @see #setFragmentOnScreen(Fragment, String)
-     */
-    public void setFragmentOnScreen(Fragment fragment){
-        activity.setFragmentOnScreen(fragment, "TAG");
-    }
-
-    /**
-     * Coloca en la pantalla un fragmento previamente creado
-     * A diferencia de {@link #setFragmentOnScreen(Fragment)}
-     * este necesita el tag cuando se quiera colocar un fragmento
-     * que ya ha sido creado anterioemente
-     * @param fragment Asociado a la opción elegida por el usuario
-     * @see #setFragmentOnScreen(Fragment)
      */
     public void setFragmentOnScreen(Fragment fragment, String tag){
         activity.setFragmentOnScreen(fragment, tag);
-    }
-
-    /**
-     * Print temporal en la parte inferior de la aplicación
-     * @param msg Mensaje que se desea mostrar
-     */
-    public void showStatusMessage(String msg){
-        activity.showMessage(msg);
     }
 
     /**
@@ -205,7 +166,7 @@ public abstract class MainFragment
      * @param resource: R.string.<resource>
      */
     public void showStatusMessage(int resource){
-        activity.showMessage(getResources().getString(resource));
+        activity.showMessage(resource);
     }
 
     /**

@@ -39,6 +39,9 @@ public class EventHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.event_type)
     TextView eventType;
 
+    @BindView(R.id.event_location)
+    TextView eventLocation;
+
     @BindView(R.id.event_readmore)
     TextView eventReadmore;
 
@@ -85,8 +88,8 @@ public class EventHolder extends RecyclerView.ViewHolder {
         public void bind(Event event) {
             super.bind(event);
             bindDecoration();
+            bindInformation();
             bindFavoriteButton();
-            bindTitleTypeAndTimeDescription();
         }
 
         @OnClick(R.id.event_readmore_container)
@@ -106,14 +109,16 @@ public class EventHolder extends RecyclerView.ViewHolder {
             int color = res.getColor(event.getEventype().getColorResource());
             eventDecoration.setBackgroundColor(color);
             eventReadmore.setTextColor(color);
+            eventType.setBackgroundColor(color);
         }
 
-        public void bindTitleTypeAndTimeDescription(){
+        public void bindInformation(){
             eventTitle.setText(event.getTitle());
             eventType.setText(event.getEventype().toString());
             String description = TimeConverter.getBlockString(
                     context, event.getStart(), event.getEnd());
             eventTimeDescription.setText(description);
+            eventLocation.setText(event.getLocation());
         }
 
         public void bindFavoriteButton(){

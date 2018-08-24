@@ -2,12 +2,16 @@ package edepa.pagers;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+
 import com.google.firebase.database.Query;
 
 import java.util.List;
 import java.util.ArrayList;
 
 import edepa.cloud.Cloud;
+import edepa.custom.EmptyFavorites;
+import edepa.custom.EmptyOngoing;
 import edepa.model.Event;
 import edepa.modelview.R;
 import edepa.cloud.CloudChild;
@@ -60,6 +64,19 @@ public class PagerFavorites extends PagerFragment implements CloudFavorites.Call
 
     /**
      * {@inheritDoc}
+     */
+    @Override
+    protected void inflateEmptyView() {
+        String tag = "EMPTY_FAVORITES";
+        Fragment frag = new EmptyFavorites();
+        FragmentManager manager = getChildFragmentManager();
+        manager .beginTransaction()
+                .replace(R.id.events_empty_view, frag, tag)
+                .commit();
+    }
+
+    /**
+     * {@inheritDoc}
      * Se conecta la base de datos para comenzar a
      * obtener los eventos y poder agregar la páginas
      */
@@ -77,7 +94,6 @@ public class PagerFavorites extends PagerFragment implements CloudFavorites.Call
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        eventsEmptyView.setText(getString(R.string.text_without_favorites));
         cloudFavorites.connect();
         cloudEvents.connect();
     }

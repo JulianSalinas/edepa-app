@@ -17,17 +17,11 @@ import android.util.Log;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.content.Intent;
-import android.content.Context;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.support.v4.app.Fragment;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
-
-
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-import java.util.Objects;
 
 /**
  * Clase encargada de manejar toda la navegabilidad de la aplicación,
@@ -82,7 +76,6 @@ public class NavigationActivity extends MainActivity implements
      * @return True si lográ abrir algun fragmento con los argumentos
      */
     private boolean moveToScreen(Bundle args){
-
         // Abre la sección de noticias
         if(args.containsKey(Cloud.NEWS)) {
             args.remove(Cloud.NEWS);
@@ -90,7 +83,6 @@ public class NavigationActivity extends MainActivity implements
             runPendingRunnable();
             return true;
         }
-
         // Abre la sección de configuración
         else if (args.containsKey(Cloud.CONFIG)){
             args.remove(Cloud.CONFIG);
@@ -98,10 +90,8 @@ public class NavigationActivity extends MainActivity implements
             runPendingRunnable();
             return true;
         }
-
         // No se pudo abrir ningún fragmento
         return false;
-
     }
 
     /**

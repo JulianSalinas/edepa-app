@@ -20,12 +20,6 @@ public abstract class EventsFragment extends MainFragment
         implements CloudEvents.Callbacks, CloudFavorites.Callbacks {
 
     /**
-     * Textview que se coloca cuando no hay eventos
-     */
-    @BindView(R.id.events_empty_view)
-    TextView eventsEmptyView;
-
-    /**
      * Se colocan los eventos de manera visual
      * Los eventos los obtiene de {@link #eventsAdapter}
      */
