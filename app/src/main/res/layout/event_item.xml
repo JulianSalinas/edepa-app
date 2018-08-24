@@ -23,7 +23,7 @@
             android:orientation="horizontal">
 
             <View
-                android:id="@+id/line"
+                android:id="@+id/event_decoration"
                 android:layout_width="@dimen/space_medium"
                 android:layout_height="match_parent"
                 android:background="@color/material_deep_orange"
@@ -41,7 +41,7 @@
                     android:padding="@dimen/space_medium">
 
                     <TextView
-                        android:id="@+id/header"
+                        android:id="@+id/event_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
@@ -53,14 +53,14 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/eventype"
+                            android:id="@+id/event_type"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/test_type"
                             android:textSize="@dimen/font_small" />
 
                         <TextView
-                            android:id="@+id/time_descripcion"
+                            android:id="@+id/event_time_description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
@@ -84,14 +84,14 @@
                     android:baselineAligned="true">
 
                     <RelativeLayout
-                        android:id="@+id/readmore_container"
+                        android:id="@+id/event_readmore_container"
                         android:layout_width="100dp"
                         android:layout_height="45dp"
                         android:layout_centerVertical="true"
                         android:layout_alignParentStart="true">
 
                         <TextView
-                            android:id="@+id/readmore"
+                            android:id="@+id/event_readmore"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
@@ -114,7 +114,7 @@
 
                             <!--<ImageView-->
                                 <!--android:src="@drawable/ic_flip"-->
-                                <!--android:tint="@color/app_primary_font"-->
+                                <!--android:tint="@accent/app_primary_font"-->
                                 <!--android:layout_width="@dimen/size_icon"-->
                                 <!--android:layout_height="@dimen/size_icon"-->
                                 <!--android:layout_centerInParent="true"-->
@@ -128,7 +128,7 @@
 
                             <com.like.LikeButton
                                 app:liked="false"
-                                android:id="@+id/favorite_button"
+                                android:id="@+id/event_favorite_button"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"

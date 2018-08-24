@@ -3,23 +3,21 @@ package edepa.app;
 import android.os.Bundle;
 import android.os.Handler;
 
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
+import android.support.v4.app.FragmentManager;
+import android.support.design.widget.AppBarLayout;
 import android.view.inputmethod.InputMethodManager;
 
 import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
+import android.arch.lifecycle.LifecycleObserver;
 
-import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.FrameLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.view.ActionMode;
@@ -29,15 +27,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBarDrawerToggle;
 import static android.support.v4.view.GravityCompat.START;
-import static edepa.model.Preferences.FIRST_USE_KEY;
-import static edepa.model.Preferences.USER_KEY;
 
 import java.util.Stack;
-import butterknife.*;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+import edepa.modelview.R;
 import edepa.cloud.Cloud;
 import edepa.model.Preferences;
 import edepa.minilibs.RegexSearcher;
-import edepa.modelview.R;
+import static edepa.model.Preferences.USER_KEY;
+import static edepa.model.Preferences.FIRST_USE_KEY;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,7 +48,6 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 public abstract class MainActivity extends AppCompatActivity
         implements LifecycleObserver,
-        MaterialSearchView.SearchViewListener,
         NavigationView.OnNavigationItemSelectedListener {
 
     /**
@@ -149,7 +148,7 @@ public abstract class MainActivity extends AppCompatActivity
     protected Stack<String> pendingFragments = new Stack<>();
 
     /**
-     * Sirve para restablecer el color después de abrir un CAB
+     * Sirve para restablecer el accent después de abrir un CAB
      * -> Context Action Bar
      */
     protected int lastStatusBarColor;
@@ -223,7 +222,7 @@ public abstract class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         handler = new Handler();
         menu = navigationView.getMenu();
-        if(savedInstanceState == null) onCreateFirstCreation();
+        if(savedInstanceState == null) onCreateFirstTime();
         else onCreateAlreadyOpen(savedInstanceState);
     }
 
@@ -231,8 +230,8 @@ public abstract class MainActivity extends AppCompatActivity
      * Se coloca el fragmento por defecto si es la primera vez
      * @see #onCreateActivity(Bundle)
      */
-    protected void onCreateFirstCreation(){
-        Log.i(toString(), "onCreateFirstCreation()");
+    protected void onCreateFirstTime(){
+        Log.i(toString(), "onCreateFirstTime()");
         if(Preferences.getBooleanPreference(this, FIRST_USE_KEY))
             writeDefaultPreferences();
     }
@@ -252,7 +251,7 @@ public abstract class MainActivity extends AppCompatActivity
      * Se escriben las preferencias por defecto de la aplicación
      * La segunda línea sincroniza las preferencias que están
      * disponibles en la BD
-     * @see #onCreateFirstCreation()
+     * @see #onCreateFirstTime()
      */
     protected void writeDefaultPreferences(){
         Log.i(toString(), "writeDefaultPreferences()");
@@ -358,19 +357,6 @@ public abstract class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Se configura la barra de búsqueda
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    private void setupSearchView(){
-        Log.i(toString(), "setupSearchView()");
-        String text = getResources().getString(R.string.text_search);
-        searchView.showVoice(true);
-        searchView.setHint(text);
-        searchView.setOnSearchViewListener(this);
-        searchView.setEllipsize(true);
-    }
-
-    /**
      * Este fragment se utiliza para que, cuando se presiona
      * una opción del menú lateral, este se cierre. Este cierre
      * dispará el evento dentro de {@link #drawerListener}
@@ -463,7 +449,7 @@ public abstract class MainActivity extends AppCompatActivity
 
     /**
      * {@inheritDoc}
-     * Se cambia el color de la statusBar
+     * Se cambia el accent de la statusBar
      */
     @Override
     public void onSupportActionModeStarted(ActionMode mode) {
@@ -473,7 +459,7 @@ public abstract class MainActivity extends AppCompatActivity
 
     /**
      * {@inheritDoc}
-     * Se restablece el color de la statusBar
+     * Se restablece el accent de la statusBar
      */
     @Override
     public void onSupportActionModeFinished(ActionMode mode) {
@@ -554,12 +540,10 @@ public abstract class MainActivity extends AppCompatActivity
     }
 
     /**
-     * {@inheritDoc}
-     * Función usada al presionar el botón hacia atrás
+     * Función usada al presionar el botón Atrás
      */
     @Override
     public void onBackPressed() {
-
         hideKeyboard();
 
         if (searchView.isSearchOpen())

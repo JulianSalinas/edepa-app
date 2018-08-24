@@ -432,7 +432,7 @@ public class ChatAdapter
         }
 
         /**
-         * Coloca el nombre del usuario y lo pone de color
+         * Coloca el nombre del usuario y lo pone de accent
          */
         public void bindUsername(){
             int color = colorGenerator.getColor(message.getUsername());

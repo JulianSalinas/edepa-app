@@ -47,7 +47,7 @@
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/favorite_button"
+        android:id="@+id/event_favorite_button"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_gravity="bottom"

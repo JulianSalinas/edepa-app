@@ -232,7 +232,7 @@
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/favorite_button"
+        android:id="@+id/event_favorite_button"
         android:layout_width="@dimen/size_icon_container"
         android:layout_height="@dimen/size_icon_container"
         android:layout_margin="@dimen/space_default"

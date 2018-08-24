@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v4.app.Fragment;
@@ -21,18 +23,18 @@ import edepa.events.EventsOngoing;
 public class TabbedFragment extends MainFragment{
 
     /**
+     * Cantidad de fragmentos
+     */
+    private static final int FRAGMENTS = 3;
+    public static final String ITEM_KEY = "itemKey";
+
+    /**
      * Está el fragmento de favoritos, el del cronograma
      * y el de eventos en curso
      */
-    private static final int FRAGMENTS = 3;
-
-    /**
-     * Es para colocar el fragment para los eventos que
-     * suceden al presionar un tab
-     */
-//    @Nullable
-//    @BindView(R.id.toolbar_tabs_layout)
-//    TabLayout tabLayout;
+    public static final int ONGOING = 2;
+    public static final int SCHEDULE = 0;
+    public static final int FAVORITES = 1;
 
     /**
      * Páginador para deslizar las tres pantallas cuando
@@ -41,16 +43,23 @@ public class TabbedFragment extends MainFragment{
     @BindView(R.id.tabs_pager)
     ViewPager tabsPager;
 
+    /**
+     * Contiene los 3 botones para acceder a los 3 fragmentos
+     */
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
+
+    /**
+     * Usada únicamente por #SimpleOnPageChangeListener que
+     * contiene {@link #tabsPager}
+     */
+    private MenuItem prevMenuItem;
 
     /**
      * Es parte de {@link edepa.app.MainActivity#appBarLayout}
      * Sirve para quitar la sobra para cuando se colocan los tabs
      */
     private AppBarLayout appBarLayout;
-
-    private MenuItem prevMenuItem;
 
     /**
      * {@inheritDoc}
@@ -70,20 +79,26 @@ public class TabbedFragment extends MainFragment{
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         tabsPager.setAdapter(new TabbedAdapter());
-        tabsPager.setOffscreenPageLimit(3);
+        tabsPager.setOffscreenPageLimit(FRAGMENTS);
         appBarLayout = getNavigationActivity().getAppBarLayout();
         customizeActivity();
 
+        Bundle args = getArguments();
+        if (args != null && args.containsKey(ITEM_KEY)){
+            moveToTab(args.getInt(ITEM_KEY));
+        }
+
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.menu_schedule){
-                tabsPager.setCurrentItem(0);
+                tabsPager.setCurrentItem(SCHEDULE);
             }
             else if (item.getItemId() == R.id.menu_favorites){
-                tabsPager.setCurrentItem(1);
+                tabsPager.setCurrentItem(FAVORITES);
             }
             else {
-                tabsPager.setCurrentItem(2);
+                tabsPager.setCurrentItem(ONGOING);
             }
             return false;
         });
@@ -91,17 +106,27 @@ public class TabbedFragment extends MainFragment{
         tabsPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
+                Menu menu = bottomNavigationView.getMenu();
                 if (prevMenuItem == null) {
-                    bottomNavigationView.getMenu().getItem(0).setChecked(false);
+                    menu.getItem(0).setChecked(false);
                 }
                 else {
                     prevMenuItem.setChecked(false);
                 }
-                bottomNavigationView.getMenu().getItem(position).setChecked(true);
-                prevMenuItem = bottomNavigationView.getMenu().getItem(position);
+                menu.getItem(position).setChecked(true);
+                prevMenuItem = menu.getItem(position);
             }
         });
 
+    }
+
+    /**
+     * Se mueve hace el tab o fragmento determinado
+     * @param position Posición del fragmento
+     */
+    public void moveToTab(int position){
+        bottomNavigationView.getMenu().getItem(position).setChecked(false);
+        tabsPager.setCurrentItem(position);
     }
 
     /**
@@ -111,8 +136,6 @@ public class TabbedFragment extends MainFragment{
      * ocultar la sobra que genera
      */
     public void customizeActivity(){
-//        if(tabLayout != null)
-//            tabLayout.setupWithViewPager(tabsPager, true);
         appBarLayout.setTargetElevation(0);
         setToolbarText(R.string.app_name);
         setToolbarVisibility(View.VISIBLE);

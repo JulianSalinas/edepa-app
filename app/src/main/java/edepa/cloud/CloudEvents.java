@@ -22,7 +22,7 @@ public class CloudEvents extends CloudChild {
         this.callbacks = callbacks;
     }
 
-    public interface Callbacks extends CloudFavorites.Callbacks {
+    public interface Callbacks {
         void addEvent(Event event);
         void changeEvent(Event event);
         void removeEvent(Event event);

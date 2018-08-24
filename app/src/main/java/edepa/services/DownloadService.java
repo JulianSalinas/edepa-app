@@ -35,18 +35,14 @@ public class DownloadService {
         request.setNotificationVisibility(VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         if (downloadManager != null && OnlineHelper.isOnline(context))
              startDownload(request);
-        else catchOfflineError();
+        else if(downloadListener != null)
+            downloadListener.onDownloadOffline();
     }
 
     private void startDownload(DownloadManager.Request request){
         downloadManager.enqueue(request);
         if(downloadListener != null)
             downloadListener.onDownloadStarted();
-    }
-
-    private void catchOfflineError(){
-        if(downloadListener != null)
-            downloadListener.onDownloadOffline();
     }
 
 }

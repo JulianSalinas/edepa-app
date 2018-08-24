@@ -22,9 +22,8 @@ import edepa.cloud.Cloud;
 import edepa.model.Preferences;
 
 /**
- * Servicion necesario para recibir notificaciones
- * que provienen de la sección de noticias
- * Las notificaciones son enviadas por cloudFunctions
+ * Servicion necesario para recibir notificaciones que provienen de la sección
+ * de noticias. Las notificaciones son enviadas por Cloud Functions
  */
 public class NotificationService extends FirebaseMessagingService {
 

@@ -1,5 +1,6 @@
 package edepa.people;
 
+import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.graphics.Color;
@@ -19,8 +20,6 @@ import com.mklimek.circleinitialsview.CircleInitialsView;
 
 public class PersonHolder extends RecyclerView.ViewHolder {
 
-    protected Person person;
-
     @BindView(R.id.text_title)
     TextView personTitleView;
 
@@ -30,9 +29,16 @@ public class PersonHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.exhibitor_avatar_view)
     CircleInitialsView avatarView;
 
+    private int accent;
+    private Person person;
+    private ColorGenerator colorGenerator;
+
     public PersonHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        Context context = itemView.getContext();
+        colorGenerator = new ColorGenerator(context);
+        accent = ContextCompat.getColor(context, R.color.app_accent);
     }
 
     public void bind(Person person){
@@ -62,21 +68,20 @@ public class PersonHolder extends RecyclerView.ViewHolder {
 
     private int getAvatarColor(){
         String personName = person.getCompleteName();
-        ColorGenerator colorGenerator =
-                new ColorGenerator(itemView.getContext());
         int color = colorGenerator.getColor(personName);
         return ColorConverter.lighten(color);
     }
 
     public void highlightText(String query) {
-        if(query.length() >= 2) {
-            int accentColor = ContextCompat
-                    .getColor(itemView.getContext(), R.color.app_accent);
-            personNameView.setText(TextHighlighter
-                    .highlightText(query, person.getCompleteName(), accentColor));
-            personTitleView.setText(TextHighlighter
-                    .highlightText(query, person.getPersonalTitle(), accentColor));
+        if(query.length() >= 1) {
+            highlightText(personNameView, query);
+            highlightText(personTitleView, query);
         }
+    }
+
+    public void highlightText(TextView textView, String query){
+        textView.setText(TextHighlighter.highlightText(query,
+                textView.getText().toString(), accent));
     }
 
 }

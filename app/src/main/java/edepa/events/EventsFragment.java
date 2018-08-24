@@ -16,8 +16,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 
 
-public abstract class EventsFragment
-        extends MainFragment implements CloudEvents.Callbacks {
+public abstract class EventsFragment extends MainFragment
+        implements CloudEvents.Callbacks, CloudFavorites.Callbacks {
 
     /**
      * Textview que se coloca cuando no hay eventos
@@ -67,7 +67,6 @@ public abstract class EventsFragment
         void onPageChanged(long pageDate);
         void onPageRemoved(long pageDate);
     }
-
 
     /**
      * Adaptador para {@link #eventsRV}

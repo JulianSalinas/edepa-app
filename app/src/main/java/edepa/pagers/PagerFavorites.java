@@ -16,7 +16,7 @@ import edepa.cloud.CloudFavorites;
 import edepa.events.EventsFavorites;
 
 
-public class PagerFavorites extends PagerFragment implements CloudEvents.Callbacks {
+public class PagerFavorites extends PagerFragment implements CloudFavorites.Callbacks {
 
     /**
      * Lista que contiene los key de todos los

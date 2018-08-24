@@ -61,14 +61,4 @@ public class PagerSchedule extends PagerFragment {
         // No se requiere
     }
 
-    @Override
-    public void addFavorite(String eventKey) {
-        // No se requiere
-    }
-
-    @Override
-    public void removeFavorite(String eventKey) {
-        // No se requiere
-    }
-
 }

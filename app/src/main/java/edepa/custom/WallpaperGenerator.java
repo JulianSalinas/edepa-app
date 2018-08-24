@@ -35,7 +35,7 @@ public class WallpaperGenerator {
 
         // No se encontró imagen
         // TODO: Retornar una por defecto.
-        // TODO: Por ahora se colocar el color de enfásis
+        // TODO: Por ahora se colocar el accent de enfásis
         if (resource == NO_IMAGE_FOUND)
             resource = event.getEventype().getColorResource();
         return context.getResources().getDrawable(resource);

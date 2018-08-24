@@ -4,20 +4,23 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 import android.content.SharedPreferences;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
-import edepa.app.NavigationActivity;
 import edepa.modelview.R;
 import edepa.cloud.Cloud;
 import edepa.model.Preferences;
+import edepa.minilibs.DialogFancy;
+import edepa.app.NavigationActivity;
 
 import static edepa.model.Preferences.LANG_KEY;
 import static edepa.model.Preferences.USER_KEY;
 
 /**
- * Las preferencias que se cambian en el fragmento son
- * automáticamente aplicadas y reflejadas en la instancia
- * de {@link edepa.model.Preferences}
+ * Las preferencias que se cambian en el fragmento son automáticamente
+ * aplicadas y reflejadas en la instancia de {@link edepa.model.Preferences}
+ * Este fragmento solo si está dentro de una instancia de la clase
+ * {@link edepa.app.MainActivity} de lo contrario el comportamiento es indeterminado
  */
 public class SettingsFragment extends PreferenceFragmentCompat
         implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -32,9 +35,6 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
     /**
      * {@inheritDoc}
-     * Este fragmento solo funciona si es colocado en una actividad
-     * del tipo {@link NavigationActivity} de lo contrario el comportamiento
-     * es indeterminado
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -44,8 +44,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
     /**
      * {@inheritDoc}
-     * El fondo es cambiado a blanco para no desentonar el
-     * color de la fuente
+     * El fondo es cambiado a blanco para no desentonar con el color de la
+     * fuente #R.color.app_primary_font
      */
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -54,27 +54,27 @@ public class SettingsFragment extends PreferenceFragmentCompat
     }
 
     /**
-     * Se coloca la escucha para cuando suceden cambios
-     * en las preferecias
-     * @see #onPause()
+     * {@inheritDoc}
+     * Se coloca la escucha para cuando suceden cambios en las preferencias
      */
     @Override
     public void onResume() {
         super.onResume();
-        getPreferenceManager().getSharedPreferences()
-        .registerOnSharedPreferenceChangeListener(this);
+        PreferenceManager manager = getPreferenceManager();
+        SharedPreferences preferences = manager.getSharedPreferences();
+        preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     /**
-     * Se dejan de escuchar los cambios en las
-     * preferencias
-     * @see #onResume()
+     * {@inheritDoc}
+     * Se dejan de escuchar los cambios en las preferencias
      */
     @Override
     public void onPause() {
         super.onPause();
-        getPreferenceManager().getSharedPreferences()
-        .unregisterOnSharedPreferenceChangeListener(this);
+        PreferenceManager manager = getPreferenceManager();
+        SharedPreferences preferences = manager.getSharedPreferences();
+        preferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
     /**
@@ -87,13 +87,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         NavigationActivity activity = (NavigationActivity) getActivity();
 
         // Se ha cambiado el lenguage
-        if (key.equals(LANG_KEY)){
-            String lang = Preferences.getStringPreference(getContext(), LANG_KEY);
-            SettingsLanguage.setLanguage(getContext(), lang);
-            String msg = getString(R.string.text_language_changed);
-            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-            if (activity != null) activity.restartApplication(Cloud.CONFIG);
-        }
+        if (key.equals(LANG_KEY)) showLanguageChangeDialog();
 
         // Se ha cambiado el nombre de usuario
         else if (key.equals(USER_KEY)){
@@ -102,6 +96,32 @@ public class SettingsFragment extends PreferenceFragmentCompat
             if (activity != null) activity.showWelcomeMessage();
         }
 
+    }
+
+    /**
+     * Muestra un dialogo para cambiar el idioma de la aplicación. Si el
+     * usuario acepta se ejecuta la función {@link #changeLanguageAndRestart()}
+     */
+    public void showLanguageChangeDialog(){
+        new DialogFancy.Builder()
+                .setContext(getContext())
+                .setStatus(DialogFancy.INFO)
+                .setTitle(R.string.text_language_change)
+                .setContent(R.string.text_language_change_content)
+                .setExistsCancel(true)
+                .setOnAcceptClick(v -> changeLanguageAndRestart())
+                .build().show();
+    }
+
+    /**
+     * Se guarda el idioma en las preferencias para que cuando se reinicie
+     * la aplicación se aplicaquen los cambios
+     */
+    public void changeLanguageAndRestart(){
+        NavigationActivity activity = (NavigationActivity) getActivity();
+        String lang = Preferences.getStringPreference(getContext(), LANG_KEY);
+        SettingsLanguage.setLanguage(getContext(), lang);
+        if (activity != null) activity.recreate();
     }
 
 }

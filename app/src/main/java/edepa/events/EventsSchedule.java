@@ -133,8 +133,7 @@ public class EventsSchedule extends EventsFragment {
          * Contructor de {@link AdapterSchedule}
          */
         public AdapterSchedule() {
-            super(EventsSchedule.this);
-            this.events = EventsSchedule.this.events;
+            super(EventsSchedule.this.getContext(), EventsSchedule.this.events);
             registerAdapterDataObserver(addObserver);
             registerAdapterDataObserver(removeObserver);
         }

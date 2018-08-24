@@ -6,7 +6,7 @@ import edepa.modelview.R;
 public enum EventType {
 
     /**
-     * Cada tipo de evento tiene un color de énfasis
+     * Cada tipo de evento tiene un accent de énfasis
      */
     TALLER (R.string.text_atelier, R.color.material_red),
     FERIA_EDEPA (R.string.text_fair, R.color.material_amber),
@@ -14,7 +14,7 @@ public enum EventType {
     PONENCIA (R.string.text_presentation, R.color.material_deep_purple);
 
     /**
-     * Para el cronograma se muestran en un color,
+     * Para el cronograma se muestran en un accent,
      * al mostrar los detalles se muestra un gradiente del
      * mismo tono (resource)
      */

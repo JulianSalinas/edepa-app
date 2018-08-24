@@ -68,7 +68,7 @@ public class FragmentBlank extends MainFragment {
     }
 
     /**
-     * Se coloca un color con base a la descripción
+     * Se coloca un accent con base a la descripción
      * que fue pasada como argumento
      */
     public void setRandomColor(){

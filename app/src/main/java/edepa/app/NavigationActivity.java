@@ -1,84 +1,65 @@
 package edepa.app;
 
-import edepa.cloud.CloudNavigation;
 import edepa.modelview.R;
 import edepa.cloud.Cloud;
-import edepa.model.Preferences;
+import edepa.cloud.CloudNavigation;
+
 import edepa.info.InfoFragment;
 import edepa.chat.ChatFragment;
 import edepa.info.AboutFragment;
-import edepa.notices.NoticesFragment;
 import edepa.people.PeopleFragment;
 import edepa.pagers.TabbedFragment;
 import edepa.search.SearchFragment;
+import edepa.notices.NoticesFragment;
 import edepa.settings.SettingsFragment;
 
+import android.util.Log;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.content.Intent;
+import android.content.Context;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
+import android.support.v4.app.Fragment;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
 
-import android.support.v4.app.Fragment;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-import static edepa.model.Preferences.CHAT_AVAILABLE_KEY;
-import static edepa.model.Preferences.INFO_AVAILABLE_KEY;
-import static edepa.model.Preferences.NEWS_AVAILABLE_KEY;
-import static edepa.model.Preferences.PALETTE_AVAILABLE_KEY;
-import static edepa.model.Preferences.PEOPLE_AVAILABLE_KEY;
+import java.util.Objects;
 
 /**
- * Clase encargada de manejar toda la navegabilidad
- * de la aplicación
+ * Clase encargada de manejar toda la navegabilidad de la aplicación,
+ * incluyendo abrir el fragmento de búsquedad cuando se presione el inicio
  */
-public class NavigationActivity
-        extends MainActivity implements CloudNavigation.CloudNavigationListener {
+public class NavigationActivity extends MainActivity implements
+        MaterialSearchView.SearchViewListener,
+        CloudNavigation.CloudNavigationListener {
 
     /**
-     * {@inheritDoc}
+     * La primera vez que se crea la Actividad se debe colocar
+     * un fragmento en pantalla, este fragmento es {@link TabbedFragment}
      */
     @Override
-    protected void onCreateFirstCreation(){
-        super.onCreateFirstCreation();
-
-        if(!handleIntent(getIntent())){
-            String tag = "SCHEDULE_FRAGMENT";
-            Fragment frag = new TabbedFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.main_content, frag, tag)
-                    .commitNow();
-        }
-
+    protected void onCreateFirstTime(){
+        super.onCreateFirstTime();
+        Bundle args = getIntent().getExtras();
+        if(args == null || !moveToScreen(args))
+            setOnScreenFirstFragment();
     }
 
-    private boolean handleIntent(Intent intent){
-
-        Bundle args = intent.getExtras();
-        if(args != null && args.containsKey(Cloud.NEWS)) {
-            args.remove(Cloud.NEWS);
-            openNews();
-            runPendingRunnable();
-            return true;
-        }
-
-        else if (args != null && args.containsKey(Cloud.CONFIG)){
-            args.remove(Cloud.CONFIG);
-            openSettings();
-            runPendingRunnable();
-            return true;
-        }
-
-        return false;
-
+    /**
+     * Se coloca el fragmento por defecto en pantalla, este fragmento
+     * es {@link TabbedFragment}. Este método es utilizado únicamente
+     * en {@link #onCreateFirstTime()}
+     */
+    public void setOnScreenFirstFragment(){
+        String tag = "TABBED_FRAGMENT";
+        Fragment frag = new TabbedFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_content, frag, tag)
+                .commitNow();
     }
 
     /**
@@ -89,32 +70,37 @@ public class NavigationActivity
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        handleIntent(intent);
+        Bundle args = intent.getExtras();
+        if(args != null) moveToScreen(args);
     }
 
     /**
-     * Se reinicia la aplicación, conservado el estado actual
+     * Se mueve hacia una pantalla o fragmento específicado por la ubicación
+     * que contiene el Bundle. Es usada por {@link #onNewIntent(Intent)}
+     * cuando el usuario presiona una notificación
+     * @param args Bundle con la descripción de qué fragmento abrir
+     * @return True si lográ abrir algun fragmento con los argumentos
      */
-    public void restartApplication(String currentSection){
+    private boolean moveToScreen(Bundle args){
 
-        Intent refresh = new Intent(this, NavigationActivity.class);
-        refresh.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        refresh.putExtra(currentSection, true);
-
-        int code = 123456;
-        PendingIntent intent = PendingIntent.getActivity(
-                this, code, refresh, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        startActivity(refresh);
-
-
-        AlarmManager mgr = (AlarmManager)
-                getSystemService(Context.ALARM_SERVICE);
-
-        if (mgr != null) {
-            mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 10, intent);
-            exit();
+        // Abre la sección de noticias
+        if(args.containsKey(Cloud.NEWS)) {
+            args.remove(Cloud.NEWS);
+            openNews();
+            runPendingRunnable();
+            return true;
         }
+
+        // Abre la sección de configuración
+        else if (args.containsKey(Cloud.CONFIG)){
+            args.remove(Cloud.CONFIG);
+            openSettings();
+            runPendingRunnable();
+            return true;
+        }
+
+        // No se pudo abrir ningún fragmento
+        return false;
 
     }
 
@@ -123,34 +109,32 @@ public class NavigationActivity
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     public void connectPreferencesListener(){
-        CloudNavigation cloudNavigation = new CloudNavigation(this);
+        CloudNavigation cloudNavigation = new CloudNavigation();
+        cloudNavigation.setNavigationListener(this);
         cloudNavigation.requestNavigationSections();
     }
 
     /**
+     * Se configura la barra de búsqueda
+     */
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    private void setupSearchView(){
+        String text = getString(R.string.text_search);
+        searchView.showVoice(true);
+        searchView.setHint(text);
+        searchView.setOnSearchViewListener(this);
+        searchView.setEllipsize(true);
+    }
+
+    /**
      * Se configura el fragment del botón fav del menú lateral
-     * @see #disconnectFavoriteButtonListener()
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void connectFavoriteButtonListener(){
         getNavigationView()
                 .getHeaderView(0)
-                .findViewById(R.id.favorite_button)
-                .setOnClickListener(v -> {});
-        Log.i(toString(), "connectFavoriteButtonListener()");
-    }
-
-    /**
-     * Se remueve el fragment del botón fav del menú lateral
-     * @see #connectFavoriteButtonListener()
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    public void disconnectFavoriteButtonListener(){
-        getNavigationView()
-                .getHeaderView(0)
-                .findViewById(R.id.favorite_button)
-                .setOnClickListener(null);
-        Log.i(toString(), "disconnectFavoriteButtonListener()");
+                .findViewById(R.id.event_favorite_button)
+                .setOnClickListener(v -> openFavorites());
     }
 
     /**
@@ -280,11 +264,40 @@ public class NavigationActivity
      * sea colocado en pantalla
      */
     public boolean openSchedule(){
-        String tag = "SCHEDULE_FRAGMENT";
+        String tag = "TABBED_FRAGMENT";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
         Fragment frag = temp != null ? temp : new TabbedFragment();
         pendingRunnable = () -> setFragmentOnScreen(frag, tag);
         return false;
+    }
+
+    /**
+     * Hace los mismo que {@link #openSchedule()} con la diferencia de
+     * que abre por defecto la pestaña de favoritos. Usada por botón
+     * de favoritos
+     */
+    public void openFavorites(){
+
+        String tag = "TABBED_FRAGMENT";
+        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
+        TabbedFragment frag = temp != null ? (TabbedFragment) temp : new TabbedFragment();
+
+        // Si está visible solamente ordena que se mueva a los favoritos
+        if (frag.isVisible()) {
+            frag.moveToTab(TabbedFragment.FAVORITES);
+            onBackPressed(); // Cierra el drawer
+        }
+
+        // Si no está visible se debe pasar como parámetro el número
+        // de tab para los favoritos
+        else {
+            Bundle args = new Bundle();
+            args.putInt(TabbedFragment.ITEM_KEY, TabbedFragment.FAVORITES);
+            frag.setArguments(args);
+            pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+            runPendingRunnable();
+        }
+
     }
 
     /**

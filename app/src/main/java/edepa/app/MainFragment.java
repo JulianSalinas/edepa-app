@@ -30,7 +30,7 @@ public abstract class MainFragment
 
     /**
      * Cuando se cambian los fragmentos es necesario conservar
-     * el color que tenía la barra de notificaciones
+     * el accent que tenía la barra de notificaciones
      */
     protected int lastStatusBarColor;
 
@@ -98,7 +98,7 @@ public abstract class MainFragment
     }
 
     /**
-     * Permiten colocar el color de la barra superior
+     * Permiten colocar el accent de la barra superior
      * donde se muestran las notificaciones
      */
     public int getStatusBarColor(){

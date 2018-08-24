@@ -9,25 +9,25 @@ import android.graphics.Color;
 public class ColorConverter {
 
     /**
-     * Enclarece un color en 12
-     * @param color: color base
-     * @return color un tono más claro
+     * Enclarece un accent en 12
+     * @param color: accent base
+     * @return accent un tono más claro
      */
     public static int lighten(int color) {
         return lighten(color, 12);
     }
 
     /**
-     * Oscurece un color en 12
-     * @param color: color base
-     * @return color un tono más oscuro
+     * Oscurece un accent en 12
+     * @param color: accent base
+     * @return accent un tono más oscuro
      */
     public static int darken(int color) {
         return darken(color, 12);
     }
 
     /**
-     * Oscurece un color dado
+     * Oscurece un accent dado
      * @param base: Color base
      * @param amount: Cantidad que se debe oscurecer.
      *                Normalmente 12 para los colores material
@@ -44,7 +44,7 @@ public class ColorConverter {
     }
 
     /**
-     * Enclarece un color dado
+     * Enclarece un accent dado
      * @param base: Color base
      * @param amount: Cantidad que se debe enclarecer
      *                Normalmente 12 para los colores material
@@ -61,11 +61,11 @@ public class ColorConverter {
     }
 
     /**
-     * Convierte un color de HSV (Hue, Saturation, Value)
+     * Convierte un accent de HSV (Hue, Saturation, Value)
      * a HSL (Hue, Saturation, Lightness)
      * https://gist.github.com/xpansive/1337890
-     * @param hsv HSV color array
-     * @return hsl color array
+     * @param hsv HSV accent array
+     * @return hsl accent array
      */
     private static float[] hsv2hsl(float[] hsv) {
 
@@ -86,8 +86,8 @@ public class ColorConverter {
     /**
      * Reversa hsv2hsl
      * https://gist.github.com/xpansive/1337890
-     * @param hsl HSL color array
-     * @return hsv color array
+     * @param hsl HSL accent array
+     * @return hsv accent array
      */
     private static float[] hsl2hsv(float[] hsl) {
 

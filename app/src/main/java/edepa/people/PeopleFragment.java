@@ -78,24 +78,11 @@ public class PeopleFragment extends MainFragment
         setToolbarVisibility(View.VISIBLE);
         setStatusBarColorRes(R.color.app_primary_dark);
 
-        cloudAdmin.requestAdminPermission();
-
         peopleRecycler.setAdapter(peopleAdapter);
         peopleRecycler.setHasFixedSize(true);
         peopleRecycler.setItemAnimator(new DefaultItemAnimator());
         peopleRecycler.setLayoutManager(new SmoothLayout(getActivity()));
-
-        peopleRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0 && addPersonButton.getVisibility() == View.VISIBLE)
-                    addPersonButton.hide();
-                else if (dy < 0 && addPersonButton.getVisibility() != View.VISIBLE) {
-                    addPersonButton.show();
-                }
-            }
-        });
+        cloudAdmin.requestAdminPermission();
 
         DividerItemDecoration decoration =
                 new DividerItemDecoration(getNavigationActivity(), VERTICAL);
@@ -104,24 +91,6 @@ public class PeopleFragment extends MainFragment
                 getResources().getDrawable(R.drawable.util_decorator));
 
         peopleRecycler.addItemDecoration(decoration);
-
-        getNavigationActivity().getSearchView().setOnQueryTextListener(
-                new MaterialSearchView.OnQueryTextListener() {
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                peopleAdapter.getFilter().filter(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                peopleAdapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-
-
     }
 
     @OnClick(R.id.add_person_button)
@@ -161,6 +130,20 @@ public class PeopleFragment extends MainFragment
     @Override
     public void onPermissionGranted() {
         addPersonButton.setVisibility(View.VISIBLE);
+
+        peopleRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && addPersonButton.getVisibility() == View.VISIBLE) {
+                    addPersonButton.hide();
+                }
+                else if (dy < 0 && addPersonButton.getVisibility() != View.VISIBLE) {
+                    addPersonButton.show();
+                }
+            }
+        });
+
     }
 
     @Override

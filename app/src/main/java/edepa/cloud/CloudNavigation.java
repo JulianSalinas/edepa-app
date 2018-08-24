@@ -15,7 +15,7 @@ public class CloudNavigation extends CloudValue {
         void onPeopleStateChange(boolean state);
     }
 
-    public CloudNavigation(CloudNavigationListener navigationListener) {
+    public void setNavigationListener(CloudNavigationListener navigationListener) {
         this.navigationListener = navigationListener;
     }
 

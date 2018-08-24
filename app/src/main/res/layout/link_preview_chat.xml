@@ -50,7 +50,7 @@
         android:layout_height="wrap_content">
 
         <View
-            android:id="@+id/line"
+            android:id="@+id/event_decoration"
             android:layout_height="match_parent"
             android:layout_width="@dimen/space_smallest"
             android:background="@color/edepa_primary_dark"/>

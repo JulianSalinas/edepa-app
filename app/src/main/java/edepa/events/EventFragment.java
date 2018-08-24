@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -48,7 +47,7 @@ import static edepa.settings.SettingsLanguage.ENGLISH;
 import static edepa.settings.SettingsLanguage.SPANISH;
 
 
-public class DetailFragment extends MainFragment
+public class EventFragment extends MainFragment
         implements ValueEventListener, DownloadService.DownloadListener{
 
     private static final String SAVED_EVENT_KEY = "event_state";
@@ -83,7 +82,7 @@ public class DetailFragment extends MainFragment
     @BindView(R.id.event_detail_abstract)
     TextView eventDetailAbstract;
 
-    @BindView(R.id.favorite_button)
+    @BindView(R.id.event_favorite_button)
     FloatingActionButton favoriteButton;
 
     @BindView(R.id.event_people_drop_view)
@@ -139,10 +138,10 @@ public class DetailFragment extends MainFragment
 
     /**
      * Se obtiene una nueva instancia del fragmento
-     * @return DetailFragment
+     * @return EventFragment
      */
-    public static DetailFragment newInstance(Event event) {
-        DetailFragment fragment = new DetailFragment();
+    public static EventFragment newInstance(Event event) {
+        EventFragment fragment = new EventFragment();
         Bundle args = new Bundle();
         args.putParcelable(SAVED_EVENT_KEY, event);
         fragment.setArguments(args);
@@ -203,7 +202,7 @@ public class DetailFragment extends MainFragment
 
         @Override
         public void onCancelled(DatabaseError databaseError) {
-            Log.i(DetailFragment.this.toString(), databaseError.getMessage());
+            Log.i(EventFragment.this.toString(), databaseError.getMessage());
         }
 
     };
@@ -252,7 +251,7 @@ public class DetailFragment extends MainFragment
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
-        Log.i("DetailFragment::", databaseError.getMessage());
+        Log.i("EventFragment::", databaseError.getMessage());
     }
 
     /**
@@ -349,7 +348,7 @@ public class DetailFragment extends MainFragment
     }
 
     /**
-     * Actualiza el color de icono cuando el
+     * Actualiza el accent de icono cuando el
      * usuario (des) marca el evento
      */
     private void updateFavoriteIcon(){
