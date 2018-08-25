@@ -10,6 +10,7 @@
         <item name="colorControlNormal">@color/app_primary_font</item>
 
         <item name="windowActionModeOverlay">true</item>
+        <item name="android:actionButtonStyle">@style/ActionButton</item>
         <!--<item name="android:windowBackground">@drawable/img_wallpaper</item>-->
         <!--<item name="actionMenuTextColor">@accent/app_white</item>-->
         <!--<item name="actionModeBackground">@accent/app_accent</item>-->
@@ -22,6 +23,10 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
 
+    </style>
+
+    <style name="ActionButton" parent="@android:style/Widget.ActionButton">
+        <item name="android:drawablePadding">1dp</item>
     </style>
 
     <!-- Action Mode Theme -->

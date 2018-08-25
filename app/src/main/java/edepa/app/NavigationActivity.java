@@ -9,10 +9,12 @@ import edepa.chat.ChatFragment;
 import edepa.info.AboutFragment;
 import edepa.people.PeopleFragment;
 import edepa.pagers.TabbedFragment;
-import edepa.search.SearchFragment;
+import edepa.search.SearchBasicFragment;
+import edepa.search.SearchByPanelFragment;
 import edepa.notices.NoticesFragment;
 import edepa.settings.SettingsFragment;
 
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -20,6 +22,8 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
+
+import com.google.android.gms.dynamic.SupportFragmentWrapper;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 
@@ -352,6 +356,12 @@ public class NavigationActivity extends MainActivity implements
         menuItem.setOnMenuItemClickListener(item -> exitAndSignOut());
     }
 
+    @Override
+    public boolean changeViewMode() {
+        showMessage("Date mode active");
+        return false;
+    }
+
     /**
      * Se ejecuta cuando se abre la barra de búsqueda
      * Se coloca un fragmento para realizar las búsquedas
@@ -359,10 +369,18 @@ public class NavigationActivity extends MainActivity implements
      */
     @Override
     public void onSearchViewShown() {
-        String tag = "SEARCH_FRAGMENT";
-        Fragment frag = new SearchFragment();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.main_content, frag, tag)
+        openSearchByPanel();
+    }
+
+    /**
+     * Color el fragmento para realizar búsquedas mediante
+     * algún filtro
+     */
+    public void openSearchByPanel(){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.main_content, new SearchByPanelFragment())
                 .commit();
     }
 
@@ -373,11 +391,8 @@ public class NavigationActivity extends MainActivity implements
      */
     @Override
     public void onSearchViewClosed() {
-        String tag = "SEARCH_FRAGMENT";
-        Fragment frag = getSupportFragmentManager().findFragmentByTag(tag);
-        if (frag != null) getSupportFragmentManager()
-                .beginTransaction()
-                .remove(frag).commit();
+        getSupportFragmentManager().popBackStack();
     }
+
 
 }

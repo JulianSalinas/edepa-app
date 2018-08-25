@@ -191,4 +191,9 @@ public class RegexSearcher {
         return results;
     }
 
+    public static boolean match(String query, String text){
+        ArrayList<MatchResult> match = RegexSearcher.autoSearch(query, text);
+        return match.size() >= 1;
+    }
+
 }

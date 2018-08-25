@@ -252,7 +252,7 @@ public class EventsOngoing
          * {@inheritDoc}
          */
         public OngoingAdapter() {
-            super(EventsOngoing.this.getContext(), EventsOngoing.this.events);
+            super(EventsOngoing.this.events);
         }
 
         /**

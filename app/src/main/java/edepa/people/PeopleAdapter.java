@@ -31,7 +31,7 @@ public class PeopleAdapter extends RecyclerAdapter {
     }
 
     @Override
-    public PersonHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.people_item, parent, false);
         return new PersonHolder(view);

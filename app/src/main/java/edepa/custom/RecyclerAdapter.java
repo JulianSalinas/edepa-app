@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 
 /**
  * Clase que únicamente que es utilizada para darle un
- * alias a la clase #RecyclerView.TabbedAdapter<RecyclerView.PersonHolder>
+ * alias a la clase #RecyclerView.TabbedAdapter<RecyclerView.SearchHolderPerson>
  * pues es un nombre muy largo
  */
 public abstract class RecyclerAdapter

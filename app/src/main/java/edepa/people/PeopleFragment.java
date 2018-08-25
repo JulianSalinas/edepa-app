@@ -7,8 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.view.View;
 
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
-
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -26,7 +24,7 @@ import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 public class PeopleFragment extends MainFragment
         implements CloudPeople.Callbacks, CloudAdmin.AdminPermissionListener {
 
-    @BindView(R.id.people_recycler_view)
+    @BindView(R.id.people_recycler)
     RecyclerView peopleRecycler;
 
     @BindView(R.id.add_person_button)

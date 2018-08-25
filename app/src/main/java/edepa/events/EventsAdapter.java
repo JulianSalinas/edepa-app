@@ -34,7 +34,6 @@ public abstract class EventsAdapter extends RecyclerAdapter {
     protected int SINGLE = 0;
     protected int WITH_SEPARATOR = 1;
 
-    protected Context context;
     protected List<Event> events;
 
     /**
@@ -50,17 +49,16 @@ public abstract class EventsAdapter extends RecyclerAdapter {
      * Las subclases deben colocar aquí
      * la lista de eventos y la de favoritos
      */
-    public EventsAdapter(Context context, List<Event> events) {
+    public EventsAdapter(List<Event> events) {
         super();
         this.events = events;
-        this.context = context;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public EventHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         int layout = viewType == SINGLE ?
                 R.layout.event_item:

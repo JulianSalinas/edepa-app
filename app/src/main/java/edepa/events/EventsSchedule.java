@@ -29,7 +29,7 @@ public class EventsSchedule extends EventsFragment {
      * manera asincrónica. Ésta carga se debe realizar
      * depués de obtener la lista de favoritos
      */
-    private CloudEvents cloudEvents;
+    protected CloudEvents cloudEvents;
 
     /**
      * Carga todos los key de todos los eventos que
@@ -88,7 +88,7 @@ public class EventsSchedule extends EventsFragment {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             eventsAmount = (int) dataSnapshot.getChildrenCount();
-            eventsAdapter.connectListeners();
+            connectListeners();
             Log.i(toString(), "Retriving events amount");
         }
 
@@ -107,7 +107,28 @@ public class EventsSchedule extends EventsFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        eventsAdapter.disconnectListeners();
+        disconnectListeners();
+    }
+
+    /**
+     * Pone a la escucha los adminPermissionListener encargados de
+     * agregar eventos y colocar los favoritos. Es
+     * invocada en {@link #onCreate(Bundle)}
+     * @see #disconnectListeners()
+     */
+    public void connectListeners(){
+        cloudFavorites.connect();
+        cloudEvents.connect(getEventsQuery());
+    }
+
+    /**
+     * Remueve los listeners encargados de agregar
+     * los eventos y de colocar los favoritos. Es
+     * invocada en {@link #onDestroy()}
+     */
+    public void disconnectListeners(){
+        cloudFavorites.disconnect();
+        cloudEvents.disconnect(getEventsQuery());
     }
 
     /**
@@ -117,10 +138,28 @@ public class EventsSchedule extends EventsFragment {
      * @return Query
      */
     public Query getEventsQuery(){
-        return Cloud.getInstance()
-                .getReference(Cloud.SCHEDULE)
-                .orderByChild("date")
-                .equalTo(getDate());
+        return CloudEvents.getEventsQueryUsingDate(getDate());
+    }
+
+    /**
+     * Cada vez que se remueve un evento se revisa si quedan
+     * más eventos, de lo contrario se avisa a IPageListener
+     * que debe remover este fragmento
+     */
+    public RecyclerView.AdapterDataObserver getDataObserver() {
+        return new RecyclerView.AdapterDataObserver() {
+
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                if(events.size() <= 0 && pageListener != null)
+                    pageListener.onPageRemoved(getDate());
+            }
+
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                if(pageListener != null && eventsAmount-- <= 0)
+                    pageListener.onPageChanged(getDate());
+            }
+
+        };
     }
 
     /**
@@ -129,59 +168,10 @@ public class EventsSchedule extends EventsFragment {
      */
     public class AdapterSchedule extends EventsAdapter {
 
-        /**
-         * Contructor de {@link AdapterSchedule}
-         */
         public AdapterSchedule() {
-            super(EventsSchedule.this.getContext(), EventsSchedule.this.events);
-            registerAdapterDataObserver(addObserver);
-            registerAdapterDataObserver(removeObserver);
+            super(EventsSchedule.this.events);
+            registerAdapterDataObserver(getDataObserver());
         }
-
-        /**
-         * Pone a la escucha los adminPermissionListener encargados de
-         * agregar eventos y colocar los favoritos. Es
-         * invocada en {@link #onCreate(Bundle)}
-         * @see #disconnectListeners()
-         */
-        public void connectListeners(){
-            cloudFavorites.connect();
-            cloudEvents.connect(getEventsQuery());
-        }
-
-        /**
-         * Remueve los listeners encargados de agregar
-         * los eventos y de colocar los favoritos. Es
-         * invocada en {@link #onDestroy()}
-         */
-        public void disconnectListeners(){
-            cloudFavorites.disconnect();
-            cloudEvents.disconnect(getEventsQuery());
-        }
-
-        /**
-         * Cada vez que se remueve un evento se revisa si quedan
-         * más eventos, de lo contrario se avisa al fragmento
-         * padre {@link PagerFragment}
-         * que debe remover este fragmento
-         */
-        class DataObserver extends RecyclerView.AdapterDataObserver{}
-        DataObserver removeObserver = new DataObserver() {
-        public void onItemRangeRemoved(int positionStart, int itemCount) {
-            if(events.size() <= 0 && pageListener != null)
-                pageListener.onPageRemoved(getDate());
-        }};
-
-        /**
-         * Cada vez que se agrega un evento se avisa al fragmento
-         * padre {@link PagerFragment}
-         * para que coloque la página que ha sido modificada
-         */
-        DataObserver addObserver = new DataObserver() {
-        public void onItemRangeInserted(int positionStart, int itemCount) {
-            if(pageListener != null && eventsAmount-- <= 0)
-                pageListener.onPageChanged(getDate());
-        }};
 
     }
 

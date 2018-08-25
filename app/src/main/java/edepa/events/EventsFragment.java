@@ -11,7 +11,6 @@ import edepa.cloud.CloudFavorites;
 import java.util.ArrayList;
 import java.util.List;
 import android.os.Bundle;
-import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 
@@ -23,7 +22,7 @@ public abstract class EventsFragment extends MainFragment
      * Se colocan los eventos de manera visual
      * Los eventos los obtiene de {@link #eventsAdapter}
      */
-    @BindView(R.id.events_recycler_view)
+    @BindView(R.id.events_recycler)
     RecyclerView eventsRV;
 
     /**

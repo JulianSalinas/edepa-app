@@ -1,6 +1,7 @@
 package edepa.cloud;
 
 import edepa.model.Event;
+import edepa.model.EventType;
 
 import com.google.firebase.database.Query;
 import com.google.firebase.database.DataSnapshot;
@@ -63,6 +64,13 @@ public class CloudEvents extends CloudChild {
                 .getReference(Cloud.SCHEDULE)
                 .orderByChild("date")
                 .equalTo(date);
+    }
+
+    public static Query getEventsQueryUsingType(EventType type){
+        return Cloud.getInstance()
+                .getReference(Cloud.SCHEDULE)
+                .orderByChild("eventype")
+                .equalTo(type.toString());
     }
 
     /**

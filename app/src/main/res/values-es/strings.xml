@@ -84,7 +84,7 @@
 
     <string name="text_map">Mapa</string>
     <string name="text_loading">Cargando</string>
-    <string name="text_events">Eventos relacionados</string>
+    <string name="text_events">Eventos</string>
 
     <string name="text_about">Acerca de</string>
     <string name="text_confirm">confirmar</string>
@@ -318,5 +318,15 @@
     <string name="text_complete_update">Actualización completa</string>
     <string name="text_goto_schedule">Ir al cronograma</string>
     <string name="text_add_event">Crear evento</string>
+    <string name="test_type_and_time">Conferencia de 8:00 am a 10:00 am</string>
+    <string name="test_person">Adam Smith</string>
+    <string name="searching_for">Buscandoi</string>
+    <string name="event_type">Tipo de evento</string>
+    <string name="text_view_mod">Tipo de vista</string>
+    <string name="text_filter_by">Filtrar por</string>
+    <string name="text_search_by">Buscar por</string>
+    <string name="text_search_people">Buscar personas</string>
+    <string name="text_searching_for_eventos">Buscando eventos</string>
+    <string name="text_searching_for_people">Buscando personas</string>
 
 </resources>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/app_white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:padding="@dimen/space_default"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/event_type"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:id="@+id/conference_filter"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_default">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="@dimen/size_icon"
+            android:layout_height="@dimen/size_icon"
+            app:cardBackgroundColor="@color/edepa_conferencia"
+            app:cardCornerRadius="5dp">
+
+            <ImageView
+                android:src="@drawable/ic_filter_1"
+                android:tint="@color/app_white"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center"
+                android:contentDescription="@null" />
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/space_default"
+            android:layout_marginEnd="@dimen/space_default"
+            android:gravity="center_vertical"
+            android:text="@string/text_conference"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/presentation_filter"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_default">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="@dimen/size_icon"
+            android:layout_height="@dimen/size_icon"
+            app:cardBackgroundColor="@color/edepa_ponencia"
+            app:cardCornerRadius="5dp">
+
+            <ImageView
+                android:src="@drawable/ic_filter_2"
+                android:tint="@color/app_white"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center"
+                android:contentDescription="@null" />
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/space_default"
+            android:layout_marginEnd="@dimen/space_default"
+            android:gravity="center_vertical"
+            android:text="@string/text_presentation"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/atelier_filter"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_default">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="@dimen/size_icon"
+            android:layout_height="@dimen/size_icon"
+            app:cardBackgroundColor="@color/edepa_taller"
+            app:cardCornerRadius="5dp">
+
+            <ImageView
+                android:src="@drawable/ic_filter_3"
+                android:tint="@color/app_white"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center"
+                android:contentDescription="@null" />
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/space_default"
+            android:layout_marginStart="@dimen/space_default"
+            android:gravity="center_vertical"
+            android:text="@string/text_atelier" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fair_filter"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_default">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="@dimen/size_icon"
+            android:layout_height="@dimen/size_icon"
+            app:cardBackgroundColor="@color/edepa_feria"
+            app:cardCornerRadius="5dp">
+
+            <ImageView
+                android:src="@drawable/ic_filter_4"
+                android:tint="@color/app_white"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center"
+                android:contentDescription="@null" />
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/space_default"
+            android:layout_marginEnd="@dimen/space_default"
+            android:gravity="center_vertical"
+            android:text="@string/text_fair"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:padding="@dimen/space_default"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_search_people"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:id="@+id/people_filter"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_default">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="@dimen/size_icon"
+            android:layout_height="@dimen/size_icon"
+            app:cardBackgroundColor="@color/app_primary_dark"
+            app:cardCornerRadius="5dp">
+
+            <ImageView
+                android:src="@drawable/ic_school"
+                android:tint="@color/app_white"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center"
+                android:contentDescription="@null" />
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/space_default"
+            android:layout_marginEnd="@dimen/space_default"
+            android:gravity="center_vertical"
+            android:text="@string/text_exhibitor"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -21,7 +21,6 @@ import android.widget.FrameLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.view.ActionMode;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.NavigationView;
@@ -403,9 +402,10 @@ public abstract class MainActivity extends AppCompatActivity
         Log.i(toString(), "onCreateOptionsMenu()");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_menu, menu);
-        MenuItem item = menu.findItem(R.id.search_item);
-        searchView.setMenuItem(item);
-        searchView.clearFocus();
+        MenuItem searh_item = menu.findItem(R.id.search_item);
+        MenuItem view_mod_item = menu.findItem(R.id.view_mod_item);
+        view_mod_item.setOnMenuItemClickListener(item -> changeViewMode());
+        searchView.setMenuItem(searh_item);
         return true;
     }
 
@@ -457,6 +457,13 @@ public abstract class MainActivity extends AppCompatActivity
      * Es implementado en #NavigationActivity
      */
     public abstract boolean openSettings();
+
+    /**
+     * Cambia el tipo de vista de la aplicación, mediante
+     * un filtro por tipo de evento
+     * Es implementado en #NavigationActivity
+     */
+    public abstract boolean changeViewMode();
 
     /**
      * Coloca en la pantalla un fragmento previamente creado

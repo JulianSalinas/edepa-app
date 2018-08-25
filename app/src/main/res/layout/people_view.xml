@@ -11,7 +11,7 @@
     android:background="@color/app_white">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/people_recycler_view"
+        android:id="@+id/people_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
