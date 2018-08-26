@@ -15,6 +15,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
+import java.net.URLDecoder;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -177,15 +178,43 @@ public abstract class PreviewHolder
      * @return Preview del documento
      */
     public Preview buildDocumentPreview(String fileUrl){
-
-        String imageUrl = MediaManager.get().url()
-                .generate("Logos/pdf_document.png");
-
         return new Preview.Builder()
                 .url(fileUrl)
-                .header(RegexSearcher.findFilenameFromUrl(fileUrl))
                 .description(null)
-                .thumbnail(imageUrl).build();
+                .header(getDocumentHeader(fileUrl))
+                .thumbnail(getDocumentThumbnail(fileUrl)).build();
+    }
+
+    public String getDocumentThumbnail(String fileUrl){
+        String imageUrl = getImageFromUrl(fileUrl);
+        if (imageUrl == null) {
+            imageUrl = MediaManager.get().url().generate("Logos/pdf_document.png");
+        }
+        return imageUrl;
+    }
+
+    public String getDocumentHeader(String fileUrl){
+        String header = RegexSearcher.findFilenameFromUrl(fileUrl);
+        if (header != null && !header.isEmpty()){
+            header = decodeDocumentHeader(header);
+        }
+        if (header != null && !header.endsWith("pdf")) {
+            header += ".pdf";
+        }
+        else if (header == null) {
+            header = itemView.getContext().getString(R.string.text_pdf_document);
+        }
+        return header;
+    }
+
+    public String decodeDocumentHeader(String header){
+        try {
+            return URLDecoder.decode(header, "UTF-8");
+        }
+        catch (Exception e){
+            Log.e(toString(), "Error parsing document header");
+            return header;
+        }
     }
 
     /**
@@ -280,6 +309,9 @@ public abstract class PreviewHolder
         else if (url.contains("document")){
             return MediaManager.get().url().generate("Logos/document.png");
         }
+        else if (url.contains("forms")){
+            return MediaManager.get().url().generate("Logos/forms.png");
+        }
         else if (url.contains("facebook")){
             return MediaManager.get().url().generate("Logos/facebook.png");
         }
@@ -288,6 +320,9 @@ public abstract class PreviewHolder
         }
         else if (url.contains("drive")){
             return MediaManager.get().url().generate("Logos/drive.png");
+        }
+        else if (url.contains("dropbox")){
+            return MediaManager.get().url().generate("Logos/dropbox.png");
         }
         else if (url.contains("youtube")){
             return MediaManager.get().url().generate("Logos/youtube.png");
@@ -300,9 +335,6 @@ public abstract class PreviewHolder
         }
         else if (url.contains("skype")){
             return MediaManager.get().url().generate("Logos/skype.png");
-        }
-        else if (url.contains("dropbox")){
-            return MediaManager.get().url().generate("Logos/dropbox.png");
         }
         else if (url.contains("spreadsheets")){
             return MediaManager.get().url().generate("Logos/spreadsheets.png");

@@ -51,6 +51,8 @@ public abstract class MainActivity extends AppCompatActivity
         implements LifecycleObserver,
         NavigationView.OnNavigationItemSelectedListener {
 
+    private boolean exitFlag;
+
     /**
      * Menú que se extrae de navigationView para colocar
      * los eventos a cada una de las opciones del menú
@@ -502,6 +504,7 @@ public abstract class MainActivity extends AppCompatActivity
      */
     protected void switchFragment(Fragment fragment, String tag){
         if(!fragment.isVisible()) {
+            exitFlag = false;
             Log.i(toString(), "switchFragment("+ tag +")");
             getSupportFragmentManager()
                     .beginTransaction()
@@ -537,6 +540,16 @@ public abstract class MainActivity extends AppCompatActivity
 
         else if (drawerLayout.isDrawerOpen(START))
             drawerLayout.closeDrawer(START);
+
+        else if (getSupportFragmentManager().getBackStackEntryCount() <= 0){
+
+            if (exitFlag) exit();
+            else {
+                exitFlag = true;
+                showMessage(R.string.text_press_again_to_exit);
+            }
+
+        }
 
         else super.onBackPressed();
     }

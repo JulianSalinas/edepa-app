@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="edepa.modelview">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -22,7 +23,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:vmSafeMode="true">
+        android:vmSafeMode="true"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -39,6 +41,10 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/edepa_primary"/>
+
+        <meta-data
+            android:name="cloudinaryCallbackService"
+            android:value="edepa.services.UpdateImageService" />
 
         <activity
             android:name="edepa.app.SignInActivity"
@@ -57,25 +63,39 @@
             android:configChanges="locale"
             android:label="@string/app_title"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme">
 
-        <service android:name="edepa.services.AlarmService">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+
+        </activity>
+
+        <service
+            android:name="edepa.services.AlarmService"
+            tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
 
-        <service android:name="edepa.services.NotificationService">
+        <service
+            android:name="edepa.services.NotificationService"
+            tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
 
         <service android:name="edepa.services.UpdateImageService" />
-
-        <meta-data
-            android:name="cloudinaryCallbackService"
-            android:value="edepa.services.UpdateImageService" />
 
     </application>
 

@@ -160,10 +160,12 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
         private void bindBothTexts() {
             String title = notice.getTitle();
             String content = notice.getContent();
-            if ((title == null || title.isEmpty()) && content == null || content.isEmpty())
-                itemText.setVisibility(GONE);
-            else
+            if ((title != null && !title.isEmpty()) || (content != null && !content.isEmpty())){
                 itemText.setVisibility(VISIBLE);
+            }
+            else {
+                itemText.setVisibility(GONE);
+            }
         }
 
         /**
@@ -171,8 +173,8 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
          * esconde la vista vacía
          */
         public void bindTitle(){
-            boolean isNull = notice.getTitle() == null;
-            itemTitle.setVisibility(isNull ? GONE : VISIBLE);
+            boolean visible = notice.getTitle() != null;
+            itemTitle.setVisibility(visible ? VISIBLE : GONE);
             if(itemTitle.getVisibility() == VISIBLE)
                 itemTitle.setText(notice.getTitle());
         }

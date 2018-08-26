@@ -333,5 +333,7 @@
     <string name="text_person_about">Acerca de</string>
     <string name="text_person_name">Nombre de la persona</string>
     <string name="text_university">Universidad o país</string>
+    <string name="text_pdf_document">Documento.pdf</string>
+    <string name="text_press_again_to_exit">Presiona otra vez para salir</string>
 
 </resources>

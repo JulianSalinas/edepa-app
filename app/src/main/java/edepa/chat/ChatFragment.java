@@ -58,7 +58,9 @@ public class ChatFragment extends RecyclerFragment {
      * Key utilizado con la función
      * {@link #onSaveInstanceState(Bundle)}
      */
-    private static final String INPUT_TEXT_KEY = "input_text";
+    public static final String INPUT_TEXT_KEY = "input_text";
+
+    public static final String INPUT_IMAGE_KEY = "image_key";
 
     /**
      * Es el botón para enviar el mensaje
@@ -138,6 +140,22 @@ public class ChatFragment extends RecyclerFragment {
         cloudChat.connect();
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        Bundle args = getArguments();
+        if (args != null && args.containsKey(INPUT_TEXT_KEY)){
+            textInputView.setText(args.getString(INPUT_TEXT_KEY));
+        }
+
+        if (args != null && args.containsKey(INPUT_IMAGE_KEY)){
+            imageLocalPath = args.getString(INPUT_IMAGE_KEY);
+            updatePreviewImage(imageLocalPath);
+        }
+
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -209,6 +227,7 @@ public class ChatFragment extends RecyclerFragment {
         super.onSaveInstanceState(outState);
         String text = textInputView.getEditableText().toString();
         outState.putString(INPUT_TEXT_KEY, text);
+        outState.putString(INPUT_IMAGE_KEY, imageLocalPath);
     }
 
     /**
@@ -221,6 +240,7 @@ public class ChatFragment extends RecyclerFragment {
         super.onViewStateRestored(savedInstanceState);
         if(savedInstanceState != null){
             String text = savedInstanceState.getString(INPUT_TEXT_KEY);
+            imageLocalPath = savedInstanceState.getString(INPUT_IMAGE_KEY);
             textInputView.setText(text);
         }
     }

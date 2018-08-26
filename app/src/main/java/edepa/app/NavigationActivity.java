@@ -1,5 +1,6 @@
 package edepa.app;
 
+import edepa.minilibs.RealPathGenerator;
 import edepa.modelview.R;
 import edepa.cloud.Cloud;
 import edepa.cloud.CloudNavigation;
@@ -9,12 +10,11 @@ import edepa.chat.ChatFragment;
 import edepa.info.AboutFragment;
 import edepa.people.PeopleFragment;
 import edepa.pagers.TabbedFragment;
-import edepa.search.SearchBasicFragment;
 import edepa.search.SearchByPanelFragment;
 import edepa.notices.NoticesFragment;
 import edepa.settings.SettingsFragment;
 
-import android.support.v4.app.FragmentManager;
+import android.net.Uri;
 import android.util.Log;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -23,7 +23,6 @@ import android.support.v4.app.Fragment;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
 
-import com.google.android.gms.dynamic.SupportFragmentWrapper;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 
@@ -34,6 +33,46 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 public class NavigationActivity extends MainActivity implements
         MaterialSearchView.SearchViewListener,
         CloudNavigation.CloudNavigationListener {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                handleSendText(intent);
+            }
+            else if (type.startsWith("image/")) {
+                handleSendImage(intent);
+            }
+        }
+
+    }
+
+    void handleSendText(Intent intent) {
+        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+        if (sharedText != null) {
+            Bundle params = new Bundle();
+            params.putString(ChatFragment.INPUT_IMAGE_KEY, sharedText);
+            openChat(params);
+            Log.i("Sharing", "Sending text " + sharedText);
+        }
+    }
+
+    void handleSendImage(Intent intent) {
+        Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+        if (imageUri != null) {
+            Bundle params = new Bundle();
+            String imagePath = RealPathGenerator.getRealPathFromUri(this, imageUri);
+            params.putString(ChatFragment.INPUT_IMAGE_KEY, imagePath);
+            openChat(params);
+            Log.i("Sharing", "Sending image " + imageUri.toString());
+        }
+    }
 
     /**
      * La primera vez que se crea la Actividad se debe colocar
@@ -198,6 +237,15 @@ public class NavigationActivity extends MainActivity implements
         Fragment frag = temp != null ? temp : new ChatFragment();
         pendingRunnable = () -> setFragmentOnScreen(frag, tag);
         return false;
+    }
+
+    public void openChat(Bundle params){
+        String tag = "CHAT_FRAGMENT";
+        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
+        Fragment frag = temp != null ? temp : new ChatFragment();
+        frag.setArguments(params);
+        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+        runPendingRunnable();
     }
 
     /**
@@ -393,6 +441,5 @@ public class NavigationActivity extends MainActivity implements
     public void onSearchViewClosed() {
         getSupportFragmentManager().popBackStack();
     }
-
 
 }
