@@ -3,6 +3,9 @@ package edepa.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class Person implements Parcelable {
@@ -17,12 +20,24 @@ public class Person implements Parcelable {
     private String completeName;
     private String personalTitle;
 
+    private String about;
+    private List<Event> eventsList;
+
+    /**
+     * A diferencia de {@link #eventsList} este solo
+     * almacena las keys de los eventos
+     */
+    private HashMap<String, Boolean> events;
+
     public Person() { }
 
     private Person(Builder builder) {
         setKey(builder.key);
         setCompleteName(builder.completeName);
         setPersonalTitle(builder.personalTitle);
+        setAbout(builder.about);
+        setEventsList(builder.eventsList);
+        setEvents(builder.events);
     }
 
     public String getKey() {
@@ -49,6 +64,30 @@ public class Person implements Parcelable {
         this.personalTitle = personalTitle;
     }
 
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public List<Event> getEventsList() {
+        return eventsList;
+    }
+
+    public void setEventsList(List<Event> eventsList) {
+        this.eventsList = eventsList;
+    }
+
+    public HashMap<String, Boolean> getEvents() {
+        return events;
+    }
+
+    public void setEvents(HashMap<String, Boolean> events) {
+        this.events = events;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,10 +101,14 @@ public class Person implements Parcelable {
         return Objects.hash(getKey());
     }
 
+
     public static final class Builder {
         private String key;
         private String completeName;
         private String personalTitle;
+        private String about;
+        private List<Event> eventsList;
+        private HashMap<String, Boolean> events;
 
         public Builder() {
         }
@@ -85,10 +128,26 @@ public class Person implements Parcelable {
             return this;
         }
 
+        public Builder about(String about) {
+            this.about = about;
+            return this;
+        }
+
+        public Builder eventsList(List<Event> eventsList) {
+            this.eventsList = eventsList;
+            return this;
+        }
+
+        public Builder events(HashMap<String, Boolean> events) {
+            this.events = events;
+            return this;
+        }
+
         public Person build() {
             return new Person(this);
         }
     }
+
 
     @Override
     public int describeContents() {
@@ -100,15 +159,21 @@ public class Person implements Parcelable {
         dest.writeString(this.key);
         dest.writeString(this.completeName);
         dest.writeString(this.personalTitle);
+        dest.writeString(this.about);
+        dest.writeTypedList(this.eventsList);
+        dest.writeSerializable(this.events);
     }
 
     protected Person(Parcel in) {
         this.key = in.readString();
         this.completeName = in.readString();
         this.personalTitle = in.readString();
+        this.about = in.readString();
+        this.eventsList = in.createTypedArrayList(Event.CREATOR);
+        this.events = (HashMap<String, Boolean>) in.readSerializable();
     }
 
-    public static final Parcelable.Creator<Person> CREATOR = new Parcelable.Creator<Person>() {
+    public static final Creator<Person> CREATOR = new Creator<Person>() {
         @Override
         public Person createFromParcel(Parcel source) {
             return new Person(source);
@@ -121,4 +186,5 @@ public class Person implements Parcelable {
     };
 
 }
+
 

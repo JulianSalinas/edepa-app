@@ -1,9 +1,17 @@
 package edepa.cloud;
 
+import android.support.annotation.NonNull;
+import android.util.Log;
+
+import edepa.model.Event;
 import edepa.model.Person;
 
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 
 public class CloudPeople extends CloudChild {
@@ -60,6 +68,30 @@ public class CloudPeople extends CloudChild {
         Person person = dataSnapshot.getValue(Person.class);
         if (person != null) {
             person.setKey(dataSnapshot.getKey());
+            person.setEventsList(new ArrayList<>());
+            if (person.getEvents() != null && !person.getEvents().isEmpty()) {
+                for (String eventKey : person.getEvents().keySet()) {
+                    Cloud.getInstance().getReference(Cloud.SCHEDULE)
+                            .child(eventKey).addListenerForSingleValueEvent(new ValueEventListener() {
+
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Event event = dataSnapshot.getValue(Event.class);
+                            if(event != null) {
+                                event.setKey(eventKey);
+                                person.getEventsList().add(event);
+                                Log.i("people", "adding event to person " + person.getCompleteName());
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Log.e(toString(), databaseError.getMessage());
+                        }
+
+                    });
+                }
+            }
             callbacks.addPerson(person);
         }
     }

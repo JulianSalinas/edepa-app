@@ -26,7 +26,10 @@ public class SettingsLanguage {
     public static void setLanguage(Context context, String newLang){
 
         String currentLang = Preferences.getStringPreference(context, LANG_KEY);
-        if (currentLang == null) currentLang = Locale.getDefault().getLanguage();
+        if (currentLang == null) {
+            currentLang = Locale.getDefault().getLanguage();
+            Preferences.setPreference(context, LANG_KEY, currentLang);
+        }
 
         if(!currentLang.equals(newLang))
             Preferences.setPreference(context, LANG_KEY, currentLang);

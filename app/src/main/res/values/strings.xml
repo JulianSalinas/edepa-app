@@ -280,7 +280,7 @@
     <string name="text_warning_delete_new">Si borrar la noticia los demás usuario ya no podrán accederla</string>
     <string name="text_person">Nombre completo</string>
     <string name="text_person_description">Descripción</string>
-    <string name="text_person_description_example">Ej. Título, Universidad o País</string>
+    <string name="text_person_description_example">Ej. Universidad o País</string>
     <string name="add_person">Agregar persona</string>
     <string name="text_success_add_person">Persona agregada</string>
     <string name="text_error_add_person">Error al agregar</string>
@@ -332,5 +332,10 @@
     <string name="text_search_people">Buscar personas</string>
     <string name="text_searching_for_eventos">Buscando eventos</string>
     <string name="text_searching_for_people">Buscando personas</string>
+    <string name="text_related_events">Eventos</string>
+    <string name="text_preview">Vista previa</string>
+    <string name="text_person_about">Acerca de (Opcional)</string>
+    <string name="text_person_name">Nombre de la persona</string>
+    <string name="text_university">Universidad o país</string>
 
 </resources>

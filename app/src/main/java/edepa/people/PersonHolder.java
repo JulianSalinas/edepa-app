@@ -1,5 +1,6 @@
 package edepa.people;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.graphics.Color;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 
+import edepa.app.NavigationActivity;
 import edepa.minilibs.TextHighlighter;
 import edepa.minilibs.ColorGenerator;
 import edepa.modelview.R;
@@ -46,6 +48,7 @@ public class PersonHolder extends RecyclerView.ViewHolder {
         bindPersonName();
         bindPersonTitle();
         bindPersonAvatar();
+        itemView.setOnClickListener(v -> openPersonFragment());
     }
 
     public void bindPersonTitle(){
@@ -72,16 +75,13 @@ public class PersonHolder extends RecyclerView.ViewHolder {
         return ColorConverter.lighten(color);
     }
 
-    public void highlightText(String query) {
-        if(query.length() >= 1) {
-            highlightText(personNameView, query);
-            highlightText(personTitleView, query);
+    public void openPersonFragment(){
+        Context context = itemView.getContext();
+        if (context instanceof NavigationActivity){
+            NavigationActivity activity = (NavigationActivity) context;
+            PersonFragment fragment = PersonFragment.newInstance(person);
+            activity.setFragmentOnScreen(fragment, person.getKey());
         }
-    }
-
-    public void highlightText(TextView textView, String query){
-        textView.setText(TextHighlighter.highlightText(query,
-                textView.getText().toString(), accent));
     }
 
 }

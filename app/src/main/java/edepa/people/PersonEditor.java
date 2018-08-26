@@ -22,16 +22,25 @@ import edepa.modelview.R;
 public class PersonEditor extends MainFragment {
 
     @BindView(R.id.text_input_complete_name)
-    TextView completeNameText;
+    TextView inputCompleteName;
 
     @BindView(R.id.text_input_title)
-    TextView titleText;
+    TextView inputTitle;
 
-    @BindView(R.id.avatar_view)
+    @BindView(R.id.text_title)
+    TextView textTitle;
+
+    @BindView(R.id.name_text)
+    TextView nameText;
+
+    @BindView(R.id.text_input_about)
+    TextView inputAbout;
+
+    @BindView(R.id.exhibitor_avatar_view)
     CircleInitialsView avatarView;
 
     @OnTextChanged(R.id.text_input_complete_name)
-    public void changeAvatar(Editable editable){
+    public void changePersonName(Editable editable){
         String personName = editable.toString();
         avatarView.setText(personName);
         avatarView.setTextColor(Color.WHITE);
@@ -39,6 +48,12 @@ public class PersonEditor extends MainFragment {
         int color = colorGenerator.getColor(personName);
         color = ColorConverter.lighten(color);
         avatarView.setBackgroundColor(color);
+        nameText.setText(personName);
+    }
+
+    @OnTextChanged(R.id.text_input_title)
+    public void changePersonTitle(Editable editable){
+        textTitle.setText(editable);
     }
 
     @Override
@@ -73,8 +88,9 @@ public class PersonEditor extends MainFragment {
 
     private Person buildPerson() {
         return new Person.Builder()
-                .completeName(completeNameText.getText().toString())
-                .personalTitle(titleText.getText().toString()).build();
+                .completeName(inputCompleteName.getText().toString())
+                .personalTitle(inputTitle.getText().toString())
+                .about(inputAbout.getText().toString()).build();
     }
 
     public void showSuccess() {

@@ -1,25 +1,19 @@
 package edepa.search;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.graphics.Color;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 
 import edepa.app.NavigationActivity;
-import edepa.events.EventFragment;
 import edepa.minilibs.TextHighlighter;
 import edepa.minilibs.ColorGenerator;
 import edepa.modelview.R;
 import edepa.model.Person;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import edepa.minilibs.ColorConverter;
-
-import com.mklimek.circleinitialsview.CircleInitialsView;
+import edepa.people.PersonFragment;
 
 
 public class SearchHolderPerson extends RecyclerView.ViewHolder {
@@ -51,7 +45,7 @@ public class SearchHolderPerson extends RecyclerView.ViewHolder {
         bindPersonName();
         bindPersonTitle();
         bindDecoration();
-        itemView.setOnClickListener(v -> openPerson());
+        itemView.setOnClickListener(v -> openPersonFragment());
     }
 
     public void bindPersonTitle(){
@@ -69,13 +63,6 @@ public class SearchHolderPerson extends RecyclerView.ViewHolder {
         eventDecoration.setBackgroundColor(color);
     }
 
-    public void openPerson() {
-        if(context instanceof NavigationActivity){
-            NavigationActivity activity = (NavigationActivity) context;
-            activity.getSearchView().closeSearch();
-        }
-    }
-
     public void highlightText(String query) {
         if(query.length() >= 1) {
             highlightText(personNameView, query);
@@ -86,6 +73,15 @@ public class SearchHolderPerson extends RecyclerView.ViewHolder {
     public void highlightText(TextView textView, String query){
         textView.setText(TextHighlighter.highlightText(query,
                 textView.getText().toString(), accent));
+    }
+
+    public void openPersonFragment(){
+        Context context = itemView.getContext();
+        if (context instanceof NavigationActivity){
+            NavigationActivity activity = (NavigationActivity) context;
+            PersonFragment fragment = PersonFragment.newInstance(person);
+            activity.setFragmentOnScreen(fragment, person.getKey());
+        }
     }
 
 }

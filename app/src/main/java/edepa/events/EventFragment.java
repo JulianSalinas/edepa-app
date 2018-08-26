@@ -397,6 +397,8 @@ public class EventFragment extends MainFragment
         public void onDataChange(DataSnapshot dataSnapshot) {
             Person person = dataSnapshot.getValue(Person.class);
             if (person != null & !people.contains(person)) {
+                person.setKey(dataSnapshot.getKey());
+                person.setEventsList(new ArrayList<>());
                 people.add(person);
                 addPersonView(person);
             }
