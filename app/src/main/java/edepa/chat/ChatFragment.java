@@ -245,6 +245,12 @@ public class ChatFragment extends RecyclerFragment {
         }
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void updateUnreadMessagesToZero(){
+        String key = Preferences.UNREAD_MESSAGES_KEY;
+        Preferences.setPreference(getNavigationActivity(), key, 0);
+    }
+
     /**
      * Personaliza la actividad
      */
@@ -346,12 +352,11 @@ public class ChatFragment extends RecyclerFragment {
                 .option("public_id", name)
                 .constrain(TimeWindow.immediate());
 
-        String requestId = uploadRequest.dispatch();
-
         try {
             JSONObject args = new JSONObject();
-            args.put(UpdateImageService.REQUEST_ID, requestId);
             args.put(UpdateImageService.OBJECT_KEY, lastMessageKey);
+            String requestId = uploadRequest.dispatch();
+            args.put(UpdateImageService.REQUEST_ID, requestId);
             args.put(UpdateImageService.CLOUD_TYPE, Cloud.CHAT);
             Preferences.setPreference(getNavigationActivity(), requestId, args.toString());
         }

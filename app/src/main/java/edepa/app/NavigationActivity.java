@@ -127,6 +127,13 @@ public class NavigationActivity extends MainActivity implements
             runPendingRunnable();
             return true;
         }
+        // Abre la sección de mensajes (chat)
+        else if (args.containsKey(Cloud.CHAT)){
+            args.remove(Cloud.CHAT);
+            openChat();
+            runPendingRunnable();
+            return true;
+        }
         // Abre la sección de configuración
         else if (args.containsKey(Cloud.CONFIG)){
             args.remove(Cloud.CONFIG);

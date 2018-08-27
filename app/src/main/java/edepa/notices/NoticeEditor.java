@@ -149,12 +149,11 @@ public class NoticeEditor extends MainFragment {
                 .option("public_id", name)
                 .constrain(TimeWindow.immediate());
 
-        String requestId = uploadRequest.dispatch();
-
         try {
             JSONObject args = new JSONObject();
-            args.put(UpdateImageService.REQUEST_ID, requestId);
             args.put(UpdateImageService.OBJECT_KEY, noticeId);
+            String requestId = uploadRequest.dispatch();
+            args.put(UpdateImageService.REQUEST_ID, requestId);
             args.put(UpdateImageService.CLOUD_TYPE, Cloud.NEWS);
             Preferences.setPreference(getNavigationActivity(), requestId, args.toString());
         }

@@ -236,8 +236,9 @@ public abstract class MainActivity extends AppCompatActivity
         if(Preferences.getBooleanPreference(this, FIRST_USE_KEY)){
             Preferences.setPreference(this, FIRST_USE_KEY, false);
             Preferences.setPreference(this, USER_KEY, getDefaultUsername());
-            // Se susbcribe para recibir notificaciones
+            // Se susbcribe para recibir notificaciones de noticias
             FirebaseMessaging.getInstance().subscribeToTopic(Cloud.NEWS);
+            FirebaseMessaging.getInstance().subscribeToTopic(Cloud.CHAT);
         }
     }
 

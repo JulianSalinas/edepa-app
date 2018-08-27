@@ -42,36 +42,69 @@ exports.updateDateToEvent = functions.database.ref('/edepa5/schedule/{pushId}/st
     }
 );
 
-// exports.pushNotification = functions.database.ref('/edepa5/news/{pushId}')
-//     .onCreate((snapshot, context) => {
+exports.pushNotification = functions.database.ref('/edepa5/news/{pushId}')
+    .onCreate((snapshot, context) => {
 
-//         const data = snapshot.val();
-//         console.log('Sending notification for: ', data);
+        const data = snapshot.val();
+        console.log('Sending notification for: ', data);
 
-//         const payload = {
-//             notification: {
-//                 title: 'Nueva noticia',
-//                 body: data.content,
-//                 sound: "default"
-//             }, data: { news: 'news' }
-//         };
+        const payload = {
+            notification: {
+                title: 'Nueva noticia',
+                body: data.content,
+                sound: "default"
+            }, data: { news: 'news' }
+        };
 
-//         console.log('Getting payload: ', payload);
+        console.log('Getting payload: ', payload);
 
-//         const options = {
-//             priority: "high",
-//             timeToLive: 60 * 60 * 24
-//         };
+        const options = {
+            priority: "high",
+            timeToLive: 60 * 60 * 24
+        };
 
-//         admin.messaging().sendToTopic("news", payload, options)
-//         .then(function(response){
-//             console.log('Succesfullt sent notification: ', response);
-//         })
-//         .catch(function(error){
-//             console.log('Error sending notification: ', error)
-//         })
-//     }
-// );
+        admin.messaging().sendToTopic("news", payload, options)
+        .then(function(response){
+            console.log('Succesfullt sent notification: ', response);
+        })
+        .catch(function(error){
+            console.log('Error sending notification: ', error)
+        })
+    }
+);
+
+exports.messageNotification = functions.database.ref('/edepa5/chat/{pushId}')
+    .onCreate((snapshot, context) => {
+
+        const message = snapshot.val();
+        console.log('Sending message notification for: ', message);
+
+        const payload = {
+            data: { 
+                chat: 'chat',
+                userid: message.userid,
+                username: message.username,
+                content: message.content
+            }
+        };
+
+        console.log('Getting payload: ', payload);
+
+        const options = {
+            priority: "high",
+            timeToLive: 60 * 60 * 24
+        };
+
+        admin.messaging().sendToTopic("chat", payload, options)
+        .then(function(response){
+            console.log('Succesfull sent message notification: ', response);
+        })
+        .catch(function(error){
+            console.log('Error sending message notification: ', error)
+        })
+    }
+);
+
 
 exports.increaseFavorites = functions.database.ref('/edepa5/favorites/{userId}/{eventId}')
     .onWrite((snapshot, context) => {

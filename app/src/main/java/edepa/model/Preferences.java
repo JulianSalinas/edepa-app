@@ -32,6 +32,7 @@ public class Preferences {
      * Preferencias que afectan la ejecución de la aplicación
      */
     public static final String UPDATE_DELAY = "UPDATE_DELAY";
+    public static final String UNREAD_MESSAGES_KEY = "UNREAD_MESSAGES_KEY";
 
     /**
      * Obtiene un segmento de almacenamiento para guardar archivos local=e
