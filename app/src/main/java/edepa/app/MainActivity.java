@@ -1,8 +1,10 @@
 package edepa.app;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
+import android.preference.Preference;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -40,6 +42,7 @@ import edepa.minilibs.RegexSearcher;
 import static edepa.model.Preferences.USER_KEY;
 import static edepa.model.Preferences.FIRST_USE_KEY;
 
+import com.afollestad.aesthetic.Aesthetic;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -205,6 +208,12 @@ public abstract class MainActivity extends AppCompatActivity
      */
     @Override
     protected void onCreate (Bundle savedInstanceState) {
+
+        // Aplica un tema personalizado
+        if(Preferences.getBooleanPreference(this, Preferences.THEME_KEY, false)) {
+            Aesthetic.attach(this);
+        }
+
         super.onCreate(savedInstanceState);
         getLifecycle().addObserver(this);
         setContentView(R.layout.main_activity);

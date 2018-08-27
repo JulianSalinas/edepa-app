@@ -6,6 +6,12 @@
         android:summary="Recibir notificaciones acerca de noticias, mensajes u otros"
         android:title="Notificaciones" />
 
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="THEME_KEY"
+        android:summary="Si está desactivada la aplicación utiliza el tema por defecto (mejor rendimiento)"
+        android:title="Tema personalizado" />
+
     <EditTextPreference
         android:key="USER_KEY"
         android:summary="Nombre con el que los demás te pueden ver en el chat"

@@ -17,15 +17,12 @@ public class Preferences {
     public static final String USER_KEY = "USER_KEY";
     public static final String FIRST_USE_KEY = "FIRST_USE_KEY";
     public static final String NOTIFICATIONS_KEY = "NOTIFICATIONS_KEY";
+    public static final String THEME_KEY = "THEME_KEY";
 
     /**
      * Preferencias para activar o desactivar partes de la app
      * NOTA: Las key tienen que coincidir con el nombre en la BD
      */
-    public static final String INFO_AVAILABLE_KEY = "INFO";
-    public static final String NEWS_AVAILABLE_KEY = "NEWS";
-    public static final String CHAT_AVAILABLE_KEY = "CHAT";
-    public static final String PALETTE_AVAILABLE_KEY = "PALETTE";
     public static final String PEOPLE_AVAILABLE_KEY = "PEOPLE";
 
     /**
@@ -60,6 +57,11 @@ public class Preferences {
     public static Boolean getBooleanPreference(Context context, String key) {
         SharedPreferences prefs = getSharedPreferences(context);
         return prefs.getBoolean(key, true);
+    }
+
+    public static Boolean getBooleanPreference(Context context, String key, boolean failover) {
+        SharedPreferences prefs = getSharedPreferences(context);
+        return prefs.getBoolean(key, failover);
     }
 
     /**

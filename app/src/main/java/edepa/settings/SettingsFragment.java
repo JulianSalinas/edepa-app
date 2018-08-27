@@ -14,6 +14,7 @@ import edepa.minilibs.DialogFancy;
 import edepa.app.NavigationActivity;
 
 import static edepa.model.Preferences.LANG_KEY;
+import static edepa.model.Preferences.THEME_KEY;
 import static edepa.model.Preferences.USER_KEY;
 
 /**
@@ -94,6 +95,9 @@ public class SettingsFragment extends PreferenceFragmentCompat
             String msg = getString(R.string.text_username_changed);
             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
             if (activity != null) activity.showWelcomeMessage();
+        }
+        else if (key.equals(THEME_KEY)){
+            if (activity != null) activity.recreate();
         }
 
     }
