@@ -1,12 +1,11 @@
 package edepa.app;
 
-import edepa.minilibs.DialogFancy;
+import edepa.info.InfoFragment;
 import edepa.minilibs.RealPathGenerator;
 import edepa.modelview.R;
 import edepa.cloud.Cloud;
 import edepa.cloud.CloudNavigation;
 
-import edepa.info.InfoFragment;
 import edepa.chat.ChatFragment;
 import edepa.info.AboutFragment;
 import edepa.people.PeopleFragment;
@@ -23,10 +22,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
-import android.view.View;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 

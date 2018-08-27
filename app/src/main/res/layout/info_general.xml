@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:scrollbars="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_default"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_default"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/size_icon"
+                    android:layout_height="@dimen/size_icon"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_date"
+                    android:backgroundTint="@color/material_blue_grey"
+                    android:contentDescription="@null" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="90"
+                android:layout_gravity="center_vertical"
+                android:paddingEnd="@dimen/space_default"
+                android:paddingStart="@dimen/space_default"
+                android:text="@string/text_date"
+                android:textSize="@dimen/font_big" />
+
+        </LinearLayout>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/app_accent_light">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="50"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/space_small"
+                    android:text="@string/text_start"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="50"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/space_small"
+                    android:text="@string/text_end" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/start_text"
+                    android:layout_width="0dp"
+                    android:layout_weight="50"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/space_small"
+                    android:text="@string/test_app_date_start" />
+
+                <TextView
+                    android:id="@+id/end_text"
+                    android:layout_width="0dp"
+                    android:layout_weight="50"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/space_small"
+                    android:text="@string/test_app_date_start"/>
+
+            </TableRow>
+
+        </TableLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/space_default"
+            android:layout_marginBottom="@dimen/space_default"
+            android:background="@color/app_accent_light" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_default"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="10"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/size_icon"
+                    android:layout_height="@dimen/size_icon"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_favorite"
+                    android:backgroundTint="@color/material_amber"
+                    android:contentDescription="@null" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="90"
+                android:layout_height="wrap_content"
+                android:paddingEnd="@dimen/space_default"
+                android:paddingStart="@dimen/space_default"
+                android:layout_gravity="center_vertical"
+                android:text="@string/text_presentation"
+                android:textSize="@dimen/font_big" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/description_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_lorem_ipsum" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/space_default"
+            android:layout_marginBottom="@dimen/space_default"
+            android:background="@color/app_accent_light" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_default"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/size_icon"
+                    android:layout_height="@dimen/size_icon"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_location"
+                    android:backgroundTint="@color/material_red"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="65"
+                android:paddingEnd="@dimen/space_default"
+                android:paddingStart="@dimen/space_default"
+                android:text="@string/text_location"
+                android:textSize="@dimen/font_big" />
+
+            <LinearLayout
+                android:id="@+id/map_icon"
+                android:layout_width="0dp"
+                android:layout_weight="25"
+                android:gravity="end"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/space_small"
+                    android:text="@string/text_map"
+                    android:textSize="@dimen/font_small" />
+
+                <ImageView
+                    android:layout_width="@dimen/size_icon"
+                    android:layout_height="@dimen/size_icon"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_map"
+                    android:backgroundTint="@color/material_grey"
+                    android:contentDescription="@null" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/location_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_default"
+            android:text="@string/test_location" />
+
+        <FrameLayout
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_gmap"
+            android:background="@color/app_accent"/>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

@@ -1,7 +1,6 @@
 package edepa.people;
 
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -21,7 +20,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import edepa.app.MainFragment;
 import edepa.app.SimpleFragment;
-import edepa.custom.FragmentBlank;
 import edepa.events.EventsAdapter;
 import edepa.minilibs.ColorConverter;
 import edepa.minilibs.ColorGenerator;
@@ -58,7 +56,7 @@ public class PersonFragment extends MainFragment {
 
     @Override
     public int getResource() {
-        return R.layout.person_view;
+        return R.layout.person_detail;
     }
 
     /**

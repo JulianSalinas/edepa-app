@@ -1,12 +1,27 @@
 package edepa.info;
 
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.ImageView;
 import android.support.v4.app.Fragment;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import butterknife.OnClick;
+import edepa.app.MainFragment;
+import edepa.cloud.Cloud;
+import edepa.cloud.CloudCongress;
+import edepa.cloud.CloudLodging;
+import edepa.custom.FragmentBlank;
 import edepa.modelview.R;
 import edepa.model.Congress;
 import butterknife.BindView;
@@ -14,44 +29,20 @@ import edepa.minilibs.TimeConverter;
 
 /**
  * Fragmento utilizado para mostrar la información
- * del congreso. Herede de {@link MapFragment} para
- * poder colocar una versión previa del mapa completo
+ * del congreso.
  */
-public class InfoFragment extends MapFragment {
-
-    @BindView(R.id.map_icon)
-    View iconMap;
+public class InfoFragment extends MainFragment implements CloudCongress.Callbacks {
 
     @BindView(R.id.name_text)
     TextView nameText;
 
-    @BindView(R.id.end_text)
-    TextView endText;
+    @BindView(R.id.congress_view_pager)
+    ViewPager viewPager;
 
-    @BindView(R.id.start_text)
-    TextView startText;
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
 
-    @BindView(R.id.location_text)
-    TextView locationText;
-
-    @BindView(R.id.description_text)
-    TextView descriptionText;
-
-    @BindView(R.id.back_button)
-    ImageView backButton;
-
-    /**
-     * A diferencia del mapa de Google, este es
-     * uno que se provee desde Firebase para mostrar
-     * el croquis de la sede
-     */
-    private Fragment miniMap;
-
-    /**
-     * Referencia a la versión completa del
-     * mapa con la ubicación de la sede
-     */
-    private Fragment expandedMap;
+    private CloudCongress cloud;
 
     /**
      * {@inheritDoc}
@@ -62,32 +53,6 @@ public class InfoFragment extends MapFragment {
     }
 
     /**
-     * Coloca toda la información obtenida de la BD en los
-     * componentes visuales
-     * @param congress: Clase con la información del congreso
-     */
-    public void updateCongress(Congress congress){
-        super.updateCongress(congress);
-        nameText.setText(congress.getName());
-        locationText.setText(congress.getLocation());
-        descriptionText.setText(congress.getDescription());
-        endText.setText(TimeConverter.extractDate(congress.getEnd()));
-        startText.setText(TimeConverter.extractDate(congress.getStart()));
-    }
-
-    /**
-     * Cuando el mapa está listo se agregan los eventos para
-     * que cuando lo toque se abra la versión más grande del mapa
-     * @param map Mapa ya descargado
-     */
-    @Override
-    public void onMapReady(GoogleMap map) {
-        super.onMapReady(map);
-        googleMap.setOnMapClickListener(latLng -> expandGoogleMap());
-        googleMap.setOnMarkerClickListener(marker -> expandGoogleMap());
-    }
-
-    /**
      * Retorna hacia el fragmento anterior
      */
     @OnClick(R.id.back_button)
@@ -95,24 +60,84 @@ public class InfoFragment extends MapFragment {
         activity.onBackPressed();
     }
 
-    /**
-     * Abre en un fragmento aparte el croquis de la sede
-     */
-    @OnClick(R.id.map_icon)
-    public void expandMiniMap(){
-        if(miniMap == null) miniMap = new MinimapFragment();
-        setFragmentOnScreen(miniMap, "MINIMAP");
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setToolbarVisibility(View.GONE);
+
+        LodgingAdapter adapter = new LodgingAdapter();
+
+        Cloud.getInstance().getReference(Cloud.CONGRESS)
+                .child("lodging").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int size = (int) dataSnapshot.getChildrenCount();
+                adapter.setHasLodging(size > 0);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+        cloud = new CloudCongress();
+        cloud.setCallbacks(this);
+        cloud.connect();
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        cloud.disconnect();
+        super.onDestroyView();
     }
 
     /**
-     * Abre en un fragmento aparte la versión completa
-     * del mapa de google con el marcador en la sede
-     * @return True
+     * Coloca toda el nombre del congreso
+     * @param congress: Clase con la información del congreso
      */
-    public boolean expandGoogleMap(){
-        if(expandedMap == null) expandedMap = new MapFragment();
-        setFragmentOnScreen(expandedMap, "MAP");
-        return true;
+    public void updateCongress(Congress congress){
+        nameText.setText(congress.getName());
+    }
+
+    public class LodgingAdapter extends FragmentPagerAdapter {
+
+        private boolean hasLodging = false;
+
+        public LodgingAdapter() {
+            super(InfoFragment.this.getChildFragmentManager());
+        }
+
+        public void setHasLodging(boolean hasLodging) {
+            this.hasLodging = hasLodging;
+            tabLayout.setVisibility(hasLodging ? View.VISIBLE : View.GONE);
+        }
+
+        @Override
+        public int getCount() {
+            return hasLodging ? 2 : 1;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return position == 0 ?
+                    getString(R.string.text_information) :
+                    getString(R.string.text_lodging);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if (position == 0)
+                return new InfoGeneralFragment();
+            else
+                return new InfoLodgingFragment();
+        }
+
     }
 
 }

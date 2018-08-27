@@ -341,5 +341,8 @@
     <string name="text_press_again_to_exit">Presiona otra vez para salir</string>
     <string name="text_login_required">Sin sesión</string>
     <string name="text_login_required_content">Se requiere tener una sección activa para usar esta funcionalidad. ¿Desea iniciar sesión ahora?</string>
+    <string name="text_lodging">Hospedaje</string>
+    <string name="test_distance">A 5 Km del congreso</string>
+    <string name="test_web_page">www.casaaura.com</string>
 
 </resources>
