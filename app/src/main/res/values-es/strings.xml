@@ -335,5 +335,7 @@
     <string name="text_university">Universidad o país</string>
     <string name="text_pdf_document">Documento.pdf</string>
     <string name="text_press_again_to_exit">Presiona otra vez para salir</string>
+    <string name="text_login_required">Sin sesión</string>
+    <string name="text_login_required_content">Se requiere tener una sección activa para usar esta funcionalidad. ¿Desea iniciar sesión ahora?</string>
 
 </resources>

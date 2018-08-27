@@ -2,6 +2,7 @@ package edepa.app;
 
 import android.os.Bundle;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
@@ -23,6 +24,7 @@ import edepa.modelview.R;
 public class SignInActivity extends AppCompatActivity {
 
     private Bundle args;
+    private Intent intent;
 
     /**
      * Conexión con Firebase para poder autenticar
@@ -40,6 +42,7 @@ public class SignInActivity extends AppCompatActivity {
 
         super.onCreate(bundle);
 
+        intent = getIntent();
         if(getIntent().getExtras() != null)
             args = getIntent().getExtras();
 
@@ -71,13 +74,10 @@ public class SignInActivity extends AppCompatActivity {
      * función para mostrar la alerta correspondiente
      */
     private void showOfflineAlert(){
-        new DialogFancy.Builder()
-                .setContext(this)
-                .setTitle(R.string.text_no_connection)
-                .setContent(R.string.text_you_need_internet)
-                .setOnAcceptClick(v -> recreate())
-                .setOnCancelListener(v -> exit())
-                .build().show();
+        Fragment fragment = new OfflineFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fullscreen_content, fragment, "Offline")
+                .commitAllowingStateLoss();
     }
 
     /**
@@ -98,7 +98,7 @@ public class SignInActivity extends AppCompatActivity {
         startActivityForResult(AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setIsSmartLockEnabled(false)
-                .setTheme(R.style.AppTheme)
+                .setTheme(R.style.LoginTheme)
                 .setLogo(R.drawable.ic_edepa)
                 .setAvailableProviders(Arrays.asList(
                         new AuthUI.IdpConfig.EmailBuilder().build(),
@@ -129,6 +129,11 @@ public class SignInActivity extends AppCompatActivity {
         Intent intent = new Intent(
                 getApplication(),
                 NavigationActivity.class);
+
+        if (this.intent != null) {
+            intent.setAction(this.intent.getAction());
+            intent.setType(this.intent.getType());
+        }
 
         if (args != null)
             intent.putExtras(args);

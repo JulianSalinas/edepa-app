@@ -1,5 +1,6 @@
 package edepa.app;
 
+import edepa.minilibs.DialogFancy;
 import edepa.minilibs.RealPathGenerator;
 import edepa.modelview.R;
 import edepa.cloud.Cloud;
@@ -22,7 +23,10 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
+import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 
@@ -42,7 +46,8 @@ public class NavigationActivity extends MainActivity implements
         String action = intent.getAction();
         String type = intent.getType();
 
-        if (Intent.ACTION_SEND.equals(action) && type != null) {
+        boolean isSendAction = Intent.ACTION_SEND.equals(action);
+        if (isSendAction && type != null) {
             if ("text/plain".equals(type)) {
                 handleSendText(intent);
             }
@@ -53,7 +58,7 @@ public class NavigationActivity extends MainActivity implements
 
     }
 
-    void handleSendText(Intent intent) {
+    public void handleSendText(Intent intent) {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (sharedText != null) {
             Bundle params = new Bundle();
@@ -63,7 +68,7 @@ public class NavigationActivity extends MainActivity implements
         }
     }
 
-    void handleSendImage(Intent intent) {
+    public void handleSendImage(Intent intent) {
         Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {
             Bundle params = new Bundle();
