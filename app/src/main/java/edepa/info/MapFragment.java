@@ -147,8 +147,8 @@ public class MapFragment extends MainFragment
 
         // Se obtienen las coordenadas para el marcador
         LatLng coordinates = new LatLng(
-                congress.getxCoord(),
-                congress.getyCoord());
+                congress.getyCoord(),
+                congress.getxCoord());
 
         // Se obtiene y guarda la referencia del mapa creado
         googleMap = map;

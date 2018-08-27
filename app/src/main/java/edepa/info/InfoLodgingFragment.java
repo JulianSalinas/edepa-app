@@ -72,7 +72,7 @@ public class InfoLodgingFragment extends SimpleFragment implements CloudLodging.
         int index = lodgings.indexOf(lodging);
         if(index == -1){
             lodgings.add(lodging);
-            lodgingAdapter.notifyItemInserted(index);
+            lodgingAdapter.notifyItemInserted(lodgings.size() + 1);
         }
     }
 
