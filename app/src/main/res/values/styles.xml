@@ -4,18 +4,26 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
+        <item name="android:actionButtonStyle">@style/ActionButton</item>
+
         <item name="colorAccent">@color/app_accent</item>
         <item name="colorPrimary">@color/app_primary</item>
         <item name="colorPrimaryDark">@color/app_primary_dark</item>
-        <item name="colorControlNormal">@color/app_primary_font</item>
 
         <item name="windowActionModeOverlay">true</item>
-        <item name="android:actionButtonStyle">@style/ActionButton</item>
         <item name="actionModeCloseDrawable">@drawable/ic_action_navigation_arrow_back_inverted</item>
+
         <item name="actionModeStyle">@style/ActionModeStyle</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="preferenceTheme">@style/AppTheme.Settings</item>
         <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
 
+    </style>
+
+    <!-- Settings theme -->
+
+    <style name="AppTheme.Settings" parent="PreferenceThemeOverlay.v14.Material">
+        <item name="android:background">@color/app_white</item>
+        <item name="android:windowBackground">@color/app_white</item>
     </style>
 
     <!-- Login Theme -->
@@ -23,19 +31,10 @@
     <style name="LoginTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:background">@color/app_white</item>
         <item name="android:windowBackground">@color/app_white</item>
-        <item name="android:layout_margin">@dimen/space_small</item>
+        <item name="android:layout_margin">@dimen/size_small</item>
     </style>
 
-    <style name="FirebaseUI.EditText">
-        <item name="android:paddingBottom">14dp</item>
-        <item name="android:paddingTop">14dp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="colorControlActivated">@color/app_white</item>
-        <item name="colorControlHighlight">@color/app_white</item>
-        <item name="android:textColorHint">@color/app_white</item>
-        <item name="android:textColor">@color/app_white</item>
-    </style>
+    <!-- Firebase Login Themes -->
 
     <style name="FirebaseUI.Button" parent="@style/LoginTheme">
         <item name="android:layout_width">wrap_content</item>
@@ -46,11 +45,6 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:radius">2dp</item>
     </style>
-
-    <style name="FirebaseUI.Text.TextInputLayout" parent="@style/FirebaseUI.EditText" />
-
-    <style name="FirebaseUI.Text.HintText" parent="@style/FirebaseUI.EditText" />
-
 
     <style name="ActionButton" parent="@android:style/Widget.ActionButton">
         <item name="android:drawablePadding">1dp</item>
@@ -70,42 +64,13 @@
     <!-- Splash Screen -->
 
     <style name="AppTheme.SplashTheme">
-
-        <item name="android:windowBackground">@drawable/ic_splashscreen</item>
-
+        <item name="android:windowBackground">@drawable/util_splashs_screen</item>
     </style>
 
     <!-- Custom ActionBar -->
 
-    <style name="AppTheme.NoActionBar">
-
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-
-    </style>
-
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:elevation">0dp</item>
-    </style>
-
-    <style name="Widget.CardContent" parent="android:Widget">
-        <item name="android:paddingLeft">16dp</item>
-        <item name="android:paddingRight">16dp</item>
-        <item name="android:paddingTop">24dp</item>
-        <item name="android:paddingBottom">24dp</item>
-        <item name="android:orientation">vertical</item>
-    </style>
-
-    <style name="TextAppearance.Title.Collapsed" parent="TextAppearance.AppCompat">
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/app_primary_font</item>
-    </style>
-
-    <style name="TextAppearance.Subtitle.Collapsed" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">12sp</item>
-        <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:textColor">@color/app_primary_font</item>
     </style>
 
     <style name="TextAppearance.Title.Expanded" parent="TextAppearance.AppCompat">

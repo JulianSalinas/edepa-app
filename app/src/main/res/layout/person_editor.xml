@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v4.widget.NestedScrollView
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-
     android:background="@color/app_white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,7 +16,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:padding="@dimen/space_default"
+            android:padding="@dimen/size_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/text_preview"
@@ -32,7 +30,7 @@
             android:background="@color/app_accent_light"/>
 
         <TextView
-            android:padding="@dimen/space_default"
+            android:padding="@dimen/size_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/text_person"
@@ -42,8 +40,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/space_default"
-            android:layout_marginEnd="@dimen/space_default">
+            android:layout_marginStart="@dimen/size_default"
+            android:layout_marginEnd="@dimen/size_default">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/text_input_complete_name"
@@ -51,8 +49,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#00FFFFFF"
-                android:paddingLeft="@dimen/space_default"
-                android:paddingRight="@dimen/space_default"
+                android:paddingLeft="@dimen/size_default"
+                android:paddingRight="@dimen/size_default"
                 android:clickable="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -61,18 +59,18 @@
         </android.support.v7.widget.CardView>
 
         <TextView
-            android:paddingTop="@dimen/space_default"
-            android:paddingEnd="@dimen/space_default"
-            android:paddingStart="@dimen/space_default"
+            android:paddingTop="@dimen/size_default"
+            android:paddingEnd="@dimen/size_default"
+            android:paddingStart="@dimen/size_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/text_person_description"
             android:textStyle="bold"/>
 
         <TextView
-            android:paddingStart="@dimen/space_default"
-            android:paddingEnd="@dimen/space_default"
-            android:paddingBottom="@dimen/space_default"
+            android:paddingStart="@dimen/size_default"
+            android:paddingEnd="@dimen/size_default"
+            android:paddingBottom="@dimen/size_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/text_person_description_example"
@@ -82,8 +80,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/space_default"
-            android:layout_marginEnd="@dimen/space_default">
+            android:layout_marginStart="@dimen/size_default"
+            android:layout_marginEnd="@dimen/size_default">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/text_input_title"
@@ -91,8 +89,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#00FFFFFF"
-                android:paddingLeft="@dimen/space_default"
-                android:paddingRight="@dimen/space_default"
+                android:paddingLeft="@dimen/size_default"
+                android:paddingRight="@dimen/size_default"
                 android:clickable="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -101,7 +99,7 @@
         </android.support.v7.widget.CardView>
 
         <TextView
-            android:padding="@dimen/space_default"
+            android:padding="@dimen/size_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/text_person_about"
@@ -111,8 +109,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/space_default"
-            android:layout_marginEnd="@dimen/space_default">
+            android:layout_marginStart="@dimen/size_default"
+            android:layout_marginEnd="@dimen/size_default">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/text_input_about"
@@ -120,8 +118,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#00FFFFFF"
-                android:paddingLeft="@dimen/space_default"
-                android:paddingRight="@dimen/space_default"
+                android:paddingLeft="@dimen/size_default"
+                android:paddingRight="@dimen/size_default"
                 android:clickable="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -133,11 +131,11 @@
             android:id="@+id/add_person_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/space_default"
+            android:layout_margin="@dimen/size_default"
             android:background="@color/edepa_primary"
             android:elevation="2dp"
-            android:text="@string/add_person"
-            android:textColor="@color/app_accent_font"/>
+            android:text="@string/text_add_person"
+            android:textColor="@color/app_white_font"/>
 
     </LinearLayout>
 

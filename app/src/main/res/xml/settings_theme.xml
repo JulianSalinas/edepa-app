@@ -1,0 +1,39 @@
+<!--suppress ALL -->
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="THEME_KEY"
+        android:summary="Si está desactivada la aplicación utiliza el tema por defecto (mejor rendimiento)"
+        android:title="Tema personalizado" />
+
+    <com.kunzisoft.androidclearchroma.ChromaPreferenceCompat
+        xmlns:chroma="http://schemas.android.com/apk/res-auto"
+        android:key="PRIMARY_COLOR"
+        android:title="Color primario"
+        android:defaultValue="@color/app_primary"
+        chroma:chromaShapePreview="ROUNDED_SQUARE"
+        chroma:chromaColorMode="HSV"
+        chroma:chromaIndicatorMode="HEX" />
+
+    <com.kunzisoft.androidclearchroma.ChromaPreferenceCompat
+        xmlns:chroma="http://schemas.android.com/apk/res-auto"
+        android:key="PRIMARY_DARK_COLOR"
+        android:title="Color primario oscuro"
+        android:defaultValue="@color/app_primary"
+        chroma:chromaShapePreview="ROUNDED_SQUARE"
+        chroma:chromaColorMode="HSV"
+        chroma:chromaIndicatorMode="HEX" />
+
+    <com.kunzisoft.androidclearchroma.ChromaPreferenceCompat
+        xmlns:chroma="http://schemas.android.com/apk/res-auto"
+        android:key="ACCENT_COLOR"
+        android:title="Color de acento"
+        android:defaultValue="@color/app_primary"
+        chroma:chromaShapePreview="ROUNDED_SQUARE"
+        chroma:chromaColorMode="HSV"
+        chroma:chromaIndicatorMode="HEX" />
+
+</PreferenceScreen>

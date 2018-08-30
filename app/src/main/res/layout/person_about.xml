@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v4.widget.NestedScrollView
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/app_white"
@@ -15,7 +14,7 @@
 
         <TextView
             android:id="@+id/person_about_text"
-            android:padding="@dimen/space_default"
+            android:padding="@dimen/size_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/text_lorem_ipsum"

@@ -2,24 +2,15 @@ package edepa.search;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.like.LikeButton;
-import com.like.OnLikeListener;
-
-import org.jetbrains.annotations.Nullable;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import edepa.app.MainActivity;
-import edepa.app.NavigationActivity;
-import edepa.cloud.CloudFavorites;
+import edepa.app.ActivityNavig;
 import edepa.events.EventFragment;
 import edepa.minilibs.TextHighlighter;
 import edepa.minilibs.TimeConverter;
@@ -60,8 +51,8 @@ public class SearchHolderEvent extends RecyclerView.ViewHolder {
     }
 
     public void openEvent() {
-        if(context instanceof NavigationActivity){
-            NavigationActivity activity = (NavigationActivity) context;
+        if(context instanceof ActivityNavig){
+            ActivityNavig activity = (ActivityNavig) context;
             activity.getSearchView().closeSearch();
             Fragment fragment = EventFragment.newInstance(event);
             activity.setFragmentOnScreen(fragment, event.getKey());

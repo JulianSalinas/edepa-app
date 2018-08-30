@@ -21,13 +21,13 @@ import butterknife.BindView;
 import edepa.cloud.CloudCongress;
 import edepa.modelview.R;
 import edepa.model.Congress;
-import edepa.app.MainFragment;
+import edepa.app.CustomFragment;
 
 /**
  * Mapa que se muestra al presionar el mapa pequeño
  * del {@link InfoFragment}
  */
-public class MapFragment extends MainFragment
+public class MapFragment extends CustomFragment
         implements OnMapReadyCallback, CloudCongress.Callbacks{
 
     /**
@@ -62,7 +62,7 @@ public class MapFragment extends MainFragment
      */
     @Override
     public int getResource() {
-        return R.layout.info_map;
+        return R.layout.information_gmap;
     }
 
     private CloudCongress cloudCongress;

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import edepa.cloud.Cloud;
-import edepa.custom.FragmentImage;
+import edepa.custom.PhotoFragment;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -16,7 +16,7 @@ import com.google.firebase.database.ValueEventListener;
  * ya fijada en firebase /config/minimap
  */
 public class MinimapFragment
-        extends FragmentImage implements ValueEventListener {
+        extends PhotoFragment implements ValueEventListener {
 
     /**
      * Nombre de la clave donde se encuentra la imagen

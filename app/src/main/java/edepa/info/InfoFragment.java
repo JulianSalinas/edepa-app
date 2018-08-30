@@ -1,37 +1,30 @@
 package edepa.info;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.ImageView;
 import android.support.v4.app.Fragment;
-import com.google.android.gms.maps.GoogleMap;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import butterknife.OnClick;
-import edepa.app.MainFragment;
+import edepa.app.CustomFragment;
 import edepa.cloud.Cloud;
 import edepa.cloud.CloudCongress;
-import edepa.cloud.CloudLodging;
-import edepa.custom.FragmentBlank;
 import edepa.modelview.R;
 import edepa.model.Congress;
 import butterknife.BindView;
-import edepa.minilibs.TimeConverter;
 
 /**
  * Fragmento utilizado para mostrar la información
  * del congreso.
  */
-public class InfoFragment extends MainFragment implements CloudCongress.Callbacks {
+public class InfoFragment extends CustomFragment implements CloudCongress.Callbacks {
 
     @BindView(R.id.name_text)
     TextView nameText;
@@ -49,7 +42,7 @@ public class InfoFragment extends MainFragment implements CloudCongress.Callback
      */
     @Override
     public int getResource() {
-        return R.layout.info_view;
+        return R.layout.information_screen;
     }
 
     /**

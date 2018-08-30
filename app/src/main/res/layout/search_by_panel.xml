@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,10 +9,10 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:padding="@dimen/space_default"
+        android:padding="@dimen/size_default"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/event_type"
+        android:text="@string/text_event_type"
         android:textStyle="bold"/>
 
     <LinearLayout
@@ -19,13 +20,14 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/space_default">
+        android:padding="@dimen/size_default">
 
         <android.support.v7.widget.CardView
             android:layout_width="@dimen/size_icon"
             android:layout_height="@dimen/size_icon"
             app:cardBackgroundColor="@color/edepa_conferencia"
-            app:cardCornerRadius="5dp">
+            app:cardCornerRadius="5dp"
+            android:tag=":aesthetic_ignore">
 
             <ImageView
                 android:src="@drawable/ic_filter_1"
@@ -41,8 +43,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginStart="@dimen/space_default"
-            android:layout_marginEnd="@dimen/space_default"
+            android:layout_marginStart="@dimen/size_default"
+            android:layout_marginEnd="@dimen/size_default"
             android:gravity="center_vertical"
             android:text="@string/text_conference"/>
 
@@ -53,13 +55,14 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/space_default">
+        android:padding="@dimen/size_default">
 
         <android.support.v7.widget.CardView
             android:layout_width="@dimen/size_icon"
             android:layout_height="@dimen/size_icon"
             app:cardBackgroundColor="@color/edepa_ponencia"
-            app:cardCornerRadius="5dp">
+            app:cardCornerRadius="5dp"
+            android:tag=":aesthetic_ignore">
 
             <ImageView
                 android:src="@drawable/ic_filter_2"
@@ -75,8 +78,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginStart="@dimen/space_default"
-            android:layout_marginEnd="@dimen/space_default"
+            android:layout_marginStart="@dimen/size_default"
+            android:layout_marginEnd="@dimen/size_default"
             android:gravity="center_vertical"
             android:text="@string/text_presentation"/>
 
@@ -87,13 +90,14 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/space_default">
+        android:padding="@dimen/size_default">
 
         <android.support.v7.widget.CardView
             android:layout_width="@dimen/size_icon"
             android:layout_height="@dimen/size_icon"
             app:cardBackgroundColor="@color/edepa_taller"
-            app:cardCornerRadius="5dp">
+            app:cardCornerRadius="5dp"
+            android:tag=":aesthetic_ignore">
 
             <ImageView
                 android:src="@drawable/ic_filter_3"
@@ -109,8 +113,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginEnd="@dimen/space_default"
-            android:layout_marginStart="@dimen/space_default"
+            android:layout_marginEnd="@dimen/size_default"
+            android:layout_marginStart="@dimen/size_default"
             android:gravity="center_vertical"
             android:text="@string/text_atelier" />
 
@@ -121,13 +125,14 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/space_default">
+        android:padding="@dimen/size_default">
 
         <android.support.v7.widget.CardView
             android:layout_width="@dimen/size_icon"
             android:layout_height="@dimen/size_icon"
             app:cardBackgroundColor="@color/edepa_feria"
-            app:cardCornerRadius="5dp">
+            app:cardCornerRadius="5dp"
+            android:tag=":aesthetic_ignore">
 
             <ImageView
                 android:src="@drawable/ic_filter_4"
@@ -143,15 +148,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginStart="@dimen/space_default"
-            android:layout_marginEnd="@dimen/space_default"
+            android:layout_marginStart="@dimen/size_default"
+            android:layout_marginEnd="@dimen/size_default"
             android:gravity="center_vertical"
             android:text="@string/text_fair"/>
 
     </LinearLayout>
 
     <TextView
-        android:padding="@dimen/space_default"
+        android:padding="@dimen/size_default"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/text_search_people"
@@ -162,13 +167,14 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/space_default">
+        android:padding="@dimen/size_default">
 
         <android.support.v7.widget.CardView
             android:layout_width="@dimen/size_icon"
             android:layout_height="@dimen/size_icon"
             app:cardBackgroundColor="@color/app_primary_dark"
-            app:cardCornerRadius="5dp">
+            app:cardCornerRadius="5dp"
+            android:tag=":aesthetic_ignore">
 
             <ImageView
                 android:src="@drawable/ic_school"
@@ -184,10 +190,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginStart="@dimen/space_default"
-            android:layout_marginEnd="@dimen/space_default"
+            android:layout_marginStart="@dimen/size_default"
+            android:layout_marginEnd="@dimen/size_default"
             android:gravity="center_vertical"
-            android:text="@string/text_exhibitor"/>
+            android:text="@string/text_exhibitors"/>
 
     </LinearLayout>
 

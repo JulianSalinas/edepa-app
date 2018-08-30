@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 
-import edepa.app.NavigationActivity;
+import edepa.app.ActivityNavig;
 import edepa.minilibs.TextHighlighter;
 import edepa.minilibs.ColorGenerator;
 import edepa.modelview.R;
@@ -77,8 +77,8 @@ public class SearchHolderPerson extends RecyclerView.ViewHolder {
 
     public void openPersonFragment(){
         Context context = itemView.getContext();
-        if (context instanceof NavigationActivity){
-            NavigationActivity activity = (NavigationActivity) context;
+        if (context instanceof ActivityNavig){
+            ActivityNavig activity = (ActivityNavig) context;
             PersonFragment fragment = PersonFragment.newInstance(person);
             activity.setFragmentOnScreen(fragment, person.getKey());
         }

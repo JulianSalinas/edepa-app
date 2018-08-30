@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="array_language_titles">
+        <item>Español</item>
+        <item>Ingles</item>
+    </string-array>
+
+    <string-array name="array_language_values">
+        <item>es</item>
+        <item>en</item>
+    </string-array>
+
+    <string-array name="array_sync_titles">
+        <item>1 segundo</item>
+        <item>5 segundos</item>
+        <item>15 segundos</item>
+        <item>30 segundos</item>
+        <item>1 minuto</item>
+        <item>5 minutos</item>
+        <item>15 minutos</item>
+        <item>30 minutos</item>
+        <item>60 minutos</item>
+    </string-array>
+
+    <string-array name="array_sync_values">
+        <item>1000</item>
+        <item>5000</item>
+        <item>15000</item>
+        <item>30000</item>
+        <item>60000</item>
+        <item>300000</item>
+        <item>450000</item>
+        <item>900000</item>
+        <item>1800000</item>
+    </string-array>
+
+</resources>

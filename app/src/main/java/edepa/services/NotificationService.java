@@ -1,6 +1,5 @@
 package edepa.services;
 
-import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -12,7 +11,6 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.Context;
 import android.graphics.Color;
-import android.preference.Preference;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -21,10 +19,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.firebase.messaging.FirebaseMessagingService;
 
+import java.util.Locale;
 import java.util.Map;
 
-import edepa.app.NavigationActivity;
-import edepa.app.SignInActivity;
+import edepa.app.ActivityNavig;
 import edepa.modelview.R;
 import edepa.cloud.Cloud;
 import edepa.model.Preferences;
@@ -76,7 +74,7 @@ public class NotificationService extends FirebaseMessagingService {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user != null && !data.get("userid").equals(user.getUid())) {
                 String text = "Tienes %d mensajes sin leer";
-                String title = String.format(text, increaseUnreadMessages());
+                String title = String.format(Locale.getDefault(), text, increaseUnreadMessages());
                 String body = data.get("content");
                 if (body == null || body.isEmpty()) {
                     body = String.format("Nueva imagen de %s", data.get("username"));
@@ -125,7 +123,7 @@ public class NotificationService extends FirebaseMessagingService {
      * @see #createPendingIntent(Bundle)
      */
     private Intent createIntent(Bundle args){
-        return new Intent(getApplicationContext(), NavigationActivity.class)
+        return new Intent(getApplicationContext(), ActivityNavig.class)
             .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP |
                       Intent.FLAG_ACTIVITY_NO_HISTORY)
             .setAction(Intent.ACTION_MAIN)

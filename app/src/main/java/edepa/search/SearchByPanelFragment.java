@@ -6,15 +6,14 @@ import android.support.v4.app.Fragment;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-import edepa.app.NavigationActivity;
-import edepa.events.EventsOngoing;
+import edepa.app.ActivityNavig;
 import edepa.modelview.R;
 import butterknife.OnClick;
 import edepa.model.EventType;
-import edepa.app.MainFragment;
+import edepa.app.CustomFragment;
 
 
-public class SearchByPanelFragment extends MainFragment
+public class SearchByPanelFragment extends CustomFragment
         implements MaterialSearchView.OnQueryTextListener {
 
     @Override
@@ -92,7 +91,7 @@ public class SearchByPanelFragment extends MainFragment
         // getNavigationActivity().getSupportFragmentManager().popBackStack();
         // setFragmentOnScreen(fragment, filter);
 
-        NavigationActivity activity = getNavigationActivity();
+        ActivityNavig activity = getNavigationActivity();
         activity.getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_content, fragment)

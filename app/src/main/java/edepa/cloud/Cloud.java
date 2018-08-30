@@ -12,25 +12,10 @@ import com.google.firebase.database.FirebaseDatabase;
  */
 public class Cloud {
 
-    /**
-     * Autenticación
-     */
-    final FirebaseAuth auth;
-
-    /**
-     * Almacenamiento
-     */
-    final FirebaseStorage storage;
-
-    /**
-     * Realtime Databe
-     */
-    final FirebaseDatabase database;
-
-    /**
-     * Nodo desde donde comienza la BD
-     */
-    final DatabaseReference root;
+    private final FirebaseAuth auth;
+    private final DatabaseReference root;
+    private final FirebaseStorage storage;
+    private final FirebaseDatabase database;
 
     /**
      * Variables usadas para obtener un referencia un nodo

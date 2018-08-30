@@ -7,11 +7,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import butterknife.OnClick;
-import edepa.app.MainActivity;
+import edepa.app.ActivityMain;
+import edepa.app.ActivityNavig;
 import edepa.cloud.CloudChat;
-import edepa.app.NavigationActivity;
-import edepa.crawler.Regex;
-import edepa.custom.FragmentImage;
+import edepa.custom.PhotoFragment;
 import edepa.minilibs.ColorGenerator;
 import edepa.minilibs.DialogFancy;
 import edepa.minilibs.RegexSearcher;
@@ -244,8 +243,8 @@ public class ChatAdapter
      * {@link #removeModeCallback}
      */
     public void startRemoveMode(){
-        if (context instanceof NavigationActivity) {
-            NavigationActivity activity = (NavigationActivity) context;
+        if (context instanceof ActivityNavig) {
+            ActivityNavig activity = (ActivityNavig) context;
             activity.hideKeyboard();
             removeMode = activity.startSupportActionMode(removeModeCallback);
             int color = activity.getResources().getColor(R.color.app_accent);
@@ -313,9 +312,9 @@ public class ChatAdapter
          */
         public void openImage(String imageUrl){
             String domain = RegexSearcher.findDomainFromUrl(imageUrl);
-            Fragment imageFragment = FragmentImage.newInstance(domain, imageUrl);
-            if(context instanceof MainActivity) {
-                MainActivity activity = (MainActivity) context;
+            Fragment imageFragment = PhotoFragment.newInstance(domain, imageUrl);
+            if(context instanceof ActivityMain) {
+                ActivityMain activity = (ActivityMain) context;
                 activity.setFragmentOnScreen(imageFragment, message.getKey());
             }
         }
@@ -327,8 +326,8 @@ public class ChatAdapter
         public void openUrl(String url){
             try{
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                if(context instanceof MainActivity) {
-                    MainActivity activity = (MainActivity) context;
+                if(context instanceof ActivityMain) {
+                    ActivityMain activity = (ActivityMain) context;
                     activity.startActivity(intent);
                 }
             }
@@ -336,8 +335,8 @@ public class ChatAdapter
                 new DialogFancy.Builder()
                         .setContext(context)
                         .setStatus(DialogFancy.ERROR)
-                        .setTitle(R.string.invalid_link)
-                        .setContent(R.string.invalid_link_content)
+                        .setTitle(R.string.text_invalid_link)
+                        .setContent(R.string.text_invalid_link_content)
                         .build().show();
             }
         }

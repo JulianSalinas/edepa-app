@@ -56,7 +56,7 @@ public class NoticesFragment extends RecyclerFragment
      */
     @Override
     public int getResource() {
-        return R.layout.news_view;
+        return R.layout.notices_screen;
     }
 
     /**

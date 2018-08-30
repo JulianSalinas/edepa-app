@@ -1,26 +1,23 @@
 package edepa.pagers;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.CoordinatorLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.design.widget.TabLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import edepa.app.ActivityMain;
 import edepa.modelview.R;
 import butterknife.BindView;
-import edepa.app.MainFragment;
+import edepa.app.CustomFragment;
 import edepa.events.EventsOngoing;
 
 
-public class TabbedFragment extends MainFragment{
+public class TabbedFragment extends CustomFragment {
 
     /**
      * Cantidad de fragmentos
@@ -56,7 +53,7 @@ public class TabbedFragment extends MainFragment{
     private MenuItem prevMenuItem;
 
     /**
-     * Es parte de {@link edepa.app.MainActivity#appBarLayout}
+     * Es parte de {@link ActivityMain#appBarLayout}
      * Sirve para quitar la sobra para cuando se colocan los tabs
      */
     private AppBarLayout appBarLayout;
@@ -67,7 +64,7 @@ public class TabbedFragment extends MainFragment{
      */
     @Override
     public int getResource() {
-        return R.layout.events_tabs;
+        return R.layout.schedule_tabs;
     }
 
     /**
@@ -197,7 +194,7 @@ public class TabbedFragment extends MainFragment{
             switch (position) {
                 case 0: return getString(R.string.nav_schedule);
                 case 1: return getString(R.string.nav_favorites);
-                default: return getString(R.string.nav_ongoing);
+                default: return getString(R.string.text_ongoing);
             }
         }
 

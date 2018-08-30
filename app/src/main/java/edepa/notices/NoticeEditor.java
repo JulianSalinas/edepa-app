@@ -4,9 +4,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import edepa.cloud.Cloud;
-import edepa.custom.FragmentImage;
+import edepa.custom.PhotoFragment;
 import edepa.minilibs.DialogFancy;
-import edepa.app.MainFragment;
+import edepa.app.CustomFragment;
 
 import edepa.minilibs.OnlineHelper;
 import edepa.minilibs.RegexSearcher;
@@ -35,11 +35,9 @@ import com.fxn.pix.Pix;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 
-public class NoticeEditor extends MainFragment {
+public class NoticeEditor extends CustomFragment {
 
     private static final int REQUEST_IMAGE_CODE = 100;
 
@@ -61,7 +59,7 @@ public class NoticeEditor extends MainFragment {
 
     @Override
     public int getResource() {
-        return R.layout.news_editor;
+        return R.layout.notices_editor;
     }
 
     @Override
@@ -255,7 +253,7 @@ public class NoticeEditor extends MainFragment {
     public void loadThumbnail(){
         Glide.with(this)
                 .load(imageLocalPath)
-                .apply(FragmentImage.getRequestOptions(getContext()))
+                .apply(PhotoFragment.getRequestOptions(getContext()))
                 .into(publishImage);
     }
 

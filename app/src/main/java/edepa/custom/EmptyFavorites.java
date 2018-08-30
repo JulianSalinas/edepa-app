@@ -1,13 +1,12 @@
 package edepa.custom;
 
 import butterknife.OnClick;
-import edepa.app.SimpleFragment;
-import edepa.events.EventsOngoing;
+import edepa.app.BaseFragment;
 import edepa.modelview.R;
 import edepa.pagers.PagerFragment;
 import edepa.pagers.TabbedFragment;
 
-public class EmptyFavorites extends SimpleFragment {
+public class EmptyFavorites extends BaseFragment {
 
     @Override
     public int getResource() {

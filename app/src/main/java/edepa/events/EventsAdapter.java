@@ -62,7 +62,7 @@ public abstract class EventsAdapter extends RecyclerAdapter {
 
         int layout = viewType == SINGLE ?
                 R.layout.event_item:
-                R.layout.event_item_time;
+                R.layout.event_item_with_time;
 
         View view = LayoutInflater
                 .from(parent.getContext())

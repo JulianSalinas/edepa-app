@@ -2,11 +2,11 @@ package edepa.custom;
 
 import edepa.modelview.R;
 import butterknife.OnClick;
-import edepa.app.SimpleFragment;
+import edepa.app.BaseFragment;
 import edepa.events.EventsOngoing;
 
 
-public class EmptyOngoing extends SimpleFragment {
+public class EmptyOngoing extends BaseFragment {
 
     @Override
     public int getResource() {

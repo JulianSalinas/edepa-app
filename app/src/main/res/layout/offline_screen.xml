@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/app_white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:padding="@dimen/size_medium"
+        tools:ignore="UselessParent">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="64dp"
+            android:layout_marginStart="@dimen/size_default"
+            android:layout_marginEnd="@dimen/size_default"
+            android:src="@drawable/img_offline"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:id="@+id/event_detail_location"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_default"
+            android:layout_marginEnd="@dimen/size_default"
+            android:layout_marginBottom="@dimen/size_default"
+            android:textColor="@color/app_primary_font"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:text="Ooops!"/>
+
+        <TextView
+            android:id="@+id/event_detail_date_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginEnd="64dp"
+            android:layout_marginBottom="32dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/text_you_need_internet"
+            android:textColor="@color/app_primary_font"
+            android:textAppearance="@style/TextAppearance.Subtitle.Expanded" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/retry_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/size_default"
+            app:cardBackgroundColor="@color/edepa_primary"
+            app:cardCornerRadius="@dimen/card_radius_chat_message"
+            app:cardElevation="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/size_medium"
+                android:text="@string/text_retry"
+                android:textColor="@color/app_white" />
+
+        </android.support.v7.widget.CardView>
+
+        <ProgressBar
+            android:visibility="gone"
+            android:indeterminate="true"
+            android:id="@+id/progress_bar"
+            android:layout_gravity="center"
+            android:layout_width="@dimen/size_icon_container"
+            android:layout_height="@dimen/size_icon_container" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -13,7 +13,7 @@
 
     <item
         android:id="@+id/search_item"
-        android:title="@string/search_title"
+        android:title="@string/text_search_title"
         android:icon="@drawable/ic_action_action_search"
         app:iconTint="@color/app_primary_font"
         app:showAsAction="always" />

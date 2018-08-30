@@ -9,12 +9,11 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/schedule_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:tag=":aesthetic_ignore"
         app:cardCornerRadius="0dp"
-        app:cardElevation="@dimen/card_elevation_schedule">
+        app:cardElevation="@dimen/card_elevation">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,17 +22,16 @@
             android:orientation="horizontal">
 
             <View
-
                 android:id="@+id/event_decoration"
-                android:layout_width="@dimen/space_smallest"
                 android:layout_height="match_parent"
+                android:layout_width="@dimen/size_smallest"
                 tools:background="@color/app_accent"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="@dimen/space_medium">
+                android:padding="@dimen/size_medium">
 
                 <TextView
                     android:id="@+id/event_title"

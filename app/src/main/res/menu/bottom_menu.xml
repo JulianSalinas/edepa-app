@@ -18,8 +18,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/menu_ongoing"
-        android:title="@string/nav_ongoing"
+        android:title="@string/text_ongoing"
         android:icon="@drawable/ic_clock"
         app:iconTint="@color/app_white"
         app:showAsAction="ifRoom" />

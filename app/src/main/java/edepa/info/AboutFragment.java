@@ -1,7 +1,7 @@
 package edepa.info;
 
 import edepa.modelview.R;
-import edepa.app.MainFragment;
+import edepa.app.CustomFragment;
 
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +13,7 @@ import mehdi.sakout.aboutpage.Element;
 import mehdi.sakout.aboutpage.AboutPage;
 
 
-public class AboutFragment extends MainFragment {
+public class AboutFragment extends CustomFragment {
 
     /**
      * {@inheritDoc}

@@ -19,7 +19,7 @@ import java.net.URLDecoder;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import edepa.custom.FragmentImage;
+import edepa.custom.PhotoFragment;
 import edepa.minilibs.RegexSearcher;
 
 import edepa.modelview.R;
@@ -125,7 +125,7 @@ public abstract class PreviewHolder
             Context context = itemView.getContext().getApplicationContext();
             Glide.with(context)
                     .load(preview.getUrl())
-                    .apply(FragmentImage.getRequestOptions(context))
+                    .apply(PhotoFragment.getRequestOptions(context))
                     .into(previewImage);
         }
 
@@ -143,7 +143,7 @@ public abstract class PreviewHolder
             Context context = itemView.getContext().getApplicationContext();
             Glide.with(context)
                     .load(preview.getThumbnail())
-                    .apply(FragmentImage.getRequestOptions(context))
+                    .apply(PhotoFragment.getRequestOptions(context))
                     .into(previewThumbnail);
         }
 

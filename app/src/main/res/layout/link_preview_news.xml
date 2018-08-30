@@ -22,7 +22,7 @@
         android:id="@+id/uploading_view"
         android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/loading_height"
+        android:layout_height="@dimen/size_loading"
         android:gravity="center"
         android:visibility="gone"
         android:orientation="vertical">
@@ -32,7 +32,7 @@
             android:indeterminate="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/space_smallest"
+            android:layout_marginBottom="@dimen/size_smallest"
             android:progressDrawable="@drawable/util_progress_bar" />
 
         <TextView
@@ -52,7 +52,7 @@
         <View
             android:id="@+id/event_decoration"
             android:layout_height="match_parent"
-            android:layout_width="@dimen/preview_decoration_size"
+            android:layout_width="@dimen/size_preview_decoration"
             android:background="@color/edepa_primary_dark"/>
 
         <ImageView
@@ -60,10 +60,10 @@
             android:scaleType="centerInside"
             android:layout_width="@dimen/size_icon_container"
             android:layout_height="@dimen/size_icon_container"
-            android:layout_marginTop="@dimen/space_medium"
-            android:layout_marginBottom="@dimen/space_medium"
-            android:layout_marginStart="@dimen/space_small"
-            android:layout_marginEnd="@dimen/space_small"
+            android:layout_marginTop="@dimen/size_medium"
+            android:layout_marginBottom="@dimen/size_medium"
+            android:layout_marginStart="@dimen/size_small"
+            android:layout_marginEnd="@dimen/size_small"
             android:contentDescription="@null"
             tools:src="@drawable/img_dropbox"/>
 
@@ -76,9 +76,9 @@
                 android:id="@+id/preview_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_medium"
-                android:layout_marginEnd="@dimen/space_default"
-                android:layout_marginBottom="@dimen/space_smallest"
+                android:layout_marginTop="@dimen/size_medium"
+                android:layout_marginEnd="@dimen/size_default"
+                android:layout_marginBottom="@dimen/size_smallest"
                 android:textStyle="bold"
                 android:textSize="@dimen/font_medium"
                 android:textColor="@color/app_primary_font"
@@ -88,8 +88,8 @@
                 android:id="@+id/preview_domain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/space_default"
-                android:layout_marginBottom="@dimen/space_smallest"
+                android:layout_marginEnd="@dimen/size_default"
+                android:layout_marginBottom="@dimen/size_smallest"
                 android:textSize="@dimen/font_small"
                 android:fontFamily="sans-serif-light"
                 android:textColor="@color/app_primary_font"
@@ -99,8 +99,8 @@
                 android:id="@+id/preview_descripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/space_default"
-                android:layout_marginBottom="@dimen/space_medium"
+                android:layout_marginEnd="@dimen/size_default"
+                android:layout_marginBottom="@dimen/size_medium"
                 android:textColor="@color/app_primary_font"
                 tools:text="@string/test_dropdbox_description" />
 

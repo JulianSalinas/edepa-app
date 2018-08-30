@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import edepa.app.MainActivity;
+import edepa.app.ActivityMain;
 import edepa.cloud.CloudFavorites;
 import edepa.minilibs.TextHighlighter;
 import edepa.minilibs.TimeConverter;
@@ -94,8 +94,8 @@ public class EventHolder extends RecyclerView.ViewHolder {
 
         @OnClick(R.id.event_readmore_container)
         public void openEvent(){
-            if(context instanceof MainActivity){
-                MainActivity activity = (MainActivity) context;
+            if(context instanceof ActivityMain){
+                ActivityMain activity = (ActivityMain) context;
                 Fragment fragment= EventFragment.newInstance(event);
                 activity.setFragmentOnScreen(fragment, event.getKey());
             }

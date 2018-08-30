@@ -16,12 +16,12 @@ import edepa.model.Person;
 import edepa.modelview.R;
 import edepa.minilibs.SmoothLayout;
 import edepa.cloud.CloudPeople;
-import edepa.app.MainFragment;
+import edepa.app.CustomFragment;
 
 import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 
 
-public class PeopleFragment extends MainFragment
+public class PeopleFragment extends CustomFragment
         implements CloudPeople.Callbacks, CloudAdmin.AdminPermissionListener {
 
     @BindView(R.id.people_recycler)
@@ -44,7 +44,7 @@ public class PeopleFragment extends MainFragment
 
     @Override
     public int getResource() {
-        return R.layout.people_view;
+        return R.layout.people_screen;
     }
 
     @Override

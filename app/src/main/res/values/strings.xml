@@ -1,148 +1,74 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <resources>
 
-    <!-- Global strings-->
-    <string name="alias">EDEPA</string>
-    <string name="app_name">EDEPA</string>
+	<string name="app_name">EDEPA</string>
     <string name="app_title">EDEPA</string>
+    <string name="drawer_open">Open side menu</string>
+    <string name="drawer_close">Close side menu</string>
 
-    <!-- Most Left icon-->
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
-
-    <!-- Navigation menu strings-->
     <string name="nav_chat">Chat</string>
-    <string name="nav_exit">Exit</string>
+    <string name="nav_exit">Get out</string>
     <string name="nav_news">News</string>
     <string name="nav_about">About</string>
-    <string name="nav_info">Information</string>
-    <string name="nav_more">More</string>
-    <string name="nav_people">People</string>
-    <string name="nav_menu">Main menu</string>
+    <string name="nav_info">information</string>
+    <string name="nav_more">More options</string>
+    <string name="nav_people">Exhibitors</string>
     <string name="nav_schedule">Schedule</string>
     <string name="nav_favorites">Favorites</string>
-    <string name="nav_palette">Color palette</string>
-    <string name="nav_subsection">Subsection</string>
-    <string name="nav_settings">Settings</string>
-    <string name="nav_exit_and_signout">Sign out</string>
+    <string name="nav_palette">Personalize</string>
+    <string name="nav_settings">Configuration</string>
+    <string name="nav_exit_and_signout">Sign off</string>
 
-    <!-- Welcome-->
-    <string name="text_welcome">Welcome</string>
-    <string name="text_getstarted">Get Started</string>
-
-    <!-- Dates -->
     <string name="text_to">to</string>
     <string name="text_from">From</string>
-    <string name="text_end">End</string>
+    <string name="text_end">Final</string>
     <string name="text_date">Date</string>
     <string name="text_start">Start</string>
+    <string name="text_welcome">you are welcome</string>
 
-    <!-- Events Types -->
-    <string name="text_talk">Talk</string>
-    <string name="text_curse">Taller</string>
-    <string name="text_edepa">Feria EDEPA</string>
-    <string name="text_conference">Conference</string>
-
-    <!-- Schedule View  -->
     <string name="text_people">People</string>
-    <string name="nav_ongoing">Ongoing</string>
-    <string name="text_abstract">Abstract</string>
+    <string name="text_ongoing">In progress</string>
+    <string name="text_abstract">Summary</string>
     <string name="text_readmore">READ MORE</string>
     <string name="text_location">Location</string>
     <string name="text_input">Write here</string>
-    <string name="text_exhibitor">Expositores</string>
+    <string name="text_exhibitors">Exhibitors</string>
+    <string name="text_conference">Conference</string>
     <string name="text_presentation">Presentation</string>
 
-    <!-- Configuration -->
-    <string name="text_language">Language</string>
-    <string name="text_username">Username</string>
-    <string name="text_username_help">Press to choose the name you will use in the chat</string>
-
-    <!-- Favoritos -->
-    <string name="text_favorite">Favorite</string>
-    <string name="text_mark_favorite">Mark as favorite</string>
-    <string name="text_unmark_favorite">Remove from favorites</string>
-    <string name="text_marked_as_favorite">Added to favorites</string>
-    <string name="text_unmarked_as_favorite">Removed from favorites</string>
-
-    <!-- Notificaciones -->
-    <string name="text_notifications">Notifications</string>
-    <string name="text_notifications_enabled">Notifications enabled</string>
-    <string name="text_turned_on_notifications">Notifications enabled</string>
-    <string name="text_notifications_disabled">Notifications disabled</string>
-    <string name="text_turned_off_notifications">Notifications disabled</string>
-    <string name="text_notifications_help">You need an internet connection to receive notifications</string>
-
-    <!-- Otros strings -->
-    <string name="copy">copy</string>
-    <string name="paste">paste</string>
-    <string name="replace">replace</string>
-    <string name="text_save">Save</string>
+    <string name="text_map">Map</string>
     <string name="text_search">Search</string>
     <string name="text_cancel">Cancel</string>
-
-    <string name="text_map">Map</string>
     <string name="text_loading">Loading</string>
-    <string name="text_events">Events</string>
 
     <string name="text_about">About</string>
-    <string name="text_confirm">OK</string>
     <string name="text_version">Version 1.0.0</string>
-    <string name="text_press_here">Press here</string>
-    <string name="text_not_available">Not available</string>
-    <string name="text_connect_with_us">Contact Us</string>
-    <string name="text_about_readmore">Touch for more details</string>
-    <string name="text_language_help">Press to change the language. Restart required.</string>
-    <string name="text_username_changed">Username has been changed</string>
-    <string name="text_language_changed">You want to restart now to change the language?</string>
+    <string name="text_connect_with_us">Contact us</string>
+    <string name="text_username_changed">The username has been changed</string>
 
-    <string name="text_about_description">
-        Application to be aware of EDEPA.
-        Developed by Instituto Tecnológico de Costa Rica students.
-    </string>
+    <string name="text_about_description"> Application so you can be aware of the EDEPA.         Developed by students of the Technological Institute of Costa Rica.     </string>
 
-    <string name="text_description">Description</string>
-    <string name="text_choose_color">Choose a color</string>
-    <string name="text_choose_theme">Choose a theme</string>
-    <string name="text_without_favorites">You have\nnot favorites</string>
-    <string name="text_without_ongoing">No ongoing events</string>
-    <string name="text_you_need_internet">Necesitas conexión a internet para sincronizar por primera vez</string>
+    <string name="text_without_favorites">You have no favorites</string>
+    <string name="text_without_ongoing">No events in progress</string>
+    <string name="text_you_need_internet">You need an internet connection to synchronize by         first time</string>
 
-    <!--Testing strings - No es necesario traducirlos-->
-    <string name="test_dummy">Dummy</string>
-    <string name="test_app_time">8:00am</string>
-    <string name="test_type">Conferencia</string>
-    <string name="text_anonymous">Anonymous</string>
-    <string name="test_location">Centro de las Artes</string>
-    <string name="test_app_date_end">18/12/2018</string>
-    <string name="test_app_date_start">15/12/2018</string>
-    <string name="test_exhibitor">Nombre Apellido</string>
-    <string name="text_no_connection">You are offline</string>
-    <string name="test_pressthepoint">toca el punto</string>
-    <string name="test_app_range_time">De 8:00am a 11:00am</string>
-    <string name="test_university">Universidad de Costa Rica</string>
-    <string name="text_new_username">New username</string>
-    <string name="test_invitation">La escuela de matemática te invita este 2018 al:</string>
-    <string name="test_event">"Esto es un nombre lo suficientemente largo para cubrir dos líneas"</string>
-    <string name="test_congress">Encuentro sobre la Didáctica de la Estadística, Probabilidad y el Análisis de datos</string>
-    <string name="text_lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ullamcorper aliquet dictum. Maecenas in imperdiet dui.</string>
-    <string name="text_atelier">Atelier</string>
-    <string name="text_fair">Feria-EDEPA</string>
-    <string name="text_without_description">No description</string>
     <string name="text_today">Today</string>
-    <string name="search_title">Search</string>
-    <string name="text_retry">RETRY</string>
-    <string name="text_alarm">Alarm will vibrate at </string>
-    <string name="text_remainder">Remainder</string>
-    <string name="text_block">Block</string>
-    <string name="text_without_events">No events available</string>
+    <string name="test_dummy">Proof</string>
+    <string name="text_atelier">Workshop</string>
+    <string name="text_fair">Fair-EDEPA</string>
+    <string name="text_retry">Retry</string>
+    <string name="text_block">Block of</string>
+    <string name="text_search_title">Search</string>
+    <string name="test_location">Auditorium A1</string>
+    <string name="test_app_date_start">12/15/2018</string>
+    <string name="text_without_events">No events</string>
+    <string name="test_app_range_time">From 8:00 a.m. to 11:00 a.m.</string>
+    <string name="test_event">"This is a name long enough to cover two lines"</string>
+    <string name="test_congress">Meeting on the Didactics of Statistics, Probability and Data Analysis</string>
+    <string name="text_lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ullamcorper aliquet dictum. Maecenas in imperdiet dui.</string>
 
-    <!-- Date Util -->
     <string name="date_util_term_less">less than</string>
     <string name="date_util_term_a">a</string>
     <string name="date_util_term_an">an</string>
-
     <string name="date_util_unit_second">second</string>
     <string name="date_util_unit_seconds">seconds</string>
     <string name="date_util_unit_minute">minute</string>
@@ -155,55 +81,19 @@
     <string name="date_util_unit_months">months</string>
     <string name="date_util_unit_year">year</string>
     <string name="date_util_unit_years">years</string>
-
     <string name="date_util_prefix_lt">less than a</string>
     <string name="date_util_prefix_about">about</string>
     <string name="date_util_prefix_over">over</string>
     <string name="date_util_prefix_almost">almost</string>
-
     <string name="date_util_suffix">ago</string>
     <string name="date_util_just_now">just now</string>
 
-    <string name="text_single_viewed">viewed</string>
-    <string name="text_viewed">viewed</string>
-    <string name="text_not_viewed">no viewed</string>
-
-    <string name="text_bye">Bye bye!</string>
-    <string name="text_msg_sent">Mensaje enviado</string>
-    <string name="text_delete">borrar</string>
-    <string name="text_selected">seleccionados</string>
-    <string name="text_selected_single">seleccionado</string>
-    <string name="arroba">\@</string>
     <string name="text_image">Image</string>
-    <string name="text_error">Error inesperado</string>
-    <string name="title_activity_settings">Settings</string>
-
-    <!-- Strings related to Settings -->
-
-    <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
-
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact
-        based on your message history
-    </string>
-
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
-
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-
-    <string-array name="pref_update_titles">
-        <item>1 second</item>
-        <item>5 seconds</item>
-        <item>15 seconds</item>
-        <item>30 seconds</item>
-        <item>1 minute</item>
-        <item>5 minutes</item>
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>60 minutes</item>
-    </string-array>
+    <string name="text_viewed">seen</string>
+    <string name="text_delete">delete</string>
+    <string name="text_error">Unexpected error</string>
+    <string name="text_selected">Selected</string>
+    <string name="text_selected_single">selected</string>
 
     <string-array name="pref_update_values">
         <item>1000</item>
@@ -217,132 +107,77 @@
         <item>1800000</item>
     </string-array>
 
-    <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
+    <string name="text_accept">To accept</string>
+    <string name="text_success">Success</string>
+    <string name="text_warning">Warning</string>
+    <string name="text_information">information</string>
+    <string name="text_add_to_calendar">Add to calendar</string>
+    <string name="text_download_error">Error downloading</string>
+    <string name="text_press_to_preview">Press to view</string>
+    <string name="text_download_started">The download has started</string>
+    <string name="text_download_file">Press to download the file</string>
 
-    <string name="pref_title_sync_frequency">Sync frequency</string>
-    <string-array name="pref_language_titles">
-        <item>Español</item>
-        <item>Ingles</item>
-    </string-array>
-    <string-array name="pref_language_values">
-        <item>es</item>
-        <item>en</item>
-    </string-array>
+    <string name="text_success_publication">Published news</string>
+    <string name="text_error_publication">Error while publishing</string>
 
-    <string-array name="list_preference_entries">
-        <item>Entry 1</item>
-        <item>Entry 2</item>
-        <item>Entry 3</item>
-    </string-array>
-
-    <array name="list_preference_entry_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </array>
-
-    <string-array name="multi_select_list_preference_default_value" />
-
-    <string name="pref_title_system_sync_settings">System sync settings</string>
-
-    <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notifications</string>
-
-    <string name="pref_title_new_message_notifications">New message notifications</string>
-
-    <string name="pref_title_ringtone">Ringtone</string>
-    <string name="pref_ringtone_silent">Silent</string>
-
-    <string name="pref_title_vibrate">Vibrate</string>
-    <string name="press_to_preview">Presiona para visualizar</string>
-    <string name="add_to_calendar">Agregar al calendario</string>
-    <string name="text_download_file">Presione para descargar el archivo</string>
-    <string name="text_download_complete">Descarga completa</string>
-    <string name="text_download_error">Error al descargar</string>
-    <string name="text_download_started">La descarga ha iniciado</string>
-    <string name="text_information">Información</string>
-    <string name="text_close">Cerrar</string>
-    <string name="text_accept">Aceptar</string>
-    <string name="text_success">Éxito</string>
-    <string name="text_warning">Advertencia</string>
-
-    <string name="text_success_publication">Noticia publicada</string>
-    <string name="text_error_publication">Error al realizar la publicación</string>
-
-    <string name="text_warning_publication">Advertencia</string>
-    <string name="text_warning_publication_content">La noticia ha sido guardada. Se publicará
-        cuando se retome la conexión a internet</string>
-    <string name="text_title">Título</string>
-    <string name="text_content">Contenido</string>
-    <string name="post_new">Publicar noticia</string>
-    <string name="upload_image">Subir imagen</string>
-    <string name="text_warning_delete_new">Si borrar la noticia los demás usuario ya no podrán accederla</string>
-    <string name="text_person">Nombre completo</string>
-    <string name="text_person_description">Descripción</string>
-    <string name="text_person_description_example">Ej. Universidad o País</string>
-    <string name="add_person">Agregar persona</string>
-    <string name="text_success_add_person">Persona agregada</string>
-    <string name="text_error_add_person">Error al agregar</string>
-    <string name="not_allowed_to_upload_content">La alicación no tiene los permisos necesarios para adjuntar la imagen</string>
-    <string name="not_allowed_to_upload_title">Error de permisos</string>
-    <string name="size_overflow">Excedido tamaño máximo</string>
-    <string name="size_overflow_content">El archivo es muy grande. Por favor intente con una imagen de menor tamaño</string>
-    <string name="image_uploaded">Éxito</string>
-    <string name="image_uploaded_content">La imagen ha sido subida al servidor Cloudinary exitosamente</string>
-    <string name="text_warning_upload_image">Sin conexión</string>
-    <string name="text_warning_upload_image_content">No puede subir ninguna imagen sin conexión a internet</string>
-    <string name="text_notices_editor">Redactar notcia</string>
-    <string name="text_touch_to_select">Toca para seleccionar una imagen</string>
-    <string name="text_uploading_image">Subiendo imagen</string>
-    <string name="text_wait_please">Espere porfavor</string>
-    <string name="text_image_uploaded">La imagen se ha subido</string>
-    <string name="text_notice_updated">La noticia ha sido actualizada</string>
+    <string name="text_title">Title</string>
+    <string name="test_viewed">56 viewed</string>
+    <string name="text_content">Content</string>
+    <string name="test_name">Julian Salinas</string>
+    <string name="text_post">Publish news</string>
+    <string name="test_time_ago">4 hours ago</string>
+    <string name="text_person">Full name</string>
+    <string name="text_add_person">Add person</string>
+    <string name="text_wait_please">Please wait</string>
+    <string name="text_invalid_link">Invalid link</string>
     <string name="test_dropbox_title">Dropbox Business</string>
     <string name="test_dropbox_domain">www.dropbox.com</string>
+	<string name="text_notices_editor">Write news</string>
+    <string name="text_person_description">Description</string>
+    <string name="text_warning_publication">Warning</string>
+    <string name="text_uploading_image">Uploading image</string>
+    <string name="text_language_change">Change of language</string>
+    <string name="text_error_add_person">Error adding</string>
+    <string name="text_success_add_person">Person added</string>
+    <string name="text_upload_image">Upload image (optional)</string>
+    <string name="text_touch_to_select">Touch to select an image</string>
+    <string name="text_write_here_a_title">Write a title here (Optional)</string>
+    <string name="text_all_fields_are_optional">All fields are optional</string>
+    <string name="text_person_description_example">Eg Title, University or Country</string>
 
-    <string name="test_dropdbox_description">Share, sync, and collaborate on files securely with
-        Dropbox Business, a file sharing and cloud storage solution that employees love and IT
-        admins trust.</string>
+    <string name="text_warning_publication_content">The news has been saved. It will be published         when the internet connection is resumed</string>
 
-    <string name="test_time_ago">hace 4 horas</string>
-    <string name="test_viewed">56 vistos</string>
-    <string name="text_write_here_a_title">Escribe aquí un título</string>
+    <string name="text_invalid_link_content">It is possible that link you are trying to access         have an incorrect format or is no longer available</string>
 
-    <string name="text_write_here_the_content">Escribe aquí el contenido. Puedes incluir enlaces
-        a documentos o de páginas web </string>
-    <string name="all_fields_are_optional">* Todos los campos son opcionales</string>
-    <string name="test_name">Julian Salinas</string>
-    <string name="invalid_link">Enlace inválido</string>
-    <string name="invalid_link_content">Es posible que enlace que estás intentando acceder tenga un formato incorrecto o ya no este disponible</string>
-    <string name="text_language_change">Cambio de idioma</string>
-    <string name="text_language_change_content">Es necesario reiniciar la aplicación para aplicar los cambios. ¿Desea reiniciar ahora?</string>
-    <string name="text_resync">Sincronizar</string>
-    <string name="text_refresh">Refrescar</string>
-    <string name="text_complete_update">Actualización completa</string>
-    <string name="text_goto_schedule">Ir al cronograma</string>
-    <string name="text_add_event">Crear evento</string>
-    <string name="test_type_and_time">Conferencia de 8:00 am a 10:00 am</string>
+    <string name="text_language_change_content">It is necessary to restart the application to apply         the changes. Do you wish to reboot now?</string>
+
+    <string name="test_dropdbox_description">Share, sync, and collaborate on files securely with Dropbox         Business, a file sharing and cloud storage solution that employees love and IT admins trust.</string>
+
+    <string name="text_write_here_the_content">Write the content here You can include links to
+        documents or web pages</string>
+
+    <string name="text_warning_delete_new">If the news is deleted the other users no longer         they will be able to access it. do you wish to continue?</string>
+
+    <string name="text_refresh">Refresh</string>
     <string name="test_person">Adam Smith</string>
-    <string name="searching_for">Buscando</string>
-    <string name="event_type">Tipo de evento</string>
-    <string name="text_view_mod">Tipo de vista</string>
-    <string name="text_filter_by">Filtrar por</string>
-    <string name="text_search_by">Buscar por</string>
-    <string name="text_search_people">Buscar personas</string>
-    <string name="text_searching_for_eventos">Buscando eventos</string>
-    <string name="text_searching_for_people">Buscando personas</string>
-    <string name="text_related_events">Eventos</string>
-    <string name="text_preview">Vista previa</string>
-    <string name="text_person_about">Acerca de (Opcional)</string>
-    <string name="text_person_name">Nombre de la persona</string>
-    <string name="text_university">Universidad o país</string>
-    <string name="text_pdf_document">Documento.pdf</string>
-    <string name="text_press_again_to_exit">Presiona otra vez para salir</string>
-    <string name="text_login_required">Sin sesión</string>
-    <string name="text_login_required_content">Se requiere tener una sección activa para usar esta funcionalidad. ¿Desea iniciar sesión ahora?</string>
-    <string name="text_lodging">Hospedaje</string>
-    <string name="test_distance">A 5 Km del congreso</string>
-    <string name="test_web_page">www.casaaura.com</string>
+    <string name="text_lodging">Lodging</string>
+    <string name="text_search_by">To look for</string>
+    <string name="text_preview">Preview</string>
+    <string name="text_add_event">Create event</string>
+    <string name="text_view_mod">Type of view</string>
+    <string name="text_person_about">About</string>
+    <string name="text_event_type">Event type</string>
+    <string name="test_web_page">www.facebook.com</string>
+	<string name="text_pdf_document">Document.pdf</string>
+    <string name="text_search_people">Search people</string>
+    <string name="text_university">University or country</string>
+    <string name="text_goto_schedule">Go to the schedule</string>
+    <string name="text_person_name">Name of individual</string>
+    <string name="text_related_events">Related events</string>
+    <string name="text_searching_for_eventos">Looking for events</string>
+    <string name="text_searching_for_people">Looking for people</string>
+    <string name="text_complete_update">Complete update</string>
+    <string name="test_type_and_time">Conference from 8:00 a.m. to 10:00 a.m.</string>
+    <string name="text_press_again_to_exit">Press again to exit</string>
 
-</resources>
+	</resources>

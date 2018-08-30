@@ -18,8 +18,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import edepa.app.MainFragment;
-import edepa.app.SimpleFragment;
+import edepa.app.CustomFragment;
+import edepa.app.BaseFragment;
 import edepa.events.EventsAdapter;
 import edepa.minilibs.ColorConverter;
 import edepa.minilibs.ColorGenerator;
@@ -28,7 +28,7 @@ import edepa.model.Event;
 import edepa.model.Person;
 import edepa.modelview.R;
 
-public class PersonFragment extends MainFragment {
+public class PersonFragment extends CustomFragment {
 
     public static final String SAVED_PERSON_KEY = "person_key";
 
@@ -175,7 +175,7 @@ public class PersonFragment extends MainFragment {
         return ColorConverter.lighten(color);
     }
 
-    public static class PersonAboutFragment extends SimpleFragment {
+    public static class PersonAboutFragment extends BaseFragment {
 
         public static final String SAVED_TEXT_KEY = "text_key";
 
@@ -200,7 +200,7 @@ public class PersonFragment extends MainFragment {
 
     }
 
-    public static class PersonEventsFragment extends SimpleFragment {
+    public static class PersonEventsFragment extends BaseFragment {
 
         public static final String SAVED_EVENTS_KEY = "events_key";
 

@@ -1,12 +1,11 @@
 package edepa.custom;
 
 import butterknife.OnClick;
-import edepa.app.MainFragment;
-import edepa.app.SimpleFragment;
-import edepa.events.EventsOngoing;
+import edepa.app.CustomFragment;
+import edepa.app.BaseFragment;
 import edepa.modelview.R;
 
-public class EmptySchedule extends SimpleFragment {
+public class EmptySchedule extends BaseFragment {
 
     @Override
     public int getResource() {
@@ -15,8 +14,8 @@ public class EmptySchedule extends SimpleFragment {
 
     @OnClick(R.id.add_event_button)
     public void openEventEditor(){
-        if(getParentFragment() instanceof MainFragment) {
-            MainFragment parent = (MainFragment) getParentFragment();
+        if(getParentFragment() instanceof CustomFragment) {
+            CustomFragment parent = (CustomFragment) getParentFragment();
             String tag = "EVENT_EDITOR";
 //            EventEditor frag = (EventEditor) parent.getNavigationActivity()
 //                    .getSupportFragmentManager().findFragmentByTag(tag);

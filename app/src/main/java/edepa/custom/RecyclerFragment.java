@@ -7,7 +7,7 @@ import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
 
-import edepa.app.MainFragment;
+import edepa.app.CustomFragment;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
 
@@ -19,7 +19,7 @@ import android.arch.lifecycle.OnLifecycleEvent;
  * visible cuando se retrocede a la sección anterior o se
  * voltea la pantalla
  */
-public abstract class RecyclerFragment extends MainFragment {
+public abstract class RecyclerFragment extends CustomFragment {
 
     /**
      * Guarda el estado que tenía el RecyclerView

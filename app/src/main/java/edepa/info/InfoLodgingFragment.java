@@ -6,14 +6,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import edepa.app.SimpleFragment;
+import edepa.app.BaseFragment;
 import edepa.cloud.CloudLodging;
 import edepa.minilibs.SmoothLayout;
 import edepa.model.Lodging;
@@ -21,7 +20,7 @@ import edepa.modelview.R;
 
 import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 
-public class InfoLodgingFragment extends SimpleFragment implements CloudLodging.Callbacks{
+public class InfoLodgingFragment extends BaseFragment implements CloudLodging.Callbacks{
 
     @BindView(R.id.lodging_recycler)
     RecyclerView lodgingRecycler;
@@ -32,7 +31,7 @@ public class InfoLodgingFragment extends SimpleFragment implements CloudLodging.
 
     @Override
     public int getResource() {
-        return R.layout.info_lodging;
+        return R.layout.information_lodging;
     }
 
     @Override
@@ -105,7 +104,7 @@ public class InfoLodgingFragment extends SimpleFragment implements CloudLodging.
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new LodgingHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.lodging_item, parent, false));
+                    .inflate(R.layout.information_lodging_item, parent, false));
         }
 
         @Override

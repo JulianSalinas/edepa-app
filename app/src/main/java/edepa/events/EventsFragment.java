@@ -4,7 +4,7 @@ import butterknife.BindView;
 import edepa.model.Event;
 import edepa.modelview.R;
 import edepa.minilibs.SmoothLayout;
-import edepa.app.MainFragment;
+import edepa.app.CustomFragment;
 import edepa.cloud.CloudEvents;
 import edepa.cloud.CloudFavorites;
 
@@ -15,7 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
 
 
-public abstract class EventsFragment extends MainFragment
+public abstract class EventsFragment extends CustomFragment
         implements CloudEvents.Callbacks, CloudFavorites.Callbacks {
 
     /**
@@ -72,7 +72,7 @@ public abstract class EventsFragment extends MainFragment
      */
     @Override
     public int getResource() {
-        return R.layout.events_view;
+        return R.layout.schedule_screen;
     }
 
     /**

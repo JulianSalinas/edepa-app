@@ -41,7 +41,7 @@ public class InfoGeneralFragment extends MapFragment {
 
     @Override
     public int getResource() {
-        return R.layout.info_general;
+        return R.layout.information_general;
     }
 
     /**

@@ -5,19 +5,17 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
-import android.widget.SearchView;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-import edepa.app.MainActivity;
-import edepa.app.MainFragment;
-import edepa.app.NavigationActivity;
+import edepa.app.ActivityNavig;
+import edepa.app.CustomFragment;
 import edepa.minilibs.SmoothLayout;
 import edepa.modelview.R;
 
 import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 
-public abstract class SearchBasicFragment extends MainFragment
+public abstract class SearchBasicFragment extends CustomFragment
         implements MaterialSearchView.OnQueryTextListener {
 
     public abstract void search(String query);
@@ -42,7 +40,7 @@ public abstract class SearchBasicFragment extends MainFragment
     }
 
     public void returnToSearchByPanelFragment(){
-        NavigationActivity activity = getNavigationActivity();
+        ActivityNavig activity = getNavigationActivity();
 
         activity.getSupportFragmentManager()
                 .beginTransaction()

@@ -2,7 +2,7 @@ package edepa.pagers;
 
 import butterknife.BindView;
 
-import edepa.app.MainFragment;
+import edepa.app.CustomFragment;
 import edepa.cloud.CloudEvents;
 import edepa.model.Event;
 import edepa.modelview.R;
@@ -22,7 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 
-public abstract class PagerFragment extends MainFragment
+public abstract class PagerFragment extends CustomFragment
         implements EventsFragment.IPageListener, CloudEvents.Callbacks {
 
     /**
@@ -81,7 +81,7 @@ public abstract class PagerFragment extends MainFragment
      */
     @Override
     public int getResource() {
-        return R.layout.events_pager;
+        return R.layout.schedule_pager;
     }
 
     /**

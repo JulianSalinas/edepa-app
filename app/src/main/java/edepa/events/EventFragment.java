@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import edepa.app.MainFragment;
+import edepa.app.CustomFragment;
 import edepa.cloud.CloudEvents;
 import edepa.cloud.CloudFavorites;
 import edepa.minilibs.TimeConverter;
@@ -47,7 +47,7 @@ import static edepa.settings.SettingsLanguage.ENGLISH;
 import static edepa.settings.SettingsLanguage.SPANISH;
 
 
-public class EventFragment extends MainFragment
+public class EventFragment extends CustomFragment
         implements ValueEventListener, DownloadService.DownloadListener{
 
     private static final String SAVED_EVENT_KEY = "event_state";
@@ -133,7 +133,7 @@ public class EventFragment extends MainFragment
      */
     @Override
     public int getResource() {
-        return R.layout.event_detail;
+        return R.layout.event_screen;
     }
 
     /**
@@ -457,8 +457,8 @@ public class EventFragment extends MainFragment
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         Resources res = getResources();
-        params.setMarginStart((int) res.getDimension(R.dimen.space_default));
-        params.setMarginEnd((int) res.getDimension(R.dimen.space_default));
+        params.setMarginStart((int) res.getDimension(R.dimen.size_default));
+        params.setMarginEnd((int) res.getDimension(R.dimen.size_default));
         return params;
     }
 

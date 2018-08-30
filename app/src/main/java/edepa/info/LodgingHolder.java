@@ -3,7 +3,6 @@ package edepa.info;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.util.Linkify;
 import android.util.Log;
@@ -12,8 +11,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import edepa.app.MainActivity;
-import edepa.minilibs.ColorGenerator;
+import edepa.app.ActivityMain;
 import edepa.minilibs.DialogFancy;
 import edepa.minilibs.RegexSearcher;
 import edepa.model.Lodging;
@@ -62,8 +60,8 @@ public class LodgingHolder extends RecyclerView.ViewHolder {
     private void tryToOpenUrl(String url){
         Context context = itemView.getContext();
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        if(context instanceof MainActivity) {
-            MainActivity activity = (MainActivity) context;
+        if(context instanceof ActivityMain) {
+            ActivityMain activity = (ActivityMain) context;
             activity.startActivity(intent);
         }
     }
@@ -72,8 +70,8 @@ public class LodgingHolder extends RecyclerView.ViewHolder {
         new DialogFancy.Builder()
                 .setContext(itemView.getContext())
                 .setStatus(DialogFancy.ERROR)
-                .setTitle(R.string.invalid_link)
-                .setContent(R.string.invalid_link_content)
+                .setTitle(R.string.text_invalid_link)
+                .setContent(R.string.text_invalid_link_content)
                 .build().show();
         Log.e(toString(), exception.getMessage());
     }

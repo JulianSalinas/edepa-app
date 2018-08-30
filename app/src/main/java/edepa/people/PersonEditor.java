@@ -11,7 +11,7 @@ import com.mklimek.circleinitialsview.CircleInitialsView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
-import edepa.app.MainFragment;
+import edepa.app.CustomFragment;
 import edepa.cloud.Cloud;
 import edepa.minilibs.ColorConverter;
 import edepa.minilibs.ColorGenerator;
@@ -19,7 +19,7 @@ import edepa.minilibs.DialogFancy;
 import edepa.model.Person;
 import edepa.modelview.R;
 
-public class PersonEditor extends MainFragment {
+public class PersonEditor extends CustomFragment {
 
     @BindView(R.id.text_input_complete_name)
     TextView inputCompleteName;
@@ -64,7 +64,7 @@ public class PersonEditor extends MainFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setToolbarText(R.string.add_person);
+        setToolbarText(R.string.text_add_person);
     }
 
     @OnClick(R.id.add_person_button)

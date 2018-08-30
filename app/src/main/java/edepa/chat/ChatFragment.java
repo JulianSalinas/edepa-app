@@ -8,7 +8,7 @@ import butterknife.OnFocusChange;
 import edepa.cloud.Cloud;
 import edepa.cloud.CloudChat;
 
-import edepa.custom.FragmentImage;
+import edepa.custom.PhotoFragment;
 import edepa.custom.RecyclerFragment;
 import edepa.minilibs.RegexSearcher;
 import edepa.model.Message;
@@ -42,12 +42,9 @@ import com.cloudinary.android.UploadRequest;
 import com.cloudinary.android.policy.TimeWindow;
 import com.fxn.pix.Pix;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 
 public class ChatFragment extends RecyclerFragment {
@@ -117,7 +114,7 @@ public class ChatFragment extends RecyclerFragment {
      */
     @Override
     public int getResource() {
-        return R.layout.chat_view;
+        return R.layout.chat_screen;
     }
 
     /**
@@ -199,7 +196,7 @@ public class ChatFragment extends RecyclerFragment {
         imageView.setVisibility(View.VISIBLE);
         Glide.with(this)
                 .load(imageLocalPath)
-                .apply(FragmentImage.getRequestOptions(getContext()))
+                .apply(PhotoFragment.getRequestOptions(getContext()))
                 .into(imageView);
     }
 
