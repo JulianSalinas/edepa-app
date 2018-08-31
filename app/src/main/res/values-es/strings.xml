@@ -119,7 +119,7 @@
     <string name="text_download_error">Error al descargar</string>
     <string name="text_press_to_preview">Presiona para visualizar</string>
     <string name="text_download_started">La descarga ha iniciado</string>
-    <string name="text_download_file">Presione para descargar</string>
+    <string name="text_download_file">Descargar archivo adjunto</string>
 
     <string name="text_success_publication">Noticia publicada</string>
     <string name="text_error_publication">Error al realizar la publicación</string>
@@ -193,5 +193,9 @@
     <string name="text_of">de</string>
     <string name="text_show_more">mostrar más</string>
     <string name="text_show_less">mostrar menos</string>
+    <string name="text_download_permission">¿Permite a la aplicación descargar el archivo</string>
+    <string name="text_save_complete">La imagen se ha guardado</string>
+    <string name="text_save_image">Guardar imagen</string>
+    <string name="text_save_image_content">¿Desea guardar la imagen  de fondo?</string>
 
 </resources>

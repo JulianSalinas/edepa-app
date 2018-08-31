@@ -41,16 +41,6 @@ public class PagerSchedule extends PagerFragment {
 
     /**
      * {@inheritDoc}
-     * Se conecta la base de datos para comenzar a
-     * obtener los eventos y poder agregar la páginas
-     */
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    /**
-     * {@inheritDoc}
      * Si no existe una página para el nuevo evento, se
      * agrega una nueva
      */

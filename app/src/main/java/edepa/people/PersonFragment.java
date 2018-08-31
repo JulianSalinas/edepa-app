@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.mklimek.circleinitialsview.CircleInitialsView;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import edepa.app.ActivityNavig;
 import edepa.app.CustomFragment;
 import edepa.app.BaseFragment;
 import edepa.events.EventsAdapter;
@@ -27,6 +29,7 @@ import edepa.minilibs.SmoothLayout;
 import edepa.model.Event;
 import edepa.model.Person;
 import edepa.modelview.R;
+import edepa.search.SearchByPeopleFragment;
 
 public class PersonFragment extends CustomFragment {
 

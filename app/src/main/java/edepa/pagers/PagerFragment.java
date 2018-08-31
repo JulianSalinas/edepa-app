@@ -231,7 +231,7 @@ public abstract class PagerFragment extends CustomFragment
      * @see #addPage(long)
      */
     public void addPageIfNotExists(Event event){
-        long date = TimeConverter.atStartOfDay(event.getStart());
+        long date = TimeConverter.atStartOfDay(event.getDate());
         if (!dates.contains(date)) {
             addPage(date);
             eventsAmount--;
@@ -245,10 +245,12 @@ public abstract class PagerFragment extends CustomFragment
      * @see #addPage(long)
      */
     private int findIndexToAddPage(long date){
-        int index = dates.size() - 1;
-        for (int i = index; i >= 0; i--) {
-            if (dates.get(i) < date) return i;
-        }   return 0;
+        if(dates.size() == 0) return 0;
+        int index = 0;
+        for (int i = 0; i < dates.size(); i++) {
+            if (dates.get(i) <= date) index += 1;
+            else break;
+        }   return index;
     }
 
     /**

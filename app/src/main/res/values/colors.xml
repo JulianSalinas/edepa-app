@@ -38,5 +38,6 @@
 
     <color name="colorPrimaryPix">@color/edepa_primary_dark</color>
     <color name="colorPrimaryLightPix">@color/edepa_primary</color>
+    <color name="app_accent_translucent">#ad3c3c3c</color>
 
 </resources>

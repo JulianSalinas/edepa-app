@@ -1,12 +1,16 @@
 package edepa.search;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 
+import com.mklimek.circleinitialsview.CircleInitialsView;
+
 import edepa.app.ActivityNavig;
+import edepa.minilibs.ColorConverter;
 import edepa.minilibs.TextHighlighter;
 import edepa.minilibs.ColorGenerator;
 import edepa.modelview.R;
@@ -14,28 +18,28 @@ import edepa.model.Person;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edepa.people.PersonFragment;
+import edepa.people.PersonHolder;
 
 
-public class SearchHolderPerson extends RecyclerView.ViewHolder {
-
-    @BindView(R.id.event_decoration)
-    View eventDecoration;
+public class SearchHolderPerson extends PersonHolder {
 
     @BindView(R.id.text_title)
-    TextView personTitleView;
+    public TextView personTitleView;
 
     @BindView(R.id.name_text)
-    TextView personNameView;
+    public TextView personNameView;
 
-    protected int accent;
-    protected Person person;
-    protected Context context;
-    protected ColorGenerator colorGenerator;
+    @BindView(R.id.exhibitor_avatar_view)
+    public CircleInitialsView avatarView;
+
+    private int accent;
+    private Person person;
+    private ColorGenerator colorGenerator;
 
     public SearchHolderPerson(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        context = itemView.getContext();
+        Context context = itemView.getContext();
         colorGenerator = new ColorGenerator(context);
         accent = ContextCompat.getColor(context, R.color.app_accent);
     }
@@ -44,7 +48,7 @@ public class SearchHolderPerson extends RecyclerView.ViewHolder {
         this.person = person;
         bindPersonName();
         bindPersonTitle();
-        bindDecoration();
+        bindPersonAvatar();
         itemView.setOnClickListener(v -> openPersonFragment());
     }
 
@@ -58,9 +62,18 @@ public class SearchHolderPerson extends RecyclerView.ViewHolder {
         personNameView.setText(personName);
     }
 
-    public void bindDecoration() {
-        int color = colorGenerator.getColor(person.getCompleteName());
-        eventDecoration.setBackgroundColor(color);
+    public void bindPersonAvatar(){
+        String personName = person.getCompleteName();
+        avatarView.setText(personName);
+        avatarView.setTextColor(Color.WHITE);
+        int color = getAvatarColor();
+        avatarView.setBackgroundColor(color);
+    }
+
+    private int getAvatarColor(){
+        String personName = person.getCompleteName();
+        int color = colorGenerator.getColor(personName);
+        return ColorConverter.lighten(color);
     }
 
     public void highlightText(String query) {

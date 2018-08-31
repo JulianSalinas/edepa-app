@@ -110,8 +110,10 @@ dependencies {
     // Folding cell
     implementation 'com.ramotion.foldingcell:folding-cell:1.2.2'
 
-    // Flip
-    implementation 'com.wajahatkarim3.EasyFlipView:EasyFlipView:2.1.0'
+    // Expandable view
+    implementation 'com.github.iammert:ExpandableLayout:1.4.1'
+
+    implementation 'com.github.florent37:expansionpanel:1.1.1'
 
     // Para seleccionar colores
     implementation 'com.github.Kunzisoft:AndroidClearChroma:2.0'

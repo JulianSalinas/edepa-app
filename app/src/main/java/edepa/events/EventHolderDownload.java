@@ -7,6 +7,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edepa.minilibs.DialogFancy;
 import edepa.minilibs.RegexSearcher;
 import edepa.model.Event;
 import edepa.modelview.R;
@@ -18,11 +19,11 @@ import static android.view.View.VISIBLE;
 
 public class EventHolderDownload extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.event_download_size)
-    TextView eventDownloadSize;
-
     @BindView(R.id.event_download_filename)
     TextView eventDownloadFilename;
+
+    @BindView(R.id.event_download_description)
+    TextView eventDownloadDescription;
 
     private Event event;
     private Context context;
@@ -47,14 +48,27 @@ public class EventHolderDownload extends RecyclerView.ViewHolder {
             setListener(listener);
             String filename = RegexSearcher.findFilenameFromUrl(event.getFileUrl());
             eventDownloadFilename.setText(filename);
-            eventDownloadSize.setText(context.getString(R.string.text_download_file));
+            eventDownloadDescription.setText(context.getString(R.string.text_download_file));
         }
     }
 
     @OnClick(R.id.event_download_view)
     public void download(){
-        if (event.getFileUrl() != null)
-        downloadService.download(event.getFileUrl());
+
+        String filename = RegexSearcher.findFilenameFromUrl(event.getFileUrl());
+        String content = String.format("%s %s ?",
+                context.getString(R.string.text_download_permission), filename);
+
+        new DialogFancy.Builder()
+                .setContext(itemView.getContext())
+                .setStatus(DialogFancy.INFO)
+                .setTitle(R.string.text_download_file)
+                .setContent(content)
+                .setExistsCancel(true)
+                .setOnAcceptClick(v -> {
+                    if (event.getFileUrl() != null)
+                        downloadService.download(event.getFileUrl());
+                }).build().show();
     }
 
 }

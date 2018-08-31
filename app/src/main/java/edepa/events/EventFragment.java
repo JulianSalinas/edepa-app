@@ -1,7 +1,11 @@
 package edepa.events;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -16,11 +20,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import edepa.app.CustomFragment;
 import edepa.cloud.CloudEvents;
 import edepa.cloud.CloudFavorites;
+import edepa.minilibs.BitmapSave;
+import edepa.minilibs.DialogFancy;
 import edepa.minilibs.ReadMoreOption;
 import edepa.minilibs.TimeConverter;
 import edepa.custom.WallpaperGenerator;
@@ -38,8 +46,9 @@ import static edepa.settings.SettingsLanguage.SPANISH;
 
 
 public class EventFragment extends CustomFragment
-        implements ValueEventListener, DownloadService.DownloadListener{
+        implements ValueEventListener, DownloadService.DownloadListener, BitmapSave.SaveListener {
 
+    private static final int MAX_ABSTRACT_LINES = 5;
     private static final String SAVED_EVENT_KEY = "event_state";
 
     @BindView(R.id.app_bar_layout)
@@ -87,11 +96,11 @@ public class EventFragment extends CustomFragment
     @BindView(R.id.event_calendar_view)
     View eventCalendarView;
 
-    @BindView(R.id.event_people_view)
+    @BindView(R.id.event_item_people)
     View eventPeopleView;
 
     @BindView(R.id.button_save_image)
-    View buttonDownloadImage;
+    View buttonSaveImage;
 
     /**
      * Evento que se coloca en pantalla
@@ -163,8 +172,20 @@ public class EventFragment extends CustomFragment
         updateEventView();
         updateFavoriteIcon();
         setToolbarVisibility(GONE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         CloudEvents.getSingleEventQuery(event.getKey()).addValueEventListener(this);
         CloudFavorites.getSingleFavoriteQuery(event.getKey()).addValueEventListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        CloudEvents.getSingleEventQuery(event.getKey()).removeEventListener(this);
+        CloudFavorites.getSingleFavoriteQuery(event.getKey()).removeEventListener(this);
     }
 
     /**
@@ -174,6 +195,35 @@ public class EventFragment extends CustomFragment
     @OnClick(R.id.event_favorite_button)
     public void updateFavorite(){
         CloudFavorites.updateFavorite(event);
+    }
+
+    @OnClick(R.id.button_save_image)
+    public void buttonSaveImageClick(){
+        new DialogFancy.Builder()
+                .setContext(getNavigationActivity())
+                .setStatus(DialogFancy.INFO)
+                .setTitle(R.string.text_save_image)
+                .setContent(R.string.text_save_image_content)
+                .setExistsCancel(true)
+                .setOnAcceptClick(v -> saveImage())
+                .build().show();
+    }
+
+    public void saveImage(){
+        if(toolbarImage.getDrawable() instanceof BitmapDrawable) {
+            BitmapSave bitmapSave = new BitmapSave(this);
+            BitmapDrawable draw = (BitmapDrawable) toolbarImage.getDrawable();
+            bitmapSave.execute(draw.getBitmap());
+        }
+    }
+
+    @Override
+    public void onSaveComplete(Uri uri) {
+        showStatusMessage(R.string.text_save_complete);
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setDataAndType(uri, "image/*");
+        startActivity(intent);
     }
 
     private void updateEvent(Event newValue){
@@ -234,7 +284,7 @@ public class EventFragment extends CustomFragment
 
     private void bindType(){
         EventType type = event.getEventype();
-        eventDetailType.setText(type.getStringResource());
+        eventDetailType.setText(type.toString());
         eventDetailType.setBackgroundResource(type.getColorResource());
     }
 
@@ -242,6 +292,8 @@ public class EventFragment extends CustomFragment
         WallpaperGenerator gen = new WallpaperGenerator(getNavigationActivity());
         Drawable wallpaper = gen.getWallpaper(event);
         toolbarImage.setImageDrawable(wallpaper);
+        boolean canBeSave = wallpaper instanceof BitmapDrawable;
+        buttonSaveImage.setVisibility(canBeSave ? VISIBLE : GONE);
     }
 
     /**
@@ -321,7 +373,7 @@ public class EventFragment extends CustomFragment
             eventAbstractContainer.setVisibility(VISIBLE);
             ReadMoreOption readMoreOption = new ReadMoreOption
                     .Builder(getNavigationActivity())
-                    .textLength(5, ReadMoreOption.TYPE_LINE)
+                    .textLength(MAX_ABSTRACT_LINES, ReadMoreOption.TYPE_LINE)
                     .moreLabel(R.string.text_show_more)
                     .lessLabel(R.string.text_show_less)
                     .moreLabelColorRes(R.color.app_accent)
@@ -330,6 +382,7 @@ public class EventFragment extends CustomFragment
                     .expandAnimation(true)
                     .build();
             readMoreOption.addReadMoreTo(eventDetailAbstract, getAbstract(event));
+            eventDetailAbstract.setText(getAbstract(event));
         }
 
     }
@@ -353,13 +406,13 @@ public class EventFragment extends CustomFragment
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
         Object data = dataSnapshot.getValue();
-        if (data instanceof Event) {
-            Event newValue = dataSnapshot.getValue(Event.class);
-            updateEvent(newValue);
-        }
-        else {
+        if (data == null || data instanceof Long) {
             event.setFavorite(dataSnapshot.getValue() != null);
             updateFavoriteIcon();
+        }
+        else {
+            Event newValue = dataSnapshot.getValue(Event.class);
+            updateEvent(newValue);
         }
     }
 

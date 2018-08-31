@@ -88,8 +88,6 @@ public class SearchByPanelFragment extends CustomFragment
         String filter = params.getString(SearchByEventsFragment.FILTER_KEY);
         Fragment fragment = getFragmentBasedOnFilter(filter);
         fragment.setArguments(params);
-        // getNavigationActivity().getSupportFragmentManager().popBackStack();
-        // setFragmentOnScreen(fragment, filter);
 
         ActivityNavig activity = getNavigationActivity();
         activity.getSupportFragmentManager()

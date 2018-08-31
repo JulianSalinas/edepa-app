@@ -30,6 +30,13 @@ public class TimeConverter {
         return date.format(dtf).toLowerCase();
     }
 
+    public static String extractDateUTC(Long datetime) {
+        Instant instant = Instant.ofEpochMilli(datetime);
+        ZonedDateTime date = ZonedDateTime.ofInstant(instant, ZoneId.of("UTC"));
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d MMM yyyy");
+        return date.format(dtf).toLowerCase();
+    }
+
     /**
      * Extrae únicamente la hora de una fecha dada en formato Long
      * @param datetime fecha en formato long

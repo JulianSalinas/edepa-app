@@ -16,7 +16,7 @@
         android:layout_height="@dimen/size_image_small"
         android:scaleType="centerCrop"
         android:contentDescription="@null"
-        tools:src="@drawable/img_minimap" />
+        android:src="@drawable/img_minimap" />
 
     <LinearLayout
         android:id="@+id/uploading_view"

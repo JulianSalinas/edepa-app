@@ -32,7 +32,8 @@
                 android:gravity="center"
                 android:padding="@dimen/size_medium"
                 android:layout_margin="@dimen/size_medium"
-                android:text="@string/text_without_favorites" />
+                android:text="@string/text_without_favorites"
+                android:textColor="@color/app_primary_font"/>
 
         </android.support.v7.widget.CardView>
 

@@ -115,7 +115,7 @@
     <string name="text_download_error">Error downloading</string>
     <string name="text_press_to_preview">Press to view</string>
     <string name="text_download_started">The download has started</string>
-    <string name="text_download_file">Press to download</string>
+    <string name="text_download_file">Download attachment</string>
 
     <string name="text_success_publication">Published news</string>
     <string name="text_error_publication">Error while publishing</string>
@@ -145,18 +145,23 @@
     <string name="text_all_fields_are_optional">All fields are optional</string>
     <string name="text_person_description_example">Eg Title, University or Country</string>
 
-    <string name="text_warning_publication_content">The news has been saved. It will be published         when the internet connection is resumed</string>
+    <string name="text_warning_publication_content">The news has been saved. It will be published
+        when the internet connection is resumed</string>
 
-    <string name="text_invalid_link_content">It is possible that link you are trying to access         have an incorrect format or is no longer available</string>
+    <string name="text_invalid_link_content">It is possible that link you are trying to access
+        have an incorrect format or is no longer available</string>
 
-    <string name="text_language_change_content">It is necessary to restart the application to apply         the changes. Do you wish to reboot now?</string>
+    <string name="text_language_change_content">It is necessary to restart the application to
+        apply the changes. Do you wish to reboot now?</string>
 
-    <string name="test_dropdbox_description">Share, sync, and collaborate on files securely with Dropbox         Business, a file sharing and cloud storage solution that employees love and IT admins trust.</string>
+    <string name="test_dropdbox_description">Share, sync, and collaborate on files securely with
+        Dropbox Business, a file sharing and cloud storage solution that employees love and IT admins trust.</string>
 
     <string name="text_write_here_the_content">Write the content here You can include links to
         documents or web pages</string>
 
-    <string name="text_warning_delete_new">If the news is deleted the other users no longer         they will be able to access it. do you wish to continue?</string>
+    <string name="text_warning_delete_new">If the news is deleted the other users no longer they
+        will be able to access it. do you wish to continue?</string>
 
     <string name="text_refresh">Refresh</string>
     <string name="test_person">Adam Smith</string>
@@ -184,5 +189,9 @@
     <string name="text_of">of</string>
     <string name="text_show_more">show more</string>
     <string name="text_show_less">show less</string>
+    <string name="text_download_permission">Allow the application to download the file</string>
+    <string name="text_save_complete">Saved image</string>
+    <string name="text_save_image">Save background</string>
+    <string name="text_save_image_content">Do you want to save the background?</string>
 
 </resources>

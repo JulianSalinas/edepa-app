@@ -21,13 +21,13 @@ import com.mklimek.circleinitialsview.CircleInitialsView;
 public class PersonHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.text_title)
-    TextView personTitleView;
+    public TextView personTitleView;
 
     @BindView(R.id.name_text)
-    TextView personNameView;
+    public TextView personNameView;
 
     @BindView(R.id.exhibitor_avatar_view)
-    CircleInitialsView avatarView;
+    public CircleInitialsView avatarView;
 
     private int accent;
     private Person person;

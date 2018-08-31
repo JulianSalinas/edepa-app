@@ -1,5 +1,6 @@
 package edepa.pagers;
 
+import java.sql.Time;
 import java.util.List;
 
 import edepa.events.EventsFragment;
@@ -92,7 +93,7 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public CharSequence getPageTitle(int position) {
-        return TimeConverter.extractDate(dates.get(position));
+        return TimeConverter.extractDateUTC(dates.get(position));
     }
 
     /**

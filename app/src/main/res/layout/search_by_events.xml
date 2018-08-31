@@ -12,11 +12,11 @@
     <TextView
         android:id="@+id/events_text"
         android:padding="@dimen/size_default"
-        android:background="@color/app_accent_light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/text_searching_for_eventos"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:textColor="@color/app_primary_font"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/events_recycler"

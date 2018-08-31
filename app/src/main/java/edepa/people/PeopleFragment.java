@@ -127,7 +127,7 @@ public class PeopleFragment extends CustomFragment
 
     @Override
     public void onPermissionGranted() {
-        addPersonButton.setVisibility(View.VISIBLE);
+        addPersonButton.setVisibility(View.GONE);
 
         peopleRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

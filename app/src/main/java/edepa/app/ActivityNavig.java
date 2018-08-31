@@ -12,6 +12,7 @@ import edepa.people.PeopleFragment;
 import edepa.pagers.TabbedFragment;
 import edepa.notices.NoticesFragment;
 import edepa.search.SearchByPanelFragment;
+import edepa.search.SearchByPeopleFragment;
 import edepa.settings.SettingsThemeFragment;
 import edepa.settings.SettingsGeneralFragment;
 
@@ -428,11 +429,18 @@ public class ActivityNavig extends ActivityMain implements
      */
     @Override
     public void onSearchViewShown() {
-        openSearchByPanel();
+        Fragment peopleFragment = getSupportFragmentManager()
+                .findFragmentByTag("PEOPLE_FRAGMENT");
+        if(peopleFragment != null && peopleFragment.isVisible()) {
+            openSearchByPeople();
+        }
+        else {
+            openSearchByPanel();
+        }
     }
 
     /**
-     * Color el fragmento para realizar búsquedas mediante
+     * Abre el fragmento para realizar búsquedas mediante
      * algún filtro
      */
     public void openSearchByPanel(){
@@ -440,6 +448,17 @@ public class ActivityNavig extends ActivityMain implements
                 .beginTransaction()
                 .addToBackStack(null)
                 .replace(R.id.main_content, new SearchByPanelFragment())
+                .commit();
+    }
+
+    /**
+     * Abre el fragmento para buscar personas
+     */
+    public void openSearchByPeople(){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.main_content, new SearchByPeopleFragment())
                 .commit();
     }
 

@@ -62,7 +62,7 @@ public class SearchAdapterPeople
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new SearchHolderPerson(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.search_item_person, parent, false));
+                .inflate(R.layout.people_item, parent, false));
     }
 
     @Override

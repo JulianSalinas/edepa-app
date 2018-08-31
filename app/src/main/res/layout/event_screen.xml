@@ -112,7 +112,7 @@
                     android:layout_height="55dp"
                     android:layout_width="match_parent"
                     android:layout_alignParentBottom="true"
-                    android:background="#ae000000"
+                    android:background="@color/app_accent_translucent"
                     android:orientation="horizontal">
 
                     <TextView
@@ -175,8 +175,7 @@
                 android:layout_marginStart="@dimen/size_default"
                 android:layout_marginEnd="@dimen/size_default"
                 android:text="@string/test_congress"
-                android:textSize="@dimen/font_big"
-                android:textColor="@android:color/primary_text_light"/>
+                android:textSize="@dimen/font_big" />
 
             <View
                 android:layout_width="match_parent"
@@ -188,7 +187,6 @@
                 android:id="@+id/event_abstract_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/size_default"
                 android:orientation="vertical">
 
                 <TextView
@@ -209,7 +207,6 @@
                     android:layout_marginStart="@dimen/size_default"
                     android:layout_marginEnd="@dimen/size_default"
                     android:text="@string/text_lorem_ipsum"
-                    android:textColor="@android:color/primary_text_light"
                     android:textSize="@dimen/font_medium"/>
 
             </LinearLayout>
@@ -223,7 +220,7 @@
                 android:paddingBottom="@dimen/size_default">
 
                 <include
-                    layout="@layout/event_item_people_front"
+                    layout="@layout/event_item_people"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/size_default"
