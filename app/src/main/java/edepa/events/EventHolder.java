@@ -66,19 +66,6 @@ public class EventHolder extends RecyclerView.ViewHolder {
         this.event = event;
     }
 
-    public void highlightText(String query) {
-        if(query.length() >= 1) {
-            highlightText(eventTitle, query);
-            highlightText(eventTimeDescription, query);
-            highlightText(eventType, query);
-        }
-    }
-
-    public void highlightText(TextView textView, String query){
-        textView.setText(TextHighlighter.highlightText(query,
-                textView.getText().toString(), accent));
-    }
-
     public static class Single extends EventHolder implements OnLikeListener {
 
         public Single(View itemView) {

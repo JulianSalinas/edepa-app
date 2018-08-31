@@ -21,12 +21,12 @@ public class TimeConverter {
     /**
      * Extrae la fecha (sin hora) de un tipo de dato Long
      * @param datetime fecha en formato Long
-     * @return String con el formato dd/mm/yyyy
+     * @return String con el formato d/mmm/yyyy
      */
     public static String extractDate(Long datetime) {
         Instant instant = Instant.ofEpochMilli(datetime);
         ZonedDateTime date = ZonedDateTime.ofInstant(instant, ZoneId.of("UTC-06:00"));
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d/M/yyyy");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d MMM yyyy");
         return date.format(dtf).toLowerCase();
     }
 

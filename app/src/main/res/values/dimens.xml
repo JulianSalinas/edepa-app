@@ -10,13 +10,14 @@
     <dimen name="avatar_biggest_height">@dimen/avatar_biggest_width</dimen>
 
     <dimen name="card_elevation">1dp</dimen>
+    <dimen name="card_radius_default">5dp</dimen>
     <dimen name="card_radius_chat_send">26dp</dimen>
     <dimen name="card_radius_chat_input">20dp</dimen>
     <dimen name="card_radius_chat_message">10dp</dimen>
 
     <dimen name="font_small">12sp</dimen>
     <dimen name="font_medium">16sp</dimen>
-    <dimen name="font_big">20sp</dimen>
+    <dimen name="font_big">18sp</dimen>
     <dimen name="font_biggest">24sp</dimen>
 
     <dimen name="size_smallest">4dp</dimen>
@@ -26,6 +27,7 @@
 
     <dimen name="size_icon">24dp</dimen>
     <dimen name="size_icon_container">56dp</dimen>
+    <dimen name="size_icon_container_big">62dp</dimen>
 
     <dimen name="size_gmap">256dp</dimen>
     <dimen name="size_header_img">230dp</dimen>

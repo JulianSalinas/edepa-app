@@ -3,7 +3,7 @@
 <android.support.v7.widget.CardView
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/event_download_view"
+    android:id="@+id/event_see_map_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipToPadding="false"
@@ -15,17 +15,17 @@
         android:orientation="horizontal">
 
         <RelativeLayout
+            android:background="@color/material_teal"
             android:layout_height="match_parent"
-            android:layout_width="@dimen/size_icon_container_big"
-            android:background="@color/material_light_green">
+            android:layout_width="@dimen/size_icon_container_big">
 
             <ImageView
+                android:src="@drawable/ic_map"
                 android:layout_width="@dimen/size_icon"
                 android:layout_height="@dimen/size_icon"
                 android:layout_centerInParent="true"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_download"
-                android:tint="@color/app_white" />
+                android:tint="@color/app_white"
+                android:contentDescription="@null"/>
 
         </RelativeLayout>
 
@@ -41,18 +41,16 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/event_download_filename"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="@dimen/font_medium"
-                android:text="Nombre de archivo.pdf"/>
+                android:text="@string/text_see_map"/>
 
             <TextView
-                android:id="@+id/event_download_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="120 MB"/>
+                android:text="@string/text_press_to_preview"/>
 
         </LinearLayout>
 

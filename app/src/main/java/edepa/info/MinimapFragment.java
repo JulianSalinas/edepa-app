@@ -5,6 +5,8 @@ import android.util.Log;
 
 import edepa.cloud.Cloud;
 import edepa.custom.PhotoFragment;
+import edepa.minilibs.RegexSearcher;
+import edepa.modelview.R;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,6 +46,7 @@ public class MinimapFragment
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
         imageUrl = dataSnapshot.getValue(String.class);
+        setToolbarText(R.string.text_see_map);
         loadAsyncImage();
     }
 

@@ -1,7 +1,12 @@
 package edepa.cloud;
 
+import android.content.Context;
+
 import edepa.model.Event;
 import edepa.model.EventType;
+import edepa.modelview.R;
+import edepa.pagers.PagerFragment;
+import edepa.pagers.PagerSchedule;
 
 import com.google.firebase.database.Query;
 import com.google.firebase.database.DataSnapshot;
@@ -136,13 +141,6 @@ public class CloudEvents extends CloudChild {
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         Event event = dataSnapshot.getValue(Event.class);
         if (event != null) {
-//            event.setKey(dataSnapshot.getKey());
-//            if (event.getPeople() != null){
-//                for(String personKey : event.getPeople().keySet()){
-//                    Cloud.getInstance().getReference(Cloud.PEOPLE)
-//                            .child(personKey).child("events").child(event.getKey()).setValue(true);
-//                }
-//            }
             event.setKey(dataSnapshot.getKey());
             callbacks.addEvent(event);
         }

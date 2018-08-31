@@ -3,7 +3,7 @@
 <android.support.v7.widget.CardView
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/event_download_view"
+    android:id="@+id/event_calendar_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipToPadding="false"
@@ -15,44 +15,38 @@
         android:orientation="horizontal">
 
         <RelativeLayout
+            android:background="@color/material_green"
             android:layout_height="match_parent"
-            android:layout_width="@dimen/size_icon_container_big"
-            android:background="@color/material_light_green">
+            android:layout_width="@dimen/size_icon_container_big">
 
             <ImageView
+                android:src="@drawable/ic_schedule"
+                android:tint="@color/app_white"
                 android:layout_width="@dimen/size_icon"
                 android:layout_height="@dimen/size_icon"
                 android:layout_centerInParent="true"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_download"
-                android:tint="@color/app_white" />
+                android:contentDescription="@null"/>
 
         </RelativeLayout>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/app_accent_light"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/size_small"
+            android:padding="@dimen/size_medium"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/event_download_filename"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="@dimen/font_medium"
-                android:text="Nombre de archivo.pdf"/>
+                android:text="@string/text_add_to_calendar"/>
 
             <TextView
-                android:id="@+id/event_download_size"
+                android:id="@+id/event_agenda_date_rage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="120 MB"/>
+                android:text="@string/test_app_range_time"/>
 
         </LinearLayout>
 
