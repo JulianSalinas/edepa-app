@@ -80,7 +80,9 @@ public class PeopleFragment extends CustomFragment
         peopleRecycler.setHasFixedSize(true);
         peopleRecycler.setItemAnimator(new DefaultItemAnimator());
         peopleRecycler.setLayoutManager(new SmoothLayout(getActivity()));
-        cloudAdmin.requestAdminPermission();
+
+        addPersonButton.setVisibility(View.GONE);
+        // cloudAdmin.requestAdminPermission();
 
         DividerItemDecoration decoration =
                 new DividerItemDecoration(getNavigationActivity(), VERTICAL);

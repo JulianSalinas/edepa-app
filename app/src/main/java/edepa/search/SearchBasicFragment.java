@@ -18,36 +18,36 @@ import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 public abstract class SearchBasicFragment extends CustomFragment
         implements MaterialSearchView.OnQueryTextListener {
 
+    private MaterialSearchView searchView;
+
+    public abstract void clear();
+
     public abstract void search(String query);
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getNavigationActivity().getSearchView().setOnQueryTextListener(this);
+        searchView = getNavigationActivity().getSearchView();
+        searchView.setOnQueryTextListener(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        searchView.setOnQueryTextListener(null);
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        return false;
+        return onQueryTextChange(query);
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
         if (newText == null || newText.isEmpty())
-            returnToSearchByPanelFragment();
+            clear();
         else search(newText);
-        return false;
-    }
-
-    public void returnToSearchByPanelFragment(){
-        ActivityNavig activity = getNavigationActivity();
-
-        activity.getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.main_content, new SearchByPanelFragment())
-                .commit();
-
-        // activity.openSearchByPanel();
+        return true;
     }
 
     public void setupRecycler(RecyclerView recycler, RecyclerView.Adapter adapter){

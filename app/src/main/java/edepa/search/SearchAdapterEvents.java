@@ -116,11 +116,11 @@ public class SearchAdapterEvents
 
         long start = event.getStart();
         long end = event.getEnd();
-        String time = TimeConverter.getBlockString(context, start, end);
-        match = match || RegexSearcher.match(query, time);
+        String date = TimeConverter.extractDate(TimeConverter.atStartOfDay(event.getStart()));
+        String time = date + " " + TimeConverter.getBlockString(context, start, end).toLowerCase();
 
-        int resource = event.getEventype().getStringResource();
-        match = match || RegexSearcher.match(query, context.getString(resource));
+        match = match || RegexSearcher.match(query, time);
+        match = match || RegexSearcher.match(query, event.getEventype().toString());
         return match || RegexSearcher.match(query, event.getLocation());
     }
 

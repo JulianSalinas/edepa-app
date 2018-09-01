@@ -34,6 +34,19 @@
                 android:padding="@dimen/size_medium">
 
                 <TextView
+                    android:id="@+id/event_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/size_small"
+                    android:background="@color/app_accent"
+                    android:padding="@dimen/size_smallest"
+                    android:textSize="@dimen/font_small"
+                    android:textColor="@color/app_white_font"
+                    android:textAllCaps="true"
+                    android:text="Taller"
+                    android:tag=":aesthetic_ignore"/>
+
+                <TextView
                     android:id="@+id/event_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -48,10 +61,10 @@
                     android:fontFamily="sans-serif-light" />
 
                 <TextView
-                    android:id="@+id/event_type_and_time"
+                    android:id="@+id/event_datetime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/test_type_and_time"
+                    android:text="@string/test_app_range_time"
                     android:fontFamily="sans-serif-light" />
 
             </LinearLayout>

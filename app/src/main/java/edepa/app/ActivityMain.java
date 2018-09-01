@@ -64,7 +64,7 @@ public abstract class ActivityMain extends AppCompatActivity
      * de la aplicación por error. Cuando la bandera es True se puede
      * salir, esto se aplica en el método {@link #onBackPressed()}
      */
-    private boolean exitFlag;
+    protected boolean exitFlag;
 
     /**
      * Menú que se extrae de navigationView para colocar
@@ -558,11 +558,15 @@ public abstract class ActivityMain extends AppCompatActivity
     public void onBackPressed() {
         hideKeyboard();
 
-        if (searchView.isSearchOpen())
+        if(searchView.isSearchOpen())
             searchView.closeSearch();
 
-        else if (drawerLayout.isDrawerOpen(START))
+        if (drawerLayout.isDrawerOpen(START))
             drawerLayout.closeDrawer(START);
+
+        else if (getSupportFragmentManager().getBackStackEntryCount() > 1){
+            getSupportFragmentManager().popBackStack();
+        }
 
         else if (getSupportFragmentManager().getBackStackEntryCount() <= 0){
 

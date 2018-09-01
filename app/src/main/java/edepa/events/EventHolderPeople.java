@@ -23,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import edepa.cloud.Cloud;
 import edepa.cloud.CloudEvents;
+import edepa.cloud.CloudPeople;
 import edepa.minilibs.SmoothLayout;
 import edepa.model.Event;
 import edepa.model.Person;
@@ -92,6 +93,7 @@ public class EventHolderPeople extends RecyclerView.ViewHolder implements ValueE
         if (person != null & !people.contains(person)) {
             person.setKey(dataSnapshot.getKey());
             person.setEventsList(new ArrayList<>());
+            CloudPeople.addEventsToPerson(person);
             people.add(person);
             peopleAdapter.notifyItemInserted(people.size() - 1);
         }

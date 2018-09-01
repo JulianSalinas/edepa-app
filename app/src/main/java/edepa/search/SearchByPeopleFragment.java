@@ -29,29 +29,34 @@ public class SearchByPeopleFragment extends SearchBasicFragment
         return R.layout.search_by_people;
     }
 
-    public void search(String query){
-        peopleAdapter.getFilter().filter(query);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        cloudPeople = new CloudPeople();
-        peopleAdapter = new SearchAdapterPeople();
-        cloudPeople.setCallbacks(peopleAdapter);
-        cloudPeople.connect();
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        cloudPeople = new CloudPeople();
+        peopleAdapter = new SearchAdapterPeople();
+        cloudPeople.setCallbacks(peopleAdapter);
+        cloudPeople.connect();
         setupRecycler(peopleRecycler, peopleAdapter);
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroyView() {
         cloudPeople.disconnect();
-        super.onDestroy();
+        super.onDestroyView();
+    }
+
+    public void search(String query){
+        peopleAdapter.getFilter().filter(query);
+    }
+
+    @Override
+    public void clear() {
+        peopleAdapter.getFilter().filter("");
     }
 
 }

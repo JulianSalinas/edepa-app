@@ -11,12 +11,14 @@ import edepa.info.AboutFragment;
 import edepa.people.PeopleFragment;
 import edepa.pagers.TabbedFragment;
 import edepa.notices.NoticesFragment;
+import edepa.search.SearchByEventsFragment;
 import edepa.search.SearchByPanelFragment;
 import edepa.search.SearchByPeopleFragment;
 import edepa.settings.SettingsThemeFragment;
 import edepa.settings.SettingsGeneralFragment;
 
 import android.net.Uri;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -423,6 +425,81 @@ public class ActivityNavig extends ActivityMain implements
     }
 
     /**
+     * Abre el fragmento para realizar búsquedas mediante
+     * algún filtro
+     */
+    public void openSearchByPanel(){
+        String tag = "SEARCH_BY_PANEL";
+        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
+        Fragment frag = temp != null ? temp : new SearchByPanelFragment();
+        if(frag.isAdded()){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .show(frag)
+                    .commit();
+        }
+        if (!frag.isAdded()) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.main_content, frag, tag)
+                    .commit();
+        }
+    }
+
+    public void closeSearchByPanelIfVisible(){
+        String tag = "SEARCH_BY_PANEL";
+        Fragment frag = getSupportFragmentManager().findFragmentByTag(tag);
+        if(frag != null && frag.isAdded()){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .remove(frag)
+                    .commit();
+        }
+    }
+
+    /**
+     * Abre el fragmento para buscar personas
+     */
+    public void openSearchByPeople() {
+        // closeSearchByPanelIfVisible();
+        String tag = "SEARCH_BY_PEOPLE";
+        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
+        Fragment frag = temp != null ? temp : new SearchByPeopleFragment();
+        if(frag.isAdded()){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .show(frag)
+                    .commit();
+        }
+        if (!frag.isAdded()) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.main_content, frag, tag)
+                    .commit();
+        }
+    }
+
+    public void openSearchByEvents(Bundle args){
+        // closeSearchByPanelIfVisible();
+        String tag = "SEARCH_BY_EVENTS";
+        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
+        Fragment frag = temp != null ? temp : new SearchByEventsFragment();
+        frag.setArguments(args);
+        if(frag.isAdded()){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .show(frag)
+                    .commit();
+        }
+        if (!frag.isAdded()) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.main_content, frag, tag)
+                    .commit();
+        }
+    }
+
+    /**
      * Se ejecuta cuando se abre la barra de búsqueda
      * Se coloca un fragmento para realizar las búsquedas
      * @see #onSearchViewClosed()
@@ -437,29 +514,7 @@ public class ActivityNavig extends ActivityMain implements
         else {
             openSearchByPanel();
         }
-    }
-
-    /**
-     * Abre el fragmento para realizar búsquedas mediante
-     * algún filtro
-     */
-    public void openSearchByPanel(){
-        getSupportFragmentManager()
-                .beginTransaction()
-                .addToBackStack(null)
-                .replace(R.id.main_content, new SearchByPanelFragment())
-                .commit();
-    }
-
-    /**
-     * Abre el fragmento para buscar personas
-     */
-    public void openSearchByPeople(){
-        getSupportFragmentManager()
-                .beginTransaction()
-                .addToBackStack(null)
-                .replace(R.id.main_content, new SearchByPeopleFragment())
-                .commit();
+        exitFlag = false;
     }
 
     /**
@@ -469,7 +524,36 @@ public class ActivityNavig extends ActivityMain implements
      */
     @Override
     public void onSearchViewClosed() {
-        getSupportFragmentManager().popBackStack();
+
+        searchView.setOnQueryTextListener(null);
+        searchView.setQuery("", false);
+
+        Fragment frag = getSupportFragmentManager()
+                .findFragmentByTag("SEARCH_BY_PEOPLE");
+
+        if (frag == null) {
+            frag = getSupportFragmentManager()
+                    .findFragmentByTag("SEARCH_BY_EVENTS");
+        }
+
+        if (frag != null && frag.isAdded()){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .remove(frag)
+                    .commit();
+        }
+
+        frag = getSupportFragmentManager()
+                .findFragmentByTag("SEARCH_BY_PANEL");
+
+        if (frag != null && frag.isAdded()){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .remove(frag)
+                    .commit();
+        }
+
+        Log.i("Search", "Closed");
     }
 
 }

@@ -26,11 +26,14 @@ public class SearchHolderEvent extends RecyclerView.ViewHolder {
     @BindView(R.id.event_title)
     TextView eventTitle;
 
+    @BindView(R.id.event_type)
+    TextView eventType;
+
+    @BindView(R.id.event_datetime)
+    TextView eventDateTime;
+
     @BindView(R.id.event_location)
     TextView eventLocation;
-
-    @BindView(R.id.event_type_and_time)
-    TextView eventTypeAndTime;
 
     protected int accent;
     protected Event event;
@@ -66,23 +69,30 @@ public class SearchHolderEvent extends RecyclerView.ViewHolder {
         Resources res = context.getResources();
         int color = res.getColor(event.getEventype().getColorResource());
         eventDecoration.setBackgroundColor(color);
+        eventType.setBackgroundColor(color);
     }
 
     public void bindInformation(){
         eventTitle.setText(event.getTitle());
+        eventType.setText(event.getEventype().toString());
+
+        String date = TimeConverter.extractDate(
+                TimeConverter.atStartOfDay(event.getStart()));
+
+        String description = String.format("%s %s", date, TimeConverter
+                        .getBlockString(context, event.getStart(), event.getEnd())
+                        .toLowerCase());
+
         eventLocation.setText(event.getLocation());
-        String description = TimeConverter.getBlockString(context,
-                event.getStart(), event.getEnd()).toLowerCase();
-        int resource = event.getEventype().getStringResource();
-        description = context.getString(resource) + " " + description;
-        eventTypeAndTime.setText(description);
+        eventDateTime.setText(description);
     }
 
     public void highlightText(String query) {
         if(query.length() >= 1) {
             highlightText(eventTitle, query);
+            highlightText(eventType, query);
+            highlightText(eventDateTime, query);
             highlightText(eventLocation, query);
-            highlightText(eventTypeAndTime, query);
         }
     }
 

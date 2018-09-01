@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -11,17 +12,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.mklimek.circleinitialsview.CircleInitialsView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
-import edepa.app.ActivityNavig;
-import edepa.app.CustomFragment;
 import edepa.app.BaseFragment;
+import edepa.app.FragmentDialog;
 import edepa.events.EventsAdapter;
 import edepa.minilibs.ColorConverter;
 import edepa.minilibs.ColorGenerator;
@@ -29,9 +27,8 @@ import edepa.minilibs.SmoothLayout;
 import edepa.model.Event;
 import edepa.model.Person;
 import edepa.modelview.R;
-import edepa.search.SearchByPeopleFragment;
 
-public class PersonFragment extends CustomFragment {
+public class PersonFragment extends FragmentDialog {
 
     public static final String SAVED_PERSON_KEY = "person_key";
 
@@ -50,11 +47,6 @@ public class PersonFragment extends CustomFragment {
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
 
-    @OnClick(R.id.button_back_view)
-    public void backPressed(){
-        getNavigationActivity().onBackPressed();
-    }
-
     private Person person;
 
     @Override
@@ -71,6 +63,7 @@ public class PersonFragment extends CustomFragment {
         Bundle args = new Bundle();
         args.putParcelable(SAVED_PERSON_KEY, person);
         fragment.setArguments(args);
+        fragment.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
         return fragment;
     }
 
@@ -85,7 +78,6 @@ public class PersonFragment extends CustomFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setToolbarVisibility(View.GONE);
         bindPersonAvatar();
         nameText.setText(person.getCompleteName());
         titleText.setText(person.getPersonalTitle());

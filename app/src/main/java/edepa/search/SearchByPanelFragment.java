@@ -16,34 +16,35 @@ import edepa.app.CustomFragment;
 public class SearchByPanelFragment extends CustomFragment
         implements MaterialSearchView.OnQueryTextListener {
 
+    private MaterialSearchView searchView;
+
     @Override
     public int getResource() {
         return R.layout.search_by_panel;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        searchView = getNavigationActivity().getSearchView();
+        searchView.setOnQueryTextListener(this);
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setToolbarText(R.string.text_search_by);
-        setToolbarVisibility(View.VISIBLE);
-        getNavigationActivity().getSearchView().setOnQueryTextListener(this);
+    public void onDestroyView() {
+        super.onDestroyView();
+        searchView.setOnQueryTextListener(null);
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        // openSearchWithFilter(new Bundle());
-        return false;
+        return onQueryTextChange(query);
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
         openSearchWithFilter(new Bundle());
-        return false;
+        return true;
     }
 
     @OnClick(R.id.conference_filter)
@@ -85,22 +86,25 @@ public class SearchByPanelFragment extends CustomFragment
     }
 
     public void openSearchWithFilter(Bundle params){
+
         String filter = params.getString(SearchByEventsFragment.FILTER_KEY);
-        Fragment fragment = getFragmentBasedOnFilter(filter);
-        fragment.setArguments(params);
+        String tag = getTagBasedOnFilter(filter);
 
         ActivityNavig activity = getNavigationActivity();
-        activity.getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.main_content, fragment)
-                .commit();
+
+        if (tag.equals("SEARCH_BY_PEOPLE")) {
+            activity.openSearchByPeople();
+        }
+        else if (tag.equals("SEARCH_BY_EVENTS")) {
+            activity.openSearchByEvents(params);
+        }
+
     }
 
-    public Fragment getFragmentBasedOnFilter(String filter){
+    public String getTagBasedOnFilter(String filter){
         String peopleFilter = SearchByPeopleFragment.PEOPLE_FILTER;
         return filter != null && filter.equals(peopleFilter) ?
-                new SearchByPeopleFragment() :
-                new SearchByEventsFragment();
+                "SEARCH_BY_PEOPLE" : "SEARCH_BY_EVENTS";
     }
 
 }

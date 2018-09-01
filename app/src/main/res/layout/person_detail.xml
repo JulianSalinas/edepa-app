@@ -11,13 +11,13 @@
         android:id="@+id/app_bar_layout"
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_header_detail_img">
+        android:layout_height="@dimen/size_gmap">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_container"
             android:fitsSystemWindows="true"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_header_detail_img"
+            android:layout_height="@dimen/size_gmap"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:expandedTitleTextAppearance="@android:color/transparent">
 
@@ -37,21 +37,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#c1ffffff"/>
-
-            <RelativeLayout
-                android:id="@+id/button_back_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="@dimen/size_icon"
-                    android:layout_height="@dimen/size_icon"
-                    android:layout_margin="@dimen/size_default"
-                    android:background="@drawable/ic_back"
-                    android:backgroundTint="@color/app_primary_font"
-                    android:contentDescription="@null" />
-
-            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"

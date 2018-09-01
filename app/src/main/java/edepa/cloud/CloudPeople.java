@@ -43,6 +43,12 @@ public class CloudPeople extends CloudChild {
                 .orderByChild("completeName");
     }
 
+    public static Query getPersonQuery(String personKey){
+        return Cloud.getInstance()
+                .getReference(Cloud.PEOPLE)
+                .child(personKey);
+    }
+
     /**
      * se conecta con la Bd para comenzar a recibir
      * información de las personas
@@ -69,31 +75,33 @@ public class CloudPeople extends CloudChild {
         if (person != null) {
             person.setKey(dataSnapshot.getKey());
             person.setEventsList(new ArrayList<>());
-            if (person.getEvents() != null && !person.getEvents().isEmpty()) {
-                for (String eventKey : person.getEvents().keySet()) {
-                    Cloud.getInstance().getReference(Cloud.SCHEDULE)
-                            .child(eventKey).addListenerForSingleValueEvent(new ValueEventListener() {
-
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            Event event = dataSnapshot.getValue(Event.class);
-                            if(event != null) {
-                                event.setKey(eventKey);
-                                person.getEventsList().add(event);
-                                Log.i("people", "adding event to person " + person.getCompleteName());
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            Log.e(toString(), databaseError.getMessage());
-                        }
-
-                    });
-                }
-            }
+            addEventsToPerson(person);
             callbacks.addPerson(person);
         }
+    }
+
+    public static void addEventsToPerson(Person person){
+        if (person.getEvents() != null && !person.getEvents().isEmpty()) {
+        for (String eventKey : person.getEvents().keySet()) {
+
+        Cloud.getInstance()
+                .getReference(Cloud.SCHEDULE)
+                .child(eventKey)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            Event event = dataSnapshot.getValue(Event.class);
+            if(event != null) {
+                event.setKey(eventKey);
+                person.getEventsList().add(event);
+            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            Log.e(toString(), databaseError.getMessage());
+        }});}}
     }
 
     /**

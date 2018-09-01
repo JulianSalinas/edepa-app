@@ -44,27 +44,32 @@ public class SearchByEventsFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventType typeFilter = getTypeFilterFromArguments();
-        cloudEvents = new CloudEvents();
-        eventsAdapter = new SearchAdapterEvents(typeFilter);
-        cloudEvents.setCallbacks(eventsAdapter);
-        cloudEvents.connect();
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        EventType typeFilter = getTypeFilterFromArguments();
+        cloudEvents = new CloudEvents();
+        eventsAdapter = new SearchAdapterEvents(typeFilter);
+        cloudEvents.setCallbacks(eventsAdapter);
+        cloudEvents.connect();
         setupRecycler(eventsRecycler, eventsAdapter);
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroyView() {
         cloudEvents.disconnect();
-        super.onDestroy();
+        super.onDestroyView();
     }
 
     public void search(String query){
         eventsAdapter.getFilter().filter(query);
+    }
+
+    @Override
+    public void clear() {
+        eventsAdapter.getFilter().filter("");
     }
 
 }

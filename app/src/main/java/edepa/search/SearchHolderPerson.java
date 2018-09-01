@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import com.mklimek.circleinitialsview.CircleInitialsView;
 
 import edepa.app.ActivityNavig;
+import edepa.cloud.CloudPeople;
 import edepa.minilibs.ColorConverter;
 import edepa.minilibs.TextHighlighter;
 import edepa.minilibs.ColorGenerator;
@@ -93,7 +94,7 @@ public class SearchHolderPerson extends PersonHolder {
         if (context instanceof ActivityNavig){
             ActivityNavig activity = (ActivityNavig) context;
             PersonFragment fragment = PersonFragment.newInstance(person);
-            activity.setFragmentOnScreen(fragment, person.getKey());
+            fragment.show(activity.getSupportFragmentManager(), person.getCompleteName());
         }
     }
 
