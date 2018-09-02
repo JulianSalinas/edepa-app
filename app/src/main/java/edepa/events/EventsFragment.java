@@ -23,7 +23,7 @@ public abstract class EventsFragment extends CustomFragment
      * Los eventos los obtiene de {@link #eventsAdapter}
      */
     @BindView(R.id.events_recycler)
-    RecyclerView eventsRV;
+    RecyclerView eventsRecycler;
 
     /**
      * Solo eventos de esta fecha deben estar en
@@ -62,7 +62,7 @@ public abstract class EventsFragment extends CustomFragment
     }
 
     /**
-     * Adaptador para {@link #eventsRV}
+     * Adaptador para {@link #eventsRecycler}
      * y así colocar los eventos de forma visual
      */
     protected EventsAdapter eventsAdapter;
@@ -100,15 +100,15 @@ public abstract class EventsFragment extends CustomFragment
 
     /**
      * {@inheritDoc}
-     * Se configura el {@link #eventsRV}
+     * Se configura el {@link #eventsRecycler}
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        eventsRV.setHasFixedSize(true);
-        eventsRV.setAdapter(eventsAdapter);
-        eventsRV.setItemAnimator(new DefaultItemAnimator());
-        eventsRV.setLayoutManager(new SmoothLayout(activity));
+        eventsRecycler.setHasFixedSize(true);
+        eventsRecycler.setAdapter(eventsAdapter);
+        eventsRecycler.setItemAnimator(new DefaultItemAnimator());
+        eventsRecycler.setLayoutManager(new SmoothLayout(activity));
     }
 
     /**

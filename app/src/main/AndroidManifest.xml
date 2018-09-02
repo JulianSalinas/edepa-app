@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="edepa.modelview">
 
@@ -80,14 +81,6 @@
             android:theme="@style/AppTheme">
 
         </activity>
-
-        <service
-            android:name="edepa.services.AlarmService"
-            tools:ignore="ExportedService">
-            <intent-filter>
-                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
-            </intent-filter>
-        </service>
 
         <service
             android:name="edepa.services.NotificationService"

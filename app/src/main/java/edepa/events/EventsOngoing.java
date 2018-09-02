@@ -232,7 +232,7 @@ public class EventsOngoing
      * @param isEmpty: True si no hay eventos en curso
      */
     public void updateInterface(boolean isEmpty){
-        eventsRV.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+        eventsRecycler.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
         eventsEmptyView.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
         String s = TimeConverter.longToString(System.currentTimeMillis());
         Log.i(toString(), String.format("Update complete at %s", s));

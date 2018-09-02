@@ -5,13 +5,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/view_mod_item"
-        android:title="@string/text_view_mod"
-        android:icon="@drawable/ic_view_module"
-        app:iconTint="@color/app_primary_font"
-        app:showAsAction="ifRoom"/>
-
-    <item
         android:id="@+id/search_item"
         android:title="@string/text_search_title"
         android:icon="@drawable/ic_action_action_search"

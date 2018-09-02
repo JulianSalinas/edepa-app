@@ -2,22 +2,26 @@ package edepa.pagers;
 
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import edepa.app.MainActivity;
+import edepa.model.Preferences;
 import edepa.modelview.R;
 import butterknife.BindView;
 import edepa.custom.CustomFragment;
 import edepa.events.EventsOngoing;
 
 
-public class TabbedFragment extends CustomFragment {
+public abstract class TabbedFragmentDefault extends CustomFragment {
 
     /**
      * Cantidad de fragmentos
@@ -67,6 +71,27 @@ public class TabbedFragment extends CustomFragment {
         return R.layout.schedule_tabs;
     }
 
+    public abstract TabbedAdapter getTabbedAdapter();
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, parent, savedInstanceState);
+        setHasOptionsMenu(true);
+        return v;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.viewtype_menu, menu);
+        MenuItem view_mod_item = menu.findItem(R.id.view_mod_item);
+        view_mod_item.setOnMenuItemClickListener(item -> changeViewMode());
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    public boolean changeViewMode(){
+        return getNavigationActivity().changeViewMode();
+    }
+
     /**
      * {@inheritDoc}
      * Se coloca setOffscreenPageLimit a 3 para mantener
@@ -77,7 +102,7 @@ public class TabbedFragment extends CustomFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        tabsPager.setAdapter(new TabbedAdapter());
+        tabsPager.setAdapter(getTabbedAdapter());
         tabsPager.setOffscreenPageLimit(FRAGMENTS);
         appBarLayout = getNavigationActivity().getAppBarLayout();
         customizeActivity();
@@ -116,6 +141,8 @@ public class TabbedFragment extends CustomFragment {
         });
 
     }
+
+
 
     /**
      * Se mueve hace el tab o fragmento determinado
@@ -167,11 +194,11 @@ public class TabbedFragment extends CustomFragment {
          * Constructor del adaptador
          */
         public TabbedAdapter() {
-            super(TabbedFragment.this.getChildFragmentManager());
+            super(TabbedFragmentDefault.this.getChildFragmentManager());
         }
 
         /**
-         * Sirve para instancia cada uno de los tabs
+         * Sirve para instanciar cada uno de los tabs
          * @param position: Posición del tab
          * @return PagerSchedule | PagerFavorites | EventsOngoing
          */

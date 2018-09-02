@@ -12,6 +12,7 @@ import edepa.minilibs.TimeConverter;
 import java.util.List;
 import java.util.ArrayList;
 
+import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 import android.os.Bundle;
 import android.view.View;
@@ -29,7 +30,7 @@ public abstract class PagerFragment extends CustomFragment
      * Constante usada para recuperar el último
      * elemento que estaba en pantalla
      */
-    private final String CURRENT_ITEM = "CURRENT_ITEM";
+    public static final String CURRENT_ITEM = "CURRENT_ITEM";
 
     /**
      * Espacio donde las páginas se cambian
@@ -55,7 +56,7 @@ public abstract class PagerFragment extends CustomFragment
      * ya se ha terminado de realizar la carga
      * inicial de los datos
      */
-    private long eventsAmount;
+    protected long eventsAmount;
 
     /**
      * Para dividir los eventos por día
@@ -68,13 +69,13 @@ public abstract class PagerFragment extends CustomFragment
      * Contiene los fragmentos del páginador
      * los administra
      */
-    private PagerAdapter adapter;
+    protected FragmentPagerAdapter adapter;
 
     /**
      * Utilizado para obtener las fechas de los
      * eventos y poder crear las páginas
      */
-    private CloudEvents cloudEvents;
+    protected CloudEvents cloudEvents;
 
     /**
      * {@inheritDoc}
@@ -260,6 +261,6 @@ public abstract class PagerFragment extends CustomFragment
      * eventos por los que cada uno implementa este método
      * @return PagerAdaptador adaptor para el fragmento
      */
-    protected abstract PagerAdapter instantiateAdapter();
+    protected abstract FragmentPagerAdapter instantiateAdapter();
 
 }

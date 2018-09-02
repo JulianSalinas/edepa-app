@@ -35,6 +35,7 @@ import edepa.modelview.R;
 import edepa.cloud.Cloud;
 import edepa.model.Preferences;
 import edepa.minilibs.RegexSearcher;
+import edepa.pagers.TabbedFragmentDefault;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,31 +52,29 @@ import static edepa.model.Preferences.FIRST_USE_KEY;
 import static android.support.v4.view.GravityCompat.START;
 
 /**
- * Actividad principal de aplicación. En esta se colocan cada uno
- * de los fragmentos existentes en el contenedor R.id.content
+ * Actividad principal de aplicación. En ésta se colocan cada uno de los
+ * fragmentos existentes en el contenedor #R.id.content
  */
 public abstract class MainActivity extends AppCompatActivity
-        implements LifecycleObserver,
-        NavigationView.OnNavigationItemSelectedListener {
+        implements LifecycleObserver, NavigationView.OnNavigationItemSelectedListener {
 
     /**
-     * Al presionar el botón de atrás, se avisa al usuario que tiene
-     * que presionarlo otra vez para salir. Esto para evitar que se salga
-     * de la aplicación por error. Cuando la bandera es True se puede
-     * salir, esto se aplica en el método {@link #onBackPressed()}
-     */
-    protected boolean exitFlag;
-
-    /**
-     * Menú que se extrae de navigationView para colocar
-     * los eventos a cada una de las opciones del menú
+     * Menú que se extrae de {@link #navigationView} para colocar los eventos
+     * a cada una de las opciones del menú.
      * Se instancia en {@link #onCreateActivity(Bundle)}i
      */
     protected Menu menu;
 
     /**
-     * Necesaria para que los fragmentos la puedan personalizar en
-     * ciertos contextos
+     * Al presionar el botón de atrás, se avisa al usuario que tien que
+     * presionarlo otra vez para salir. Esto para evitar que se salga de la
+     * aplicación por error. Cuando la bandera es True se puede salir, esto
+     * se aplica en el método {@link #onBackPressed()}
+     */
+    protected boolean exitFlag;
+
+    /**
+     * Necesaria para que los fragmentos la puedan personalizar u ocultar
      */
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -84,16 +83,9 @@ public abstract class MainActivity extends AppCompatActivity
         return toolbar;
     }
 
-    @BindView(R.id.app_bar_layout)
-    AppBarLayout appBarLayout;
-
-    public AppBarLayout getAppBarLayout() {
-        return appBarLayout;
-    }
-
     /**
-     * Únicamente necesaria para que se pueda
-     * ocultar la toolbar.
+     * Contenedor de la toolbar, se utiliza para poder ocultar completamente
+     * la {@link #toolbar} de lo contrario queda una panel en blanco
      */
     @BindView(R.id.toolbar_container)
     FrameLayout toolbarContainer;
@@ -103,9 +95,21 @@ public abstract class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Es un conjunto que contiene el menú lateral, el
-     * encabezado y las opciones de dicho menú. Se utiliza
-     * para obtener la instancia de {@link #menu}
+     * Contenedor de {@link #toolbarContainer}. Se utiliza para poder remover
+     * la elevación de la {@link #toolbar} en
+     * {@link TabbedFragmentDefault#customizeActivity()}
+     */
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout appBarLayout;
+
+    public AppBarLayout getAppBarLayout() {
+        return appBarLayout;
+    }
+
+    /**
+     * Es un conjunto que contiene el menú lateral, el encabezado y las
+     * opciones de dicho menú. Se utiliza para obtener la instancia de
+     * {@link #menu}
      */
     @BindView(R.id.navigation_view)
     NavigationView navigationView;
@@ -115,9 +119,9 @@ public abstract class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Menú lateral de la aplicación, contiene las opciones
-     * información, cronograma, expositores, noticias, chat,
-     * configuración, acerca de, personalizar y salir
+     * Menú lateral de la aplicación, contiene las opciones información,
+     * cronograma, expositores, noticias, chat, configuración, acerca de,
+     * personalizar y salir
      */
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
@@ -126,11 +130,9 @@ public abstract class MainActivity extends AppCompatActivity
         return drawerLayout;
     }
 
-    private ActionBarDrawerToggle toggle;
-
     /**
-     * Barra de búsqueda que por defecto está oculta debajo de
-     * la toolbar hasta que el icono de búsquedad sea presionado
+     * Barra de búsqueda que por defecto está oculta debajo de la toolbar
+     * hasta que el icono de búsquedad sea presionado
      */
     @BindView(R.id.search_view)
     MaterialSearchView searchView;
@@ -140,47 +142,49 @@ public abstract class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Se usa para cambiar los fragmentos usando un hilo
-     * diferente para que la animación se vea mas fluida.
-     * Lo que hace es correr pendingRunnable cuando se cierra
-     * el draweLayout.
+     * Botón que abre el menú lateral
+     */
+    private ActionBarDrawerToggle toggle;
+
+    /**
+     * Se usa para cambiar los fragmentos usando un hilo diferente para que
+     * la animación se vea mas fluida. Lo que hace es correr
+     * {@link #pendingRunnable} cuando se cierra el draweLayout.
      * @see #runPendingRunnable()
      */
     protected Handler handler;
 
     /**
-     * Runnable que el handler debe correr, este contiene
-     * la función para cambiar el fragmento
+     * Runnable que el handler debe correr, este contiene la función para
+     * cambiar el fragmento
      * @see #runPendingRunnable()
      */
     protected Runnable pendingRunnable;
 
     /**
-     * Sirve para restaurar el último fragmento utilizado después
-     * de que la aplicación se puso en pausa repentinamente
-     * Se utiliza los tags de los fragmentos no los fragmentos en si mismos
+     * Sirve para restaurar el último fragmento utilizado después de que la
+     * aplicación se puso en pausa repentinamente. Se utiliza los tags de los
+     * fragmentos no los fragmentos en si mismos
      * @see #restoreFromPendindgList()
      */
     protected Stack<String> pendingFragments = new Stack<>();
 
     /**
-     * Sirve para restablecer el accent después de abrir un CAB
-     * -> Context Action Bar
+     * Sirve para restablecer el accent después de abrir un Context Action Bar
      */
     protected int lastStatusBarColor;
 
     /**
-     * Listener para el menú lateral
-     * Ejecuta {@link #hideKeyboard()} al abrirse y
-     * {@link #runPendingRunnable()} al cerrarse
+     * Listener para el menú lateral. Ejecuta {@link #hideKeyboard()} al
+     * abrirse y {@link #runPendingRunnable()} al cerrarse
      */
     private DrawerLayout.SimpleDrawerListener drawerListener =
         new DrawerLayout.SimpleDrawerListener(){
 
         /**
-         * En ocasiones el teclado queda abierto después de
-         * abrir el menú, para solucionar esto se utiliza
-         * {@link MainActivity#hideKeyboard()} al abrir dicho menú
+         * En ocasiones el teclado queda abierto después de abrir el menú,
+         * para solucionar esto se utiliza {@link MainActivity#hideKeyboard()}
+         * al abrir dicho menú
          */
         @Override
         public void onDrawerOpened(View drawerView) {
@@ -190,8 +194,8 @@ public abstract class MainActivity extends AppCompatActivity
 
         /**
          * Cuando el menú lateral se cierra se corre
-         * {@link MainActivity#runPendingRunnable()} para dar
-         * fluidez al las transiciones al presionar una opción
+         * {@link MainActivity#runPendingRunnable()} para dar fluidez al las
+         * transiciones al presionar una opción
          */
         public void onDrawerClosed(View drawerView) {
             super.onDrawerClosed(drawerView);
@@ -218,16 +222,7 @@ public abstract class MainActivity extends AppCompatActivity
      */
     @Override
     protected void onCreate (Bundle savedInstanceState) {
-
-        // Aplica un tema personalizado
-        if(Preferences.getBooleanPreference(this, Preferences.THEME_KEY, false)) {
-            Aesthetic.attach(this);
-            Aesthetic.get()
-                    .bottomNavigationBackgroundMode(BottomNavBgMode.PRIMARY)
-                    .bottomNavigationIconTextMode(BottomNavIconTextMode.SELECTED_ACCENT)
-                    .apply();
-        }
-
+        applyCustomTheme();
         super.onCreate(savedInstanceState);
         getLifecycle().addObserver(this);
         setContentView(R.layout.main_activity);
@@ -235,13 +230,25 @@ public abstract class MainActivity extends AppCompatActivity
         onCreateActivity(savedInstanceState);
     }
 
+    /**
+     * Aplica un tema personalizado usando la librería Aesthetc en caso
+     * de que así haya sido seleccionado en las preferencias
+     */
+    public void applyCustomTheme(){
+        String key = Preferences.THEME_KEY;
+        if(Preferences.getBooleanPreference(this, key, false)) {
+            Aesthetic.attach(this);
+            Aesthetic.get()
+                    .bottomNavigationBackgroundMode(BottomNavBgMode.ACCENT)
+                    .bottomNavigationIconTextMode(BottomNavIconTextMode.SELECTED_ACCENT)
+                    .apply();
+        }
+    }
+
 
     /**
-     * Se revisa el argumento savedInstanceState y se redirige la
-     * aplicación hacia el fragmento correspondiente
-     * @param savedInstanceState
-     *        Si la actividad se abre desde una notificación
-     *        o se reinicia (ej. por girar la pantalla)
+     * Se revisa el argumento savedInstanceState y se redirige la aplicación
+     * hacia el fragmento correspondiente
      * @see #onCreate(Bundle)
      */
     protected void onCreateActivity(Bundle savedInstanceState) {
@@ -252,28 +259,37 @@ public abstract class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Se coloca el fragmento por defecto si es la primera vez
+     * Se revisa si es la primera vez que se abre la aplicación y se subscribe
+     * a las notificaciones de #FirebaseMessaging
      * @see #onCreateActivity(Bundle)
      */
     protected void onCreateFirstTime(){
         if(Preferences.getBooleanPreference(this, FIRST_USE_KEY)){
+
+            // Se coloca que la aplicación ya tuvo su primer uso
             Preferences.setPreference(this, FIRST_USE_KEY, false);
             Preferences.setPreference(this, USER_KEY, getDefaultUsername());
-            // Se susbcribe para recibir notificaciones de noticias
+
+            // Se susbcribe para recibir notificaciones de noticias y el chat
             FirebaseMessaging.getInstance().subscribeToTopic(Cloud.NEWS);
             FirebaseMessaging.getInstance().subscribeToTopic(Cloud.CHAT);
         }
     }
 
+    /**
+     * Se introduce el backstack listener para poder cambiar el icono de
+     * {@link #toggle} toggle cuando el usuario haya abierto más de dos
+     * fragmentos
+     */
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    public void connectToggleButton(){
+    public void connectBackStackListener(){
         FragmentManager manager = getSupportFragmentManager();
         manager.addOnBackStackChangedListener(this::showToggle);
     }
 
     /**
-     * Se configura el botón que esta en Toolbar que sirve
-     * para abrir el menú lateral
+     * Se configura el botón que esta en la {@link #toolbar} para abrir el
+     * menú lateral
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     public void setupToggle(){
@@ -287,7 +303,9 @@ public abstract class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Muestra el botón de atrás o el menú
+     * Muestra el icono para volver hacia el fragmento anterior o el que
+     * sirve para abrir el menú dependiendo de cuantos fragmentos tenga
+     * abiertos el usuario (se coloca en caso de una pantalla secundaria )
      */
     public void showToggle(){
         FragmentManager manager = getSupportFragmentManager();
@@ -296,14 +314,16 @@ public abstract class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Muestra el bóton de atrás en la toolbar
+     * Muestra el icono en la {@link #toolbar} para volver hacia el
+     * fragmento anterior
+     * @see #setupToggle()
      */
     public void showBackButton(){
-
         toggle.setDrawerIndicatorEnabled(false);
 
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         getDrawerLayout()
@@ -311,7 +331,8 @@ public abstract class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Muestra el menú principal en la toolbar
+     * Muestra icono en la {@link #toolbar} para abrir el menú lateral
+     * @see #setupToggle()
      */
     public void showHamburger() {
 
@@ -328,9 +349,8 @@ public abstract class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Debajo del icono de EDEPA en el menú lateral se
-     * da un mensaje de bienvenida, para ello se toma el nombre
-     * de pila del usuario.
+     * Debajo del icono de EDEPA en el menú lateral se da un mensaje de
+     * bienvenida, para ello se toma el nombre de pila del usuario.
      * @see RegexSearcher#findFirstName(String)
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -347,9 +367,8 @@ public abstract class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Usada por {@link #onCreateFirstTime()}
-     * Si el usuario no tiene nombre, se debe preguntar
-     * en el momento de entrar al chat
+     * Usada por {@link #onCreateFirstTime()} para obtener el nombre de pila
+     * de usuario. Este se extrae de la información que se obtiene con el Login
      * @return Nombre de pila del usuario
      */
     private String getDefaultUsername(){
@@ -360,25 +379,22 @@ public abstract class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Este fragment se utiliza para que, cuando se presiona
-     * una opción del menú lateral, este se cierre. Este cierre
-     * dispará el evento dentro de {@link #drawerListener}
+     * Este fragment se utiliza para que, cuando se presiona una opción del
+     * menú lateral, este se cierre. Este cierre dispará el evento dentro de
+     * {@link #drawerListener}
      * @see #disconnectOnNavigationItemListener()
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     private void connectOnNavigationItemListener() {
-        Log.i(toString(), "connectOnNavigationItemListener()");
         getNavigationView().setNavigationItemSelectedListener(this);
     }
 
     /**
-     * Se desconecta el evento de presionar opciones
-     * del menú lateral
+     * Se desconecta el evento de presionar opciones del menú lateral
      * @see #connectDrawerListener()
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     private void disconnectOnNavigationItemListener() {
-        Log.i(toString(), "disconnectOnNavigationItemListener()");
         getNavigationView().setNavigationItemSelectedListener(null);
     }
 
@@ -388,7 +404,6 @@ public abstract class MainActivity extends AppCompatActivity
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     public void disconnectDrawerListener(){
-        Log.i(toString(), "disconnectDrawerListener()");
         getDrawerLayout().removeDrawerListener(drawerListener);
     }
 
@@ -399,7 +414,6 @@ public abstract class MainActivity extends AppCompatActivity
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void connectDrawerListener(){
-        Log.i(toString(), "connectDrawerListener()");
         getDrawerLayout().addDrawerListener(drawerListener);
     }
 
@@ -410,7 +424,6 @@ public abstract class MainActivity extends AppCompatActivity
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void restoreFromPendindgList(){
         if(!pendingFragments.isEmpty()) {
-            Log.i(toString(), "restoreFromPendindgList()");
             String tag = pendingFragments.pop();
             Fragment frag = getSupportFragmentManager().findFragmentByTag(tag);
             if(frag != null) switchFragment(frag, tag);
@@ -419,8 +432,7 @@ public abstract class MainActivity extends AppCompatActivity
 
     /**
      * {@inheritDoc}
-     * A la vez se aprovecha para enlazar la barra de
-     * búsqueda con el botón que la abre
+     * A la vez se aprovecha para enlazar la barra de búsqueda
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -428,16 +440,13 @@ public abstract class MainActivity extends AppCompatActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_menu, menu);
         MenuItem searh_item = menu.findItem(R.id.search_item);
-        MenuItem view_mod_item = menu.findItem(R.id.view_mod_item);
-        view_mod_item.setOnMenuItemClickListener(item -> changeViewMode());
         searchView.setMenuItem(searh_item);
         return true;
     }
 
     /**
      * {@inheritDoc}
-     * Solo se utiliza para las opciones que están
-     * en la barra superior
+     * Solo se utiliza para las opciones home, about y settings
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -453,7 +462,7 @@ public abstract class MainActivity extends AppCompatActivity
 
     /**
      * {@inheritDoc}
-     * Se cambia el accent de la statusBar
+     * Se cambia el accent de la statusBar al entrar el modo CAB
      */
     @Override
     public void onSupportActionModeStarted(ActionMode mode) {
@@ -463,7 +472,7 @@ public abstract class MainActivity extends AppCompatActivity
 
     /**
      * {@inheritDoc}
-     * Se restablece el accent de la statusBar
+     * Se restablece el accent de la statusBar después de salir del modo CAB
      */
     @Override
     public void onSupportActionModeFinished(ActionMode mode) {
@@ -484,13 +493,6 @@ public abstract class MainActivity extends AppCompatActivity
     public abstract boolean openSettings();
 
     /**
-     * Cambia el tipo de vista de la aplicación, mediante
-     * un filtro por tipo de evento
-     * Es implementado en #NavigationActivity
-     */
-    public abstract boolean changeViewMode();
-
-    /**
      * Coloca en la pantalla un fragmento previamente creado
      * @param fragment Fragmento previamente creado
      * @param tag Tag que pertenece al fragmento
@@ -503,8 +505,6 @@ public abstract class MainActivity extends AppCompatActivity
         if(state.isAtLeast(Lifecycle.State.RESUMED))
             switchFragment(fragment, tag);
         else updatePendingFragments(tag);
-        Log.i(toString(), "setFragmentOnScreen()");
-
     }
 
     /**
@@ -514,21 +514,19 @@ public abstract class MainActivity extends AppCompatActivity
      */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        Log.i(toString(), "onNavigationItemSelected()");
         getDrawerLayout().closeDrawer(START);
         return true;
     }
 
     /**
-     * Usada por la función setFragmentOnScreen
+     * Usada por la función {@link #setFragmentOnScreen(Fragment, String)}
      * Crear y ejecuta la transacción para cambiar el fragmento
      * @param fragment: Fragmento a colocat en pantalla
      * @param tag: Tag del fragmento
      */
     protected void switchFragment(Fragment fragment, String tag){
+        exitFlag = false;
         if(!fragment.isVisible()) {
-            exitFlag = false;
-            Log.i(toString(), "switchFragment("+ tag +")");
             getSupportFragmentManager()
                     .beginTransaction()
                     .addToBackStack(null)
@@ -541,8 +539,7 @@ public abstract class MainActivity extends AppCompatActivity
      * Usada por la función #{@link #setFragmentOnScreen(Fragment, String)}
      * Si la aplicación está pausada, todas los fragmentos que se
      * deban colocar en pantalla quedan en la lista y se coloca solo el último
-     * @param tag: Tag del fragmento que se iba a colocar pero la aplicación
-     *                  estaba en pausa
+     * @param tag: Tag del fragmento que se iba a colocar
      * @see #restoreFromPendindgList()
      */
     protected void updatePendingFragments(String tag){
@@ -552,39 +549,43 @@ public abstract class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Función usada al presionar el botón Atrás
+     * Función usada al presionar el botón atrás
      */
     @Override
     public void onBackPressed() {
         hideKeyboard();
 
-        if(searchView.isSearchOpen())
+        if(searchView.isSearchOpen()) {
             searchView.closeSearch();
-
-        if (drawerLayout.isDrawerOpen(START))
-            drawerLayout.closeDrawer(START);
-
-        else if (getSupportFragmentManager().getBackStackEntryCount() > 1){
-            getSupportFragmentManager().popBackStack();
         }
 
-        else if (getSupportFragmentManager().getBackStackEntryCount() <= 0){
+        if (drawerLayout.isDrawerOpen(START)) {
+            drawerLayout.closeDrawer(START);
+        }
 
-            if (exitFlag) exit();
-            else {
-                exitFlag = true;
-                showMessage(R.string.text_press_again_to_exit);
+        else {
+
+            FragmentManager manager = getSupportFragmentManager();
+            if (manager.getBackStackEntryCount() > 1) {
+                manager.popBackStack();
             }
 
-        }
+            else if (manager.getBackStackEntryCount() <= 0) {
+                if (exitFlag) exit();
+                else {
+                    exitFlag = true;
+                    showMessage(R.string.text_press_again_to_exit);
+                }
+            }
 
-        else super.onBackPressed();
+            else super.onBackPressed();
+
+        }
     }
 
     /**
-     * Oculta el teclado
-     * se usa cuando el usuario termina de escribir
-     * y presiona otro elemento de la vista
+     * Oculta el teclado. Se usa cuando el usuario termina de escribi y
+     * presiona otro elemento de la vista
      */
     public void hideKeyboard() {
         View focus = getCurrentFocus();
@@ -599,7 +600,7 @@ public abstract class MainActivity extends AppCompatActivity
      * @param msg Mensaje que se desea mostrar
      */
     public void showMessage(String msg){
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         // Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show();
     }
 
@@ -620,7 +621,6 @@ public abstract class MainActivity extends AppCompatActivity
     public boolean exit(){
         finishAndRemoveTask();
         System.exit(0);
-        Log.i(toString(), "exit()");
         return true;
     }
 
@@ -632,7 +632,6 @@ public abstract class MainActivity extends AppCompatActivity
     public boolean exitAndSignOut(){
         AuthUI.getInstance().signOut(this);
         Preferences.setPreference(this, FIRST_USE_KEY, true);
-        Log.i(toString(), "exitAndSignOut()");
         return exit();
     }
 

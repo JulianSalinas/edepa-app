@@ -32,6 +32,14 @@ public class Preferences {
     public static final String UNREAD_MESSAGES_KEY = "UNREAD_MESSAGES_KEY";
 
     /**
+     * Para definir el tipo de vista de los eventos
+     */
+    public static final String VIEW_KEY = "VIEW_KEY";
+    public static final String VIEW_DEFAULT = "VIEW_DEFAULT";
+    public static final String VIEW_BY_TYPE = "VIEW_BY_TYPE";
+
+
+    /**
      * Obtiene un segmento de almacenamiento para guardar archivos local=e
      * @param context: Actividad desde donde se llama la aplicación
      */

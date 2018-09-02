@@ -1,16 +1,20 @@
 package edepa.app;
 
-import android.app.Application;
-import com.cloudinary.android.MediaManager;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.Map;
 import java.util.HashMap;
 import edepa.settings.SettingsLanguage;
 
+import com.cloudinary.android.MediaManager;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 public class MainApplication extends android.app.Application {
 
+    /**
+     * {@inheritDoc}
+     * Se aplica el idioma desde las preferencias y se configurar las bases
+     * de datos
+     */
     @Override
     public void onCreate() {
         super.onCreate();
@@ -19,9 +23,12 @@ public class MainApplication extends android.app.Application {
         initCloudinary();
     }
 
+    /**
+     * Se inicializa la base de datos de imagenes Cloudinary
+     */
     public void initCloudinary(){
         Map<String, String> config = new HashMap<>();
-        config.put("cloud_name", "dgifcffo9");
+        config.put("cloud_name", "edepa");
         MediaManager.init(this, config);
     }
 

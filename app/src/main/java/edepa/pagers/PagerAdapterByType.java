@@ -1,14 +1,16 @@
 package edepa.pagers;
 
-import java.sql.Time;
-import java.util.List;
-
-import edepa.events.EventsFragment;
-import edepa.minilibs.TimeConverter;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import java.util.List;
+
+import edepa.events.EventsFragment;
+import edepa.events.EventsScheduleByType;
+import edepa.events.IEventsByType;
+import edepa.minilibs.TimeConverter;
+import edepa.model.EventType;
 
 
 /**
@@ -17,24 +19,24 @@ import android.support.v4.app.FragmentPagerAdapter;
  * fragmentos en memoria mientras que el otros solo conserva
  * la variable savedStateInstance
  */
-public abstract class PagerAdapter extends FragmentPagerAdapter {
+public abstract class PagerAdapterByType extends FragmentPagerAdapter {
 
     /**
      * Para dividir los eventos por día
      * Cada fecha representa una página
      * Es importante agregarlas en orden
      */
-    protected List<Long> dates;
+    protected List<EventType> types;
 
     /**
-     * Constructor de {@link PagerAdapter}
+     * Constructor de {@link PagerAdapterByType}
      * NOTA: Cuando se usa un adaptador en un fragmento
      * se debe usar la función #getChildFragmentManager
      * @param fragment Del cual obtener el ChildFragmentManager
      */
-    public PagerAdapter(Fragment fragment, List<Long> dates) {
+    public PagerAdapterByType(Fragment fragment, List<EventType> types) {
         super(fragment.getChildFragmentManager());
-        this.dates = dates;
+        this.types = types;
     }
 
     /**
@@ -44,7 +46,7 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public int getCount() {
-        return dates.size();
+        return types.size();
     }
 
     /**
@@ -54,7 +56,7 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
      * @param position Posición del fragmento
      */
     public long getItemId(int position) {
-        return dates.get(position);
+        return types.get(position).hashCode();
     }
 
     /**
@@ -66,23 +68,23 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Bundle args = new Bundle();
         Fragment fragment = instantiateEventsFragment();
-        args.putLong("date", dates.get(position));
+        args.putString(EventsScheduleByType.TYPE_KEY, types.get(position).toString());
         fragment.setArguments(args);
         return fragment;
     }
 
     /**
      * La posición de un fragmento corresponde con
-     * su ID en el arreglo de fechas {@link #dates}
+     * su ID en el arreglo de fechas {@link #types}
      * NOTA: Esto arregla un bug donde varias páginas
      * son cargadas con el mismo fragmento
      * @param object: Objecto que se castea al fragmento
-     * @return Posición del fragmento segun {@link #dates}
+     * @return Posición del fragmento segun {@link #types}
      */
     @Override
     public int getItemPosition(Object object) {
-        EventsFragment fragment = (EventsFragment) object;
-        int index = dates.indexOf(fragment.getDate());
+        IEventsByType fragment = (IEventsByType) object;
+        int index = types.indexOf(fragment.getEventype());
         return index > 0 ? index : POSITION_NONE;
     }
 
@@ -93,7 +95,7 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public CharSequence getPageTitle(int position) {
-        return TimeConverter.extractDateUTC(dates.get(position));
+        return types.get(position).toString();
     }
 
     /**

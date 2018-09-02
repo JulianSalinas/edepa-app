@@ -2,6 +2,7 @@ package edepa.app;
 
 import edepa.modelview.R;
 import edepa.cloud.Cloud;
+import edepa.model.Preferences;
 import edepa.cloud.CloudNavigation;
 import edepa.minilibs.PathGenerator;
 
@@ -9,16 +10,16 @@ import edepa.chat.ChatFragment;
 import edepa.info.InfoFragment;
 import edepa.info.AboutFragment;
 import edepa.people.PeopleFragment;
-import edepa.pagers.TabbedFragment;
 import edepa.notices.NoticesFragment;
-import edepa.search.SearchByEventsFragment;
+import edepa.pagers.TabbedFragmentByType;
+import edepa.pagers.TabbedFragmentDefault;
 import edepa.search.SearchByPanelFragment;
+import edepa.search.SearchByEventsFragment;
 import edepa.search.SearchByPeopleFragment;
 import edepa.settings.SettingsThemeFragment;
 import edepa.settings.SettingsGeneralFragment;
 
 import android.net.Uri;
-import android.util.Log;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.content.Intent;
@@ -36,10 +37,16 @@ public class NavigationActivity extends MainActivity implements
         MaterialSearchView.SearchViewListener,
         CloudNavigation.CloudNavigationListener {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Se revisa si la app está siendo abierta por otra, si es así
+        // se revisan los datos de entrada que pueden ser una imagen
+        // texto o una url
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
@@ -56,16 +63,25 @@ public class NavigationActivity extends MainActivity implements
 
     }
 
+    /**
+     * La aplicación ha sido abierta por medio del botón de compartir de
+     * alguna otra aplicación. Se coloca el texto compartido en el chat
+     * @param intent: Contiene el texto que se quiere compartir
+     */
     public void handleSendText(Intent intent) {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (sharedText != null) {
             Bundle params = new Bundle();
             params.putString(ChatFragment.INPUT_IMAGE_KEY, sharedText);
             openChat(params);
-            Log.i("Sharing", "Sending text " + sharedText);
         }
     }
 
+    /**
+     * La aplicación ha sido abierta por medio del botón de compartir de
+     * alguna otra aplicación. Se coloca la imagen compartida en el chat
+     * @param intent: Contiene la imagen que se quiere compartir
+     */
     public void handleSendImage(Intent intent) {
         Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {
@@ -73,13 +89,12 @@ public class NavigationActivity extends MainActivity implements
             String imagePath = PathGenerator.getRealPathFromUri(this, imageUri);
             params.putString(ChatFragment.INPUT_IMAGE_KEY, imagePath);
             openChat(params);
-            Log.i("Sharing", "Sending image " + imageUri.toString());
         }
     }
 
     /**
      * La primera vez que se crea la Actividad se debe colocar
-     * un fragmento en pantalla, este fragmento es {@link TabbedFragment}
+     * un fragmento en pantalla, este fragmento es {@link TabbedFragmentDefault}
      */
     @Override
     protected void onCreateFirstTime(){
@@ -91,12 +106,12 @@ public class NavigationActivity extends MainActivity implements
 
     /**
      * Se coloca el fragmento por defecto en pantalla, este fragmento
-     * es {@link TabbedFragment}. Este método es utilizado únicamente
+     * es {@link TabbedFragmentDefault}. Este método es utilizado únicamente
      * en {@link #onCreateFirstTime()}
      */
     public void setOnScreenFirstFragment(){
         String tag = "TABBED_FRAGMENT";
-        Fragment frag = new TabbedFragment();
+        Fragment frag = new TabbedFragmentByType();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_content, frag, tag)
                 .commitNow();
@@ -122,6 +137,7 @@ public class NavigationActivity extends MainActivity implements
      * @return True si lográ abrir algun fragmento con los argumentos
      */
     private boolean moveToScreen(Bundle args){
+
         // Abre la sección de noticias
         if(args.containsKey(Cloud.NEWS)) {
             args.remove(Cloud.NEWS);
@@ -129,6 +145,7 @@ public class NavigationActivity extends MainActivity implements
             runPendingRunnable();
             return true;
         }
+
         // Abre la sección de mensajes (chat)
         else if (args.containsKey(Cloud.CHAT)){
             args.remove(Cloud.CHAT);
@@ -136,6 +153,7 @@ public class NavigationActivity extends MainActivity implements
             runPendingRunnable();
             return true;
         }
+
         // Abre la sección de configuración
         else if (args.containsKey(Cloud.CONFIG)){
             args.remove(Cloud.CONFIG);
@@ -143,6 +161,7 @@ public class NavigationActivity extends MainActivity implements
             runPendingRunnable();
             return true;
         }
+
         // No se pudo abrir ningún fragmento
         return false;
     }
@@ -249,6 +268,11 @@ public class NavigationActivity extends MainActivity implements
         return false;
     }
 
+    /**
+     * La diferencia con {@link #openChat()} es que esta función es
+     * invocada cuando el usuario comparte texto o imagenes desde otra app
+     * @param params: Contiene el texto o url de la imagen que se comparte
+     */
     public void openChat(Bundle params){
         String tag = "CHAT_FRAGMENT";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
@@ -321,7 +345,7 @@ public class NavigationActivity extends MainActivity implements
     public boolean openSchedule(){
         String tag = "TABBED_FRAGMENT";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
-        Fragment frag = temp != null ? temp : new TabbedFragment();
+        Fragment frag = temp != null ? temp : new TabbedFragmentByType();
         pendingRunnable = () -> setFragmentOnScreen(frag, tag);
         return false;
     }
@@ -335,19 +359,21 @@ public class NavigationActivity extends MainActivity implements
 
         String tag = "TABBED_FRAGMENT";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
-        TabbedFragment frag = temp != null ? (TabbedFragment) temp : new TabbedFragment();
+        TabbedFragmentDefault frag = temp != null ?
+                (TabbedFragmentDefault) temp : new TabbedFragmentByType();
 
         // Si está visible solamente ordena que se mueva a los favoritos
         if (frag.isVisible()) {
-            frag.moveToTab(TabbedFragment.FAVORITES);
+            frag.moveToTab(TabbedFragmentDefault.FAVORITES);
             onBackPressed(); // Cierra el drawer
         }
 
         // Si no está visible se debe pasar como parámetro el número
         // de tab para los favoritos
         else {
+            int tab = TabbedFragmentDefault.FAVORITES;
             Bundle args = new Bundle();
-            args.putInt(TabbedFragment.ITEM_KEY, TabbedFragment.FAVORITES);
+            args.putInt(TabbedFragmentDefault.ITEM_KEY, tab);
             frag.setArguments(args);
             pendingRunnable = () -> setFragmentOnScreen(frag, tag);
             runPendingRunnable();
@@ -417,85 +443,90 @@ public class NavigationActivity extends MainActivity implements
         menuItem.setOnMenuItemClickListener(item -> exitAndSignOut());
     }
 
-    @Override
+    /**
+     * Cambia la vista del cronograma y de los favoritos, pues los eventos
+     * se deben visualizar tanto por fecha como por tipos
+     * @return True si el evento ha sido manejado
+     */
     public boolean changeViewMode() {
-        showMessage("Date mode active");
+
+        String key = Preferences.VIEW_KEY;
+        String currentView = Preferences.getStringPreference(this, key);
+
+        if (Preferences.VIEW_DEFAULT.equals(currentView)){
+            Preferences.setPreference(this, key, Preferences.VIEW_BY_TYPE);
+        }
+        else {
+            Preferences.setPreference(this, key, Preferences.VIEW_DEFAULT);
+        }
+
+        String tag = "TABBED_FRAGMENT";
+        Fragment frag = getSupportFragmentManager().findFragmentByTag(tag);
+
+        // Con esto obliga al pager a recrear todos los fragmentos
+        // de lo contrario usa los que tiene en cache y la vista no cambia
+        if (frag.isAdded()){
+            getSupportFragmentManager().beginTransaction().remove(frag).commit();
+            setOnScreenFirstFragment();
+        }
+
+        showMessage(R.string.text_view_mod_changed);
         return false;
     }
 
     /**
-     * Abre el fragmento para realizar búsquedas mediante
-     * algún filtro
+     * Coloca en pantalla un fragmento que ya ha sido agregado al
+     * fragment manager
+     * @param fragment Fragmento a visualizar
+     */
+    public void showAddedFragment(Fragment fragment){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .show(fragment)
+                .commit();
+    }
+
+    /**
+     * Agrega un fragment al fragment manager y lo muestra en pantalla
+     * @param fragment Fragmento por agregar
+     * @param tag Identificador del fragmento
+     */
+    public void addAndShowFragment(Fragment fragment, String tag){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.main_content, fragment, tag)
+                .commit();
+    }
+
+    /**
+     * Abre el fragmento para realizar búsquedas mediante algún filtro
      */
     public void openSearchByPanel(){
         String tag = "SEARCH_BY_PANEL";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
         Fragment frag = temp != null ? temp : new SearchByPanelFragment();
-        if(frag.isAdded()){
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .show(frag)
-                    .commit();
-        }
-        if (!frag.isAdded()) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.main_content, frag, tag)
-                    .commit();
-        }
-    }
-
-    public void closeSearchByPanelIfVisible(){
-        String tag = "SEARCH_BY_PANEL";
-        Fragment frag = getSupportFragmentManager().findFragmentByTag(tag);
-        if(frag != null && frag.isAdded()){
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .remove(frag)
-                    .commit();
-        }
+        if(frag.isAdded()) showAddedFragment(frag);
+        else addAndShowFragment(frag, tag);
     }
 
     /**
      * Abre el fragmento para buscar personas
      */
     public void openSearchByPeople() {
-        // closeSearchByPanelIfVisible();
         String tag = "SEARCH_BY_PEOPLE";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
         Fragment frag = temp != null ? temp : new SearchByPeopleFragment();
-        if(frag.isAdded()){
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .show(frag)
-                    .commit();
-        }
-        if (!frag.isAdded()) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.main_content, frag, tag)
-                    .commit();
-        }
+        if(frag.isAdded()) showAddedFragment(frag);
+        else addAndShowFragment(frag, tag);
     }
 
     public void openSearchByEvents(Bundle args){
-        // closeSearchByPanelIfVisible();
         String tag = "SEARCH_BY_EVENTS";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
         Fragment frag = temp != null ? temp : new SearchByEventsFragment();
         frag.setArguments(args);
-        if(frag.isAdded()){
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .show(frag)
-                    .commit();
-        }
-        if (!frag.isAdded()) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.main_content, frag, tag)
-                    .commit();
-        }
+        if(frag.isAdded()) showAddedFragment(frag);
+        else addAndShowFragment(frag, tag);
     }
 
     /**
@@ -507,12 +538,9 @@ public class NavigationActivity extends MainActivity implements
     public void onSearchViewShown() {
         Fragment peopleFragment = getSupportFragmentManager()
                 .findFragmentByTag("PEOPLE_FRAGMENT");
-        if(peopleFragment != null && peopleFragment.isVisible()) {
+        if(peopleFragment != null && peopleFragment.isVisible())
             openSearchByPeople();
-        }
-        else {
-            openSearchByPanel();
-        }
+        else openSearchByPanel();
         exitFlag = false;
     }
 
@@ -552,7 +580,6 @@ public class NavigationActivity extends MainActivity implements
                     .commit();
         }
 
-        Log.i("Search", "Closed");
     }
 
 }

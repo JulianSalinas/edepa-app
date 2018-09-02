@@ -1,24 +1,18 @@
 package edepa.events;
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import android.os.Bundle;
+
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import edepa.cloud.CloudEvents;
-import edepa.cloud.CloudFavorites;
+import edepa.model.Event;
 import edepa.model.EventType;
 
-/**
- * Contiene todos los eventos del cronograma, incluidos
- * los favoritos y los no favoritos
- */
-public class EventsScheduleByType extends EventsSchedule implements IEventsByType {
+public class EventsFavoritesByType extends EventsFavorites implements IEventsByType {
 
     public static final String TYPE_KEY = "type";
 

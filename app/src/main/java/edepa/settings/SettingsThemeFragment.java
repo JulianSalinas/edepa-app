@@ -6,13 +6,12 @@ import android.content.SharedPreferences;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.preference.PreferenceManager;
 
-import edepa.app.NavigationActivity;
 import edepa.modelview.R;
 import edepa.model.Preferences;
+import edepa.app.NavigationActivity;
 
 import com.afollestad.aesthetic.Aesthetic;
 import com.kunzisoft.androidclearchroma.ChromaPreferenceFragmentCompat;
-
 import static edepa.model.Preferences.THEME_KEY;
 
 

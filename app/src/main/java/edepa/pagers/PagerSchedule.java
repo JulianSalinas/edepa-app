@@ -3,6 +3,7 @@ package edepa.pagers;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 
 import edepa.custom.EmptyOngoing;
 import edepa.custom.EmptySchedule;
@@ -19,8 +20,8 @@ public class PagerSchedule extends PagerFragment {
      * @return PagerAdapter
      */
     @Override
-    protected PagerAdapter instantiateAdapter() {
-        return new PagerAdapter(this) {
+    protected FragmentPagerAdapter instantiateAdapter() {
+        return new PagerAdapter(this, dates) {
         protected Fragment instantiateEventsFragment() {
             return new EventsSchedule();
         }};

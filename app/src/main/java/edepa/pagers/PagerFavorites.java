@@ -3,6 +3,7 @@ package edepa.pagers;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 
 import com.google.firebase.database.Query;
 
@@ -55,11 +56,11 @@ public class PagerFavorites extends PagerFragment implements CloudFavorites.Call
      * @return PagerAdapter
      */
     @Override
-    protected PagerAdapter instantiateAdapter() {
-        return new PagerAdapter(this) {
-            protected Fragment instantiateEventsFragment() {
-                return new EventsFavorites();
-            }};
+    protected FragmentPagerAdapter instantiateAdapter() {
+        return new PagerAdapter(this, dates) {
+        protected Fragment instantiateEventsFragment() {
+            return new EventsFavorites();
+        }};
     }
 
     /**

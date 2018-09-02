@@ -3,7 +3,7 @@ package edepa.custom;
 import butterknife.OnClick;
 import edepa.modelview.R;
 import edepa.pagers.PagerFragment;
-import edepa.pagers.TabbedFragment;
+import edepa.pagers.TabbedFragmentDefault;
 
 public class EmptyFavorites extends BaseFragment {
 
@@ -20,9 +20,9 @@ public class EmptyFavorites extends BaseFragment {
     }
 
     public void moveToTabSchedule(PagerFragment pager){
-        if(pager.getParentFragment() instanceof TabbedFragment){
-            TabbedFragment tabs = (TabbedFragment) pager.getParentFragment();
-            tabs.moveToTab(TabbedFragment.SCHEDULE);
+        if(pager.getParentFragment() instanceof TabbedFragmentDefault){
+            TabbedFragmentDefault tabs = (TabbedFragmentDefault) pager.getParentFragment();
+            tabs.moveToTab(TabbedFragmentDefault.SCHEDULE);
         }
     }
 

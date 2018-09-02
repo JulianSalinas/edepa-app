@@ -10,10 +10,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
-
-import edepa.custom.OfflineFragment;
-import edepa.minilibs.OnlineHelper;
 import edepa.modelview.R;
+import edepa.minilibs.OnlineHelper;
+import edepa.custom.OfflineFragment;
 
 /**
  * Solo se usa la autenticación, sin embargo el método
@@ -81,15 +80,6 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     /**
-     * Cierra la aplicación por completo
-     * ni siquiera la deja en segundo plano
-     */
-    private void exit(){
-        finishAndRemoveTask();
-        System.exit(0);
-    }
-
-    /**
      * Se inicia la pantalla de Login
      * Solo sucede si es la primera vez que se abre la aplicación
      * Luego los datos quedan registrados y no es necesario
@@ -130,14 +120,16 @@ public class SignInActivity extends AppCompatActivity {
                 getApplication(),
                 NavigationActivity.class);
 
+        // Esto evita que cualquier aplicación intente abrir
+        // esta app sin haber pasado por el login, por lo que primero se
+        // pasa por aquí y luego se pasan los parámetros que iban dirigidos
+        // a NavigationActivity
         if (this.intent != null) {
             intent.setAction(this.intent.getAction());
             intent.setType(this.intent.getType());
         }
 
-        if (args != null)
-            intent.putExtras(args);
-
+        if (args != null) intent.putExtras(args);
         startActivity(intent);
         finish();
 
