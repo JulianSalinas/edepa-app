@@ -37,16 +37,6 @@
 
     <!-- Firebase Login Themes -->
 
-    <style name="FirebaseUI.Button" parent="@style/LoginTheme">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_gravity">right</item>
-        <item name="android:layout_height">36dp</item>
-        <item name="android:layout_margin">8dp</item>
-        <item name="android:textColor">@color/app_accent</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:radius">2dp</item>
-    </style>
-
     <style name="ActionButton" parent="@android:style/Widget.ActionButton">
         <item name="android:drawablePadding">1dp</item>
     </style>

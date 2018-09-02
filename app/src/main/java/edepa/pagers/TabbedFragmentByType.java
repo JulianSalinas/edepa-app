@@ -12,7 +12,7 @@ public class TabbedFragmentByType extends TabbedFragmentDefault {
     public TabbedAdapter getTabbedAdapter(){
         String currentView = Preferences.getStringPreference(
                 getContext(), Preferences.VIEW_KEY);
-        return Preferences.VIEW_DEFAULT.equals(currentView) ?
+        return currentView == null || Preferences.VIEW_DEFAULT.equals(currentView) ?
                 new TabbedAdapter() : new TabbedAdapterByType();
     }
 
