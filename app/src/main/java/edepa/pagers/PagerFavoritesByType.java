@@ -14,13 +14,15 @@ import edepa.cloud.CloudFavorites;
 import edepa.custom.EmptyFavorites;
 import edepa.events.EventsFavorites;
 import edepa.events.EventsFavoritesByType;
+import edepa.events.EventsFragment;
 import edepa.events.EventsScheduleByType;
+import edepa.events.IPageListenerByType;
 import edepa.model.Event;
 import edepa.model.EventType;
 import edepa.modelview.R;
 
 
-public class PagerFavoritesByType extends PagerFavorites {
+public class PagerFavoritesByType extends PagerFavorites implements IPageListenerByType {
 
     protected List<EventType> types;
 
@@ -81,6 +83,20 @@ public class PagerFavoritesByType extends PagerFavorites {
         boolean isEmpty = types.size() == 0;
         pager.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
         eventsEmptyView.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void onPageChanged(EventType type) {
+        int index = types.indexOf(type);
+        if (index != -1) setCurrentPage(index);
+        updateInterface();
+    }
+
+    @Override
+    public void onPageRemoved(EventType type) {
+        types.remove(type);
+        adapter.notifyDataSetChanged();
+        updateInterface();
     }
 
 }

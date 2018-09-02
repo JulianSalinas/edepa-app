@@ -36,7 +36,7 @@ public class PagerSchedule extends PagerFragment {
         Fragment frag = new EmptySchedule();
         FragmentManager manager = getChildFragmentManager();
         manager .beginTransaction()
-                .replace(R.id.events_empty_view, frag, tag)
+                .add(R.id.events_empty_view, frag, tag)
                 .commit();
     }
 

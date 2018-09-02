@@ -11,11 +11,12 @@ import java.util.List;
 
 import edepa.events.EventsSchedule;
 import edepa.events.EventsScheduleByType;
+import edepa.events.IPageListenerByType;
 import edepa.minilibs.TimeConverter;
 import edepa.model.Event;
 import edepa.model.EventType;
 
-public class PagerScheduleByType extends PagerSchedule {
+public class PagerScheduleByType extends PagerSchedule implements IPageListenerByType  {
 
     protected List<EventType> types;
 
@@ -76,6 +77,20 @@ public class PagerScheduleByType extends PagerSchedule {
         boolean isEmpty = types.size() == 0;
         pager.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
         eventsEmptyView.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void onPageChanged(EventType type) {
+        int index = types.indexOf(type);
+        if (index != -1) setCurrentPage(index);
+        updateInterface();
+    }
+
+    @Override
+    public void onPageRemoved(EventType type) {
+        types.remove(type);
+        adapter.notifyDataSetChanged();
+        updateInterface();
     }
 
 }

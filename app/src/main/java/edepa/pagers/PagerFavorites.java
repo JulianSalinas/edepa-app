@@ -72,7 +72,7 @@ public class PagerFavorites extends PagerFragment implements CloudFavorites.Call
         Fragment frag = new EmptyFavorites();
         FragmentManager manager = getChildFragmentManager();
         manager .beginTransaction()
-                .replace(R.id.events_empty_view, frag, tag)
+                .add(R.id.events_empty_view, frag, tag)
                 .commit();
     }
 

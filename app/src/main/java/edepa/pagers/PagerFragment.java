@@ -113,6 +113,8 @@ public abstract class PagerFragment extends CustomFragment
         cloudEvents = new CloudEvents();
         cloudEvents.setCallbacks(this);
 
+        inflateEmptyView();
+
         // Se agrega un Listener para obtener de antemano la
         // cantidad de eventos para así poder saber cuando
         // termina la carga inicial

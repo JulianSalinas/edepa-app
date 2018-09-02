@@ -244,14 +244,14 @@ public class EventFragment extends CustomFragment
      */
     private void updateEventView(){
 
-        bindType();
-        bindTitle();
-        bindAbstract();
-
         if (!isTheSameLocation()) {
             bindToolbarImage();
             bindLocation();
         }
+
+        bindType();
+        bindTitle();
+        bindAbstract();
 
         bindDateRange();
         bindFavorites();

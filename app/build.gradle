@@ -111,12 +111,13 @@ dependencies {
     implementation 'com.ramotion.foldingcell:folding-cell:1.2.2'
 
     // Expandable view
-    implementation 'com.github.iammert:ExpandableLayout:1.4.1'
-
     implementation 'com.github.florent37:expansionpanel:1.1.1'
 
     // Para seleccionar colores
     implementation 'com.github.Kunzisoft:AndroidClearChroma:2.0'
+
+    // Animaciones de fragmentos
+    // implementation 'com.labo.kaji:fragmentanimations:0.1.1'
 
     // Descargar archivos de imagenes y colocar imagenes
     implementation 'com.github.bumptech.glide:glide:4.7.1'

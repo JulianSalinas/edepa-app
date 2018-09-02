@@ -82,7 +82,7 @@ public class EventHolder extends RecyclerView.ViewHolder {
         public void openEvent(){
             if(context instanceof MainActivity){
                 MainActivity activity = (MainActivity) context;
-                Fragment fragment= EventFragment.newInstance(event);
+                Fragment fragment = EventFragment.newInstance(event);
                 activity.setFragmentOnScreen(fragment, event.getKey());
             }
         }

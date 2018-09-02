@@ -22,7 +22,7 @@ import edepa.pagers.PagerFragment;
  */
 public class EventsSchedule extends EventsFragment {
 
-    private int eventsAmount = 0;
+    protected int eventsAmount = 0;
 
     /**
      * Carga todos los eventos del cronograma de
@@ -67,7 +67,7 @@ public class EventsSchedule extends EventsFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Se obtiene el adminPermissionListener que en este caso
+        // Se obtiene el IPageLister que en este caso
         // es un PagerFragment que implementa IPageListener
         Fragment fragment = getParentFragment();
         if (fragment != null && fragment instanceof IPageListener)

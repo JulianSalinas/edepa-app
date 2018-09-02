@@ -2,6 +2,8 @@ package edepa.events;
 
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 
 import com.google.firebase.database.Query;
 
@@ -16,6 +18,8 @@ public class EventsFavoritesByType extends EventsFavorites implements IEventsByT
 
     public static final String TYPE_KEY = "type";
 
+    protected IPageListenerByType pageListener;
+
     protected EventType eventype;
 
     public EventType getEventype() {
@@ -29,7 +33,35 @@ public class EventsFavoritesByType extends EventsFavorites implements IEventsByT
             String type = args.getString(TYPE_KEY);
             eventype = EventType.valueOf(type);
         }
+
+        // Se obtiene el IPageLister que en este caso
+        // es un PagerFragment que implementa IPageListener
+        Fragment fragment = getParentFragment();
+        if (fragment != null && fragment instanceof IPageListenerByType)
+            pageListener = (IPageListenerByType) fragment;
+
         super.onCreate(savedInstanceState);
+    }
+
+    /**
+     * Cada vez que se remueve un evento se revisa si quedan
+     * más eventos, de lo contrario se avisa a IPageListener
+     * que debe remover este fragmento
+     */
+    public RecyclerView.AdapterDataObserver getDataObserver() {
+        return new RecyclerView.AdapterDataObserver() {
+
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                if(events.size() <= 0 && pageListener != null)
+                    pageListener.onPageRemoved(getEventype());
+            }
+
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                if(pageListener != null && eventsAmount-- <= 0)
+                    pageListener.onPageChanged(getEventype());
+            }
+
+        };
     }
 
     /**
