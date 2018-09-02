@@ -182,7 +182,7 @@ public class NavigationActivity extends MainActivity implements
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private void setupSearchView(){
         String text = getString(R.string.text_search);
-        searchView.showVoice(true);
+        searchView.showVoice(false);
         searchView.setHint(text);
         searchView.setOnSearchViewListener(this);
         searchView.setEllipsize(true);

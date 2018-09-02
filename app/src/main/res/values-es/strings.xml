@@ -76,6 +76,8 @@
     <string name="date_util_term_less">justo</string>
     <string name="date_util_term_a">un</string>
     <string name="date_util_term_an">un</string>
+    <string name="date_util_unit_second">second</string>
+    <string name="date_util_unit_seconds">seconds</string>
     <string name="date_util_unit_minute">minuto</string>
     <string name="date_util_unit_minutes">minutos</string>
     <string name="date_util_unit_hour">hora</string>
@@ -86,6 +88,7 @@
     <string name="date_util_unit_months">meses</string>
     <string name="date_util_unit_year">año</string>
     <string name="date_util_unit_years">años</string>
+    <string name="date_util_prefix_lt">menos de un</string>
     <string name="date_util_prefix_about">hace</string>
     <string name="date_util_prefix_over">sobre</string>
     <string name="date_util_prefix_almost">casi</string>

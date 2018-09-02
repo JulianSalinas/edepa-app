@@ -24,3 +24,6 @@
 /cloud\.idea
 
 /cloud\.vscode
+app/debug/
+
+app/release/
