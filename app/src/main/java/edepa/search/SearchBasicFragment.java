@@ -8,8 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-import edepa.app.ActivityNavig;
-import edepa.app.CustomFragment;
+import edepa.custom.CustomFragment;
 import edepa.minilibs.SmoothLayout;
 import edepa.modelview.R;
 

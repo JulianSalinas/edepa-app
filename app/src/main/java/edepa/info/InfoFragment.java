@@ -13,7 +13,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import butterknife.OnClick;
-import edepa.app.CustomFragment;
+import edepa.custom.CustomFragment;
 import edepa.cloud.Cloud;
 import edepa.cloud.CloudCongress;
 import edepa.modelview.R;

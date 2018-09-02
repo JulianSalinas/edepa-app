@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import edepa.app.BaseFragment;
+import edepa.custom.BaseFragment;
 import edepa.cloud.CloudLodging;
 import edepa.minilibs.SmoothLayout;
 import edepa.model.Lodging;

@@ -7,8 +7,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import butterknife.OnClick;
-import edepa.app.ActivityMain;
-import edepa.app.ActivityNavig;
+import edepa.app.MainActivity;
+import edepa.app.NavigationActivity;
 import edepa.cloud.CloudChat;
 import edepa.custom.PhotoFragment;
 import edepa.minilibs.ColorGenerator;
@@ -243,8 +243,8 @@ public class ChatAdapter
      * {@link #removeModeCallback}
      */
     public void startRemoveMode(){
-        if (context instanceof ActivityNavig) {
-            ActivityNavig activity = (ActivityNavig) context;
+        if (context instanceof NavigationActivity) {
+            NavigationActivity activity = (NavigationActivity) context;
             activity.hideKeyboard();
             removeMode = activity.startSupportActionMode(removeModeCallback);
             int color = activity.getResources().getColor(R.color.app_accent);
@@ -313,8 +313,8 @@ public class ChatAdapter
         public void openImage(String imageUrl){
             String domain = RegexSearcher.findDomainFromUrl(imageUrl);
             Fragment imageFragment = PhotoFragment.newInstance(domain, imageUrl);
-            if(context instanceof ActivityMain) {
-                ActivityMain activity = (ActivityMain) context;
+            if(context instanceof MainActivity) {
+                MainActivity activity = (MainActivity) context;
                 activity.setFragmentOnScreen(imageFragment, message.getKey());
             }
         }
@@ -326,8 +326,8 @@ public class ChatAdapter
         public void openUrl(String url){
             try{
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                if(context instanceof ActivityMain) {
-                    ActivityMain activity = (ActivityMain) context;
+                if(context instanceof MainActivity) {
+                    MainActivity activity = (MainActivity) context;
                     activity.startActivity(intent);
                 }
             }

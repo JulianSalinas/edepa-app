@@ -11,7 +11,7 @@ import com.mklimek.circleinitialsview.CircleInitialsView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
-import edepa.app.CustomFragment;
+import edepa.custom.CustomFragment;
 import edepa.cloud.Cloud;
 import edepa.minilibs.ColorConverter;
 import edepa.minilibs.ColorGenerator;

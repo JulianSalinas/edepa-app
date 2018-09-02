@@ -6,7 +6,6 @@ import android.widget.ProgressBar;
 import android.support.v7.widget.CardView;
 import android.support.v7.app.AppCompatActivity;
 
-import edepa.app.BaseFragment;
 import edepa.modelview.R;
 import butterknife.BindView;
 import butterknife.OnClick;

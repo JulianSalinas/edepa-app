@@ -5,12 +5,10 @@ import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
-import android.support.v7.widget.RecyclerView;
 
 import com.mklimek.circleinitialsview.CircleInitialsView;
 
-import edepa.app.ActivityNavig;
-import edepa.cloud.CloudPeople;
+import edepa.app.NavigationActivity;
 import edepa.minilibs.ColorConverter;
 import edepa.minilibs.TextHighlighter;
 import edepa.minilibs.ColorGenerator;
@@ -91,8 +89,8 @@ public class SearchHolderPerson extends PersonHolder {
 
     public void openPersonFragment(){
         Context context = itemView.getContext();
-        if (context instanceof ActivityNavig){
-            ActivityNavig activity = (ActivityNavig) context;
+        if (context instanceof NavigationActivity){
+            NavigationActivity activity = (NavigationActivity) context;
             PersonFragment fragment = PersonFragment.newInstance(person);
             fragment.show(activity.getSupportFragmentManager(), person.getCompleteName());
         }

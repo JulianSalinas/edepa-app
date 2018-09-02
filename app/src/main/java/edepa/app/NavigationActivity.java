@@ -18,7 +18,6 @@ import edepa.settings.SettingsThemeFragment;
 import edepa.settings.SettingsGeneralFragment;
 
 import android.net.Uri;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -33,7 +32,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
  * Clase encargada de manejar toda la navegabilidad de la aplicación,
  * incluyendo abrir el fragmento de búsquedad cuando se presione el inicio
  */
-public class ActivityNavig extends ActivityMain implements
+public class NavigationActivity extends MainActivity implements
         MaterialSearchView.SearchViewListener,
         CloudNavigation.CloudNavigationListener {
 

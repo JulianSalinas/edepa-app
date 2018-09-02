@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import edepa.modelview.R;
 import butterknife.BindView;
-import edepa.app.CustomFragment;
 import edepa.minilibs.ColorGenerator;
 
 /**

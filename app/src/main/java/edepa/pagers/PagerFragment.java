@@ -2,7 +2,7 @@ package edepa.pagers;
 
 import butterknife.BindView;
 
-import edepa.app.CustomFragment;
+import edepa.custom.CustomFragment;
 import edepa.cloud.CloudEvents;
 import edepa.model.Event;
 import edepa.modelview.R;

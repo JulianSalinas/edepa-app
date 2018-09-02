@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import edepa.app.CustomFragment;
+import edepa.custom.CustomFragment;
 import edepa.cloud.CloudEvents;
 import edepa.cloud.CloudFavorites;
 import edepa.minilibs.BitmapSave;

@@ -22,7 +22,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import java.util.Locale;
 import java.util.Map;
 
-import edepa.app.ActivityNavig;
+import edepa.app.NavigationActivity;
 import edepa.modelview.R;
 import edepa.cloud.Cloud;
 import edepa.model.Preferences;
@@ -123,7 +123,7 @@ public class NotificationService extends FirebaseMessagingService {
      * @see #createPendingIntent(Bundle)
      */
     private Intent createIntent(Bundle args){
-        return new Intent(getApplicationContext(), ActivityNavig.class)
+        return new Intent(getApplicationContext(), NavigationActivity.class)
             .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP |
                       Intent.FLAG_ACTIVITY_NO_HISTORY)
             .setAction(Intent.ACTION_MAIN)

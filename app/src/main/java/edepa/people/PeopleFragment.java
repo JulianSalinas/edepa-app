@@ -16,7 +16,7 @@ import edepa.model.Person;
 import edepa.modelview.R;
 import edepa.minilibs.SmoothLayout;
 import edepa.cloud.CloudPeople;
-import edepa.app.CustomFragment;
+import edepa.custom.CustomFragment;
 
 import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 

@@ -1,16 +1,14 @@
 package edepa.search;
 
 import android.os.Bundle;
-import android.view.View;
-import android.support.v4.app.Fragment;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-import edepa.app.ActivityNavig;
+import edepa.app.NavigationActivity;
 import edepa.modelview.R;
 import butterknife.OnClick;
 import edepa.model.EventType;
-import edepa.app.CustomFragment;
+import edepa.custom.CustomFragment;
 
 
 public class SearchByPanelFragment extends CustomFragment
@@ -90,7 +88,7 @@ public class SearchByPanelFragment extends CustomFragment
         String filter = params.getString(SearchByEventsFragment.FILTER_KEY);
         String tag = getTagBasedOnFilter(filter);
 
-        ActivityNavig activity = getNavigationActivity();
+        NavigationActivity activity = getNavigationActivity();
 
         if (tag.equals("SEARCH_BY_PEOPLE")) {
             activity.openSearchByPeople();

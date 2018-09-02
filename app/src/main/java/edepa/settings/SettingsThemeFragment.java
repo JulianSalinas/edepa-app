@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.preference.PreferenceManager;
 
-import edepa.app.ActivityNavig;
+import edepa.app.NavigationActivity;
 import edepa.modelview.R;
 import edepa.model.Preferences;
 
@@ -83,7 +83,7 @@ public class SettingsThemeFragment extends ChromaPreferenceFragmentCompat
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-        ActivityNavig activity = (ActivityNavig) getActivity();
+        NavigationActivity activity = (NavigationActivity) getActivity();
         if (key.equals(THEME_KEY) && activity != null) activity.recreate();
 
         // Se pregunta si el usuario tiene activo el tema personalizado

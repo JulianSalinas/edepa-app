@@ -1,14 +1,15 @@
-package edepa.app;
+package edepa.custom;
+
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import butterknife.ButterKnife;
-import android.view.LayoutInflater;
-import android.support.v4.app.Fragment;
 
-
-public abstract class BaseFragment extends Fragment {
+public abstract class DefaultDialog extends DialogFragment {
 
     /**
      * Entero que representa el layout que está utilizando el

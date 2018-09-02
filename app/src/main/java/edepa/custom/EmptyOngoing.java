@@ -2,7 +2,6 @@ package edepa.custom;
 
 import edepa.modelview.R;
 import butterknife.OnClick;
-import edepa.app.BaseFragment;
 import edepa.events.EventsOngoing;
 
 

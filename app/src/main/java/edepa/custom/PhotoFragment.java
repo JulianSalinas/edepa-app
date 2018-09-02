@@ -13,7 +13,7 @@ import com.github.chrisbanes.photoview.PhotoView;
 
 import edepa.modelview.R;
 import butterknife.BindView;
-import edepa.app.CustomFragment;
+
 import static com.bumptech.glide.request.RequestOptions.fitCenterTransform;
 
 /**

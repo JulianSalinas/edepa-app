@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import butterknife.ButterKnife;
-import edepa.app.ActivityNavig;
+import edepa.app.NavigationActivity;
 import edepa.info.MinimapFragment;
 
 public class EventHolderSeeMap extends RecyclerView.ViewHolder {
@@ -25,8 +25,8 @@ public class EventHolderSeeMap extends RecyclerView.ViewHolder {
 
     public void openMinimap(){
         Fragment miniMap = new MinimapFragment();
-        if (context instanceof ActivityNavig) {
-            ActivityNavig activity = (ActivityNavig) context;
+        if (context instanceof NavigationActivity) {
+            NavigationActivity activity = (NavigationActivity) context;
             activity.setFragmentOnScreen(miniMap, "MINIMAP");
         }
     }

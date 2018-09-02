@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import edepa.app.ActivityMain;
+import edepa.app.MainActivity;
 import edepa.minilibs.DialogFancy;
 import edepa.minilibs.RegexSearcher;
 import edepa.model.Lodging;
@@ -60,8 +60,8 @@ public class LodgingHolder extends RecyclerView.ViewHolder {
     private void tryToOpenUrl(String url){
         Context context = itemView.getContext();
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        if(context instanceof ActivityMain) {
-            ActivityMain activity = (ActivityMain) context;
+        if(context instanceof MainActivity) {
+            MainActivity activity = (MainActivity) context;
             activity.startActivity(intent);
         }
     }

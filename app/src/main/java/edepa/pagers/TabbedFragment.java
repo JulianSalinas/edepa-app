@@ -10,10 +10,10 @@ import android.support.v4.view.ViewPager;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import edepa.app.ActivityMain;
+import edepa.app.MainActivity;
 import edepa.modelview.R;
 import butterknife.BindView;
-import edepa.app.CustomFragment;
+import edepa.custom.CustomFragment;
 import edepa.events.EventsOngoing;
 
 
@@ -53,7 +53,7 @@ public class TabbedFragment extends CustomFragment {
     private MenuItem prevMenuItem;
 
     /**
-     * Es parte de {@link ActivityMain#appBarLayout}
+     * Es parte de {@link MainActivity#appBarLayout}
      * Sirve para quitar la sobra para cuando se colocan los tabs
      */
     private AppBarLayout appBarLayout;

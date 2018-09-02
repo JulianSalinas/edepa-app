@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import edepa.app.BaseFragment;
-import edepa.app.FragmentDialog;
+import edepa.custom.BaseFragment;
+import edepa.custom.DefaultDialog;
 import edepa.events.EventsAdapter;
 import edepa.minilibs.ColorConverter;
 import edepa.minilibs.ColorGenerator;
@@ -28,7 +28,7 @@ import edepa.model.Event;
 import edepa.model.Person;
 import edepa.modelview.R;
 
-public class PersonFragment extends FragmentDialog {
+public class PersonFragment extends DefaultDialog {
 
     public static final String SAVED_PERSON_KEY = "person_key";
 

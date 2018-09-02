@@ -54,7 +54,7 @@ import static android.support.v4.view.GravityCompat.START;
  * Actividad principal de aplicación. En esta se colocan cada uno
  * de los fragmentos existentes en el contenedor R.id.content
  */
-public abstract class ActivityMain extends AppCompatActivity
+public abstract class MainActivity extends AppCompatActivity
         implements LifecycleObserver,
         NavigationView.OnNavigationItemSelectedListener {
 
@@ -180,7 +180,7 @@ public abstract class ActivityMain extends AppCompatActivity
         /**
          * En ocasiones el teclado queda abierto después de
          * abrir el menú, para solucionar esto se utiliza
-         * {@link ActivityMain#hideKeyboard()} al abrir dicho menú
+         * {@link MainActivity#hideKeyboard()} al abrir dicho menú
          */
         @Override
         public void onDrawerOpened(View drawerView) {
@@ -190,7 +190,7 @@ public abstract class ActivityMain extends AppCompatActivity
 
         /**
          * Cuando el menú lateral se cierra se corre
-         * {@link ActivityMain#runPendingRunnable()} para dar
+         * {@link MainActivity#runPendingRunnable()} para dar
          * fluidez al las transiciones al presionar una opción
          */
         public void onDrawerClosed(View drawerView) {
@@ -473,20 +473,20 @@ public abstract class ActivityMain extends AppCompatActivity
 
     /**
      * Abre el "Acerca de"
-     * Es implementado en #ActivityNavig
+     * Es implementado en #NavigationActivity
      */
     public abstract boolean openAbout();
 
     /**
      * Abre el fragmento de configuración
-     * Es implementado en #ActivityNavig
+     * Es implementado en #NavigationActivity
      */
     public abstract boolean openSettings();
 
     /**
      * Cambia el tipo de vista de la aplicación, mediante
      * un filtro por tipo de evento
-     * Es implementado en #ActivityNavig
+     * Es implementado en #NavigationActivity
      */
     public abstract boolean changeViewMode();
 

@@ -4,7 +4,7 @@ import butterknife.BindView;
 import edepa.model.Event;
 import edepa.modelview.R;
 import edepa.minilibs.SmoothLayout;
-import edepa.app.CustomFragment;
+import edepa.custom.CustomFragment;
 import edepa.cloud.CloudEvents;
 import edepa.cloud.CloudFavorites;
 

@@ -1,8 +1,6 @@
 package edepa.custom;
 
 import butterknife.OnClick;
-import edepa.app.CustomFragment;
-import edepa.app.BaseFragment;
 import edepa.modelview.R;
 
 public class EmptySchedule extends BaseFragment {

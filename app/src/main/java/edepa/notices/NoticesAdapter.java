@@ -25,7 +25,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import edepa.app.ActivityMain;
+import edepa.app.MainActivity;
 import edepa.cloud.CloudAdmin;
 import edepa.cloud.CloudNotices;
 import edepa.custom.PhotoFragment;
@@ -251,7 +251,7 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
         @OnClick(R.id.news_item_delete)
         public void deleteItem(){
             DialogFancy.Builder builder = new DialogFancy.Builder();
-            if (context instanceof ActivityMain){
+            if (context instanceof MainActivity){
                 builder .setContext(context)
                         .setStatus(DialogFancy.WARNING)
                         .setTitle(R.string.text_warning)
@@ -285,8 +285,8 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
         public void openImage(String imageUrl){
             Fragment imageFragment = PhotoFragment
                     .newInstance(notice.getTitle(), imageUrl);
-            if(context instanceof ActivityMain) {
-                ActivityMain activity = (ActivityMain) context;
+            if(context instanceof MainActivity) {
+                MainActivity activity = (MainActivity) context;
                 activity.setFragmentOnScreen(imageFragment, notice.getKey());
             }
         }
@@ -302,8 +302,8 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
 
         private void tryToOpenUrl(String url){
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            if(context instanceof ActivityMain) {
-                ActivityMain activity = (ActivityMain) context;
+            if(context instanceof MainActivity) {
+                MainActivity activity = (MainActivity) context;
                 activity.startActivity(intent);
             }
         }

@@ -21,7 +21,7 @@ import butterknife.BindView;
 import edepa.cloud.CloudCongress;
 import edepa.modelview.R;
 import edepa.model.Congress;
-import edepa.app.CustomFragment;
+import edepa.custom.CustomFragment;
 
 /**
  * Mapa que se muestra al presionar el mapa pequeño

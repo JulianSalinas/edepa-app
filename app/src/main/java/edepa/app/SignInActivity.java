@@ -21,7 +21,7 @@ import edepa.modelview.R;
  * cualquier otra función de Firebase, de lo contrario
  * la app se cierra inesperadamente
  */
-public class ActivitySignIn extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity {
 
     private Bundle args;
     private Intent intent;
@@ -128,7 +128,7 @@ public class ActivitySignIn extends AppCompatActivity {
 
         Intent intent = new Intent(
                 getApplication(),
-                ActivityNavig.class);
+                NavigationActivity.class);
 
         if (this.intent != null) {
             intent.setAction(this.intent.getAction());

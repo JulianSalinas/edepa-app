@@ -1,4 +1,4 @@
-package edepa.app;
+package edepa.custom;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +10,10 @@ import android.support.v7.widget.Toolbar;
 import android.arch.lifecycle.LifecycleObserver;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
+import edepa.app.MainActivity;
+import edepa.app.NavigationActivity;
+import edepa.custom.BaseFragment;
+
 
 public abstract class CustomFragment
         extends BaseFragment implements LifecycleObserver{
@@ -18,7 +22,7 @@ public abstract class CustomFragment
      * Para obtener un referencia a la actividad y no
      * tener que hacer cast en cada momento que se requiera
      */
-    protected ActivityMain activity;
+    protected MainActivity activity;
 
     /**
      * Cuando se cambian los fragmentos es necesario conservar
@@ -52,10 +56,10 @@ public abstract class CustomFragment
     /**
      * Función para que los fragmentos puedan agregar los
      * listeners de firebase
-     * @return ActivityNavig
+     * @return NavigationActivity
      */
-    public ActivityNavig getNavigationActivity(){
-        return (ActivityNavig) activity;
+    public NavigationActivity getNavigationActivity(){
+        return (NavigationActivity) activity;
     }
 
     /**
@@ -108,7 +112,7 @@ public abstract class CustomFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = (ActivityMain) getActivity();
+        activity = (MainActivity) getActivity();
         getLifecycle().addObserver(this);
     }
 

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import edepa.settings.SettingsLanguage;
 
 
-public class EdepaApplication extends android.app.Application {
+public class MainApplication extends android.app.Application {
 
     @Override
     public void onCreate() {

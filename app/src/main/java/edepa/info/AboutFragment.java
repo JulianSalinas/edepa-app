@@ -1,7 +1,7 @@
 package edepa.info;
 
 import edepa.modelview.R;
-import edepa.app.CustomFragment;
+import edepa.custom.CustomFragment;
 
 import android.os.Bundle;
 import android.view.View;

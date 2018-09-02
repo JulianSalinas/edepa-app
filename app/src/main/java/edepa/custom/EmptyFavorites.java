@@ -1,7 +1,6 @@
 package edepa.custom;
 
 import butterknife.OnClick;
-import edepa.app.BaseFragment;
 import edepa.modelview.R;
 import edepa.pagers.PagerFragment;
 import edepa.pagers.TabbedFragment;

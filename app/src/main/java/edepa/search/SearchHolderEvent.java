@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import edepa.app.ActivityNavig;
+import edepa.app.NavigationActivity;
 import edepa.events.EventFragment;
 import edepa.minilibs.TextHighlighter;
 import edepa.minilibs.TimeConverter;
@@ -54,8 +54,8 @@ public class SearchHolderEvent extends RecyclerView.ViewHolder {
     }
 
     public void openEvent() {
-        if(context instanceof ActivityNavig){
-            ActivityNavig activity = (ActivityNavig) context;
+        if(context instanceof NavigationActivity){
+            NavigationActivity activity = (NavigationActivity) context;
             activity.getSearchView().closeSearch();
             Fragment fragment = EventFragment.newInstance(event);
             activity.setFragmentOnScreen(fragment, event.getKey());

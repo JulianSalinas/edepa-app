@@ -6,7 +6,7 @@ import butterknife.OnClick;
 import edepa.cloud.Cloud;
 import edepa.custom.PhotoFragment;
 import edepa.minilibs.DialogFancy;
-import edepa.app.CustomFragment;
+import edepa.custom.CustomFragment;
 
 import edepa.minilibs.OnlineHelper;
 import edepa.minilibs.RegexSearcher;

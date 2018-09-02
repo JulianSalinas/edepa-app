@@ -7,8 +7,8 @@ import android.content.SharedPreferences;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
-import edepa.app.ActivityMain;
-import edepa.app.ActivityNavig;
+import edepa.app.MainActivity;
+import edepa.app.NavigationActivity;
 import edepa.modelview.R;
 import edepa.model.Preferences;
 import edepa.minilibs.DialogFancy;
@@ -20,7 +20,7 @@ import static edepa.model.Preferences.LANG_KEY;
  * Las preferencias que se cambian en el fragmento son automáticamente
  * aplicadas y reflejadas en la instancia de {@link edepa.model.Preferences}
  * Este fragmento solo funciona si está dentro de una instancia de la clase
- * {@link ActivityMain} de lo contrario el comportamiento es indeterminado
+ * {@link MainActivity} de lo contrario el comportamiento es indeterminado
  */
 public class SettingsGeneralFragment extends PreferenceFragmentCompat
         implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -84,7 +84,7 @@ public class SettingsGeneralFragment extends PreferenceFragmentCompat
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-        ActivityNavig activity = (ActivityNavig) getActivity();
+        NavigationActivity activity = (NavigationActivity) getActivity();
 
         // Se ha cambiado el lenguage
         if (key.equals(LANG_KEY)) showLanguageChangeDialog();
@@ -118,7 +118,7 @@ public class SettingsGeneralFragment extends PreferenceFragmentCompat
      * la aplicación se aplicaquen los cambios
      */
     public void changeLanguageAndRestart(){
-        ActivityNavig activity = (ActivityNavig) getActivity();
+        NavigationActivity activity = (NavigationActivity) getActivity();
         String lang = Preferences.getStringPreference(getContext(), LANG_KEY);
         SettingsLanguage.setLanguage(getContext(), lang);
         if (activity != null) activity.recreate();
