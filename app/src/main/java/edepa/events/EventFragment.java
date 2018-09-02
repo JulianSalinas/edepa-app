@@ -1,8 +1,6 @@
 package edepa.events;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -15,12 +13,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -248,14 +245,14 @@ public class EventFragment extends CustomFragment
     private void updateEventView(){
 
         bindType();
+        bindTitle();
         bindAbstract();
 
-        if (!isTheSameTitle()) {
-            bindTitle();
+        if (!isTheSameLocation()) {
             bindToolbarImage();
+            bindLocation();
         }
 
-        bindLocation();
         bindDateRange();
         bindFavorites();
 
@@ -278,8 +275,8 @@ public class EventFragment extends CustomFragment
         getNavigationActivity().onBackPressed();
     }
 
-    private boolean isTheSameTitle(){
-        return eventTitle.getText().toString().equals(event.getTitle());
+    private boolean isTheSameLocation(){
+        return eventDetailLocation.getText().toString().equals(event.getLocation());
     }
 
     private void bindType(){
@@ -291,9 +288,11 @@ public class EventFragment extends CustomFragment
     private void bindToolbarImage() {
         WallpaperGenerator gen = new WallpaperGenerator(getNavigationActivity());
         Drawable wallpaper = gen.getWallpaper(event);
-        toolbarImage.setImageDrawable(wallpaper);
-        boolean canBeSave = wallpaper instanceof BitmapDrawable;
-        buttonSaveImage.setVisibility(canBeSave ? VISIBLE : GONE);
+        Glide.with(this)
+                .load(wallpaper)
+                .into(toolbarImage);
+        boolean canBeSaved = wallpaper instanceof BitmapDrawable;
+        buttonSaveImage.setVisibility(canBeSaved ? VISIBLE : GONE);
     }
 
     /**
