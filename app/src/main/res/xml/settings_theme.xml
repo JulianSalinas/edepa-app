@@ -6,13 +6,13 @@
     <SwitchPreference
         android:defaultValue="false"
         android:key="THEME_KEY"
-        android:summary="Si está desactivada la aplicación utiliza el tema por defecto (mejor rendimiento)"
-        android:title="Tema personalizado" />
+        android:summary="@string/text_theme_description"
+        android:title="@string/text_custom_theme" />
 
     <com.kunzisoft.androidclearchroma.ChromaPreferenceCompat
         xmlns:chroma="http://schemas.android.com/apk/res-auto"
         android:key="PRIMARY_COLOR"
-        android:title="Color primario"
+        android:title="@string/text_primary_color"
         android:defaultValue="@color/app_primary"
         chroma:chromaShapePreview="ROUNDED_SQUARE"
         chroma:chromaColorMode="HSV"
@@ -21,7 +21,7 @@
     <com.kunzisoft.androidclearchroma.ChromaPreferenceCompat
         xmlns:chroma="http://schemas.android.com/apk/res-auto"
         android:key="PRIMARY_DARK_COLOR"
-        android:title="Color primario oscuro"
+        android:title="@string/text_primary_dark_color"
         android:defaultValue="@color/app_primary"
         chroma:chromaShapePreview="ROUNDED_SQUARE"
         chroma:chromaColorMode="HSV"
@@ -30,7 +30,7 @@
     <com.kunzisoft.androidclearchroma.ChromaPreferenceCompat
         xmlns:chroma="http://schemas.android.com/apk/res-auto"
         android:key="ACCENT_COLOR"
-        android:title="Color de acento"
+        android:title="@string/text_accent_color"
         android:defaultValue="@color/app_primary"
         chroma:chromaShapePreview="ROUNDED_SQUARE"
         chroma:chromaColorMode="HSV"

@@ -4,28 +4,28 @@
     <SwitchPreference
         android:defaultValue="true"
         android:key="NOTIFICATIONS_KEY"
-        android:summary="Recibir notificaciones acerca de noticias, mensajes u otros"
-        android:title="Notificaciones" />
+        android:summary="@string/text_receive_notifications"
+        android:title="@string/text_notifications" />
 
     <EditTextPreference
         android:key="USER_KEY"
-        android:summary="Nombre con el que los demás te pueden ver en el chat"
-        android:title="Nombre de usuario" />
+        android:summary="@string/text_chat_alias"
+        android:title="@string/text_usename" />
 
     <ListPreference
         android:key="LANG_KEY"
         android:defaultValue="es"
         android:entries="@array/array_language_titles"
         android:entryValues="@array/array_language_values"
-        android:summary="Idioma principal de la aplicación. No aplica para información que se muestra en tiempo real"
-        android:title="Idioma base" />
+        android:summary="@string/text_language_description"
+        android:title="@string/text_language" />
 
     <ListPreference
         android:key="UPDATE_DELAY"
         android:defaultValue="5000"
         android:entries="@array/array_sync_titles"
         android:entryValues="@array/array_sync_values"
-        android:summary="Frecuencia con la que se deben actualizar los eventos en curso"
-        android:title="Actualización de eventos" />
+        android:summary="@string/text_sych_update_description"
+        android:title="@string/text_sych_update" />
 
 </PreferenceScreen>

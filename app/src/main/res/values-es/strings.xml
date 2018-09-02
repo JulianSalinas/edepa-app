@@ -34,8 +34,8 @@
     <string name="text_location">Ubicación</string>
     <string name="text_input">Escribe aquí</string>
     <string name="text_exhibitors">Expositores</string>
-    <string name="text_conference">Conferencia</string>
-    <string name="text_presentation">Presentación</string>
+    <string name="text_conference">Conferencias</string>
+    <string name="text_presentation">Ponencias</string>
 
     <string name="text_map">Mapa</string>
     <string name="text_search">Buscar</string>
@@ -58,7 +58,7 @@
 
     <string name="text_today">Hoy</string>
     <string name="test_dummy">Prueba</string>
-    <string name="text_atelier">Taller</string>
+    <string name="text_atelier">Talleres</string>
     <string name="text_fair">Feria-EDEPA</string>
     <string name="text_retry">Reintentar</string>
     <string name="text_block">Bloque de </string>
@@ -201,5 +201,19 @@
     <string name="text_save_complete">La imagen se ha guardado</string>
     <string name="text_save_image">Guardar imagen</string>
     <string name="text_save_image_content">¿Desea guardar la imagen  de fondo?</string>
+    <string name="text_receive_notifications">Recibir notificaciones acerca de noticias, mensajes u otros</string>
+    <string name="text_chat_alias">Nombre con el que los demás te pueden ver en el chat</string>
+    <string name="text_language_description">Idioma principal de la aplicación. No aplica para información que se muestra en tiempo real</string>
+    <string name="text_sych_update_description">Frecuencia con la que se deben actualizar los eventos en curso</string>
+    <string name="text_theme_description">Si está desactivada la aplicación utiliza el tema por defecto (mejor rendimiento)</string>
+    <string name="text_notifications">Notificaciones</string>
+    <string name="text_usename">Nombre de usuario</string>
+    <string name="text_language">Idioma base</string>
+    <string name="text_sych_update">Actualización de eventos</string>
+
+    <string name="text_custom_theme">Tema personalizado</string>
+    <string name="text_primary_color">Color primario</string>
+    <string name="text_primary_dark_color">Color primario oscuro</string>
+    <string name="text_accent_color">Color de acento</string>
 
 </resources>

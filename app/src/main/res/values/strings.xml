@@ -32,8 +32,8 @@
     <string name="text_location">Location</string>
     <string name="text_input">Write here</string>
     <string name="text_exhibitors">Exhibitors</string>
-    <string name="text_conference">Conference</string>
-    <string name="text_presentation">Presentation</string>
+    <string name="text_conference">Conferencias</string>
+    <string name="text_presentation">Ponencias</string>
 
     <string name="text_map">Map</string>
     <string name="text_search">Search</string>
@@ -55,7 +55,7 @@
 
     <string name="text_today">Today</string>
     <string name="test_dummy">Dummy</string>
-    <string name="text_atelier">Taller</string>
+    <string name="text_atelier">Talleres</string>
     <string name="text_fair">Feria-EDEPA</string>
     <string name="text_retry">Retry</string>
     <string name="text_block">Block</string>
@@ -196,5 +196,22 @@
     <string name="text_save_complete">Saved image</string>
     <string name="text_save_image">Save background</string>
     <string name="text_save_image_content">Do you want to save the background?</string>
+
+    <string name="text_receive_notifications">Receive notifications about news or messages </string>
+    <string name="text_chat_alias">Name with which others can see you in the chat</string>
+    <string name="text_language_description">Main language of the application. Does not apply for
+        information shown in real time</string>
+    <string name="text_sych_update_description">Frequency with which ongoing events must be
+        updated</string>
+    <string name="text_theme_description">If it is disabled, the application uses the default theme (better performance)</string>
+    <string name="text_notifications">Notifications</string>
+    <string name="text_usename">Username</string>
+    <string name="text_language">Language</string>
+    <string name="text_sych_update">Update frequency</string>
+
+    <string name="text_custom_theme">Custom theme</string>
+    <string name="text_primary_color">Primary color</string>
+    <string name="text_primary_dark_color">Primary dark color</string>
+    <string name="text_accent_color">Accent color</string>
 
 </resources>
