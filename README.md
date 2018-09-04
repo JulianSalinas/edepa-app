@@ -3,7 +3,7 @@ Aplicación móvil desarrollada para Android. Tiene el propósito de mantener in
 
 
 
-#####Principales características de la aplicación:
+##### Principales características de la aplicación:
 
 * Consultar la información general del congreso.
 
