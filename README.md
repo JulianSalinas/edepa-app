@@ -19,9 +19,9 @@ Aplicación móvil desarrollada para Android. Tiene el propósito de mantener in
 
 ##### Capturas de pantalla 
 
-<img src="/screenshots/Splashscreen.png" width="300" /><img src="/screenshots/Cronograma.png" width="300" /><img src="/screenshots/Participantes.png" width="300" />
+<img src="/screenshots/Splashscreen.png" width="250" hspace="30" /><img src="/screenshots/Cronograma.png" width="250" hspace="30"/><img src="/screenshots/Participantes.png" width="250" hspace="30" />
 
-<img src="/screenshots/Eventos.png" width="300" /><img src="/screenshots/Noticias.png" width="300" /><img src="/screenshots/Chat.png" width="300" />
+<img src="/screenshots/Eventos.png" width="250" hspace="30" /><img src="/screenshots/Noticias.png" width="250" hspace="30" /><img src="/screenshots/Chat.png" width="250" hspace="30" />
 
 
 
