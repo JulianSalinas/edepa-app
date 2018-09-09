@@ -10,9 +10,13 @@ import edepa.cloud.CloudFavorites;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 
 
 public abstract class EventsFragment extends CustomFragment
@@ -108,7 +112,15 @@ public abstract class EventsFragment extends CustomFragment
         eventsRecycler.setHasFixedSize(true);
         eventsRecycler.setAdapter(eventsAdapter);
         eventsRecycler.setItemAnimator(new DefaultItemAnimator());
-        eventsRecycler.setLayoutManager(new SmoothLayout(activity));
+
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            eventsRecycler.setLayoutManager(new SmoothLayout(activity));
+        }
+        else {
+            eventsRecycler.setLayoutManager(new StaggeredGridLayoutManager(
+                    3, StaggeredGridLayoutManager.VERTICAL));
+        }
+
     }
 
     /**

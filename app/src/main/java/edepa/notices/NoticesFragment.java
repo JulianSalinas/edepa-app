@@ -1,7 +1,10 @@
 package edepa.notices;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -101,7 +104,14 @@ public class NoticesFragment extends RecyclerFragment
         noticesRecycler.setHasFixedSize(true);
         noticesRecycler.setAdapter(noticesAdapter);
         noticesRecycler.setItemAnimator(new DefaultItemAnimator());
-        noticesRecycler.setLayoutManager(new SmoothLayout(getActivity()));
+
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            noticesRecycler.setLayoutManager(new SmoothLayout(activity));
+        }
+        else {
+            noticesRecycler.setLayoutManager(new StaggeredGridLayoutManager(
+                    3, StaggeredGridLayoutManager.VERTICAL));
+        }
 
     }
 

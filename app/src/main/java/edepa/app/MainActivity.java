@@ -47,6 +47,8 @@ import com.afollestad.aesthetic.Aesthetic;
 import com.afollestad.aesthetic.BottomNavBgMode;
 import com.afollestad.aesthetic.BottomNavIconTextMode;
 
+import org.jetbrains.annotations.Nullable;
+
 import static edepa.model.Preferences.USER_KEY;
 import static edepa.model.Preferences.FIRST_USE_KEY;
 import static android.support.v4.view.GravityCompat.START;
@@ -123,6 +125,7 @@ public abstract class MainActivity extends AppCompatActivity
      * cronograma, expositores, noticias, chat, configuración, acerca de,
      * personalizar y salir
      */
+    @Nullable
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
@@ -192,15 +195,6 @@ public abstract class MainActivity extends AppCompatActivity
             hideKeyboard();
         }
 
-        /**
-         * Cuando el menú lateral se cierra se corre
-         * {@link MainActivity#runPendingRunnable()} para dar fluidez al las
-         * transiciones al presionar una opción
-         */
-        public void onDrawerClosed(View drawerView) {
-            super.onDrawerClosed(drawerView);
-            runPendingRunnable();
-        }
     };
 
     /**
@@ -240,7 +234,7 @@ public abstract class MainActivity extends AppCompatActivity
             Aesthetic.attach(this);
             Aesthetic.get()
                     .bottomNavigationBackgroundMode(BottomNavBgMode.ACCENT)
-                    .bottomNavigationIconTextMode(BottomNavIconTextMode.SELECTED_ACCENT)
+                    .bottomNavigationIconTextMode(BottomNavIconTextMode.SELECTED_PRIMARY)
                     .apply();
         }
     }
@@ -293,13 +287,15 @@ public abstract class MainActivity extends AppCompatActivity
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     public void setupToggle(){
-        int open = R.string.drawer_open;
-        int close = R.string.drawer_close;
-        if (toggle == null) toggle =
-        new ActionBarDrawerToggle(this,
-                getDrawerLayout(),
-                getToolbar(), open, close);
-        showToggle();
+        if(getDrawerLayout() != null) {
+            int open = R.string.drawer_open;
+            int close = R.string.drawer_close;
+            if (toggle == null) toggle =
+                    new ActionBarDrawerToggle(this,
+                            getDrawerLayout(),
+                            getToolbar(), open, close);
+            showToggle();
+        }
     }
 
     /**
@@ -319,15 +315,18 @@ public abstract class MainActivity extends AppCompatActivity
      * @see #setupToggle()
      */
     public void showBackButton(){
-        toggle.setDrawerIndicatorEnabled(false);
+        if(getDrawerLayout() != null) {
 
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toggle.setDrawerIndicatorEnabled(false);
 
-        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        getDrawerLayout()
-                .setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+            getDrawerLayout()
+                    .setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        }
     }
 
     /**
@@ -335,17 +334,19 @@ public abstract class MainActivity extends AppCompatActivity
      * @see #setupToggle()
      */
     public void showHamburger() {
+        if (getDrawerLayout() != null) {
 
-        toggle.setDrawerIndicatorEnabled(true);
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            toggle.setDrawerIndicatorEnabled(true);
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        toggle.syncState();
-        toolbar.setNavigationOnClickListener(v ->
-                getDrawerLayout().openDrawer(START));
+            toggle.syncState();
+            toolbar.setNavigationOnClickListener(v ->
+                    getDrawerLayout().openDrawer(START));
 
-        getDrawerLayout()
-                .setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            getDrawerLayout()
+                    .setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        }
     }
 
     /**
@@ -404,7 +405,9 @@ public abstract class MainActivity extends AppCompatActivity
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     public void disconnectDrawerListener(){
-        getDrawerLayout().removeDrawerListener(drawerListener);
+        if (getDrawerLayout() != null) {
+            getDrawerLayout().removeDrawerListener(drawerListener);
+        }
     }
 
     /**
@@ -414,7 +417,9 @@ public abstract class MainActivity extends AppCompatActivity
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void connectDrawerListener(){
-        getDrawerLayout().addDrawerListener(drawerListener);
+        if(getDrawerLayout() != null) {
+            getDrawerLayout().addDrawerListener(drawerListener);
+        }
     }
 
     /**
@@ -514,7 +519,9 @@ public abstract class MainActivity extends AppCompatActivity
      */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        getDrawerLayout().closeDrawer(START);
+        if (getDrawerLayout() != null) {
+            getDrawerLayout().closeDrawer(START);
+        }
         return true;
     }
 
@@ -559,7 +566,7 @@ public abstract class MainActivity extends AppCompatActivity
             searchView.closeSearch();
         }
 
-        if (drawerLayout.isDrawerOpen(START)) {
+        if (drawerLayout != null && drawerLayout.isDrawerOpen(START)) {
             drawerLayout.closeDrawer(START);
         }
 

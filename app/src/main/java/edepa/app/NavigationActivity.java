@@ -71,6 +71,7 @@ public class NavigationActivity extends MainActivity implements
     public void handleSendText(Intent intent) {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (sharedText != null) {
+            intent.removeExtra(Intent.EXTRA_TEXT);
             Bundle params = new Bundle();
             params.putString(ChatFragment.INPUT_IMAGE_KEY, sharedText);
             openChat(params);
@@ -85,6 +86,7 @@ public class NavigationActivity extends MainActivity implements
     public void handleSendImage(Intent intent) {
         Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {
+            intent.removeExtra(Intent.EXTRA_STREAM);
             Bundle params = new Bundle();
             String imagePath = PathGenerator.getRealPathFromUri(this, imageUri);
             params.putString(ChatFragment.INPUT_IMAGE_KEY, imagePath);
@@ -219,6 +221,7 @@ public class NavigationActivity extends MainActivity implements
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
         Fragment frag = temp != null ? temp : new InfoFragment();
         pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+        runPendingRunnable();
         return false;
     }
 
@@ -242,6 +245,7 @@ public class NavigationActivity extends MainActivity implements
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
         Fragment frag = temp != null ? temp : new NoticesFragment();
         pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+        runPendingRunnable();
         return false;
     }
 
@@ -265,6 +269,7 @@ public class NavigationActivity extends MainActivity implements
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
         Fragment frag = temp != null ? temp : new ChatFragment();
         pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+        runPendingRunnable();
         return false;
     }
 
@@ -302,6 +307,7 @@ public class NavigationActivity extends MainActivity implements
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
         Fragment frag = temp != null ? temp : new PeopleFragment();
         pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+        runPendingRunnable();
         return false;
     }
 
@@ -325,6 +331,7 @@ public class NavigationActivity extends MainActivity implements
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
         Fragment frag = temp != null ? temp : new SettingsThemeFragment();
         pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+        runPendingRunnable();
         return false;
     }
 
@@ -347,6 +354,7 @@ public class NavigationActivity extends MainActivity implements
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
         Fragment frag = temp != null ? temp : new TabbedFragmentByType();
         pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+        runPendingRunnable();
         return false;
     }
 
@@ -400,6 +408,7 @@ public class NavigationActivity extends MainActivity implements
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
         Fragment frag = temp != null ? temp : new SettingsGeneralFragment();
         pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+        runPendingRunnable();
         return false;
     }
 
@@ -422,6 +431,7 @@ public class NavigationActivity extends MainActivity implements
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
         Fragment frag = temp != null ? temp : new AboutFragment();
         pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+        runPendingRunnable();
         return false;
     }
 

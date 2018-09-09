@@ -110,9 +110,9 @@
         <ImageView
             android:visibility="gone"
             android:id="@+id/publish_image"
-            android:scaleType="centerCrop"
+            android:scaleType="centerInside"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_image"
+            android:layout_height="@dimen/size_gmap"
             android:layout_marginBottom="@dimen/size_default"
             android:contentDescription="@null"
             tools:src="@drawable/img_minimap" />

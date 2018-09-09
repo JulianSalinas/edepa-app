@@ -13,7 +13,7 @@
         android:id="@+id/preview_image"
         android:minWidth="@dimen/size_image_small"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_image_small"
+        android:layout_height="@dimen/size_notice_preview_image"
         android:scaleType="centerCrop"
         android:contentDescription="@null"
         android:src="@drawable/img_minimap" />

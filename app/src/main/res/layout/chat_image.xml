@@ -7,38 +7,16 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/img_wallpaper"
-            android:contentDescription="@null"
-            android:scaleType="centerCrop">
-        </ImageView>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#c4ffffff">
-
-        </View>
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/chat_view_writing_layout">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/chat_recycler"
+        <ImageView
+            android:id="@+id/chat_view_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            tools:listitem="@layout/chat_right"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        </android.support.v7.widget.RecyclerView>
+            android:contentDescription="@null"
+            android:scaleType="fitCenter">
+        </ImageView>
 
     </FrameLayout>
 
@@ -71,22 +49,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <LinearLayout
-                        android:id="@+id/chat_view_camera"
-                        android:layout_width="@dimen/size_chat_camera"
-                        android:layout_height="@dimen/size_chat_camera">
-
-                        <ImageView
-                            android:src="@drawable/ic_camera"
-                            android:layout_gravity="center"
-                            android:layout_width="@dimen/size_icon"
-                            android:layout_height="@dimen/size_icon"
-                            android:layout_marginStart="@dimen/size_default"
-                            android:tint="@color/app_primary_font"
-                            android:contentDescription="@null"/>
-
-                    </LinearLayout>
-
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/text_input_view"
                         android:hint="@string/text_input"
@@ -101,16 +63,6 @@
                         android:tag=":aesthetic_ignore"/>
 
                 </LinearLayout>
-
-                <ImageView
-                    android:visibility="gone"
-                    android:id="@+id/chat_view_image"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_dropbox"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_image"
-                    android:layout_marginTop="@dimen/size_smallest"
-                    android:contentDescription="@null"/>
 
             </LinearLayout>
 

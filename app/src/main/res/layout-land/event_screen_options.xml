@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<GridLayout
+    android:rowCount="2"
+    android:columnCount="2"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/app_white"
+    android:padding="@dimen/size_default"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <include
+        layout="@layout/event_item_calendar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:layout_margin="@dimen/size_small"/>
+
+    <include
+        layout="@layout/event_item_see_map"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:layout_margin="@dimen/size_small"/>
+
+    <include
+        layout="@layout/event_item_people"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:layout_margin="@dimen/size_small"/>
+
+    <include
+        layout="@layout/event_item_download"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:layout_margin="@dimen/size_small"/>
+
+</GridLayout>

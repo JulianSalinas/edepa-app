@@ -1,41 +1,13 @@
 package edepa.chat;
 
-import butterknife.BindView;
-
-import butterknife.OnClick;
-import butterknife.OnFocusChange;
-
-import edepa.cloud.Cloud;
-import edepa.cloud.CloudChat;
-
-import edepa.custom.PhotoFragment;
-import edepa.custom.RecyclerFragment;
-import edepa.minilibs.RegexSearcher;
-import edepa.model.Message;
-import edepa.model.Preferences;
-
-import edepa.model.Preview;
-import edepa.modelview.R;
-import edepa.custom.RecyclerAdapter;
-import edepa.minilibs.SmoothLayout;
-import edepa.services.UpdateImageService;
-
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
-
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.OnLifecycleEvent;
-
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.design.widget.TextInputEditText;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -48,8 +20,22 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+import butterknife.OnFocusChange;
+import edepa.cloud.Cloud;
+import edepa.cloud.CloudChat;
+import edepa.custom.CustomFragment;
+import edepa.custom.PhotoFragment;
+import edepa.minilibs.RegexSearcher;
+import edepa.minilibs.SmoothLayout;
+import edepa.model.Message;
+import edepa.model.Preferences;
+import edepa.model.Preview;
+import edepa.modelview.R;
+import edepa.services.UpdateImageService;
 
-public class ChatFragment extends RecyclerFragment {
+public class ChatImageEditor extends CustomFragment {
 
     public static final int REQUEST_IMAGE_CODE = 100;
 
@@ -76,68 +62,20 @@ public class ChatFragment extends RecyclerFragment {
     @BindView(R.id.chat_view_image)
     ImageView imageView;
 
-    /**
-     * Es donde se colocan cada uno de los mensajes
-     * de forma VISUAL
-     */
-    @BindView(R.id.chat_recycler)
-    RecyclerView chatRecycler;
-
-    @Override
-    protected RecyclerView getRecyclerView() {
-        return chatRecycler;
-    }
-
-    /**
-     * Contiene todos los mensajes del chat y ejecuta
-     * los evento de inserción, deleción y modificación
-     */
-    protected ChatAdapter chatAdapter;
-
-    @Override
-    protected RecyclerAdapter getViewAdapter() {
-        return chatAdapter;
-    }
-
-    /**
-     * Propiedad para saber si se está esperando
-     * un respuesta del servidor después de enviar
-     * un mensaje, es decir, se espera recibir el mismo
-     * mensaje que se envió
-     */
-    protected boolean waitingResponse;
-
-    public void setWaitingResponse(boolean waitingResponse) {
-        this.waitingResponse = waitingResponse;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getResource() {
-        return R.layout.chat_screen;
-    }
-
-    /**
-     * Carga los mensajes
-     */
-    protected CloudChat cloudChat;
-    protected String imageLocalPath;
     protected String lastMessageKey;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        chatAdapter = new ChatAdapter(getNavigationActivity());
-        chatAdapter.registerAdapterDataObserver(getDataObserver());
-        cloudChat = new CloudChat();
-        cloudChat.setCallbacks(chatAdapter);
-        cloudChat.connect();
+    public int getResource() {
+        return R.layout.chat_image;
     }
+
+    /**
+     * Carga los mensajes
+     */
+    protected String imageLocalPath;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -148,43 +86,57 @@ public class ChatFragment extends RecyclerFragment {
             textInputView.setText(args.getString(INPUT_TEXT_KEY));
         }
 
-        if (args != null && args.containsKey(INPUT_IMAGE_KEY)){
+        if (args != null && args.containsKey(INPUT_IMAGE_KEY)
+                && args.getString(INPUT_IMAGE_KEY) != null){
             imageLocalPath = args.getString(INPUT_IMAGE_KEY);
-            openChatImageEditor();
+            updatePreviewImage(imageLocalPath);
         }
+        else searchLocalImage();
 
     }
 
     /**
-     * {@inheritDoc}
+     * Abre el selector de imagenes
+     */
+    @OnClick(R.id.chat_view_image)
+    public void searchLocalImage(){
+        Pix.start(this, REQUEST_IMAGE_CODE);
+    }
+
+    /**
+     * Se ha recibido el código de solicitar el permiso
+     * para abrir una imagen desde la SD
+     * @param requestCode {@link #REQUEST_IMAGE_CODE}
+     * @param resultCode Se espera RESULT_OK
+     * @param data: Lista donde el primer elemento es la ruta de la imagen
      */
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        cloudChat.disconnect();
-    }
-
-    @OnClick(R.id.chat_view_camera)
-    public void openChatImageEditor(){
-        Bundle args = new Bundle();
-        args.putString(ChatImageEditor.INPUT_IMAGE_KEY, imageLocalPath);
-        ChatImageEditor fragment = new ChatImageEditor();
-        fragment.setArguments(args);
-        setFragmentOnScreen(fragment, "CHAT_IMAGE_EDITOR");
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_IMAGE_CODE && resultCode == Activity.RESULT_OK){
+            ArrayList<String> paths = data.getStringArrayListExtra(Pix.IMAGE_RESULTS);
+            if(paths.size() > 0) updatePreviewImage(paths.get(0));
+            else activity.onBackPressed();
+        }
+        else {
+            activity.onBackPressed();
+        }
     }
 
     /**
-     * Se obtiene un data observer para que en el momento que
-     * el usuario ingrese un mensaje, se realice scroll hasta este
-     * @return AdapterDataObserver
+     * Actualiza la previsualización de la imagen que se
+     * va a subir junto con la noticia
+     * @param imageLocalPath: Ruta de la imagen en la SD
      */
-    private RecyclerView.AdapterDataObserver getDataObserver(){
-        return new RecyclerView.AdapterDataObserver() {
-        public void onItemRangeInserted(int positionStart, int itemCount) {
-            super.onItemRangeInserted(positionStart, itemCount);
-            scrollIfWaitingResponse();
-        }};
+    public void updatePreviewImage(String imageLocalPath){
+        this.imageLocalPath = imageLocalPath;
+        imageView.setVisibility(View.VISIBLE);
+        Glide.with(this)
+                .load(imageLocalPath)
+                .apply(PhotoFragment.getRequestOptions(getContext()))
+                .into(imageView);
     }
+
 
     /**
      * {@inheritDoc}
@@ -215,65 +167,6 @@ public class ChatFragment extends RecyclerFragment {
         }
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public void updateUnreadMessagesToZero(){
-        String key = Preferences.UNREAD_MESSAGES_KEY;
-        Preferences.setPreference(getNavigationActivity(), key, 0);
-    }
-
-    /**
-     * Personaliza la actividad
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public void customizeActivity(){
-        setToolbarText(R.string.nav_chat);
-        setToolbarVisibility(View.VISIBLE);
-        setStatusBarColorRes(R.color.app_primary_dark);
-    }
-
-    /**
-     * Se configura el contenedor de mensajes {@link #chatRecycler}
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public void setupRecyclerView(){
-        LinearLayoutManager layoutManager =
-                new SmoothLayout(getActivity());
-        layoutManager.setStackFromEnd(true);
-        chatRecycler.setAdapter(chatAdapter);
-        chatRecycler.setHasFixedSize(true);
-        chatRecycler.setItemAnimator(new DefaultItemAnimator());
-        chatRecycler.setLayoutManager(layoutManager);
-    }
-
-    /**
-     * Cuando el input pierde el foco el teclado se debe cerrar
-     */
-    @OnFocusChange(R.id.text_input_view)
-    public void controlInputFocus(boolean hasFocus){
-        if (!hasFocus) activity.hideKeyboard();
-    }
-
-    /**
-     * Mueve el scroll hasta apuntar al último elemento
-     * insertado
-     */
-    public void scrollToLastPosition(){
-        int index = chatAdapter.getItemCount()-1;
-        chatRecycler.smoothScrollToPosition(index);
-    }
-
-    /**
-     * Hace scroll hasta la última posición en el momento
-     * de agregar un nuevo mensaje
-     * @see ChatAdapter#addMessage(Message)
-     */
-    public void scrollIfWaitingResponse(){
-        if(waitingResponse){
-            waitingResponse = false;
-            scrollToLastPosition();
-        }
-    }
-
     /**
      * Función para enviar un msg. Toma el contenido y si no está vacío
      * procede a enviarlo
@@ -292,7 +185,7 @@ public class ChatFragment extends RecyclerFragment {
      */
     private void sendNotEmptyMessage(String content){
         Message message = buildMessage(content);
-        setWaitingResponse(true);
+
         lastMessageKey = CloudChat.addMessage(message);
         textInputView.setText("");
 
@@ -303,6 +196,8 @@ public class ChatFragment extends RecyclerFragment {
             imageView.setVisibility(View.GONE);
             imageLocalPath = null;
         }
+
+        activity.onBackPressed();
 
     }
 

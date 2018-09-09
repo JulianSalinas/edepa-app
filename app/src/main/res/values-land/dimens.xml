@@ -29,10 +29,10 @@
     <dimen name="size_icon_container">56dp</dimen>
     <dimen name="size_icon_container_big">62dp</dimen>
 
-    <dimen name="size_gmap">256dp</dimen>
+    <dimen name="size_gmap">512dp</dimen>
     <dimen name="size_header_img">230dp</dimen>
     <dimen name="size_header_height">260dp</dimen>
-    <dimen name="size_header_detail_img">285dp</dimen>
+    <dimen name="size_header_detail_img">400dp</dimen>
 
     <dimen name="size_chat_icon">14dp</dimen>
     <dimen name="size_chat_camera">45dp</dimen>
@@ -48,8 +48,8 @@
 
     <dimen name="size_image">256dp</dimen>
     <dimen name="size_image_small">200dp</dimen>
-    <dimen name="size_chat_preview_image">160dp</dimen>
-    <dimen name="size_notice_preview_image">200dp</dimen>
-    <dimen name="size_chat_preview_min">175dp</dimen>
+    <dimen name="size_chat_preview_image">240dp</dimen>
+    <dimen name="size_notice_preview_image">240dp</dimen>
+    <dimen name="size_chat_preview_min">256dp</dimen>
 
 </resources>

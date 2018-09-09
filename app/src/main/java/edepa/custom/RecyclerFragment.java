@@ -80,17 +80,17 @@ public abstract class RecyclerFragment extends CustomFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
-        int position = ((LinearLayoutManager) getRecyclerView()
-                .getLayoutManager()).findFirstVisibleItemPosition();
-
-        View startView = getRecyclerView().getChildAt(0);
-
-        int top = (startView == null) ? 0 :
-                (startView.getTop() - getRecyclerView().getPaddingTop());
-
-        outState.putInt("position", position);
-        outState.putInt("top", top);
+//
+//        int position = ((LinearLayoutManager) getRecyclerView()
+//                .getLayoutManager()).findFirstVisibleItemPosition();
+//
+//        View startView = getRecyclerView().getChildAt(0);
+//
+//        int top = (startView == null) ? 0 :
+//                (startView.getTop() - getRecyclerView().getPaddingTop());
+//
+//        outState.putInt("position", position);
+//        outState.putInt("top", top);
     }
 
     /**
@@ -103,17 +103,17 @@ public abstract class RecyclerFragment extends CustomFragment {
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null) {
-            int position = savedInstanceState.getInt("position");
-            int top = savedInstanceState.getInt("top");
-            getViewAdapter().registerAdapterDataObserver(
-            new RecyclerView.AdapterDataObserver() {
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                ((LinearLayoutManager) getRecyclerView()
-                        .getLayoutManager())
-                        .scrollToPositionWithOffset(position, top);
-            }});
-        }
+//        if (savedInstanceState != null) {
+//            int position = savedInstanceState.getInt("position");
+//            int top = savedInstanceState.getInt("top");
+//            getViewAdapter().registerAdapterDataObserver(
+//            new RecyclerView.AdapterDataObserver() {
+//            public void onItemRangeInserted(int positionStart, int itemCount) {
+//                ((LinearLayoutManager) getRecyclerView()
+//                        .getLayoutManager())
+//                        .scrollToPositionWithOffset(position, top);
+//            }});
+//        }
     }
 
 }

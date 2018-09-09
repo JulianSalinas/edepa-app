@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/app_white"
+    android:paddingTop="@dimen/size_default"
+    android:paddingBottom="@dimen/size_default"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <include
+        layout="@layout/event_item_people"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_default"
+        android:layout_marginEnd="@dimen/size_default"
+        android:layout_marginBottom="@dimen/size_medium"/>
+
+    <include
+        layout="@layout/event_item_see_map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_default"
+        android:layout_marginEnd="@dimen/size_default"
+        android:layout_marginBottom="@dimen/size_medium"/>
+
+    <include
+        layout="@layout/event_item_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_default"
+        android:layout_marginEnd="@dimen/size_default"
+        android:layout_marginBottom="@dimen/size_medium"/>
+
+    <include
+        layout="@layout/event_item_download"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_default"
+        android:layout_marginEnd="@dimen/size_default"
+        android:layout_marginBottom="@dimen/size_medium"/>
+
+</LinearLayout>

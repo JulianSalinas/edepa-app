@@ -21,6 +21,14 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:expandedTitleTextAppearance="@android:color/transparent">
 
+            <ImageView
+                android:src="@drawable/img_statistics"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:contentDescription="@null">
+            </ImageView>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -67,11 +75,6 @@
                             android:src="@drawable/ic_edepa"
                             android:tint="@color/app_primary_font" />
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="#c1ffffff" />
-
                     </FrameLayout>
 
                     <TextView
@@ -81,7 +84,8 @@
                         android:layout_marginBottom="@dimen/size_smallest"
                         android:text="@string/test_congress"
                         android:textAppearance="@style/TextAppearance.Title.Expanded"
-                        android:textColor="@color/app_primary_font" />
+                        android:textColor="@color/app_primary_font"
+                        android:gravity="center"/>
 
                 </LinearLayout>
 

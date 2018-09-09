@@ -1,6 +1,7 @@
 package edepa.events;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +61,10 @@ public abstract class EventsAdapter extends RecyclerAdapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        int layout = viewType == SINGLE ?
+        boolean landscape = parent.getResources()
+                .getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+
+        int layout = viewType == SINGLE || landscape ?
                 R.layout.event_item:
                 R.layout.event_item_with_time;
 
@@ -68,7 +72,7 @@ public abstract class EventsAdapter extends RecyclerAdapter {
                 .from(parent.getContext())
                 .inflate(layout, parent, false);
 
-        return viewType == SINGLE ?
+        return viewType == SINGLE || landscape?
                 new EventHolder.Single(view) :
                 new EventHolder.WithTime(view);
 
