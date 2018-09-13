@@ -19,13 +19,21 @@ import edepa.search.SearchByPeopleFragment;
 import edepa.settings.SettingsThemeFragment;
 import edepa.settings.SettingsGeneralFragment;
 
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.support.v4.view.MenuItemCompat;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 
@@ -258,7 +266,23 @@ public class NavigationActivity extends MainActivity implements
     public void onChatStateChange(boolean state) {
         MenuItem menuItem = menu.findItem(R.id.nav_chat);
         menuItem.setOnMenuItemClickListener(state ? item -> openChat() : null);
-        menuItem.setVisible(state);
+        if(state) updateChatBadge();
+    }
+
+    public void updateChatBadge(){
+        MenuItem menuItem = menu.findItem(R.id.nav_chat);
+        TextView badge = (TextView) menuItem.getActionView();
+        String key = Preferences.UNREAD_MESSAGES_KEY;
+        int unreadMessages = Preferences.getIntegerPreference(this, key);
+        if(badge != null) {
+            badge.setVisibility(unreadMessages > 0 ? View.VISIBLE : View.GONE);
+            if (unreadMessages > 0) {
+                badge.setText(String.format("+ %s", String.valueOf(unreadMessages)));
+                badge.setTextColor(getResources().getColor(R.color.app_accent));
+                badge.setTypeface(null, Typeface.BOLD);
+                badge.setGravity(Gravity.CENTER);
+            }
+        }
     }
 
     /**

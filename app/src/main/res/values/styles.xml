@@ -32,8 +32,7 @@
     <style name="LoginTheme" parent="FirebaseUI">
         <item name="colorAccent">@color/app_accent</item>
         <item name="colorPrimary">@color/app_accent</item>
-        <item name="colorPrimaryDark">@color/app_accent_dark</item>
-        <item name="android:textColor">#ffffff</item>
+        <item name="colorPrimaryDark">@color/app_primary_dark</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/white</item>

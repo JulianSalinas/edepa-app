@@ -247,6 +247,21 @@ public abstract class MainActivity extends AppCompatActivity
      */
     protected void onCreateActivity(Bundle savedInstanceState) {
         setSupportActionBar(toolbar);
+
+//        getSupportActionBar().setDisplayUseLogoEnabled(true);
+//
+//        Glide.with(this)
+//                .load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl())
+//                .into(new SimpleTarget<Drawable>() {
+//                    @Override
+//                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+//                        Bitmap bitmap =((BitmapDrawable) resource).getBitmap();
+//                        Drawable drawable = new BitmapDrawable(getResources(),
+//                                Bitmap.createScaledBitmap(bitmap, 40, 40, true));
+//                        getSupportActionBar().setIcon(drawable);
+//                    }
+//                });
+
         handler = new Handler();
         menu = navigationView.getMenu();
         if(savedInstanceState == null) onCreateFirstTime();

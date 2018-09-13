@@ -219,6 +219,7 @@ public class ChatFragment extends RecyclerFragment {
     public void updateUnreadMessagesToZero(){
         String key = Preferences.UNREAD_MESSAGES_KEY;
         Preferences.setPreference(getNavigationActivity(), key, 0);
+        getNavigationActivity().updateChatBadge();
     }
 
     /**
