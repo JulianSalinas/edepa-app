@@ -14,16 +14,14 @@ import edepa.modelview.R;
 import edepa.minilibs.OnlineHelper;
 import edepa.custom.OfflineFragment;
 
-/**
- * Solo se usa la autenticación, sin embargo el método
- * setPersistenceEnable debe ser llamado antes que
- * cualquier otra función de Firebase, de lo contrario
- * la app se cierra inesperadamente
- */
+
 public class SignInActivity extends AppCompatActivity {
 
     private Bundle args;
     private Intent intent;
+
+    // facebookOpenSSL = "ga0RGNYHvNM5d0SLGQfpQWAPGJ8=";
+    // facebookOpenSSLKeystore = "edepa0123";
 
     /**
      * Conexión con Firebase para poder autenticar
@@ -51,7 +49,7 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.util_splash_screen);
         this.auth = FirebaseAuth.getInstance();
 
-        // Si el usuario ya se ha tiene una sesión
+        // Si el usuario ya tiene una sesión
         // abierta, no es necesario que este online
         if(auth.getCurrentUser() != null)
             startApplication();
@@ -73,10 +71,11 @@ public class SignInActivity extends AppCompatActivity {
      * función para mostrar la alerta correspondiente
      */
     private void showOfflineAlert(){
+        final String OFFLINE_TAG = "OFFLINE";
         Fragment fragment = new OfflineFragment();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fullscreen_content, fragment, "Offline")
-                .commitAllowingStateLoss();
+                .replace(R.id.fullscreen_content, fragment, OFFLINE_TAG)
+                .commit();
     }
 
     /**
@@ -92,14 +91,16 @@ public class SignInActivity extends AppCompatActivity {
                 .setLogo(R.drawable.ic_edepa)
                 .setAvailableProviders(Arrays.asList(
                         new AuthUI.IdpConfig.EmailBuilder().build(),
+                        new AuthUI.IdpConfig.FacebookBuilder().build(),
                         new AuthUI.IdpConfig.GoogleBuilder().build()))
+                .setPrivacyPolicyUrl(getString(R.string.app_privacy_policy))
                 .build(), RC_SIGN_IN
         );
     }
 
     /**
-     * Si el login es éxitoso se inicia la aplicación
-     * De lo contrario, la aplicación no avanza
+     * Si el login es éxitoso se inicia la aplicación de lo contrario
+     * la aplicación no avanza y se queda en el login
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -111,8 +112,10 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     /**
-     * Después de haber cargado los datos de la aplicación,
-     * se utiliza está función para abrirla
+     * Después de haber cargado los datos de la aplicación, se utiliza este
+     * metódo para abrirla, incluso se pasan los parámetros a la siguiente
+     * actividad en caso de que la app sea abierta por medio de una notificación
+     * u a darle compartir con 'EDEPA' a una imagen
      */
     private void startApplication(){
 

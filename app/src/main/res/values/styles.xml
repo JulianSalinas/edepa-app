@@ -29,10 +29,36 @@
 
     <!-- Login Theme -->
 
-    <style name="LoginTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:background">@color/app_white</item>
-        <item name="android:windowBackground">@color/app_white</item>
-        <item name="android:layout_margin">@dimen/size_small</item>
+    <style name="LoginTheme" parent="FirebaseUI">
+        <item name="colorAccent">@color/app_accent</item>
+        <item name="colorPrimary">@color/app_accent</item>
+        <item name="colorPrimaryDark">@color/app_accent_dark</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:buttonStyle">@style/FirebaseUI.Button.Custom</item>
+    </style>
+
+    <style name="FirebaseUI.Text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="FirebaseUI.Text.Link">
+        <item name="android:textColor">@color/app_accent</item>
+    </style>
+
+    <style name="FirebaseUI.Button.Custom" parent="FirebaseUI.Button">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="FirebaseUI.AuthMethodPicker.Logo">
+        <item name="android:layout_width">128dp</item>
+        <item name="android:layout_height">128dp</item>
+        <item name="android:contentDescription">@string/fui_accessibility_logo</item>
     </style>
 
     <!-- Firebase Login Themes -->

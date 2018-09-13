@@ -4,6 +4,18 @@
 
     <string name="app_name">EDEPA</string>
     <string name="app_title">EDEPA</string>
+
+    <string
+        name="fui_sign_in_with_email"
+        translation_description="Sign in button text">Iniciar con Email</string>
+
+    <string name="fui_sign_in_with_facebook"
+        translation_description="Sign in button text">Iniciar con Facebook</string>
+
+    <string
+        name="fui_sign_in_with_google"
+        translation_description="Sign in button text">Iniciar con Google</string>
+
     <string name="drawer_open">Abrir menú lateral</string>
     <string name="drawer_close">Cerrar menú lateral</string>
 

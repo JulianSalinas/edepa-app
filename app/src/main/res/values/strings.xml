@@ -2,6 +2,16 @@
 
 	<string name="app_name">EDEPA</string>
     <string name="app_title">EDEPA</string>
+
+    <string name="fui_sign_in_with_email"
+        translation_description="Sign in button text">Sign in with Email</string>
+
+    <string name="fui_sign_in_with_facebook"
+        translation_description="Sign in button text">Sign in with Facebook</string>
+
+    <string name="fui_sign_in_with_google"
+        translation_description="Sign in button text">Sign in with Google</string>
+
     <string name="drawer_open">Open side menu</string>
     <string name="drawer_close">Close side menu</string>
 
