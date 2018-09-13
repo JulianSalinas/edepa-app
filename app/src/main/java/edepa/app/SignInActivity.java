@@ -10,6 +10,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
+
+import edepa.custom.BaseFragment;
+import edepa.custom.ProgressFragment;
 import edepa.modelview.R;
 import edepa.minilibs.OnlineHelper;
 import edepa.custom.OfflineFragment;
@@ -38,6 +41,8 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle bundle) {
 
         super.onCreate(bundle);
+
+        showProgressScreen();
 
         intent = getIntent();
         if(getIntent().getExtras() != null)
@@ -78,6 +83,14 @@ public class SignInActivity extends AppCompatActivity {
                 .commit();
     }
 
+    private void showProgressScreen(){
+        final String PROGRESS_TAG = "OFFLINE";
+        Fragment fragment = new ProgressFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fullscreen_content, fragment, PROGRESS_TAG)
+                .commit();
+    }
+
     /**
      * Se inicia la pantalla de Login
      * Solo sucede si es la primera vez que se abre la aplicación
@@ -106,9 +119,12 @@ public class SignInActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN && resultCode == RESULT_OK) {
+            showProgressScreen();
             FirebaseUser user = auth.getCurrentUser();
             if(user != null) startApplication();
         }
+        else onBackPressed();
+
     }
 
     /**
@@ -136,6 +152,17 @@ public class SignInActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
 
+    }
+
+    /**
+     * Soluciona que la pantalla quede en blanco después de presionar
+     * atrás en la pantalla de login
+     */
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAndRemoveTask();
+        System.exit(0);
     }
 
 }

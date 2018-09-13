@@ -17,15 +17,17 @@
     <application
         android:name="edepa.app.MainApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
         android:vmSafeMode="true"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        android:theme="@style/AppTheme"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:fullBackupContent="@xml/backup_descrip"
+        tools:replace="android:fullBackupContent">
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_application_id"/>
 
         <meta-data
@@ -48,26 +50,28 @@
             android:name="cloudinaryCallbackService"
             android:value="edepa.services.UpdateImageService" />
 
-        <activity android:name="com.facebook.FacebookActivity"
+        <activity
+            android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
 
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="@string/facebook_login_protocol_scheme" />
             </intent-filter>
+
         </activity>
 
         <activity
             android:name="edepa.app.SignInActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.SplashTheme">
 
             <intent-filter>
@@ -92,18 +96,20 @@
         <activity
             android:name="edepa.app.NavigationActivity"
             android:configChanges="locale"
-            android:label="@string/app_title"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:label="@string/app_title">
 
         </activity>
 
         <service
             android:name="edepa.services.NotificationService"
             tools:ignore="ExportedService">
+
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
+
         </service>
 
         <service android:name="edepa.services.UpdateImageService" />
