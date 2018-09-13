@@ -361,10 +361,13 @@ public abstract class MainActivity extends AppCompatActivity
         String message = getResources().getString(R.string.text_welcome);
 
         if(!username.equals("")) message += " " + username;
-        ((TextView) getNavigationView()
-                .getHeaderView(0)
-                .findViewById(R.id.welcome_text_view))
-                .setText((message + "!"));
+
+        if (getNavigationView().getHeaderView(0) != null) {
+            ((TextView) getNavigationView()
+                    .getHeaderView(0)
+                    .findViewById(R.id.welcome_text_view))
+                    .setText((message + "!"));
+        }
     }
 
     /**

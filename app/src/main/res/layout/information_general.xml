@@ -3,6 +3,7 @@
 <android.support.v4.widget.NestedScrollView
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="vertical"
@@ -16,13 +17,31 @@
         android:paddingBottom="@dimen/size_default"
         android:orientation="vertical">
 
-        <TextView
-            android:paddingTop="@dimen/size_default"
-            android:paddingBottom="@dimen/size_default"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/text_date"
-            android:textStyle="bold"/>
+            android:paddingTop="@dimen/size_default"
+            android:paddingBottom="@dimen/size_default"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:src="@drawable/ic_schedule"
+                android:layout_width="@dimen/size_icon"
+                android:layout_height="@dimen/size_icon"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/size_small"
+                android:tint="@color/material_grey"
+                android:contentDescription="@null"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/text_date"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
 
         <TableLayout
             android:layout_width="match_parent"
@@ -80,24 +99,16 @@
             android:background="@color/app_accent_light" />
 
         <TextView
-            android:paddingTop="@dimen/size_default"
-            android:paddingBottom="@dimen/size_default"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/text_presentation"
-            android:textStyle="bold"/>
-
-        <TextView
             android:id="@+id/description_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_default"
             android:text="@string/text_lorem_ipsum" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/size_default"
-
             android:background="@color/app_accent_light" />
 
         <LinearLayout
@@ -105,14 +116,32 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:paddingTop="@dimen/size_default"
-                android:paddingBottom="@dimen/size_default"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="0dp"
                 android:layout_weight="50"
                 android:layout_height="wrap_content"
-                android:text="@string/text_location"
-                android:textStyle="bold"/>
+                android:paddingTop="@dimen/size_default"
+                android:paddingBottom="@dimen/size_default"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:src="@drawable/ic_location"
+                    android:layout_width="@dimen/size_icon"
+                    android:layout_height="@dimen/size_icon"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/size_small"
+                    android:tint="@color/material_red"
+                    android:contentDescription="@null"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/text_location"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/map_icon"
@@ -120,7 +149,8 @@
                 android:layout_weight="50"
                 android:gravity="end"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                tools:ignore="UseCompoundDrawables">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -137,6 +167,7 @@
                     android:background="@drawable/ic_map"
                     android:backgroundTint="@color/material_grey"
                     android:contentDescription="@null" />
+
             </LinearLayout>
 
         </LinearLayout>

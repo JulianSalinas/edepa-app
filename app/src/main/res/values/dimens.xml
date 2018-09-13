@@ -51,5 +51,6 @@
     <dimen name="size_chat_preview_image">160dp</dimen>
     <dimen name="size_notice_preview_image">200dp</dimen>
     <dimen name="size_chat_preview_min">175dp</dimen>
+    <dimen name="size_progress_circle">75dp</dimen>
 
 </resources>

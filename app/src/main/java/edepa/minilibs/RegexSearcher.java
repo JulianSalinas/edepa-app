@@ -20,6 +20,19 @@ public class RegexSearcher {
     private static final String REPLACEMENT = "AaEeIiOoUuNnUu";
 
     /**
+     * Patrónes para poder marcar en negrita o cursiva cualquier
+     * texto que este encerrado entre '*' o '_' ...
+     */
+    public final static
+    Pattern BOLD_TEXT = Pattern.compile("\\*.*\\*");
+
+    public final static
+    Pattern ITALIC_TEXT = Pattern.compile("_.*_");
+
+    public final static
+    Pattern DECORATED_TEXT = Pattern.compile(BOLD_TEXT + "|" + ITALIC_TEXT);
+
+    /**
      * Patrón que divide un texto en varias palabras
      */
     private final static
@@ -113,6 +126,12 @@ public class RegexSearcher {
         return m.find() ? m.group(1) : null;
     }
 
+    /**
+     * Utiliza el patrón {@link #DOMAIN_FROM_URL_PATTERN} para
+     * encontrar el dominio de una página
+     * @param url: Url de la página
+     * @return Nombre del dominio de la página
+     */
     public static String findDomainFromUrl(String url){
         Matcher m = DOMAIN_FROM_URL_PATTERN.matcher(url);
         return m.find() ? m.group(1) : null;
@@ -125,6 +144,11 @@ public class RegexSearcher {
 
     public static boolean isImageFile(String fileUrl){
         Matcher m = IS_IMAGE_PATTERN.matcher(fileUrl);
+        return m.find();
+    }
+
+    public static boolean isBoldText(String text){
+        Matcher m = BOLD_TEXT.matcher(text);
         return m.find();
     }
 
@@ -146,6 +170,20 @@ public class RegexSearcher {
             newQuery.append("(").append(str).append(")").append("|");
         newQuery.deleteCharAt(newQuery.length() - 1);
         return Pattern.compile(newQuery.toString(), Pattern.CASE_INSENSITIVE);
+    }
+
+    /**
+     * Utiliza el patrón {@link #BOLD_TEXT} para
+     * encontrar el dominio de una página
+     * @param text: Texto no vació
+     * @return Nombre del dominio de la página
+     */
+    public static ArrayList<MatchResult> findBoldText(String text){
+        text = RegexSearcher.normalize(text);
+        ArrayList<MatchResult> results = new ArrayList<>();
+        Matcher m = BOLD_TEXT.matcher(text);
+        while(m.find()) results.add(m.toMatchResult());
+        return results;
     }
 
     /**

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.design.widget.CoordinatorLayout
-    xmlns:custom="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -21,18 +20,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:expandedTitleTextAppearance="@android:color/transparent">
 
-            <ImageView
-                android:src="@drawable/img_statistics"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:contentDescription="@null">
-            </ImageView>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#c1ffffff"/>
+            <include layout="@layout/app_pattern"/>
 
             <RelativeLayout
                 android:id="@+id/back_button"
@@ -79,13 +67,14 @@
 
                     <TextView
                         android:id="@+id/name_text"
+                        android:gravity="center"
+                        android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/size_smallest"
                         android:text="@string/test_congress"
-                        android:textAppearance="@style/TextAppearance.Title.Expanded"
                         android:textColor="@color/app_primary_font"
-                        android:gravity="center"/>
+                        android:textAppearance="@style/TextAppearance.Title.Expanded" />
 
                 </LinearLayout>
 
@@ -132,7 +121,6 @@
         android:background="@color/app_white"
         android:paddingTop="@dimen/size_medium"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
     </android.support.v4.view.ViewPager>
 
 </android.support.design.widget.CoordinatorLayout>

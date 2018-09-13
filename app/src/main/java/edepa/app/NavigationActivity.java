@@ -195,10 +195,12 @@ public class NavigationActivity extends MainActivity implements
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void connectFavoriteButtonListener(){
-        getNavigationView()
-                .getHeaderView(0)
-                .findViewById(R.id.event_favorite_button)
-                .setOnClickListener(v -> openFavorites());
+        if(getNavigationView().getHeaderView(0) != null) {
+            getNavigationView()
+                    .getHeaderView(0)
+                    .findViewById(R.id.event_favorite_button)
+                    .setOnClickListener(v -> openFavorites());
+        }
     }
 
     /**

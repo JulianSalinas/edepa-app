@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_infomation"
+            android:icon="@drawable/ic_info"
+            android:title="@string/nav_info" />
+
+        <item
+            android:id="@+id/nav_schedule"
+            android:icon="@drawable/ic_schedule"
+            android:title="@string/nav_schedule" />
+
+        <item
+            android:id="@+id/nav_people"
+            android:icon="@drawable/ic_people"
+            android:title="@string/nav_people" />
+
+        <item
+            android:id="@+id/nav_news"
+            android:icon="@drawable/ic_news"
+            android:title="@string/nav_news" />
+
+        <item
+            android:id="@+id/nav_chat"
+            android:icon="@drawable/ic_chat"
+            android:title="@string/nav_chat" />
+
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/nav_settings" />
+
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_about"
+            android:title="@string/nav_about" />
+
+        <item
+            android:id="@+id/nav_palette"
+            android:icon="@drawable/ic_palette"
+            android:title="@string/nav_palette" />
+
+        <item
+            android:id="@+id/nav_exit"
+            android:icon="@drawable/ic_exit"
+            android:title="@string/nav_exit" />
+
+        <item
+            android:id="@+id/nav_exit_and_signout"
+            android:icon="@android:drawable/ic_lock_power_off"
+            android:title="@string/nav_exit_and_signout" />
+
+    </group>
+</menu>

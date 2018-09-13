@@ -21,7 +21,8 @@
         android:scrollbarStyle="outsideInset"
 
         tools:listitem="@layout/notices_item"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layoutManager="android.support.v7.widget.StaggeredGridLayoutManager"
+        app:spanCount="3"
         android:tag=":aesthetic_ignore">
 
     </android.support.v7.widget.RecyclerView>

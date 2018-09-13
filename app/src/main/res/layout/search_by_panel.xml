@@ -81,7 +81,7 @@
             android:layout_marginStart="@dimen/size_default"
             android:layout_marginEnd="@dimen/size_default"
             android:gravity="center_vertical"
-            android:text="@string/text_presentation"/>
+            android:text="@string/text_presentations"/>
 
     </LinearLayout>
 

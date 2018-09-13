@@ -11,7 +11,7 @@ public enum EventType {
     TALLER (R.string.text_atelier, R.color.material_red),
     FERIA_EDEPA (R.string.text_fair, R.color.material_amber),
     CONFERENCIA (R.string.text_conference, R.color.material_green),
-    PONENCIA (R.string.text_presentation, R.color.material_deep_purple);
+    PONENCIA (R.string.text_presentations, R.color.material_deep_purple);
 
     /**
      * Para el cronograma se muestran en un accent,

@@ -16,7 +16,8 @@
         android:paddingStart="@dimen/size_small"
         android:scrollbarStyle="outsideInset"
         tools:listitem="@layout/event_item"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layoutManager="android.support.v7.widget.GridLayoutManager"
+        app:spanCount="3"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <FrameLayout

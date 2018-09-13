@@ -33,7 +33,8 @@
     <string name="text_input">Write here</string>
     <string name="text_exhibitors">Exhibitors</string>
     <string name="text_conference">Conferencias</string>
-    <string name="text_presentation">Ponencias</string>
+    <string name="text_presentations">Ponencias</string>
+    <string name="text_presentation">Presentation</string>
 
     <string name="text_map">Map</string>
     <string name="text_search">Search</string>

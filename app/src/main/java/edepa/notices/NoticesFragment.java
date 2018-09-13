@@ -104,15 +104,6 @@ public class NoticesFragment extends RecyclerFragment
         noticesRecycler.setHasFixedSize(true);
         noticesRecycler.setAdapter(noticesAdapter);
         noticesRecycler.setItemAnimator(new DefaultItemAnimator());
-
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            noticesRecycler.setLayoutManager(new SmoothLayout(activity));
-        }
-        else {
-            noticesRecycler.setLayoutManager(new StaggeredGridLayoutManager(
-                    3, StaggeredGridLayoutManager.VERTICAL));
-        }
-
     }
 
     public void customizeActivity(){

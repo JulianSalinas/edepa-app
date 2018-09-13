@@ -1,16 +1,17 @@
 package edepa.info;
 
-import android.support.v4.app.Fragment;
-import android.view.View;
-import android.widget.TextView;
+import butterknife.OnClick;
+import butterknife.BindView;
 
+import edepa.modelview.R;
+import edepa.model.Congress;
+import edepa.minilibs.TimeConverter;
+import edepa.minilibs.TextHighlighter;
+
+import android.widget.TextView;
+import android.support.v4.app.Fragment;
 import com.google.android.gms.maps.GoogleMap;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-import edepa.minilibs.TimeConverter;
-import edepa.model.Congress;
-import edepa.modelview.R;
 
 public class InfoGeneralFragment extends MapFragment {
 
@@ -55,6 +56,17 @@ public class InfoGeneralFragment extends MapFragment {
         descriptionText.setText(congress.getDescription());
         endText.setText(TimeConverter.extractDate(congress.getEnd()));
         startText.setText(TimeConverter.extractDate(congress.getStart()));
+        highlightText();
+    }
+
+    /**
+     * Convierte en negrita las palabras que este encerradas entre
+     * el carácter '*'
+     */
+    public void highlightText(){
+        String text = congress.getDescription();
+        CharSequence highText = TextHighlighter.decodeSpannables(text);
+        descriptionText.setText(highText);
     }
 
     /**
