@@ -9,10 +9,8 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import edepa.events.EventsSchedule;
-import edepa.events.EventsScheduleByType;
-import edepa.events.IPageListenerByType;
-import edepa.minilibs.TimeConverter;
+import edepa.schedule.ScheduleByType;
+import edepa.schedule.IPageListenerByType;
 import edepa.model.Event;
 import edepa.model.EventType;
 
@@ -35,7 +33,7 @@ public class PagerScheduleByType extends PagerSchedule implements IPageListenerB
     protected FragmentPagerAdapter instantiateAdapter() {
         return new PagerAdapterByType(this, types) {
         protected Fragment instantiateEventsFragment() {
-            return new EventsScheduleByType();
+            return new ScheduleByType();
         }};
     }
 

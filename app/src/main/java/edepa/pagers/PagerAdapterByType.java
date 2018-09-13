@@ -6,10 +6,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.List;
 
-import edepa.events.EventsFragment;
-import edepa.events.EventsScheduleByType;
-import edepa.events.IEventsByType;
-import edepa.minilibs.TimeConverter;
+import edepa.schedule.ScheduleByType;
+import edepa.schedule.IEventsByType;
 import edepa.model.EventType;
 
 
@@ -68,7 +66,7 @@ public abstract class PagerAdapterByType extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Bundle args = new Bundle();
         Fragment fragment = instantiateEventsFragment();
-        args.putString(EventsScheduleByType.TYPE_KEY, types.get(position).toString());
+        args.putString(ScheduleByType.TYPE_KEY, types.get(position).toString());
         fragment.setArguments(args);
         return fragment;
     }
@@ -100,7 +98,7 @@ public abstract class PagerAdapterByType extends FragmentPagerAdapter {
 
     /**
      * Función usada por {@link #getItem(int)} para obtener
-     * una nueva instancia de un fragmento EventsFragment
+     * una nueva instancia de un fragmento ScheduleFragment
      * Los argumentos son colocados en {@link #getItem(int)}
      * @return Callbacks Fragment que implemena la interfaz
      */

@@ -1,4 +1,4 @@
-package edepa.events;
+package edepa.schedule;
 
 import android.util.Log;
 import android.view.View;
@@ -25,8 +25,8 @@ import edepa.cloud.CloudFavorites;
 import static edepa.model.Preferences.UPDATE_DELAY;
 
 
-public class EventsOngoing
-        extends EventsFragment implements CloudFavorites.Callbacks {
+public class ScheduleOngoing
+        extends ScheduleFragment implements CloudFavorites.Callbacks {
 
     /**
      * View que se coloca cuando no hay eventos
@@ -246,13 +246,13 @@ public class EventsOngoing
      * {@link #getTimeFilter(Event)} para tal fin
      */
     public class OngoingAdapter
-            extends EventsAdapter implements ValueEventListener {
+            extends ScheduleAdapter implements ValueEventListener {
 
         /**
          * {@inheritDoc}
          */
         public OngoingAdapter() {
-            super(EventsOngoing.this.events);
+            super(ScheduleOngoing.this.events);
         }
 
         /**

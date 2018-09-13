@@ -1,31 +1,21 @@
-package edepa.events;
+package edepa.schedule;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.MatchResult;
 
-import edepa.crawler.Regex;
 import edepa.custom.RecyclerAdapter;
-import edepa.minilibs.RegexSearcher;
-import edepa.minilibs.TimeConverter;
 import edepa.model.Event;
-import edepa.model.Person;
 import edepa.modelview.R;
-import edepa.people.PersonHolder;
 
 /**
  * Sirve para enlazar las funciones a una actividad en específico
  */
-public abstract class EventsAdapter extends RecyclerAdapter {
+public abstract class ScheduleAdapter extends RecyclerAdapter {
 
     /**
      * Variables par escoger el tipo de vista que se colocará
@@ -46,11 +36,11 @@ public abstract class EventsAdapter extends RecyclerAdapter {
     }
 
     /**
-     * Constructor de {@link EventsAdapter}
+     * Constructor de {@link ScheduleAdapter}
      * Las subclases deben colocar aquí
      * la lista de eventos y la de favoritos
      */
-    public EventsAdapter(List<Event> events) {
+    public ScheduleAdapter(List<Event> events) {
         super();
         this.events = events;
     }
@@ -73,8 +63,8 @@ public abstract class EventsAdapter extends RecyclerAdapter {
                 .inflate(layout, parent, false);
 
         return viewType == SINGLE || landscape?
-                new EventHolder.Single(view) :
-                new EventHolder.WithTime(view);
+                new ScheduleItemHolder.Single(view) :
+                new ScheduleItemHolder.WithTime(view);
 
     }
 
@@ -114,7 +104,7 @@ public abstract class EventsAdapter extends RecyclerAdapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final Event event = events.get(holder.getAdapterPosition());
-        EventHolder.Single eventHolder = (EventHolder.Single) holder;
+        ScheduleItemHolder.Single eventHolder = (ScheduleItemHolder.Single) holder;
         eventHolder.bind(event);
     }
 

@@ -1,4 +1,4 @@
-package edepa.events;
+package edepa.schedule;
 
 
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import java.util.List;
 
 import edepa.model.Event;
 
-public class EventsFavorites extends EventsSchedule {
+public class ScheduleFavorites extends ScheduleEvents {
 
     private List<Event> allEvents;
 

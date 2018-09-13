@@ -5,20 +5,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.google.firebase.database.Query;
-
 import java.util.List;
 import java.util.ArrayList;
 
-import edepa.cloud.Cloud;
 import edepa.custom.EmptyFavorites;
-import edepa.custom.EmptyOngoing;
 import edepa.model.Event;
 import edepa.modelview.R;
-import edepa.cloud.CloudChild;
 import edepa.cloud.CloudEvents;
 import edepa.cloud.CloudFavorites;
-import edepa.events.EventsFavorites;
+import edepa.schedule.ScheduleFavorites;
 
 
 public class PagerFavorites extends PagerFragment implements CloudFavorites.Callbacks {
@@ -59,7 +54,7 @@ public class PagerFavorites extends PagerFragment implements CloudFavorites.Call
     protected FragmentPagerAdapter instantiateAdapter() {
         return new PagerAdapter(this, dates) {
         protected Fragment instantiateEventsFragment() {
-            return new EventsFavorites();
+            return new ScheduleFavorites();
         }};
     }
 

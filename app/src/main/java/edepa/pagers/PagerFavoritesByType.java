@@ -2,24 +2,16 @@ package edepa.pagers;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import edepa.cloud.CloudEvents;
-import edepa.cloud.CloudFavorites;
-import edepa.custom.EmptyFavorites;
-import edepa.events.EventsFavorites;
-import edepa.events.EventsFavoritesByType;
-import edepa.events.EventsFragment;
-import edepa.events.EventsScheduleByType;
-import edepa.events.IPageListenerByType;
+import edepa.schedule.ScheduleFavoritesByType;
+import edepa.schedule.IPageListenerByType;
 import edepa.model.Event;
 import edepa.model.EventType;
-import edepa.modelview.R;
 
 
 public class PagerFavoritesByType extends PagerFavorites implements IPageListenerByType {
@@ -41,7 +33,7 @@ public class PagerFavoritesByType extends PagerFavorites implements IPageListene
     protected FragmentPagerAdapter instantiateAdapter() {
         return new PagerAdapterByType(this, types) {
             protected Fragment instantiateEventsFragment() {
-                return new EventsFavoritesByType();
+                return new ScheduleFavoritesByType();
             }};
     }
 

@@ -1,9 +1,8 @@
 package edepa.pagers;
 
-import java.sql.Time;
 import java.util.List;
 
-import edepa.events.EventsFragment;
+import edepa.schedule.ScheduleFragment;
 import edepa.minilibs.TimeConverter;
 
 import android.os.Bundle;
@@ -81,7 +80,7 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public int getItemPosition(Object object) {
-        EventsFragment fragment = (EventsFragment) object;
+        ScheduleFragment fragment = (ScheduleFragment) object;
         int index = dates.indexOf(fragment.getDate());
         return index > 0 ? index : POSITION_NONE;
     }
@@ -98,7 +97,7 @@ public abstract class PagerAdapter extends FragmentPagerAdapter {
 
     /**
      * Función usada por {@link #getItem(int)} para obtener
-     * una nueva instancia de un fragmento EventsFragment
+     * una nueva instancia de un fragmento ScheduleFragment
      * Los argumentos son colocados en {@link #getItem(int)}
      * @return Callbacks Fragment que implemena la interfaz
      */

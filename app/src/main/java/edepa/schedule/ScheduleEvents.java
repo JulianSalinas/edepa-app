@@ -1,4 +1,4 @@
-package edepa.events;
+package edepa.schedule;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,17 +10,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import edepa.cloud.Cloud;
-import edepa.cloud.CloudChild;
 import edepa.cloud.CloudEvents;
 import edepa.cloud.CloudFavorites;
-import edepa.pagers.PagerFragment;
 
 /**
  * Contiene todos los eventos del cronograma, incluidos
  * los favoritos y los no favoritos
  */
-public class EventsSchedule extends EventsFragment {
+public class ScheduleEvents extends ScheduleFragment {
 
     protected int eventsAmount = 0;
 
@@ -48,7 +45,7 @@ public class EventsSchedule extends EventsFragment {
 
     /**
      * Instancia el adaptador necesario por la superclase
-     * {@link EventsFragment}. Deja una referencia en
+     * {@link ScheduleFragment}. Deja una referencia en
      * este fragmento para evitar realizar el cast
      * @return AdapterSchedule
      */
@@ -67,7 +64,7 @@ public class EventsSchedule extends EventsFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Se obtiene el IPageLister que en este caso
+        // Se obtiene el IPageListener que en este caso
         // es un PagerFragment que implementa IPageListener
         Fragment fragment = getParentFragment();
         if (fragment != null && fragment instanceof IPageListener)
@@ -164,12 +161,12 @@ public class EventsSchedule extends EventsFragment {
 
     /**
      * Clase que modifica la lista de eventos y de favoritos
-     * del fragmento {@link EventsSchedule}
+     * del fragmento {@link ScheduleEvents}
      */
-    public class AdapterSchedule extends EventsAdapter {
+    public class AdapterSchedule extends ScheduleAdapter {
 
         public AdapterSchedule() {
-            super(EventsSchedule.this.events);
+            super(ScheduleEvents.this.events);
             registerAdapterDataObserver(getDataObserver());
         }
 

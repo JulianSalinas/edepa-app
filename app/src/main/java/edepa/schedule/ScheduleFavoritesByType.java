@@ -1,4 +1,4 @@
-package edepa.events;
+package edepa.schedule;
 
 
 import android.os.Bundle;
@@ -7,14 +7,10 @@ import android.support.v7.widget.RecyclerView;
 
 import com.google.firebase.database.Query;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import edepa.cloud.CloudEvents;
-import edepa.model.Event;
 import edepa.model.EventType;
 
-public class EventsFavoritesByType extends EventsFavorites implements IEventsByType {
+public class ScheduleFavoritesByType extends ScheduleFavorites implements IEventsByType {
 
     public static final String TYPE_KEY = "type";
 
@@ -34,7 +30,7 @@ public class EventsFavoritesByType extends EventsFavorites implements IEventsByT
             eventype = EventType.valueOf(type);
         }
 
-        // Se obtiene el IPageLister que en este caso
+        // Se obtiene el IPageListener que en este caso
         // es un PagerFragment que implementa IPageListener
         Fragment fragment = getParentFragment();
         if (fragment != null && fragment instanceof IPageListenerByType)

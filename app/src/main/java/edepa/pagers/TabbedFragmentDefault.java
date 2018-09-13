@@ -14,11 +14,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
 import edepa.app.MainActivity;
-import edepa.model.Preferences;
 import edepa.modelview.R;
 import butterknife.BindView;
 import edepa.custom.CustomFragment;
-import edepa.events.EventsOngoing;
+import edepa.schedule.ScheduleOngoing;
 
 
 public abstract class TabbedFragmentDefault extends CustomFragment {
@@ -142,8 +141,6 @@ public abstract class TabbedFragmentDefault extends CustomFragment {
 
     }
 
-
-
     /**
      * Se mueve hace el tab o fragmento determinado
      * @param position Posición del fragmento
@@ -200,14 +197,14 @@ public abstract class TabbedFragmentDefault extends CustomFragment {
         /**
          * Sirve para instanciar cada uno de los tabs
          * @param position: Posición del tab
-         * @return PagerSchedule | PagerFavorites | EventsOngoing
+         * @return PagerSchedule | PagerFavorites | ScheduleOngoing
          */
         @Override
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: return new PagerSchedule();
                 case 1: return new PagerFavorites();
-                default: return new EventsOngoing();
+                default: return new ScheduleOngoing();
             }
         }
 

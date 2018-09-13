@@ -1,4 +1,4 @@
-package edepa.events;
+package edepa.schedule;
 
 import edepa.model.EventType;
 

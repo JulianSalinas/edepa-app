@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edepa.cloud.CloudEvents;
-import edepa.events.EventsAdapter;
+import edepa.schedule.ScheduleAdapter;
 import edepa.minilibs.RegexSearcher;
 import edepa.minilibs.TimeConverter;
 import edepa.model.Event;
@@ -22,7 +22,7 @@ import edepa.modelview.R;
  * Sirve para enlazar las funciones a una actividad en específico
  */
 public class SearchAdapterEvents
-        extends EventsAdapter implements Filterable, CloudEvents.Callbacks {
+        extends ScheduleAdapter implements Filterable, CloudEvents.Callbacks {
 
 
     protected Context context;

@@ -4,9 +4,10 @@ import butterknife.BindView;
 
 import edepa.custom.CustomFragment;
 import edepa.cloud.CloudEvents;
+import edepa.schedule.IPageListener;
 import edepa.model.Event;
 import edepa.modelview.R;
-import edepa.events.EventsFragment;
+import edepa.schedule.ScheduleFragment;
 import edepa.minilibs.TimeConverter;
 
 import java.util.List;
@@ -24,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 
 public abstract class PagerFragment extends CustomFragment
-        implements EventsFragment.IPageListener, CloudEvents.Callbacks {
+        implements IPageListener, CloudEvents.Callbacks {
 
     /**
      * Constante usada para recuperar el último

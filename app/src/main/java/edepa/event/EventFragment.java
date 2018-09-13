@@ -1,4 +1,4 @@
-package edepa.events;
+package edepa.event;
 
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;

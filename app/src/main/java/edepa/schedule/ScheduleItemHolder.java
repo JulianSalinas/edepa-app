@@ -1,4 +1,4 @@
-package edepa.events;
+package edepa.schedule;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -18,12 +18,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edepa.app.MainActivity;
 import edepa.cloud.CloudFavorites;
+import edepa.event.EventFragment;
 import edepa.minilibs.TimeConverter;
 import edepa.model.Event;
 import edepa.modelview.R;
 
 
-public class EventHolder extends RecyclerView.ViewHolder {
+public class ScheduleItemHolder extends RecyclerView.ViewHolder {
 
     @Nullable
     @BindView(R.id.event_timestamp)
@@ -54,7 +55,7 @@ public class EventHolder extends RecyclerView.ViewHolder {
     protected Event event;
     protected Context context;
 
-    public EventHolder(View itemView) {
+    public ScheduleItemHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         context = itemView.getContext();
@@ -65,7 +66,7 @@ public class EventHolder extends RecyclerView.ViewHolder {
         this.event = event;
     }
 
-    public static class Single extends EventHolder implements OnLikeListener {
+    public static class Single extends ScheduleItemHolder implements OnLikeListener {
 
         public Single(View itemView) {
             super(itemView);

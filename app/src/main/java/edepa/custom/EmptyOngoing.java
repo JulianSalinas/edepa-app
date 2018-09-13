@@ -1,8 +1,8 @@
 package edepa.custom;
 
+import edepa.schedule.ScheduleOngoing;
 import edepa.modelview.R;
 import butterknife.OnClick;
-import edepa.events.EventsOngoing;
 
 
 public class EmptyOngoing extends BaseFragment {
@@ -14,8 +14,8 @@ public class EmptyOngoing extends BaseFragment {
 
     @OnClick(R.id.refresh_button)
     public void refresh(){
-        if (getParentFragment() instanceof  EventsOngoing){
-            EventsOngoing ongoing = (EventsOngoing) getParentFragment();
+        if (getParentFragment() instanceof ScheduleOngoing){
+            ScheduleOngoing ongoing = (ScheduleOngoing) getParentFragment();
             ongoing.startRunnable();
             ongoing.showStatusMessage(R.string.text_complete_update);
         }

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edepa.app.NavigationActivity;
-import edepa.events.EventFragment;
+import edepa.event.EventFragment;
 import edepa.minilibs.TextHighlighter;
 import edepa.minilibs.TimeConverter;
 import edepa.model.Event;

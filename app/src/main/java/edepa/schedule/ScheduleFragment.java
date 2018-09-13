@@ -1,9 +1,8 @@
-package edepa.events;
+package edepa.schedule;
 
 import butterknife.BindView;
 import edepa.model.Event;
 import edepa.modelview.R;
-import edepa.minilibs.SmoothLayout;
 import edepa.custom.CustomFragment;
 import edepa.cloud.CloudEvents;
 import edepa.cloud.CloudFavorites;
@@ -11,21 +10,17 @@ import edepa.cloud.CloudFavorites;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 
 
-public abstract class EventsFragment extends CustomFragment
+public abstract class ScheduleFragment extends CustomFragment
         implements CloudEvents.Callbacks, CloudFavorites.Callbacks {
 
     /**
      * Se colocan los eventos de manera visual
-     * Los eventos los obtiene de {@link #eventsAdapter}
+     * Los eventos los obtiene de {@link #scheduleAdapter}
      */
     @BindView(R.id.events_recycler)
     RecyclerView eventsRecycler;
@@ -61,16 +56,11 @@ public abstract class EventsFragment extends CustomFragment
      */
     protected IPageListener pageListener;
 
-    public interface IPageListener {
-        void onPageChanged(long pageDate);
-        void onPageRemoved(long pageDate);
-    }
-
     /**
      * Adaptador para {@link #eventsRecycler}
      * y así colocar los eventos de forma visual
      */
-    protected EventsAdapter eventsAdapter;
+    protected ScheduleAdapter scheduleAdapter;
 
     /**
      * {@inheritDoc}
@@ -95,10 +85,10 @@ public abstract class EventsFragment extends CustomFragment
         if (args != null && args.containsKey("date"))
             date = args.getLong("date");
 
-        if(eventsAdapter == null) {
+        if(scheduleAdapter == null) {
             events = new ArrayList<>();
             favorites = new ArrayList<>();
-            eventsAdapter = instantiateAdapter();
+            scheduleAdapter = instantiateAdapter();
         }
 
     }
@@ -111,7 +101,7 @@ public abstract class EventsFragment extends CustomFragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         eventsRecycler.setHasFixedSize(true);
-        eventsRecycler.setAdapter(eventsAdapter);
+        eventsRecycler.setAdapter(scheduleAdapter);
         eventsRecycler.setItemAnimator(new DefaultItemAnimator());
     }
 
@@ -127,7 +117,7 @@ public abstract class EventsFragment extends CustomFragment
             index = findIndexToAddEvent(event);
             events.add(index, event);
             setFavoriteEvent(key, favorites.contains(key));
-            eventsAdapter.notifyItemInserted(index);
+            scheduleAdapter.notifyItemInserted(index);
         }
     }
 
@@ -166,7 +156,7 @@ public abstract class EventsFragment extends CustomFragment
             setFavoriteEvent(key, favorites.contains(key));
 
             if(!favoritesChanged)
-                eventsAdapter.notifyItemChanged(index);
+                scheduleAdapter.notifyItemChanged(index);
         }
     }
 
@@ -180,7 +170,7 @@ public abstract class EventsFragment extends CustomFragment
         int index = events.indexOf(event);
         if (index != -1) {
             events.remove(index);
-            eventsAdapter.notifyItemRemoved(index);
+            scheduleAdapter.notifyItemRemoved(index);
         }
     }
 
@@ -208,7 +198,7 @@ public abstract class EventsFragment extends CustomFragment
         if(favorites.contains(eventKey)) {
             favorites.remove(eventKey);
             setFavoriteEvent(eventKey, false);
-            eventsAdapter.notifyItemChanged(getFavoriteIndex(eventKey));
+            scheduleAdapter.notifyItemChanged(getFavoriteIndex(eventKey));
         }
     }
 
@@ -241,6 +231,6 @@ public abstract class EventsFragment extends CustomFragment
      * Evita a las subclases tener que hacer la revisión
      * de nullpointer en el método {@link #onCreate(Bundle)}
      */
-    protected abstract EventsAdapter instantiateAdapter();
+    protected abstract ScheduleAdapter instantiateAdapter();
 
 }

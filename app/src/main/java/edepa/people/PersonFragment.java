@@ -20,7 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import edepa.custom.BaseFragment;
 import edepa.custom.DefaultDialog;
-import edepa.events.EventsAdapter;
+import edepa.schedule.ScheduleAdapter;
 import edepa.minilibs.ColorConverter;
 import edepa.minilibs.ColorGenerator;
 import edepa.minilibs.SmoothLayout;
@@ -221,7 +221,7 @@ public class PersonFragment extends DefaultDialog {
         public void onActivityCreated(@Nullable Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
 
-            EventsAdapter adapter = new EventsAdapter(events){
+            ScheduleAdapter adapter = new ScheduleAdapter(events){
                 @Override
                 public int getItemViewType(int position) {
                     return SINGLE;

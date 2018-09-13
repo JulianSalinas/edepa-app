@@ -1,24 +1,19 @@
-package edepa.events;
+package edepa.schedule;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import edepa.cloud.CloudEvents;
-import edepa.cloud.CloudFavorites;
 import edepa.model.EventType;
 
 /**
  * Contiene todos los eventos del cronograma, incluidos
  * los favoritos y los no favoritos
  */
-public class EventsScheduleByType extends EventsSchedule implements IEventsByType {
+public class ScheduleByType extends ScheduleEvents implements IEventsByType {
 
     public static final String TYPE_KEY = "type";
 
@@ -38,7 +33,7 @@ public class EventsScheduleByType extends EventsSchedule implements IEventsByTyp
             eventype = EventType.valueOf(type);
         }
 
-        // Se obtiene el IPageLister que en este caso
+        // Se obtiene el IPageListener que en este caso
         // es un PagerFragment que implementa IPageListener
         Fragment fragment = getParentFragment();
         if (fragment != null && fragment instanceof IPageListenerByType)
