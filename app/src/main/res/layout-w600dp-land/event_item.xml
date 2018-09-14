@@ -1,133 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView
+<LinearLayout
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:tag=":aesthetic_ignore"
-    android:layout_margin="@dimen/size_small"
-    app:cardCornerRadius="0dp"
-    app:cardElevation="@dimen/card_elevation"
-    app:cardUseCompatPadding="true">
+    android:layout_height="wrap_content">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:baselineAligned="true"
-        android:orientation="horizontal">
-
-        <View
-            android:id="@+id/event_decoration"
-            android:layout_width="@dimen/size_smallest"
-            android:layout_height="match_parent"
-            tools:background="@color/app_accent"/>
+        android:tag=":aesthetic_ignore"
+        android:layout_margin="@dimen/size_small"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="@dimen/card_elevation"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:baselineAligned="true"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/event_decoration"
+                android:layout_width="@dimen/size_smallest"
+                android:layout_height="match_parent"
+                tools:background="@color/app_accent"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/size_medium">
-
-                <TextView
-                    android:id="@+id/event_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/size_small"
-                    android:background="@color/app_accent"
-                    android:padding="@dimen/size_smallest"
-                    android:textSize="@dimen/font_small"
-                    android:textColor="@color/app_white_font"
-                    android:textAllCaps="true"
-                    android:text="Taller"
-                    android:tag=":aesthetic_ignore"/>
-
-                <TextView
-                    android:id="@+id/event_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/size_small"
-                    android:text="@string/test_event"
-                    android:textSize="@dimen/font_medium" />
-
-                <TextView
-                    android:id="@+id/event_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/test_location"
-                    android:fontFamily="sans-serif-light" />
-
-                <TextView
-                    android:id="@+id/event_time_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/test_app_range_time"
-                    android:fontFamily="sans-serif-light" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/app_accent_light" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:baselineAligned="true">
-
-                <RelativeLayout
-                    android:id="@+id/event_readmore_container"
-                    android:layout_width="100dp"
-                    android:layout_height="45dp"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentStart="true">
-
-                    <TextView
-                        android:id="@+id/event_readmore"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:tag=":aesthetic_ignore"
-                        android:text="@string/text_readmore"
-                        android:textColor="@color/app_accent" />
-
-                </RelativeLayout>
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="45dp"
-                    android:layout_alignParentEnd="true"
-                    android:orientation="horizontal">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/size_medium">
 
-                    <RelativeLayout
-                        android:layout_width="45dp"
-                        android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/event_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/size_small"
+                        android:background="@color/app_accent"
+                        android:padding="@dimen/size_smallest"
+                        android:textSize="@dimen/font_small"
+                        android:textColor="@color/app_white_font"
+                        android:textAllCaps="true"
+                        android:text="Taller"
+                        android:tag=":aesthetic_ignore"/>
 
-                        <com.like.LikeButton
-                            app:liked="false"
-                            android:id="@+id/event_favorite_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentTop="true"
-                            app:icon_size="22dp"
-                            app:icon_type="star" />
+                    <TextView
+                        android:id="@+id/event_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/size_small"
+                        android:text="@string/test_event"
+                        android:textSize="@dimen/font_medium" />
 
-                    </RelativeLayout>
+                    <TextView
+                        android:id="@+id/event_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/test_location"
+                        android:fontFamily="sans-serif-light" />
+
+                    <TextView
+                        android:id="@+id/event_time_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/test_app_range_time"
+                        android:fontFamily="sans-serif-light" />
 
                 </LinearLayout>
 
-            </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/app_accent_light" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:baselineAligned="true">
+
+                    <RelativeLayout
+                        android:id="@+id/event_readmore_container"
+                        android:layout_width="100dp"
+                        android:layout_height="45dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true">
+
+                        <TextView
+                            android:id="@+id/event_readmore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:tag=":aesthetic_ignore"
+                            android:text="@string/text_readmore"
+                            android:textColor="@color/app_accent" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_alignParentEnd="true"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:layout_width="45dp"
+                            android:layout_height="match_parent">
+
+                            <com.like.LikeButton
+                                app:liked="false"
+                                android:id="@+id/event_favorite_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentTop="true"
+                                app:icon_size="22dp"
+                                app:icon_type="star" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </android.support.v7.widget.CardView>
 
-</android.support.v7.widget.CardView>
+</LinearLayout>

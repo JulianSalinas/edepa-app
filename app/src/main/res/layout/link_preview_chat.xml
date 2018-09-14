@@ -47,7 +47,9 @@
         android:background="#06000000"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/size_medium"
+        android:paddingBottom="@dimen/size_medium">
 
         <View
             android:id="@+id/event_decoration"
@@ -76,7 +78,6 @@
                 android:id="@+id/preview_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_medium"
                 android:layout_marginEnd="@dimen/size_default"
                 android:layout_marginBottom="@dimen/size_smallest"
                 android:textStyle="bold"
@@ -99,7 +100,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/size_default"
-                android:layout_marginBottom="@dimen/size_medium"
                 android:textColor="@color/app_primary_font"
                 android:textSize="@dimen/font_small"
                 tools:text="@string/test_dropdbox_description" />

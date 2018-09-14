@@ -135,7 +135,13 @@ public abstract class PreviewHolder
             String domain = RegexSearcher.findDomainFromUrl(preview.getUrl());
             previewDomain.setText(domain);
             previewHeader.setText(preview.getHeader());
-            previewDescription.setText(preview.getDescription());
+            if (preview.getDescription() != null && !preview.getDescription().isEmpty()){
+                previewDescription.setText(preview.getDescription());
+                previewDescription.setVisibility(VISIBLE);
+            }
+            else {
+                previewDescription.setVisibility(GONE);
+            }
         }
 
         // Si contiene un thumbnail lo coloca
@@ -300,7 +306,10 @@ public abstract class PreviewHolder
 
         url = RegexSearcher.normalize(url);
 
-        if (url.contains("tecdigital")){
+        if (RegexSearcher.isDocumentFile(url)){
+            return MediaManager.get().url().generate("Logos/pdf_document.png");
+        }
+        else if (url.contains("tecdigital")){
             return MediaManager.get().url().generate("Logos/tecdigital.png");
         }
         else if (url.contains("presentation")){

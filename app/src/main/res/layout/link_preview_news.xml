@@ -70,13 +70,14 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/size_medium"
+            android:paddingBottom="@dimen/size_medium">
 
             <TextView
                 android:id="@+id/preview_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_medium"
                 android:layout_marginEnd="@dimen/size_default"
                 android:layout_marginBottom="@dimen/size_smallest"
                 android:textStyle="bold"
@@ -100,7 +101,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/size_default"
-                android:layout_marginBottom="@dimen/size_medium"
                 android:textColor="@color/app_primary_font"
                 tools:text="@string/test_dropdbox_description" />
 
