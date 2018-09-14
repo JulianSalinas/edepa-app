@@ -145,11 +145,6 @@ public abstract class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Botón que abre el menú lateral
-     */
-    private ActionBarDrawerToggle toggle;
-
-    /**
      * Se usa para cambiar los fragmentos usando un hilo diferente para que
      * la animación se vea mas fluida. Lo que hace es correr
      * {@link #pendingRunnable} cuando se cierra el draweLayout.
@@ -286,17 +281,6 @@ public abstract class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Se introduce el backstack listener para poder cambiar el icono de
-     * {@link #toggle} toggle cuando el usuario haya abierto más de dos
-     * fragmentos
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    public void connectBackStackListener(){
-        FragmentManager manager = getSupportFragmentManager();
-        manager.addOnBackStackChangedListener(this::showToggle);
-    }
-
-    /**
      * Se configura el botón que esta en la {@link #toolbar} para abrir el
      * menú lateral
      */
@@ -305,62 +289,13 @@ public abstract class MainActivity extends AppCompatActivity
         if(getDrawerLayout() != null) {
             int open = R.string.drawer_open;
             int close = R.string.drawer_close;
-            if (toggle == null) toggle =
-                    new ActionBarDrawerToggle(this,
-                            getDrawerLayout(),
-                            getToolbar(), open, close);
-            showToggle();
-        }
-    }
-
-    /**
-     * Muestra el icono para volver hacia el fragmento anterior o el que
-     * sirve para abrir el menú dependiendo de cuantos fragmentos tenga
-     * abiertos el usuario (se coloca en caso de una pantalla secundaria )
-     */
-    public void showToggle(){
-        FragmentManager manager = getSupportFragmentManager();
-        if (manager.getBackStackEntryCount() > 1) showBackButton();
-        else showHamburger();
-    }
-
-    /**
-     * Muestra el icono en la {@link #toolbar} para volver hacia el
-     * fragmento anterior
-     * @see #setupToggle()
-     */
-    public void showBackButton(){
-        if(getDrawerLayout() != null) {
-
-            toggle.setDrawerIndicatorEnabled(false);
-
-            if (getSupportActionBar() != null)
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-            toolbar.setNavigationOnClickListener(v -> onBackPressed());
-
-            getDrawerLayout()
-                    .setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        }
-    }
-
-    /**
-     * Muestra icono en la {@link #toolbar} para abrir el menú lateral
-     * @see #setupToggle()
-     */
-    public void showHamburger() {
-        if (getDrawerLayout() != null) {
-
-            toggle.setDrawerIndicatorEnabled(true);
-            if (getSupportActionBar() != null)
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-
-            toggle.syncState();
-            toolbar.setNavigationOnClickListener(v ->
-                    getDrawerLayout().openDrawer(START));
-
-            getDrawerLayout()
-                    .setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            new ActionBarDrawerToggle(this,
+                    getDrawerLayout(), getToolbar(), open, close){
+                @Override
+                public void onDrawerSlide(View drawerView, float slideOffset) {
+                    super.onDrawerSlide(drawerView, 0);
+                }
+            }.syncState();
         }
     }
 
