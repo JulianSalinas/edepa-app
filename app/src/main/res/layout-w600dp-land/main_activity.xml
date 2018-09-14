@@ -18,7 +18,8 @@
         app:itemTextColor="@color/app_primary_font"
         app:itemIconTint="@color/app_primary_font"
         app:headerLayout="@layout/main_header"
-        app:menu="@menu/drawer_menu"/>
+        app:menu="@menu/drawer_menu"
+        android:tag=":aesthetic_ignore"/>
 
     <include layout="@layout/main_content"/>
 

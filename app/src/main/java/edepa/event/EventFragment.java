@@ -1,6 +1,8 @@
 package edepa.event;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -9,8 +11,11 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -96,8 +101,14 @@ public class EventFragment extends CustomFragment
     @BindView(R.id.event_item_people)
     View eventPeopleView;
 
-    @BindView(R.id.button_save_image)
-    View buttonSaveImage;
+    @BindView(R.id.button_save_image_icon)
+    ImageView buttonSaveImage;
+
+    @BindView(R.id.button_back_image_icon)
+    ImageView buttonBack;
+
+    @BindView(R.id.emphasis_view)
+    View emphasisView;
 
     /**
      * Evento que se coloca en pantalla
@@ -166,9 +177,9 @@ public class EventFragment extends CustomFragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setToolbarVisibility(GONE);
         updateEventView();
         updateFavoriteIcon();
-        setToolbarVisibility(GONE);
     }
 
     @Override
@@ -281,17 +292,46 @@ public class EventFragment extends CustomFragment
 
     private void bindType(){
         EventType type = event.getEventype();
+        int color = getResources().getColor(type.getColorResource());
         eventDetailType.setText(type.toString());
-        eventDetailType.setBackgroundResource(type.getColorResource());
+        eventDetailType.setBackgroundColor(color);
+        emphasisView.setBackgroundColor(color);
+        // emphasisView.getBackground().setAlpha(128);
+        // setStatusBarColorRes(type.getColorResource());
     }
 
     private void bindToolbarImage() {
         WallpaperGenerator gen = new WallpaperGenerator(getNavigationActivity());
-        Drawable wallpaper = gen.getWallpaper(event);
+
+        int resource = gen.parseText(event.getLocation());
+
+        // No se encontró imagen y se coloca el fondo por defecto
+        if (resource == WallpaperGenerator.NO_IMAGE_FOUND) {
+            resource = R.drawable.img_pattern;
+        }
+
+        int fontColor = ContextCompat.getColor(
+                activity, resource == R.drawable.img_pattern ?
+                R.color.app_primary_font : R.color.app_white_font);
+
+        ColorStateList fontColorList = ContextCompat.getColorStateList(
+                activity, resource == R.drawable.img_pattern ?
+                R.color.app_primary_font : R.color.app_white_font);
+
+        buttonBack.setBackgroundTintList(fontColorList);
+        buttonSaveImage.setBackgroundTintList(fontColorList);
+
+        eventDetailLocation.setTextColor(fontColor);
+        eventDetailDateRange.setTextColor(fontColor);
+
+        Drawable wallpaper = getResources().getDrawable(resource);
+
         Glide.with(this)
                 .load(wallpaper)
                 .into(toolbarImage);
-        boolean canBeSaved = wallpaper instanceof BitmapDrawable;
+
+        boolean canBeSaved = wallpaper instanceof BitmapDrawable
+                && resource != R.drawable.img_pattern;
         buttonSaveImage.setVisibility(canBeSaved ? VISIBLE : GONE);
     }
 

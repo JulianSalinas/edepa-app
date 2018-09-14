@@ -9,31 +9,37 @@
         android:summary="@string/text_theme_description"
         android:title="@string/text_custom_theme" />
 
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="PHOTO_KEY"
+        android:summary="@string/text_profile_photo_content"
+        android:title="@string/text_profile_photo" />
+
     <com.kunzisoft.androidclearchroma.ChromaPreferenceCompat
         xmlns:chroma="http://schemas.android.com/apk/res-auto"
         android:key="PRIMARY_COLOR"
         android:title="@string/text_primary_color"
-        android:defaultValue="@color/app_primary"
+        android:defaultValue="@color/app_accent_dark"
         chroma:chromaShapePreview="ROUNDED_SQUARE"
-        chroma:chromaColorMode="HSV"
+        chroma:chromaColorMode="RGB"
         chroma:chromaIndicatorMode="HEX" />
 
     <com.kunzisoft.androidclearchroma.ChromaPreferenceCompat
         xmlns:chroma="http://schemas.android.com/apk/res-auto"
         android:key="PRIMARY_DARK_COLOR"
         android:title="@string/text_primary_dark_color"
-        android:defaultValue="@color/app_primary"
+        android:defaultValue="@color/app_white"
         chroma:chromaShapePreview="ROUNDED_SQUARE"
-        chroma:chromaColorMode="HSV"
+        chroma:chromaColorMode="RGB"
         chroma:chromaIndicatorMode="HEX" />
 
     <com.kunzisoft.androidclearchroma.ChromaPreferenceCompat
         xmlns:chroma="http://schemas.android.com/apk/res-auto"
         android:key="ACCENT_COLOR"
         android:title="@string/text_accent_color"
-        android:defaultValue="@color/app_primary"
+        android:defaultValue="@color/edepa_primary_dark"
         chroma:chromaShapePreview="ROUNDED_SQUARE"
-        chroma:chromaColorMode="HSV"
+        chroma:chromaColorMode="RGB"
         chroma:chromaIndicatorMode="HEX" />
 
 </PreferenceScreen>

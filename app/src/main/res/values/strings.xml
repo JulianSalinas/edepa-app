@@ -29,7 +29,7 @@
     <string name="nav_favorites">Favorites</string>
     <string name="nav_palette">Personalize</string>
     <string name="nav_settings">Configuration</string>
-    <string name="nav_exit_and_signout">Sign off</string>
+    <string name="nav_exit_and_signout">Sign out</string>
 
     <string name="text_to">to</string>
     <string name="text_from">From</string>
@@ -157,7 +157,7 @@
     <string name="text_success_add_person">Person added</string>
     <string name="text_upload_image">Upload image (optional)</string>
     <string name="text_touch_to_select">Touch to select an image</string>
-    <string name="text_write_here_a_title">Write a title here (Optional)</string>
+    <string name="text_write_here_a_title">Write a title here</string>
     <string name="text_all_fields_are_optional">All fields are optional</string>
     <string name="text_person_description_example">Eg Title, University or Country</string>
 
@@ -227,5 +227,9 @@
     <string name="text_primary_color">Primary color</string>
     <string name="text_primary_dark_color">Primary dark color</string>
     <string name="text_accent_color">Accent color</string>
+
+    <string name="text_profile_photo">Profile picture</string>
+    <string name="text_profile_photo_content">Allows the application to use the profile
+        image</string>
 
 </resources>

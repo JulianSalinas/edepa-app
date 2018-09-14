@@ -15,6 +15,7 @@ public class Preferences {
      */
     public static final String LANG_KEY = "LANG_KEY";
     public static final String USER_KEY = "USER_KEY";
+    public static final String PHOTO_KEY = "PHOTO_KEY";
     public static final String FIRST_USE_KEY = "FIRST_USE_KEY";
     public static final String NOTIFICATIONS_KEY = "NOTIFICATIONS_KEY";
     public static final String THEME_KEY = "THEME_KEY";

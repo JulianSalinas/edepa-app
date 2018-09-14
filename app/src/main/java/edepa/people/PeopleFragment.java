@@ -72,7 +72,7 @@ public class PeopleFragment extends CustomFragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        setToolbarText(R.string.text_people);
+        setToolbarText(R.string.text_exhibitors);
         setToolbarVisibility(View.VISIBLE);
         setStatusBarColorRes(R.color.app_primary_dark);
 

@@ -2,6 +2,7 @@ package edepa.schedule;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -84,6 +85,11 @@ public class ScheduleItemHolder extends RecyclerView.ViewHolder {
             if(context instanceof MainActivity){
                 MainActivity activity = (MainActivity) context;
                 Fragment fragment = EventFragment.newInstance(event);
+                for (Fragment dialog : activity.getSupportFragmentManager().getFragments()){
+                    if (dialog instanceof DialogFragment){
+                        ((DialogFragment) dialog).dismissAllowingStateLoss();
+                    }
+                }
                 activity.setFragmentOnScreen(fragment, event.getKey());
             }
         }

@@ -1,8 +1,15 @@
 package edepa.app;
 
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 
+import android.preference.Preference;
+import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -37,6 +44,9 @@ import edepa.model.Preferences;
 import edepa.minilibs.RegexSearcher;
 import edepa.pagers.TabbedFragmentDefault;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,9 +59,13 @@ import com.afollestad.aesthetic.BottomNavIconTextMode;
 
 import org.jetbrains.annotations.Nullable;
 
+import static edepa.model.Preferences.PHOTO_KEY;
 import static edepa.model.Preferences.USER_KEY;
 import static edepa.model.Preferences.FIRST_USE_KEY;
 import static android.support.v4.view.GravityCompat.START;
+import static edepa.settings.SettingsThemeFragment.ACCENT_COLOR;
+import static edepa.settings.SettingsThemeFragment.PRIMARY_COLOR;
+import static edepa.settings.SettingsThemeFragment.PRIMARY_DARK_COLOR;
 
 /**
  * Actividad principal de aplicación. En ésta se colocan cada uno de los
@@ -228,8 +242,11 @@ public abstract class MainActivity extends AppCompatActivity
         if(Preferences.getBooleanPreference(this, key, false)) {
             Aesthetic.attach(this);
             Aesthetic.get()
-                    .bottomNavigationBackgroundMode(BottomNavBgMode.ACCENT)
-                    .bottomNavigationIconTextMode(BottomNavIconTextMode.SELECTED_PRIMARY)
+                    .colorPrimary(Preferences.getIntegerPreference(this, PRIMARY_COLOR))
+                    .colorPrimaryDark(Preferences.getIntegerPreference(this, PRIMARY_DARK_COLOR))
+                    .colorAccent(Preferences.getIntegerPreference(this, ACCENT_COLOR))
+                    .bottomNavigationBackgroundMode(BottomNavBgMode.PRIMARY_DARK)
+                    .bottomNavigationIconTextMode(BottomNavIconTextMode.SELECTED_ACCENT)
                     .apply();
         }
     }
@@ -242,21 +259,6 @@ public abstract class MainActivity extends AppCompatActivity
      */
     protected void onCreateActivity(Bundle savedInstanceState) {
         setSupportActionBar(toolbar);
-
-//        getSupportActionBar().setDisplayUseLogoEnabled(true);
-//
-//        Glide.with(this)
-//                .load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl())
-//                .into(new SimpleTarget<Drawable>() {
-//                    @Override
-//                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-//                        Bitmap bitmap =((BitmapDrawable) resource).getBitmap();
-//                        Drawable drawable = new BitmapDrawable(getResources(),
-//                                Bitmap.createScaledBitmap(bitmap, 40, 40, true));
-//                        getSupportActionBar().setIcon(drawable);
-//                    }
-//                });
-
         handler = new Handler();
         menu = navigationView.getMenu();
         if(savedInstanceState == null) onCreateFirstTime();
@@ -317,6 +319,31 @@ public abstract class MainActivity extends AppCompatActivity
                     .getHeaderView(0)
                     .findViewById(R.id.welcome_text_view))
                     .setText((message + "!"));
+        }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void showUserToolbarPhoto(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean usePhoto = prefs.getBoolean(PHOTO_KEY, false);
+        if (usePhoto) showUserPhoto();
+    }
+
+    public void showUserPhoto(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(getSupportActionBar() != null && user != null) {
+            getSupportActionBar().setDisplayUseLogoEnabled(true);
+            Glide.with(this)
+                .load(user.getPhotoUrl())
+                .into(new SimpleTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                        Bitmap bitmap = ((BitmapDrawable) resource).getBitmap();
+                        Drawable drawable = new BitmapDrawable(getResources(),
+                                Bitmap.createScaledBitmap(bitmap, 40, 40, true));
+                        getSupportActionBar().setIcon(drawable);
+                    }
+                });
         }
     }
 

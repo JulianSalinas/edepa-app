@@ -105,7 +105,7 @@ public class PhotoFragment extends CustomFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setToolbarVisibility(View.VISIBLE);
+        setToolbarVisibility(View.GONE);
         if(title != null) setToolbarText(title);
         else setToolbarText(R.string.text_image);
         setStatusBarColorRes(R.color.app_primary_dark);

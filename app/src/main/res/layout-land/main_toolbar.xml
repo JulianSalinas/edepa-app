@@ -21,7 +21,9 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:contentInsetLeft="16dp"
             app:contentInsetStart="16dp"
+            app:contentInsetEnd="16dp"
             app:contentInsetStartWithNavigation="16dp"
+            app:titleMarginStart="16dp"
             app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
         <com.miguelcatalan.materialsearchview.MaterialSearchView

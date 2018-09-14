@@ -17,6 +17,7 @@
 
     <color name="app_primary">#FFFFFF</color>
     <color name="app_primary_dark">#e51d1d1d</color>
+    <color name="app_image_background">#f5191919</color>
 
     <color name="app_white_font">#FFFFFF</color>
     <color name="app_light_font">#9e9e9e</color>

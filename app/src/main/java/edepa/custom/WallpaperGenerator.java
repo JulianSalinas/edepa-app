@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 
 import edepa.model.Event;
 import edepa.minilibs.RegexSearcher;
+import edepa.modelview.R;
 
 /**
  * Clase utilizada para obtener la imagen de un lugar
@@ -13,7 +14,7 @@ import edepa.minilibs.RegexSearcher;
  */
 public class WallpaperGenerator {
 
-    private static final int NO_IMAGE_FOUND = -404;
+    public static final int NO_IMAGE_FOUND = -404;
 
     /**
      * Necesario para poder acceder a los recursos
@@ -28,17 +29,17 @@ public class WallpaperGenerator {
      * A partir de un evento se retorna un Drawable con la imagen
      * @param event contiene el texto (localización) del evento
      *              que se necesita para obtener la imagen
-     * @return Drawable con la imagen buscada
+     * @return DrawableRes con la imagen buscada
      */
-    public Drawable getWallpaper(Event event){
+    public int getWallpaper(Event event){
         int resource = parseText(event.getLocation());
 
         // No se encontró imagen
         // TODO: Retornar una por defecto.
         // TODO: Por ahora se colocar el accent de enfásis
         if (resource == NO_IMAGE_FOUND)
-            resource = event.getEventype().getColorResource();
-        return context.getResources().getDrawable(resource);
+            resource = R.drawable.img_pattern;
+        return resource;
     }
 
     /**
@@ -49,7 +50,7 @@ public class WallpaperGenerator {
      * @param text Localización
      * @return R.drawable.tec_image o {@link #NO_IMAGE_FOUND}
      */
-    private int parseText(String text){
+    public int parseText(String text){
         text = RegexSearcher.normalize(text);
         for (WallpaperLocation location : WallpaperLocation.values()){
             String query = location.getRegex();

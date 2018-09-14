@@ -110,8 +110,8 @@ public class NavigationActivity extends MainActivity implements
     protected void onCreateFirstTime(){
         super.onCreateFirstTime();
         Bundle args = getIntent().getExtras();
-        if(args == null || !moveToScreen(args))
-            setOnScreenFirstFragment();
+        setOnScreenFirstFragment();
+        if(args == null) moveToScreen(args);
     }
 
     /**
@@ -489,7 +489,7 @@ public class NavigationActivity extends MainActivity implements
         String key = Preferences.VIEW_KEY;
         String currentView = Preferences.getStringPreference(this, key);
 
-        if (Preferences.VIEW_DEFAULT.equals(currentView)){
+        if (currentView == null || Preferences.VIEW_DEFAULT.equals(currentView)){
             Preferences.setPreference(this, key, Preferences.VIEW_BY_TYPE);
         }
         else {

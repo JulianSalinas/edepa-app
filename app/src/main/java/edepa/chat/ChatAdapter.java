@@ -14,6 +14,7 @@ import edepa.custom.PhotoFragment;
 import edepa.minilibs.ColorGenerator;
 import edepa.minilibs.DialogFancy;
 import edepa.minilibs.RegexSearcher;
+import edepa.minilibs.TextHighlighter;
 import edepa.minilibs.TimeConverter;
 import edepa.minilibs.ColorConverter;
 
@@ -448,7 +449,8 @@ public class ChatAdapter
             boolean visible = content != null && !content.isEmpty();
             msgContent.setVisibility(visible ? VISIBLE : GONE);
             if(visible) {
-                msgContent.setText(message.getContent());
+                msgContent.setText(
+                        TextHighlighter.decodeSpannables(message.getContent()));
                 Linkify.addLinks(msgContent, Linkify.ALL);
                 urls = msgContent.getUrls();
             }

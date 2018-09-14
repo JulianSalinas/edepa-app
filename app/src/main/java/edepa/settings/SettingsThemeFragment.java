@@ -1,5 +1,6 @@
 package edepa.settings;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.content.SharedPreferences;
@@ -12,6 +13,8 @@ import edepa.app.NavigationActivity;
 
 import com.afollestad.aesthetic.Aesthetic;
 import com.kunzisoft.androidclearchroma.ChromaPreferenceFragmentCompat;
+
+import static edepa.model.Preferences.PHOTO_KEY;
 import static edepa.model.Preferences.THEME_KEY;
 
 
@@ -83,21 +86,28 @@ public class SettingsThemeFragment extends ChromaPreferenceFragmentCompat
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
         NavigationActivity activity = (NavigationActivity) getActivity();
-        if (key.equals(THEME_KEY) && activity != null) activity.recreate();
+
+        if ((key.equals(THEME_KEY) || key.equals(PHOTO_KEY)) && activity != null) {
+            activity.recreate();
+        }
 
         // Se pregunta si el usuario tiene activo el tema personalizado
         else if(activity != null && Preferences.getBooleanPreference(
                 activity, Preferences.THEME_KEY, false)) {
-
-            Aesthetic.get()
-                    .colorPrimary(sharedPreferences.getInt(PRIMARY_COLOR,
-                            ContextCompat.getColor(activity, R.color.app_primary)))
-                    .colorPrimaryDark(sharedPreferences.getInt(PRIMARY_DARK_COLOR,
-                            ContextCompat.getColor(activity, R.color.app_primary_dark)))
-                    .colorAccent(sharedPreferences.getInt(ACCENT_COLOR,
-                            ContextCompat.getColor(activity, R.color.app_accent)))
-                    .apply();
+            applyCustomTheme(activity, sharedPreferences);
         }
+
+    }
+
+    public void applyCustomTheme(Activity activity, SharedPreferences sharedPreferences){
+        Aesthetic.get()
+                .colorPrimary(sharedPreferences.getInt(PRIMARY_COLOR,
+                        ContextCompat.getColor(activity, R.color.app_accent)))
+                .colorPrimaryDark(sharedPreferences.getInt(PRIMARY_DARK_COLOR,
+                        ContextCompat.getColor(activity, R.color.app_primary_dark)))
+                .colorAccent(sharedPreferences.getInt(ACCENT_COLOR,
+                        ContextCompat.getColor(activity, R.color.edepa_primary)))
+                .apply();
     }
 
 }

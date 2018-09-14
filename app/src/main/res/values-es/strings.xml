@@ -163,7 +163,7 @@
     <string name="text_success_add_person">Persona agregada</string>
     <string name="text_upload_image">Subir imagen (opcional)</string>
     <string name="text_touch_to_select">Toca para seleccionar una imagen</string>
-    <string name="text_write_here_a_title">Escribe aquí un título (Opcional)</string>
+    <string name="text_write_here_a_title">Escribe aquí un título</string>
     <string name="text_all_fields_are_optional">Todos los campos son opcionales</string>
     <string name="text_person_description_example">Ej. Título, Universidad o País</string>
 
@@ -230,5 +230,9 @@
     <string name="text_primary_color">Color primario</string>
     <string name="text_primary_dark_color">Color primario oscuro</string>
     <string name="text_accent_color">Color de acento</string>
+
+    <string name="text_profile_photo">Foto de perfil</string>
+    <string name="text_profile_photo_content">Permite a la aplicación utilizar la imagen del
+        perfil</string>
 
 </resources>

@@ -115,9 +115,8 @@ public class NoticesFragment extends RecyclerFragment
     @OnClick(R.id.publish_button)
     public void openNewsEditor(){
         String tag = "NEWS_EDITOR";
-        NoticeEditor frag = (NoticeEditor) getNavigationActivity()
-                .getSupportFragmentManager().findFragmentByTag(tag);
-        setFragmentOnScreen(frag != null ? frag: new NoticeEditor(), tag);
+        NoticeEditor frag = new NoticeEditor();
+        setFragmentOnScreen(frag, tag);
     }
 
     @Override

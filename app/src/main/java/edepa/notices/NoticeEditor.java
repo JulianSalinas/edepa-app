@@ -67,7 +67,6 @@ public class NoticeEditor extends CustomFragment {
         super.onActivityCreated(savedInstanceState);
         setToolbarText(R.string.text_notices_editor);
         setToolbarVisibility(View.VISIBLE);
-        setStatusBarColorRes(R.color.edepa_primary_dark);
     }
 
     @Override
@@ -242,9 +241,15 @@ public class NoticeEditor extends CustomFragment {
      */
     public void updatePreviewImage(String imageLocalPath){
         this.imageLocalPath = imageLocalPath;
-        loadThumbnail();
-        publishImage.setVisibility(View.VISIBLE);
-        publishImageUpload.setVisibility(View.GONE);
+        if (imageLocalPath != null) {
+            loadThumbnail();
+            publishImage.setVisibility(View.VISIBLE);
+            publishImageUpload.setVisibility(View.GONE);
+        }
+        else {
+            publishImage.setVisibility(View.GONE);
+            publishImageUpload.setVisibility(View.VISIBLE);
+        }
     }
 
     /**

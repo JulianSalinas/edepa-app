@@ -27,6 +27,7 @@ import edepa.minilibs.SmoothLayout;
 import edepa.model.Event;
 import edepa.model.Person;
 import edepa.modelview.R;
+import edepa.schedule.ScheduleItemHolder;
 
 public class PersonFragment extends DefaultDialog {
 

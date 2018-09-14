@@ -31,6 +31,7 @@ import edepa.cloud.CloudNotices;
 import edepa.custom.PhotoFragment;
 import edepa.minilibs.ColorGenerator;
 import edepa.minilibs.DialogFancy;
+import edepa.minilibs.TextHighlighter;
 import edepa.minilibs.TimeGenerator;
 import edepa.cloud.Cloud;
 import edepa.model.Notice;
@@ -188,7 +189,9 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
             itemContent.setVisibility(visible ? VISIBLE : GONE);
             if(visible) {
 
-                itemContent.setText(notice.getContent());
+                itemContent.setText(
+                        TextHighlighter.decodeSpannables(notice.getContent()));
+
                 Linkify.addLinks(itemContent, Linkify.ALL);
                 urls = itemContent.getUrls().clone();
                 String text = itemContent.getText().toString();

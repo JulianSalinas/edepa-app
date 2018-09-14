@@ -103,7 +103,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="@dimen/size_small"
 
-            app:cardBackgroundColor="@color/app_primary_dark"
+            app:cardBackgroundColor="?colorAccent"
             app:cardCornerRadius="@dimen/card_radius_chat_send"
             app:cardElevation="@dimen/card_elevation">
 

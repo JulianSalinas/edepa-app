@@ -80,6 +80,7 @@ public class ChatImageEditor extends CustomFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setToolbarVisibility(View.GONE);
 
         Bundle args = getArguments();
         if (args != null && args.containsKey(INPUT_TEXT_KEY)){
@@ -91,7 +92,7 @@ public class ChatImageEditor extends CustomFragment {
             imageLocalPath = args.getString(INPUT_IMAGE_KEY);
             updatePreviewImage(imageLocalPath);
         }
-        else searchLocalImage();
+        else if (savedInstanceState == null) searchLocalImage();
 
     }
 
@@ -131,10 +132,12 @@ public class ChatImageEditor extends CustomFragment {
     public void updatePreviewImage(String imageLocalPath){
         this.imageLocalPath = imageLocalPath;
         imageView.setVisibility(View.VISIBLE);
-        Glide.with(this)
-                .load(imageLocalPath)
-                .apply(PhotoFragment.getRequestOptions(getContext()))
-                .into(imageView);
+        if (imageLocalPath != null) {
+            Glide.with(this)
+                    .load(imageLocalPath)
+                    .apply(PhotoFragment.getRequestOptions(getContext()))
+                    .into(imageView);
+        }
     }
 
 
@@ -164,6 +167,7 @@ public class ChatImageEditor extends CustomFragment {
             String text = savedInstanceState.getString(INPUT_TEXT_KEY);
             imageLocalPath = savedInstanceState.getString(INPUT_IMAGE_KEY);
             textInputView.setText(text);
+            updatePreviewImage(imageLocalPath);
         }
     }
 
