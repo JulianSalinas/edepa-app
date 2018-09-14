@@ -145,7 +145,6 @@ public abstract class PagerFragment extends CustomFragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        inflateEmptyView();
         pager.setAdapter(adapter);
         cloudEvents.connectByDate();
         updateInterface();

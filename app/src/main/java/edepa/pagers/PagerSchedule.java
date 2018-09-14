@@ -32,10 +32,11 @@ public class PagerSchedule extends PagerFragment {
     @Override
     protected void inflateEmptyView() {
         String tag = "EMPTY_SCHEDULE";
-        Fragment frag = new EmptySchedule();
         FragmentManager manager = getChildFragmentManager();
+        Fragment temp = manager.findFragmentByTag(tag);
+        Fragment frag = temp != null ? temp : new EmptySchedule();
         manager .beginTransaction()
-                .add(R.id.events_empty_view, frag, tag)
+                .replace(R.id.events_empty_view, frag, tag)
                 .commit();
     }
 

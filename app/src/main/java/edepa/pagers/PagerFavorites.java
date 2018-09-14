@@ -64,10 +64,11 @@ public class PagerFavorites extends PagerFragment implements CloudFavorites.Call
     @Override
     protected void inflateEmptyView() {
         String tag = "EMPTY_FAVORITES";
-        Fragment frag = new EmptyFavorites();
         FragmentManager manager = getChildFragmentManager();
+        Fragment temp = manager.findFragmentByTag(tag);
+        Fragment frag = temp != null ? temp : new EmptyFavorites();
         manager .beginTransaction()
-                .add(R.id.events_empty_view, frag, tag)
+                .replace(R.id.events_empty_view, frag, tag)
                 .commit();
     }
 
