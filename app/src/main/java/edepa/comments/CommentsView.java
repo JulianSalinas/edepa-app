@@ -45,7 +45,6 @@ public class CommentsView
         ButterKnife.bind(this, itemView);
 
         commentsAdapter = new CommentsAdapter(comments);
-        commentsRecycler.setLayoutManager(new SmoothLayout(itemView.getContext()));
         commentsRecycler.setAdapter(commentsAdapter);
 
         CloudComments cloudComments = new CloudComments();

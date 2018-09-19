@@ -238,5 +238,6 @@
     <string name="text_comments">Comments</string>
     <string name="text_write_here_a_comment">Write here a comment</string>
     <string name="text_press_to_go_to_comments">Ir a los comentarios</string>
+    <string name="text_press_to_comments">Commentar</string>
 
 </resources>

@@ -6,35 +6,48 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/comments_screen"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/app_white">
+        android:layout_height="wrap_content"
+        android:background="@color/app_white"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/add_comment_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_medium"
+            android:layout_marginStart="@dimen/size_medium"
+            android:layout_marginBottom="@dimen/size_medium"
+            app:cardBackgroundColor="@color/app_accent"
+            app:cardCornerRadius="@dimen/size_medium">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_press_to_comments"
+                android:textColor="@color/app_white"
+                android:paddingTop="@dimen/size_smallest"
+                android:paddingBottom="@dimen/size_smallest"
+                android:paddingStart="@dimen/size_small"
+                android:paddingEnd="@dimen/size_small"/>
+
+        </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/comments_recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:scrollbarStyle="outsideInset"
-            tools:listitem="@layout/comments_item"/>
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="false"
+            tools:listitem="@layout/comments_item"
+            app:stackFromEnd="true"
+            app:reverseLayout="true"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/add_comment_button"
-            android:layout_width="@dimen/size_icon_container"
-            android:layout_height="@dimen/size_icon_container"
-            android:layout_margin="@dimen/size_default"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:clickable="true"
-            android:focusable="true"
-            android:tint="@color/app_white"
-            app:srcCompat="@android:drawable/ic_input_add" />
-
-    </RelativeLayout>
+    </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

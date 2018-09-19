@@ -2,6 +2,7 @@ package edepa.event;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import edepa.cloud.CloudEvents;
 import edepa.custom.CustomFragment;
 import edepa.minilibs.ReadMoreOption;
@@ -47,12 +49,6 @@ public class EventContent extends EventHostFragment
     @BindView(R.id.event_download_view)
     View eventDownloadView;
 
-    @BindView(R.id.event_calendar_view)
-    View eventCalendarView;
-
-    @BindView(R.id.event_comments_view)
-    View eventCommentsView;
-
     @BindView(R.id.event_item_people)
     View eventPeopleView;
 
@@ -79,18 +75,29 @@ public class EventContent extends EventHostFragment
         return fragment;
     }
 
-    public void updateEvent(Event newValue){
-        if (newValue != null) {
-            event.setEnd(newValue.getEnd());
-            event.setDate(newValue.getDate());
-            event.setStart(newValue.getStart());
-            event.setTitle(newValue.getTitle());
-            event.setLocation(newValue.getLocation());
-            event.setEventype(newValue.getEventype());
-            event.setBriefSpanish(newValue.getBriefSpanish());
-            event.setBriefEnglish(newValue.getBriefEnglish());
-            event.setFavorites(newValue.getFavorites());
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        updateEventView();
+    }
+
+    @OnClick(R.id.event_comments_view)
+    public void openComments(){
+        Fragment parent = getParentFragment();
+        if (parent != null && parent instanceof EventFragment){
+            EventFragment eventFragment = (EventFragment) parent;
+            eventFragment.openComments();
         }
+    }
+
+    @OnClick(R.id.event_calendar_view)
+    public void openCalendar(){
+        super.openCalendar();
+    }
+
+    @OnClick(R.id.event_see_map_view)
+    public void openMinimap(){
+        super.openMinimap();
     }
 
     /**
@@ -103,17 +110,8 @@ public class EventContent extends EventHostFragment
         bindAbstract();
         bindDateRange();
 
-        EventHolderSeeMap holderSeeMap = new EventHolderSeeMap(eventSeeMapView);
-        holderSeeMap.bind(getContext());
-
-        EventHolderCalendar holderCalendar = new EventHolderCalendar(eventCalendarView);
-        holderCalendar.bind(event);
-
         EventHolderPeople holderPeople = new EventHolderPeople(eventPeopleView);
         holderPeople.bind(event);
-
-        EventHolderComments holderComments = new EventHolderComments(eventCommentsView);
-        holderComments.bind(event);
 
         EventHolderDownload holderDownload = new EventHolderDownload(eventDownloadView);
         holderDownload.bind(this, event);

@@ -1,6 +1,7 @@
 package edepa.comments;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.util.Linkify;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,6 +33,9 @@ public class CommentHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.comments_item_avatar)
     ImageView itemAvatar;
 
+    @BindView(R.id.link_preview)
+    View linkPreview;
+
     private TimeGenerator timeGenerator;
 
     public CommentHolder(View itemView) {
@@ -43,6 +47,7 @@ public class CommentHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
         itemContent.setText(TextHighlighter.decodeSpannables(comment.getContent()));
         itemTimeAgo.setText(timeGenerator.getTimeAgo(comment.getTime()));
+        Linkify.addLinks(itemContent, Linkify.ALL);
         CloudUsers cloudUsers = new CloudUsers();
         cloudUsers.setUserProfileListener(userProfile -> {
             itemUsername.setText(userProfile.getUsername());

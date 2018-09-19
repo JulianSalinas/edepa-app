@@ -24,7 +24,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import edepa.app.NavigationActivity;
 import edepa.cloud.CloudFavorites;
+import edepa.info.MinimapFragment;
 import edepa.minilibs.BitmapSave;
 import edepa.minilibs.DialogFancy;
 import edepa.minilibs.TimeConverter;
@@ -124,6 +126,24 @@ public class EventFragment extends EventHostFragment
         getNavigationActivity().onBackPressed();
     }
 
+    @OnClick(R.id.button_see_map)
+    public void openMinimap(){
+        super.openMinimap();
+    }
+
+    @OnClick(R.id.button_calendar)
+    public void openCalendar(){
+        super.openCalendar();
+    }
+
+    @OnClick(R.id.button_comments)
+    public void openComments(){
+        boolean hasAdapter = eventViewPager.getAdapter() != null;
+        if (hasAdapter && eventViewPager.getAdapter().getCount() > 1){
+            eventViewPager.setCurrentItem(1);
+        }
+    }
+
     /**
      * Actualiza el evento (des) marcado cuando se
      * presiona el boton {@link #favoriteButton}
@@ -160,20 +180,6 @@ public class EventFragment extends EventHostFragment
         intent.setAction(Intent.ACTION_VIEW);
         intent.setDataAndType(uri, "image/*");
         startActivity(intent);
-    }
-
-    public void updateEvent(Event newValue){
-        if (newValue != null) {
-            event.setEnd(newValue.getEnd());
-            event.setDate(newValue.getDate());
-            event.setStart(newValue.getStart());
-            event.setTitle(newValue.getTitle());
-            event.setLocation(newValue.getLocation());
-            event.setEventype(newValue.getEventype());
-            event.setBriefSpanish(newValue.getBriefSpanish());
-            event.setBriefEnglish(newValue.getBriefEnglish());
-            event.setFavorites(newValue.getFavorites());
-        }
     }
 
     /**
@@ -246,6 +252,8 @@ public class EventFragment extends EventHostFragment
         WallpaperGenerator gen = new WallpaperGenerator(getNavigationActivity());
 
         int resource = gen.parseText(event.getLocation());
+        Drawable wallpaper = getResources().getDrawable(resource);
+        toolbarImage.setImageDrawable(wallpaper);
 
         // No se encontró imagen y se coloca el fondo por defecto
         if (resource == WallpaperGenerator.NO_IMAGE_FOUND) {
@@ -265,12 +273,6 @@ public class EventFragment extends EventHostFragment
 
         eventDetailLocation.setTextColor(fontColor);
         eventDetailDateRange.setTextColor(fontColor);
-
-        Drawable wallpaper = getResources().getDrawable(resource);
-
-        Glide.with(this)
-                .load(wallpaper)
-                .into(toolbarImage);
 
         boolean canBeSaved = wallpaper instanceof BitmapDrawable
                 && resource != R.drawable.img_pattern;

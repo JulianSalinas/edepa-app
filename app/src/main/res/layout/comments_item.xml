@@ -17,8 +17,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/size_small">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/comments_item_avatar"
@@ -54,8 +53,16 @@
                     android:id="@+id/comments_item_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size_small"
+                    android:layout_marginTop="@dimen/size_smallest"
                     android:text="@string/text_lorem_ipsum"/>
+
+                <include
+                    android:visibility="gone"
+                    android:id="@+id/link_preview"
+                    android:layout_marginTop="@dimen/size_small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/link_preview_chat"/>
 
             </LinearLayout>
 

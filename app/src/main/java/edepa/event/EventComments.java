@@ -73,7 +73,9 @@ public class EventComments extends CommentsFragment {
     public Query getCommentsQuery() {
         return Cloud.getInstance()
                 .getReference("schedule_comments")
-                .child(event.getKey());
+                .child(event.getKey())
+                .orderByChild("time")
+                .limitToLast(200);
     }
 
 }

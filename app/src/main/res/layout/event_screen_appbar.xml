@@ -113,13 +113,79 @@
                     android:background="@color/app_accent_translucent"
                     android:orientation="horizontal">
 
+                    <RelativeLayout
+                        android:id="@+id/button_comments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:layout_marginStart="@dimen/size_smallest">
+
+                        <ImageView
+                            android:tint="@color/app_white"
+                            android:layout_width="@dimen/size_icon"
+                            android:layout_height="@dimen/size_icon"
+                            android:layout_margin="@dimen/size_small"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_chat"
+                            android:contentDescription="@null" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/button_calendar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end">
+
+                        <ImageView
+                            android:tint="@color/app_white"
+                            android:layout_width="@dimen/size_icon"
+                            android:layout_height="@dimen/size_icon"
+                            android:layout_margin="@dimen/size_small"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_schedule"
+                            android:contentDescription="@null" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/button_see_map"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end">
+
+                        <ImageView
+                            android:tint="@color/app_white"
+                            android:layout_width="@dimen/size_icon"
+                            android:layout_height="@dimen/size_icon"
+                            android:layout_margin="@dimen/size_small"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_map"
+                            android:contentDescription="@null" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end">
+
+                        <ImageView
+                            android:tint="@color/app_white"
+                            android:layout_width="@dimen/size_icon"
+                            android:layout_height="@dimen/size_icon"
+                            android:layout_margin="@dimen/size_small"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_star"
+                            android:contentDescription="@null" />
+
+                    </RelativeLayout>
+
                     <TextView
                         android:id="@+id/event_detail_favorites"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/size_default"
-                        android:layout_marginEnd="@dimen/size_small"
                         android:textStyle="bold"
                         android:textColor="@color/app_white_font"
                         android:textAppearance="@style/TextAppearance.Subtitle.Expanded"
@@ -127,6 +193,7 @@
                         android:tag=":aesthetic_ignore"/>
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"

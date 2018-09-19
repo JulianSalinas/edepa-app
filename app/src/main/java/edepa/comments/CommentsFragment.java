@@ -25,7 +25,7 @@ public abstract class CommentsFragment
     RecyclerView commentsRecycler;
 
     @BindView(R.id.add_comment_button)
-    FloatingActionButton addCommentButton;
+    View addCommentButton;
 
     @Override
     public int getResource() {
@@ -35,22 +35,8 @@ public abstract class CommentsFragment
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         CommentsView commentsView = new CommentsView(commentsScreen);
         commentsView.bind(this);
-        addCommentButton.setVisibility(View.VISIBLE);
-        commentsRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0 && addCommentButton.getVisibility() == View.VISIBLE)
-                    addCommentButton.hide();
-                else if (dy < 0 && addCommentButton.getVisibility() != View.VISIBLE) {
-                    addCommentButton.show();
-                }
-            }
-        });
-
     }
 
     @OnClick(R.id.add_comment_button)
