@@ -13,6 +13,7 @@ public class CloudNavigation extends CloudValue {
         void onChatStateChange(boolean state);
         void onPaletteStateChange(boolean state);
         void onPeopleStateChange(boolean state);
+        void onCommentsStateChange(boolean state);
     }
 
     public void setNavigationListener(CloudNavigationListener navigationListener) {
@@ -20,7 +21,7 @@ public class CloudNavigation extends CloudValue {
     }
 
     public void requestNavigationSections(){
-        String [] sections = {"info", "news", "chat", "palette", "people"};
+        String [] sections = {"info", "news", "chat", "palette", "people", "comments"};
         for(String section : sections) {
             Cloud.getInstance()
                     .getReference(Cloud.CONFIG)
@@ -45,6 +46,8 @@ public class CloudNavigation extends CloudValue {
                 navigationListener.onPaletteStateChange(state);
             else if (section.equals("people"))
                 navigationListener.onPeopleStateChange(state);
+            else if (section.equals("comments"))
+                navigationListener.onCommentsStateChange(state);
         }
     }
 

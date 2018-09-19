@@ -11,6 +11,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 
+import edepa.cloud.Cloud;
+import edepa.cloud.CloudUsers;
 import edepa.custom.BaseFragment;
 import edepa.custom.ProgressFragment;
 import edepa.modelview.R;
@@ -56,8 +58,8 @@ public class SignInActivity extends AppCompatActivity {
 
         // Si el usuario ya tiene una sesión
         // abierta, no es necesario que este online
-        if(auth.getCurrentUser() != null)
-            startApplication();
+         if(auth.getCurrentUser() != null)
+             startApplication();
 
         // Si no tiene sesión debe de hacer login
         else if (OnlineHelper.isOnline(this))
@@ -122,8 +124,7 @@ public class SignInActivity extends AppCompatActivity {
             showProgressScreen();
             FirebaseUser user = auth.getCurrentUser();
             if(user != null) startApplication();
-        }
-        else onBackPressed();
+        }   else onBackPressed();
 
     }
 

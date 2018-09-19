@@ -50,7 +50,7 @@ public class ScheduleEvents extends ScheduleFragment {
      * @return AdapterSchedule
      */
     @Override
-    protected AdapterSchedule instantiateAdapter() {
+    protected ScheduleAdapter instantiateAdapter() {
         eventsAdapter = new AdapterSchedule();
         return eventsAdapter;
     }

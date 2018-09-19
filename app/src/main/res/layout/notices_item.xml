@@ -19,7 +19,6 @@
             android:id="@+id/news_item_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="@dimen/size_default"
             android:paddingEnd="@dimen/size_default"
             android:paddingStart="@dimen/size_default"
             android:orientation="vertical">
@@ -28,7 +27,7 @@
                 android:id="@+id/news_item_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/size_small"
+                android:layout_marginTop="@dimen/size_default"
                 android:textStyle="bold"
                 android:textSize="@dimen/font_big"
                 tools:text="@string/text_lorem_ipsum" />
@@ -37,65 +36,72 @@
                 android:id="@+id/news_item_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/size_medium"
+                android:layout_marginTop="@dimen/size_medium"
                 tools:text="@string/text_lorem_ipsum" />
 
         </LinearLayout>
 
         <include
+            android:visibility="gone"
             layout="@layout/link_preview_news"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/app_accent_light"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_medium"
+            android:layout_marginBottom="@dimen/size_small"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/size_default"
             android:layout_marginStart="@dimen/size_default"
-            android:layout_marginTop="@dimen/size_small"
-            android:layout_marginBottom="@dimen/size_small">
+            android:layout_marginEnd="@dimen/size_default">
 
             <TextView
                 android:id="@+id/news_item_read_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_alignParentStart="true"
+                android:layout_marginEnd="@dimen/size_small"
                 android:fontFamily="sans-serif-light"
-                tools:text="@string/test_viewed" />
+                android:text="@string/text_viewed" />
 
-            <LinearLayout
-                android:orientation="horizontal"
+            <TextView
+                android:id="@+id/news_item_time_ago"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                tools:ignore="RelativeOverlap, UseCompoundDrawables">
+                android:fontFamily="sans-serif-light"
+                tools:ignore="RelativeOverlap"
+                tools:text="@string/test_time_ago" />
 
-                <TextView
-                    android:id="@+id/news_item_time_ago"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:fontFamily="sans-serif-light"
-                    tools:ignore="RelativeOverlap"
-                    tools:text="@string/test_time_ago" />
+        </RelativeLayout>
 
-                <ImageView
-                    android:id="@+id/news_item_delete"
-                    android:src="@drawable/ic_delete"
-                    android:tint="@color/app_primary_font"
-                    android:layout_width="@dimen/size_icon"
-                    android:layout_height="@dimen/size_icon"
-                    android:layout_marginStart="@dimen/size_smallest"
-                    android:contentDescription="@null" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/app_accent_light"
+            android:layout_marginTop="@dimen/size_medium"/>
 
-            </LinearLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:baselineAligned="true"
+            android:layout_marginStart="@dimen/size_small">
+
+            <include
+                android:id="@+id/news_item_delete"
+                layout="@layout/notices_item_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"/>
+
+            <include
+                android:id="@+id/news_item_comments"
+                layout="@layout/comments_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"/>
 
         </RelativeLayout>
 

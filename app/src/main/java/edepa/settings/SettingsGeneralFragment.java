@@ -9,10 +9,14 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 
 import edepa.app.MainActivity;
 import edepa.app.NavigationActivity;
+import edepa.cloud.CloudUsers;
+import edepa.model.UserProfile;
 import edepa.modelview.R;
 import edepa.model.Preferences;
 import edepa.minilibs.DialogFancy;
+import edepa.services.FavoritesService;
 
+import static edepa.model.Preferences.FAVORITES_KEY;
 import static edepa.model.Preferences.USER_KEY;
 import static edepa.model.Preferences.LANG_KEY;
 
@@ -93,7 +97,20 @@ public class SettingsGeneralFragment extends PreferenceFragmentCompat
         else if (key.equals(USER_KEY)){
             String msg = getString(R.string.text_username_changed);
             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-            if (activity != null) activity.showWelcomeMessage();
+            CloudUsers cloudUsers = new CloudUsers();
+            cloudUsers.setUserProfileListener(userProfile -> {
+                if (activity != null) activity.showWelcomeMessage(userProfile);
+            });
+            cloudUsers.requestCurrentUserInfo();
+        }
+
+        else if (key.equals(FAVORITES_KEY)){
+            if (activity != null && sharedPreferences.getBoolean(FAVORITES_KEY, true)) {
+                activity.startDispatcher();
+            }
+            else if (activity != null){
+                activity.cancelDispatcher();
+            }
         }
 
     }

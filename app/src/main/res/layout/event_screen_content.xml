@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.NestedScrollView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@color/app_white"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/size_small"
+            android:layout_marginTop="@dimen/size_default"
+            android:layout_marginStart="@dimen/size_default"
+            android:layout_marginEnd="@dimen/size_default"
+            android:text="@string/text_title"
+            android:fontFamily="sans-serif-light"/>
+
+        <TextView
+            android:id="@+id/event_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/size_default"
+            android:layout_marginStart="@dimen/size_default"
+            android:layout_marginEnd="@dimen/size_default"
+            android:text="@string/test_congress"
+            android:textSize="@dimen/font_big" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="@dimen/size_default"
+            android:background="@color/app_accent_light"/>
+
+        <LinearLayout
+            android:id="@+id/event_abstract_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size_small"
+                android:layout_marginStart="@dimen/size_default"
+                android:layout_marginEnd="@dimen/size_default"
+                android:text="@string/text_abstract"
+                android:textStyle="italic"
+                android:fontFamily="sans-serif-light"/>
+
+            <TextView
+                android:id="@+id/event_detail_abstract"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_default"
+                android:layout_marginEnd="@dimen/size_default"
+                android:text="@string/text_lorem_ipsum"
+                android:textSize="@dimen/font_medium"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/event_screen_options"/>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

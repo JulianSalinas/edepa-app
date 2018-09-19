@@ -361,6 +361,11 @@ public class NavigationActivity extends MainActivity implements
         return false;
     }
 
+    @Override
+    public void onCommentsStateChange(boolean state) {
+        Preferences.setPreference(this, Preferences.COMMENTS_AVAILABLE_KEY, state);
+    }
+
     /**
      * Configura la opción cronograma
      */

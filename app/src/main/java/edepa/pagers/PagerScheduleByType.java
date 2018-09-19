@@ -27,7 +27,7 @@ public class PagerScheduleByType extends PagerSchedule implements IPageListenerB
     /**
      * {@inheritDoc}
      * Es invocado el método {@link #onCreate(Bundle)}
-     * @return PagerAdapter
+     * @return EventPagerAdapter
      */
     @Override
     protected FragmentPagerAdapter instantiateAdapter() {

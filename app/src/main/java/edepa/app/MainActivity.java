@@ -7,9 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 
-import android.preference.Preference;
 import android.preference.PreferenceManager;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -38,16 +36,23 @@ import java.util.Stack;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import edepa.cloud.CloudUsers;
+import edepa.model.UserProfile;
 import edepa.modelview.R;
 import edepa.cloud.Cloud;
 import edepa.model.Preferences;
 import edepa.minilibs.RegexSearcher;
 import edepa.pagers.TabbedFragmentDefault;
+import edepa.services.FavoritesService;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.data.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -186,6 +191,8 @@ public abstract class MainActivity extends AppCompatActivity
      */
     protected int lastStatusBarColor;
 
+    FirebaseJobDispatcher dispatcher;
+
     /**
      * Listener para el menú lateral. Ejecuta {@link #hideKeyboard()} al
      * abrirse y {@link #runPendingRunnable()} al cerrarse
@@ -231,6 +238,26 @@ public abstract class MainActivity extends AppCompatActivity
         setContentView(R.layout.main_activity);
         ButterKnife.bind(this);
         onCreateActivity(savedInstanceState);
+        initDispatcher();
+    }
+
+    /**
+     * Inicializa el #FavoritesService para chequear cada cierto tiempo
+     * si uno de los favoritos del usuario  está apunto de empezar
+     */
+    public void initDispatcher(){
+        if (Preferences.getBooleanPreference(this, Preferences.FAVORITES_KEY)) {
+            dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(this));
+            startDispatcher();
+        }
+    }
+
+    public void startDispatcher(){
+        FavoritesService.scheduleJob(dispatcher);
+    }
+
+    public void cancelDispatcher(){
+        FavoritesService.cancelJob(dispatcher);
     }
 
     /**
@@ -250,7 +277,6 @@ public abstract class MainActivity extends AppCompatActivity
                     .apply();
         }
     }
-
 
     /**
      * Se revisa el argumento savedInstanceState y se redirige la aplicación
@@ -274,7 +300,6 @@ public abstract class MainActivity extends AppCompatActivity
 
             // Se coloca que la aplicación ya tuvo su primer uso
             Preferences.setPreference(this, FIRST_USE_KEY, false);
-            Preferences.setPreference(this, USER_KEY, getDefaultUsername());
 
             // Se susbcribe para recibir notificaciones de noticias y el chat
             FirebaseMessaging.getInstance().subscribeToTopic(Cloud.NEWS);
@@ -301,18 +326,25 @@ public abstract class MainActivity extends AppCompatActivity
         }
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void bindProfileToInterface(){
+        CloudUsers cloudUsers = new CloudUsers();
+        cloudUsers.setUserProfileListener(userProfile -> {
+            showWelcomeMessage(userProfile);
+            showUserToolbarPhoto(userProfile);
+        });
+        cloudUsers.requestCurrentUserInfo();
+    }
     /**
      * Debajo del icono de EDEPA en el menú lateral se da un mensaje de
      * bienvenida, para ello se toma el nombre de pila del usuario.
      * @see RegexSearcher#findFirstName(String)
      */
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public void showWelcomeMessage(){
-
-        String username = Preferences.getStringPreference(this, USER_KEY);
+    public void showWelcomeMessage(UserProfile userProfile) {
+        String username = userProfile.getUsername();
         String message = getResources().getString(R.string.text_welcome);
 
-        if(!username.equals("")) message += " " + username;
+        if (!username.equals("")) message += " " + username;
 
         if (getNavigationView().getHeaderView(0) != null) {
             ((TextView) getNavigationView()
@@ -322,41 +354,33 @@ public abstract class MainActivity extends AppCompatActivity
         }
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public void showUserToolbarPhoto(){
+    public void showUserToolbarPhoto(UserProfile userProfile){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean usePhoto = prefs.getBoolean(PHOTO_KEY, false);
-        if (usePhoto) showUserPhoto();
+        if (usePhoto) showUserPhoto(userProfile);
     }
 
-    public void showUserPhoto(){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(getSupportActionBar() != null && user != null) {
+    public void showUserPhoto(UserProfile userProfile){
+        if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayUseLogoEnabled(true);
-            Glide.with(this)
-                .load(user.getPhotoUrl())
-                .into(new SimpleTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                        Bitmap bitmap = ((BitmapDrawable) resource).getBitmap();
-                        Drawable drawable = new BitmapDrawable(getResources(),
-                                Bitmap.createScaledBitmap(bitmap, 40, 40, true));
-                        getSupportActionBar().setIcon(drawable);
-                    }
-                });
-        }
-    }
 
-    /**
-     * Usada por {@link #onCreateFirstTime()} para obtener el nombre de pila
-     * de usuario. Este se extrae de la información que se obtiene con el Login
-     * @return Nombre de pila del usuario
-     */
-    private String getDefaultUsername(){
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
-        return (user != null && user.getDisplayName() != null) ?
-                RegexSearcher.findFirstName(user.getDisplayName()) : "";
+            SimpleTarget<Drawable> target = new SimpleTarget<Drawable>() {
+
+                @Override
+                public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                    Bitmap bitmap = ((BitmapDrawable) resource).getBitmap();
+                    Drawable drawable = new BitmapDrawable(getResources(),
+                            Bitmap.createScaledBitmap(bitmap, 50, 50, true));
+                    getSupportActionBar().setIcon(drawable);
+                }
+
+            };
+
+            Glide.with(this)
+                    .load(userProfile.getPhotoUrl())
+                    .apply(new RequestOptions().circleCrop())
+                    .into(target);
+        }
     }
 
     /**

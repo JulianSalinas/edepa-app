@@ -106,7 +106,7 @@
 
     <string name="text_image">Image</string>
     <string name="text_viewed">viewed</string>
-    <string name="text_delete">delete</string>
+    <string name="text_delete">Delete</string>
     <string name="text_error">Unexpected error</string>
     <string name="text_selected">Selected</string>
     <string name="text_selected_single">Selected</string>
@@ -231,5 +231,12 @@
     <string name="text_profile_photo">Profile picture</string>
     <string name="text_profile_photo_content">Allows the application to use the profile
         image</string>
+    <string name="text_profile_photo_theme">Use your picture next to the title</string>
+    <string name="text_favorites_notifications_content">Receive reminders of my favorite
+        events</string>
+    <string name="text_favorites_notifications">Reminders</string>
+    <string name="text_comments">Comments</string>
+    <string name="text_write_here_a_comment">Write here a comment</string>
+    <string name="text_press_to_go_to_comments">Ir a los comentarios</string>
 
 </resources>

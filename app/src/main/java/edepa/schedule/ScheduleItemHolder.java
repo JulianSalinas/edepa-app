@@ -149,4 +149,22 @@ public class ScheduleItemHolder extends RecyclerView.ViewHolder {
 
     }
 
+    public static class WithDay extends Single {
+
+        public WithDay(View view){
+            super(view);
+        }
+
+        @Override
+        public void bind(Event event) {
+            super.bind(event);
+            if(eventTimestamp != null) {
+                long start = event.getStart();
+                String day = TimeConverter.extractDate(start);
+                eventTimestamp.setText(day);
+            }
+        }
+
+    }
+
 }

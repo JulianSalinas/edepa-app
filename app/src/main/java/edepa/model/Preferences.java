@@ -16,7 +16,9 @@ public class Preferences {
     public static final String LANG_KEY = "LANG_KEY";
     public static final String USER_KEY = "USER_KEY";
     public static final String PHOTO_KEY = "PHOTO_KEY";
+
     public static final String FIRST_USE_KEY = "FIRST_USE_KEY";
+    public static final String FAVORITES_KEY = "FAVORITES_KEY";
     public static final String NOTIFICATIONS_KEY = "NOTIFICATIONS_KEY";
     public static final String THEME_KEY = "THEME_KEY";
 
@@ -25,6 +27,7 @@ public class Preferences {
      * NOTA: Las key tienen que coincidir con el nombre en la BD
      */
     public static final String PEOPLE_AVAILABLE_KEY = "PEOPLE";
+    public static final String COMMENTS_AVAILABLE_KEY = "COMMENTS";
 
     /**
      * Preferencias que afectan la ejecución de la aplicación
@@ -100,11 +103,6 @@ public class Preferences {
         else if (value instanceof Boolean) editor.putBoolean(key, (Boolean) value);
         else editor.putInt(key, (Integer) value);
         editor.apply();
-    }
-
-    public static void setArrayPreference(Context context, String key, Set<String> values) {
-        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-        editor.putStringSet(key, values).apply();
     }
 
     /**

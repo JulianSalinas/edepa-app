@@ -27,7 +27,7 @@ public class PagerFavoritesByType extends PagerFavorites implements IPageListene
     /**
      * {@inheritDoc}
      * Es invocado el método {@link #onCreate(Bundle)}
-     * @return PagerAdapter
+     * @return EventPagerAdapter
      */
     @Override
     protected FragmentPagerAdapter instantiateAdapter() {

@@ -15,7 +15,6 @@ public class Cloud {
     private final FirebaseAuth auth;
     private final DatabaseReference root;
     private final FirebaseStorage storage;
-    private final FirebaseDatabase database;
 
     /**
      * Variables usadas para obtener un referencia un nodo
@@ -23,6 +22,7 @@ public class Cloud {
      */
     public static final String NEWS = "news";
     public static final String CHAT = "chat";
+    public static final String USERS = "users";
 
     public static final String PEOPLE = "people";
     public static final String ADMINS = "admins";
@@ -49,7 +49,7 @@ public class Cloud {
 
         // Guarda en persistencia para volver a descargar
         // Ayuda si la aplicación queda offline
-        this.database = FirebaseDatabase.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         // No se puede mover arriba de this.database
         this.auth = FirebaseAuth.getInstance();

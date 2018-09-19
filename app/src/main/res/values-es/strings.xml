@@ -112,7 +112,7 @@
 
     <string name="text_image">Imagen</string>
     <string name="text_viewed">vistos</string>
-    <string name="text_delete">borrar</string>
+    <string name="text_delete">Eliminar</string>
     <string name="text_error">Error inesperado</string>
     <string name="text_selected">seleccionados</string>
     <string name="text_selected_single">seleccionado</string>
@@ -234,5 +234,12 @@
     <string name="text_profile_photo">Foto de perfil</string>
     <string name="text_profile_photo_content">Permite a la aplicación utilizar la imagen del
         perfil</string>
+    <string name="text_profile_photo_theme">Usar tu imagen al lado del título</string>
+    <string name="text_favorites_notifications_content">Recibir recordatorios de mis
+        favoritos</string>
+    <string name="text_favorites_notifications">Recordatorios</string>
+    <string name="text_comments">Comments</string>
+    <string name="text_write_here_a_comment">Write here a comment</string>
+    <string name="text_press_to_go_to_comments">Ir a los comentarios</string>
 
 </resources>

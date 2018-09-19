@@ -16,7 +16,7 @@ public class PagerSchedule extends PagerFragment {
     /**
      * {@inheritDoc}
      * Es invocado el método {@link #onCreate(Bundle)}
-     * @return PagerAdapter
+     * @return EventPagerAdapter
      */
     @Override
     protected FragmentPagerAdapter instantiateAdapter() {

@@ -38,4 +38,12 @@
         android:layout_columnWeight="1"
         android:layout_margin="@dimen/size_small"/>
 
+    <include
+        layout="@layout/event_item_comments"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:layout_columnSpan="2"
+        android:layout_margin="@dimen/size_small"/>
+
 </GridLayout>

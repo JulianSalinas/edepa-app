@@ -48,7 +48,7 @@ public class PagerFavorites extends PagerFragment implements CloudFavorites.Call
     /**
      * {@inheritDoc}
      * Es invocado el método {@link #onCreate(Bundle)}
-     * @return PagerAdapter
+     * @return EventPagerAdapter
      */
     @Override
     protected FragmentPagerAdapter instantiateAdapter() {

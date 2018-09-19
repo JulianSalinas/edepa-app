@@ -7,6 +7,18 @@
         android:summary="@string/text_receive_notifications"
         android:title="@string/text_notifications" />
 
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="FAVORITES_KEY"
+        android:summary="@string/text_favorites_notifications_content"
+        android:title="@string/text_favorites_notifications" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="PHOTO_KEY"
+        android:summary="@string/text_profile_photo_content"
+        android:title="@string/text_profile_photo" />
+
     <EditTextPreference
         android:key="USER_KEY"
         android:summary="@string/text_chat_alias"

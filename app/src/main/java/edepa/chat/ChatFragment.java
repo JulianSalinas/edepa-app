@@ -8,6 +8,7 @@ import butterknife.OnFocusChange;
 import edepa.cloud.Cloud;
 import edepa.cloud.CloudChat;
 
+import edepa.cloud.CloudUsers;
 import edepa.custom.PhotoFragment;
 import edepa.custom.RecyclerFragment;
 import edepa.minilibs.RegexSearcher;
@@ -15,6 +16,7 @@ import edepa.model.Message;
 import edepa.model.Preferences;
 
 import edepa.model.Preview;
+import edepa.model.UserProfile;
 import edepa.modelview.R;
 import edepa.custom.RecyclerAdapter;
 import edepa.minilibs.SmoothLayout;
@@ -292,18 +294,25 @@ public class ChatFragment extends RecyclerFragment {
      * @param content: Contenido del mensaje extraido del input
      */
     private void sendNotEmptyMessage(String content){
-        Message message = buildMessage(content);
-        setWaitingResponse(true);
-        lastMessageKey = CloudChat.addMessage(message);
-        textInputView.setText("");
 
-        if(imageLocalPath != null) uploadImage();
+        CloudUsers cloudUsers = new CloudUsers();
+        cloudUsers.setUserProfileListener(userProfile -> {
 
-        if(imageView.getVisibility() == View.VISIBLE) {
-            imageView.setImageDrawable(null);
-            imageView.setVisibility(View.GONE);
-            imageLocalPath = null;
-        }
+            Message message = buildMessage(userProfile, content);
+            setWaitingResponse(true);
+            lastMessageKey = CloudChat.addMessage(message);
+            textInputView.setText("");
+
+            if(imageLocalPath != null) uploadImage();
+
+            if(imageView.getVisibility() == View.VISIBLE) {
+                imageView.setImageDrawable(null);
+                imageView.setVisibility(View.GONE);
+                imageLocalPath = null;
+            }
+
+        });
+        cloudUsers.requestCurrentUserInfo();
 
     }
 
@@ -343,26 +352,16 @@ public class ChatFragment extends RecyclerFragment {
      * y crea el objeto.
      * @param content: Contenido del mensaje extraido del input
      */
-    public Message buildMessage(String content){
+    public Message buildMessage(UserProfile userProfile, String content){
 
         Preview preview = new Preview();
         preview.setUrl(imageLocalPath == null ? null : "uploading");
 
         return new Message.Builder()
                 .preview(preview)
-                .username(getUsername())
-                .userid(Cloud.getInstance().getUserId())
+                .username(userProfile.getUsername())
+                .userid(userProfile.getUserid())
                 .content(content).time(System.currentTimeMillis()).build();
-    }
-
-    /**
-     * Obtiene el nombre de usuario desde las preferencias
-     * Usada para crear los mensajes {@link #buildMessage(String)}
-     * @return String: nombre de usuario
-     */
-    public String getUsername(){
-        String key = Preferences.USER_KEY;
-        return Preferences.getStringPreference(activity, key);
     }
 
 }

@@ -39,15 +39,11 @@ import static android.view.View.GONE;
 
 public class EventHolderPeople extends RecyclerView.ViewHolder implements ValueEventListener {
 
-    @BindView(R.id.expansionLayout)
-    ExpansionLayout expansionLayout;
-
     @BindView(R.id.people_recycler)
     RecyclerView peopleRecycler;
 
     PeopleAdapter peopleAdapter;
 
-    private Event event;
     private Context context;
     private List<Person> people;
 
@@ -58,17 +54,13 @@ public class EventHolderPeople extends RecyclerView.ViewHolder implements ValueE
     }
 
     public void bind(Event event){
-        this.event = event;
+
         this.people.clear();
         ButterKnife.bind(this, itemView);
 
         peopleAdapter = new PeopleAdapter(people);
         peopleRecycler.setLayoutManager(new SmoothLayout(itemView.getContext()));
         peopleRecycler.setAdapter(peopleAdapter);
-
-        expansionLayout.addListener((expansionLayout, expanded) -> {
-            Log.i("Expansion", String.valueOf(expanded));
-        });
 
         boolean available = Preferences.getBooleanPreference(context, Preferences.PEOPLE_AVAILABLE_KEY);
 
@@ -82,7 +74,6 @@ public class EventHolderPeople extends RecyclerView.ViewHolder implements ValueE
                         .child(personKey).addValueEventListener(this);
             }
         }
-
 
     }
 
@@ -103,30 +94,5 @@ public class EventHolderPeople extends RecyclerView.ViewHolder implements ValueE
     public void onCancelled(DatabaseError databaseError) {
         Log.i(toString(), databaseError.getMessage());
     }
-
-//    private void addPersonView(Person person) {
-//        LayoutInflater inflater = LayoutInflater.from(context);
-//        @SuppressLint("InflateParams")
-//        View view = inflater.inflate(R.layout.people_item, null);
-//        View line = inflater.inflate(R.layout.custom_line, null);
-//        new PersonHolder(view).bind(person);
-//        peopleContainer.addView(view, getPersonLayoutParams());
-//        peopleContainer.addView(line, getLineLayoutParams());
-//    }
-//
-//    private LinearLayout.LayoutParams getLineLayoutParams() {
-//        return new LinearLayout.LayoutParams(
-//                LinearLayout.LayoutParams.MATCH_PARENT, 1);
-//    }
-//
-//    private LinearLayout.LayoutParams getPersonLayoutParams() {
-//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-//                LinearLayout.LayoutParams.MATCH_PARENT,
-//                LinearLayout.LayoutParams.WRAP_CONTENT);
-//        Resources res = itemView.getResources();
-//        params.setMarginStart((int) res.getDimension(R.dimen.size_default));
-//        params.setMarginEnd((int) res.getDimension(R.dimen.size_default));
-//        return params;
-//    }
 
 }
