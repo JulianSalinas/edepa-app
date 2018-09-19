@@ -105,7 +105,7 @@
     <string name="date_util_just_now">just now</string>
 
     <string name="text_image">Image</string>
-    <string name="text_viewed">viewed</string>
+    <string name="text_viewed">Viewed</string>
     <string name="text_delete">Delete</string>
     <string name="text_error">Unexpected error</string>
     <string name="text_selected">Selected</string>
@@ -237,7 +237,7 @@
     <string name="text_favorites_notifications">Reminders</string>
     <string name="text_comments">Comments</string>
     <string name="text_write_here_a_comment">Write here a comment</string>
-    <string name="text_press_to_go_to_comments">Ir a los comentarios</string>
-    <string name="text_press_to_comments">Commentar</string>
+    <string name="text_press_to_go_to_comments">Go to comments</string>
+    <string name="text_press_to_comments">Comment</string>
 
 </resources>

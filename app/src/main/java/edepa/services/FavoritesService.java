@@ -42,15 +42,15 @@ public class FavoritesService extends JobService {
 //                CloudEvents.getSingleEventQuery(eventKey).addListenerForSingleValueEvent(new ValueEventListener() {
 //                    @Override
 //                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        Event event = dataSnapshot.getValue(Event.class);
-//                        if (event != null) {
-//                            event.setKey(eventKey);
+//                        Event notice = dataSnapshot.getValue(Event.class);
+//                        if (notice != null) {
+//                            notice.setKey(eventKey);
 //                            long currentTime = System.currentTimeMillis();
-//                            long timeDiff = event.getStart() - currentTime;
+//                            long timeDiff = notice.getStart() - currentTime;
 //                            long minutesDiff = MILLISECONDS.toMinutes(timeDiff);
 //                            Log.i(getClass().getSimpleName(),
 //                                    String.format("Notifying remainder for %s at %d",
-//                                            event.getTitle(), event.getStart()));
+//                                            notice.getTitle(), notice.getStart()));
 //                        }
 //                    }
 //

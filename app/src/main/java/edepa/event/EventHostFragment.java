@@ -61,7 +61,7 @@ public abstract class EventHostFragment
     public void onResume() {
         super.onResume();
 //        CloudEvents
-//                .getSingleEventQuery(event.getKey())
+//                .getSingleEventQuery(notice.getKey())
 //                .addValueEventListener(this);
     }
 
@@ -69,7 +69,7 @@ public abstract class EventHostFragment
     public void onPause() {
         super.onPause();
 //        CloudEvents
-//                .getSingleEventQuery(event.getKey())
+//                .getSingleEventQuery(notice.getKey())
 //                .removeEventListener(this);
     }
 

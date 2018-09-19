@@ -1,6 +1,8 @@
 package edepa.cloud;
 
 import edepa.model.Comment;
+import edepa.model.Notice;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.Query;
 
@@ -21,6 +23,14 @@ public class CloudComments extends CloudChild {
 
     public void connect(Query query){
         query.addChildEventListener(this);
+    }
+
+    public static Query getNoticeCommentsQuery(Notice notice){
+        return Cloud.getInstance()
+                .getReference("news_comments")
+                .child(notice.getKey())
+                .orderByChild("time")
+                .limitToLast(200);
     }
 
     @Override

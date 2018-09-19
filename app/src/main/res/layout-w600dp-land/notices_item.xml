@@ -10,7 +10,7 @@
     app:cardCornerRadius="@dimen/card_radius_default"
     app:cardUseCompatPadding="true"
     app:cardElevation="@dimen/card_elevation"
-    android:tag=":aesthetic_ignore">
+    android:tag="a">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,13 +23,48 @@
             android:layout_height="match_parent"
             android:paddingEnd="@dimen/size_default"
             android:paddingStart="@dimen/size_default"
+            android:paddingTop="@dimen/size_default"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size_small">
+
+                <TextView
+                    android:id="@+id/news_item_congress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/size_smallest"
+                    android:textSize="@dimen/font_small"
+                    android:textStyle="bold"
+                    android:text="@string/app_name" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:contentDescription="@null"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/size_smallest"
+                    android:tint="@color/app_primary_font"
+                    android:src="@drawable/ic_adjust"/>
+
+                <TextView
+                    android:id="@+id/news_item_time_ago"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_small"
+                    android:fontFamily="sans-serif-light"
+                    tools:text="@string/test_time_ago" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/news_item_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_default"
+                android:layout_marginBottom="@dimen/size_small"
                 android:textStyle="bold"
                 android:textSize="@dimen/font_big"
                 tools:text="@string/text_lorem_ipsum" />
@@ -38,73 +73,119 @@
                 android:id="@+id/news_item_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_medium"
+                android:layout_marginBottom="@dimen/size_medium"
                 tools:text="@string/text_lorem_ipsum" />
 
         </LinearLayout>
 
         <include
+            android:visibility="gone"
             layout="@layout/link_preview_news"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size_medium"
-            android:layout_marginBottom="@dimen/size_small"/>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/size_default"
-            android:layout_marginEnd="@dimen/size_default">
-
-            <TextView
-                android:id="@+id/news_item_read_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_marginEnd="@dimen/size_small"
-                android:fontFamily="sans-serif-light"
-                android:text="@string/text_viewed" />
-
-            <TextView
-                android:id="@+id/news_item_time_ago"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:fontFamily="sans-serif-light"
-                tools:ignore="RelativeOverlap"
-                tools:text="@string/test_time_ago" />
-
-        </RelativeLayout>
+            android:layout_height="wrap_content"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/app_accent_light"
-            android:layout_marginTop="@dimen/size_medium"/>
+            android:background="@color/app_accent_light" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/optional_container"
             android:layout_height="45dp"
-            android:baselineAligned="true"
-            android:layout_marginStart="@dimen/size_small">
+            android:layout_width="match_parent"
+            android:paddingStart="@dimen/size_medium"
+            android:paddingEnd="@dimen/size_medium"
+            android:orientation="horizontal">
 
-            <include
+            <LinearLayout
+                android:id="@+id/news_item_read_amount_container"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end">
+
+                    <ImageView
+                        android:tint="@color/app_primary_font"
+                        android:layout_width="@dimen/size_icon"
+                        android:layout_height="@dimen/size_icon"
+                        android:layout_margin="@dimen/size_small"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_viewed"
+                        android:contentDescription="@null" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/news_item_read_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/size_small"
+                    android:tag=":aesthetic_ignore"
+                    android:textAppearance="@style/TextAppearance.Subtitle.Expanded"
+                    android:tint="@color/app_primary_font"
+                    android:fontFamily="sans-serif-light"
+                    tools:text="156" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/news_item_comments_amount_container"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:id="@+id/news_item_comments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end">
+
+                    <ImageView
+                        android:tint="@color/app_primary_font"
+                        android:layout_width="@dimen/size_icon"
+                        android:layout_height="@dimen/size_icon"
+                        android:layout_margin="@dimen/size_small"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_comment"
+                        android:contentDescription="@null" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/news_item_comments_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:tint="@color/app_primary_font"
+                    android:textAppearance="@style/TextAppearance.Subtitle.Expanded"
+                    android:fontFamily="sans-serif-light"
+                    tools:text="156"
+                    android:tag=":aesthetic_ignore"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
                 android:id="@+id/news_item_delete"
-                layout="@layout/notices_item_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:gravity="end">
 
-            <include
-                android:id="@+id/news_item_comments"
-                layout="@layout/comments_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"/>
+                <ImageView
+                    android:tint="@color/app_primary_font"
+                    android:layout_width="@dimen/size_icon"
+                    android:layout_height="@dimen/size_icon"
+                    android:layout_margin="@dimen/size_small"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_delete"
+                    android:contentDescription="@null" />
 
-        </RelativeLayout>
+            </RelativeLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

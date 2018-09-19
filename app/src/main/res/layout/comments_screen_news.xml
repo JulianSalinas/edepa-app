@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.NestedScrollView
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/app_white"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:id="@+id/comments_screen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@color/app_accent_light">
+
+            <RelativeLayout
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true">
+
+                <ImageView
+                    android:layout_width="@dimen/size_icon"
+                    android:layout_height="@dimen/size_icon"
+                    android:layout_margin="@dimen/size_default"
+                    android:background="@drawable/ic_back"
+                    android:backgroundTint="@color/app_primary_font"
+                    android:contentDescription="@null" />
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/add_comment_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/size_medium"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                app:cardBackgroundColor="?colorAccent"
+                app:cardCornerRadius="@dimen/size_medium"
+                tools:ignore="RelativeOverlap">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_press_to_comments"
+                    android:textColor="@color/app_white"
+                    android:paddingTop="@dimen/size_smallest"
+                    android:paddingBottom="@dimen/size_smallest"
+                    android:paddingStart="@dimen/size_small"
+                    android:paddingEnd="@dimen/size_small"
+                    android:tag=":aesthetic_ignore"/>
+
+            </android.support.v7.widget.CardView>
+
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/app_accent_light"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/comments_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="false"
+            tools:listitem="@layout/comments_item"
+            app:stackFromEnd="true"
+            app:reverseLayout="true"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

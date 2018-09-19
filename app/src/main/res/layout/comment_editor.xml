@@ -16,12 +16,14 @@
         android:backgroundTint="#00FFFFFF"
         android:padding="@dimen/size_default"
         android:minWidth="200dp"
-        android:minHeight="200dp"/>
+        android:minHeight="200dp"
+        android:tag=":aesthetic_ignore"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/app_accent_light" />
+        android:background="@color/app_accent_light"
+        android:tag=":aesthetic_ignore"/>
 
     <TextView
         android:id="@+id/comment_editor_send"
@@ -32,7 +34,7 @@
         android:paddingEnd="@dimen/size_default"
         android:gravity="center_vertical"
         android:text="@string/fui_button_text_send"
-        android:textColor="@color/material_blue"
+        android:textColor="?colorAccent"
         android:textStyle="bold"
         android:fontFamily="sans-serif"
         android:textAllCaps="true"

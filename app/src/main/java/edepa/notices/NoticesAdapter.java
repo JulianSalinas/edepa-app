@@ -1,8 +1,11 @@
 package edepa.notices;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.text.style.URLSpan;
@@ -13,14 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
-import com.mklimek.circleinitialsview.CircleInitialsView;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +32,11 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.OnClick;
 import edepa.app.MainActivity;
+import edepa.app.NavigationActivity;
 import edepa.cloud.CloudAdmin;
+import edepa.cloud.CloudComments;
 import edepa.cloud.CloudNotices;
+import edepa.comments.CommentEditor;
 import edepa.custom.PhotoFragment;
 import edepa.minilibs.ColorGenerator;
 import edepa.minilibs.DialogFancy;
@@ -121,6 +127,12 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
         @BindView(R.id.news_item_read_amount)
         TextView itemReadAmount;
 
+        @BindView(R.id.news_item_read_amount_container)
+        View itemReadAmountContainer;
+
+        @BindView(R.id.news_item_comments_amount)
+        TextView itemCommentsAmount;
+
         @BindView(R.id.preview_image)
         ImageView itemThumbnail;
 
@@ -135,8 +147,11 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
 
         private URLSpan [] urls;
 
+        private int commentsAmount;
+
         public NewsItemHolder(View itemView) {
             super(itemView);
+            commentsAmount = 0;
         }
 
         /**
@@ -146,29 +161,20 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
         public void bind(Notice notice){
 
             this.notice = notice;
+            this.commentsAmount = 0;
 
             bindTitle();
             bindContent();
-            bindBothTexts();
-            bindViewed();
             bindTimeAgo();
             bindLinkPreview();
+
+            bindViewedAmount();
+            bindCommentsAmount();
 
             CloudAdmin admin = new CloudAdmin();
             admin.setAdminPermissionListener(this);
             admin.requestAdminPermission();
 
-        }
-
-        private void bindBothTexts() {
-            String title = notice.getTitle();
-            String content = notice.getContent();
-            if ((title != null && !title.isEmpty()) || (content != null && !content.isEmpty())){
-                itemText.setVisibility(VISIBLE);
-            }
-            else {
-                itemText.setVisibility(GONE);
-            }
         }
 
         /**
@@ -246,6 +252,7 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
             if (notice.getPreview() != null){
                 Preview preview = notice.getPreview();
                 openImage(preview.getUrl());
+                increaseViewed();
             }
         }
 
@@ -268,20 +275,57 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
             }
         }
 
-        public void bindViewed(){
+        public void bindViewedAmount(){
             int viewed = notice.getViewed();
-            itemReadAmount.setVisibility(viewed > 0 ? VISIBLE : GONE);
-            if (itemReadAmount.getVisibility() == VISIBLE) setViewedAmout();
+            itemReadAmountContainer.setVisibility(viewed > 0 ? VISIBLE : GONE);
+            if (itemReadAmountContainer.getVisibility() == VISIBLE){
+                itemReadAmount.setText(String.valueOf(notice.getViewed()));
+            }
         }
 
-        /**
-         * Coloca la cantidad de vistos para una noticia
-         */
-        public void setViewedAmout(){
-            int viewed = notice.getViewed();
-            String text = context.getString(R.string.text_viewed);
-            itemReadAmount.setText(String.format(
-            Locale.getDefault(), "%d %s", viewed, text));
+        @OnClick(R.id.news_item_comments_amount_container)
+        public void openComments(){
+
+            if (context instanceof NavigationActivity) {
+                NavigationActivity activity = (NavigationActivity) context;
+
+                String tag = "COMMENTS_" + notice.getKey();
+                Fragment frag = NoticeComments.newInstance(notice);
+
+                if (commentsAmount > 0) {
+                    activity.setFragmentOnScreen(frag, tag);
+                }
+
+                else {
+                    String tagEditor = "COMMENT_EDITOR";
+                    CommentEditor editor = new CommentEditor();
+                    editor.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+                    editor.setCommentSender(comment -> {
+                        CloudComments.getNoticeCommentsQuery(notice)
+                                .getRef().push().setValue(comment);
+                        activity.setFragmentOnScreen(frag, tag);
+                    });
+                    editor.show(activity.getSupportFragmentManager(), tagEditor);
+                }
+
+            }
+
+        }
+
+        public void bindCommentsAmount(){
+            CloudComments.getNoticeCommentsQuery(notice)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            commentsAmount = (int) dataSnapshot.getChildrenCount();
+                            itemCommentsAmount.setText(String.valueOf(commentsAmount));
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+            });
         }
 
         /**

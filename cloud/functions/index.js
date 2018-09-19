@@ -51,7 +51,7 @@ exports.pushNotification = functions.database.ref('/edepa5/news/{pushId}')
         const payload = {
             notification: {
                 title: 'Nueva noticia',
-                body: data.content || data.title,
+                body: data.content || data.title || 'Imagen',
                 sound: "default"
             }, data: { news: 'news' }
         };

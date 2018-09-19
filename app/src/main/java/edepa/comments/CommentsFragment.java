@@ -12,11 +12,12 @@ import com.google.firebase.database.Query;
 import butterknife.BindView;
 import butterknife.OnClick;
 import edepa.custom.BaseFragment;
+import edepa.custom.CustomFragment;
 import edepa.model.Event;
 import edepa.modelview.R;
 
 public abstract class CommentsFragment
-        extends BaseFragment implements CommentsView.ICommentable {
+        extends CustomFragment implements CommentsView.ICommentable {
 
     @BindView(R.id.comments_screen)
     View commentsScreen;
