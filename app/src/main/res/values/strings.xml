@@ -124,7 +124,7 @@
     </string-array>
 
     <string name="text_accept">Accept</string>
-    <string name="text_success">Success</string>
+    <string name="text_success">Done!</string>
     <string name="text_warning">Warning</string>
     <string name="text_information">Information</string>
     <string name="text_add_to_calendar">Add to calendar</string>
@@ -238,6 +238,9 @@
     <string name="text_comments">Comments</string>
     <string name="text_write_here_a_comment">Write here a comment</string>
     <string name="text_press_to_go_to_comments">Go to comments</string>
-    <string name="text_press_to_comments">Comment</string>
+    <string name="text_press_to_comment">Comment</string>
+    <string name="text_admin">Administrador</string>
+    <string name="text_rate_app">Calificar aplicación</string>
+    <string name="text_send_us_a_comment">Envianos un comentario</string>
 
 </resources>

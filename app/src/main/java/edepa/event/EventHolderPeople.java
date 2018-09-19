@@ -62,7 +62,7 @@ public class EventHolderPeople extends RecyclerView.ViewHolder implements ValueE
         peopleRecycler.setLayoutManager(new SmoothLayout(itemView.getContext()));
         peopleRecycler.setAdapter(peopleAdapter);
 
-        boolean available = Preferences.getBooleanPreference(context, Preferences.PEOPLE_AVAILABLE_KEY);
+        boolean available = Preferences.getBooleanPreference(context, Cloud.PEOPLE);
 
         if (!available || event.getPeople() == null || event.getPeople().size() <= 0){
             itemView.setVisibility(GONE);

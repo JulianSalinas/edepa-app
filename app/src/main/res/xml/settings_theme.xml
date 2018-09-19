@@ -10,7 +10,7 @@
         android:title="@string/text_custom_theme" />
 
     <SwitchPreference
-        android:defaultValue="false"
+        android:defaultValue="true"
         android:key="PHOTO_KEY"
         android:summary="@string/text_profile_photo_theme"
         android:title="@string/text_profile_photo" />

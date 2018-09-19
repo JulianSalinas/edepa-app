@@ -60,17 +60,17 @@ public abstract class EventHostFragment
     @Override
     public void onResume() {
         super.onResume();
-//        CloudEvents
-//                .getSingleEventQuery(notice.getKey())
-//                .addValueEventListener(this);
+        CloudEvents
+                .getSingleEventQuery(event.getKey())
+                .addValueEventListener(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-//        CloudEvents
-//                .getSingleEventQuery(notice.getKey())
-//                .removeEventListener(this);
+        CloudEvents
+                .getSingleEventQuery(event.getKey())
+                .removeEventListener(this);
     }
 
     public void openMinimap(){

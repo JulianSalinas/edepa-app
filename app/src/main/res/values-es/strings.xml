@@ -130,7 +130,7 @@
     </string-array>
 
     <string name="text_accept">Aceptar</string>
-    <string name="text_success">Éxito</string>
+    <string name="text_success">Hecho!</string>
     <string name="text_warning">Advertencia</string>
     <string name="text_information">Información</string>
     <string name="text_add_to_calendar">Agregar al calendario</string>
@@ -241,6 +241,9 @@
     <string name="text_comments">Comentarios</string>
     <string name="text_write_here_a_comment">Escribe un comentario</string>
     <string name="text_press_to_go_to_comments">Ir a los comentarios</string>
-    <string name="text_press_to_comments">Comentar</string>
+    <string name="text_press_to_comment">Comentar</string>
+    <string name="text_admin">Administrador</string>
+    <string name="text_rate_app">Calificar aplicación</string>
+    <string name="text_send_us_a_comment">Envianos un comentario</string>
 
 </resources>

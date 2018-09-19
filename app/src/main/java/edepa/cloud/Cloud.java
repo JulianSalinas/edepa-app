@@ -15,6 +15,7 @@ public class Cloud {
     private final FirebaseAuth auth;
     private final DatabaseReference root;
     private final FirebaseStorage storage;
+    private final FirebaseDatabase database;
 
     /**
      * Variables usadas para obtener un referencia un nodo
@@ -49,7 +50,7 @@ public class Cloud {
 
         // Guarda en persistencia para volver a descargar
         // Ayuda si la aplicación queda offline
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        database = FirebaseDatabase.getInstance();
 
         // No se puede mover arriba de this.database
         this.auth = FirebaseAuth.getInstance();
@@ -78,6 +79,10 @@ public class Cloud {
      */
     public DatabaseReference getReference(String section){
         return root.child(section.toLowerCase());
+    }
+
+    public DatabaseReference getCommentsReference(){
+        return database.getReference("comments");
     }
 
 }

@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -36,6 +37,7 @@ import edepa.model.EventType;
 
 import edepa.modelview.R;
 
+import static android.media.tv.TvContract.AUTHORITY;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
@@ -178,6 +180,7 @@ public class EventFragment extends EventHostFragment
         showStatusMessage(R.string.text_save_complete);
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setDataAndType(uri, "image/*");
         startActivity(intent);
     }
@@ -252,13 +255,14 @@ public class EventFragment extends EventHostFragment
         WallpaperGenerator gen = new WallpaperGenerator(getNavigationActivity());
 
         int resource = gen.parseText(event.getLocation());
-        Drawable wallpaper = getResources().getDrawable(resource);
-        toolbarImage.setImageDrawable(wallpaper);
 
         // No se encontró imagen y se coloca el fondo por defecto
         if (resource == WallpaperGenerator.NO_IMAGE_FOUND) {
             resource = R.drawable.img_pattern;
         }
+
+        Drawable wallpaper = getResources().getDrawable(resource);
+        toolbarImage.setImageDrawable(wallpaper);
 
         int fontColor = ContextCompat.getColor(
                 activity, resource == R.drawable.img_pattern ?

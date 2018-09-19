@@ -1,5 +1,6 @@
 package edepa.app;
 
+import edepa.cloud.CloudAdmin;
 import edepa.modelview.R;
 import edepa.cloud.Cloud;
 import edepa.model.Preferences;
@@ -16,6 +17,7 @@ import edepa.pagers.TabbedFragmentDefault;
 import edepa.search.SearchByPanelFragment;
 import edepa.search.SearchByEventsFragment;
 import edepa.search.SearchByPeopleFragment;
+import edepa.settings.SettingsAdminFragment;
 import edepa.settings.SettingsThemeFragment;
 import edepa.settings.SettingsGeneralFragment;
 
@@ -186,6 +188,33 @@ public class NavigationActivity extends MainActivity implements
         cloudNavigation.requestNavigationSections();
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void connectAdminListener(){
+        MenuItem menuItem = menu.findItem(R.id.nav_admin);
+        CloudAdmin cloudAdmin = new CloudAdmin();
+        cloudAdmin.setAdminPermissionListener(new CloudAdmin.AdminPermissionListener() {
+
+            @Override
+            public void onPermissionGranted() {
+                if(menuItem != null) {
+                    menuItem.setVisible(true);
+                    menuItem.setOnMenuItemClickListener(item -> openAdminSettings());
+                }
+            }
+
+            @Override
+            public void onPermissionDenied() {
+                if(menuItem != null) {
+                    menuItem.setVisible(false);
+                    menuItem.setOnMenuItemClickListener(null);
+                }
+            }
+
+        });
+
+        cloudAdmin.requestAdminPermission();
+    }
+
     /**
      * Se configura la barra de búsqueda
      */
@@ -215,7 +244,7 @@ public class NavigationActivity extends MainActivity implements
      * Configura la opción información
      */
     @Override
-    public void onInfoStateChange(boolean state) {
+    public void onInfoStateChanged(boolean state) {
         MenuItem menuItem = menu.findItem(R.id.nav_infomation);
         menuItem.setOnMenuItemClickListener(state ? item -> openInformation() : null);
         menuItem.setVisible(state);
@@ -239,7 +268,7 @@ public class NavigationActivity extends MainActivity implements
      * Configura la opción de noticias
      */
     @Override
-    public void onNewsStateChange(boolean state) {
+    public void onNewsStateChanged(boolean state) {
         MenuItem menuItem = menu.findItem(R.id.nav_news);
         menuItem.setOnMenuItemClickListener(state ? item -> openNews() : null);
         menuItem.setVisible(state);
@@ -263,9 +292,10 @@ public class NavigationActivity extends MainActivity implements
      * Configura la opción de chat
      */
     @Override
-    public void onChatStateChange(boolean state) {
+    public void onChatStateChanged(boolean state) {
         MenuItem menuItem = menu.findItem(R.id.nav_chat);
         menuItem.setOnMenuItemClickListener(state ? item -> openChat() : null);
+        menuItem.setVisible(state);
         if(state) updateChatBadge();
     }
 
@@ -317,7 +347,7 @@ public class NavigationActivity extends MainActivity implements
      * Configura la opción expositores o personas
      */
     @Override
-    public void onPeopleStateChange(boolean state) {
+    public void onPeopleStateChanged(boolean state) {
         MenuItem menuItem = menu.findItem(R.id.nav_people);
         menuItem.setOnMenuItemClickListener(state ? item -> openPeople() : null);
         menuItem.setVisible(state);
@@ -341,7 +371,7 @@ public class NavigationActivity extends MainActivity implements
      * Configura la opción paleta de colores
      */
     @Override
-    public void onPaletteStateChange(boolean state) {
+    public void onPaletteStateChanged(boolean state) {
         MenuItem menuItem = menu.findItem(R.id.nav_palette);
         menuItem.setOnMenuItemClickListener(state ? item -> openPalette() : null);
         menuItem.setVisible(state);
@@ -359,11 +389,6 @@ public class NavigationActivity extends MainActivity implements
         pendingRunnable = () -> setFragmentOnScreen(frag, tag);
         runPendingRunnable();
         return false;
-    }
-
-    @Override
-    public void onCommentsStateChange(boolean state) {
-        Preferences.setPreference(this, Preferences.COMMENTS_AVAILABLE_KEY, state);
     }
 
     /**
@@ -438,6 +463,15 @@ public class NavigationActivity extends MainActivity implements
         String tag = "SETTINGS_FRAGMENT";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
         Fragment frag = temp != null ? temp : new SettingsGeneralFragment();
+        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+        runPendingRunnable();
+        return false;
+    }
+
+    public boolean openAdminSettings(){
+        String tag = "ADMIN_SETTINGS_FRAGMENT";
+        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
+        Fragment frag = temp != null ? temp : new SettingsAdminFragment();
         pendingRunnable = () -> setFragmentOnScreen(frag, tag);
         runPendingRunnable();
         return false;

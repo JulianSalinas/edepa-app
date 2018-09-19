@@ -8,16 +8,27 @@ public class CloudNavigation extends CloudValue {
     private CloudNavigationListener navigationListener;
 
     public interface CloudNavigationListener {
-        void onInfoStateChange(boolean state);
-        void onNewsStateChange(boolean state);
-        void onChatStateChange(boolean state);
-        void onPaletteStateChange(boolean state);
-        void onPeopleStateChange(boolean state);
-        void onCommentsStateChange(boolean state);
+        void onInfoStateChanged(boolean state);
+        void onNewsStateChanged(boolean state);
+        void onChatStateChanged(boolean state);
+        void onPaletteStateChanged(boolean state);
+        void onPeopleStateChanged(boolean state);
     }
 
-    public void setNavigationListener(CloudNavigationListener navigationListener) {
+    private CloudNavigationPreferencesListener navigationPreferencesListener;
+
+    public interface CloudNavigationPreferencesListener {
+        void onNavigationPreferenceChanged(String key, boolean state);
+    }
+
+    public void setNavigationListener(
+            CloudNavigationListener navigationListener) {
         this.navigationListener = navigationListener;
+    }
+
+    public void setNavigationPreferencesListener(
+            CloudNavigationPreferencesListener navigationPreferencesListener) {
+        this.navigationPreferencesListener = navigationPreferencesListener;
     }
 
     public void requestNavigationSections(){
@@ -36,18 +47,21 @@ public class CloudNavigation extends CloudValue {
         String section = dataSnapshot.getKey();
         Boolean state = dataSnapshot.getValue(Boolean.class);
         if(section != null && state != null){
-            if (section.equals("info"))
-                navigationListener.onInfoStateChange(state);
-            else if (section.equals("news"))
-                navigationListener.onNewsStateChange(state);
-            else if (section.equals("chat"))
-                navigationListener.onChatStateChange(state);
-            else if (section.equals("palette"))
-                navigationListener.onPaletteStateChange(state);
-            else if (section.equals("people"))
-                navigationListener.onPeopleStateChange(state);
-            else if (section.equals("comments"))
-                navigationListener.onCommentsStateChange(state);
+            if (navigationListener != null) {
+                if (section.equals("info"))
+                    navigationListener.onInfoStateChanged(state);
+                else if (section.equals("news"))
+                    navigationListener.onNewsStateChanged(state);
+                else if (section.equals("chat"))
+                    navigationListener.onChatStateChanged(state);
+                else if (section.equals("palette"))
+                    navigationListener.onPaletteStateChanged(state);
+                else if (section.equals("people"))
+                    navigationListener.onPeopleStateChanged(state);
+            }
+            if (navigationPreferencesListener != null){
+                navigationPreferencesListener.onNavigationPreferenceChanged(section, state);
+            }
         }
     }
 
