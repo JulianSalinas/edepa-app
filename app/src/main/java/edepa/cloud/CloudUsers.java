@@ -1,5 +1,8 @@
 package edepa.cloud;
 
+import android.content.Context;
+import android.preference.Preference;
+
 import com.firebase.ui.auth.data.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -7,6 +10,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 
 import edepa.minilibs.RegexSearcher;
+import edepa.model.Preferences;
 import edepa.model.UserProfile;
 
 
@@ -44,30 +48,19 @@ public class CloudUsers extends CloudValue {
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null && dataSnapshot.getValue() == null){
-            getUserReference(user.getUid())
-                    .child("username")
-                    .setValue(user.getDisplayName());
-
-            getUserReference(user.getUid())
-                    .child("allowPhoto")
-                    .setValue(true);
-
-        }
-        if (user != null){
-
+        if (dataSnapshot.getValue() == null && user != null){
+            UserProfile userProfile = new UserProfile();
+            userProfile.setUserid(user.getUid());
+            userProfile.setAllowPhoto(true);
+            userProfile.setUsername(user.getDisplayName());
+            userProfile.setEmail(user.getEmail());
             if (user.getPhotoUrl() != null) {
-                getUserReference(user.getUid())
-                        .child("photoUrl")
-                        .setValue(user.getPhotoUrl().toString());
+                userProfile.setPhotoUrl(user.getPhotoUrl().toString());
             }
-
-            getUserReference(user.getUid())
-                    .child("email")
-                    .setValue(user.getEmail());
-
+            getUserReference(user.getUid()).setValue(userProfile);
+            userProfileListener.onUserInfoReady(userProfile);
         }
-        if (userProfileListener != null && dataSnapshot.getValue() != null){
+        else if (dataSnapshot.getValue() != null && userProfileListener != null){
             UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
             if (userProfile != null) {
                 userProfile.setUserid(dataSnapshot.getKey());
