@@ -3,16 +3,12 @@ Aplicación móvil desarrollada para Android. Tiene el propósito de mantener in
 
 
 
-###Notas de Versión:
+### Notas de Versión:
 
 * Consultar la información general del congreso.
-
 * Consutar el cronograma de eventos, así como información específica de cada uno.  
-
 * Consultar personas que participan de manera activa como expositores, ponentes u organizadores. 
-
 * Informarse con las noticias del congreso.
-
 * Socializar con los demás participantes por medio de un chat.
 
 
@@ -21,7 +17,6 @@ Aplicación móvil desarrollada para Android. Tiene el propósito de mantener in
 * Algunos dispositivos no dejan subir imagenes (1 de 10)
 * Dispositivos sin SD Card no pueden descargar las imagenes de los eventos
 * El Login de Facebook no funciona en todos los dispositivos (3 de 5)
-
 
 
 ### Cosas Pendientes:
