@@ -6,8 +6,12 @@ import android.support.v14.preference.SwitchPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
+import edepa.app.NavigationActivity;
 import edepa.cloud.Cloud;
 import edepa.cloud.CloudNavigation;
 import edepa.modelview.R;
@@ -18,6 +22,7 @@ public class SettingsAdminFragment extends PreferenceFragmentCompat implements
         CloudNavigation.CloudNavigationPreferencesListener {
 
     private SharedPreferences preferences;
+    public static final String ADMINS_KEY = "admins";
 
     /**
      * {@inheritDoc}
@@ -41,6 +46,13 @@ public class SettingsAdminFragment extends PreferenceFragmentCompat implements
         CloudNavigation cloudNavigation = new CloudNavigation();
         cloudNavigation.setNavigationPreferencesListener(this);
         cloudNavigation.requestNavigationSections();
+
+        findPreference(ADMINS_KEY).setOnPreferenceClickListener(preference -> {
+            if (getActivity() != null && getActivity() instanceof NavigationActivity)
+                return ((NavigationActivity) getActivity()).openAdminsFragment();
+            else Log.e(getClass().getSimpleName(), "Admins fragment was not open");
+            return false;
+        });
     }
 
     /**

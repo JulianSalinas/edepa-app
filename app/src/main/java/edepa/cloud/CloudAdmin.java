@@ -43,6 +43,12 @@ public class CloudAdmin extends CloudValue {
             adminReference.addListenerForSingleValueEvent(this);
     }
 
+    public void requestAdminPermission(String uid){
+        Cloud.getInstance()
+                .getReference(Cloud.ADMINS).child(uid)
+                .addListenerForSingleValueEvent(this);
+    }
+
     /**
      * Obtiene una referencia a la sección de administradores
      * para revisar si el usuario actual está presente

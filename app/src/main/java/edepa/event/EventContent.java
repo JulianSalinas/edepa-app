@@ -32,7 +32,7 @@ import static edepa.settings.SettingsLanguage.SPANISH;
 public class EventContent extends EventHostFragment
         implements ValueEventListener, DownloadService.DownloadListener  {
 
-    private static final int MAX_ABSTRACT_LINES = 5;
+    private static final int MAX_ABSTRACT_LINES = 10;
 
     @BindView(R.id.event_agenda_date_rage)
     TextView eventAgendaDateRange;

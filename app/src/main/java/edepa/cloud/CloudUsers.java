@@ -45,10 +45,11 @@ public class CloudUsers extends CloudValue {
     public void onDataChange(DataSnapshot dataSnapshot) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null && dataSnapshot.getValue() == null){
-
             getUserReference(user.getUid())
                     .child("username")
-                    .setValue(getDefaultUsername(user.getDisplayName()));
+                    .setValue(user.getDisplayName());
+        }
+        if (user != null){
 
             if (user.getPhotoUrl() != null) {
                 getUserReference(user.getUid())
@@ -56,9 +57,16 @@ public class CloudUsers extends CloudValue {
                         .setValue(user.getPhotoUrl().toString());
             }
 
+            getUserReference(user.getUid())
+                    .child("email")
+                    .setValue(user.getEmail());
         }
-        else if (userProfileListener != null && dataSnapshot.getValue() != null){
-            userProfileListener.onUserInfoReady(dataSnapshot.getValue(UserProfile.class));
+        if (userProfileListener != null && dataSnapshot.getValue() != null){
+            UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
+            if (userProfile != null) {
+                userProfile.setUserid(dataSnapshot.getKey());
+                userProfileListener.onUserInfoReady(userProfile);
+            }
         }
     }
 

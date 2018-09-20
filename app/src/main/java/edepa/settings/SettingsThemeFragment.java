@@ -14,8 +14,8 @@ import edepa.app.NavigationActivity;
 import com.afollestad.aesthetic.Aesthetic;
 import com.kunzisoft.androidclearchroma.ChromaPreferenceFragmentCompat;
 
-import static edepa.model.Preferences.PHOTO_KEY;
 import static edepa.model.Preferences.THEME_KEY;
+import static edepa.model.Preferences.USE_PHOTO_KEY;
 
 
 public class SettingsThemeFragment extends ChromaPreferenceFragmentCompat
@@ -87,7 +87,7 @@ public class SettingsThemeFragment extends ChromaPreferenceFragmentCompat
 
         NavigationActivity activity = (NavigationActivity) getActivity();
 
-        if ((key.equals(THEME_KEY) || key.equals(PHOTO_KEY)) && activity != null) {
+        if ((key.equals(THEME_KEY) || key.equals(USE_PHOTO_KEY)) && activity != null) {
             activity.recreate();
         }
 

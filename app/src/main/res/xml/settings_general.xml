@@ -8,14 +8,16 @@
         android:title="@string/text_notifications" />
 
     <SwitchPreference
+        android:visibility="gone"
         android:defaultValue="true"
         android:key="FAVORITES_KEY"
         android:summary="@string/text_favorites_notifications_content"
         android:title="@string/text_favorites_notifications" />
 
     <SwitchPreference
+        android:visibility="gone"
         android:defaultValue="true"
-        android:key="PHOTO_KEY"
+        android:key="ALLOW_PHOTO_KEY"
         android:summary="@string/text_profile_photo_content"
         android:title="@string/text_profile_photo" />
 

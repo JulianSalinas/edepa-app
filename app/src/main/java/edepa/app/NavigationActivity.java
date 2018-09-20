@@ -1,5 +1,6 @@
 package edepa.app;
 
+import edepa.admin.AdminsFragment;
 import edepa.cloud.CloudAdmin;
 import edepa.modelview.R;
 import edepa.cloud.Cloud;
@@ -472,6 +473,15 @@ public class NavigationActivity extends MainActivity implements
         String tag = "ADMIN_SETTINGS_FRAGMENT";
         Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
         Fragment frag = temp != null ? temp : new SettingsAdminFragment();
+        pendingRunnable = () -> setFragmentOnScreen(frag, tag);
+        runPendingRunnable();
+        return false;
+    }
+
+    public boolean openAdminsFragment(){
+        String tag = "ADMIN_FRAGMENT";
+        Fragment temp = getSupportFragmentManager().findFragmentByTag(tag);
+        Fragment frag = temp != null ? temp : new AdminsFragment();
         pendingRunnable = () -> setFragmentOnScreen(frag, tag);
         runPendingRunnable();
         return false;

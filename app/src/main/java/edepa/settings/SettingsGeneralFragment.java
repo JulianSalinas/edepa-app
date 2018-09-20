@@ -2,23 +2,26 @@ package edepa.settings;
 
 import android.os.Bundle;
 import android.view.View;
+import android.support.v14.preference.SwitchPreference;
+import android.support.v7.preference.EditTextPreference;
+
 import android.widget.Toast;
 import android.content.SharedPreferences;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
-import edepa.app.MainActivity;
-import edepa.app.NavigationActivity;
-import edepa.cloud.CloudUsers;
-import edepa.model.UserProfile;
 import edepa.modelview.R;
+import edepa.cloud.Cloud;
+import edepa.cloud.CloudUsers;
+import edepa.app.MainActivity;
 import edepa.model.Preferences;
 import edepa.minilibs.DialogFancy;
-import edepa.services.FavoritesService;
+import edepa.app.NavigationActivity;
 
-import static edepa.model.Preferences.FAVORITES_KEY;
 import static edepa.model.Preferences.USER_KEY;
 import static edepa.model.Preferences.LANG_KEY;
+import static edepa.model.Preferences.FAVORITES_KEY;
+import static edepa.model.Preferences.ALLOW_PHOTO_KEY;
 
 /**
  * Las preferencias que se cambian en el fragmento son automáticamente
@@ -39,15 +42,6 @@ public class SettingsGeneralFragment extends PreferenceFragmentCompat
 
     /**
      * {@inheritDoc}
-     */
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setDividerHeight(1);
-    }
-
-    /**
-     * {@inheritDoc}
      * El fondo es cambiado a blanco para no desentonar con el color de la
      * fuente #R.color.app_primary_font
      */
@@ -55,6 +49,21 @@ public class SettingsGeneralFragment extends PreferenceFragmentCompat
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         view.setBackgroundColor(getResources().getColor(R.color.app_white));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setDividerHeight(1);
+        CloudUsers cloudUsers = new CloudUsers();
+        cloudUsers.setUserProfileListener(userProfile -> {
+            ((SwitchPreference) findPreference(ALLOW_PHOTO_KEY))
+                    .setChecked(userProfile.getAllowPhoto());
+        });
+        cloudUsers.requestCurrentUserInfo();
     }
 
     /**
@@ -91,17 +100,21 @@ public class SettingsGeneralFragment extends PreferenceFragmentCompat
         NavigationActivity activity = (NavigationActivity) getActivity();
 
         // Se ha cambiado el lenguage
-        if (key.equals(LANG_KEY)) showLanguageChangeDialog();
+        if (key.equals(LANG_KEY)) {
+            showLanguageChangeDialog();
+        }
 
         // Se ha cambiado el nombre de usuario
         else if (key.equals(USER_KEY)){
             String msg = getString(R.string.text_username_changed);
             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-            CloudUsers cloudUsers = new CloudUsers();
-            cloudUsers.setUserProfileListener(userProfile -> {
-                if (activity != null) activity.showWelcomeMessage(userProfile);
-            });
-            cloudUsers.requestCurrentUserInfo();
+            String username = ((EditTextPreference) findPreference(USER_KEY)).getText();
+            if (activity != null) {
+                Cloud.getInstance().getReference(Cloud.USERS)
+                        .child(Cloud.getInstance().getUserId())
+                        .child("username").setValue(username);
+                activity.showWelcomeMessage(username);
+            }
         }
 
         else if (key.equals(FAVORITES_KEY)){
@@ -111,6 +124,13 @@ public class SettingsGeneralFragment extends PreferenceFragmentCompat
             else if (activity != null){
                 activity.cancelDispatcher();
             }
+        }
+
+        else if (key.equals(ALLOW_PHOTO_KEY)){
+            boolean allow = sharedPreferences.getBoolean(ALLOW_PHOTO_KEY, true);
+            Cloud.getInstance().getReference(Cloud.USERS)
+                    .child(Cloud.getInstance().getUserId())
+                    .child("allowPhoto").setValue(allow);
         }
 
     }

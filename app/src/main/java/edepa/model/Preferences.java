@@ -15,19 +15,13 @@ public class Preferences {
      */
     public static final String LANG_KEY = "LANG_KEY";
     public static final String USER_KEY = "USER_KEY";
-    public static final String PHOTO_KEY = "PHOTO_KEY";
+    public static final String USE_PHOTO_KEY = "USE_PHOTO_KEY";
+    public static final String ALLOW_PHOTO_KEY = "ALLOW_PHOTO_KEY";
 
     public static final String FIRST_USE_KEY = "FIRST_USE_KEY";
     public static final String FAVORITES_KEY = "FAVORITES_KEY";
     public static final String NOTIFICATIONS_KEY = "NOTIFICATIONS_KEY";
     public static final String THEME_KEY = "THEME_KEY";
-
-    /**
-     * Preferencias para activar o desactivar partes de la app
-     * NOTA: Las key tienen que coincidir con el nombre en la BD
-     */
-    public static final String PEOPLE_AVAILABLE_KEY = "PEOPLE";
-    public static final String COMMENTS_AVAILABLE_KEY = "COMMENTS";
 
     /**
      * Preferencias que afectan la ejecución de la aplicación

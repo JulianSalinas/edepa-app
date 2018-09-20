@@ -3,6 +3,12 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <Preference
+        android:defaultValue="true"
+        android:key="admins"
+        android:summary="Selecciona cuales usuarios tienen permisos de administrador"
+        android:title="Administradores"/>
+
     <SwitchPreference
         android:defaultValue="true"
         android:key="info"

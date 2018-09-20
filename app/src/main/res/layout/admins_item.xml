@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/event_item_people"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/size_medium">
+
+    <ImageView
+        android:id="@+id/admins_item_avatar"
+        tools:src="@drawable/img_dropbox"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@null" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/size_medium"
+        android:layout_marginEnd="@dimen/size_medium">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/admins_item_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/test_name"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/admins_item_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textSize="@dimen/font_small"
+                tools:ignore="RelativeOverlap"
+                tools:text="@string/test_web_page" />
+
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/admins_item_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

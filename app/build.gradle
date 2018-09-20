@@ -121,7 +121,7 @@ dependencies {
 
     // Descargar archivos de imagenes y colocar imagenes
     implementation 'com.github.bumptech.glide:glide:4.7.1'
-    implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.24.0'
+    implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.25.0'
 
     // Butterknife kit
     implementation 'com.jakewharton:butterknife:8.8.1'

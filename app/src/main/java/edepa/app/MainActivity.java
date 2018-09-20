@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -64,10 +65,10 @@ import com.afollestad.aesthetic.BottomNavIconTextMode;
 
 import org.jetbrains.annotations.Nullable;
 
-import static edepa.model.Preferences.PHOTO_KEY;
 import static edepa.model.Preferences.USER_KEY;
 import static edepa.model.Preferences.FIRST_USE_KEY;
 import static android.support.v4.view.GravityCompat.START;
+import static edepa.model.Preferences.USE_PHOTO_KEY;
 import static edepa.settings.SettingsThemeFragment.ACCENT_COLOR;
 import static edepa.settings.SettingsThemeFragment.PRIMARY_COLOR;
 import static edepa.settings.SettingsThemeFragment.PRIMARY_DARK_COLOR;
@@ -330,8 +331,9 @@ public abstract class MainActivity extends AppCompatActivity
     public void bindProfileToInterface(){
         CloudUsers cloudUsers = new CloudUsers();
         cloudUsers.setUserProfileListener(userProfile -> {
-            showWelcomeMessage(userProfile);
+            showWelcomeMessage(userProfile.getUsername());
             showUserToolbarPhoto(userProfile);
+            Preferences.setPreference(this, USER_KEY, userProfile.getUsername());
         });
         cloudUsers.requestCurrentUserInfo();
     }
@@ -340,11 +342,11 @@ public abstract class MainActivity extends AppCompatActivity
      * bienvenida, para ello se toma el nombre de pila del usuario.
      * @see RegexSearcher#findFirstName(String)
      */
-    public void showWelcomeMessage(UserProfile userProfile) {
-        String username = userProfile.getUsername();
+    public void showWelcomeMessage(String username) {
+        username = RegexSearcher.findFirstName(username);
         String message = getResources().getString(R.string.text_welcome);
 
-        if (!username.equals("")) message += " " + username;
+        if (!"".equals(username)) message += " " + username;
 
         if (getNavigationView().getHeaderView(0) != null) {
             ((TextView) getNavigationView()
@@ -356,12 +358,12 @@ public abstract class MainActivity extends AppCompatActivity
 
     public void showUserToolbarPhoto(UserProfile userProfile){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean usePhoto = prefs.getBoolean(PHOTO_KEY, false);
+        boolean usePhoto = prefs.getBoolean(USE_PHOTO_KEY, true);
         if (usePhoto) showUserPhoto(userProfile);
     }
 
     public void showUserPhoto(UserProfile userProfile){
-        if(getSupportActionBar() != null) {
+        if(getSupportActionBar() != null && !isFinishing()) {
             getSupportActionBar().setDisplayUseLogoEnabled(true);
 
             SimpleTarget<Drawable> target = new SimpleTarget<Drawable>() {
@@ -378,7 +380,10 @@ public abstract class MainActivity extends AppCompatActivity
 
             Glide.with(this)
                     .load(userProfile.getPhotoUrl())
-                    .apply(new RequestOptions().circleCrop())
+                    .apply(new RequestOptions()
+                            .circleCrop()
+                            .placeholder(R.drawable.img_user)
+                            .error(R.drawable.img_user))
                     .into(target);
         }
     }

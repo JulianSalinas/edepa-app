@@ -242,5 +242,6 @@
     <string name="text_admin">Administrador</string>
     <string name="text_rate_app">Calificar aplicación</string>
     <string name="text_send_us_a_comment">Envianos un comentario</string>
+    <string name="text_admins">Administradores</string>
 
 </resources>

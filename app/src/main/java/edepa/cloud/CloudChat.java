@@ -1,5 +1,7 @@
 package edepa.cloud;
 
+import android.util.Log;
+
 import edepa.minilibs.RegexSearcher;
 import edepa.model.Message;
 import edepa.model.Notice;
@@ -125,6 +127,9 @@ public class CloudChat extends CloudChild {
         if (message != null){
             message.setKey(dataSnapshot.getKey());
             String sender = message.getUserid();
+            if(sender == null){
+                Log.e("Algo no esta bien",  "me");
+            }
             String receiver = Cloud.getInstance().getUserId();
             message.setFromCurrentUser(sender.equals(receiver));
             callbacks.addMessage(message);

@@ -44,17 +44,26 @@ public class CommentHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(Comment comment){
+
         ButterKnife.bind(this, itemView);
         itemContent.setText(TextHighlighter.decodeSpannables(comment.getContent()));
         itemTimeAgo.setText(timeGenerator.getTimeAgo(comment.getTime()));
         Linkify.addLinks(itemContent, Linkify.ALL);
+
         CloudUsers cloudUsers = new CloudUsers();
         cloudUsers.setUserProfileListener(userProfile -> {
             itemUsername.setText(userProfile.getUsername());
+
             Glide.with(itemView)
-                    .load(userProfile.getPhotoUrl())
-                    .apply(new RequestOptions().circleCrop())
+                    .load(userProfile.getAllowPhoto() ?
+                            userProfile.getPhotoUrl() :
+                            R.drawable.img_user)
+                    .apply(new RequestOptions()
+                            .circleCrop()
+                            .placeholder(R.drawable.img_user)
+                            .error(R.drawable.img_user))
                     .into(itemAvatar);
+
         });
         cloudUsers.requestUserInfo(comment.getUserid());
     }
