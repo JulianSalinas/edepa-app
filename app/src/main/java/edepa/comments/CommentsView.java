@@ -23,6 +23,9 @@ public class CommentsView
     @BindView(R.id.comments_recycler)
     RecyclerView commentsRecycler;
 
+    @BindView(R.id.comments_empty)
+    View commentsEmpty;
+
     protected List<Comment> comments;
 
     protected CommentsAdapter commentsAdapter;
@@ -57,6 +60,8 @@ public class CommentsView
                 .getResources().getDrawable(R.drawable.util_decorator));
         commentsRecycler.addItemDecoration(decoration);
 
+        commentsEmpty.setVisibility(comments.size() <= 0 ? View.VISIBLE : View.GONE);
+
     }
 
     @Override
@@ -64,6 +69,7 @@ public class CommentsView
         if (!comments.contains(comment)){
             comments.add(comment);
             commentsAdapter.notifyItemInserted(comments.size() - 1);
+            commentsEmpty.setVisibility(comments.size() <= 0 ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -73,6 +79,7 @@ public class CommentsView
         if (index != -1){
             comments.remove(index);
             commentsAdapter.notifyItemRemoved(index);
+            commentsEmpty.setVisibility(comments.size() <= 0 ? View.VISIBLE : View.GONE);
         }
     }
 

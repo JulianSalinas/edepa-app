@@ -69,6 +69,11 @@
             android:layout_height="1dp"
             android:background="@color/app_accent_light"/>
 
+        <include
+            android:visibility="gone"
+            android:id="@+id/comments_empty"
+            layout="@layout/comments_empty" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/comments_recycler"
             android:layout_width="match_parent"

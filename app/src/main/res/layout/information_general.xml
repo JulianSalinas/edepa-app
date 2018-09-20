@@ -103,7 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size_default"
-            android:text="@string/text_lorem_ipsum" />
+            tools:text="@string/text_lorem_ipsum" />
 
         <View
             android:layout_width="match_parent"

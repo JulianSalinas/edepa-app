@@ -45,6 +45,11 @@
             android:title="@string/nav_palette" />
 
         <item
+            android:id="@+id/nav_admin"
+            android:icon="@drawable/ic_android"
+            android:title="@string/text_admin" />
+
+        <item
             android:id="@+id/nav_exit"
             android:icon="@drawable/ic_exit"
             android:title="@string/nav_exit" />

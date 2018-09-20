@@ -42,7 +42,10 @@ public enum WallpaperLocation {
             R.drawable.tec_laboratorio_h),
 
     TIERRA_MEDIA("(((labo?r?a?t?o?r?i?o)|(laimi?))\\s+b3\\s*10?)|((tierr\\w+)|(medi\\w+))",
-            R.drawable.tec_tierra_media);
+            R.drawable.tec_tierra_media),
+
+    TEC_SEDE_CARTAGO("(tecn?o?l?o?g?i?c?o?[\\s+]?)|(sede((\\w|\\s)+)?cartago)",
+            R.drawable.tec_sede_cartago);
 
     private final String regex;
 
