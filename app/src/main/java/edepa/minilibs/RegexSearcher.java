@@ -111,6 +111,8 @@ public class RegexSearcher {
      * @return Primer término encontrado en el nombre completo
      */
     public static String findFirstName(String completeName){
+        if (completeName == null || completeName.isEmpty())
+            return null;
         Matcher m = FIRST_NAME_PATTERN.matcher(completeName);
         return m.find() ? m.group(0) : null;
     }

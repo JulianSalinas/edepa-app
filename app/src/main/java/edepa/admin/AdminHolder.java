@@ -53,9 +53,10 @@ public class AdminHolder extends RecyclerView.ViewHolder
         this.userProfile = userProfile;
         itemUsername.setText(userProfile.getUsername());
         itemEmail.setText(userProfile.getEmail());
+        boolean allowPhoto = userProfile.getAllowPhoto() != null && userProfile.getAllowPhoto();
 
-        Glide.with(itemView)
-                .load(userProfile.getAllowPhoto() ?
+        Glide.with(itemView.getContext().getApplicationContext())
+                .load(allowPhoto ?
                         userProfile.getPhotoUrl() :
                         R.drawable.img_user)
                 .apply(new RequestOptions()

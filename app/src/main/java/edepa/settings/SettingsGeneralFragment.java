@@ -61,7 +61,7 @@ public class SettingsGeneralFragment extends PreferenceFragmentCompat
         CloudUsers cloudUsers = new CloudUsers();
         cloudUsers.setUserProfileListener(userProfile -> {
             ((SwitchPreference) findPreference(ALLOW_PHOTO_KEY))
-                    .setChecked(userProfile.getAllowPhoto());
+                    .setChecked(userProfile.getAllowPhoto() == null || userProfile.getAllowPhoto());
         });
         cloudUsers.requestCurrentUserInfo();
     }

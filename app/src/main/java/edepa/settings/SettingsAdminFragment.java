@@ -11,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import edepa.app.NavigationActivity;
 import edepa.cloud.Cloud;
 import edepa.cloud.CloudNavigation;
@@ -92,8 +95,12 @@ public class SettingsAdminFragment extends PreferenceFragmentCompat implements
      */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        boolean available = sharedPreferences.getBoolean(key, true);
-        Cloud.getInstance().getReference(Cloud.CONFIG).child(key).setValue(available);
+        String [] sections = {"info", "news", "chat", "people", "comments"};
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(sections));
+        if(list.contains(key)) {
+            boolean available = sharedPreferences.getBoolean(key, true);
+            Cloud.getInstance().getReference(Cloud.CONFIG).child(key).setValue(available);
+        }
     }
 
     @Override

@@ -53,9 +53,10 @@ public class CommentHolder extends RecyclerView.ViewHolder {
         CloudUsers cloudUsers = new CloudUsers();
         cloudUsers.setUserProfileListener(userProfile -> {
             itemUsername.setText(userProfile.getUsername());
+            boolean allowPhoto = userProfile.getAllowPhoto() != null && userProfile.getAllowPhoto();
 
-            Glide.with(itemView)
-                    .load(userProfile.getAllowPhoto() ?
+            Glide.with(itemView.getContext().getApplicationContext())
+                    .load(allowPhoto ?
                             userProfile.getPhotoUrl() :
                             R.drawable.img_user)
                     .apply(new RequestOptions()

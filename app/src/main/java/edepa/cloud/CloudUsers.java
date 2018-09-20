@@ -48,6 +48,11 @@ public class CloudUsers extends CloudValue {
             getUserReference(user.getUid())
                     .child("username")
                     .setValue(user.getDisplayName());
+
+            getUserReference(user.getUid())
+                    .child("allowPhoto")
+                    .setValue(true);
+
         }
         if (user != null){
 
@@ -60,6 +65,7 @@ public class CloudUsers extends CloudValue {
             getUserReference(user.getUid())
                     .child("email")
                     .setValue(user.getEmail());
+
         }
         if (userProfileListener != null && dataSnapshot.getValue() != null){
             UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);

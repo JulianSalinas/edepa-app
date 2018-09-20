@@ -233,7 +233,7 @@ public class ChatImageEditor extends CustomFragment {
         try {
             JSONObject args = new JSONObject();
             args.put(UpdateImageService.OBJECT_KEY, lastMessageKey);
-            String requestId = uploadRequest.dispatch();
+            String requestId = uploadRequest.startNow(getNavigationActivity());
             args.put(UpdateImageService.REQUEST_ID, requestId);
             args.put(UpdateImageService.CLOUD_TYPE, Cloud.CHAT);
             Preferences.setPreference(getNavigationActivity(), requestId, args.toString());

@@ -332,7 +332,7 @@ public abstract class MainActivity extends AppCompatActivity
         CloudUsers cloudUsers = new CloudUsers();
         cloudUsers.setUserProfileListener(userProfile -> {
             showWelcomeMessage(userProfile.getUsername());
-            showUserToolbarPhoto(userProfile);
+            showUserToolbarPhoto();
             Preferences.setPreference(this, USER_KEY, userProfile.getUsername());
         });
         cloudUsers.requestCurrentUserInfo();
@@ -356,13 +356,13 @@ public abstract class MainActivity extends AppCompatActivity
         }
     }
 
-    public void showUserToolbarPhoto(UserProfile userProfile){
+    public void showUserToolbarPhoto(){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean usePhoto = prefs.getBoolean(USE_PHOTO_KEY, true);
-        if (usePhoto) showUserPhoto(userProfile);
+        if (usePhoto) showUserPhoto();
     }
 
-    public void showUserPhoto(UserProfile userProfile){
+    public void showUserPhoto(){
         if(getSupportActionBar() != null && !isFinishing()) {
             getSupportActionBar().setDisplayUseLogoEnabled(true);
 
@@ -378,13 +378,16 @@ public abstract class MainActivity extends AppCompatActivity
 
             };
 
-            Glide.with(this)
-                    .load(userProfile.getPhotoUrl())
-                    .apply(new RequestOptions()
-                            .circleCrop()
-                            .placeholder(R.drawable.img_user)
-                            .error(R.drawable.img_user))
-                    .into(target);
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null && user.getPhotoUrl() != null){
+                Glide.with(getApplicationContext())
+                        .load(user.getPhotoUrl().toString())
+                        .apply(new RequestOptions()
+                                .circleCrop()
+                                .placeholder(R.drawable.img_user)
+                                .error(R.drawable.img_user))
+                        .into(target);
+            }
         }
     }
 

@@ -239,13 +239,13 @@
     <string name="text_write_here_a_comment">Write here a comment</string>
     <string name="text_press_to_go_to_comments">Go to comments</string>
     <string name="text_press_to_comment">Comment</string>
-    <string name="text_admin">Administrador</string>
-    <string name="text_rate_app">Calificar aplicación</string>
-    <string name="text_send_us_a_comment">Envianos un comentario</string>
-    <string name="text_admins">Administradores</string>
-    <string name="text_without_comments">No hay comentarios</string>
+    <string name="text_admin">Administrator</string>
+    <string name="text_rate_app">Rate application</string>
+    <string name="text_send_us_a_comment">Send us a comment</string>
+    <string name="text_admins">Administrators</string>
+    <string name="text_without_comments">There is no comments</string>
     <string name="text_hotel">Hotel</string>
-    <string name="text_distance">Distancia</string>
-    <string name="text_web_page">Página web</string>
+    <string name="text_distance">Distance</string>
+    <string name="text_web_page">Webpage</string>
 
 </resources>
