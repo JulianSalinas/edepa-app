@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.preference.Preference;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -44,6 +45,7 @@ import edepa.minilibs.TextHighlighter;
 import edepa.minilibs.TimeGenerator;
 import edepa.cloud.Cloud;
 import edepa.model.Notice;
+import edepa.model.Preferences;
 import edepa.model.Preview;
 import edepa.modelview.R;
 import edepa.custom.RecyclerAdapter;
@@ -132,6 +134,9 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
 
         @BindView(R.id.news_item_comments_amount)
         TextView itemCommentsAmount;
+
+        @BindView(R.id.news_item_comments_amount_container)
+        View itemCommentsAmountContainer;
 
         @BindView(R.id.preview_image)
         ImageView itemThumbnail;
@@ -313,19 +318,28 @@ public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Call
         }
 
         public void bindCommentsAmount(){
-            CloudComments.getNoticeCommentsQuery(notice)
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            commentsAmount = (int) dataSnapshot.getChildrenCount();
-                            itemCommentsAmount.setText(String.valueOf(commentsAmount));
-                        }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+            if (Preferences.getBooleanPreference(context, Preferences.COMMENTS_KEY)){
+                itemCommentsAmountContainer.setVisibility(VISIBLE);
+            }
+            else {
+                itemCommentsAmountContainer.setVisibility(GONE);
+            }
+            if (itemCommentsAmountContainer.getVisibility() == VISIBLE) {
+                CloudComments.getNoticeCommentsQuery(notice)
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                commentsAmount = (int) dataSnapshot.getChildrenCount();
+                                itemCommentsAmount.setText(String.valueOf(commentsAmount));
+                            }
 
-                        }
-            });
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+            }
         }
 
         /**

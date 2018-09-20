@@ -33,4 +33,10 @@
         android:summary="Muestra la sección de expositores, así como, la lista expecífica de estos para cada evento del cronograma"
         android:title="Expositores" />
 
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="comments"
+        android:summary="Muestra la sección de expositores, así como, la lista expecífica de estos para cada evento del cronograma"
+        android:title="@string/text_comments" />
+
 </PreferenceScreen>

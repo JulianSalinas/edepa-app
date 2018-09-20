@@ -1,11 +1,13 @@
 package edepa.event;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -35,6 +37,7 @@ import edepa.custom.WallpaperGenerator;
 import edepa.model.Event;
 import edepa.model.EventType;
 
+import edepa.model.Preferences;
 import edepa.modelview.R;
 
 import static android.media.tv.TvContract.AUTHORITY;
@@ -68,6 +71,9 @@ public class EventFragment extends EventHostFragment
 
     @BindView(R.id.event_emphasis_view)
     View emphasisView;
+
+    @BindView(R.id.button_comments)
+    View buttonComments;
 
     @BindView(R.id.event_view_pager)
     ViewPager eventViewPager;
@@ -198,6 +204,11 @@ public class EventFragment extends EventHostFragment
         bindType();
         bindDateRange();
         bindFavorites();
+
+        Context context = getNavigationActivity();
+        String key = Preferences.COMMENTS_KEY;
+        boolean visible = Preferences.getBooleanPreference(context, key);
+        buttonComments.setVisibility(visible ? VISIBLE : GONE);
     }
 
     private void bindType(){
@@ -315,7 +326,9 @@ public class EventFragment extends EventHostFragment
 
         @Override
         public int getCount() {
-            return 2;
+            return Preferences.getBooleanPreference(
+                    EventFragment.this.getNavigationActivity(),
+                    Preferences.COMMENTS_KEY) ? 2 : 1;
         }
 
         @Override

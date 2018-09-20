@@ -1,5 +1,6 @@
 package edepa.event;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import edepa.minilibs.ReadMoreOption;
 import edepa.minilibs.TimeConverter;
 
 import edepa.model.Event;
+import edepa.model.Preferences;
 import edepa.modelview.R;
 import edepa.services.DownloadService;
 import edepa.settings.SettingsLanguage;
@@ -52,6 +54,9 @@ public class EventContent extends EventHostFragment
     @BindView(R.id.event_item_people)
     View eventPeopleView;
 
+    @BindView(R.id.event_comments_view)
+    View eventCommentsView;
+
     @BindView(R.id.event_title)
     TextView eventTitle;
 
@@ -79,6 +84,11 @@ public class EventContent extends EventHostFragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         updateEventView();
+
+        Context context = getNavigationActivity();
+        String key = Preferences.COMMENTS_KEY;
+        boolean visible = Preferences.getBooleanPreference(context, key);
+        eventCommentsView.setVisibility(visible ? VISIBLE : GONE);
     }
 
     @OnClick(R.id.event_comments_view)

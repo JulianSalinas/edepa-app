@@ -51,7 +51,7 @@ exports.pushNotification = functions.database.ref('/edepa5/news/{pushId}')
         const payload = {
             notification: {
                 title: 'Nueva noticia',
-                body: data.content || data.title || 'Imagen',
+                body: data.title || data.content || 'Imagen',
                 sound: "default"
             }, data: { news: 'news' }
         };
@@ -63,7 +63,7 @@ exports.pushNotification = functions.database.ref('/edepa5/news/{pushId}')
             timeToLive: 60 * 60 * 24
         };
 
-        admin.messaging().sendToTopic("news", payload, options)
+        return admin.messaging().sendToTopic("news", payload, options)
         .then(function(response){
             console.log('Succesfullt sent notification: ', response);
         })
@@ -95,7 +95,7 @@ exports.messageNotification = functions.database.ref('/edepa5/chat/{pushId}')
             timeToLive: 60 * 60 * 24
         };
 
-        admin.messaging().sendToTopic("chat", payload, options)
+        return admin.messaging().sendToTopic("chat", payload, options)
         .then(function(response){
             console.log('Succesfull sent message notification: ', response);
         })

@@ -22,6 +22,7 @@ public class Preferences {
     public static final String FAVORITES_KEY = "FAVORITES_KEY";
     public static final String NOTIFICATIONS_KEY = "NOTIFICATIONS_KEY";
     public static final String THEME_KEY = "THEME_KEY";
+    public static final String COMMENTS_KEY = "comments";
 
     /**
      * Preferencias que afectan la ejecución de la aplicación
