@@ -50,7 +50,8 @@
     <string name="text_input">Escribe aquí</string>
     <string name="text_exhibitors">Expositores</string>
     <string name="text_conference">Conferencias</string>
-    <string name="text_presentations">Presentación</string>
+    <string name="text_presentations">Ponencias</string>
+    <string name="text_presentation">Presentación</string>
 
     <string name="text_map">Mapa</string>
     <string name="text_search">Buscar</string>
@@ -247,5 +248,8 @@
     <string name="text_send_us_a_comment">Envianos un comentario</string>
     <string name="text_admins">Administradores</string>
     <string name="text_without_comments">No hay comentarios</string>
+    <string name="text_hotel">Hotel</string>
+    <string name="text_distance">Distancia</string>
+    <string name="text_web_page">Página web</string>
 
 </resources>

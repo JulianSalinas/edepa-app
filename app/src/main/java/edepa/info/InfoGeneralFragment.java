@@ -84,7 +84,7 @@ public class InfoGeneralFragment extends MapFragment {
     /**
      * Abre en un fragmento aparte el croquis de la sede
      */
-    @OnClick(R.id.map_icon)
+    @OnClick({R.id.map_icon, R.id.button_see_minimap})
     public void expandMiniMap(){
         if(miniMap == null) miniMap = new MinimapFragment();
         setFragmentOnScreen(miniMap, "MINIMAP");

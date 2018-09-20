@@ -60,21 +60,20 @@
                             android:layout_height="56dp"
                             android:contentDescription="@null"
                             android:cropToPadding="true"
-                            android:src="@drawable/ic_edepa"
-                            android:tint="@color/app_primary_font" />
+                            android:src="@drawable/ic_edepa" />
 
                     </FrameLayout>
 
                     <TextView
                         android:id="@+id/name_text"
-                        android:gravity="center"
-                        android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_marginBottom="@dimen/size_smallest"
-                        tools:text="@string/test_congress"
+                        android:gravity="center"
+                        android:textAppearance="@style/TextAppearance.Title.Expanded"
                         android:textColor="@color/app_primary_font"
-                        android:textAppearance="@style/TextAppearance.Title.Expanded" />
+                        tools:text="@string/test_congress" />
 
                 </LinearLayout>
 
@@ -83,15 +82,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_alignParentBottom="true"
-                    android:background="#96ffffff"
+                    android:background="#ffffff"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TabLayout
                         android:id="@+id/tab_layout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:tabSelectedTextColor="@color/app_accent"
-                        app:tabTextColor="@color/app_primary_font"
+                        app:tabSelectedTextColor="@color/app_primary_font"
+                        app:tabTextColor="#98565656"
+                        app:tabIndicatorColor="?colorAccent"
                         android:tag=":aesthetic_ignore">
 
                         <android.support.design.widget.TabItem
@@ -118,8 +118,6 @@
         android:id="@+id/congress_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/app_white"
-        android:paddingTop="@dimen/size_medium"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
     </android.support.v4.view.ViewPager>
 

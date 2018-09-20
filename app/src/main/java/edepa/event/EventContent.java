@@ -16,6 +16,7 @@ import butterknife.OnClick;
 import edepa.cloud.CloudEvents;
 import edepa.custom.CustomFragment;
 import edepa.minilibs.ReadMoreOption;
+import edepa.minilibs.TextHighlighter;
 import edepa.minilibs.TimeConverter;
 
 import edepa.model.Event;
@@ -160,18 +161,7 @@ public class EventContent extends EventHostFragment
         else {
             eventDetailAbstract.setVisibility(VISIBLE);
             eventAbstractContainer.setVisibility(VISIBLE);
-            ReadMoreOption readMoreOption = new ReadMoreOption
-                    .Builder(getNavigationActivity())
-                    .textLength(MAX_ABSTRACT_LINES, ReadMoreOption.TYPE_LINE)
-                    .moreLabel(R.string.text_show_more)
-                    .lessLabel(R.string.text_show_less)
-                    .moreLabelColorRes(R.color.app_accent)
-                    .lessLabelColorRes(R.color.app_accent)
-                    .labelUnderLine(true)
-                    .expandAnimation(true)
-                    .build();
-            readMoreOption.addReadMoreTo(eventDetailAbstract, getAbstract(event));
-            eventDetailAbstract.setText(getAbstract(event));
+            eventDetailAbstract.setText(TextHighlighter.decodeSpannables(getAbstract(event)));
         }
 
     }

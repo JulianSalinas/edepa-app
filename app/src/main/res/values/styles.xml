@@ -18,7 +18,7 @@
         <item name="preferenceTheme">@style/AppTheme.Settings</item>
         <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
 
-        <item name="android:windowBackground">@color/app_white</item>
+        <!--<item name="android:windowBackground">@color/app_white</item>-->
 
     </style>
 

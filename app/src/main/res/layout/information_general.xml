@@ -12,178 +12,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="@dimen/size_default"
-        android:paddingStart="@dimen/size_default"
-        android:paddingBottom="@dimen/size_default"
+        android:paddingTop="@dimen/size_medium"
+        android:paddingBottom="@dimen/size_medium"
+        android:paddingStart="@dimen/size_small"
+        android:paddingEnd="@dimen/size_small"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/size_default"
-            android:paddingBottom="@dimen/size_default"
-            tools:ignore="UseCompoundDrawables">
+        <include layout="@layout/information_card_date"/>
 
-            <ImageView
-                android:src="@drawable/ic_schedule"
-                android:layout_width="@dimen/size_icon"
-                android:layout_height="@dimen/size_icon"
-                android:layout_gravity="center"
-                android:layout_marginEnd="@dimen/size_small"
-                android:tint="@color/material_grey"
-                android:contentDescription="@null"/>
+        <include layout="@layout/information_card_content"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/text_date"
-                android:textStyle="bold"/>
+        <include layout="@layout/information_card_map"/>
 
-        </LinearLayout>
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/app_accent_light">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="50"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/size_small"
-                    android:text="@string/text_start"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="50"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/size_small"
-                    android:text="@string/text_end" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/start_text"
-                    android:layout_width="0dp"
-                    android:layout_weight="50"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/size_small"
-                    android:text="@string/test_app_date_start" />
-
-                <TextView
-                    android:id="@+id/end_text"
-                    android:layout_width="0dp"
-                    android:layout_weight="50"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/size_small"
-                    android:text="@string/test_app_date_start"/>
-
-            </TableRow>
-
-        </TableLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/size_default"
-            android:background="@color/app_accent_light" />
-
-        <TextView
-            android:id="@+id/description_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size_default"
-            tools:text="@string/text_lorem_ipsum" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/size_default"
-            android:background="@color/app_accent_light" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="0dp"
-                android:layout_weight="50"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/size_default"
-                android:paddingBottom="@dimen/size_default"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:src="@drawable/ic_location"
-                    android:layout_width="@dimen/size_icon"
-                    android:layout_height="@dimen/size_icon"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="@dimen/size_small"
-                    android:tint="@color/material_red"
-                    android:contentDescription="@null"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/text_location"
-                    android:textStyle="bold"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/map_icon"
-                android:layout_width="0dp"
-                android:layout_weight="50"
-                android:gravity="end"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                tools:ignore="UseCompoundDrawables">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="@dimen/size_small"
-                    android:text="@string/text_map"
-                    android:textSize="@dimen/font_small" />
-
-                <ImageView
-                    android:layout_width="@dimen/size_icon"
-                    android:layout_height="@dimen/size_icon"
-                    android:layout_gravity="center"
-                    android:background="@drawable/ic_map"
-                    android:backgroundTint="@color/material_grey"
-                    android:contentDescription="@null" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/location_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/size_default"
-            android:text="@string/test_location" />
-
-        <FrameLayout
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_gmap"
-            android:background="@drawable/img_minimap"/>
+        <include layout="@layout/information_card_minimap"/>
 
     </LinearLayout>
 

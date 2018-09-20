@@ -84,12 +84,6 @@ public class InfoFragment extends CustomFragment implements CloudCongress.Callba
 
     }
 
-    @Override
-    public void onDestroyView() {
-        cloud.disconnect();
-        super.onDestroyView();
-    }
-
     /**
      * Coloca toda el nombre del congreso
      * @param congress: Clase con la información del congreso

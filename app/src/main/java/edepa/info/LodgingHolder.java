@@ -12,6 +12,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edepa.app.MainActivity;
+import edepa.minilibs.ColorGenerator;
 import edepa.minilibs.DialogFancy;
 import edepa.minilibs.RegexSearcher;
 import edepa.model.Lodging;
@@ -28,9 +29,18 @@ public class LodgingHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.lodging_web)
     TextView lodgingWeb;
 
+    @BindView(R.id.lodging_emphasis_view)
+    View emphasisView;
+
+    @BindView(R.id.lodging_emphasis_view_tag)
+    View emphasisViewTag;
+
+    private ColorGenerator colorGenerator;
+
     public LodgingHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        colorGenerator = new ColorGenerator(itemView.getContext());
     }
 
     public void bind(Lodging lodging){
@@ -46,6 +56,11 @@ public class LodgingHolder extends RecyclerView.ViewHolder {
 
         Linkify.addLinks(lodgingWeb, Linkify.ALL);
         itemView.setOnClickListener(v -> openUrl(lodging.getWeb()));
+
+        int color = colorGenerator.getColor(lodging.getName());
+        emphasisView.setBackgroundColor(color);
+        emphasisViewTag.setBackgroundColor(color);
+
     }
 
     /**
