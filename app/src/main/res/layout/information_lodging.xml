@@ -1,37 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.NestedScrollView
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v7.widget.CardView
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scrollbars="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:layout_height="wrap_content"
+    app:cardElevation="1dp"
+    app:cardCornerRadius="@dimen/card_radius_default"
+    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="@color/app_white">
 
-    <FrameLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/lodging_recycler"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:id="@+id/lodging_emphasis_view"
+            android:background="@color/material_blue"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/size_medium"
-            android:scrollbars="vertical"
-            android:paddingEnd="@dimen/size_small"
-            android:paddingStart="@dimen/size_small"
-            android:nestedScrollingEnabled="false"
-            android:scrollbarStyle="outsideInset"
-            tools:listitem="@layout/information_lodging_item"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            android:layout_width="@dimen/size_icon_container_big">
 
-        <FrameLayout
-            android:visibility="gone"
-            android:id="@+id/events_empty_view"
+            <ImageView
+                android:src="@drawable/ic_business"
+                android:tint="@color/app_white"
+                android:layout_width="@dimen/size_icon"
+                android:layout_height="@dimen/size_icon"
+                android:layout_centerInParent="true"
+                android:contentDescription="@null"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:paddingTop="@dimen/size_default"
+            android:paddingBottom="@dimen/size_default"
+            android:paddingStart="@dimen/size_default"
+            android:paddingEnd="@dimen/size_default"
+            android:orientation="vertical">
 
-    </FrameLayout>
+            <TextView
+                android:id="@+id/lodging_emphasis_view_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size_smallest"
+                android:background="@color/material_blue"
+                android:padding="@dimen/size_smallest"
+                android:textSize="@dimen/font_small"
+                android:textColor="@color/app_white_font"
+                android:textAllCaps="true"
+                android:text="@string/text_web_page"
+                android:tag=":aesthetic_ignore"/>
 
-</android.support.v4.widget.NestedScrollView>
+            <TextView
+                android:id="@+id/lodging_web"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="@string/test_web_page"
+                android:textColorLink="@color/app_primary_font"/>
+
+            <View
+                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/size_medium"
+                android:layout_marginBottom="@dimen/size_small"
+                android:background="@color/app_accent_light" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/name_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_hotel"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/description_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test_app_date_start"
+                    android:fontFamily="sans-serif-light"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

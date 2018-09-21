@@ -1,7 +1,6 @@
 package edepa.custom;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 
 import edepa.model.Event;
 import edepa.minilibs.RegexSearcher;
@@ -38,7 +37,7 @@ public class WallpaperGenerator {
         // TODO: Retornar una por defecto.
         // TODO: Por ahora se colocar el accent de enfásis
         if (resource == NO_IMAGE_FOUND)
-            resource = R.drawable.img_pattern;
+            resource = R.drawable.pattern_white;
         return resource;
     }
 

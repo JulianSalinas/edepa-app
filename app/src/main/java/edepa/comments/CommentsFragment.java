@@ -2,18 +2,13 @@ package edepa.comments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.google.firebase.database.Query;
-
 import butterknife.BindView;
 import butterknife.OnClick;
-import edepa.custom.BaseFragment;
 import edepa.custom.CustomFragment;
-import edepa.model.Event;
 import edepa.modelview.R;
 
 public abstract class CommentsFragment
@@ -30,7 +25,7 @@ public abstract class CommentsFragment
 
     @Override
     public int getResource() {
-        return R.layout.comments_screen;
+        return R.layout.comments_screen_events;
     }
 
     @Override

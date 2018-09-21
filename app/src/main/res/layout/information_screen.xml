@@ -20,7 +20,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:expandedTitleTextAppearance="@android:color/transparent">
 
-            <include layout="@layout/app_pattern"/>
+            <include layout="@layout/util_pattern_white"/>
 
             <RelativeLayout
                 android:id="@+id/back_button"
@@ -89,9 +89,12 @@
                         android:id="@+id/tab_layout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_gravity="center"
                         app:tabSelectedTextColor="@color/app_primary_font"
                         app:tabTextColor="#98565656"
                         app:tabIndicatorColor="?colorAccent"
+                        app:tabMode="scrollable"
+                        app:tabGravity="center"
                         android:tag=":aesthetic_ignore">
 
                         <android.support.design.widget.TabItem

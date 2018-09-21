@@ -11,35 +11,35 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <include
-        layout="@layout/event_item_calendar"
+        layout="@layout/event_card_calendar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_columnWeight="1"
         android:layout_margin="@dimen/size_small"/>
 
     <include
-        layout="@layout/event_item_see_map"
+        layout="@layout/card_item_see_map"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_columnWeight="1"
         android:layout_margin="@dimen/size_small"/>
 
     <include
-        layout="@layout/event_item_people"
+        layout="@layout/event_card_people"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_columnWeight="1"
         android:layout_margin="@dimen/size_small"/>
 
     <include
-        layout="@layout/event_item_download"
+        layout="@layout/event_card_download"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_columnWeight="1"
         android:layout_margin="@dimen/size_small"/>
 
     <include
-        layout="@layout/event_item_comments"
+        layout="@layout/event_card_comments"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_columnWeight="1"

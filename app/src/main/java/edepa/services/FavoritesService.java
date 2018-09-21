@@ -67,7 +67,7 @@ public class FavoritesService extends JobService {
 //            }
 //        });
 //
-//        cloudFavorites.connect();
+//        cloudFavorites.connectLodging();
         Log.i(getClass().getSimpleName(), "miau!");
         return false; // Answers the question: "Is there still work going on?"
     }

@@ -1,5 +1,7 @@
 package edepa.info;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -8,13 +10,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-
 import butterknife.OnClick;
 import edepa.custom.CustomFragment;
-import edepa.cloud.Cloud;
 import edepa.cloud.CloudCongress;
 import edepa.modelview.R;
 import edepa.model.Congress;
@@ -30,7 +27,7 @@ public class InfoFragment extends CustomFragment implements CloudCongress.Callba
     TextView nameText;
 
     @BindView(R.id.congress_view_pager)
-    ViewPager viewPager;
+    ViewPager pager;
 
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
@@ -57,31 +54,16 @@ public class InfoFragment extends CustomFragment implements CloudCongress.Callba
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setToolbarVisibility(View.GONE);
-
         LodgingAdapter adapter = new LodgingAdapter();
+        pager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(pager);
+    }
 
-        Cloud.getInstance().getReference(Cloud.CONGRESS)
-                .child("lodging").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                int size = (int) dataSnapshot.getChildrenCount();
-                adapter.setHasLodging(size > 0);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
-
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    public void connectCloud(){
         cloud = new CloudCongress();
         cloud.setCallbacks(this);
         cloud.connect();
-
     }
 
     /**
@@ -94,35 +76,33 @@ public class InfoFragment extends CustomFragment implements CloudCongress.Callba
 
     public class LodgingAdapter extends FragmentPagerAdapter {
 
-        private boolean hasLodging = false;
-
         public LodgingAdapter() {
             super(InfoFragment.this.getChildFragmentManager());
         }
 
-        public void setHasLodging(boolean hasLodging) {
-            this.hasLodging = hasLodging;
-            tabLayout.setVisibility(hasLodging ? View.VISIBLE : View.GONE);
-        }
-
         @Override
         public int getCount() {
-            return hasLodging ? 2 : 1;
+            return 3;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return position == 0 ?
-                    getString(R.string.text_information) :
-                    getString(R.string.text_lodging);
+            if(position == 0)
+                return getString(R.string.text_information);
+            else if (position == 1)
+                return getString(R.string.text_lodging);
+            else
+                return getString(R.string.text_restaurants);
         }
 
         @Override
         public Fragment getItem(int position) {
             if (position == 0)
                 return new InfoGeneralFragment();
-            else
+            else if (position == 1)
                 return new InfoLodgingFragment();
+            else
+                return new InfoRestaurantsFragment();
         }
 
     }

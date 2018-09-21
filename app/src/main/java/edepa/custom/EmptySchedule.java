@@ -1,13 +1,12 @@
 package edepa.custom;
 
-import butterknife.OnClick;
 import edepa.modelview.R;
 
 public class EmptySchedule extends BaseFragment {
 
     @Override
     public int getResource() {
-        return R.layout.empty_schedule;
+        return R.layout.schedule_empty_schedule;
     }
 
     // @OnClick(R.id.add_event_button)

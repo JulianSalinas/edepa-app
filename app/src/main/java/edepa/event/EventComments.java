@@ -22,7 +22,7 @@ public class EventComments extends CommentsFragment {
 
     @Override
     public int getResource() {
-        return R.layout.comments_screen;
+        return R.layout.comments_screen_events;
     }
 
     /**

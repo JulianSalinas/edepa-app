@@ -3,10 +3,9 @@ package edepa.cloud;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.Query;
 
-import edepa.model.Event;
-import edepa.model.Lodging;
+import edepa.model.Place;
 
-public class CloudLodging extends CloudChild {
+public class CloudPlaces extends CloudChild {
 
     /**
      * Interfaz que permite recibir los destinos de la BD
@@ -18,30 +17,43 @@ public class CloudLodging extends CloudChild {
     }
 
     public interface Callbacks {
-        void addLocation(Lodging lodging);
-        void changeLocation(Lodging lodging);
-        void removeLocation(Lodging lodging);
+        void addLocation(Place place);
+        void changeLocation(Place place);
+        void removeLocation(Place place);
     }
 
     public static Query getLodgingQuery(){
         return Cloud.getInstance()
-                .getReference(Cloud.CONGRESS)
-                .child("lodging")
+                .getReference("lodging")
                 .orderByChild("name");
     }
 
-    public void connect(){
+    public static Query getRestaurantsQuery(){
+        return Cloud.getInstance()
+                .getReference("restaurants")
+                .orderByChild("name");
+    }
+
+    public void connectLodging(){
         getLodgingQuery().addChildEventListener(this);
     }
 
-    public void disconnect(){
+    public void disconnectLodging(){
         getLodgingQuery().removeEventListener(this);
+    }
+
+    public void connectRestaurants(){
+        getRestaurantsQuery().addChildEventListener(this);
+    }
+
+    public void disconnectRestaurants(){
+        getRestaurantsQuery().removeEventListener(this);
     }
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         super.onChildAdded(dataSnapshot, s);
-        Lodging lodging = dataSnapshot.getValue(Lodging.class);
+        Place lodging = dataSnapshot.getValue(Place.class);
         if (lodging != null){
             lodging.setKey(dataSnapshot.getKey());
             callbacks.addLocation(lodging);
@@ -51,7 +63,7 @@ public class CloudLodging extends CloudChild {
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
         super.onChildChanged(dataSnapshot, s);
-        Lodging lodging = dataSnapshot.getValue(Lodging.class);
+        Place lodging = dataSnapshot.getValue(Place.class);
         if (lodging != null){
             lodging.setKey(dataSnapshot.getKey());
             callbacks.changeLocation(lodging);
@@ -61,7 +73,7 @@ public class CloudLodging extends CloudChild {
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
         super.onChildRemoved(dataSnapshot);
-        Lodging lodging = dataSnapshot.getValue(Lodging.class);
+        Place lodging = dataSnapshot.getValue(Place.class);
         if (lodging != null){
             lodging.setKey(dataSnapshot.getKey());
             callbacks.removeLocation(lodging);

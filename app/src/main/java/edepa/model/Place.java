@@ -5,7 +5,11 @@ import android.os.Parcelable;
 
 import java.util.Objects;
 
-public class Lodging implements Parcelable {
+/**
+ * Esta clase se utiliza tanto para los hoteles como
+ * para los restaurantes
+ */
+public class Place implements Parcelable {
 
     private String key;
 
@@ -13,6 +17,11 @@ public class Lodging implements Parcelable {
      * Página web para hacer reservaciones
      */
     private String web;
+
+    /**
+     * Teléfono para reservaciones
+     */
+    private String telf;
 
     /**
      * Nombre del hotel, hospedaje, etc
@@ -25,7 +34,7 @@ public class Lodging implements Parcelable {
      */
     private String location;
 
-    public Lodging() {}
+    public Place() {}
 
     public String getKey() {
         return key;
@@ -41,6 +50,14 @@ public class Lodging implements Parcelable {
 
     public void setWeb(String web) {
         this.web = web;
+    }
+
+    public String getTelf() {
+        return telf;
+    }
+
+    public void setTelf(String telf) {
+        this.telf = telf;
     }
 
     public String getName() {
@@ -62,8 +79,8 @@ public class Lodging implements Parcelable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Lodging)) return false;
-        Lodging lodging = (Lodging) o;
+        if (!(o instanceof Place)) return false;
+        Place lodging = (Place) o;
         return Objects.equals(getKey(), lodging.getKey());
     }
 
@@ -81,28 +98,29 @@ public class Lodging implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.key);
         dest.writeString(this.web);
+        dest.writeString(this.telf);
         dest.writeString(this.name);
         dest.writeString(this.location);
     }
 
-    protected Lodging(Parcel in) {
+    protected Place(Parcel in) {
         this.key = in.readString();
         this.web = in.readString();
+        this.telf = in.readString();
         this.name = in.readString();
         this.location = in.readString();
     }
 
-    public static final Parcelable.Creator<Lodging> CREATOR = new Parcelable.Creator<Lodging>() {
+    public static final Creator<Place> CREATOR = new Creator<Place>() {
         @Override
-        public Lodging createFromParcel(Parcel source) {
-            return new Lodging(source);
+        public Place createFromParcel(Parcel source) {
+            return new Place(source);
         }
 
         @Override
-        public Lodging[] newArray(int size) {
-            return new Lodging[size];
+        public Place[] newArray(int size) {
+            return new Place[size];
         }
     };
-
 }
 

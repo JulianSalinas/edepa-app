@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/app_pattern"/>
+    <include layout="@layout/util_pattern_white"/>
 
     <FrameLayout
         android:layout_width="match_parent"

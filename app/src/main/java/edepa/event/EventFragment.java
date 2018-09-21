@@ -7,19 +7,16 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,9 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import edepa.app.NavigationActivity;
 import edepa.cloud.CloudFavorites;
-import edepa.info.MinimapFragment;
 import edepa.minilibs.BitmapSave;
 import edepa.minilibs.DialogFancy;
 import edepa.minilibs.TimeConverter;
@@ -40,7 +35,6 @@ import edepa.model.EventType;
 import edepa.model.Preferences;
 import edepa.modelview.R;
 
-import static android.media.tv.TvContract.AUTHORITY;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
@@ -269,18 +263,18 @@ public class EventFragment extends EventHostFragment
 
         // No se encontró imagen y se coloca el fondo por defecto
         if (resource == WallpaperGenerator.NO_IMAGE_FOUND) {
-            resource = R.drawable.img_pattern;
+            resource = R.drawable.pattern_white;
         }
 
         Drawable wallpaper = getResources().getDrawable(resource);
         toolbarImage.setImageDrawable(wallpaper);
 
         int fontColor = ContextCompat.getColor(
-                activity, resource == R.drawable.img_pattern ?
+                activity, resource == R.drawable.pattern_white ?
                 R.color.app_primary_font : R.color.app_white_font);
 
         ColorStateList fontColorList = ContextCompat.getColorStateList(
-                activity, resource == R.drawable.img_pattern ?
+                activity, resource == R.drawable.pattern_white ?
                 R.color.app_primary_font : R.color.app_white_font);
 
         buttonBack.setBackgroundTintList(fontColorList);
@@ -290,7 +284,7 @@ public class EventFragment extends EventHostFragment
         eventDetailDateRange.setTextColor(fontColor);
 
         boolean canBeSaved = wallpaper instanceof BitmapDrawable
-                && resource != R.drawable.img_pattern;
+                && resource != R.drawable.pattern_white;
         buttonSaveImage.setVisibility(canBeSaved ? VISIBLE : GONE);
     }
 

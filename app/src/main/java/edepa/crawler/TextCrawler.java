@@ -373,7 +373,7 @@ public class TextCrawler {
 		} catch (MalformedURLException e) {
 			System.out.println("Please input a valid URL");
 		} catch (IOException ioe) {
-			System.out.println("Can not connect to the URL");
+			System.out.println("Can not connectLodging to the URL");
 		}
 		return conn;
 	}

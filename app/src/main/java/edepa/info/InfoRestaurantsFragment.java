@@ -2,50 +2,46 @@ package edepa.info;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
-import java.util.ArrayList;
 
 import edepa.cloud.CloudPlaces;
 import edepa.modelview.R;
 
 
-public class InfoLodgingFragment extends InfoPlacesFragment {
+public class InfoRestaurantsFragment extends InfoPlacesFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         CloudPlaces cloud = new CloudPlaces();
         cloud.setCallbacks(this);
-        cloud.connectLodging();
+        cloud.connectRestaurants();
     }
 
     @Override
     public RecyclerView.Adapter instantiateAdapter() {
-        return new LodgingAdapter();
+        return new RestaurantsAdapter();
     }
 
-    public class LodgingAdapter extends RecyclerView.Adapter {
+    public class RestaurantsAdapter extends RecyclerView.Adapter {
 
         @Override
         public int getItemCount() {
             return places.size();
         }
 
-        @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new LodgingHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.information_lodging, parent, false));
+            return new RestaurantHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.information_restaurant, parent, false));
         }
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            LodgingHolder lodgingHolder = (LodgingHolder) holder;
-            lodgingHolder.bind(places.get(holder.getAdapterPosition()));
+            RestaurantHolder restaurantHolder = (RestaurantHolder) holder;
+            restaurantHolder.bind(places.get(holder.getAdapterPosition()));
         }
 
     }

@@ -19,7 +19,7 @@ public class CommentEditor extends DefaultDialog {
 
     @Override
     public int getResource() {
-        return R.layout.comment_editor;
+        return R.layout.comments_editor;
     }
 
     private CommentSender commentSender;

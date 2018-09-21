@@ -9,7 +9,7 @@ public class EmptyFavorites extends BaseFragment {
 
     @Override
     public int getResource() {
-        return R.layout.empty_favorites;
+        return R.layout.schedule_empty_favorites;
     }
 
     @OnClick(R.id.goto_button)

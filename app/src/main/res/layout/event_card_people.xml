@@ -24,7 +24,7 @@
             app:expansion_toggleOnClick="true">
 
             <!-- HEADER -->
-            <include layout="@layout/event_item_people_front"/>
+            <include layout="@layout/event_card_people_front"/>
 
         </com.github.florent37.expansionpanel.ExpansionHeader>
 
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent">
 
-            <include layout="@layout/event_item_people_back"/>
+            <include layout="@layout/event_card_people_back"/>
 
         </com.github.florent37.expansionpanel.ExpansionLayout>
 

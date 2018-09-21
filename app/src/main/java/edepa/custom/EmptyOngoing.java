@@ -9,7 +9,7 @@ public class EmptyOngoing extends BaseFragment {
 
     @Override
     public int getResource() {
-        return R.layout.empty_ongoing;
+        return R.layout.schedule_empty_ongoing;
     }
 
     @OnClick(R.id.refresh_button)

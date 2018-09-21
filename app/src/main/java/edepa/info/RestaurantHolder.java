@@ -14,12 +14,11 @@ import butterknife.ButterKnife;
 import edepa.app.MainActivity;
 import edepa.minilibs.ColorGenerator;
 import edepa.minilibs.DialogFancy;
-import edepa.minilibs.RegexSearcher;
 import edepa.model.Place;
 import edepa.modelview.R;
 
 
-public class LodgingHolder extends RecyclerView.ViewHolder {
+public class RestaurantHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.name_text)
     TextView nameText;
@@ -38,7 +37,7 @@ public class LodgingHolder extends RecyclerView.ViewHolder {
 
     private ColorGenerator colorGenerator;
 
-    public LodgingHolder(View itemView) {
+    public RestaurantHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         colorGenerator = new ColorGenerator(itemView.getContext());
