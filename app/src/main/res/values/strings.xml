@@ -201,7 +201,7 @@
     <string name="text_complete_update">Update completed</string>
     <string name="test_type_and_time">Conference from 8:00 a.m. to 10:00 a.m.</string>
     <string name="text_press_again_to_exit">Press again to exit</string>
-    <string name="text_see_map">See map</string>
+    <string name="text_see_map">Headquarters Map</string>
 
     <string name="text_of">of</string>
     <string name="text_show_more">show more</string>
@@ -249,5 +249,8 @@
     <string name="text_web_page">Webpage</string>
 
     <string name="text_restaurants">Restaurants</string>
+    <string name="text_phone">Phone</string>
+    <string name="text_call">Call</string>
+    <string name="text_open_map">Open Map</string>
 
 </resources>

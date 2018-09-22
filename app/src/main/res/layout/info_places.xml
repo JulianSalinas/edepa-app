@@ -17,13 +17,14 @@
             android:id="@+id/places_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/size_medium"
             android:scrollbars="vertical"
+            android:clipToPadding="true"
+            android:paddingTop="@dimen/size_medium"
             android:paddingEnd="@dimen/size_small"
             android:paddingStart="@dimen/size_small"
             android:nestedScrollingEnabled="false"
             android:scrollbarStyle="outsideInset"
-            tools:listitem="@layout/information_lodging"
+            tools:listitem="@layout/info_lodging"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     </FrameLayout>

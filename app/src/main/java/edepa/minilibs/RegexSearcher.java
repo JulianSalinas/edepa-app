@@ -73,6 +73,12 @@ public class RegexSearcher {
     private final static
     Pattern IS_PDF_PATTERN = Pattern.compile("(.*.pdf)");
 
+    private final static
+    Pattern LATITUDE_PATTERN = Pattern.compile("\\@(-?[\\d\\.]*)");
+
+    private final static
+    Pattern LONGITUDE_PATTERN = Pattern.compile("\\@[-?\\d\\.]*\\,([-?\\d\\.]*)");
+
     /**
      * Remueven tildes y cambia todos a minúsculas
      * @param str: String sin normalizar
@@ -139,6 +145,16 @@ public class RegexSearcher {
         return m.find() ? m.group(1) : null;
     }
 
+    public static double findLatitude(String placeUrl){
+        Matcher m = LATITUDE_PATTERN.matcher(placeUrl);
+        return m.find() ? Double.valueOf(m.group(1)) : 0.0;
+    }
+
+    public static double findLongitude(String placeUrl){
+        Matcher m = LONGITUDE_PATTERN.matcher(placeUrl);
+        return m.find() ? Double.valueOf(m.group(1)) : 0.0;
+    }
+
     public static boolean isDocumentFile(String fileUrl){
         Matcher m = IS_PDF_PATTERN.matcher(fileUrl);
         return m.find();
@@ -172,20 +188,6 @@ public class RegexSearcher {
             newQuery.append("(").append(str).append(")").append("|");
         newQuery.deleteCharAt(newQuery.length() - 1);
         return Pattern.compile(newQuery.toString(), Pattern.CASE_INSENSITIVE);
-    }
-
-    /**
-     * Utiliza el patrón {@link #BOLD_TEXT} para
-     * encontrar el dominio de una página
-     * @param text: Texto no vació
-     * @return Nombre del dominio de la página
-     */
-    public static ArrayList<MatchResult> findBoldText(String text){
-        text = RegexSearcher.normalize(text);
-        ArrayList<MatchResult> results = new ArrayList<>();
-        Matcher m = BOLD_TEXT.matcher(text);
-        while(m.find()) results.add(m.toMatchResult());
-        return results;
     }
 
     /**

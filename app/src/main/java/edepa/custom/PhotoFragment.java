@@ -117,7 +117,7 @@ public class PhotoFragment extends CustomFragment {
      * asincrona de forma que se puede usar la aplicación
      * mientras se descarga
      */
-    protected void loadAsyncImage(){
+    public void loadAsyncImage(){
         Glide.with(getNavigationActivity())
                 .load(imageUrl)
                 .apply(getRequestOptions(getContext()))

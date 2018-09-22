@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/info_place_map"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="@dimen/size_medium"
+        android:background="@color/app_accent_light" />
+
+    <Button
+        android:id="@+id/place_open_map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_open_map"
+        android:textColor="@color/app_white"
+        android:background="@color/material_blue"
+        android:tag=":aesthetic_ignore"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="@dimen/size_smallest"
+        android:background="@color/app_accent_light" />
+
+</LinearLayout>

@@ -17,14 +17,14 @@ import com.google.firebase.database.ValueEventListener;
  * Muestra el croquis o mapa (imagen) según una posición
  * ya fijada en firebase /config/minimap
  */
-public class MinimapFragment
+public class FullMinimapFragment
         extends PhotoFragment implements ValueEventListener {
 
     /**
      * Nombre de la clave donde se encuentra la imagen
      * en la BD Firebase
      */
-    private static final String IMG_KEY = "minimap";
+    public static final String IMG_KEY = "minimap";
 
     /**
      * {@inheritDoc}
@@ -46,7 +46,6 @@ public class MinimapFragment
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
         imageUrl = dataSnapshot.getValue(String.class);
-        setToolbarText(R.string.text_see_map);
         loadAsyncImage();
     }
 

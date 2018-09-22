@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 
 import com.google.firebase.database.ValueEventListener;
 
-import edepa.info.MinimapFragment;
+import edepa.info.FullMinimapFragment;
 import edepa.model.Event;
 import edepa.cloud.CloudEvents;
 import edepa.custom.CustomFragment;
@@ -74,7 +74,7 @@ public abstract class EventHostFragment
     }
 
     public void openMinimap(){
-        Fragment miniMap = new MinimapFragment();
+        Fragment miniMap = new FullMinimapFragment();
         setFragmentOnScreen(miniMap, "MINIMAP");
     }
 

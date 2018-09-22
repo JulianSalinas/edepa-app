@@ -39,7 +39,7 @@ public class InfoFragment extends CustomFragment implements CloudCongress.Callba
      */
     @Override
     public int getResource() {
-        return R.layout.information_screen;
+        return R.layout.info_screen;
     }
 
     /**

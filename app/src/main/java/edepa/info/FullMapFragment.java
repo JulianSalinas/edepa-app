@@ -1,7 +1,9 @@
 package edepa.info;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.OnLifecycleEvent;
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.os.Bundle;
 import android.widget.ProgressBar;
@@ -16,24 +18,28 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.List;
 
 import butterknife.BindView;
-import edepa.cloud.CloudCongress;
+import edepa.model.Event;
 import edepa.modelview.R;
-import edepa.model.Congress;
+import edepa.model.Location;
 import edepa.custom.CustomFragment;
 
 /**
  * Mapa que se muestra al presionar el mapa pequeño
  * del {@link InfoFragment}
  */
-public class MapFragment extends CustomFragment
-        implements OnMapReadyCallback, CloudCongress.Callbacks{
+public class FullMapFragment extends CustomFragment implements OnMapReadyCallback{
 
-    /**
-     * Información general del congreso
-     */
-    protected Congress congress;
+    public static final String TAG_KEY = "tag";
+    public static final String LOCATION_KEY = "location";
+
+    protected String tag;
+    protected Location location;
+
+    private boolean isStatic = false;
 
     /**
      * Soporte para colocar el mapa
@@ -62,10 +68,24 @@ public class MapFragment extends CustomFragment
      */
     @Override
     public int getResource() {
-        return R.layout.information_gmap;
+        return R.layout.util_map_screen;
     }
 
-    private CloudCongress cloudCongress;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+
+        if (args != null && args.containsKey(LOCATION_KEY)){
+            location = args.getParcelable(LOCATION_KEY);
+            isStatic = true;
+        }
+
+        if (args != null && args.containsKey(TAG_KEY)){
+            tag = args.getString(TAG_KEY);
+        }
+
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -81,6 +101,7 @@ public class MapFragment extends CustomFragment
             icon.setTint(getResources().getColor(R.color.app_primary_font));
             toolbar.setNavigationIcon(icon);
             toolbar.setNavigationOnClickListener(v -> getNavigationActivity().onBackPressed());
+            if (tag != null) toolbar.setTitle(tag);
         }
 
         // Se hace visible la barra hasta que se ejecute
@@ -88,39 +109,36 @@ public class MapFragment extends CustomFragment
         if (progressCircle != null)
             progressCircle.setVisibility(View.VISIBLE);
 
-        // Para que la información se actualice en tiempo real
-        // y no cada vez que se abre la aplicación
-        if(cloudCongress == null) {
-            cloudCongress = new CloudCongress();
-            cloudCongress.setCallbacks(this);
+        if (isStatic) updateLocation();
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(TAG_KEY, tag);
+        outState.putParcelable(LOCATION_KEY, location);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null){
+            tag = savedInstanceState.getString(TAG_KEY);
+            location = savedInstanceState.getParcelable(LOCATION_KEY);
         }
-
     }
-
-    /**
-     * Se conecta con la nube para recibir cambios
-     * en el congreso
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public void connectCloud(){
-        cloudCongress.connect();
-    }
-
-    /**
-     * Se desconecta para dejar de recibir cambios
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    public void disconnectCloud(){
-        cloudCongress.disconnect();
-    }
-
 
     /**
      * Se sincroniza la información local con Firebase
-     * @param congress: Información del congreso
      */
-    public void updateCongress(Congress congress){
-        this.congress = congress;
+    public void updateLocation(){
 
         // Se revisa si el mapa ya está en la cache para no
         // instanciarlo de nuevo.
@@ -145,22 +163,17 @@ public class MapFragment extends CustomFragment
         if (progressCircle != null)
             progressCircle.setVisibility(View.GONE);
 
-        // Se obtienen las coordenadas para el marcador
-        LatLng coordinates = new LatLng(
-                congress.getyCoord(),
-                congress.getxCoord());
-
         // Se obtiene y guarda la referencia del mapa creado
         googleMap = map;
 
-        // Se le coloca al mapa un tono oscuro
-        // googleMap.setMapStyle(MapStyleOptions
-        //        .loadRawResourceStyle(getNavigationActivity(), R.raw.maps_style));
+        // Se obtienen las coordenadas para el marcador
+
+        LatLng coordinates = new LatLng(location.getLat(), location.getLng());
 
         // Se agrega el marcador según las coordenadas
         googleMap.addMarker(new MarkerOptions()
                 .position(coordinates)
-                .title(congress.getLocationTag()));
+                .title(tag));
 
         moveMapLocation(coordinates);
 
@@ -184,5 +197,6 @@ public class MapFragment extends CustomFragment
                 .zoomTo(15), 2000, null);
 
     }
+
 
 }

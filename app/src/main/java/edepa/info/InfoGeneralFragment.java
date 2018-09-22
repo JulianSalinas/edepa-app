@@ -8,12 +8,14 @@ import edepa.model.Congress;
 import edepa.minilibs.TimeConverter;
 import edepa.minilibs.TextHighlighter;
 
+import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import com.google.android.gms.maps.GoogleMap;
 
 
-public class InfoGeneralFragment extends MapFragment {
+public class InfoGeneralFragment extends FullMapInfoFragment {
 
     @BindView(R.id.end_text)
     TextView endText;
@@ -26,6 +28,9 @@ public class InfoGeneralFragment extends MapFragment {
 
     @BindView(R.id.description_text)
     TextView descriptionText;
+
+    @BindView(R.id.info_card_minimap)
+    View infoCardMinimap;
 
     /**
      * A diferencia del mapa de Google, este es
@@ -42,7 +47,13 @@ public class InfoGeneralFragment extends MapFragment {
 
     @Override
     public int getResource() {
-        return R.layout.information_general;
+        return R.layout.info_general;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        new InfoMinimapHolder(infoCardMinimap).bind();
     }
 
     /**
@@ -84,9 +95,9 @@ public class InfoGeneralFragment extends MapFragment {
     /**
      * Abre en un fragmento aparte el croquis de la sede
      */
-    @OnClick({R.id.map_icon, R.id.button_see_minimap})
+    @OnClick({R.id.map_icon, R.id.info_card_minimap})
     public void expandMiniMap(){
-        if(miniMap == null) miniMap = new MinimapFragment();
+        if(miniMap == null) miniMap = new FullMinimapFragment();
         setFragmentOnScreen(miniMap, "MINIMAP");
     }
 
@@ -96,7 +107,7 @@ public class InfoGeneralFragment extends MapFragment {
      * @return True
      */
     public boolean expandGoogleMap(){
-        if(expandedMap == null) expandedMap = new MapFragment();
+        expandedMap = new FullMapInfoFragment();
         setFragmentOnScreen(expandedMap, "MAP");
         return true;
     }

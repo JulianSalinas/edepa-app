@@ -17,9 +17,8 @@
 
         <RelativeLayout
             android:layout_height="match_parent"
-            android:layout_width="@dimen/size_icon_container_big">
-
-            <include layout="@layout/util_pattern_red"/>
+            android:layout_width="@dimen/size_icon_container_big"
+            android:background="?colorAccent">
 
             <ImageView
                 android:src="@drawable/ic_schedule"
@@ -32,20 +31,17 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:paddingTop="@dimen/size_default"
-            android:paddingBottom="@dimen/size_default"
-            android:paddingStart="@dimen/size_default"
-            android:paddingEnd="@dimen/size_default"
-            android:orientation="vertical">
+            android:padding="@dimen/size_default"
+            android:textSize="24sp">
 
             <TextView
                 android:id="@+id/event_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/app_accent"
+                android:background="?colorAccent"
                 android:padding="@dimen/size_smallest"
                 android:textSize="@dimen/font_small"
                 android:textColor="@color/app_white_font"
@@ -73,14 +69,14 @@
                         android:layout_weight="50"
                         android:layout_height="wrap_content"
                         android:text="@string/text_start"
-                        android:textSize="24sp" />
+                        android:textSize="@dimen/font_big" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_weight="50"
                         android:layout_height="wrap_content"
                         android:text="@string/text_end"
-                        android:textSize="24sp" />
+                        android:textSize="@dimen/font_big" />
 
                 </TableRow>
 

@@ -18,13 +18,13 @@
         android:paddingEnd="@dimen/size_small"
         android:orientation="vertical">
 
-        <include layout="@layout/information_card_date"/>
+        <include layout="@layout/info_card_date"/>
 
-        <include layout="@layout/information_card_content"/>
+        <include layout="@layout/info_card_content"/>
 
-        <include layout="@layout/information_card_map"/>
+        <include layout="@layout/info_card_map"/>
 
-        <include layout="@layout/information_card_minimap"/>
+        <include layout="@layout/info_card_minimap"/>
 
     </LinearLayout>
 

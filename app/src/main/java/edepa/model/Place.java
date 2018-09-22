@@ -21,7 +21,7 @@ public class Place implements Parcelable {
     /**
      * Teléfono para reservaciones
      */
-    private String telf;
+    private String phone;
 
     /**
      * Nombre del hotel, hospedaje, etc
@@ -31,6 +31,11 @@ public class Place implements Parcelable {
     /**
      * Ubicación, kilometros desde el congreso
      * o una descripción breve de
+     */
+    private String description;
+
+    /**
+     * Marca un punto específico del mapa
      */
     private String location;
 
@@ -52,12 +57,12 @@ public class Place implements Parcelable {
         this.web = web;
     }
 
-    public String getTelf() {
-        return telf;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTelf(String telf) {
-        this.telf = telf;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getName() {
@@ -66,6 +71,14 @@ public class Place implements Parcelable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getLocation() {
@@ -80,14 +93,15 @@ public class Place implements Parcelable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Place)) return false;
-        Place lodging = (Place) o;
-        return Objects.equals(getKey(), lodging.getKey());
+        Place place = (Place) o;
+        return Objects.equals(getKey(), place.getKey());
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(getKey());
     }
+
 
     @Override
     public int describeContents() {
@@ -98,16 +112,18 @@ public class Place implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.key);
         dest.writeString(this.web);
-        dest.writeString(this.telf);
+        dest.writeString(this.phone);
         dest.writeString(this.name);
+        dest.writeString(this.description);
         dest.writeString(this.location);
     }
 
     protected Place(Parcel in) {
         this.key = in.readString();
         this.web = in.readString();
-        this.telf = in.readString();
+        this.phone = in.readString();
         this.name = in.readString();
+        this.description = in.readString();
         this.location = in.readString();
     }
 
@@ -122,5 +138,6 @@ public class Place implements Parcelable {
             return new Place[size];
         }
     };
+
 }
 

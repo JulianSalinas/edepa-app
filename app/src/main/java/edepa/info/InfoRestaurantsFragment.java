@@ -1,7 +1,6 @@
 package edepa.info;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -35,7 +34,7 @@ public class InfoRestaurantsFragment extends InfoPlacesFragment {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new RestaurantHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.information_restaurant, parent, false));
+                    .inflate(R.layout.info_restaurant, parent, false));
         }
 
         @Override
