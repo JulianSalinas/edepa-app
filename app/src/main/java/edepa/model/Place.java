@@ -39,6 +39,8 @@ public class Place implements Parcelable {
      */
     private String location;
 
+    private String imageUrl;
+
     public Place() {}
 
     public String getKey() {
@@ -89,6 +91,14 @@ public class Place implements Parcelable {
         this.location = location;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -101,7 +111,6 @@ public class Place implements Parcelable {
     public int hashCode() {
         return Objects.hash(getKey());
     }
-
 
     @Override
     public int describeContents() {
@@ -116,6 +125,7 @@ public class Place implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.description);
         dest.writeString(this.location);
+        dest.writeString(this.imageUrl);
     }
 
     protected Place(Parcel in) {
@@ -125,6 +135,7 @@ public class Place implements Parcelable {
         this.name = in.readString();
         this.description = in.readString();
         this.location = in.readString();
+        this.imageUrl = in.readString();
     }
 
     public static final Creator<Place> CREATOR = new Creator<Place>() {
@@ -138,6 +149,5 @@ public class Place implements Parcelable {
             return new Place[size];
         }
     };
-
 }
 

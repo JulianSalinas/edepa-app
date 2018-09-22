@@ -56,6 +56,15 @@
                 android:fontFamily="sans-serif-light"
                 android:text="@string/test_app_date_start" />
 
+            <ImageView
+                android:id="@+id/info_place_image"
+                android:scaleType="centerCrop"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_notice_preview_image"
+                android:layout_marginTop="@dimen/size_small"
+                android:src="@drawable/tec_sede_cartago"
+                android:contentDescription="@null" />
+
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/size_medium"/>

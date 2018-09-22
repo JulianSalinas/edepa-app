@@ -9,7 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.text.util.Linkify;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.Locale;
 
@@ -17,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edepa.app.NavigationActivity;
+import edepa.custom.PhotoFragment;
 import edepa.minilibs.RegexSearcher;
 import edepa.model.Location;
 import edepa.model.Place;
@@ -39,6 +43,9 @@ public class LodgingHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.place_description)
     TextView itemPlaceDescription;
+
+    @BindView(R.id.info_place_image)
+    ImageView itemPlaceImage;
 
     @BindView(R.id.info_place_phone)
     View itemInfoPlacePhone;
@@ -118,6 +125,16 @@ public class LodgingHolder extends RecyclerView.ViewHolder {
         if (itemInfoPlacePhone.getVisibility() ==  VISIBLE) {
             itemPlacePhone.setText(place.getPhone());
             Linkify.addLinks(itemPlacePhone, Linkify.ALL);
+        }
+
+        visibility = place.getImageUrl() != null ? VISIBLE : GONE;
+        itemPlaceImage.setVisibility(visibility);
+        if (itemPlaceImage.getVisibility() ==  VISIBLE) {
+            Context context = itemView.getContext().getApplicationContext();
+            Glide.with(context)
+                    .load(place.getImageUrl())
+                    .apply(PhotoFragment.getRequestOptions(context))
+                    .into(itemPlaceImage);
         }
 
         visibility = place.getLocation() != null ? VISIBLE : GONE;
