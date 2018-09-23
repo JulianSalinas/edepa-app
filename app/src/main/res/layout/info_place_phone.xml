@@ -60,7 +60,7 @@
                     android:layout_width="@dimen/size_icon"
                     android:layout_height="@dimen/size_icon"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="@dimen/size_smallest"
+                    android:layout_marginEnd="@dimen/size_small"
                     android:tint="@color/material_blue"
                     android:contentDescription="@null"/>
 
@@ -85,7 +85,7 @@
                 <View
                     android:layout_width="@dimen/size_icon"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/size_smallest"/>
+                    android:layout_marginEnd="@dimen/size_small"/>
 
                 <TextView
                     android:id="@+id/place_phone"

@@ -256,5 +256,11 @@
     <string name="text_phone">Teléfono</string>
     <string name="text_call">Llamar</string>
     <string name="text_open_map">Abrir Mapa</string>
+    <string name="text_near_places">Para visitar</string>
+    <string name="text_banks">Bancos cercanos</string>
+    <string name="text_exchange">Tipo de cambio</string>
+    <string name="text_buy">Compra</string>
+    <string name="text_sell">Venta</string>
+    <string name="text_others">Otros</string>
 
 </resources>

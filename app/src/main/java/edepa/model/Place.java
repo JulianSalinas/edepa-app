@@ -41,6 +41,8 @@ public class Place implements Parcelable {
 
     private String imageUrl;
 
+    private String facebookUrl;
+
     public Place() {}
 
     public String getKey() {
@@ -99,6 +101,14 @@ public class Place implements Parcelable {
         this.imageUrl = imageUrl;
     }
 
+    public String getFacebookUrl() {
+        return facebookUrl;
+    }
+
+    public void setFacebookUrl(String facebookUrl) {
+        this.facebookUrl = facebookUrl;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -126,6 +136,7 @@ public class Place implements Parcelable {
         dest.writeString(this.description);
         dest.writeString(this.location);
         dest.writeString(this.imageUrl);
+        dest.writeString(this.facebookUrl);
     }
 
     protected Place(Parcel in) {
@@ -136,6 +147,7 @@ public class Place implements Parcelable {
         this.description = in.readString();
         this.location = in.readString();
         this.imageUrl = in.readString();
+        this.facebookUrl = in.readString();
     }
 
     public static final Creator<Place> CREATOR = new Creator<Place>() {

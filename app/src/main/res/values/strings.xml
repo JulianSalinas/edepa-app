@@ -252,5 +252,11 @@
     <string name="text_phone">Phone</string>
     <string name="text_call">Call</string>
     <string name="text_open_map">Open Map</string>
+    <string name="text_near_places">To visit</string>
+    <string name="text_banks">Near banks</string>
+    <string name="text_exchange">Exchange rate</string>
+    <string name="text_buy">Buy</string>
+    <string name="text_sell">Sell</string>
+    <string name="text_others">Others</string>
 
 </resources>

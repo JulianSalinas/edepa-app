@@ -13,8 +13,7 @@ import edepa.modelview.R;
 public class InfoLodgingFragment extends InfoPlacesFragment {
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void connectData() {
         CloudPlaces cloud = new CloudPlaces();
         cloud.setCallbacks(this);
         cloud.connectLodging();

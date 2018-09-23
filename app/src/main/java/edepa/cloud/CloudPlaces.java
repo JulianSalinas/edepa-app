@@ -34,6 +34,18 @@ public class CloudPlaces extends CloudChild {
                 .orderByChild("name");
     }
 
+    public static Query getNearPlacesQuery(){
+        return Cloud.getInstance()
+                .getReference("near")
+                .orderByChild("name");
+    }
+
+    public static Query getBanksQuery(){
+        return Cloud.getInstance()
+                .getReference("banks")
+                .orderByChild("name");
+    }
+
     public void connectLodging(){
         getLodgingQuery().addChildEventListener(this);
     }
@@ -48,6 +60,22 @@ public class CloudPlaces extends CloudChild {
 
     public void disconnectRestaurants(){
         getRestaurantsQuery().removeEventListener(this);
+    }
+
+    public void connectNearPlaces(){
+        getNearPlacesQuery().addChildEventListener(this);
+    }
+
+    public void disconnectNearPlaces(){
+        getNearPlacesQuery().removeEventListener(this);
+    }
+
+    public void connectBanks(){
+        getBanksQuery().addChildEventListener(this);
+    }
+
+    public void disconnectBanks(){
+        getBanksQuery().removeEventListener(this);
     }
 
     @Override

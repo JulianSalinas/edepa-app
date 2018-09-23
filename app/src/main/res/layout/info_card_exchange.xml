@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/info_card_exchange"
+    app:cardElevation="1dp"
+    app:cardCornerRadius="@dimen/card_radius_default"
+    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="@color/app_white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="@dimen/size_icon_container_big"
+            android:background="@color/material_teal">
+
+            <ImageView
+                android:src="@drawable/ic_exchange"
+                android:tint="@color/app_white"
+                android:layout_width="@dimen/size_icon"
+                android:layout_height="@dimen/size_icon"
+                android:layout_centerInParent="true"
+                android:contentDescription="@null"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/size_default"
+            android:textSize="24sp">
+
+            <TextView
+                android:id="@+id/event_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/material_teal"
+                android:padding="@dimen/size_smallest"
+                android:textSize="@dimen/font_small"
+                android:textColor="@color/app_white_font"
+                android:textAllCaps="true"
+                android:text="@string/text_exchange"
+                android:tag=":aesthetic_ignore"/>
+
+            <TextView
+                android:id="@+id/exchange_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_medium"
+                android:fontFamily="sans-serif-light"
+                android:text="Al 13 de setiembre del 2018" />
+
+            <View
+                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/size_medium"
+                android:layout_marginBottom="@dimen/size_small"
+                android:background="@color/app_accent_light" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="50"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_buy"
+                        android:textSize="@dimen/font_big" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="50"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_sell"
+                        android:textSize="@dimen/font_big" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/exchange_buy"
+                        android:layout_width="0dp"
+                        android:layout_weight="50"
+                        android:layout_height="wrap_content"
+                        android:text="₡ 574,39"
+                        android:fontFamily="sans-serif-light"/>
+
+                    <TextView
+                        android:id="@+id/exchange_sell"
+                        android:layout_width="0dp"
+                        android:layout_weight="50"
+                        android:layout_height="wrap_content"
+                        android:text="₡ 579,76"
+                        android:fontFamily="sans-serif-light"/>
+
+                </TableRow>
+
+            </TableLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

@@ -3,7 +3,7 @@
 <LinearLayout
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/info_place_web"
+    android:id="@+id/info_place_facebook"
     android:orientation="vertical"
     android:paddingBottom="@dimen/size_medium"
     android:layout_width="match_parent"
@@ -26,12 +26,12 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:src="@drawable/ic_web"
+                android:src="@drawable/about_icon_facebook"
                 android:layout_width="@dimen/size_icon"
                 android:layout_height="@dimen/size_icon"
                 android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/size_small"
-                android:tint="@color/material_blue"
+                android:tint="@color/com_facebook_blue"
                 android:contentDescription="@null"/>
 
             <TextView
@@ -42,7 +42,7 @@
                 android:textColor="@color/material_blue"
                 android:textAllCaps="true"
                 android:textStyle="bold"
-                android:text="@string/text_web_page"
+                android:text="@string/fui_idp_name_facebook"
                 android:tag=":aesthetic_ignore"/>
 
         </LinearLayout>
@@ -58,7 +58,7 @@
                 android:layout_marginEnd="@dimen/size_small"/>
 
             <TextView
-                android:id="@+id/place_web"
+                android:id="@+id/place_facebook"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"

@@ -82,7 +82,7 @@ public class InfoFragment extends CustomFragment implements CloudCongress.Callba
 
         @Override
         public int getCount() {
-            return 3;
+            return 5;
         }
 
         @Override
@@ -91,8 +91,13 @@ public class InfoFragment extends CustomFragment implements CloudCongress.Callba
                 return getString(R.string.text_information);
             else if (position == 1)
                 return getString(R.string.text_lodging);
-            else
+            else if (position == 2)
                 return getString(R.string.text_restaurants);
+            else if (position == 3)
+                return getString(R.string.text_near_places);
+            else
+                return getString(R.string.text_banks);
+
         }
 
         @Override
@@ -101,8 +106,12 @@ public class InfoFragment extends CustomFragment implements CloudCongress.Callba
                 return new InfoGeneralFragment();
             else if (position == 1)
                 return new InfoLodgingFragment();
-            else
+            else if (position == 2)
                 return new InfoRestaurantsFragment();
+            else if (position == 3)
+                return new InfoNearPlacesFragment();
+            else
+                return new InfoBanksFragment();
         }
 
     }

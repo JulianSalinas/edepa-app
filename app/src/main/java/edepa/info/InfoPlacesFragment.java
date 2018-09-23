@@ -39,6 +39,7 @@ public abstract class InfoPlacesFragment extends BaseFragment implements CloudPl
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ViewUtils.setupDividedRecyclerView(getActivity(), recycler, adapter);
+        connectData();
     }
 
     @Override
@@ -67,6 +68,8 @@ public abstract class InfoPlacesFragment extends BaseFragment implements CloudPl
             adapter.notifyItemRemoved(index);
         }
     }
+
+    public abstract void connectData();
 
     public abstract RecyclerView.Adapter instantiateAdapter();
 

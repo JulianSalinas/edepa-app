@@ -78,6 +78,10 @@
                 layout="@layout/info_place_web" />
 
             <include
+                android:id="@+id/info_place_facebook"
+                layout="@layout/info_place_facebook" />
+
+            <include
                 android:id="@+id/info_place_map"
                 layout="@layout/info_place_map" />
 

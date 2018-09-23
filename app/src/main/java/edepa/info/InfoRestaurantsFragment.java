@@ -1,6 +1,5 @@
 package edepa.info;
 
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -12,8 +11,7 @@ import edepa.modelview.R;
 public class InfoRestaurantsFragment extends InfoPlacesFragment {
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void connectData() {
         CloudPlaces cloud = new CloudPlaces();
         cloud.setCallbacks(this);
         cloud.connectRestaurants();
@@ -34,7 +32,7 @@ public class InfoRestaurantsFragment extends InfoPlacesFragment {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new RestaurantHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.info_restaurant, parent, false));
+                    .inflate(R.layout.info_lodging, parent, false));
         }
 
         @Override

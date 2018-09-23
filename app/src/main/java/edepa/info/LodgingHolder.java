@@ -19,6 +19,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edepa.app.MainActivity;
 import edepa.app.NavigationActivity;
 import edepa.custom.PhotoFragment;
 import edepa.minilibs.RegexSearcher;
@@ -44,6 +45,9 @@ public class LodgingHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.place_description)
     TextView itemPlaceDescription;
 
+    @BindView(R.id.place_facebook)
+    TextView itemPlaceFacebook;
+
     @BindView(R.id.info_place_image)
     ImageView itemPlaceImage;
 
@@ -55,6 +59,9 @@ public class LodgingHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.info_place_map)
     View itemInfoPlaceMap;
+
+    @BindView(R.id.info_place_facebook)
+    View itemInfoPlaceFacebook;
 
     protected Place place;
 
@@ -104,6 +111,20 @@ public class LodgingHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
+    /**
+     * Abre una imagen en un fragmento aparte
+     */
+    @OnClick(R.id.info_place_image)
+    public void openImage(){
+        Context context = itemView.getContext();
+        Fragment imageFragment = PhotoFragment
+                .newInstance(place.getName(), place.getImageUrl());
+        if(context instanceof MainActivity) {
+            MainActivity activity = (MainActivity) context;
+            activity.setFragmentOnScreen(imageFragment, place.getKey());
+        }
+    }
+
     public void bind(Place place){
 
         this.place = place;
@@ -118,6 +139,13 @@ public class LodgingHolder extends RecyclerView.ViewHolder {
         if (itemInfoPlaceWeb.getVisibility() ==  VISIBLE) {
             itemPlaceWeb.setText(place.getWeb());
             Linkify.addLinks(itemPlaceWeb, Linkify.ALL);
+        }
+
+        visibility = place.getFacebookUrl() != null ? VISIBLE : GONE;
+        itemInfoPlaceFacebook.setVisibility(visibility);
+        if (itemInfoPlaceFacebook.getVisibility() ==  VISIBLE) {
+            itemPlaceFacebook.setText(place.getFacebookUrl());
+            Linkify.addLinks(itemPlaceFacebook, Linkify.ALL);
         }
 
         visibility = place.getPhone() != null ? VISIBLE : GONE;
