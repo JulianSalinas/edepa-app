@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
 
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.2'
 
     if (project.hasProperty('devBuild')) {
         splits.abi.enable = false
@@ -18,7 +18,7 @@ android {
         applicationId "imagisoft.rommie"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 8
+        versionCode 9
         versionName "1.0.197"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -190,11 +191,9 @@ public class EventFragment extends EventHostFragment
      * del evento
      */
     private void bindCurrentEvent(){
-        String currentLocation = eventDetailLocation.getText().toString();
-        if (!currentLocation.equals(event.getLocation())) {
-            bindLocation();
-            bindToolbarImage();
-        }
+
+        bindLocation();
+        bindToolbarImage();
         bindType();
         bindDateRange();
         bindFavorites();
@@ -257,35 +256,61 @@ public class EventFragment extends EventHostFragment
     }
 
     private void bindToolbarImage() {
-        WallpaperGenerator gen = new WallpaperGenerator(getNavigationActivity());
 
-        int resource = gen.parseText(event.getLocation());
+        String imageUrl = event.getImageUrl();
 
-        // No se encontró imagen y se coloca el fondo por defecto
-        if (resource == WallpaperGenerator.NO_IMAGE_FOUND) {
-            resource = R.drawable.pattern_white;
+        if (imageUrl != null && !imageUrl.isEmpty()){
+
+            Glide.with(getNavigationActivity().getApplicationContext())
+                    .load(imageUrl)
+                    .into(toolbarImage);
+
+            int fontColor = ContextCompat
+                    .getColor(activity, R.color.app_white_font);
+
+            ColorStateList fontColorList = ContextCompat
+                    .getColorStateList(activity, R.color.app_white_font);
+
+            buttonBack.setBackgroundTintList(fontColorList);
+            buttonSaveImage.setBackgroundTintList(fontColorList);
+
+            eventDetailLocation.setTextColor(fontColor);
+            eventDetailDateRange.setTextColor(fontColor);
+
+            buttonSaveImage.setVisibility(GONE);
         }
 
-        Drawable wallpaper = getResources().getDrawable(resource);
-        toolbarImage.setImageDrawable(wallpaper);
+        else {
+            WallpaperGenerator gen = new WallpaperGenerator(getNavigationActivity());
 
-        int fontColor = ContextCompat.getColor(
-                activity, resource == R.drawable.pattern_white ?
-                R.color.app_primary_font : R.color.app_white_font);
+            int resource = gen.parseText(event.getLocation());
 
-        ColorStateList fontColorList = ContextCompat.getColorStateList(
-                activity, resource == R.drawable.pattern_white ?
-                R.color.app_primary_font : R.color.app_white_font);
+            // No se encontró imagen y se coloca el fondo por defecto
+            if (resource == WallpaperGenerator.NO_IMAGE_FOUND) {
+                resource = R.drawable.pattern_white;
+            }
 
-        buttonBack.setBackgroundTintList(fontColorList);
-        buttonSaveImage.setBackgroundTintList(fontColorList);
+            Drawable wallpaper = getResources().getDrawable(resource);
+            toolbarImage.setImageDrawable(wallpaper);
 
-        eventDetailLocation.setTextColor(fontColor);
-        eventDetailDateRange.setTextColor(fontColor);
+            int fontColor = ContextCompat.getColor(
+                    activity, resource == R.drawable.pattern_white ?
+                            R.color.app_primary_font : R.color.app_white_font);
 
-        boolean canBeSaved = wallpaper instanceof BitmapDrawable
-                && resource != R.drawable.pattern_white;
-        buttonSaveImage.setVisibility(canBeSaved ? VISIBLE : GONE);
+            ColorStateList fontColorList = ContextCompat.getColorStateList(
+                    activity, resource == R.drawable.pattern_white ?
+                            R.color.app_primary_font : R.color.app_white_font);
+
+            buttonBack.setBackgroundTintList(fontColorList);
+            buttonSaveImage.setBackgroundTintList(fontColorList);
+
+            eventDetailLocation.setTextColor(fontColor);
+            eventDetailDateRange.setTextColor(fontColor);
+
+            boolean canBeSaved = wallpaper instanceof BitmapDrawable
+                    && resource != R.drawable.pattern_white;
+            buttonSaveImage.setVisibility(canBeSaved ? VISIBLE : GONE);
+        }
     }
 
     /**

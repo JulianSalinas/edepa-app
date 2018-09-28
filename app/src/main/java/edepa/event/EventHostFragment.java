@@ -97,6 +97,7 @@ public abstract class EventHostFragment
             event.setStart(newValue.getStart());
             event.setTitle(newValue.getTitle());
             event.setLocation(newValue.getLocation());
+            event.setImageUrl(newValue.getImageUrl());
             event.setEventype(newValue.getEventype());
             event.setBriefSpanish(newValue.getBriefSpanish());
             event.setBriefEnglish(newValue.getBriefEnglish());

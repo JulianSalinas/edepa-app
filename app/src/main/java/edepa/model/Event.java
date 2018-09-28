@@ -23,6 +23,7 @@ public class Event implements Parcelable {
     protected boolean isFavorite;
 
     private String fileUrl;
+    private String imageUrl;
     private String briefEnglish;
     private String briefSpanish;
     private HashMap<String, Boolean> people;
@@ -40,6 +41,7 @@ public class Event implements Parcelable {
         setFavorites(builder.favorites);
         setFavorite(builder.isFavorite);
         setFileUrl(builder.fileUrl);
+        setImageUrl(builder.imageUrl);
         setBriefEnglish(builder.briefEnglish);
         setBriefSpanish(builder.briefSpanish);
         setPeople(builder.people);
@@ -125,6 +127,14 @@ public class Event implements Parcelable {
         this.fileUrl = fileUrl;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public String getBriefEnglish() {
         return briefEnglish;
     }
@@ -173,6 +183,7 @@ public class Event implements Parcelable {
         private int favorites;
         private boolean isFavorite;
         private String fileUrl;
+        private String imageUrl;
         private String briefEnglish;
         private String briefSpanish;
         private HashMap<String, Boolean> people;
@@ -230,6 +241,11 @@ public class Event implements Parcelable {
             return this;
         }
 
+        public Builder imageUrl(String imageUrl){
+            this.imageUrl = imageUrl;
+            return this;
+        }
+
         public Builder briefEnglish(String briefEnglish) {
             this.briefEnglish = briefEnglish;
             return this;
@@ -266,6 +282,7 @@ public class Event implements Parcelable {
         dest.writeInt(this.favorites);
         dest.writeByte(this.isFavorite ? (byte) 1 : (byte) 0);
         dest.writeString(this.fileUrl);
+        dest.writeString(this.imageUrl);
         dest.writeString(this.briefEnglish);
         dest.writeString(this.briefSpanish);
         dest.writeSerializable(this.people);
@@ -283,6 +300,7 @@ public class Event implements Parcelable {
         this.favorites = in.readInt();
         this.isFavorite = in.readByte() != 0;
         this.fileUrl = in.readString();
+        this.imageUrl = in.readString();
         this.briefEnglish = in.readString();
         this.briefSpanish = in.readString();
         this.people = (HashMap<String, Boolean>) in.readSerializable();
