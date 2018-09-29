@@ -18,7 +18,7 @@ android {
         applicationId "imagisoft.rommie"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 9
+        versionCode 10
         versionName "1.0.197"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
