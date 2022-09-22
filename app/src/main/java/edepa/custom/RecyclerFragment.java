@@ -1,14 +1,12 @@
 package edepa.custom;
 
-import android.view.View;
 import android.os.Bundle;
 import android.os.Parcelable;
 
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.LinearLayoutManager;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
 
 /**
  * Este fragmento soluciona el problema que sufre tanto

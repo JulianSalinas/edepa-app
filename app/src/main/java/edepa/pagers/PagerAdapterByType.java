@@ -1,8 +1,8 @@
 package edepa.pagers;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.core.app.Fragment;
+import androidx.core.app.FragmentPagerAdapter;
 
 import java.util.List;
 

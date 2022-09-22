@@ -1,7 +1,7 @@
 package edepa.people;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.graphics.Color;
 import android.widget.TextView;

@@ -1,14 +1,14 @@
 package edepa.info;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import androidx.core.app.FragmentPagerAdapter;
+import androidx.core.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
-import android.support.v4.app.Fragment;
+import androidx.core.app.Fragment;
 
 import butterknife.OnClick;
 import edepa.custom.CustomFragment;

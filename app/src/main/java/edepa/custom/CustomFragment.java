@@ -5,14 +5,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
-import android.support.v4.app.Fragment;
+import androidx.core.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.arch.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleObserver;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import edepa.app.MainActivity;
 import edepa.app.NavigationActivity;
-import edepa.custom.BaseFragment;
 
 
 public abstract class CustomFragment

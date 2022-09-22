@@ -2,9 +2,9 @@ package edepa.schedule;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import androidx.core.app.DialogFragment;
+import androidx.core.app.Fragment;
+import androidx.core.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;

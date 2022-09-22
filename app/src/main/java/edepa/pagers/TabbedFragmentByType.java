@@ -1,6 +1,6 @@
 package edepa.pagers;
 
-import android.support.v4.app.Fragment;
+import androidx.core.app.Fragment;
 
 import edepa.schedule.ScheduleOngoing;
 import edepa.model.Preferences;

@@ -7,28 +7,27 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
-import android.support.v4.app.FragmentManager;
+import androidx.core.app.FragmentManager;
 import android.support.design.widget.AppBarLayout;
 import android.view.inputmethod.InputMethodManager;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.OnLifecycleEvent;
-import android.arch.lifecycle.LifecycleObserver;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.LifecycleObserver;
 
 import android.widget.Toast;
 import android.widget.TextView;
 import android.widget.FrameLayout;
-import android.support.v4.app.Fragment;
+import androidx.core.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.view.ActionMode;
-import android.support.v4.widget.DrawerLayout;
+import androidx.core.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -38,7 +37,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import edepa.cloud.CloudUsers;
-import edepa.model.UserProfile;
 import edepa.modelview.R;
 import edepa.cloud.Cloud;
 import edepa.model.Preferences;
@@ -67,7 +65,7 @@ import org.jetbrains.annotations.Nullable;
 
 import static edepa.model.Preferences.USER_KEY;
 import static edepa.model.Preferences.FIRST_USE_KEY;
-import static android.support.v4.view.GravityCompat.START;
+import static androidx.core.view.GravityCompat.START;
 import static edepa.model.Preferences.USE_PHOTO_KEY;
 import static edepa.settings.SettingsThemeFragment.ACCENT_COLOR;
 import static edepa.settings.SettingsThemeFragment.PRIMARY_COLOR;

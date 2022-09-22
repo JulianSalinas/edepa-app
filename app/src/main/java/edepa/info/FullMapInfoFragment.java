@@ -1,13 +1,11 @@
 package edepa.info;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.OnLifecycleEvent;
-import android.graphics.drawable.Drawable;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
+
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -16,12 +14,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import butterknife.BindView;
 import edepa.cloud.CloudCongress;
-import edepa.custom.CustomFragment;
 import edepa.model.Congress;
 import edepa.model.Location;
-import edepa.modelview.R;
 
 /**
  * Mapa que se muestra al presionar el mapa pequeño

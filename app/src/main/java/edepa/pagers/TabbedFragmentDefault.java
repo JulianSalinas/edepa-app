@@ -7,10 +7,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import androidx.core.app.Fragment;
+import androidx.core.view.ViewPager;
 import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.core.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
 import edepa.app.MainActivity;

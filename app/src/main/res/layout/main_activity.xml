@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.DrawerLayout
+<androidx.core.widget.DrawerLayout
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,4 +26,4 @@
         app:menu="@menu/drawer_menu"
         android:tag=":aesthetic_ignore"/>
 
-</android.support.v4.widget.DrawerLayout>
+</androidx.core.widget.DrawerLayout>

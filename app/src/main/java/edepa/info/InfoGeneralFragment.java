@@ -11,7 +11,7 @@ import edepa.minilibs.TextHighlighter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.support.v4.app.Fragment;
+import androidx.core.app.Fragment;
 import com.google.android.gms.maps.GoogleMap;
 
 

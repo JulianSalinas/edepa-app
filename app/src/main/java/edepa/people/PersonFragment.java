@@ -2,12 +2,12 @@ package edepa.people;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import androidx.core.app.DialogFragment;
+import androidx.core.app.Fragment;
+import androidx.core.app.FragmentPagerAdapter;
+import androidx.core.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -27,7 +27,6 @@ import edepa.minilibs.SmoothLayout;
 import edepa.model.Event;
 import edepa.model.Person;
 import edepa.modelview.R;
-import edepa.schedule.ScheduleItemHolder;
 
 public class PersonFragment extends DefaultDialog {
 

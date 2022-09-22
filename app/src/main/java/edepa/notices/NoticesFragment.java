@@ -1,12 +1,9 @@
 package edepa.notices;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
+import androidx.core.app.DialogFragment;
+
 import android.view.View;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -15,12 +12,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import edepa.cloud.CloudAdmin;
 import edepa.cloud.CloudNotices;
-import edepa.comments.CommentEditor;
-import edepa.model.Comment;
 import edepa.modelview.R;
 import edepa.custom.RecyclerAdapter;
 import edepa.custom.RecyclerFragment;
-import edepa.minilibs.SmoothLayout;
 
 
 public class NoticesFragment extends RecyclerFragment

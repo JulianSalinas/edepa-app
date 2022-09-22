@@ -1,15 +1,12 @@
 package edepa.info;
 
-import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.support.v7.widget.Toolbar;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -18,11 +15,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
-import java.util.List;
-
 import butterknife.BindView;
-import edepa.model.Event;
 import edepa.modelview.R;
 import edepa.model.Location;
 import edepa.custom.CustomFragment;

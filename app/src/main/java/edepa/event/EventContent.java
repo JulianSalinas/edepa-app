@@ -2,8 +2,8 @@ package edepa.event;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.Nullable;
+import androidx.core.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -13,9 +13,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import edepa.cloud.CloudEvents;
-import edepa.custom.CustomFragment;
-import edepa.minilibs.ReadMoreOption;
 import edepa.minilibs.TextHighlighter;
 import edepa.minilibs.TimeConverter;
 
@@ -27,7 +24,6 @@ import edepa.settings.SettingsLanguage;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static edepa.event.EventFragment.SAVED_EVENT_KEY;
 import static edepa.settings.SettingsLanguage.ENGLISH;
 import static edepa.settings.SettingsLanguage.SPANISH;
 

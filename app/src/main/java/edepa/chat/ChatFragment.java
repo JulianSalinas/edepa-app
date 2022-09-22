@@ -9,7 +9,6 @@ import edepa.cloud.Cloud;
 import edepa.cloud.CloudChat;
 
 import edepa.cloud.CloudUsers;
-import edepa.custom.PhotoFragment;
 import edepa.custom.RecyclerFragment;
 import edepa.minilibs.RegexSearcher;
 import edepa.model.Message;
@@ -22,16 +21,13 @@ import edepa.custom.RecyclerAdapter;
 import edepa.minilibs.SmoothLayout;
 import edepa.services.UpdateImageService;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -47,8 +43,6 @@ import com.cloudinary.android.policy.TimeWindow;
 import com.fxn.pix.Pix;
 
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 
 public class ChatFragment extends RecyclerFragment {

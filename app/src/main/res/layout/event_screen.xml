@@ -9,14 +9,14 @@
 
     <include layout="@layout/event_screen_appbar"/>
 
-    <android.support.v4.view.ViewPager
+    <androidx.core.view.ViewPager
         android:id="@+id/event_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/app_white"
         android:paddingTop="@dimen/size_medium"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    </android.support.v4.view.ViewPager>
+    </androidx.core.view.ViewPager>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/event_favorite_button"

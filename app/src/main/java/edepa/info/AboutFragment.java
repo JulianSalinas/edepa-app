@@ -3,12 +3,11 @@ package edepa.info;
 import edepa.cloud.Cloud;
 import edepa.comments.CommentEditor;
 import edepa.minilibs.DialogFancy;
-import edepa.model.Comment;
 import edepa.modelview.R;
 import edepa.custom.CustomFragment;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import androidx.core.app.DialogFragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;

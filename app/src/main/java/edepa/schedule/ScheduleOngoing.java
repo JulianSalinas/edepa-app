@@ -4,8 +4,8 @@ import android.util.Log;
 import android.view.View;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import androidx.core.app.Fragment;
+import androidx.core.app.FragmentManager;
 
 import com.google.firebase.database.Query;
 import com.google.firebase.database.DataSnapshot;

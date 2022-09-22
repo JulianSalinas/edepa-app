@@ -25,16 +25,15 @@ import edepa.settings.SettingsGeneralFragment;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.support.v4.view.MenuItemCompat;
+
+import androidx.core.view.MenuItemCompat;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.OnLifecycleEvent;
+import androidx.core.app.Fragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;

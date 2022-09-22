@@ -2,9 +2,9 @@ package edepa.custom;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.widget.CircularProgressDrawable;
+import androidx.core.widget.CircularProgressDrawable;
 import android.view.View;
-import android.support.v4.app.Fragment;
+import androidx.core.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;

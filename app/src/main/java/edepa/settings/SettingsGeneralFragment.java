@@ -2,13 +2,13 @@ package edepa.settings;
 
 import android.os.Bundle;
 import android.view.View;
-import android.support.v14.preference.SwitchPreference;
-import android.support.v7.preference.EditTextPreference;
+import androidx.preference.SwitchPreference;
+import androidx.preference.EditTextPreference;
 
 import android.widget.Toast;
 import android.content.SharedPreferences;
-import android.support.v7.preference.PreferenceManager;
-import android.support.v7.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
+import androidx.preference.PreferenceFragmentCompat;
 
 import edepa.modelview.R;
 import edepa.cloud.Cloud;

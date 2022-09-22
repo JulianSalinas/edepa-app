@@ -2,7 +2,7 @@ package edepa.app;
 
 import android.os.Bundle;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
+import androidx.core.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
@@ -11,9 +11,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 
-import edepa.cloud.Cloud;
-import edepa.cloud.CloudUsers;
-import edepa.custom.BaseFragment;
 import edepa.custom.ProgressFragment;
 import edepa.modelview.R;
 import edepa.minilibs.OnlineHelper;

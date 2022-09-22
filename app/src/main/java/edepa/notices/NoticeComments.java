@@ -1,7 +1,7 @@
 package edepa.notices;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
 
 import com.google.firebase.database.Query;
@@ -9,11 +9,8 @@ import com.google.firebase.database.Query;
 import butterknife.OnClick;
 import edepa.cloud.Cloud;
 import edepa.comments.CommentsFragment;
-import edepa.model.Event;
 import edepa.model.Notice;
 import edepa.modelview.R;
-
-import static edepa.event.EventHostFragment.SAVED_EVENT_KEY;
 
 
 public class NoticeComments extends CommentsFragment {

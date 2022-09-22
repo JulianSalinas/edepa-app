@@ -3,13 +3,12 @@ package edepa.services;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
 import com.cloudinary.android.callback.ErrorInfo;
@@ -18,9 +17,7 @@ import com.cloudinary.android.callback.ListenerService;
 import java.util.Map;
 
 import edepa.cloud.Cloud;
-import edepa.model.Preferences;
 import edepa.modelview.R;
-import edepa.notices.NoticeEditor;
 
 public abstract class UploadImageService extends ListenerService {
 

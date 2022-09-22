@@ -1,7 +1,7 @@
 package edepa.event;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.google.firebase.database.Query;
 import edepa.cloud.Cloud;
