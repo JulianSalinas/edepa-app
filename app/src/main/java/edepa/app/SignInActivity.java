@@ -2,7 +2,11 @@ package edepa.app;
 
 import android.os.Bundle;
 import android.content.Intent;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.Fragment;
+import androidx.fragment.app.Fragment;
+
 import android.support.v7.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;

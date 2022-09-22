@@ -13,10 +13,16 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
-import androidx.core.app.FragmentManager;
-import android.support.design.widget.AppBarLayout;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
+import androidx.appcompat.widget.Toolbar;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.LifecycleObserver;
@@ -24,13 +30,6 @@ import androidx.lifecycle.LifecycleObserver;
 import android.widget.Toast;
 import android.widget.TextView;
 import android.widget.FrameLayout;
-import androidx.core.app.Fragment;
-import android.support.v7.widget.Toolbar;
-import android.support.v7.view.ActionMode;
-import androidx.core.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.design.widget.NavigationView;
-import android.support.v7.app.ActionBarDrawerToggle;
 
 import java.util.Stack;
 import butterknife.BindView;
@@ -51,7 +50,8 @@ import com.bumptech.glide.request.transition.Transition;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.data.model.User;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -227,13 +227,13 @@ public abstract class MainActivity extends AppCompatActivity
     /**
      * {@inheritDoc}
      * Hace de uso de ButterKnife, remplazando las funciones
-     * {@link AppCompatActivity#findViewById(int)}
+     *
      */
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         applyCustomTheme();
         super.onCreate(savedInstanceState);
-        getLifecycle().addObserver(this);
+        //TODO: getLifecycle().addObserver(this);
         setContentView(R.layout.main_activity);
         ButterKnife.bind(this);
         onCreateActivity(savedInstanceState);

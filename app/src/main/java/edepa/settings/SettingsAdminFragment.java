@@ -105,7 +105,7 @@ public class SettingsAdminFragment extends PreferenceFragmentCompat implements
     public void onNavigationPreferenceChanged(String key, boolean state) {
         preferences.edit().putBoolean(key, state).apply();
         Preference preference = findPreference(key);
-        if (preference != null && preference instanceof SwitchPreference) {
+        if (preference instanceof SwitchPreference) {
             ((SwitchPreference) preference).setChecked(state);
         }
     }

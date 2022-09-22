@@ -5,8 +5,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
-import androidx.core.app.Fragment;
-import android.support.v7.widget.Toolbar;
+
+import androidx.appcompat.widget.Toolbar;
+
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleObserver;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 

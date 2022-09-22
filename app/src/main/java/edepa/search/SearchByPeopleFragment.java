@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import edepa.modelview.R;
 import butterknife.BindView;
 import edepa.cloud.CloudPeople;

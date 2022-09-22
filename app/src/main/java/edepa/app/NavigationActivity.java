@@ -31,6 +31,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.content.Intent;
 import androidx.core.app.Fragment;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.OnLifecycleEvent;
 import android.view.View;

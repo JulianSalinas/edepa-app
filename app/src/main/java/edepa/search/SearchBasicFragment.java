@@ -2,17 +2,17 @@ package edepa.search;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.RecyclerView;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import edepa.custom.CustomFragment;
 import edepa.minilibs.SmoothLayout;
 import edepa.modelview.R;
+import static androidx.recyclerview.widget.DividerItemDecoration.VERTICAL;
 
-import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class SearchBasicFragment extends CustomFragment
         implements MaterialSearchView.OnQueryTextListener {

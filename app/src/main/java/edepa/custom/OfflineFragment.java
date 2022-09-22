@@ -3,8 +3,9 @@ package edepa.custom;
 import android.view.View;
 import android.os.Handler;
 import android.widget.ProgressBar;
-import android.support.v7.widget.CardView;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import edepa.modelview.R;
 import butterknife.BindView;

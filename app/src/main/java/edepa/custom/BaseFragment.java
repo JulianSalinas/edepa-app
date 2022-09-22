@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import android.view.LayoutInflater;
-import androidx.core.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 
 public abstract class BaseFragment extends Fragment {

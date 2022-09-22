@@ -2,7 +2,8 @@ package edepa.custom;
 
 
 import android.os.Bundle;
-import androidx.core.app.DialogFragment;
+import androidx.fragment.app.DialogFragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

@@ -8,6 +8,8 @@ import androidx.core.app.DialogFragment;
 import androidx.core.app.Fragment;
 import androidx.core.app.FragmentPagerAdapter;
 import androidx.core.view.ViewPager;
+import androidx.fragment.app.DialogFragment;
+
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
