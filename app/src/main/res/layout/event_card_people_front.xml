@@ -63,7 +63,7 @@
             <ImageView
                 android:id="@+id/headerIndicator"
                 android:src="@drawable/ic_expansion_header_indicator_grey_24dp"
-                android:tint="@color/app_primary_font"
+                app:tint="@color/app_primary_font"
                 android:layout_width="@dimen/size_icon"
                 android:layout_height="@dimen/size_icon"
                 android:layout_centerInParent="true"

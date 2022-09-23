@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.design.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_header_detail_img">
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar_container"
             android:fitsSystemWindows="true"
             android:layout_width="match_parent"
@@ -85,7 +86,7 @@
                     android:background="#ffffff"
                     android:orientation="horizontal">
 
-                    <android.support.design.widget.TabLayout
+                    <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tab_layout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -97,31 +98,31 @@
                         app:tabGravity="center"
                         android:tag=":aesthetic_ignore">
 
-                        <android.support.design.widget.TabItem
+                        <com.google.android.material.tabs.TabItem
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="@string/text_information" />
 
-                        <android.support.design.widget.TabItem
+                        <com.google.android.material.tabs.TabItem
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="@string/text_lodging" />
 
-                    </android.support.design.widget.TabLayout>
+                    </com.google.android.material.tabs.TabLayout>
 
                 </LinearLayout>
 
             </RelativeLayout>
 
-        </android.support.design.widget.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/congress_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    </androidx.core.view.ViewPager>
+    </androidx.viewpager.widget.ViewPager>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

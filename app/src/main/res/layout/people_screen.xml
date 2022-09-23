@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/app_white">
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/people_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,7 +19,7 @@
         tools:listitem="@layout/people_item"
         android:tag=":aesthetic_ignore"/>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_person_button"
 
         android:layout_width="@dimen/size_icon_container"

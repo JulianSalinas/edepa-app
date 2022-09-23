@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/app_white"
@@ -9,16 +9,16 @@
 
     <include layout="@layout/event_screen_appbar"/>
 
-    <androidx.core.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/event_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/app_white"
         android:paddingTop="@dimen/size_medium"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    </androidx.core.view.ViewPager>
+    </androidx.viewpager.widget.ViewPager>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/event_favorite_button"
         android:layout_width="@dimen/size_icon_container"
         android:layout_height="@dimen/size_icon_container"
@@ -30,4 +30,4 @@
         app:layout_anchorGravity="bottom|right|end"
         app:srcCompat="@drawable/ic_star" />
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

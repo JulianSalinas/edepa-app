@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView
+<androidx.cardview.widget.CardView
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/event_see_map_view"
@@ -26,8 +26,8 @@
                 android:layout_width="@dimen/size_icon"
                 android:layout_height="@dimen/size_icon"
                 android:layout_centerInParent="true"
-                android:tint="@color/app_white"
-                android:contentDescription="@null"/>
+                android:contentDescription="@null"
+                app:tint="@color/app_white" />
 
         </RelativeLayout>
 
@@ -58,4 +58,4 @@
 
     </LinearLayout>
 
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>
