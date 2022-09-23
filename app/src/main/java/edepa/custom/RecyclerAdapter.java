@@ -1,6 +1,6 @@
 package edepa.custom;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Clase que únicamente que es utilizada para darle un

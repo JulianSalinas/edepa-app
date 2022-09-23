@@ -3,18 +3,18 @@ package edepa.chat;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+
+import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.UploadRequest;
 import com.cloudinary.android.policy.TimeWindow;
 import com.fxn.pix.Pix;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONObject;
 

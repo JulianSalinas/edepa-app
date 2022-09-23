@@ -2,20 +2,21 @@ package edepa.search;
 
 import android.content.Context;
 import android.graphics.Color;
-import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.mklimek.circleinitialsview.CircleInitialsView;
 
-import edepa.app.NavigationActivity;
-import edepa.minilibs.ColorConverter;
-import edepa.minilibs.TextHighlighter;
-import edepa.minilibs.ColorGenerator;
-import edepa.modelview.R;
-import edepa.model.Person;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import edepa.app.NavigationActivity;
+import edepa.minilibs.ColorConverter;
+import edepa.minilibs.ColorGenerator;
+import edepa.minilibs.TextHighlighter;
+import edepa.model.Person;
+import edepa.modelview.R;
 import edepa.people.PersonFragment;
 import edepa.people.PersonHolder;
 

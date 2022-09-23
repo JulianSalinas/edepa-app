@@ -5,10 +5,10 @@ import android.view.View;
 import com.google.firebase.database.DatabaseReference;
 
 import edepa.cloud.CloudChat;
-import edepa.minilibs.RegexSearcher;
-import edepa.model.Message;
 import edepa.crawler.LinkPreviewCallback;
 import edepa.crawler.TextCrawler;
+import edepa.minilibs.RegexSearcher;
+import edepa.model.Message;
 
 
 public abstract class ChatPreview

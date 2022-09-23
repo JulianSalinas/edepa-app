@@ -1,24 +1,24 @@
 package edepa.info;
 
-import androidx.annotation.NonNull;
-import android.view.View;
-import android.os.Bundle;
-import android.widget.ProgressBar;
-import android.support.v7.widget.Toolbar;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.Nullable;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import butterknife.BindView;
-import edepa.modelview.R;
-import edepa.model.Location;
 import edepa.custom.CustomFragment;
+import edepa.model.Location;
+import edepa.modelview.R;
 
 /**
  * Mapa que se muestra al presionar el mapa pequeño

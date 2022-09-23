@@ -1,18 +1,16 @@
 package edepa.search;
 
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import butterknife.BindView;
 import edepa.cloud.CloudEvents;
-import edepa.model.Event;
 import edepa.model.EventType;
 import edepa.modelview.R;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 
 public class SearchByEventsFragment

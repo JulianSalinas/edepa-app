@@ -1,10 +1,11 @@
 package edepa.comments;
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.core.app.DialogFragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import butterknife.BindView;
 import butterknife.OnClick;

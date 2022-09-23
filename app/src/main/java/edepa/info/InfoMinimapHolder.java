@@ -1,15 +1,15 @@
 package edepa.info;
 
-import android.content.Context;
+import static edepa.info.FullMinimapFragment.IMG_KEY;
 
-import androidx.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -19,8 +19,6 @@ import butterknife.ButterKnife;
 import edepa.cloud.Cloud;
 import edepa.custom.PhotoFragment;
 import edepa.modelview.R;
-
-import static edepa.info.FullMinimapFragment.IMG_KEY;
 
 
 /**

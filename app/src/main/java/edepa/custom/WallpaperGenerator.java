@@ -2,8 +2,8 @@ package edepa.custom;
 
 import android.content.Context;
 
-import edepa.model.Event;
 import edepa.minilibs.RegexSearcher;
+import edepa.model.Event;
 import edepa.modelview.R;
 
 /**

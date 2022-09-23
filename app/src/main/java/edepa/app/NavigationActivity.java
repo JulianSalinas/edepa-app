@@ -1,43 +1,40 @@
 package edepa.app;
 
-import edepa.admin.AdminsFragment;
-import edepa.cloud.CloudAdmin;
-import edepa.modelview.R;
-import edepa.cloud.Cloud;
-import edepa.model.Preferences;
-import edepa.cloud.CloudNavigation;
-import edepa.minilibs.PathGenerator;
-
-import edepa.chat.ChatFragment;
-import edepa.info.InfoFragment;
-import edepa.info.AboutFragment;
-import edepa.people.PeopleFragment;
-import edepa.notices.NoticesFragment;
-import edepa.pagers.TabbedFragmentByType;
-import edepa.pagers.TabbedFragmentDefault;
-import edepa.search.SearchByPanelFragment;
-import edepa.search.SearchByEventsFragment;
-import edepa.search.SearchByPeopleFragment;
-import edepa.settings.SettingsAdminFragment;
-import edepa.settings.SettingsThemeFragment;
-import edepa.settings.SettingsGeneralFragment;
-
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.core.view.MenuItemCompat;
 import android.view.Gravity;
 import android.view.MenuItem;
-import android.content.Intent;
-import androidx.core.app.Fragment;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.OnLifecycleEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
+
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+
+import edepa.admin.AdminsFragment;
+import edepa.chat.ChatFragment;
+import edepa.cloud.Cloud;
+import edepa.cloud.CloudAdmin;
+import edepa.cloud.CloudNavigation;
+import edepa.info.AboutFragment;
+import edepa.info.InfoFragment;
+import edepa.minilibs.PathGenerator;
+import edepa.model.Preferences;
+import edepa.modelview.R;
+import edepa.notices.NoticesFragment;
+import edepa.pagers.TabbedFragmentByType;
+import edepa.pagers.TabbedFragmentDefault;
+import edepa.people.PeopleFragment;
+import edepa.search.SearchByEventsFragment;
+import edepa.search.SearchByPanelFragment;
+import edepa.search.SearchByPeopleFragment;
+import edepa.settings.SettingsAdminFragment;
+import edepa.settings.SettingsGeneralFragment;
+import edepa.settings.SettingsThemeFragment;
 
 
 /**

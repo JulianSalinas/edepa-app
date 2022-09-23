@@ -8,8 +8,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.IBinder;
-import androidx.core.app.NotificationCompat;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
 
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.ListenerService;

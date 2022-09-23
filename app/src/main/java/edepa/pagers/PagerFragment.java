@@ -1,26 +1,26 @@
 package edepa.pagers;
 
-import butterknife.BindView;
-
-import edepa.custom.CustomFragment;
-import edepa.cloud.CloudEvents;
-import edepa.schedule.IPageListener;
-import edepa.model.Event;
-import edepa.modelview.R;
-import edepa.minilibs.TimeConverter;
-
-import java.util.List;
-import java.util.ArrayList;
-
-import androidx.core.app.FragmentPagerAdapter;
-import android.util.Log;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import androidx.core.view.ViewPager;
+
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import edepa.cloud.CloudEvents;
+import edepa.custom.CustomFragment;
+import edepa.minilibs.TimeConverter;
+import edepa.model.Event;
+import edepa.modelview.R;
+import edepa.schedule.IPageListener;
 
 
 public abstract class PagerFragment extends CustomFragment

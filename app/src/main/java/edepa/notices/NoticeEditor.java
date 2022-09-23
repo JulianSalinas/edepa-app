@@ -1,13 +1,32 @@
 package edepa.notices;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.Editable;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+
+import com.bumptech.glide.Glide;
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.UploadRequest;
+import com.cloudinary.android.policy.TimeWindow;
+import com.fxn.pix.Pix;
+import com.google.android.material.textfield.TextInputEditText;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.OnClick;
-
 import edepa.cloud.Cloud;
+import edepa.custom.CustomFragment;
 import edepa.custom.PhotoFragment;
 import edepa.minilibs.DialogFancy;
-import edepa.custom.CustomFragment;
-
 import edepa.minilibs.OnlineHelper;
 import edepa.minilibs.RegexSearcher;
 import edepa.model.Notice;
@@ -15,26 +34,6 @@ import edepa.model.Preferences;
 import edepa.model.Preview;
 import edepa.modelview.R;
 import edepa.services.UpdateImageService;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import androidx.annotation.NonNull;
-import android.support.design.widget.TextInputEditText;
-import android.text.Editable;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
-import com.cloudinary.android.MediaManager;
-import com.cloudinary.android.UploadRequest;
-import com.cloudinary.android.policy.TimeWindow;
-import com.fxn.pix.Pix;
-
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 
 public class NoticeEditor extends CustomFragment {

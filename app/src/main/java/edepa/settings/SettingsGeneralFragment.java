@@ -1,27 +1,27 @@
 package edepa.settings;
 
+import static edepa.model.Preferences.ALLOW_PHOTO_KEY;
+import static edepa.model.Preferences.FAVORITES_KEY;
+import static edepa.model.Preferences.LANG_KEY;
+import static edepa.model.Preferences.USER_KEY;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import androidx.preference.SwitchPreference;
-import androidx.preference.EditTextPreference;
-
 import android.widget.Toast;
-import android.content.SharedPreferences;
-import androidx.preference.PreferenceManager;
-import androidx.preference.PreferenceFragmentCompat;
 
-import edepa.modelview.R;
+import androidx.preference.EditTextPreference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
+import androidx.preference.SwitchPreference;
+
+import edepa.app.MainActivity;
+import edepa.app.NavigationActivity;
 import edepa.cloud.Cloud;
 import edepa.cloud.CloudUsers;
-import edepa.app.MainActivity;
-import edepa.model.Preferences;
 import edepa.minilibs.DialogFancy;
-import edepa.app.NavigationActivity;
-
-import static edepa.model.Preferences.USER_KEY;
-import static edepa.model.Preferences.LANG_KEY;
-import static edepa.model.Preferences.FAVORITES_KEY;
-import static edepa.model.Preferences.ALLOW_PHOTO_KEY;
+import edepa.model.Preferences;
+import edepa.modelview.R;
 
 /**
  * Las preferencias que se cambian en el fragmento son automáticamente

@@ -5,10 +5,10 @@ import android.view.View;
 import com.google.firebase.database.DatabaseReference;
 
 import edepa.cloud.CloudNotices;
-import edepa.minilibs.RegexSearcher;
-import edepa.model.Notice;
 import edepa.crawler.LinkPreviewCallback;
 import edepa.crawler.TextCrawler;
+import edepa.minilibs.RegexSearcher;
+import edepa.model.Notice;
 
 
 public abstract class NoticePreview

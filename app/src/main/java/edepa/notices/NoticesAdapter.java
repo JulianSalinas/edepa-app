@@ -1,13 +1,11 @@
 package edepa.notices;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.DialogFragment;
-import androidx.core.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
 import android.util.Log;
@@ -17,10 +15,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
@@ -31,25 +32,22 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import edepa.app.MainActivity;
 import edepa.app.NavigationActivity;
+import edepa.cloud.Cloud;
 import edepa.cloud.CloudAdmin;
 import edepa.cloud.CloudComments;
 import edepa.cloud.CloudNotices;
 import edepa.comments.CommentEditor;
 import edepa.custom.PhotoFragment;
+import edepa.custom.RecyclerAdapter;
 import edepa.minilibs.ColorGenerator;
 import edepa.minilibs.DialogFancy;
 import edepa.minilibs.TextHighlighter;
 import edepa.minilibs.TimeGenerator;
-import edepa.cloud.Cloud;
 import edepa.model.Notice;
 import edepa.model.Preferences;
 import edepa.model.Preview;
 import edepa.modelview.R;
-import edepa.custom.RecyclerAdapter;
 import edepa.previews.NoticePreview;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
 public class NoticesAdapter extends RecyclerAdapter implements CloudNotices.Callbacks {
 

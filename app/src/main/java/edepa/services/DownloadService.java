@@ -1,11 +1,12 @@
 package edepa.services;
 
-import android.net.Uri;
-import android.content.Context;
+import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
+
 import android.app.DownloadManager;
+import android.content.Context;
+import android.net.Uri;
 
 import edepa.minilibs.OnlineHelper;
-import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
 
 
 public class DownloadService {

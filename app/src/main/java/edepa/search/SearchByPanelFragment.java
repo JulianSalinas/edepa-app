@@ -4,11 +4,11 @@ import android.os.Bundle;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-import edepa.app.NavigationActivity;
-import edepa.modelview.R;
 import butterknife.OnClick;
-import edepa.model.EventType;
+import edepa.app.NavigationActivity;
 import edepa.custom.CustomFragment;
+import edepa.model.EventType;
+import edepa.modelview.R;
 
 
 public class SearchByPanelFragment extends CustomFragment

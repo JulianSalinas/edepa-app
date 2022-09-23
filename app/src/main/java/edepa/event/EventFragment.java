@@ -1,5 +1,8 @@
 package edepa.event;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -7,17 +10,15 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import androidx.core.app.Fragment;
-import androidx.core.app.FragmentPagerAdapter;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewPager;
-import androidx.viewpager.widget.ViewPager;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.flaviofaria.kenburnsview.KenBurnsView;
@@ -29,18 +30,14 @@ import com.google.firebase.database.ValueEventListener;
 import butterknife.BindView;
 import butterknife.OnClick;
 import edepa.cloud.CloudFavorites;
+import edepa.custom.WallpaperGenerator;
 import edepa.minilibs.BitmapSave;
 import edepa.minilibs.DialogFancy;
 import edepa.minilibs.TimeConverter;
-import edepa.custom.WallpaperGenerator;
 import edepa.model.Event;
 import edepa.model.EventType;
-
 import edepa.model.Preferences;
 import edepa.modelview.R;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
 
 public class EventFragment extends EventHostFragment

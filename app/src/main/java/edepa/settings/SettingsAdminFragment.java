@@ -2,12 +2,13 @@ package edepa.settings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.preference.SwitchPreference;
+import android.util.Log;
+import android.view.View;
+
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
-import android.util.Log;
-import android.view.View;
+import androidx.preference.SwitchPreference;
 
 import java.util.ArrayList;
 import java.util.Arrays;

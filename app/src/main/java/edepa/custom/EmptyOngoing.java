@@ -1,8 +1,8 @@
 package edepa.custom;
 
-import edepa.schedule.ScheduleOngoing;
-import edepa.modelview.R;
 import butterknife.OnClick;
+import edepa.modelview.R;
+import edepa.schedule.ScheduleOngoing;
 
 
 public class EmptyOngoing extends BaseFragment {

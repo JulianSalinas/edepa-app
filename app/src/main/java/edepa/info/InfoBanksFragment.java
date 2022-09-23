@@ -1,9 +1,10 @@
 package edepa.info;
 
-import androidx.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

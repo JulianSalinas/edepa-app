@@ -1,12 +1,12 @@
 package edepa.custom;
 
-import android.os.Bundle;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.widget.TextView;
 
-import edepa.modelview.R;
 import butterknife.BindView;
 import edepa.minilibs.ColorGenerator;
+import edepa.modelview.R;
 
 /**
  * Fragmento utilizado con el próposito de realizar pruebas

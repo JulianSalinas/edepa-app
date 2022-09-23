@@ -1,20 +1,22 @@
 package edepa.comments;
 
-import android.view.View;
-import com.google.firebase.database.Query;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.DividerItemDecoration;
+import static androidx.recyclerview.widget.DividerItemDecoration.VERTICAL;
 
-import java.util.List;
+import android.view.View;
+
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.Query;
+
 import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import edepa.modelview.R;
-import edepa.model.Comment;
 import edepa.cloud.CloudComments;
-import edepa.minilibs.SmoothLayout;
-import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
+import edepa.model.Comment;
+import edepa.modelview.R;
 
 
 public class CommentsView

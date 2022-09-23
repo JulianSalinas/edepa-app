@@ -3,10 +3,9 @@ package edepa.custom;
 import android.os.Bundle;
 import android.os.Parcelable;
 
-import android.support.v7.widget.RecyclerView;
-
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.OnLifecycleEvent;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Este fragmento soluciona el problema que sufre tanto

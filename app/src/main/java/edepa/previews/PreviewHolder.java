@@ -1,35 +1,36 @@
 package edepa.previews;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-import android.content.Context;
 import android.widget.ImageView;
-import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.cloudinary.android.MediaManager;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Transaction;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 
 import java.net.URLDecoder;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import edepa.crawler.LinkPreviewCallback;
+import edepa.crawler.SourceContent;
+import edepa.crawler.TextCrawler;
 import edepa.custom.PhotoFragment;
 import edepa.minilibs.RegexSearcher;
-
-import edepa.modelview.R;
 import edepa.model.Preview;
-import edepa.crawler.TextCrawler;
-import edepa.crawler.SourceContent;
-import edepa.crawler.LinkPreviewCallback;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
+import edepa.modelview.R;
 
 
 public abstract class PreviewHolder

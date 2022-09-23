@@ -1,8 +1,9 @@
 package edepa.info;
 
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;

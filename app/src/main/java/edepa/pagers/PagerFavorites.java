@@ -1,18 +1,19 @@
 package edepa.pagers;
 
 import android.os.Bundle;
-import androidx.core.app.Fragment;
-import androidx.core.app.FragmentManager;
-import androidx.core.app.FragmentPagerAdapter;
 
-import java.util.List;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+
 import java.util.ArrayList;
+import java.util.List;
 
+import edepa.cloud.CloudEvents;
+import edepa.cloud.CloudFavorites;
 import edepa.custom.EmptyFavorites;
 import edepa.model.Event;
 import edepa.modelview.R;
-import edepa.cloud.CloudEvents;
-import edepa.cloud.CloudFavorites;
 import edepa.schedule.ScheduleFavorites;
 
 

@@ -1,20 +1,20 @@
 package edepa.notices;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import androidx.core.app.DialogFragment;
-
 import android.view.View;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.DefaultItemAnimator;
+
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import edepa.cloud.CloudAdmin;
 import edepa.cloud.CloudNotices;
-import edepa.modelview.R;
 import edepa.custom.RecyclerAdapter;
 import edepa.custom.RecyclerFragment;
+import edepa.modelview.R;
 
 
 public class NoticesFragment extends RecyclerFragment

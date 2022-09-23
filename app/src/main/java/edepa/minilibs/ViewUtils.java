@@ -1,11 +1,13 @@
 package edepa.minilibs;
 
+import static androidx.recyclerview.widget.DividerItemDecoration.VERTICAL;
+
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.DividerItemDecoration;
+
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.RecyclerView;
 
 import edepa.modelview.R;
-import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 
 public class ViewUtils {
 

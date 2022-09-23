@@ -1,10 +1,11 @@
 package edepa.comments;
 
-import android.support.v7.widget.RecyclerView;
 import android.text.util.Linkify;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -13,10 +14,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import edepa.cloud.CloudUsers;
 import edepa.minilibs.TextHighlighter;
-import edepa.minilibs.TimeConverter;
 import edepa.minilibs.TimeGenerator;
 import edepa.model.Comment;
-import edepa.model.UserProfile;
 import edepa.modelview.R;
 
 public class CommentHolder extends RecyclerView.ViewHolder {

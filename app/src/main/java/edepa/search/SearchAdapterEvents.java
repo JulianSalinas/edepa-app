@@ -1,22 +1,23 @@
 package edepa.search;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import edepa.cloud.CloudEvents;
-import edepa.schedule.ScheduleAdapter;
 import edepa.minilibs.RegexSearcher;
 import edepa.minilibs.TimeConverter;
 import edepa.model.Event;
 import edepa.model.EventType;
 import edepa.modelview.R;
+import edepa.schedule.ScheduleAdapter;
 
 /**
  * Sirve para enlazar las funciones a una actividad en específico

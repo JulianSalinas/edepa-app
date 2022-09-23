@@ -1,22 +1,22 @@
 package edepa.people;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
-import android.graphics.Color;
-import android.widget.TextView;
+import com.mklimek.circleinitialsview.CircleInitialsView;
 
-import edepa.app.NavigationActivity;
-import edepa.minilibs.ColorGenerator;
-import edepa.modelview.R;
-import edepa.model.Person;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import edepa.app.NavigationActivity;
 import edepa.minilibs.ColorConverter;
-
-import com.mklimek.circleinitialsview.CircleInitialsView;
+import edepa.minilibs.ColorGenerator;
+import edepa.model.Person;
+import edepa.modelview.R;
 
 
 public class PersonHolder extends RecyclerView.ViewHolder {

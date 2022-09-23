@@ -1,28 +1,28 @@
 package edepa.schedule;
 
-import android.util.Log;
-import android.view.View;
+import static edepa.model.Preferences.UPDATE_DELAY;
+
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.core.app.Fragment;
-import androidx.core.app.FragmentManager;
+import android.util.Log;
+import android.view.View;
 
-import com.google.firebase.database.Query;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import butterknife.BindView;
 import edepa.cloud.CloudEvents;
+import edepa.cloud.CloudFavorites;
 import edepa.custom.EmptyOngoing;
 import edepa.minilibs.TimeConverter;
-
-import edepa.modelview.R;
 import edepa.model.Event;
 import edepa.model.Preferences;
-import edepa.cloud.CloudFavorites;
-
-import static edepa.model.Preferences.UPDATE_DELAY;
+import edepa.modelview.R;
 
 
 public class ScheduleOngoing

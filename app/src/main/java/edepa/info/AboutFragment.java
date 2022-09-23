@@ -1,20 +1,20 @@
 package edepa.info;
 
-import edepa.cloud.Cloud;
-import edepa.comments.CommentEditor;
-import edepa.minilibs.DialogFancy;
-import edepa.modelview.R;
-import edepa.custom.CustomFragment;
-
+import android.content.res.Resources;
 import android.os.Bundle;
-import androidx.core.app.DialogFragment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.LayoutInflater;
-import android.content.res.Resources;
 
-import mehdi.sakout.aboutpage.Element;
+import androidx.fragment.app.DialogFragment;
+
+import edepa.cloud.Cloud;
+import edepa.comments.CommentEditor;
+import edepa.custom.CustomFragment;
+import edepa.minilibs.DialogFancy;
+import edepa.modelview.R;
 import mehdi.sakout.aboutpage.AboutPage;
+import mehdi.sakout.aboutpage.Element;
 
 
 public class AboutFragment extends CustomFragment {

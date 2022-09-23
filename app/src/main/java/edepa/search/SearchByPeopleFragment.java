@@ -2,14 +2,14 @@ package edepa.search;
 
 import android.os.Bundle;
 import android.widget.TextView;
-import android.support.v7.widget.RecyclerView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import edepa.modelview.R;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
+
 import butterknife.BindView;
 import edepa.cloud.CloudPeople;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import edepa.modelview.R;
 
 
 public class SearchByPeopleFragment extends SearchBasicFragment

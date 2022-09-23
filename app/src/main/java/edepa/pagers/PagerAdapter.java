@@ -1,13 +1,14 @@
 package edepa.pagers;
 
+import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+
 import java.util.List;
 
-import edepa.schedule.ScheduleFragment;
 import edepa.minilibs.TimeConverter;
-
-import android.os.Bundle;
-import androidx.core.app.Fragment;
-import androidx.core.app.FragmentPagerAdapter;
+import edepa.schedule.ScheduleFragment;
 
 
 /**

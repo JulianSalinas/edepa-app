@@ -1,12 +1,18 @@
 package edepa.event;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static edepa.settings.SettingsLanguage.ENGLISH;
+import static edepa.settings.SettingsLanguage.SPANISH;
+
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.core.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -15,17 +21,11 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import edepa.minilibs.TextHighlighter;
 import edepa.minilibs.TimeConverter;
-
 import edepa.model.Event;
 import edepa.model.Preferences;
 import edepa.modelview.R;
 import edepa.services.DownloadService;
 import edepa.settings.SettingsLanguage;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-import static edepa.settings.SettingsLanguage.ENGLISH;
-import static edepa.settings.SettingsLanguage.SPANISH;
 
 
 public class EventContent extends EventHostFragment

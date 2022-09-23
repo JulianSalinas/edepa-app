@@ -1,21 +1,23 @@
 package edepa.info;
 
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.OnLifecycleEvent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import androidx.core.app.FragmentPagerAdapter;
-import androidx.core.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
-import androidx.core.app.Fragment;
 
-import butterknife.OnClick;
-import edepa.custom.CustomFragment;
-import edepa.cloud.CloudCongress;
-import edepa.modelview.R;
-import edepa.model.Congress;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
+
 import butterknife.BindView;
+import butterknife.OnClick;
+import edepa.cloud.CloudCongress;
+import edepa.custom.CustomFragment;
+import edepa.model.Congress;
+import edepa.modelview.R;
 
 /**
  * Fragmento utilizado para mostrar la información

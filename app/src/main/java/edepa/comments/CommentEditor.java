@@ -1,15 +1,15 @@
 package edepa.comments;
 
 import android.view.ViewGroup;
-import android.support.design.widget.TextInputEditText;
 
-import butterknife.OnClick;
+import com.google.android.material.textfield.TextInputEditText;
+
 import butterknife.BindView;
-
+import butterknife.OnClick;
 import edepa.cloud.Cloud;
-import edepa.modelview.R;
-import edepa.model.Comment;
 import edepa.custom.DefaultDialog;
+import edepa.model.Comment;
+import edepa.modelview.R;
 
 
 public class CommentEditor extends DefaultDialog {

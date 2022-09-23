@@ -3,15 +3,16 @@ package edepa.event;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.CalendarContract;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.ValueEventListener;
 
-import edepa.info.FullMinimapFragment;
-import edepa.model.Event;
 import edepa.cloud.CloudEvents;
 import edepa.custom.CustomFragment;
+import edepa.info.FullMinimapFragment;
+import edepa.model.Event;
 
 
 public abstract class EventHostFragment

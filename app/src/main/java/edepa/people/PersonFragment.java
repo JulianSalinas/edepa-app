@@ -2,18 +2,17 @@ package edepa.people;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import androidx.core.app.DialogFragment;
-import androidx.core.app.Fragment;
-import androidx.core.app.FragmentPagerAdapter;
-import androidx.core.view.ViewPager;
-import androidx.fragment.app.DialogFragment;
-
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 import com.mklimek.circleinitialsview.CircleInitialsView;
 
 import java.util.ArrayList;
@@ -22,13 +21,13 @@ import java.util.List;
 import butterknife.BindView;
 import edepa.custom.BaseFragment;
 import edepa.custom.DefaultDialog;
-import edepa.schedule.ScheduleAdapter;
 import edepa.minilibs.ColorConverter;
 import edepa.minilibs.ColorGenerator;
 import edepa.minilibs.SmoothLayout;
 import edepa.model.Event;
 import edepa.model.Person;
 import edepa.modelview.R;
+import edepa.schedule.ScheduleAdapter;
 
 public class PersonFragment extends DefaultDialog {
 

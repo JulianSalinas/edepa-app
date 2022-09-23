@@ -1,48 +1,44 @@
 package edepa.app;
 
+import static androidx.core.view.GravityCompat.START;
+import static edepa.model.Preferences.FIRST_USE_KEY;
+import static edepa.model.Preferences.USER_KEY;
+import static edepa.model.Preferences.USE_PHOTO_KEY;
+import static edepa.settings.SettingsThemeFragment.ACCENT_COLOR;
+import static edepa.settings.SettingsThemeFragment.PRIMARY_COLOR;
+import static edepa.settings.SettingsThemeFragment.PRIMARY_DARK_COLOR;
+
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.widget.Toolbar;
-import android.view.inputmethod.InputMethodManager;
-
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
 
-import android.widget.Toast;
-import android.widget.TextView;
-import android.widget.FrameLayout;
-
-import java.util.Stack;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-import edepa.cloud.CloudUsers;
-import edepa.modelview.R;
-import edepa.cloud.Cloud;
-import edepa.model.Preferences;
-import edepa.minilibs.RegexSearcher;
-import edepa.pagers.TabbedFragmentDefault;
-import edepa.services.FavoritesService;
-
+import com.afollestad.aesthetic.Aesthetic;
+import com.afollestad.aesthetic.BottomNavBgMode;
+import com.afollestad.aesthetic.BottomNavIconTextMode;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -57,19 +53,19 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-import com.afollestad.aesthetic.Aesthetic;
-import com.afollestad.aesthetic.BottomNavBgMode;
-import com.afollestad.aesthetic.BottomNavIconTextMode;
-
 import org.jetbrains.annotations.Nullable;
 
-import static edepa.model.Preferences.USER_KEY;
-import static edepa.model.Preferences.FIRST_USE_KEY;
-import static androidx.core.view.GravityCompat.START;
-import static edepa.model.Preferences.USE_PHOTO_KEY;
-import static edepa.settings.SettingsThemeFragment.ACCENT_COLOR;
-import static edepa.settings.SettingsThemeFragment.PRIMARY_COLOR;
-import static edepa.settings.SettingsThemeFragment.PRIMARY_DARK_COLOR;
+import java.util.Stack;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import edepa.cloud.Cloud;
+import edepa.cloud.CloudUsers;
+import edepa.minilibs.RegexSearcher;
+import edepa.model.Preferences;
+import edepa.modelview.R;
+import edepa.pagers.TabbedFragmentDefault;
+import edepa.services.FavoritesService;
 
 /**
  * Actividad principal de aplicación. En ésta se colocan cada uno de los

@@ -2,17 +2,18 @@ package edepa.pagers;
 
 
 import android.os.Bundle;
-import androidx.core.app.Fragment;
-import androidx.core.app.FragmentPagerAdapter;
 import android.view.View;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import edepa.schedule.ScheduleByType;
-import edepa.schedule.IPageListenerByType;
 import edepa.model.Event;
 import edepa.model.EventType;
+import edepa.schedule.IPageListenerByType;
+import edepa.schedule.ScheduleByType;
 
 public class PagerScheduleByType extends PagerSchedule implements IPageListenerByType  {
 
@@ -41,7 +42,6 @@ public class PagerScheduleByType extends PagerSchedule implements IPageListenerB
      * Agrega una nueva página en caso de que no exista
      * Es utilizada cada vez que se agrega o mueve un evento
      * @param event: Donde se extrae la fecha para colocar en la página
-     * @see #addPage(long)
      */
     public void addPageIfNotExists(Event event){
         EventType type = event.getEventype();

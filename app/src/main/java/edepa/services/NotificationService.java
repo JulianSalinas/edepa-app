@@ -1,31 +1,30 @@
 package edepa.services;
 
-import android.os.Build;
-import android.os.Bundle;
-
 import android.app.Notification;
-import android.app.PendingIntent;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-
-import android.content.Intent;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import androidx.core.app.NotificationCompat;
+import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.messaging.RemoteMessage;
 import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Locale;
 import java.util.Map;
 
 import edepa.app.NavigationActivity;
-import edepa.modelview.R;
 import edepa.cloud.Cloud;
 import edepa.model.Preferences;
+import edepa.modelview.R;
 
 /**
  * Servicion necesario para recibir notificaciones que provienen de la sección

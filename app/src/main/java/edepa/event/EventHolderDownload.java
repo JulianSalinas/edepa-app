@@ -1,9 +1,14 @@
 package edepa.event;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -12,9 +17,6 @@ import edepa.minilibs.RegexSearcher;
 import edepa.model.Event;
 import edepa.modelview.R;
 import edepa.services.DownloadService;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
 
 public class EventHolderDownload extends RecyclerView.ViewHolder {

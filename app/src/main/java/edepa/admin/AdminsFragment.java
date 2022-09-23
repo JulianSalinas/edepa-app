@@ -1,17 +1,17 @@
 package edepa.admin;
 
+import static androidx.recyclerview.widget.DividerItemDecoration.VERTICAL;
+
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.RecyclerView;
 
 import butterknife.BindView;
 import edepa.cloud.Cloud;
-import edepa.cloud.CloudUsers;
 import edepa.custom.CustomFragment;
 import edepa.modelview.R;
-
-import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 
 public class AdminsFragment extends CustomFragment {
 

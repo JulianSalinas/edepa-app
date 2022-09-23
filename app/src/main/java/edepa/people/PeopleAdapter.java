@@ -1,20 +1,16 @@
 package edepa.people;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 
-import edepa.model.Person;
-import edepa.minilibs.RegexSearcher;
-import edepa.modelview.R;
-import edepa.custom.RecyclerAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.MatchResult;
+
+import edepa.custom.RecyclerAdapter;
+import edepa.model.Person;
+import edepa.modelview.R;
 
 
 public class PeopleAdapter extends RecyclerAdapter {

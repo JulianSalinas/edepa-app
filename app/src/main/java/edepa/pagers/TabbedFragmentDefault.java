@@ -1,22 +1,23 @@
 package edepa.pagers;
 
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import androidx.core.app.Fragment;
-import androidx.core.view.ViewPager;
-import android.support.design.widget.AppBarLayout;
-import androidx.core.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
-import edepa.app.MainActivity;
-import edepa.modelview.R;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import butterknife.BindView;
 import edepa.custom.CustomFragment;
+import edepa.modelview.R;
 import edepa.schedule.ScheduleOngoing;
 
 
@@ -56,7 +57,7 @@ public abstract class TabbedFragmentDefault extends CustomFragment {
     private MenuItem prevMenuItem;
 
     /**
-     * Es parte de {@link MainActivity#appBarLayout}
+     * Es parte de
      * Sirve para quitar la sobra para cuando se colocan los tabs
      */
     private AppBarLayout appBarLayout;

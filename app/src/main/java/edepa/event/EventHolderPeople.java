@@ -1,28 +1,24 @@
 package edepa.event;
 
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.res.Resources;
-import android.media.Image;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.support.v7.widget.RecyclerView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import static android.view.View.GONE;
 
-import com.github.florent37.expansionpanel.ExpansionLayout;
+import android.content.Context;
+import android.util.Log;
+import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-import org.jetbrains.annotations.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edepa.cloud.Cloud;
-import edepa.cloud.CloudEvents;
 import edepa.cloud.CloudPeople;
 import edepa.minilibs.SmoothLayout;
 import edepa.model.Event;
@@ -30,11 +26,6 @@ import edepa.model.Person;
 import edepa.model.Preferences;
 import edepa.modelview.R;
 import edepa.people.PeopleAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static android.view.View.GONE;
 
 
 public class EventHolderPeople extends RecyclerView.ViewHolder implements ValueEventListener {

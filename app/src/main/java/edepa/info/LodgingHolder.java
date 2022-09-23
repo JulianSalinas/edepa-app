@@ -1,16 +1,20 @@
 package edepa.info;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.core.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.text.util.Linkify;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
@@ -26,9 +30,6 @@ import edepa.minilibs.RegexSearcher;
 import edepa.model.Location;
 import edepa.model.Place;
 import edepa.modelview.R;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
 
 public class LodgingHolder extends RecyclerView.ViewHolder {

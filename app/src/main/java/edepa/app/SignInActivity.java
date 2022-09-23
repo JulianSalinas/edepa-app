@@ -1,13 +1,10 @@
 package edepa.app;
 
-import android.os.Bundle;
 import android.content.Intent;
+import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.Fragment;
 import androidx.fragment.app.Fragment;
-
-import android.support.v7.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -15,10 +12,10 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 
-import edepa.custom.ProgressFragment;
-import edepa.modelview.R;
-import edepa.minilibs.OnlineHelper;
 import edepa.custom.OfflineFragment;
+import edepa.custom.ProgressFragment;
+import edepa.minilibs.OnlineHelper;
+import edepa.modelview.R;
 
 
 public class SignInActivity extends AppCompatActivity {

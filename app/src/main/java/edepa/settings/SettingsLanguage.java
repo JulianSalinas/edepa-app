@@ -1,12 +1,14 @@
 package edepa.settings;
 
+import static edepa.model.Preferences.LANG_KEY;
+
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 
 import java.util.Locale;
+
 import edepa.model.Preferences;
-import static edepa.model.Preferences.LANG_KEY;
 
 
 public class SettingsLanguage {

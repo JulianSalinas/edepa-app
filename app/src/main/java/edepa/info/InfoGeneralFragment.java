@@ -1,18 +1,19 @@
 package edepa.info;
 
-import butterknife.OnClick;
-import butterknife.BindView;
-
-import edepa.modelview.R;
-import edepa.model.Congress;
-import edepa.minilibs.TimeConverter;
-import edepa.minilibs.TextHighlighter;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import androidx.core.app.Fragment;
+
+import androidx.fragment.app.Fragment;
+
 import com.google.android.gms.maps.GoogleMap;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import edepa.minilibs.TextHighlighter;
+import edepa.minilibs.TimeConverter;
+import edepa.model.Congress;
+import edepa.modelview.R;
 
 
 public class InfoGeneralFragment extends FullMapInfoFragment {

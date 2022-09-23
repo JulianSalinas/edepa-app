@@ -1,54 +1,51 @@
 package edepa.chat;
 
-import java.util.List;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.text.format.DateUtils;
+import android.text.style.URLSpan;
+import android.text.util.Linkify;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.appcompat.view.ActionMode;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bignerdranch.android.multiselector.ModalMultiSelectorCallback;
+import com.bignerdranch.android.multiselector.MultiSelector;
+import com.bignerdranch.android.multiselector.SelectableHolder;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 import butterknife.OnClick;
 import edepa.app.MainActivity;
 import edepa.app.NavigationActivity;
 import edepa.cloud.CloudChat;
 import edepa.custom.PhotoFragment;
+import edepa.custom.RecyclerAdapter;
+import edepa.minilibs.ColorConverter;
 import edepa.minilibs.ColorGenerator;
 import edepa.minilibs.DialogFancy;
 import edepa.minilibs.RegexSearcher;
 import edepa.minilibs.TextHighlighter;
 import edepa.minilibs.TimeConverter;
-import edepa.minilibs.ColorConverter;
-
+import edepa.model.Message;
 import edepa.model.Preview;
 import edepa.modelview.R;
-import edepa.model.Message;
-import edepa.custom.RecyclerAdapter;
 import edepa.previews.ChatPreview;
-
-import android.content.Intent;
-import android.net.Uri;
-import androidx.core.app.Fragment;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.content.Context;
-import android.text.style.URLSpan;
-import android.view.LayoutInflater;
-
-import android.widget.TextView;
-import android.widget.ImageView;
-import android.support.v7.view.ActionMode;
-import android.support.v7.widget.RecyclerView;
-
-import android.text.util.Linkify;
-import android.text.format.DateUtils;
-
-import com.bignerdranch.android.multiselector.MultiSelector;
-import com.bignerdranch.android.multiselector.SelectableHolder;
-import com.bignerdranch.android.multiselector.ModalMultiSelectorCallback;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
 
 public class ChatAdapter

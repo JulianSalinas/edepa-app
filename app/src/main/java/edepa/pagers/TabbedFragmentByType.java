@@ -1,10 +1,9 @@
 package edepa.pagers;
 
-import androidx.core.app.Fragment;
 import androidx.fragment.app.Fragment;
 
-import edepa.schedule.ScheduleOngoing;
 import edepa.model.Preferences;
+import edepa.schedule.ScheduleOngoing;
 
 
 public class TabbedFragmentByType extends TabbedFragmentDefault {

@@ -1,8 +1,9 @@
 package edepa.notices;
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import com.google.firebase.database.Query;
 

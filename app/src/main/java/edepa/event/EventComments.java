@@ -1,15 +1,17 @@
 package edepa.event;
 
+import static edepa.event.EventHostFragment.SAVED_EVENT_KEY;
+
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 
 import com.google.firebase.database.Query;
+
 import edepa.cloud.Cloud;
 import edepa.comments.CommentsFragment;
 import edepa.model.Event;
 import edepa.modelview.R;
-
-import static edepa.event.EventHostFragment.SAVED_EVENT_KEY;
 
 
 public class EventComments extends CommentsFragment {

@@ -1,20 +1,21 @@
 package edepa.custom;
 
+import static com.bumptech.glide.request.RequestOptions.fitCenterTransform;
+
 import android.content.Context;
 import android.os.Bundle;
-import androidx.core.widget.CircularProgressDrawable;
 import android.view.View;
-import androidx.core.app.Fragment;
+
+import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.chrisbanes.photoview.PhotoView;
 
-import edepa.modelview.R;
 import butterknife.BindView;
-
-import static com.bumptech.glide.request.RequestOptions.fitCenterTransform;
+import edepa.modelview.R;
 
 /**
  * Es importante para abrir imagenes dentro de la

@@ -1,18 +1,19 @@
 package edepa.schedule;
 
-import butterknife.BindView;
-import edepa.model.Event;
-import edepa.modelview.R;
-import edepa.custom.CustomFragment;
-import edepa.cloud.CloudEvents;
-import edepa.cloud.CloudFavorites;
+import android.os.Bundle;
+
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.DefaultItemAnimator;
+import butterknife.BindView;
+import edepa.cloud.CloudEvents;
+import edepa.cloud.CloudFavorites;
+import edepa.custom.CustomFragment;
+import edepa.model.Event;
+import edepa.modelview.R;
 
 
 public abstract class ScheduleFragment extends CustomFragment

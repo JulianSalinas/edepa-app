@@ -1,21 +1,22 @@
 package edepa.settings;
 
+import static edepa.model.Preferences.THEME_KEY;
+import static edepa.model.Preferences.USE_PHOTO_KEY;
+
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.content.SharedPreferences;
+
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
-
-import edepa.modelview.R;
-import edepa.model.Preferences;
-import edepa.app.NavigationActivity;
 
 import com.afollestad.aesthetic.Aesthetic;
 import com.kunzisoft.androidclearchroma.ChromaPreferenceFragmentCompat;
 
-import static edepa.model.Preferences.THEME_KEY;
-import static edepa.model.Preferences.USE_PHOTO_KEY;
+import edepa.app.NavigationActivity;
+import edepa.model.Preferences;
+import edepa.modelview.R;
 
 
 public class SettingsThemeFragment extends ChromaPreferenceFragmentCompat

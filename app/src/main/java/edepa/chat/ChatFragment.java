@@ -1,48 +1,40 @@
 package edepa.chat;
 
-import butterknife.BindView;
-
-import butterknife.OnClick;
-import butterknife.OnFocusChange;
-
-import edepa.cloud.Cloud;
-import edepa.cloud.CloudChat;
-
-import edepa.cloud.CloudUsers;
-import edepa.custom.RecyclerFragment;
-import edepa.minilibs.RegexSearcher;
-import edepa.model.Message;
-import edepa.model.Preferences;
-
-import edepa.model.Preview;
-import edepa.model.UserProfile;
-import edepa.modelview.R;
-import edepa.custom.RecyclerAdapter;
-import edepa.minilibs.SmoothLayout;
-import edepa.services.UpdateImageService;
-
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
-
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.OnLifecycleEvent;
-
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.design.widget.TextInputEditText;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+import androidx.cardview.widget.CardView;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.UploadRequest;
 import com.cloudinary.android.policy.TimeWindow;
-import com.fxn.pix.Pix;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONObject;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import butterknife.OnFocusChange;
+import edepa.cloud.Cloud;
+import edepa.cloud.CloudChat;
+import edepa.cloud.CloudUsers;
+import edepa.custom.RecyclerAdapter;
+import edepa.custom.RecyclerFragment;
+import edepa.minilibs.RegexSearcher;
+import edepa.minilibs.SmoothLayout;
+import edepa.model.Message;
+import edepa.model.Preferences;
+import edepa.model.Preview;
+import edepa.model.UserProfile;
+import edepa.modelview.R;
+import edepa.services.UpdateImageService;
 
 
 public class ChatFragment extends RecyclerFragment {

@@ -1,9 +1,9 @@
 package edepa.services;
 
-import androidx.annotation.NonNull;
+import static java.util.concurrent.TimeUnit.MINUTES;
+
 import android.util.Log;
 
-import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.JobParameters;
@@ -11,11 +11,6 @@ import com.firebase.jobdispatcher.JobService;
 import com.firebase.jobdispatcher.Lifetime;
 import com.firebase.jobdispatcher.RetryStrategy;
 import com.firebase.jobdispatcher.Trigger;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-
-import static java.util.concurrent.TimeUnit.MINUTES;
 
 public class FavoritesService extends JobService {
 

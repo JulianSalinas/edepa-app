@@ -1,15 +1,15 @@
 package edepa.custom;
 
-import android.view.View;
 import android.os.Handler;
+import android.view.View;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import edepa.modelview.R;
 import butterknife.BindView;
 import butterknife.OnClick;
+import edepa.modelview.R;
 
 
 public class OfflineFragment extends BaseFragment {

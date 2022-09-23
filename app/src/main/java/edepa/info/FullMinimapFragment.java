@@ -3,14 +3,12 @@ package edepa.info;
 import android.os.Bundle;
 import android.util.Log;
 
-import edepa.cloud.Cloud;
-import edepa.custom.PhotoFragment;
-import edepa.minilibs.RegexSearcher;
-import edepa.modelview.R;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+
+import edepa.cloud.Cloud;
+import edepa.custom.PhotoFragment;
 
 
 /**
